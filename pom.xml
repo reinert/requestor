@@ -281,7 +281,6 @@
         <configuration>
           <extraJvmArgs>-Xss24M -Xms1024M -Xmx2048M</extraJvmArgs>
           <includes>**/*GwtTestSuite.java</includes>
-
           <mode>htmlunit</mode>
           <testTimeOut>180</testTimeOut>
         </configuration>

@@ -1,10 +1,10 @@
 Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor)
 ==
-A convenient API for managing GWT client-server communication and performing requests fluently.
+A convenient API for managing GWT client-server communication and perform requests fluently.
 
 ## Highlights
 
-* Handle the requests results with Promises!
+* Handle the request results with Promises!
 * Fluent `GET`, `POST`, `PUT`, `DELETE` and `HEAD` requests
 * Easy construction of target URI with UriBuilder
 * [Customizable multi-valued param composition](#multiple-value-parameters)
@@ -21,7 +21,7 @@ A convenient API for managing GWT client-server communication and performing req
 
 ## Quick Start
 
-TurboG proposes a fluent way of making http requests. It fits better the REST style communication. 
+Requestor proposes a fluent way of making http requests. It fits better the REST style communication. 
 Just look how simple you can **GET** a book from server:
 
 ```java
@@ -38,9 +38,16 @@ requestor.request("/books/1").get(Book.class)
         .done(book -> Window.alert("My book title: " + book.getTitle()));
 ```
 
-For JSON **serializing/deserializing** your POJO *you just need to annotate it with `@Json`* or create a custom SerDes:
+For JSON **serializing/deserializing** your POJO *you just need to annotate it with `@Json`*
+```java
+@Json
+public class Book {
+    ...
+}
+```
 
-```java 
+or create a custom SerDes:
+```java
 public class BookJsonSerdes extends JsonObjectSerdes<Book> {
 
     @Override
@@ -82,16 +89,17 @@ requestor.request("/books").payload(data).post().done(new DoneCallback<Void>() {
 ### Accumulate your result array in a container
 
 ```java
-requestor.request("/books").get(Book.class, List.class).done(new DoneCallback<Collection<Book>>() {
-    public void onDone(Collection<Book> books) {
-        List<Book> bookList = (List<Book>) books;
+requestor.request("/books").get(Book.class, List.class).done(new ListDoneCallback<Book>() {
+    public void onDoneCast(List<Book> books) {
+        // A list of books!
     }
 });
 ```
 
-When deserializing, the Deserializer retrieves an instance of the collection (container) from the ContainerFactoryManager, managed by the Requestor.
+When deserializing, the Deserializer retrieves an instance of the Container (some Collection instance) 
+from the ContainerProviderManager, managed by the Requestor.
 
-You can create custom Factories of Containers and register them in the Requestor.
+You can create custom Providers of Containers and register them in the Requestor.
 
 ### Primitive access the Response
 
@@ -125,7 +133,7 @@ requestor.request("/user/auth").user(username).password(pwd)...
 ```
 
 ### Sending FORM data
-TurboG HTTP provides two handful classes for dealing with Forms: *FormParam* and *FormData* (a collection of FormParams with a nice builder). You can use both of them to make a form post.
+Requestor HTTP provides two handful classes for dealing with Forms: *FormParam* and *FormData* (a collection of FormParams with a nice builder). You can use both of them to make a form post.
 
 ```java
 FormData formData = FormData.builder().put("name", "John Doe").put("array", 1, 2.5).build();
@@ -136,7 +144,9 @@ requestor.request(uri)
 ```
  
 ### Requestor
-[Requestor](http://reinert.github.io/requestor/javadoc/apidocs/io/reinert/requestor/Requestor.html) is the main component of TurboG HTTP. It is responsible for managing the various aggregate components for the requests (as SerdesManager, FilterManager, ContainerFactoryManager) and create [Requests](http://reinert.github.io/requestor/javadoc/apidocs/io/reinert/requestor/Request.html) supporting those. It should be used as a singleton over all your application.
+[Requestor](http://reinert.github.io/requestor/javadoc/apidocs/io/reinert/requestor/Requestor.html) is the main component of Requestor HTTP.
+It is responsible for managing the various aggregate components for the requests (as SerdesManager, FilterManager, ContainerProviderManager)
+and create [Requests](http://reinert.github.io/requestor/javadoc/apidocs/io/reinert/requestor/Request.html) supporting those. It should be used as a singleton over all your application.
 
 ### JSON, XML and whatever living together
 The [Serializer](http://reinert.github.io/requestor/javadoc/apidocs/io/reinert/requestor/serialization/Serializer.html)
@@ -203,7 +213,7 @@ You can easily enhance all your requests with [RequestFilter](http://reinert.git
  registering and execute HandlerRegistration#removeHandler().
 
 ### Easier header construction
-TurboG HTTP provides Header classes facilitating complex header construction.
+Requestor HTTP provides Header classes facilitating complex header construction.
  E.g., you can create a [QualityFactorHeader](http://reinert.github.io/requestor/javadoc/apidocs/io/reinert/requestor/header/QualityFactorHeader.html) and pass it to your request.
 
 ### Extensible design
@@ -220,11 +230,8 @@ Take a look at the [tests](https://github.com/reinert/requestor/tree/master/src/
 ## Documentation
 * [Javadocs](http://reinert.github.io/requestor/javadoc/apidocs/index.html)
 
-## Community
-* [Turbo GWT Google Group](http://groups.google.com/d/forum/turbogwt) - Share ideas and ask for help.
-
 ## Downloads
-Turbo GWT HTTP is currently available at maven central.
+Requestor is currently available at maven central.
 
 ### Maven
 ```
@@ -236,4 +243,4 @@ Turbo GWT HTTP is currently available at maven central.
 ```
 
 ## License
-Turbo GWT HTTP is freely distributable under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html)
+Requestor is freely distributable under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html)
