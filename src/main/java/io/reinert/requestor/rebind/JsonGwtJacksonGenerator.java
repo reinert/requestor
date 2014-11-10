@@ -133,15 +133,15 @@ public class JsonGwtJacksonGenerator extends Generator {
                 ObjectWriter.class.getCanonicalName(),
                 // com.google.gwt
                 GWT.class.getCanonicalName(),
-                // io.reinert
+                // io.reinert.requestor
                 DeserializationContext.class.getCanonicalName(),
                 Deserializer.class.getCanonicalName(),
-                JsonRecordReader.class.getCanonicalName(),
                 JsonObjectSerdes.class.getCanonicalName(),
+                JsonRecordReader.class.getCanonicalName(),
                 JsonRecordWriter.class.getCanonicalName(),
                 Serdes.class.getCanonicalName(),
-                SerializationContext.class.getCanonicalName(),
                 Serializer.class.getCanonicalName(),
+                SerializationContext.class.getCanonicalName(),
                 // org.turbogwt
                 Overlays.class.getCanonicalName()
         };
@@ -166,44 +166,50 @@ public class JsonGwtJacksonGenerator extends Generator {
                 qualifiedCamelCaseFieldName.substring(1);
 
         final String singleMapperType = qualifiedCamelCaseTypeName + "Mapper";
-        final String arrayListMapperType = qualifiedCamelCaseTypeName + "ArrayListMapper";
-        final String linkedListMapperType = qualifiedCamelCaseTypeName + "LinkedListMapper";
-        final String hashSetMapperType = qualifiedCamelCaseTypeName + "HashSetMapper";
-        final String linkedHashSetMapperType = qualifiedCamelCaseTypeName + "LinkedHashSetMapper";
-        final String treeSetMapperType = qualifiedCamelCaseTypeName + "TreeSetMapper";
+        final String collectionWriterType = qualifiedCamelCaseTypeName + "CollectionWriter";
+        final String arrayListReaderType = qualifiedCamelCaseTypeName + "ArrayListReader";
+        final String linkedListReaderType = qualifiedCamelCaseTypeName + "LinkedListReader";
+        final String hashSetReaderType = qualifiedCamelCaseTypeName + "HashSetReader";
+        final String linkedHashSetReaderType = qualifiedCamelCaseTypeName + "LinkedHashSetReader";
+        final String treeSetReaderType = qualifiedCamelCaseTypeName + "TreeSetReader";
 
         // interfaces extending Gwt Jackson
         srcWriter.println("interface %s extends ObjectMapper<%s> {}", singleMapperType, qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectMapper<ArrayList<%s>> {}", arrayListMapperType,
+        srcWriter.println("interface %s extends ObjectWriter<Collection<%s>> {}", collectionWriterType,
                 qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectMapper<LinkedList<%s>> {}", linkedListMapperType,
+        srcWriter.println("interface %s extends ObjectReader<ArrayList<%s>> {}", arrayListReaderType,
                 qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectMapper<HashSet<%s>> {}", hashSetMapperType, qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectMapper<TreeSet<%s>> {}", treeSetMapperType, qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectMapper<LinkedHashSet<%s>> {}", linkedHashSetMapperType,
+        srcWriter.println("interface %s extends ObjectReader<LinkedList<%s>> {}", linkedListReaderType,
+                qualifiedSourceName);
+        srcWriter.println("interface %s extends ObjectReader<HashSet<%s>> {}", hashSetReaderType, qualifiedSourceName);
+        srcWriter.println("interface %s extends ObjectReader<TreeSet<%s>> {}", treeSetReaderType, qualifiedSourceName);
+        srcWriter.println("interface %s extends ObjectReader<LinkedHashSet<%s>> {}", linkedHashSetReaderType,
                 qualifiedSourceName);
         srcWriter.println();
 
         final String singleMapperField = qualifiedCamelCaseFieldName + "Mapper";
-        final String arrayListMapperField = qualifiedCamelCaseFieldName + "ArrayListMapper";
-        final String linkedListMapperField = qualifiedCamelCaseFieldName + "LinkedListMapper";
-        final String hashSetMapperField = qualifiedCamelCaseFieldName + "HashSetMapper";
-        final String linkedHashSetMapperField = qualifiedCamelCaseFieldName + "LinkedHashSetMapper";
-        final String treeSetMapperField = qualifiedCamelCaseFieldName + "TreeSetMapper";
+        final String collectionWriterField = qualifiedCamelCaseFieldName + "CollectionWriter";
+        final String arrayListReaderField = qualifiedCamelCaseFieldName + "ArrayListReader";
+        final String linkedListReaderField = qualifiedCamelCaseFieldName + "LinkedListReader";
+        final String hashSetReaderField = qualifiedCamelCaseFieldName + "HashSetReader";
+        final String linkedHashSetReaderField = qualifiedCamelCaseFieldName + "LinkedHashSetReader";
+        final String treeSetReaderField = qualifiedCamelCaseFieldName + "TreeSetReader";
 
         // fields creating interfaces
         srcWriter.println("private final %s %s = GWT.create(%s.class);", singleMapperType, singleMapperField,
                 singleMapperType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", arrayListMapperType, arrayListMapperField,
-                arrayListMapperType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", linkedListMapperType, linkedListMapperField,
-                linkedListMapperType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", hashSetMapperType, hashSetMapperField,
-                hashSetMapperType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", linkedHashSetMapperType,
-                linkedHashSetMapperField, linkedHashSetMapperType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", treeSetMapperType, treeSetMapperField,
-                treeSetMapperType);
+        srcWriter.println("private final %s %s = GWT.create(%s.class);", collectionWriterType, collectionWriterField,
+                collectionWriterType);
+        srcWriter.println("private final %s %s = GWT.create(%s.class);", arrayListReaderType, arrayListReaderField,
+                arrayListReaderType);
+        srcWriter.println("private final %s %s = GWT.create(%s.class);", linkedListReaderType, linkedListReaderField,
+                linkedListReaderType);
+        srcWriter.println("private final %s %s = GWT.create(%s.class);", hashSetReaderType, hashSetReaderField,
+                hashSetReaderType);
+        srcWriter.println("private final %s %s = GWT.create(%s.class);", linkedHashSetReaderType,
+                linkedHashSetReaderField, linkedHashSetReaderType);
+        srcWriter.println("private final %s %s = GWT.create(%s.class);", treeSetReaderType, treeSetReaderField,
+                treeSetReaderType);
         srcWriter.println();
 
         final String serdesField = qualifiedCamelCaseFieldName + "Serdes";
@@ -218,22 +224,6 @@ public class JsonGwtJacksonGenerator extends Generator {
         srcWriter.println("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(annotation.value()));
         srcWriter.println();
 
-        // readJson
-        srcWriter.println("    @Override");
-        srcWriter.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
-                qualifiedSourceName);
-        srcWriter.println("        return %s.read(Overlays.stringify(r));", singleMapperField);
-        srcWriter.println("    }");
-        srcWriter.println();
-
-        // writeJson
-        srcWriter.println("    @Override");
-        srcWriter.println("    public void writeJson(%s o, JsonRecordWriter w, SerializationContext ctx) {",
-                qualifiedSourceName);
-        srcWriter.println("        return;");
-        srcWriter.println("    }");
-        srcWriter.println();
-
         // contentType
         srcWriter.println("    @Override");
         srcWriter.println("    public String[] contentType() {");
@@ -241,7 +231,23 @@ public class JsonGwtJacksonGenerator extends Generator {
         srcWriter.println("    }");
         srcWriter.println();
 
-        // deserialize
+        // readJson - used when any of deserializeAsCollection alternatives succeeded (see JsonObjectSerdes)
+        srcWriter.println("    @Override");
+        srcWriter.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
+                qualifiedSourceName);
+        srcWriter.println("        return %s.read(Overlays.stringify(r));", singleMapperField);
+        srcWriter.println("    }");
+        srcWriter.println();
+
+        // writeJson - not used
+        srcWriter.println("    @Override");
+        srcWriter.println("    public void writeJson(%s o, JsonRecordWriter w, SerializationContext ctx) {",
+                qualifiedSourceName);
+        srcWriter.println("        return;");
+        srcWriter.println("    }");
+        srcWriter.println();
+
+        // deserialize - deserialize single object using ObjectMapper
         srcWriter.println("    @Override");
         srcWriter.println("    public %s deserialize(String s, DeserializationContext ctx) {", qualifiedSourceName);
         srcWriter.println("        return %s.read(s);", singleMapperField);
@@ -253,15 +259,15 @@ public class JsonGwtJacksonGenerator extends Generator {
         srcWriter.println("    public <C extends Collection<%s>> C deserializeAsCollection(Class<C> c, " +
                 "String s, DeserializationContext ctx) {", qualifiedSourceName);
         srcWriter.println("        if (c == List.class || c == ArrayList.class || c == Collection.class)");
-        srcWriter.println("            return (C) %s.read(s);", arrayListMapperField);
+        srcWriter.println("            return (C) %s.read(s);", arrayListReaderField);
         srcWriter.println("        else if (c == LinkedList.class)");
-        srcWriter.println("            return (C) %s.read(s);", linkedListMapperField);
+        srcWriter.println("            return (C) %s.read(s);", linkedListReaderField);
         srcWriter.println("        else if (c == Set.class || c == HashSet.class)");
-        srcWriter.println("            return (C) %s.read(s);", hashSetMapperField);
+        srcWriter.println("            return (C) %s.read(s);", hashSetReaderField);
         srcWriter.println("        else if (c == TreeSet.class)");
-        srcWriter.println("            return (C) %s.read(s);", treeSetMapperField);
+        srcWriter.println("            return (C) %s.read(s);", treeSetReaderField);
         srcWriter.println("        else if (c == LinkedHashSet.class)");
-        srcWriter.println("            return (C) %s.read(s);", linkedHashSetMapperField);
+        srcWriter.println("            return (C) %s.read(s);", linkedHashSetReaderField);
         srcWriter.println("        else");
         srcWriter.println("            return super.deserializeAsCollection(c, s, ctx);");
         srcWriter.println("    }");
@@ -277,18 +283,7 @@ public class JsonGwtJacksonGenerator extends Generator {
         srcWriter.println("    @Override");
         srcWriter.println("    public String serializeFromCollection(Collection<%s> c, SerializationContext ctx) {",
                 qualifiedSourceName);
-        srcWriter.println("        if (c.getClass() == ArrayList.class)");
-        srcWriter.println("            return %s.write((ArrayList) c);", arrayListMapperField);
-        srcWriter.println("        else if (c.getClass() == LinkedList.class)");
-        srcWriter.println("            return %s.write((LinkedList) c);", linkedListMapperField);
-        srcWriter.println("        else if (c.getClass() == HashSet.class)");
-        srcWriter.println("            return %s.write((HashSet) c);", hashSetMapperField);
-        srcWriter.println("        else if (c.getClass() == TreeSet.class)");
-        srcWriter.println("            return %s.write((TreeSet) c);", treeSetMapperField);
-        srcWriter.println("        else if (c.getClass() == LinkedHashSet.class)");
-        srcWriter.println("            return %s.write((LinkedHashSet) c);", linkedHashSetMapperField);
-        srcWriter.println("        else");
-        srcWriter.println("            return super.serializeFromCollection(c, ctx);");
+        srcWriter.println("        return %s.write(c);", collectionWriterField);
         srcWriter.println("    }");
 
         // end anonymous class
