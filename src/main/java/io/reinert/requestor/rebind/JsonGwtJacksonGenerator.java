@@ -53,7 +53,7 @@ import io.reinert.requestor.serialization.json.JsonRecordWriter;
 import org.turbogwt.core.util.Overlays;
 
 /**
- * Generator for {@link io.reinert.requestor.Json} annotated types.
+ * Generator for {@link io.reinert.requestor.Json} annotated types powered by GWT-Jackson.
  *
  * @author Danilo Reinert
  */
@@ -77,7 +77,7 @@ public class JsonGwtJacksonGenerator extends Generator {
             throw new UnableToCompleteException();
         }
 
-        TreeLogger typeLogger = logger.branch(TreeLogger.ALL, "Generating SerDes powered by Gwt Jackson...", null);
+        TreeLogger typeLogger = logger.branch(TreeLogger.ALL, "Generating Json SerDes powered by Gwt Jackson...", null);
         final SourceWriter sourceWriter = getSourceWriter(typeLogger, ctx, intfType);
 
         if (sourceWriter != null) {
@@ -232,6 +232,8 @@ public class JsonGwtJacksonGenerator extends Generator {
         srcWriter.println();
 
         // readJson - used when any of deserializeAsCollection alternatives succeeded (see JsonObjectSerdes)
+        // TODO: improve this by not requiring parsing the json to an js array and latter stringyfying it (see below)
+        // Here would be no-op
         srcWriter.println("    @Override");
         srcWriter.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
                 qualifiedSourceName);
@@ -269,6 +271,8 @@ public class JsonGwtJacksonGenerator extends Generator {
         srcWriter.println("        else if (c == LinkedHashSet.class)");
         srcWriter.println("            return (C) %s.read(s);", linkedHashSetReaderField);
         srcWriter.println("        else");
+        // TODO: improve this by not requiring parsing the json to an js array and latter stringyfying it
+        // An alternative would be manually traverse the json array and passing each json object to serialize method
         srcWriter.println("            return super.deserializeAsCollection(c, s, ctx);");
         srcWriter.println("    }");
 

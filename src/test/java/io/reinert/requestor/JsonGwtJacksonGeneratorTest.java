@@ -33,7 +33,7 @@ import org.turbogwt.core.collections.JsArrayList;
 /**
  * @author Danilo Reinert
  */
-public class GeneratedJsonSerdesTest extends GWTTestCase {
+public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {

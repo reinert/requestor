@@ -24,6 +24,7 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 import io.reinert.requestor.serialization.ContainerProviderManager;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.FormParamSerializer;
+import io.reinert.requestor.serialization.HasImpls;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerdesManager;
 import io.reinert.requestor.serialization.Serializer;
@@ -137,6 +138,12 @@ public class RequestorImpl implements Requestor {
         for (Serdes<?> serdes : generatedJsonSerdes) {
             final Class handledType = serdes.handledType();
             serdesManager.putSerdes(handledType, serdes);
+            if (serdes instanceof HasImpls) {
+                HasImpls hasImpls = (HasImpls) serdes;
+                for (Class impl : hasImpls.implTypes()) {
+                    serdesManager.putSerdes(impl, serdes);
+                }
+            }
         }
     }
 

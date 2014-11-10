@@ -45,7 +45,8 @@ public class RequestorGwtTestSuite {
 
         suite.addTestSuite(RestTest.class);
 
-        suite.addTestSuite(GeneratedJsonSerdesTest.class);
+        suite.addTestSuite(JsonGwtJacksonGeneratorTest.class);
+        suite.addTestSuite(JsonAutoBeanGeneratorTest.class);
 
         return suite;
     }
