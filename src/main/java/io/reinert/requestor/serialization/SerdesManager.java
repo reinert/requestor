@@ -15,12 +15,12 @@
  */
 package io.reinert.requestor.serialization;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
-
-import org.turbogwt.core.collections.JsArrayList;
-import org.turbogwt.core.collections.JsMap;
 
 /**
  * Manager for registering and retrieving Serializers and Deserializers.
@@ -29,8 +29,10 @@ import org.turbogwt.core.collections.JsMap;
  */
 public class SerdesManager {
 
-    private final JsMap<JsArrayList<DeserializerHolder>> deserializers = JsMap.create();
-    private final JsMap<JsArrayList<SerializerHolder>> serializers = JsMap.create();
+    private final Map<String, ArrayList<DeserializerHolder>> deserializers = new HashMap<String,
+            ArrayList<DeserializerHolder>>();
+    private final Map<String, ArrayList<SerializerHolder>> serializers = new HashMap<String,
+            ArrayList<SerializerHolder>>();
 
     /**
      * Register a deserializer of the given type.
@@ -138,9 +140,10 @@ public class SerdesManager {
         checkNotNull(type, "Type (Class<T>) cannot be null.");
         checkNotNull(contentType, "Content-Type cannot be null.");
 
-        final Key key = new Key(type, contentType);
+        final String typeName = getClassName(type);
+        final Key key = new Key(typeName, contentType);
 
-        JsArrayList<DeserializerHolder> holders = deserializers.get(type.getName());
+        ArrayList<DeserializerHolder> holders = deserializers.get(typeName);
         if (holders != null) {
             for (DeserializerHolder holder : holders) {
                 if (holder.key.matches(key)) return (Deserializer<T>) holder.deserializer;
@@ -164,9 +167,10 @@ public class SerdesManager {
         checkNotNull(type, "Type (Class<T>) cannot be null.");
         checkNotNull(contentType, "Content-Type cannot be null.");
 
-        final Key key = new Key(type, contentType);
+        final String typeName = getClassName(type);
+        final Key key = new Key(typeName, contentType);
 
-        JsArrayList<SerializerHolder> holders = serializers.get(type.getName());
+        ArrayList<SerializerHolder> holders = serializers.get(typeName);
         if (holders != null) {
             for (SerializerHolder holder : holders) {
                 if (holder.key.matches(key)) return (Serializer<T>) holder.serializer;
@@ -177,11 +181,21 @@ public class SerdesManager {
                 " and content-type " + contentType + ".");
     }
 
+    private <T> String getClassName(Class<T> type) {
+        String typeName = type.getName();
+        // AutoBean class name normalization (remove all content after $)
+        int i = typeName.indexOf("AutoBean$");
+        if (i > -1) {
+            typeName = typeName.substring(0, i + 8);
+        }
+        return typeName;
+    }
+
     private <T> HandlerRegistration bindSerializerToType(Serializer<T> serializer, Class<T> type) {
-        final String typeName = type.getName();
-        JsArrayList<SerializerHolder> allHolders = serializers.get(typeName);
+        final String typeName = getClassName(type);
+        ArrayList<SerializerHolder> allHolders = serializers.get(typeName);
         if (allHolders == null) {
-            allHolders = new JsArrayList<SerializerHolder>();
+            allHolders = new ArrayList<SerializerHolder>();
             serializers.put(typeName, allHolders);
         }
 
@@ -189,7 +203,7 @@ public class SerdesManager {
         final SerializerHolder[] currHolders = new SerializerHolder[contentType.length];
         for (int i = 0; i < contentType.length; i++) {
             String pattern = contentType[i];
-            final Key key = new Key(type, pattern);
+            final Key key = new Key(typeName, pattern);
             final SerializerHolder holder = new SerializerHolder(key, serializer);
             allHolders.add(holder);
             currHolders[i] = holder;
@@ -208,10 +222,10 @@ public class SerdesManager {
     }
 
     private <T> HandlerRegistration bindDeserializerToType(Deserializer<T> deserializer, Class<T> type) {
-        final String typeName = type.getName();
-        JsArrayList<DeserializerHolder> allHolders = deserializers.get(typeName);
+        final String typeName = getClassName(type);
+        ArrayList<DeserializerHolder> allHolders = deserializers.get(typeName);
         if (allHolders == null) {
-            allHolders = new JsArrayList<DeserializerHolder>();
+            allHolders = new ArrayList<DeserializerHolder>();
             deserializers.put(typeName, allHolders);
         }
 
@@ -219,7 +233,7 @@ public class SerdesManager {
         final DeserializerHolder[] currHolders = new DeserializerHolder[accept.length];
         for (int i = 0; i < accept.length; i++) {
             final String pattern = accept[i];
-            final Key key = new Key(type, pattern);
+            final Key key = new Key(typeName, pattern);
             final DeserializerHolder holder = new DeserializerHolder(key, deserializer);
             allHolders.add(holder);
             currHolders[i] = holder;
@@ -297,27 +311,27 @@ public class SerdesManager {
 
     private static class Key implements Comparable<Key> {
 
-        final Class<?> type;
+        final String typeName;
         final String contentType;
         final double factor;
 
-        private Key(Class<?> type, String contentType) {
+        private Key(String typeName, String contentType) {
             checkSeparatorPresence(contentType);
 
-            this.type = type;
+            this.typeName = typeName;
             this.contentType = contentType;
             this.factor = 1.0;
         }
 
-        private Key(Class<?> type, String contentType, double factor) {
-            this.type = type;
+        private Key(String typeName, String contentType, double factor) {
+            this.typeName = typeName;
             this.contentType = contentType;
             this.factor = factor;
         }
 
         // TODO: test exhaustively
         public boolean matches(Key key) {
-            if (!key.type.equals(this.type)) {
+            if (!key.typeName.equals(this.typeName)) {
                 return false;
             }
 
@@ -364,7 +378,7 @@ public class SerdesManager {
 
             final Key key = (Key) o;
 
-            if (!type.equals(key.type)) {
+            if (!typeName.equals(key.typeName)) {
                 return false;
             }
             if (!contentType.equals(key.contentType)) {
@@ -381,7 +395,7 @@ public class SerdesManager {
         public int hashCode() {
             int result;
             long temp;
-            result = type.hashCode();
+            result = typeName.hashCode();
             result = 31 * result + contentType.hashCode();
             temp = Double.doubleToLongBits(factor);
             result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -390,7 +404,7 @@ public class SerdesManager {
 
         @Override
         public int compareTo(Key key) {
-            int result = this.type.getSimpleName().compareTo(key.type.getSimpleName());
+            int result = this.typeName.compareTo(key.typeName);
 
             // TODO: Improve pattern matching to handle patterns without separators.
             if (result == 0) {
@@ -476,7 +490,7 @@ public class SerdesManager {
         @Override
         public String toString() {
             return "{" +
-                    "type: '" + type.getName() + '\'' +
+                    "type: '" + typeName + '\'' +
                     ", contentType: '" + contentType + '\'' +
                     ", factor: " + factor +
                     '}';

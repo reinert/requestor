@@ -31,7 +31,6 @@ import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.JPackage;
 import com.google.gwt.core.ext.typeinfo.JType;
-import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
@@ -246,6 +245,8 @@ public class JsonAutoBeanGenerator extends Generator {
         final String fieldName = getFieldName(type);
         final String listWrapperTypeName = getListWrapperTypeName(type);
         final String setWrapperTypeName = getSetWrapperTypeName(type);
+        final String listWrapperFactoryMethodName = factoryFieldName + "." + firstCharToLowerCase(listWrapperTypeName);
+        final String setWrapperFactoryMethodName = factoryFieldName + "." + firstCharToLowerCase(setWrapperTypeName);
 
         final String serdesFieldName = fieldName + "Serdes";
         final String serdesTypeName = getTypeName(type) + "Serdes";
@@ -255,19 +256,8 @@ public class JsonAutoBeanGenerator extends Generator {
                 qualifiedSourceName);
 
         // static field for impl array
-        final Class[] impls = annotation.impl();
         final String autoBeanInstanceClass = factoryFieldName + "." + fieldName + "().getClass()";
-        final StringBuilder sb = new StringBuilder(autoBeanInstanceClass);
-        for (Class impl : impls) {
-            try {
-                if (impl != Object.class && type.isAssignableFrom(oracle.getType(impl.getCanonicalName()))) {
-                    sb.append(", ").append(impl.getCanonicalName()).append(".class");
-                }
-            } catch (NotFoundException e) {
-                logger.log(TreeLogger.Type.ERROR, "Could not find impl class " + impl.getName());
-            }
-        }
-        w.println("    private final Class[] IMPL = new Class[]{ %s };", sb.toString());
+        w.println("    private final Class[] IMPL = new Class[]{ %s };", autoBeanInstanceClass);
 
         // static field to content-types
         w.println("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(annotation.value()));
@@ -346,7 +336,19 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println("    @Override");
         w.println("    public String serializeFromCollection(Collection<%s> c, SerializationContext ctx) {",
                 qualifiedSourceName);
-        w.println("        return AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(c)).getPayload();");
+        w.println("        if (c instanceof List) {");
+        w.println("            final AutoBean<%s> autoBean = %s();", listWrapperTypeName, listWrapperFactoryMethodName);
+        w.println("            autoBean.as().setResult((List) c);");
+        w.println("            final String json = AutoBeanCodex.encode(autoBean).getPayload();");
+        w.println("            return json.substring(10, json.length() -1);");
+        w.println("        }");
+        w.println("        if (c instanceof Set) {");
+        w.println("            final AutoBean<%s> autoBean = %s();", setWrapperTypeName, setWrapperFactoryMethodName);
+        w.println("            autoBean.as().setResult((Set) c);");
+        w.println("            final String json = AutoBeanCodex.encode(autoBean).getPayload();");
+        w.println("            return json.substring(10, json.length() -1);");
+        w.println("        }");
+        w.println("        return super.serializeFromCollection(c, ctx);");
         w.println("    }");
 
         // end anonymous class

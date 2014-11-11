@@ -39,6 +39,4 @@ public @interface Json {
      * The patterns accept wildcards like "&#42;&#47;json".
      */
     String[] value() default "application/json";
-
-    Class[] impl() default Object.class;
 }

@@ -28,8 +28,6 @@ import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.test.mock.ResponseMock;
 import io.reinert.requestor.test.mock.ServerStub;
 
-import org.turbogwt.core.collections.JsArrayList;
-
 /**
  * @author Danilo Reinert
  */
@@ -41,9 +39,12 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
     }
 
     public void testGeneratedSingleDeserialization() {
-        final Animal stuart = new AnimalImpl("Stuart", 3);
-
         final Requestor requestor = getRequestor();
+        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
+
+        final Animal stuart = animalProvider.get();
+        stuart.setName("Stuart");
+        stuart.setAge(3);
 
         final String uri = "/animal";
 
@@ -59,7 +60,7 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
                     @Override
                     public void onDone(Animal animal) {
                         callbackDoneCalled[0] = true;
-                        assertEquals(stuart, animal);
+                        assertTrue(isEquals(stuart, animal));
                     }
                 });
 
@@ -68,13 +69,20 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
         assertTrue(callbackDoneCalled[0]);
     }
 
-    public void testGeneratedArrayListDeserialization() {
-        final Animal stuart = new AnimalImpl("Stuart", 3);
-        final Animal march = new AnimalImpl("March", 5);
+    public void testGeneratedListDeserialization() {
+        final Requestor requestor = getRequestor();
+        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
+
+        final Animal stuart = animalProvider.get();
+        stuart.setName("Stuart");
+        stuart.setAge(3);
+
+        final Animal march = animalProvider.get();
+        march.setName("March");
+        march.setAge(5);
+
         final List<Animal> list = new ArrayList<Animal>();
         list.add(stuart); list.add(march);
-
-        final Requestor requestor = getRequestor();
 
         final String uri = "/animals";
 
@@ -85,13 +93,13 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
         final boolean[] callbackDoneCalled = new boolean[1];
 
-        requestor.request(uri).get(Animal.class, ArrayList.class)
+        requestor.request(uri).get(Animal.class, List.class)
                 .done(new DoneCallback<Collection<Animal>>() {
                     @Override
                     public void onDone(Collection<Animal> animals) {
                         callbackDoneCalled[0] = true;
-                        ArrayList<Animal> arrayList = (ArrayList<Animal>) animals;
-                        assertTrue(Arrays.equals(list.toArray(), arrayList.toArray()));
+                        List<Animal> list = (List<Animal>) animals;
+                        assertTrue(Arrays.equals(list.toArray(), list.toArray()));
                     }
                 });
 
@@ -101,12 +109,19 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
     }
 
     public void testGeneratedCustomListDeserialization() {
-        final Animal stuart = new AnimalImpl("Stuart", 3);
-        final Animal march = new AnimalImpl("March", 5);
+        final Requestor requestor = getRequestor();
+        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
+
+        final Animal stuart = animalProvider.get();
+        stuart.setName("Stuart");
+        stuart.setAge(3);
+
+        final Animal march = animalProvider.get();
+        march.setName("March");
+        march.setAge(5);
+
         final List<Animal> list = new ArrayList<Animal>();
         list.add(stuart); list.add(march);
-
-        final Requestor requestor = getRequestor();
 
         final String uri = "/animals";
 
@@ -117,13 +132,13 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
         final boolean[] callbackDoneCalled = new boolean[1];
 
-        requestor.request(uri).get(Animal.class, JsArrayList.class)
+        requestor.request(uri).get(Animal.class, List.class)
                 .done(new DoneCallback<Collection<Animal>>() {
                     @Override
                     public void onDone(Collection<Animal> animals) {
                         callbackDoneCalled[0] = true;
-                        JsArrayList<Animal> arrayList = (JsArrayList<Animal>) animals;
-                        assertTrue(Arrays.equals(list.toArray(), arrayList.toArray()));
+                        List<Animal> list = (List<Animal>) animals;
+                        assertTrue(Arrays.equals(list.toArray(), list.toArray()));
                     }
                 });
 
@@ -133,9 +148,12 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
     }
 
     public void testGeneratedSingleSerialization() {
-        final Animal stuart = new AnimalImpl("Stuart", 3);
-
         final Requestor requestor = getRequestor();
+        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
+
+        final Animal stuart = animalProvider.get();
+        stuart.setName("Stuart");
+        stuart.setAge(3);
 
         final String uri = "/animal";
 
@@ -160,13 +178,20 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
         assertEquals(serialized, ServerStub.getRequestData(uri).getData());
     }
 
-    public void testGeneratedArrayListSerialization() {
-        final Animal stuart = new AnimalImpl("Stuart", 3);
-        final Animal march = new AnimalImpl("March", 5);
+    public void testGeneratedListSerialization() {
+        final Requestor requestor = getRequestor();
+        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
+
+        final Animal stuart = animalProvider.get();
+        stuart.setName("Stuart");
+        stuart.setAge(3);
+
+        final Animal march = animalProvider.get();
+        march.setName("March");
+        march.setAge(5);
+
         final List<Animal> list = new ArrayList<Animal>();
         list.add(stuart); list.add(march);
-
-        final Requestor requestor = getRequestor();
 
         final String uri = "/animals";
 
@@ -192,12 +217,19 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
     }
 
     public void testGeneratedCustomListSerialization() {
-        final Animal stuart = new AnimalImpl("Stuart", 3);
-        final Animal march = new AnimalImpl("March", 5);
-        final List<Animal> list = new JsArrayList<Animal>();
-        list.add(stuart); list.add(march);
-
         final Requestor requestor = getRequestor();
+        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
+
+        final Animal stuart = animalProvider.get();
+        stuart.setName("Stuart");
+        stuart.setAge(3);
+
+        final Animal march = animalProvider.get();
+        march.setName("March");
+        march.setAge(5);
+
+        final List<Animal> list = new ArrayList<Animal>();
+        list.add(stuart); list.add(march);
 
         final String uri = "/animals";
 
@@ -227,79 +259,15 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
         return GWT.create(Requestor.class);
     }
 
-    @Json(value = {"app*/json*", "*/javascript*" }, impl = AnimalImpl.class)
+    @Json({"app*/json*", "*/javascript*"})
     interface Animal {
         Integer getAge();
-
         String getName();
-
         void setAge(Integer age);
-
         void setName(String name);
     }
 
-    /**
-     * Class to auto-generate serializer.
-     */
-    static class AnimalImpl implements Animal {
-
-        private String name;
-        private Integer age;
-
-        public AnimalImpl() {
-        }
-
-        public AnimalImpl(String name, Integer age) {
-            this.name = name;
-            this.age = age;
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public Integer getAge() {
-            return age;
-        }
-
-        @Override
-        public void setAge(Integer age) {
-            this.age = age;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (!(o instanceof Animal)) {
-                return false;
-            }
-
-            final AnimalImpl animal = (AnimalImpl) o;
-
-            if (age != null ? !age.equals(animal.age) : animal.age != null) {
-                return false;
-            }
-            if (name != null ? !name.equals(animal.name) : animal.name != null) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = name != null ? name.hashCode() : 0;
-            result = 31 * result + (age != null ? age.hashCode() : 0);
-            return result;
-        }
+    private boolean isEquals(Animal a, Animal b) {
+        return (a.getName().equals(b.getName()) && a.getAge().equals(b.getAge()));
     }
 }
