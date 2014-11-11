@@ -35,7 +35,7 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorAutoBeanTest";
+        return "io.reinert.requestor.RequestorWithAutoBeanTest";
     }
 
     public void testGeneratedSingleDeserialization() {
@@ -268,6 +268,6 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
     }
 
     private boolean isEquals(Animal a, Animal b) {
-        return (a.getName().equals(b.getName()) && a.getAge().equals(b.getAge()));
+        return a.getName().equals(b.getName()) && a.getAge().equals(b.getAge());
     }
 }

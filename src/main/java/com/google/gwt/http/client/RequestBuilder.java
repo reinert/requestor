@@ -416,7 +416,7 @@ public class RequestBuilder {
             }
         });
 
-        // ADDED BY TURBO GWT
+        // ADDED BY REQUESTOR
         if (callback instanceof RequestCallbackWithProgress) {
             final RequestCallbackWithProgress pCallback = (RequestCallbackWithProgress) callback;
             xmlHttpRequest.setOnProgress(new ProgressHandler() {

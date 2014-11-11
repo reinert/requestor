@@ -30,11 +30,10 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
     private final SerdesManager serdesManager;
     private final ProviderManager containerProviderManager;
 
-    public DeferredSingleResult(Class<T> responseType, SerdesManager serdesManager,
-                                ProviderManager containerProviderManager) {
+    public DeferredSingleResult(Class<T> responseType, SerdesManager serdesManager, ProviderManager providerManager) {
         this.responseType = responseType;
         this.serdesManager = serdesManager;
-        this.containerProviderManager = containerProviderManager;
+        this.containerProviderManager = providerManager;
     }
 
     @Override

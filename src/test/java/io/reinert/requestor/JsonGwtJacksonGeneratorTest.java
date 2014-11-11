@@ -37,7 +37,7 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorTest";
+        return "io.reinert.requestor.RequestorWithGwtJacksonTest";
     }
 
     public void testGeneratedSingleDeserialization() {

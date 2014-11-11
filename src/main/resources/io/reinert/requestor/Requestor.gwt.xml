@@ -18,11 +18,10 @@
   <inherits name="com.google.gwt.user.User"/>
   <inherits name="com.google.gwt.http.HTTP"/>
 
-  <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
   <inherits name="io.reinert.gdeferred.GDeferred"/>
   <inherits name="org.turbogwt.core.Core"/>
 
-  <source path="" excludes="rebind/**/*,test/**/*,**/*Test.java,**/*TestSuite.java,**/*TestUtil.java,mock/*.*,model/*.*"/>
+  <source path="" excludes="rebind/**/*,test/**/*,**/*Test.java,**/*TestSuite.java,**/*TestUtil.java"/>
 
   <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">
     <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
@@ -40,7 +39,7 @@
     <when-type-is class="io.reinert.requestor.Requestor"/>
   </replace-with>
 
-  <generate-with class="io.reinert.requestor.rebind.JsonGwtJacksonGenerator">
+  <replace-with class="io.reinert.requestor.EmptyGeneratedJsonSerdes">
     <when-type-is class="io.reinert.requestor.GeneratedJsonSerdes"/>
-  </generate-with>
+  </replace-with>
 </module>

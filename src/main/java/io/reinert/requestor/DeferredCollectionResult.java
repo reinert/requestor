@@ -35,11 +35,11 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
     private final ProviderManager containerProviderManager;
 
     public DeferredCollectionResult(Class<T> responseType, Class<? extends Collection> containerType,
-                                    SerdesManager serdesManager, ProviderManager containerProviderManager) {
+                                    SerdesManager serdesManager, ProviderManager providerManager) {
         this.responseType = responseType;
         this.containerType = containerType;
         this.serdesManager = serdesManager;
-        this.containerProviderManager = containerProviderManager;
+        this.containerProviderManager = providerManager;
     }
 
     @Override
