@@ -292,7 +292,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 
     private Requestor getRequestor() {
         final Requestor requestory = GWT.create(Requestor.class);
-        requestory.putSerdes(Person.class, personSerdes);
+        requestory.addSerdes(personSerdes);
         return requestory;
     }
 

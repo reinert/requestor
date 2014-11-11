@@ -51,7 +51,7 @@ public class RequestorTest extends GWTTestCase {
     public void testCustomObjectArraySerializationDeserialization() {
         ServerStub.clearStub();
         final Requestor requestor = GWT.create(Requestor.class);
-        requestor.putSerdes(Person.class, new JsonObjectSerdes<Person>(Person.class) {
+        requestor.addSerdes(new JsonObjectSerdes<Person>(Person.class) {
 
             @Override
             public Person readJson(JsonRecordReader reader, DeserializationContext context) {

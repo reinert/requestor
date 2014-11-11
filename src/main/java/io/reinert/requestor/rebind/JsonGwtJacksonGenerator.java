@@ -93,7 +93,7 @@ public class JsonGwtJacksonGenerator extends Generator {
 
             generateFields(sourceWriter);
             generateConstructor(sourceWriter, serdes);
-            generateIteratorMethod(sourceWriter);
+            generateMethods(sourceWriter);
 
             sourceWriter.commit(typeLogger);
         }
@@ -321,12 +321,6 @@ public class JsonGwtJacksonGenerator extends Generator {
         return result.toString();
     }
 
-    private void generateFields(SourceWriter srcWriter) {
-        // Initialize a field with binary name of the remote service interface
-        srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
-        srcWriter.println();
-    }
-
     private void generateConstructor(SourceWriter srcWriter, ArrayList<String> serdes) {
         srcWriter.println("public GeneratedJsonSerdesImpl() {");
         for (String s : serdes) {
@@ -336,10 +330,23 @@ public class JsonGwtJacksonGenerator extends Generator {
         srcWriter.println();
     }
 
-    private void generateIteratorMethod(SourceWriter srcWriter) {
+    private void generateFields(SourceWriter srcWriter) {
+        // Initialize a field with binary name of the remote service interface
+        srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
+        srcWriter.println("private final ArrayList<GeneratedProvider<?>> providersList = " +
+                "new ArrayList<GeneratedProvider<?>>();");
+        srcWriter.println();
+    }
+
+    private void generateMethods(SourceWriter srcWriter) {
         srcWriter.println("@Override");
-        srcWriter.println("public Iterator<Serdes<?>> iterator() {");
-        srcWriter.println("    return serdesList.iterator();");
+        srcWriter.println("public List<Serdes<?>> getGeneratedSerdes() {");
+        srcWriter.println("    return serdesList;");
+        srcWriter.println("}");
+        srcWriter.println();
+        srcWriter.println("@Override");
+        srcWriter.println("public List<GeneratedProvider<?>> getGeneratedProviders() {");
+        srcWriter.println("    return providersList;");
         srcWriter.println("}");
         srcWriter.println();
     }

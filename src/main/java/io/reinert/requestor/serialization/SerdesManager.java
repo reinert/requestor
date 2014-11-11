@@ -35,96 +35,85 @@ public class SerdesManager {
     /**
      * Register a deserializer of the given type.
      *
-     * @param type          The class of the deserializer's type.
      * @param deserializer  The deserializer of T.
      * @param <T>           The type of the object to be deserialized.
      *
      * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object,
      *          capable of cancelling this HandlerRegistration to the {@link SerdesManager}.
      */
-    public <T> HandlerRegistration putDeserializer(Class<T> type, Deserializer<T> deserializer) {
-        final String typeName = type.getName();
-        JsArrayList<DeserializerHolder> tDesList = deserializers.get(typeName);
-        if (tDesList == null) {
-            tDesList = new JsArrayList<DeserializerHolder>();
-            deserializers.put(typeName, tDesList);
-        }
+    public <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer) {
+        final HandlerRegistration reg = bindDeserializerToType(deserializer, deserializer.handledType());
 
-        final String[] accept = deserializer.accept();
-        final DeserializerHolder[] holders = new DeserializerHolder[accept.length];
-        for (int i = 0; i < accept.length; i++) {
-            String pattern = accept[i];
-            final Key key = new Key(type, pattern);
-            final DeserializerHolder holder = new DeserializerHolder(key, deserializer);
-            tDesList.add(holder);
-            holders[i] = holder;
-        }
+        if (deserializer instanceof HasImpl) {
+            Class[] impls = ((HasImpl) deserializer).implTypes();
 
-        Collections.sort(tDesList);
+            final HandlerRegistration[] regs = new HandlerRegistration[impls.length + 1];
+            regs[0] = reg;
 
-        return new HandlerRegistration() {
-            @Override
-            public void removeHandler() {
-                for (DeserializerHolder holder : holders) {
-                    deserializers.get(typeName).remove(holder);
-                }
+            for (int i = 0; i < impls.length; i++) {
+                Class impl = impls[i];
+                regs[i + 1] = bindDeserializerToType(deserializer, impl);
             }
-        };
+
+            return new HandlerRegistration() {
+                public void removeHandler() {
+                    for (HandlerRegistration reg : regs) {
+                        reg.removeHandler();
+                    }
+                }
+            };
+        }
+
+        return reg;
     }
 
     /**
      * Register a serializer of the given type.
      *
-     * @param type          The class of the serializer's type.
      * @param serializer  The serializer of T.
      * @param <T>           The type of the object to be serialized.
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this HandlerRegistration
      *          to the {@link SerdesManager}.
      */
-    public <T> HandlerRegistration putSerializer(Class<T> type, Serializer<T> serializer) {
-        final String typeName = type.getName();
-        JsArrayList<SerializerHolder> tSerList = serializers.get(typeName);
-        if (tSerList == null) {
-            tSerList = new JsArrayList<SerializerHolder>();
-            serializers.put(typeName, tSerList);
-        }
+    public <T> HandlerRegistration addSerializer(Serializer<T> serializer) {
+        final HandlerRegistration reg = bindSerializerToType(serializer, serializer.handledType());
 
-        final String[] contentType = serializer.contentType();
-        final SerializerHolder[] holders = new SerializerHolder[contentType.length];
-        for (int i = 0; i < contentType.length; i++) {
-            String pattern = contentType[i];
-            final Key key = new Key(type, pattern);
-            final SerializerHolder holder = new SerializerHolder(key, serializer);
-            tSerList.add(holder);
-            holders[i] = holder;
-        }
+        if (serializer instanceof HasImpl) {
+            Class[] impls = ((HasImpl) serializer).implTypes();
 
-        Collections.sort(tSerList);
+            final HandlerRegistration[] regs = new HandlerRegistration[impls.length + 1];
+            regs[0] = reg;
 
-        return new HandlerRegistration() {
-            @Override
-            public void removeHandler() {
-                for (SerializerHolder holder : holders) {
-                    serializers.get(typeName).remove(holder);
-                }
+            for (int i = 0; i < impls.length; i++) {
+                Class impl = impls[i];
+                regs[i + 1] = bindSerializerToType(serializer, impl);
             }
-        };
+
+            return new HandlerRegistration() {
+                public void removeHandler() {
+                    for (HandlerRegistration reg : regs) {
+                        reg.removeHandler();
+                    }
+                }
+            };
+        }
+
+        return reg;
     }
 
     /**
      * Register a serializer/deserializer of the given type.
      *
-     * @param type      The class of the serializer/deserializer's type.
      * @param serdes    The serializer/deserializer of T.
      * @param <T>       The type of the object to be serialized/deserialized.
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this HandlerRegistration
      *          to the {@link SerdesManager}.
      */
-    public <T> HandlerRegistration putSerdes(Class<T> type, Serdes<T> serdes) {
-        final HandlerRegistration desReg = putDeserializer(type, serdes);
-        final HandlerRegistration serReg = putSerializer(type, serdes);
+    public <T> HandlerRegistration addSerdes(Serdes<T> serdes) {
+        final HandlerRegistration desReg = addDeserializer(serdes);
+        final HandlerRegistration serReg = addSerializer(serdes);
 
         return new HandlerRegistration() {
             @Override
@@ -186,6 +175,66 @@ public class SerdesManager {
 
         throw new SerializationException("There is no Serializer registered for type " + type.getName() +
                 " and content-type " + contentType + ".");
+    }
+
+    private <T> HandlerRegistration bindSerializerToType(Serializer<T> serializer, Class<T> type) {
+        final String typeName = type.getName();
+        JsArrayList<SerializerHolder> allHolders = serializers.get(typeName);
+        if (allHolders == null) {
+            allHolders = new JsArrayList<SerializerHolder>();
+            serializers.put(typeName, allHolders);
+        }
+
+        final String[] contentType = serializer.contentType();
+        final SerializerHolder[] currHolders = new SerializerHolder[contentType.length];
+        for (int i = 0; i < contentType.length; i++) {
+            String pattern = contentType[i];
+            final Key key = new Key(type, pattern);
+            final SerializerHolder holder = new SerializerHolder(key, serializer);
+            allHolders.add(holder);
+            currHolders[i] = holder;
+        }
+
+        Collections.sort(allHolders);
+
+        return new HandlerRegistration() {
+            @Override
+            public void removeHandler() {
+                for (SerializerHolder holder : currHolders) {
+                    serializers.get(typeName).remove(holder);
+                }
+            }
+        };
+    }
+
+    private <T> HandlerRegistration bindDeserializerToType(Deserializer<T> deserializer, Class<T> type) {
+        final String typeName = type.getName();
+        JsArrayList<DeserializerHolder> allHolders = deserializers.get(typeName);
+        if (allHolders == null) {
+            allHolders = new JsArrayList<DeserializerHolder>();
+            deserializers.put(typeName, allHolders);
+        }
+
+        final String[] accept = deserializer.accept();
+        final DeserializerHolder[] currHolders = new DeserializerHolder[accept.length];
+        for (int i = 0; i < accept.length; i++) {
+            final String pattern = accept[i];
+            final Key key = new Key(type, pattern);
+            final DeserializerHolder holder = new DeserializerHolder(key, deserializer);
+            allHolders.add(holder);
+            currHolders[i] = holder;
+        }
+
+        Collections.sort(allHolders);
+
+        return new HandlerRegistration() {
+            @Override
+            public void removeHandler() {
+                for (DeserializerHolder holder : currHolders) {
+                    deserializers.get(typeName).remove(holder);
+                }
+            }
+        };
     }
 
     private void checkNotNull(Object o, String message) {

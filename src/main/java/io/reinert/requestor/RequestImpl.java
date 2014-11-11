@@ -32,8 +32,8 @@ import com.google.gwt.http.client.Response;
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.SimpleHeader;
-import io.reinert.requestor.serialization.ContainerProviderManager;
 import io.reinert.requestor.serialization.HttpSerializationContext;
+import io.reinert.requestor.serialization.ProviderManager;
 import io.reinert.requestor.serialization.SerdesManager;
 import io.reinert.requestor.serialization.Serializer;
 
@@ -44,7 +44,7 @@ public class RequestImpl implements RequestDispatcher {
 
     private final Server server = GWT.create(Server.class);
     private final SerdesManager serdesManager;
-    private final ContainerProviderManager containerProviderManager;
+    private final ProviderManager containerProviderManager;
     private final String uri;
     private final FilterManager filterManager;
     private Headers headers;
@@ -55,7 +55,7 @@ public class RequestImpl implements RequestDispatcher {
     private AcceptHeader accept;
     private Object payload;
 
-    public RequestImpl(String uri, SerdesManager serdesManager, ContainerProviderManager containerProviderManager,
+    public RequestImpl(String uri, SerdesManager serdesManager, ProviderManager containerProviderManager,
                        FilterManager filterManager) {
         this.serdesManager = serdesManager;
         this.containerProviderManager = containerProviderManager;

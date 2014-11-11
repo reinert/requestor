@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.serialization.Deserializer;
@@ -58,27 +56,28 @@ public interface Requestor {
 
     <T> Deserializer<T> getDeserializer(Class<T> type, String contentType);
 
+    <T> Provider<T> getProvider(Class<T> type);
+
     <T> Serializer<T> getSerializer(Class<T> type, String contentType);
 
     /**
      * Register a collection Provider.
      *
-     * @param collectionType    The class of the collection
-     * @param provider           The Provider of the collection
+     * @param type      The class of T
+     * @param provider  The Provider of T
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <C extends Collection> HandlerRegistration putContainerProvider(Class<C> collectionType, Provider<C> provider);
+    <T> HandlerRegistration bindProvider(Class<T> type, Provider<T> provider);
 
     /**
      * Register a deserializer of the given type.
      *
-     * @param type          The target type of the deserializer.
      * @param deserializer  The deserializer of T.
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <T> HandlerRegistration putDeserializer(Class<T> type, Deserializer<T> deserializer);
+    <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer);
 
     /**
      * Register a request filter.
@@ -101,22 +100,20 @@ public interface Requestor {
     /**
      * Register a serializer/deserializer of the given type.
      *
-     * @param type      The target type of the serializer/deserializer.
      * @param serdes    The serializer/deserializer of T.
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <T> HandlerRegistration putSerdes(Class<T> type, Serdes<T> serdes);
+    <T> HandlerRegistration addSerdes(Serdes<T> serdes);
 
     /**
      * Register a serializer of the given type.
      *
-     * @param type        The target type of the serializer.
      * @param serializer  The serializer of T.
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <T> HandlerRegistration putSerializer(Class<T> type, Serializer<T> serializer);
+    <T> HandlerRegistration addSerializer(Serializer<T> serializer);
 
     //===================================================================
     // Request factory methods

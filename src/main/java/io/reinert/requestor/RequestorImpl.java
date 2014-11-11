@@ -15,16 +15,12 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.requestor.serialization.ContainerProviderManager;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.FormParamSerializer;
-import io.reinert.requestor.serialization.HasImpls;
+import io.reinert.requestor.serialization.ProviderManager;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerdesManager;
 import io.reinert.requestor.serialization.Serializer;
@@ -46,7 +42,7 @@ public class RequestorImpl implements Requestor {
 
     private final SerdesManager serdesManager = new SerdesManager();
     private final FilterManager filterManager = new FilterManager();
-    private final ContainerProviderManager collectionFactoryManager = new ContainerProviderManager();
+    private final ProviderManager providerManager = new ProviderManager();
     private String defaultContentType = "application/json";
 
     public RequestorImpl() {
@@ -82,23 +78,28 @@ public class RequestorImpl implements Requestor {
     }
 
     @Override
+    public <T> Provider<T> getProvider(Class<T> type) {
+        return providerManager.get(type);
+    }
+
+    @Override
     public <T> Serializer<T> getSerializer(Class<T> type, String contentType) {
         return serdesManager.getSerializer(type, contentType);
     }
 
     @Override
-    public <T> HandlerRegistration putDeserializer(Class<T> type, Deserializer<T> deserializer) {
-        return serdesManager.putDeserializer(type, deserializer);
+    public <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer) {
+        return serdesManager.addDeserializer(deserializer);
     }
 
     @Override
-    public <T> HandlerRegistration putSerializer(Class<T> type, Serializer<T> serializer) {
-        return serdesManager.putSerializer(type, serializer);
+    public <T> HandlerRegistration addSerializer(Serializer<T> serializer) {
+        return serdesManager.addSerializer(serializer);
     }
 
     @Override
-    public <T> HandlerRegistration putSerdes(Class<T> type, Serdes<T> serdes) {
-        return serdesManager.putSerdes(type, serdes);
+    public <T> HandlerRegistration addSerdes(Serdes<T> serdes) {
+        return serdesManager.addSerdes(serdes);
     }
 
     @Override
@@ -112,38 +113,33 @@ public class RequestorImpl implements Requestor {
     }
 
     @Override
-    public <C extends Collection> HandlerRegistration putContainerProvider(Class<C> collectionType,
-                                                                           Provider<C> factory) {
-        return collectionFactoryManager.putProvider(collectionType, factory);
+    public <T> HandlerRegistration bindProvider(Class<T> type, Provider<T> factory) {
+        return providerManager.bind(type, factory);
     }
 
     private RequestDispatcher createRequest(String uri) {
-        final RequestImpl request = new RequestImpl(uri, serdesManager, collectionFactoryManager, filterManager);
+        final RequestImpl request = new RequestImpl(uri, serdesManager, providerManager, filterManager);
         request.contentType(defaultContentType);
         request.accept(defaultContentType);
         return request;
     }
 
     private void initSerdesManager() {
-        serdesManager.putSerdes(String.class, JsonStringSerdes.getInstance());
-        serdesManager.putSerdes(Number.class, JsonNumberSerdes.getInstance());
-        serdesManager.putSerdes(Boolean.class, JsonBooleanSerdes.getInstance());
-        serdesManager.putSerdes(Void.class, VoidSerdes.getInstance());
-        serdesManager.putSerdes(JavaScriptObject.class, OverlaySerdes.getInstance());
-        serdesManager.putDeserializer(String.class, TextDeserializer.getInstance());
-        serdesManager.putSerializer(FormParam.class, FormParamSerializer.getInstance());
+        serdesManager.addSerdes(JsonStringSerdes.getInstance());
+        serdesManager.addSerdes(JsonNumberSerdes.getInstance());
+        serdesManager.addSerdes(JsonBooleanSerdes.getInstance());
+        serdesManager.addSerdes(VoidSerdes.getInstance());
+        serdesManager.addSerdes(OverlaySerdes.getInstance());
+        serdesManager.addDeserializer(TextDeserializer.getInstance());
+        serdesManager.addSerializer(FormParamSerializer.getInstance());
 
         initGeneratedJsonSerdes();
 
-        for (Serdes<?> serdes : generatedJsonSerdes) {
-            final Class handledType = serdes.handledType();
-            serdesManager.putSerdes(handledType, serdes);
-            if (serdes instanceof HasImpls) {
-                HasImpls hasImpls = (HasImpls) serdes;
-                for (Class impl : hasImpls.implTypes()) {
-                    serdesManager.putSerdes(impl, serdes);
-                }
-            }
+        for (Serdes<?> serdes : generatedJsonSerdes.getGeneratedSerdes()) {
+            serdesManager.addSerdes(serdes);
+        }
+        for (GeneratedProvider provider : generatedJsonSerdes.getGeneratedProviders()) {
+            providerManager.bind(provider.getType(), provider);
         }
     }
 

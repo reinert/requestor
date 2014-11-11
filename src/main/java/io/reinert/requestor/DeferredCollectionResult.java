@@ -20,10 +20,10 @@ import java.util.Collection;
 import com.google.gwt.http.client.Response;
 
 import io.reinert.gdeferred.impl.DeferredObject;
-import io.reinert.requestor.serialization.ContainerProviderManager;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HttpDeserializationContext;
+import io.reinert.requestor.serialization.ProviderManager;
 import io.reinert.requestor.serialization.SerdesManager;
 
 class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwable, RequestProgress>
@@ -32,10 +32,10 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
     private final Class<T> responseType;
     private final Class<? extends Collection> containerType;
     private final SerdesManager serdesManager;
-    private final ContainerProviderManager containerProviderManager;
+    private final ProviderManager containerProviderManager;
 
     public DeferredCollectionResult(Class<T> responseType, Class<? extends Collection> containerType,
-                                    SerdesManager serdesManager, ContainerProviderManager containerProviderManager) {
+                                    SerdesManager serdesManager, ProviderManager containerProviderManager) {
         this.responseType = responseType;
         this.containerType = containerType;
         this.serdesManager = serdesManager;

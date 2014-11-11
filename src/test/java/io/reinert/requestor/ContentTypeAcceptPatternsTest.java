@@ -282,7 +282,7 @@ public class ContentTypeAcceptPatternsTest extends GWTTestCase {
 
     private Requestor getRequestor() {
         final Requestor requestor = GWT.create(Requestor.class);
-        requestor.putSerdes(Person.class, personSerdes);
+        requestor.addSerdes(personSerdes);
         return requestor;
     }
 

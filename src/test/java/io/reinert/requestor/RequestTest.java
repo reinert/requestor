@@ -56,7 +56,7 @@ public class RequestTest extends GWTTestCase {
 
     public void testCustomObjectArraySerializationDeserialization() {
         final Requestor requestor = getRequestor();
-        requestor.putSerdes(Person.class, new JsonObjectSerdes<Person>(Person.class) {
+        requestor.addSerdes(new JsonObjectSerdes<Person>(Person.class) {
 
             @Override
             public Person readJson(JsonRecordReader reader, DeserializationContext context) {
@@ -109,7 +109,7 @@ public class RequestTest extends GWTTestCase {
 
     public void testCustomObjectRequest() {
         final Requestor requestor = getRequestor();
-        requestor.putSerdes(Person.class, new JsonObjectSerdes<Person>(Person.class) {
+        requestor.addSerdes(new JsonObjectSerdes<Person>(Person.class) {
 
             @Override
             public Person readJson(JsonRecordReader reader, DeserializationContext context) {
@@ -152,7 +152,7 @@ public class RequestTest extends GWTTestCase {
 
     public void testCustomObjectSerialization() {
         final Requestor requestor = getRequestor();
-        requestor.putSerdes(Person.class, new PersonSerdes());
+        requestor.addSerdes(new PersonSerdes());
 
         final String uri = "/person";
 

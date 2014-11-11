@@ -26,21 +26,21 @@ import io.reinert.requestor.Provider;
  */
 public abstract class DeserializationContext {
 
-    private final ContainerProviderManager containerProviderManager;
+    private final ProviderManager containerProviderManager;
 
-    public DeserializationContext(ContainerProviderManager containerProviderManager) {
+    public DeserializationContext(ProviderManager containerProviderManager) {
         this.containerProviderManager = containerProviderManager;
     }
 
     public <C extends Collection> C getContainerInstance(Class<C> type) {
-        final Provider<C> factory = containerProviderManager.getProvider(type);
+        final Provider<C> factory = containerProviderManager.get(type);
         if (factory == null)
             throw new UnableToDeserializeException("Could not get container instance because there's no factory " +
                     "registered in the requestor.");
         return factory.get();
     }
 
-    protected ContainerProviderManager getContainerProviderManager() {
+    protected ProviderManager getContainerProviderManager() {
         return containerProviderManager;
     }
 }

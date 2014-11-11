@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.List;
+
 import io.reinert.requestor.serialization.Serdes;
 
 /**
@@ -22,5 +24,10 @@ import io.reinert.requestor.serialization.Serdes;
  *
  * @author Danilo Reinert
  */
-interface GeneratedJsonSerdes extends Iterable<Serdes<?>> {
+interface GeneratedJsonSerdes {
+
+    List<Serdes<?>> getGeneratedSerdes();
+
+    List<GeneratedProvider<?>> getGeneratedProviders();
+
 }

@@ -18,20 +18,20 @@ package io.reinert.requestor;
 import com.google.gwt.http.client.Response;
 
 import io.reinert.gdeferred.impl.DeferredObject;
-import io.reinert.requestor.serialization.ContainerProviderManager;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HttpDeserializationContext;
+import io.reinert.requestor.serialization.ProviderManager;
 import io.reinert.requestor.serialization.SerdesManager;
 
 class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgress> implements DeferredRequest<T> {
 
     private final Class<T> responseType;
     private final SerdesManager serdesManager;
-    private final ContainerProviderManager containerProviderManager;
+    private final ProviderManager containerProviderManager;
 
     public DeferredSingleResult(Class<T> responseType, SerdesManager serdesManager,
-                                ContainerProviderManager containerProviderManager) {
+                                ProviderManager containerProviderManager) {
         this.responseType = responseType;
         this.serdesManager = serdesManager;
         this.containerProviderManager = containerProviderManager;

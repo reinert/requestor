@@ -43,10 +43,11 @@ import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 import io.reinert.requestor.Json;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
+import io.reinert.requestor.serialization.HasImpl;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
-import io.reinert.requestor.serialization.json.JsonObjectSerdesWithImpls;
+import io.reinert.requestor.serialization.json.JsonObjectSerdes;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
@@ -59,8 +60,8 @@ import org.turbogwt.core.util.Overlays;
  */
 public class JsonAutoBeanGenerator extends Generator {
 
-    private static String factoryTypeName = "MyFactory";
     private static String factoryFieldName = "myFactory";
+    private static String factoryTypeName = "MyFactory";
 
     @Override
     public String generate(TreeLogger logger, GeneratorContext ctx, String typeName) throws UnableToCompleteException {
@@ -110,7 +111,8 @@ public class JsonAutoBeanGenerator extends Generator {
                 }
             }
 
-            final ArrayDeque<String> allFields = new ArrayDeque<String>();
+            final ArrayDeque<String> serdesFields = new ArrayDeque<String>();
+            final ArrayDeque<String> providerFields = new ArrayDeque<String>();
 
             if (!allTypesAndWrappers.isEmpty()) {
                 generateFactoryInterface(sourceWriter, allTypesAndWrappers);
@@ -121,15 +123,18 @@ public class JsonAutoBeanGenerator extends Generator {
 
                 int i = 0;
                 for (JClassType annotatedType : annotatedTypes) {
-                    final String fieldName = generateSerdesFieldAsAnonymousClass(logger, typeOracle, sourceWriter,
+                    final String providerFieldName = generateProviderField(sourceWriter, annotatedType);
+                    providerFields.add(providerFieldName);
+
+                    final String serdesFieldName = generateSerdesClassAndField(logger, typeOracle, sourceWriter,
                             annotatedType, jsonAnnotations.get(i++));
-                    allFields.add(fieldName);
+                    serdesFields.add(serdesFieldName);
                 }
             }
 
             generateFields(sourceWriter);
-            generateConstructor(sourceWriter, allFields);
-            generateIteratorMethod(sourceWriter);
+            generateConstructor(sourceWriter, serdesFields, providerFields);
+            generateMethods(sourceWriter);
 
             sourceWriter.commit(typeLogger);
         }
@@ -137,55 +142,66 @@ public class JsonAutoBeanGenerator extends Generator {
         return typeName + "Impl";
     }
 
-    private String getTypeSimpleName() {
-        return "GeneratedJsonSerdesImpl";
+    private String asStringCsv(String[] array) {
+        StringBuilder result = new StringBuilder();
+        for (String s : array) {
+            result.append('"').append(s).append('"').append(", ");
+        }
+        result.replace(result.length() - 2, result.length(), "");
+        return result.toString();
     }
 
-    private SourceWriter getSourceWriter(TreeLogger logger, GeneratorContext ctx, JClassType intfType) {
-        JPackage serviceIntfPkg = intfType.getPackage();
-        String packageName = serviceIntfPkg == null ? "" : serviceIntfPkg.getName();
-        PrintWriter printWriter = ctx.tryCreate(logger, packageName, getTypeSimpleName());
-        if (printWriter == null) {
-            return null;
+    private String firstCharToLowerCase(String s) {
+        return Character.toLowerCase(s.charAt(0)) + s.substring(1);
+    }
+
+    private String firstCharToUpperCase(String s) {
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
+
+    private void generateConstructor(SourceWriter srcWriter, Iterable<String> serdes, Iterable<String> providers) {
+        srcWriter.println("public GeneratedJsonSerdesImpl() {");
+        for (String s : serdes) {
+            srcWriter.println("    serdesList.add(%s);", s);
         }
-
-        ClassSourceFileComposerFactory composerFactory =
-                new ClassSourceFileComposerFactory(packageName, getTypeSimpleName());
-
-        String[] imports = new String[] {
-                // java
-                ArrayList.class.getCanonicalName(),
-                Collection.class.getCanonicalName(),
-                List.class.getCanonicalName(),
-                Iterator.class.getCanonicalName(),
-                Set.class.getCanonicalName(),
-                // com.google.gwt
-                GWT.class.getCanonicalName(),
-                // com.google.web.bindery
-                AutoBean.class.getCanonicalName(),
-                AutoBeanCodex.class.getCanonicalName(),
-                AutoBeanFactory.class.getCanonicalName(),
-                AutoBeanUtils.class.getCanonicalName(),
-                // io.reinert.requestor
-                DeserializationContext.class.getCanonicalName(),
-                Deserializer.class.getCanonicalName(),
-                JsonObjectSerdesWithImpls.class.getCanonicalName(),
-                JsonRecordReader.class.getCanonicalName(),
-                JsonRecordWriter.class.getCanonicalName(),
-                Serdes.class.getCanonicalName(),
-                Serializer.class.getCanonicalName(),
-                SerializationContext.class.getCanonicalName(),
-                // org.turbogwt
-                Overlays.class.getCanonicalName()
-        };
-
-        for (String imp : imports) {
-            composerFactory.addImport(imp);
+        for (String s : providers) {
+            srcWriter.println("    providersList.add(%s);", s);
         }
+        srcWriter.println("}");
+        srcWriter.println();
+    }
 
-        composerFactory.addImplementedInterface(intfType.getErasedType().getQualifiedSourceName());
+    private void generateFactoryField(SourceWriter w) {
+        w.println("private static %s %s = GWT.create(%s.class);", factoryTypeName, factoryFieldName, factoryTypeName);
+    }
 
-        return composerFactory.createSourceWriter(ctx, printWriter);
+    private void generateFactoryInterface(SourceWriter w, Iterable<String> typeNames) {
+        w.println("interface %s extends AutoBeanFactory {", factoryTypeName);
+        for (String typeName : typeNames) {
+            w.println("    AutoBean<%s> %s();", typeName, replaceDotByUpperCase(firstCharToLowerCase(typeName)));
+        }
+        w.println("}");
+    }
+
+    private void generateFields(SourceWriter srcWriter) {
+        // Initialize a field with binary name of the remote service interface
+        srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
+        srcWriter.println("private final ArrayList<GeneratedProvider<?>> providersList = " +
+                "new ArrayList<GeneratedProvider<?>>();");
+        srcWriter.println();
+    }
+
+    private void generateMethods(SourceWriter srcWriter) {
+        srcWriter.println("@Override");
+        srcWriter.println("public List<Serdes<?>> getGeneratedSerdes() {");
+        srcWriter.println("    return serdesList;");
+        srcWriter.println("}");
+        srcWriter.println();
+        srcWriter.println("@Override");
+        srcWriter.println("public List<GeneratedProvider<?>> getGeneratedProviders() {");
+        srcWriter.println("    return providersList;");
+        srcWriter.println("}");
+        srcWriter.println();
     }
 
     private String generateListWrapperInterface(SourceWriter w, JClassType type) {
@@ -199,51 +215,49 @@ public class JsonAutoBeanGenerator extends Generator {
         return wrapperTypeName;
     }
 
-    private String generateSetWrapperInterface(SourceWriter w, JClassType type) {
-        String wrapperTypeName = getSetWrapperTypeName(type);
+    private String generateProviderField(SourceWriter w, JClassType type) {
+        final String fieldName = getFieldName(type);
+        final String autoBeanFactoryMethodName = factoryFieldName + "." + fieldName;
+        final String providerFieldName = fieldName + "Provider";
 
-        w.println("interface %s {", wrapperTypeName);
-        w.println("    Set<%s> getResult();", type.getQualifiedSourceName());
-        w.println("    void setResult(Set<%s> result);", type.getQualifiedSourceName());
-        w.println("}");
+        w.println("private final GeneratedProvider %s = new GeneratedProvider<%s>() {", providerFieldName,
+                type.getQualifiedSourceName());
+        w.println("    @Override");
+        w.println("    public Class<%s> getType() {", type.getQualifiedSourceName());
+        w.println("        return %s.class;", type.getQualifiedSourceName());
+        w.println("    }");
+        w.println();
+        w.println("    @Override");
+        w.println("    public %s get() {", type.getQualifiedSourceName());
+        w.println("        return %s().as();", autoBeanFactoryMethodName);
+        w.println("    }");
+        w.println("};");
+        w.println();
 
-        return wrapperTypeName;
-    }
-
-    private void generateFactoryInterface(SourceWriter w, Iterable<String> typeNames) {
-        w.println("interface %s extends AutoBeanFactory {", factoryTypeName);
-        for (String typeName : typeNames) {
-            w.println("    AutoBean<%s> %s();", typeName, replaceDotByUpperCase(firstCharToLowerCase(typeName)));
-        }
-        w.println("}");
-    }
-
-    private void generateFactoryField(SourceWriter w) {
-        w.println("private static %s %s = GWT.create(%s.class);", factoryTypeName, factoryFieldName, factoryTypeName);
+        return providerFieldName;
     }
 
     /**
      * Create the serdes and return the field name.
      */
-    private String generateSerdesFieldAsAnonymousClass(TreeLogger logger, TypeOracle oracle, SourceWriter w,
-                                                       JClassType type, Json annotation) {
+    private String generateSerdesClassAndField(TreeLogger logger, TypeOracle oracle, SourceWriter w,
+                                               JClassType type, Json annotation) {
         final String qualifiedSourceName = type.getQualifiedSourceName();
         final String fieldName = getFieldName(type);
         final String listWrapperTypeName = getListWrapperTypeName(type);
         final String setWrapperTypeName = getSetWrapperTypeName(type);
 
-        final String serdesField = fieldName + "Serdes";
-        final String serdesType = "JsonObjectSerdesWithImpls<" + qualifiedSourceName + ">";
+        final String serdesFieldName = fieldName + "Serdes";
+        final String serdesTypeName = getTypeName(type) + "Serdes";
 
         // serializer field as anonymous class
-        w.println("private final %s %s = new %s(%s.class) {", serdesType, serdesField, serdesType,
+        w.println("private static class %s extends JsonObjectSerdes<%s> implements HasImpl {", serdesTypeName,
                 qualifiedSourceName);
-        w.println();
 
         // static field for impl array
         final Class[] impls = annotation.impl();
-        String autoBeanInstanceClass = factoryFieldName + "." + fieldName + "().getClass()";
-        StringBuilder sb = new StringBuilder(autoBeanInstanceClass);
+        final String autoBeanInstanceClass = factoryFieldName + "." + fieldName + "().getClass()";
+        final StringBuilder sb = new StringBuilder(autoBeanInstanceClass);
         for (Class impl : impls) {
             try {
                 if (impl != Object.class && type.isAssignableFrom(oracle.getType(impl.getCanonicalName()))) {
@@ -253,17 +267,22 @@ public class JsonAutoBeanGenerator extends Generator {
                 logger.log(TreeLogger.Type.ERROR, "Could not find impl class " + impl.getName());
             }
         }
-        w.println("    private final Class[] IMPLS = new Class[]{ %s };", sb.toString());
-        w.println();
+        w.println("    private final Class[] IMPL = new Class[]{ %s };", sb.toString());
 
         // static field to content-types
         w.println("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(annotation.value()));
         w.println();
 
+        // constructor
+        w.println("    public %s() {", serdesTypeName);
+        w.println("        super(%s.class);", qualifiedSourceName);
+        w.println("    }");
+        w.println();
+
         // contentType
         w.println("    @Override");
         w.println("    public Class[] implTypes() {");
-        w.println("        return IMPLS;");
+        w.println("        return IMPL;");
         w.println("    }");
         w.println();
 
@@ -334,16 +353,92 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println("};");
         w.println();
 
-        return serdesField;
+        // serializer field as anonymous class
+        w.println("private final %s %s = new %s();", serdesTypeName, serdesFieldName, serdesTypeName);
+        w.println();
+
+        return serdesFieldName;
     }
 
-    private String asStringCsv(String[] array) {
-        StringBuilder result = new StringBuilder();
-        for (String s : array) {
-            result.append('"').append(s).append('"').append(", ");
+    private String generateSetWrapperInterface(SourceWriter w, JClassType type) {
+        String wrapperTypeName = getSetWrapperTypeName(type);
+
+        w.println("interface %s {", wrapperTypeName);
+        w.println("    Set<%s> getResult();", type.getQualifiedSourceName());
+        w.println("    void setResult(Set<%s> result);", type.getQualifiedSourceName());
+        w.println("}");
+
+        return wrapperTypeName;
+    }
+
+    private String getFieldName(JType type) {
+        return replaceDotByUpperCase(type.getQualifiedSourceName());
+    }
+
+    private String getListWrapperTypeName(JType type) {
+        return getTypeName(type) + "ListWrapper";
+    }
+
+    private String getSetWrapperTypeName(JType type) {
+        return getTypeName(type) + "SetWrapper";
+    }
+
+    private SourceWriter getSourceWriter(TreeLogger logger, GeneratorContext ctx, JClassType intfType) {
+        JPackage serviceIntfPkg = intfType.getPackage();
+        String packageName = serviceIntfPkg == null ? "" : serviceIntfPkg.getName();
+        PrintWriter printWriter = ctx.tryCreate(logger, packageName, getTypeSimpleName());
+        if (printWriter == null) {
+            return null;
         }
-        result.replace(result.length() - 2, result.length(), "");
-        return result.toString();
+
+        ClassSourceFileComposerFactory composerFactory =
+                new ClassSourceFileComposerFactory(packageName, getTypeSimpleName());
+
+        String[] imports = new String[]{
+                // java.util
+                ArrayList.class.getCanonicalName(),
+                Collection.class.getCanonicalName(),
+                List.class.getCanonicalName(),
+                Iterator.class.getCanonicalName(),
+                Set.class.getCanonicalName(),
+                // com.google.gwt.core.client
+                GWT.class.getCanonicalName(),
+                // com.google.web.bindery.autobean.shared
+                AutoBean.class.getCanonicalName(),
+                AutoBeanCodex.class.getCanonicalName(),
+                AutoBeanFactory.class.getCanonicalName(),
+                AutoBeanUtils.class.getCanonicalName(),
+                // io.reinert.requestor.serialization
+                DeserializationContext.class.getCanonicalName(),
+                Deserializer.class.getCanonicalName(),
+                HasImpl.class.getCanonicalName(),
+                Serdes.class.getCanonicalName(),
+                Serializer.class.getCanonicalName(),
+                SerializationContext.class.getCanonicalName(),
+                // io.reinert.requestor.serialization.json
+                JsonObjectSerdes.class.getCanonicalName(),
+                JsonRecordReader.class.getCanonicalName(),
+                JsonRecordWriter.class.getCanonicalName(),
+                // org.turbogwt.core.util
+                Overlays.class.getCanonicalName()
+        };
+
+        for (String imp : imports) {
+            composerFactory.addImport(imp);
+        }
+
+        composerFactory.addImplementedInterface(intfType.getErasedType().getQualifiedSourceName());
+
+        return composerFactory.createSourceWriter(ctx, printWriter);
+    }
+
+    private String getTypeName(JType type) {
+        final String fieldName = getFieldName(type);
+        return firstCharToUpperCase(fieldName);
+    }
+
+    private String getTypeSimpleName() {
+        return "GeneratedJsonSerdesImpl";
     }
 
     private String replaceDotByUpperCase(String s) {
@@ -359,53 +454,5 @@ public class JsonAutoBeanGenerator extends Generator {
         }
 
         return result.toString();
-    }
-
-    private void generateFields(SourceWriter srcWriter) {
-        // Initialize a field with binary name of the remote service interface
-        srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
-        srcWriter.println();
-    }
-
-    private void generateConstructor(SourceWriter srcWriter, Iterable<String> serdes) {
-        srcWriter.println("public GeneratedJsonSerdesImpl() {");
-        for (String s : serdes) {
-            srcWriter.println("    serdesList.add(%s);", s);
-        }
-        srcWriter.println("}");
-        srcWriter.println();
-    }
-
-    private void generateIteratorMethod(SourceWriter srcWriter) {
-        srcWriter.println("@Override");
-        srcWriter.println("public Iterator<Serdes<?>> iterator() {");
-        srcWriter.println("    return serdesList.iterator();");
-        srcWriter.println("}");
-        srcWriter.println();
-    }
-
-    private String getFieldName(JType type) {
-        return replaceDotByUpperCase(type.getQualifiedSourceName());
-    }
-
-    private String getTypeName(JType type) {
-        final String fieldName = getFieldName(type);
-        return firstCharToUpperCase(fieldName);
-    }
-
-    private String getListWrapperTypeName(JType type) {
-        return getTypeName(type) + "ListWrapper";
-    }
-
-    private String getSetWrapperTypeName(JType type) {
-        return getTypeName(type) + "SetWrapper";
-    }
-
-    private String firstCharToUpperCase(String s) {
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
-    }
-
-    private String firstCharToLowerCase(String s) {
-        return Character.toLowerCase(s.charAt(0)) + s.substring(1);
     }
 }

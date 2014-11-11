@@ -13,19 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.serialization;
 
 /**
- * It is a simple class intended to create instances of some type.
- *
- * @param <T> Type of object to instantiate.
+ * It tells the {@link io.reinert.requestor.serialization.SerdesManager} to bind an abstraction ot one or more impls.
  */
-public interface Provider<T> {
-
-    /**
-     * Instantiate T.
-     *
-     * @return an instance of T
-     */
-    T get();
+public interface HasImpl {
+    Class<?>[] implTypes();
 }

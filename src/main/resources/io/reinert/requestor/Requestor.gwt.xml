@@ -22,7 +22,7 @@
   <inherits name="io.reinert.gdeferred.GDeferred"/>
   <inherits name="org.turbogwt.core.Core"/>
 
-  <source path="" excludes="rebind/*.*,test/*.*,**/*Test.java,**/*TestSuite.java,**/*TestUtil.java,mock/*.*,model/*.*"/>
+  <source path="" excludes="rebind/**/*,test/**/*,**/*Test.java,**/*TestSuite.java,**/*TestUtil.java,mock/*.*,model/*.*"/>
 
   <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">
     <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>

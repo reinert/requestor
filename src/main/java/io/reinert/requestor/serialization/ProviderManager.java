@@ -38,12 +38,12 @@ import org.turbogwt.core.collections.JsArrayList;
  *
  * @author Danilo Reinert
  */
-public final class ContainerProviderManager {
+public final class ProviderManager {
 
-    private final Map<String, Provider<? extends Collection>> factories;
+    private final Map<String, Provider<?>> factories;
 
-    public ContainerProviderManager() {
-        factories = new HashMap<String, Provider<? extends Collection>>();
+    public ProviderManager() {
+        factories = new HashMap<String, Provider<?>>();
         final Provider<ArrayList> arrayListProvider = new Provider<ArrayList>() {
             @Override
             public ArrayList get() {
@@ -84,16 +84,16 @@ public final class ContainerProviderManager {
     }
 
     /**
-     * Map a {@link Provider} to some collection class.
+     * Map a {@link Provider} to its class.
      *
-     * @param type      The type of the collection
-     * @param provider   The Provider of the collection
-     * @param <C>       The type of the collection
+     * @param type      The class instance of T
+     * @param provider  The Provider of T
+     * @param <T>       The type of T
      *
      * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object,
-     *          capable of cancelling this registration to the {@link ContainerProviderManager}
+     *          capable of cancelling this registration to the {@link ProviderManager}
      */
-    public <C extends Collection> HandlerRegistration putProvider(Class<C> type, Provider<C> provider) {
+    public <T> HandlerRegistration bind(Class<T> type, Provider<T> provider) {
         final String typeName = type.getName();
         factories.put(typeName, provider);
 
@@ -108,11 +108,11 @@ public final class ContainerProviderManager {
     /**
      * Given collection some class, return its {@link Provider}.
      *
-     * @param <C> Collection type
+     * @param <T> The class of T
      */
     @SuppressWarnings("unchecked")
     @Nullable
-    public <C extends Collection> Provider<C> getProvider(Class<C> type) {
-        return (Provider<C>) factories.get(type.getName());
+    public <T> Provider<T> get(Class<T> type) {
+        return (Provider<T>) factories.get(type.getName());
     }
 }

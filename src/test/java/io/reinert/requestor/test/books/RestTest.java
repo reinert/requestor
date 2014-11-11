@@ -43,7 +43,7 @@ public class RestTest extends GWTTestCase {
         ServerStub.clearStub();
 
         final Requestor requestor = new RequestorImpl();
-        requestor.putSerdes(Book.class, BookJsonSerdes.getInstance());
+        requestor.addSerdes(BookJsonSerdes.getInstance());
 
         final String uri = "/server/books";
 
@@ -86,7 +86,7 @@ public class RestTest extends GWTTestCase {
         ServerStub.clearStub();
 
         final Requestor requestor = new RequestorImpl();
-        requestor.putSerdes(Book.class, BookJsonSerdes.getInstance());
+        requestor.addSerdes(BookJsonSerdes.getInstance());
 
         final String uri = "/server/books";
 
@@ -120,7 +120,7 @@ public class RestTest extends GWTTestCase {
         ServerStub.clearStub();
 
         final Requestor requestor = new RequestorImpl();
-        requestor.putSerdes(Book.class, BookJsonSerdes.getInstance());
+        requestor.addSerdes(BookJsonSerdes.getInstance());
 
         final String uri = "/server/books/1";
 
@@ -149,7 +149,7 @@ public class RestTest extends GWTTestCase {
         ServerStub.clearStub();
 
         final Requestor requestor = new RequestorImpl();
-        requestor.putSerdes(Book.class, BookJsonSerdes.getInstance());
+        requestor.addSerdes(BookJsonSerdes.getInstance());
 
         final String uri = "/server/books/1";
 

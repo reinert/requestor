@@ -219,8 +219,8 @@ public class MultipleSerdesByClassTest extends GWTTestCase {
 
     private Requestor getRequestor() {
         final Requestor requestor = GWT.create(Requestor.class);
-        requestor.putSerdes(Book.class, jsonSerdes);
-        requestor.putSerdes(Book.class, xmlSerdes);
+        requestor.addSerdes(jsonSerdes);
+        requestor.addSerdes(xmlSerdes);
         return requestor;
     }
 

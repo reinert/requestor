@@ -15,17 +15,12 @@
  */
 package io.reinert.requestor;
 
-/**
- * It is a simple class intended to create instances of some type.
- *
- * @param <T> Type of object to instantiate.
- */
-public interface Provider<T> {
+abstract class GeneratedProvider<T> implements Provider<T> {
 
     /**
-     * Instantiate T.
+     * Get type of T.
      *
-     * @return an instance of T
+     * @return the class instance of T
      */
-    T get();
+    abstract Class<T> getType();
 }
