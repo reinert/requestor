@@ -15,20 +15,13 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-import java.util.Set;
-
-import io.reinert.gdeferred.DoneCallback;
+import java.util.List;
 
 /**
- * DoneCallback<Collection<T>> that casts Collection<T> to Set<T>.
+ * A hack interface for enabling {@link ListDoneCallback#onDone(java.util.List)} to compile.
  *
- * @param <T> Type of Set's values
+ * @param <T> The type of list objects
  */
-public abstract class SetDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackOfSet<T> {
-
-    @Override
-    public void onDone(Collection<T> result) {
-        onDone((Set<T>) result);
-    }
+interface DoneCallbackOfList<T> {
+    void onDone(List<T> result);
 }

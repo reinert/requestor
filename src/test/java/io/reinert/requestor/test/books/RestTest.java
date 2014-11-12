@@ -105,7 +105,7 @@ public class RestTest extends GWTTestCase {
 
         requestor.request(uri).get(Book.class, List.class).done(new ListDoneCallback<Book>() {
             @Override
-            public void onDoneCast(List<Book> books) {
+            public void onDone(List<Book> books) {
                 callbacksCalled[0] = true;
                 assertEquals(expected, books);
             }

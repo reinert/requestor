@@ -90,7 +90,7 @@ requestor.request("/books").payload(data).post().done(new DoneCallback<Void>() {
 
 ```java
 requestor.request("/books").get(Book.class, List.class).done(new ListDoneCallback<Book>() {
-    public void onDoneCast(List<Book> books) {
+    public void onDone(List<Book> books) {
         // A list of books!
     }
 });

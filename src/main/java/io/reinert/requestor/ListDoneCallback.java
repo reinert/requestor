@@ -25,12 +25,10 @@ import io.reinert.gdeferred.DoneCallback;
  *
  * @param <T> Type of List's values
  */
-public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>> {
-
-    public abstract void onDoneCast(List<T> result);
+public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackOfList<T> {
 
     @Override
     public void onDone(Collection<T> result) {
-        onDoneCast((List<T>) result);
+        onDone((List<T>) result);
     }
 }
