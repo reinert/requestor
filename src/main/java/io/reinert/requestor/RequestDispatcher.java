@@ -50,15 +50,6 @@ public interface RequestDispatcher extends Request {
     @Override
     RequestDispatcher timeout(int timeoutMillis);
 
-//    @Override
-//    RequestDispatcher pathParam(String name, Object value) throws IllegalArgumentException;
-//
-//    @Override
-//    RequestDispatcher matrixParam(String name, Object... values) throws IllegalArgumentException;
-//
-//    @Override
-//    RequestDispatcher queryParam(String name, Object... values) throws IllegalArgumentException;
-
     @Override
     RequestDispatcher payload(Object object) throws IllegalArgumentException;
 
