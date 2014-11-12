@@ -18,6 +18,7 @@ package io.reinert.requestor.serialization;
 import java.util.Collection;
 
 import io.reinert.requestor.Provider;
+import io.reinert.requestor.ProviderManager;
 
 /**
  * Context of deserialization.

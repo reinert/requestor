@@ -33,7 +33,6 @@ import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.serialization.HttpSerializationContext;
-import io.reinert.requestor.serialization.ProviderManager;
 import io.reinert.requestor.serialization.SerdesManager;
 import io.reinert.requestor.serialization.Serializer;
 

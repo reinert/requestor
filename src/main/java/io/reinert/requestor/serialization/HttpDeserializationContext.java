@@ -16,6 +16,7 @@
 package io.reinert.requestor.serialization;
 
 import io.reinert.requestor.Headers;
+import io.reinert.requestor.ProviderManager;
 
 /**
  * Context of HTTP deserialization.

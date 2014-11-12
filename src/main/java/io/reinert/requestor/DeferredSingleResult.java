@@ -21,7 +21,6 @@ import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HttpDeserializationContext;
-import io.reinert.requestor.serialization.ProviderManager;
 import io.reinert.requestor.serialization.SerdesManager;
 
 class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgress> implements DeferredRequest<T> {

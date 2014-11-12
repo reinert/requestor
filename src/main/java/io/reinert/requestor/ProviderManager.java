@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.serialization;
+package io.reinert.requestor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,53 +29,49 @@ import javax.annotation.Nullable;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.requestor.Provider;
-
 import org.turbogwt.core.collections.JsArrayList;
 
 /**
- * Manager of container (collection) factories.
+ * Manager of instance providers.
  *
  * @author Danilo Reinert
  */
 public final class ProviderManager {
 
-    private final Map<String, Provider<?>> factories;
+    private final Map<String, Provider<?>> providers;
 
     public ProviderManager() {
-        factories = new HashMap<String, Provider<?>>();
+        providers = new HashMap<String, Provider<?>>();
         final Provider<ArrayList> arrayListProvider = new Provider<ArrayList>() {
             @Override
             public ArrayList get() {
                 return new ArrayList();
             }
         };
-        final Provider<JsArrayList> jsArrayListProvider = new Provider<JsArrayList>() {
-            @Override
-            public JsArrayList get() {
-                return new JsArrayList();
-            }
-        };
-        factories.put(JsArrayList.class.getName(), jsArrayListProvider);
-        factories.put(Collection.class.getName(), jsArrayListProvider);
-        factories.put(List.class.getName(), jsArrayListProvider);
-        factories.put(ArrayList.class.getName(), arrayListProvider);
-        factories.put(LinkedList.class.getName(), new Provider<LinkedList>() {
+        providers.put(Collection.class.getName(), arrayListProvider);
+        providers.put(List.class.getName(), arrayListProvider);
+        providers.put(ArrayList.class.getName(), arrayListProvider);
+        providers.put(LinkedList.class.getName(), new Provider<LinkedList>() {
             @Override
             public LinkedList get() {
                 return new LinkedList();
             }
         });
-
+        providers.put(JsArrayList.class.getName(), new Provider<JsArrayList>() {
+            @Override
+            public JsArrayList get() {
+                return new JsArrayList();
+            }
+        });
         final Provider<HashSet> hashSetProvider = new Provider<HashSet>() {
             @Override
             public HashSet get() {
                 return new HashSet();
             }
         };
-        factories.put(Set.class.getName(), hashSetProvider);
-        factories.put(HashSet.class.getName(), hashSetProvider);
-        factories.put(TreeSet.class.getName(), new Provider<TreeSet>() {
+        providers.put(Set.class.getName(), hashSetProvider);
+        providers.put(HashSet.class.getName(), hashSetProvider);
+        providers.put(TreeSet.class.getName(), new Provider<TreeSet>() {
             @Override
             public TreeSet get() {
                 return new TreeSet();
@@ -95,12 +91,12 @@ public final class ProviderManager {
      */
     public <T> HandlerRegistration bind(Class<T> type, Provider<T> provider) {
         final String typeName = type.getName();
-        factories.put(typeName, provider);
+        providers.put(typeName, provider);
 
         return new HandlerRegistration() {
             @Override
             public void removeHandler() {
-                factories.remove(typeName);
+                providers.remove(typeName);
             }
         };
     }
@@ -113,6 +109,6 @@ public final class ProviderManager {
     @SuppressWarnings("unchecked")
     @Nullable
     public <T> Provider<T> get(Class<T> type) {
-        return (Provider<T>) factories.get(type.getName());
+        return (Provider<T>) providers.get(type.getName());
     }
 }
