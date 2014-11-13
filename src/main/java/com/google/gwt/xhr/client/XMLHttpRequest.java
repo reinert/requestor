@@ -166,7 +166,7 @@ public class XMLHttpRequest extends JavaScriptObject {
             // Using the same function object kills HtmlUnit
             self.onreadystatechange = new Function();
 
-            // ADDED BY TURBO GWT
+            // ADDED BY REQUESTOR
             self.onprogress = null;
         }, 0);
     }-*/;
@@ -315,11 +315,11 @@ public class XMLHttpRequest extends JavaScriptObject {
      * no-argument <code>send()</code> method is unavailable on Firefox.
      */
     public final void send() {
-        send(null);
+        send((String) null);
     }
 
     /**
-     * Initiates a request with data.  If there is no data, specify null.
+     * Initiates a request with serialized data. If there is no data, specify null.
      * <p>
      * See <a href="http://www.w3.org/TR/XMLHttpRequest/#the-send-method"
      * >http://www.w3.org/TR/XMLHttpRequest/#the-send-method</a>.
@@ -327,6 +327,18 @@ public class XMLHttpRequest extends JavaScriptObject {
      * @param requestData the data to be sent with the request
      */
     public final native void send(String requestData) /*-{
+        this.send(requestData);
+    }-*/;
+    
+    /**
+     * Initiates a request with custom data. If there is no data, specify null.
+     * <p>
+     * See <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#send()"
+     * >https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#send()</a>.
+     *
+     * @param requestData the data to be sent with the request
+     */
+    public final native void send(JavaScriptObject requestData) /*-{
         this.send(requestData);
     }-*/;
 
