@@ -46,6 +46,8 @@ import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.serialization.UnableToDeserializeException;
+import io.reinert.requestor.serialization.UnableToSerializeException;
 import io.reinert.requestor.serialization.json.JsonObjectSerdes;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
@@ -139,6 +141,8 @@ public class JsonGwtJacksonGenerator extends Generator {
                 JsonObjectSerdes.class.getCanonicalName(),
                 JsonRecordReader.class.getCanonicalName(),
                 JsonRecordWriter.class.getCanonicalName(),
+                UnableToDeserializeException.class.getName(),
+                UnableToSerializeException.class.getName(),
                 Serdes.class.getCanonicalName(),
                 Serializer.class.getCanonicalName(),
                 SerializationContext.class.getCanonicalName(),
@@ -158,7 +162,7 @@ public class JsonGwtJacksonGenerator extends Generator {
     /**
      * Create the serdes and return the field name.
      */
-    private String generateSerdes(SourceWriter srcWriter, JClassType type, Json annotation) {
+    private String generateSerdes(SourceWriter w, JClassType type, Json annotation) {
         final String qualifiedSourceName = type.getQualifiedSourceName();
 
         final String qualifiedCamelCaseFieldName = replaceDotByUpperCase(qualifiedSourceName);
@@ -174,18 +178,18 @@ public class JsonGwtJacksonGenerator extends Generator {
         final String treeSetReaderType = qualifiedCamelCaseTypeName + "TreeSetReader";
 
         // interfaces extending Gwt Jackson
-        srcWriter.println("interface %s extends ObjectMapper<%s> {}", singleMapperType, qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectWriter<Collection<%s>> {}", collectionWriterType,
+        w.println("interface %s extends ObjectMapper<%s> {}", singleMapperType, qualifiedSourceName);
+        w.println("interface %s extends ObjectWriter<Collection<%s>> {}", collectionWriterType,
                 qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectReader<ArrayList<%s>> {}", arrayListReaderType,
+        w.println("interface %s extends ObjectReader<ArrayList<%s>> {}", arrayListReaderType,
                 qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectReader<LinkedList<%s>> {}", linkedListReaderType,
+        w.println("interface %s extends ObjectReader<LinkedList<%s>> {}", linkedListReaderType,
                 qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectReader<HashSet<%s>> {}", hashSetReaderType, qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectReader<TreeSet<%s>> {}", treeSetReaderType, qualifiedSourceName);
-        srcWriter.println("interface %s extends ObjectReader<LinkedHashSet<%s>> {}", linkedHashSetReaderType,
+        w.println("interface %s extends ObjectReader<HashSet<%s>> {}", hashSetReaderType, qualifiedSourceName);
+        w.println("interface %s extends ObjectReader<TreeSet<%s>> {}", treeSetReaderType, qualifiedSourceName);
+        w.println("interface %s extends ObjectReader<LinkedHashSet<%s>> {}", linkedHashSetReaderType,
                 qualifiedSourceName);
-        srcWriter.println();
+        w.println();
 
         final String singleMapperField = qualifiedCamelCaseFieldName + "Mapper";
         final String collectionWriterField = qualifiedCamelCaseFieldName + "CollectionWriter";
@@ -196,103 +200,124 @@ public class JsonGwtJacksonGenerator extends Generator {
         final String treeSetReaderField = qualifiedCamelCaseFieldName + "TreeSetReader";
 
         // fields creating interfaces
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", singleMapperType, singleMapperField,
+        w.println("private final %s %s = GWT.create(%s.class);", singleMapperType, singleMapperField,
                 singleMapperType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", collectionWriterType, collectionWriterField,
+        w.println("private final %s %s = GWT.create(%s.class);", collectionWriterType, collectionWriterField,
                 collectionWriterType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", arrayListReaderType, arrayListReaderField,
+        w.println("private final %s %s = GWT.create(%s.class);", arrayListReaderType, arrayListReaderField,
                 arrayListReaderType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", linkedListReaderType, linkedListReaderField,
+        w.println("private final %s %s = GWT.create(%s.class);", linkedListReaderType, linkedListReaderField,
                 linkedListReaderType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", hashSetReaderType, hashSetReaderField,
+        w.println("private final %s %s = GWT.create(%s.class);", hashSetReaderType, hashSetReaderField,
                 hashSetReaderType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", linkedHashSetReaderType,
+        w.println("private final %s %s = GWT.create(%s.class);", linkedHashSetReaderType,
                 linkedHashSetReaderField, linkedHashSetReaderType);
-        srcWriter.println("private final %s %s = GWT.create(%s.class);", treeSetReaderType, treeSetReaderField,
+        w.println("private final %s %s = GWT.create(%s.class);", treeSetReaderType, treeSetReaderField,
                 treeSetReaderType);
-        srcWriter.println();
+        w.println();
 
         final String serdesField = qualifiedCamelCaseFieldName + "Serdes";
         final String serdesType = "JsonObjectSerdes<" + qualifiedSourceName + ">";
 
         // serializer field as anonymous class
-        srcWriter.println("private final %s %s = new %s(%s.class) {", serdesType, serdesField, serdesType,
+        w.println("private final %s %s = new %s(%s.class) {", serdesType, serdesField, serdesType,
                 qualifiedSourceName);
-        srcWriter.println();
+        w.println();
 
         // static field to content-types
-        srcWriter.println("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(annotation.value()));
-        srcWriter.println();
+        w.println("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(annotation.value()));
+        w.println();
 
         // contentType
-        srcWriter.println("    @Override");
-        srcWriter.println("    public String[] contentType() {");
-        srcWriter.println("        return PATTERNS;");
-        srcWriter.println("    }");
-        srcWriter.println();
+        w.println("    @Override");
+        w.println("    public String[] contentType() {");
+        w.println("        return PATTERNS;");
+        w.println("    }");
+        w.println();
 
         // readJson - used when any of deserializeAsCollection alternatives succeeded (see JsonObjectSerdes)
         // TODO: improve this by not requiring parsing the json to an js array and latter stringyfying it (see below)
         // Here would be no-op
-        srcWriter.println("    @Override");
-        srcWriter.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
+        w.println("    @Override");
+        w.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
                 qualifiedSourceName);
-        srcWriter.println("        return %s.read(Overlays.stringify(r));", singleMapperField);
-        srcWriter.println("    }");
-        srcWriter.println();
+        w.println("        return %s.read(Overlays.stringify(r));", singleMapperField);
+        w.println("    }");
+        w.println();
 
         // writeJson - not used
-        srcWriter.println("    @Override");
-        srcWriter.println("    public void writeJson(%s o, JsonRecordWriter w, SerializationContext ctx) {",
+        w.println("    @Override");
+        w.println("    public void writeJson(%s o, JsonRecordWriter w, SerializationContext ctx) {",
                 qualifiedSourceName);
-        srcWriter.println("        return;");
-        srcWriter.println("    }");
-        srcWriter.println();
+        w.println("        return;");
+        w.println("    }");
+        w.println();
 
         // deserialize - deserialize single object using ObjectMapper
-        srcWriter.println("    @Override");
-        srcWriter.println("    public %s deserialize(String s, DeserializationContext ctx) {", qualifiedSourceName);
-        srcWriter.println("        return %s.read(s);", singleMapperField);
-        srcWriter.println("    }");
-        srcWriter.println();
+        w.println("    @Override");
+        w.println("    public %s deserialize(String s, DeserializationContext ctx) {", qualifiedSourceName);
+        w.println("        try {");
+        w.println("            return %s.read(s);", singleMapperField);
+        w.println("        } catch (com.github.nmorel.gwtjackson.client.exception.JsonDeserializationException e) {");
+        w.println("            throw new UnableToDeserializeException(\"The auto-generated gwt-jackson deserializer" +
+                " failed to deserialize the response body to \" + ctx.getRequestedType().getName() + \".\", e);");
+        w.println("        }");
+        w.println("    }");
+        w.println();
 
         // deserializeAsCollection
-        srcWriter.println("    @Override");
-        srcWriter.println("    public <C extends Collection<%s>> C deserializeAsCollection(Class<C> c, " +
+        w.println("    @Override");
+        w.println("    public <C extends Collection<%s>> C deserializeAsCollection(Class<C> c, " +
                 "String s, DeserializationContext ctx) {", qualifiedSourceName);
-        srcWriter.println("        if (c == List.class || c == ArrayList.class || c == Collection.class)");
-        srcWriter.println("            return (C) %s.read(s);", arrayListReaderField);
-        srcWriter.println("        else if (c == LinkedList.class)");
-        srcWriter.println("            return (C) %s.read(s);", linkedListReaderField);
-        srcWriter.println("        else if (c == Set.class || c == HashSet.class)");
-        srcWriter.println("            return (C) %s.read(s);", hashSetReaderField);
-        srcWriter.println("        else if (c == TreeSet.class)");
-        srcWriter.println("            return (C) %s.read(s);", treeSetReaderField);
-        srcWriter.println("        else if (c == LinkedHashSet.class)");
-        srcWriter.println("            return (C) %s.read(s);", linkedHashSetReaderField);
-        srcWriter.println("        else");
+        w.println("        try {");
+        w.println("            if (c == List.class || c == ArrayList.class || c == Collection.class)");
+        w.println("                return (C) %s.read(s);", arrayListReaderField);
+        w.println("            else if (c == LinkedList.class)");
+        w.println("                return (C) %s.read(s);", linkedListReaderField);
+        w.println("            else if (c == Set.class || c == HashSet.class)");
+        w.println("                return (C) %s.read(s);", hashSetReaderField);
+        w.println("            else if (c == TreeSet.class)");
+        w.println("                return (C) %s.read(s);", treeSetReaderField);
+        w.println("            else if (c == LinkedHashSet.class)");
+        w.println("                return (C) %s.read(s);", linkedHashSetReaderField);
+        w.println("            else");
         // TODO: improve this by not requiring parsing the json to an js array and latter stringyfying it
         // An alternative would be manually traverse the json array and passing each json object to serialize method
-        srcWriter.println("            return super.deserializeAsCollection(c, s, ctx);");
-        srcWriter.println("    }");
+        w.println("                return super.deserializeAsCollection(c, s, ctx);");
+        w.println("        } catch (com.github.nmorel.gwtjackson.client.exception.JsonDeserializationException e) {");
+        w.println("            throw new UnableToDeserializeException(\"The auto-generated gwt-jackson deserializer" +
+                " failed to deserialize the response body" +
+                " to \" + c.getName() + \"<\" + ctx.getRequestedType().getName() + \">.\", e);");
+        w.println("        }");
+        w.println("    }");
 
         // serialize
-        srcWriter.println("    @Override");
-        srcWriter.println("    public String serialize(%s o, SerializationContext ctx) {", qualifiedSourceName);
-        srcWriter.println("        return %s.write(o);", singleMapperField);
-        srcWriter.println("    }");
-        srcWriter.println();
+        w.println("    @Override");
+        w.println("    public String serialize(%s o, SerializationContext ctx) {", qualifiedSourceName);
+        w.println("        try {");
+        w.println("            return %s.write(o);", singleMapperField);
+        w.println("        } catch (com.github.nmorel.gwtjackson.client.exception.JsonDeserializationException e) {");
+        w.println("            throw new UnableToSerializeException(\"The auto-generated gwt-jackson serializer" +
+                " failed to serialize the instance of \" + o.getClass().getName() + \" to JSON.\", e);");
+        w.println("        }");
+        w.println("    }");
+        w.println();
 
         // serializeFromCollection
-        srcWriter.println("    @Override");
-        srcWriter.println("    public String serializeFromCollection(Collection<%s> c, SerializationContext ctx) {",
+        w.println("    @Override");
+        w.println("    public String serializeFromCollection(Collection<%s> c, SerializationContext ctx) {",
                 qualifiedSourceName);
-        srcWriter.println("        return %s.write(c);", collectionWriterField);
-        srcWriter.println("    }");
+        w.println("        try {");
+        w.println("            return %s.write(c);", collectionWriterField);
+        w.println("        } catch (com.github.nmorel.gwtjackson.client.exception.JsonDeserializationException e) {");
+        w.println("            throw new UnableToSerializeException(\"The auto-generated gwt-jackson serializer" +
+                " failed to serialize the instance of \" + c.getClass().getName() + \" to JSON.\", e);");
+        w.println("        }");
+        w.println("    }");
 
         // end anonymous class
-        srcWriter.println("};");
-        srcWriter.println();
+        w.println("};");
+        w.println();
 
         return serdesField;
     }
