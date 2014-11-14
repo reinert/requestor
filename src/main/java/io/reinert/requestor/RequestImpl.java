@@ -43,7 +43,7 @@ public class RequestImpl implements RequestDispatcher {
 
     private final Server server = GWT.create(Server.class);
     private final SerdesManager serdesManager;
-    private final ProviderManager containerProviderManager;
+    private final ProviderManager providerManager;
     private final String uri;
     private final FilterManager filterManager;
     private Headers headers;
@@ -54,10 +54,10 @@ public class RequestImpl implements RequestDispatcher {
     private AcceptHeader accept;
     private Object payload;
 
-    public RequestImpl(String uri, SerdesManager serdesManager, ProviderManager containerProviderManager,
+    public RequestImpl(String uri, SerdesManager serdesManager, ProviderManager providerManager,
                        FilterManager filterManager) {
         this.serdesManager = serdesManager;
-        this.containerProviderManager = containerProviderManager;
+        this.providerManager = providerManager;
         this.filterManager = filterManager;
         // TODO: parse URI
         this.uri = uri;
@@ -195,7 +195,7 @@ public class RequestImpl implements RequestDispatcher {
 
     private <T> RequestPromise<T> send(RequestBuilder.Method method, Class<T> responseType) {
         final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(responseType, serdesManager,
-                containerProviderManager);
+                providerManager);
 
         RequestCallback callback = createRequestCallback(deferred);
 
@@ -208,7 +208,7 @@ public class RequestImpl implements RequestDispatcher {
                                                                          Class<T> responseType,
                                                                          Class<C> containerType) {
         final DeferredCollectionResult<T> deferred = new DeferredCollectionResult<T>(responseType, containerType,
-                serdesManager, containerProviderManager);
+                serdesManager, providerManager);
 
         RequestCallback callback = createRequestCallback(deferred);
 
