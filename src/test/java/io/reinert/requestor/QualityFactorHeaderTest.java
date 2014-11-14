@@ -33,10 +33,7 @@ public class QualityFactorHeaderTest extends GWTTestCase {
         final String expected = "a/b, x/y+z; 0.2, k/l, n/m; 0.6";
 
         final QualityFactorHeader header = new QualityFactorHeader("name",
-                new QualityFactorHeader.Value("a/b"),
-                new QualityFactorHeader.Value(0.2, "x/y+z"),
-                new QualityFactorHeader.Value("k/l"),
-                new QualityFactorHeader.Value(0.6, "n/m"));
+                "a/b", 1, "x/y+z", 0.2, "k/l", 1, "n/m", 0.6);
 
         assertEquals(expected, header.getValue());
     }

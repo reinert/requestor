@@ -29,6 +29,28 @@ public class QualityFactorHeader extends MultivaluedHeader implements Iterable<Q
 
     private final Value[] values;
 
+    public QualityFactorHeader(String name, String v1, double f1, String v2, double f2, String v3, double f3,
+                               String v4, double f4, String v5, double f5) {
+        this(name, Value.of(v1, f1), Value.of(v2, f2), Value.of(v3, f3), Value.of(v4, f4), Value.of(v5, f5));
+    }
+
+    public QualityFactorHeader(String name, String v1, double f1, String v2, double f2, String v3, double f3,
+                               String v4, double f4) {
+        this(name, Value.of(v1, f1), Value.of(v2, f2), Value.of(v3, f3), Value.of(v4, f4));
+    }
+
+    public QualityFactorHeader(String name, String v1, double f1, String v2, double f2, String v3, double f3) {
+        this(name, Value.of(v1, f1), Value.of(v2, f2), Value.of(v3, f3));
+    }
+
+    public QualityFactorHeader(String name, String v1, double f1, String v2, double f2) {
+        this(name, Value.of(v1, f1), Value.of(v2, f2));
+    }
+
+    public QualityFactorHeader(String name, double f1, String v1) {
+        this(name, Value.of(v1, f1));
+    }
+
     public QualityFactorHeader(String name, Value... values) {
         super(name, (Object[]) values);
         this.values = values;
@@ -39,7 +61,7 @@ public class QualityFactorHeader extends MultivaluedHeader implements Iterable<Q
         this.values = new Value[values.length];
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
-            this.values[i] = new Value(value);
+            this.values[i] = Value.of(value);
         }
         Arrays.sort(values);
     }
@@ -61,17 +83,21 @@ public class QualityFactorHeader extends MultivaluedHeader implements Iterable<Q
         private final double factor;
         private final String value;
 
-        public Value(String value) {
-            this(1, value);
-        }
-
-        public Value(double factor, String value) throws IllegalArgumentException {
+        private Value(double factor, String value) throws IllegalArgumentException {
             if (factor > 1.0 || factor < 0.0)
                 throw new IllegalArgumentException("Factor must be between 0 and 1.");
             if (value == null || value.isEmpty())
                 throw new IllegalArgumentException("Value cannot be empty or null.");
             this.factor = factor;
             this.value = value;
+        }
+
+        public static Value of(String value, double factor) {
+            return new Value(factor, value);
+        }
+
+        public static Value of(String value) {
+            return new Value(1, value);
         }
 
         public double getFactor() {
