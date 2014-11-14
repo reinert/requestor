@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.http.client.Response;
@@ -27,7 +28,7 @@ import io.reinert.requestor.serialization.SerdesManager;
 
 class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgress> implements DeferredRequest<T> {
 
-    private static final Logger logger = Logger.getLogger(DeferredSingleResult.class.getName());
+    private static Logger logger = Logger.getLogger(DeferredSingleResult.class.getName());
 
     private final Class<T> responseType;
     private final SerdesManager serdesManager;
@@ -53,8 +54,8 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
         String responseContentType = headers.getValue("Content-Type");
         if (responseContentType == null) {
             responseContentType = "*/*";
-            logger.warning("Response with no 'Content-Type' header received." +
-                    " The content-type value has been automatically set to '*/*' for matching purposes.");
+            logger.log(Level.WARNING, "Response with no 'Content-Type' header received." +
+                    " The content-type value has been automatically set to '*/*' for matching deserializers.");
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
