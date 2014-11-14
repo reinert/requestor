@@ -27,21 +27,27 @@ import io.reinert.requestor.ProviderManager;
  */
 public abstract class DeserializationContext {
 
-    private final ProviderManager containerProviderManager;
+    private final ProviderManager providerManager;
+    private final Class<?> requestedType;
 
-    public DeserializationContext(ProviderManager containerProviderManager) {
-        this.containerProviderManager = containerProviderManager;
+    public DeserializationContext(ProviderManager providerManager, Class<?> requestedType) {
+        this.providerManager = providerManager;
+        this.requestedType = requestedType;
     }
 
     public <C extends Collection> C getContainerInstance(Class<C> type) {
-        final Provider<C> factory = containerProviderManager.get(type);
+        final Provider<C> factory = providerManager.get(type);
         if (factory == null)
-            throw new UnableToDeserializeException("Could not get container instance because there's no factory " +
-                    "registered in the requestor.");
+            throw new UnableToDeserializeException("Could not get container instance because there is no provider " +
+                    "for the type " + type.getName() + " registered in the Requestor.");
         return factory.get();
     }
 
-    protected ProviderManager getContainerProviderManager() {
-        return containerProviderManager;
+    public Class<?> getRequestedType() {
+        return requestedType;
+    }
+
+    protected ProviderManager getProviderManager() {
+        return providerManager;
     }
 }

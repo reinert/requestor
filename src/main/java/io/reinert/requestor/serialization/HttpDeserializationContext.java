@@ -27,8 +27,8 @@ public class HttpDeserializationContext extends DeserializationContext {
 
     private final Headers headers;
 
-    public HttpDeserializationContext(Headers headers, ProviderManager containerProviderManager) {
-        super(containerProviderManager);
+    public HttpDeserializationContext(Headers headers, ProviderManager providerManager, Class<?> requestedType) {
+        super(providerManager, requestedType);
         this.headers = headers;
     }
 

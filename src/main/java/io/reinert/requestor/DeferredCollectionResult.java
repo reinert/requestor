@@ -34,14 +34,14 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
     private final Class<T> responseType;
     private final Class<? extends Collection> containerType;
     private final SerdesManager serdesManager;
-    private final ProviderManager containerProviderManager;
+    private final ProviderManager providerManager;
 
     public DeferredCollectionResult(Class<T> responseType, Class<? extends Collection> containerType,
                                     SerdesManager serdesManager, ProviderManager providerManager) {
         this.responseType = responseType;
         this.containerType = containerType;
         this.serdesManager = serdesManager;
-        this.containerProviderManager = providerManager;
+        this.providerManager = providerManager;
     }
 
     @Override
@@ -55,7 +55,7 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(headers, containerProviderManager);
+        final DeserializationContext context = new HttpDeserializationContext(headers, providerManager, responseType);
         @SuppressWarnings("unchecked")
         Collection<T> result = deserializer.deserializeAsCollection(containerType, response.getText(), context);
 

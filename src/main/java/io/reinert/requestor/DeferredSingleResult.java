@@ -31,12 +31,12 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
 
     private final Class<T> responseType;
     private final SerdesManager serdesManager;
-    private final ProviderManager containerProviderManager;
+    private final ProviderManager providerManager;
 
     public DeferredSingleResult(Class<T> responseType, SerdesManager serdesManager, ProviderManager providerManager) {
         this.responseType = responseType;
         this.serdesManager = serdesManager;
-        this.containerProviderManager = providerManager;
+        this.providerManager = providerManager;
     }
 
     @Override
@@ -58,7 +58,7 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(headers, containerProviderManager);
+        final DeserializationContext context = new HttpDeserializationContext(headers, providerManager, responseType);
         T result = deserializer.deserialize(response.getText(), context);
 
         super.resolve(result);
