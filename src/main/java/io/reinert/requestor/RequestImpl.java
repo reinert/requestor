@@ -106,6 +106,8 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
 
     @Override
     public RequestDispatcher timeout(int timeoutMillis) {
+        if (timeoutMillis < 0)
+            throw new IllegalArgumentException("Timeout cannot be negative.");
         timeout = timeoutMillis;
         return this;
     }

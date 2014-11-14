@@ -110,7 +110,7 @@ public interface RequestBuilder {
      *
      * @throws IllegalArgumentException if the timeout value is negative
      */
-    RequestBuilder timeout(int timeoutMillis);
+    RequestBuilder timeout(int timeoutMillis) throws IllegalArgumentException;
 
     /**
      * Input a object to be sent in the HTTP Request payload.
