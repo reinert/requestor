@@ -48,15 +48,19 @@ public class Headers implements Iterable<Header> {
         return indexes.contains(header);
     }
 
-    public String getValue(String name) {
-        final int i = indexes.get(name, -1);
-        if (i == -1) return null;
-        final Header header = headers.get(i);
-        return header != null ? header.getValue() : null;
+    public String getValue(String header) {
+        return getValue(header, null);
     }
 
-    public Header get(String name) {
-        return headers.get(indexes.get(name));
+    public String getValue(String header, String defaultValue) {
+        final int i = indexes.get(header, -1);
+        if (i == -1) return null;
+        final Header h = headers.get(i);
+        return h != null ? h.getValue() : defaultValue;
+    }
+
+    public Header get(String header) {
+        return headers.get(indexes.get(header));
     }
 
     @Override
