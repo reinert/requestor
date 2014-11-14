@@ -24,7 +24,6 @@ import com.google.gwt.http.client.Response;
 import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.HttpDeserializationContext;
 import io.reinert.requestor.serialization.SerdesManager;
 
 class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwable, RequestProgress>
@@ -47,16 +46,17 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
 
     @Override
     public DeferredRequest<Collection<T>> resolve(Request request, Response response) {
+        final RequestImpl requestImpl = (RequestImpl) request;
         final Headers headers = new Headers(response.getHeaders());
         String responseContentType = headers.getValue("Content-Type");
         if (responseContentType == null) {
             responseContentType = "*/*";
-            logger.log(Level.WARNING, "Response with no 'Content-Type' header received." +
-                    " The content-type value has been automatically set to '*/*' for matching deserializers.");
+            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + requestImpl.getUri()
+                    + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(((RequestImpl) request).getUri(), headers,
+        final DeserializationContext context = new HttpDeserializationContext(requestImpl.getUri(), headers,
                 responseType, providerManager);
         @SuppressWarnings("unchecked")
         Collection<T> result = deserializer.deserializeAsCollection(containerType, response.getText(), context);

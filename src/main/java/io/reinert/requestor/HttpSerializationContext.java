@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.serialization;
+package io.reinert.requestor;
 
-import io.reinert.requestor.Headers;
-import io.reinert.requestor.ProviderManager;
+import io.reinert.requestor.serialization.SerializationContext;
 
 /**
- * Context of HTTP deserialization.
+ * Context of serialization.
  *
  * @author Danilo Reinert
  */
-public class HttpDeserializationContext extends DeserializationContext {
+public class HttpSerializationContext extends SerializationContext {
 
     private final Headers headers;
     private final String uri;
 
-    public HttpDeserializationContext(String uri, Headers headers, Class<?> requestedType,
-                                      ProviderManager providerManager) {
-        super(requestedType, providerManager);
-        this.headers = headers;
+    protected HttpSerializationContext(String uri, Headers headers) {
         this.uri = uri;
+        this.headers = headers;
     }
 
     public Headers getHeaders() {
