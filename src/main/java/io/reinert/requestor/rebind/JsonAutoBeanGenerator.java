@@ -46,6 +46,8 @@ import io.reinert.requestor.serialization.HasImpl;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.serialization.UnableToDeserializeException;
+import io.reinert.requestor.serialization.UnableToSerializeException;
 import io.reinert.requestor.serialization.json.JsonObjectSerdes;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
@@ -190,6 +192,17 @@ public class JsonAutoBeanGenerator extends Generator {
         srcWriter.println();
     }
 
+    private String generateListWrapperInterface(SourceWriter w, JClassType type) {
+        String wrapperTypeName = getListWrapperTypeName(type);
+
+        w.println("interface %s {", wrapperTypeName);
+        w.println("    List<%s> getResult();", type.getQualifiedSourceName());
+        w.println("    void setResult(List<%s> result);", type.getQualifiedSourceName());
+        w.println("}");
+
+        return wrapperTypeName;
+    }
+
     private void generateMethods(SourceWriter srcWriter) {
         srcWriter.println("@Override");
         srcWriter.println("public List<Serdes<?>> getGeneratedSerdes() {");
@@ -201,17 +214,6 @@ public class JsonAutoBeanGenerator extends Generator {
         srcWriter.println("    return providersList;");
         srcWriter.println("}");
         srcWriter.println();
-    }
-
-    private String generateListWrapperInterface(SourceWriter w, JClassType type) {
-        String wrapperTypeName = getListWrapperTypeName(type);
-
-        w.println("interface %s {", wrapperTypeName);
-        w.println("    List<%s> getResult();", type.getQualifiedSourceName());
-        w.println("    void setResult(List<%s> result);", type.getQualifiedSourceName());
-        w.println("}");
-
-        return wrapperTypeName;
     }
 
     private String generateProviderField(SourceWriter w, JClassType type) {
@@ -284,7 +286,7 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println();
 
         // readJson - used when any of deserializeAsCollection alternatives succeeded (see JsonObjectSerdes)
-        // TODO: improve this by not requiring parsing the json to an js array and latter stringyfying it (see below)
+        // TODO: improve this by not requiring parsing the json to an js array and latter stringifying it (see below)
         // Here would be no-op
         w.println("    @Override");
         w.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
@@ -305,7 +307,13 @@ public class JsonAutoBeanGenerator extends Generator {
         // deserialize - deserialize single object using ObjectMapper
         w.println("    @Override");
         w.println("    public %s deserialize(String s, DeserializationContext ctx) {", qualifiedSourceName);
-        w.println("        return AutoBeanCodex.decode(%s, %s.class, s).as();", factoryFieldName, qualifiedSourceName);
+        w.println("        try {");
+        w.println("            return AutoBeanCodex.decode(%s, %s.class, s).as();", factoryFieldName,
+                qualifiedSourceName);
+        w.println("        } catch (java.lang.Exception e) {");
+        w.println("            throw new UnableToDeserializeException(\"The auto-generated AutoBean deserializer" +
+                " failed to deserialize the response body to \" + ctx.getRequestedType().getName() + \".\", e);");
+        w.println("        }");
         w.println("    }");
         w.println();
 
@@ -313,22 +321,33 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println("    @Override");
         w.println("    public <C extends Collection<%s>> C deserializeAsCollection(Class<C> c, " +
                 "String s, DeserializationContext ctx) {", qualifiedSourceName);
-        w.println("        if (c == List.class || c == Collection.class)");
-        w.println("            return (C) AutoBeanCodex.decode(%s, %s.class, " +
+        w.println("        try {");
+        w.println("            if (c == List.class || c == Collection.class)");
+        w.println("                return (C) AutoBeanCodex.decode(%s, %s.class, " +
                 "\"{\\\"result\\\":\" + s + \"}\").as().getResult();", factoryFieldName, listWrapperTypeName);
-        w.println("        else if (c == Set.class)");
-        w.println("            return (C) AutoBeanCodex.decode(%s, %s.class, " +
+        w.println("            else if (c == Set.class)");
+        w.println("                return (C) AutoBeanCodex.decode(%s, %s.class, " +
                 "\"{\\\"result\\\":\" + s + \"}\").as().getResult();", factoryFieldName, setWrapperTypeName);
-        w.println("        else");
-        // TODO: improve this by not requiring parsing the json to an js array and latter stringyfying it
+        w.println("            else");
+        // TODO: improve this by not requiring parsing the json to an js array and latter stringifying it
         // An alternative would be manually traverse the json array and passing each json object to serialize method
-        w.println("            return super.deserializeAsCollection(c, s, ctx);");
+        w.println("                return super.deserializeAsCollection(c, s, ctx);");
+        w.println("        } catch (java.lang.Exception e) {");
+        w.println("            throw new UnableToDeserializeException(\"The auto-generated AutoBean deserializer" +
+                " failed to deserialize the response body" +
+                " to \" + c.getName() + \"<\" + ctx.getRequestedType().getName() + \">.\", e);");
+        w.println("        }");
         w.println("    }");
 
         // serialize
         w.println("    @Override");
         w.println("    public String serialize(%s o, SerializationContext ctx) {", qualifiedSourceName);
-        w.println("        return AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(o)).getPayload();");
+        w.println("        try {");
+        w.println("            return AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(o)).getPayload();");
+        w.println("        } catch (java.lang.Exception e) {");
+        w.println("            throw new UnableToSerializeException(\"The auto-generated AutoBean serializer" +
+                " failed to serialize the instance of \" + o.getClass().getName() + \" to JSON.\", e);");
+        w.println("        }");
         w.println("    }");
         w.println();
 
@@ -336,19 +355,26 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println("    @Override");
         w.println("    public String serializeFromCollection(Collection<%s> c, SerializationContext ctx) {",
                 qualifiedSourceName);
-        w.println("        if (c instanceof List) {");
-        w.println("            final AutoBean<%s> autoBean = %s();", listWrapperTypeName, listWrapperFactoryMethodName);
-        w.println("            autoBean.as().setResult((List) c);");
-        w.println("            final String json = AutoBeanCodex.encode(autoBean).getPayload();");
-        w.println("            return json.substring(10, json.length() -1);");
+        w.println("        try {");
+        w.println("            if (c instanceof List) {");
+        w.println("                final AutoBean<%s> autoBean = %s();", listWrapperTypeName,
+                listWrapperFactoryMethodName);
+        w.println("                autoBean.as().setResult((List) c);");
+        w.println("                final String json = AutoBeanCodex.encode(autoBean).getPayload();");
+        w.println("                return json.substring(10, json.length() -1);");
+        w.println("            }");
+        w.println("            if (c instanceof Set) {");
+        w.println("                final AutoBean<%s> autoBean = %s();", setWrapperTypeName,
+                setWrapperFactoryMethodName);
+        w.println("                autoBean.as().setResult((Set) c);");
+        w.println("                final String json = AutoBeanCodex.encode(autoBean).getPayload();");
+        w.println("                return json.substring(10, json.length() -1);");
+        w.println("            }");
+        w.println("            return super.serializeFromCollection(c, ctx);");
+        w.println("        } catch (java.lang.Exception e) {");
+        w.println("            throw new UnableToSerializeException(\"The auto-generated AutoBean serializer" +
+                " failed to serialize the instance of \" + c.getClass().getName() + \" to JSON.\", e);");
         w.println("        }");
-        w.println("        if (c instanceof Set) {");
-        w.println("            final AutoBean<%s> autoBean = %s();", setWrapperTypeName, setWrapperFactoryMethodName);
-        w.println("            autoBean.as().setResult((Set) c);");
-        w.println("            final String json = AutoBeanCodex.encode(autoBean).getPayload();");
-        w.println("            return json.substring(10, json.length() -1);");
-        w.println("        }");
-        w.println("        return super.serializeFromCollection(c, ctx);");
         w.println("    }");
 
         // end anonymous class
@@ -417,6 +443,8 @@ public class JsonAutoBeanGenerator extends Generator {
                 Serdes.class.getCanonicalName(),
                 Serializer.class.getCanonicalName(),
                 SerializationContext.class.getCanonicalName(),
+                UnableToDeserializeException.class.getName(),
+                UnableToSerializeException.class.getName(),
                 // io.reinert.requestor.serialization.json
                 JsonObjectSerdes.class.getCanonicalName(),
                 JsonRecordReader.class.getCanonicalName(),
