@@ -48,7 +48,7 @@ public class JsonNumberSerdes extends JsonValueSerdes<Number> {
                 return Long.valueOf(response);
             }
         } catch (NumberFormatException e) {
-            throw new UnableToDeserializeException("Could not deserialize response as number.");
+            throw new UnableToDeserializeException("Could not deserialize response as number.", e);
         }
     }
 
