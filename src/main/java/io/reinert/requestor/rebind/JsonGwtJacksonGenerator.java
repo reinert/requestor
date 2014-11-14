@@ -103,60 +103,34 @@ public class JsonGwtJacksonGenerator extends Generator {
         return typeName + "Impl";
     }
 
-    private String getTypeSimpleName() {
-        return "GeneratedJsonSerdesImpl";
+    private void generateConstructor(SourceWriter srcWriter, ArrayList<String> serdes) {
+        srcWriter.println("public GeneratedJsonSerdesImpl() {");
+        for (String s : serdes) {
+            srcWriter.println("    serdesList.add(%s);", s);
+        }
+        srcWriter.println("}");
+        srcWriter.println();
     }
 
-    private SourceWriter getSourceWriter(TreeLogger logger, GeneratorContext ctx, JClassType intfType) {
-        JPackage serviceIntfPkg = intfType.getPackage();
-        String packageName = serviceIntfPkg == null ? "" : serviceIntfPkg.getName();
-        PrintWriter printWriter = ctx.tryCreate(logger, packageName, getTypeSimpleName());
-        if (printWriter == null) {
-            return null;
-        }
+    private void generateFields(SourceWriter srcWriter) {
+        // Initialize a field with binary name of the remote service interface
+        srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
+        srcWriter.println("private final ArrayList<GeneratedProvider<?>> providersList = " +
+                "new ArrayList<GeneratedProvider<?>>();");
+        srcWriter.println();
+    }
 
-        ClassSourceFileComposerFactory composerFactory =
-                new ClassSourceFileComposerFactory(packageName, getTypeSimpleName());
-
-        String[] imports = new String[] {
-                // java
-                ArrayList.class.getCanonicalName(),
-                Collection.class.getCanonicalName(),
-                HashSet.class.getCanonicalName(),
-                Iterator.class.getCanonicalName(),
-                LinkedHashSet.class.getCanonicalName(),
-                LinkedList.class.getCanonicalName(),
-                List.class.getCanonicalName(),
-                Set.class.getCanonicalName(),
-                TreeSet.class.getCanonicalName(),
-                // com.github.nmorel.gwtjackson
-                ObjectMapper.class.getCanonicalName(),
-                ObjectReader.class.getCanonicalName(),
-                ObjectWriter.class.getCanonicalName(),
-                // com.google.gwt
-                GWT.class.getCanonicalName(),
-                // io.reinert.requestor
-                DeserializationContext.class.getCanonicalName(),
-                Deserializer.class.getCanonicalName(),
-                JsonObjectSerdes.class.getCanonicalName(),
-                JsonRecordReader.class.getCanonicalName(),
-                JsonRecordWriter.class.getCanonicalName(),
-                UnableToDeserializeException.class.getName(),
-                UnableToSerializeException.class.getName(),
-                Serdes.class.getCanonicalName(),
-                Serializer.class.getCanonicalName(),
-                SerializationContext.class.getCanonicalName(),
-                // org.turbogwt
-                Overlays.class.getCanonicalName()
-        };
-
-        for (String imp : imports) {
-            composerFactory.addImport(imp);
-        }
-
-        composerFactory.addImplementedInterface(intfType.getErasedType().getQualifiedSourceName());
-
-        return composerFactory.createSourceWriter(ctx, printWriter);
+    private void generateMethods(SourceWriter srcWriter) {
+        srcWriter.println("@Override");
+        srcWriter.println("public List<Serdes<?>> getGeneratedSerdes() {");
+        srcWriter.println("    return serdesList;");
+        srcWriter.println("}");
+        srcWriter.println();
+        srcWriter.println("@Override");
+        srcWriter.println("public List<GeneratedProvider<?>> getGeneratedProviders() {");
+        srcWriter.println("    return providersList;");
+        srcWriter.println("}");
+        srcWriter.println();
     }
 
     /**
@@ -225,7 +199,7 @@ public class JsonGwtJacksonGenerator extends Generator {
         w.println();
 
         // static field to content-types
-        w.println("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(annotation.value()));
+        w.println("    private final String[] PATTERNS = new String[]{ %s };", toCsv(annotation.value()));
         w.println();
 
         // contentType
@@ -236,7 +210,7 @@ public class JsonGwtJacksonGenerator extends Generator {
         w.println();
 
         // readJson - used when any of deserializeAsCollection alternatives succeeded (see JsonObjectSerdes)
-        // TODO: improve this by not requiring parsing the json to an js array and latter stringyfying it (see below)
+        // TODO: improve this by not requiring parsing the json to an js array and latter stringifying it (see below)
         // Here would be no-op
         w.println("    @Override");
         w.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
@@ -281,7 +255,7 @@ public class JsonGwtJacksonGenerator extends Generator {
         w.println("            else if (c == LinkedHashSet.class)");
         w.println("                return (C) %s.read(s);", linkedHashSetReaderField);
         w.println("            else");
-        // TODO: improve this by not requiring parsing the json to an js array and latter stringyfying it
+        // TODO: improve this by not requiring parsing the json to an js array and latter stringifying it
         // An alternative would be manually traverse the json array and passing each json object to serialize method
         w.println("                return super.deserializeAsCollection(c, s, ctx);");
         w.println("        } catch (com.github.nmorel.gwtjackson.client.exception.JsonDeserializationException e) {");
@@ -322,13 +296,60 @@ public class JsonGwtJacksonGenerator extends Generator {
         return serdesField;
     }
 
-    private String asStringCsv(String[] array) {
-        StringBuilder result = new StringBuilder();
-        for (String s : array) {
-            result.append('"').append(s).append('"').append(", ");
+    private SourceWriter getSourceWriter(TreeLogger logger, GeneratorContext ctx, JClassType intfType) {
+        JPackage serviceIntfPkg = intfType.getPackage();
+        String packageName = serviceIntfPkg == null ? "" : serviceIntfPkg.getName();
+        PrintWriter printWriter = ctx.tryCreate(logger, packageName, getTypeSimpleName());
+        if (printWriter == null) {
+            return null;
         }
-        result.replace(result.length() - 2, result.length(), "");
-        return result.toString();
+
+        ClassSourceFileComposerFactory composerFactory =
+                new ClassSourceFileComposerFactory(packageName, getTypeSimpleName());
+
+        String[] imports = new String[]{
+                // java
+                ArrayList.class.getCanonicalName(),
+                Collection.class.getCanonicalName(),
+                HashSet.class.getCanonicalName(),
+                Iterator.class.getCanonicalName(),
+                LinkedHashSet.class.getCanonicalName(),
+                LinkedList.class.getCanonicalName(),
+                List.class.getCanonicalName(),
+                Set.class.getCanonicalName(),
+                TreeSet.class.getCanonicalName(),
+                // com.github.nmorel.gwtjackson
+                ObjectMapper.class.getCanonicalName(),
+                ObjectReader.class.getCanonicalName(),
+                ObjectWriter.class.getCanonicalName(),
+                // com.google.gwt
+                GWT.class.getCanonicalName(),
+                // io.reinert.requestor
+                DeserializationContext.class.getCanonicalName(),
+                Deserializer.class.getCanonicalName(),
+                JsonObjectSerdes.class.getCanonicalName(),
+                JsonRecordReader.class.getCanonicalName(),
+                JsonRecordWriter.class.getCanonicalName(),
+                UnableToDeserializeException.class.getName(),
+                UnableToSerializeException.class.getName(),
+                Serdes.class.getCanonicalName(),
+                Serializer.class.getCanonicalName(),
+                SerializationContext.class.getCanonicalName(),
+                // org.turbogwt
+                Overlays.class.getCanonicalName()
+        };
+
+        for (String imp : imports) {
+            composerFactory.addImport(imp);
+        }
+
+        composerFactory.addImplementedInterface(intfType.getErasedType().getQualifiedSourceName());
+
+        return composerFactory.createSourceWriter(ctx, printWriter);
+    }
+
+    private String getTypeSimpleName() {
+        return "GeneratedJsonSerdesImpl";
     }
 
     private String replaceDotByUpperCase(String s) {
@@ -346,33 +367,12 @@ public class JsonGwtJacksonGenerator extends Generator {
         return result.toString();
     }
 
-    private void generateConstructor(SourceWriter srcWriter, ArrayList<String> serdes) {
-        srcWriter.println("public GeneratedJsonSerdesImpl() {");
-        for (String s : serdes) {
-            srcWriter.println("    serdesList.add(%s);", s);
+    private String toCsv(String[] array) {
+        StringBuilder result = new StringBuilder();
+        for (String s : array) {
+            result.append('"').append(s).append('"').append(", ");
         }
-        srcWriter.println("}");
-        srcWriter.println();
-    }
-
-    private void generateFields(SourceWriter srcWriter) {
-        // Initialize a field with binary name of the remote service interface
-        srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
-        srcWriter.println("private final ArrayList<GeneratedProvider<?>> providersList = " +
-                "new ArrayList<GeneratedProvider<?>>();");
-        srcWriter.println();
-    }
-
-    private void generateMethods(SourceWriter srcWriter) {
-        srcWriter.println("@Override");
-        srcWriter.println("public List<Serdes<?>> getGeneratedSerdes() {");
-        srcWriter.println("    return serdesList;");
-        srcWriter.println("}");
-        srcWriter.println();
-        srcWriter.println("@Override");
-        srcWriter.println("public List<GeneratedProvider<?>> getGeneratedProviders() {");
-        srcWriter.println("    return providersList;");
-        srcWriter.println("}");
-        srcWriter.println();
+        result.replace(result.length() - 2, result.length(), "");
+        return result.toString();
     }
 }
