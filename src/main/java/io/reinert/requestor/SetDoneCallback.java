@@ -17,6 +17,8 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import io.reinert.gdeferred.DoneCallback;
 
@@ -27,8 +29,16 @@ import io.reinert.gdeferred.DoneCallback;
  */
 public abstract class SetDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackOfSet<T> {
 
+    private static Logger logger = Logger.getLogger(SetDoneCallback.class.getName());
+
     @Override
     public void onDone(Collection<T> result) {
-        onDone((Set<T>) result);
+        try {
+            onDone((Set<T>) result);
+        } catch (ClassCastException e) {
+            logger.log(Level.SEVERE, "Could not cast the result of type " + result.getClass().getName()
+                    + " to java.util.Set");
+            throw e;
+        }
     }
 }
