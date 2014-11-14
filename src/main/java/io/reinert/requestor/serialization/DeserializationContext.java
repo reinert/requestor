@@ -27,10 +27,10 @@ import io.reinert.requestor.ProviderManager;
  */
 public abstract class DeserializationContext {
 
-    private final ProviderManager providerManager;
     private final Class<?> requestedType;
+    private final ProviderManager providerManager;
 
-    public DeserializationContext(ProviderManager providerManager, Class<?> requestedType) {
+    public DeserializationContext(Class<?> requestedType, ProviderManager providerManager) {
         this.providerManager = providerManager;
         this.requestedType = requestedType;
     }

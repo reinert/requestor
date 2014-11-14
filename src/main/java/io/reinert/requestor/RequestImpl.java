@@ -193,6 +193,38 @@ public class RequestImpl implements RequestDispatcher {
         return send(RequestBuilder.HEAD, responseType, containerType);
     }
 
+    String getUri() {
+        return uri;
+    }
+
+    String getUser() {
+        return user;
+    }
+
+    String getPassword() {
+        return password;
+    }
+
+    int getTimeout() {
+        return timeout;
+    }
+
+    String getContentType() {
+        return contentType;
+    }
+
+    Object getPayload() {
+        return payload;
+    }
+
+    AcceptHeader getAccept() {
+        return accept;
+    }
+
+    Headers getHeaders() {
+        return headers;
+    }
+
     private <T> RequestPromise<T> send(RequestBuilder.Method method, Class<T> responseType) {
         final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(responseType, serdesManager,
                 providerManager);
@@ -228,9 +260,9 @@ public class RequestImpl implements RequestDispatcher {
                     }
 
                     if (response.getStatusCode() / 100 == 2) {
-                        deferred.resolve(response);
+                        deferred.resolve(RequestImpl.this, response);
                     } else {
-                        deferred.reject(response);
+                        deferred.reject(RequestImpl.this, response);
                     }
                 }
 
@@ -285,13 +317,13 @@ public class RequestImpl implements RequestDispatcher {
                     body = "[]";
                 } else {
                     Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), contentType);
-                    body = serializer.serializeFromCollection(c, new HttpSerializationContext(ensureHeaders()));
+                    body = serializer.serializeFromCollection(c, new HttpSerializationContext(uri, ensureHeaders()));
                 }
             } else {
                 @SuppressWarnings("unchecked")
                 Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
                         contentType);
-                body = serializer.serialize(payload, new HttpSerializationContext(ensureHeaders()));
+                body = serializer.serialize(payload, new HttpSerializationContext(uri, ensureHeaders()));
             }
         }
         return body;

@@ -21,7 +21,7 @@ import io.reinert.gdeferred.Deferred;
 
 interface DeferredRequest<T> extends RequestPromise<T> , Deferred<T, Throwable, RequestProgress> {
 
-    DeferredRequest<T> resolve(Response response);
+    DeferredRequest<T> resolve(Request request, Response response);
 
-    DeferredRequest<T> reject(Response response);
+    DeferredRequest<T> reject(Request request, Response response);
 }

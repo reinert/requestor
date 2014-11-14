@@ -26,13 +26,20 @@ import io.reinert.requestor.ProviderManager;
 public class HttpDeserializationContext extends DeserializationContext {
 
     private final Headers headers;
+    private final String uri;
 
-    public HttpDeserializationContext(Headers headers, ProviderManager providerManager, Class<?> requestedType) {
-        super(providerManager, requestedType);
+    public HttpDeserializationContext(String uri, Headers headers, Class<?> requestedType,
+                                      ProviderManager providerManager) {
+        super(requestedType, providerManager);
         this.headers = headers;
+        this.uri = uri;
     }
 
     public Headers getHeaders() {
         return headers;
+    }
+
+    public String getUri() {
+        return uri;
     }
 }

@@ -41,7 +41,7 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
     }
 
     @Override
-    public DeferredRequest<T> resolve(Response response) {
+    public DeferredRequest<T> resolve(Request request, Response response) {
         // Check if access to Response was requested
         if (responseType == io.reinert.requestor.Response.class) {
             @SuppressWarnings("unchecked")
@@ -59,7 +59,8 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(headers, providerManager, responseType);
+        final DeserializationContext context = new HttpDeserializationContext(((RequestImpl) request).getUri(), headers,
+                responseType, providerManager);
         T result = deserializer.deserialize(response.getText(), context);
 
         super.resolve(result);
@@ -67,7 +68,7 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
     }
 
     @Override
-    public DeferredRequest<T> reject(Response response) {
+    public DeferredRequest<T> reject(Request request, Response response) {
         super.reject(new UnsuccessfulResponseException(new ResponseImpl(response)));
         return this;
     }

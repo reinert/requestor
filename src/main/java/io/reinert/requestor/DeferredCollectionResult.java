@@ -46,7 +46,7 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
     }
 
     @Override
-    public DeferredRequest<Collection<T>> resolve(Response response) {
+    public DeferredRequest<Collection<T>> resolve(Request request, Response response) {
         final Headers headers = new Headers(response.getHeaders());
         String responseContentType = headers.getValue("Content-Type");
         if (responseContentType == null) {
@@ -56,7 +56,8 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(headers, providerManager, responseType);
+        final DeserializationContext context = new HttpDeserializationContext(((RequestImpl) request).getUri(), headers,
+                responseType, providerManager);
         @SuppressWarnings("unchecked")
         Collection<T> result = deserializer.deserializeAsCollection(containerType, response.getText(), context);
 
@@ -65,7 +66,7 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
     }
 
     @Override
-    public DeferredRequest<Collection<T>> reject(Response response) {
+    public DeferredRequest<Collection<T>> reject(Request request, Response response) {
         super.reject(new UnsuccessfulResponseException(new ResponseImpl(response)));
         return this;
     }
