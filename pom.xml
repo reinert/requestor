@@ -81,7 +81,7 @@
 
     <!-- GWT -->
     <gwt.version>2.6.1</gwt.version>
-    <turbogwt.version>0.4.0-SNAPSHOT</turbogwt.version>
+    <turbogwt.version>0.4.0</turbogwt.version>
     <gdeferred.version>0.9.0</gdeferred.version>
     <gwtjackson.version>0.6.2</gwtjackson.version>
 
@@ -98,7 +98,19 @@
 
 
   <dependencies>
-    <!-- Google Web Toolkit dependencies -->
+    <!-- Required dependencies -->
+    <dependency>
+      <groupId>io.reinert.gdeferred</groupId>
+      <artifactId>gdeferred</artifactId>
+      <version>${gdeferred.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.turbogwt.core</groupId>
+      <artifactId>turbogwt-core</artifactId>
+      <version>${turbogwt.version}</version>
+    </dependency>
+
+    <!-- Provided dependencies -->
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
@@ -111,30 +123,13 @@
       <version>${gwt.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.turbogwt.core</groupId>
-      <artifactId>turbogwt-core</artifactId>
-      <version>${turbogwt.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.reinert.gdeferred</groupId>
-      <artifactId>gdeferred</artifactId>
-      <version>${gdeferred.version}</version>
-      <scope>provided</scope>
-    </dependency>
+
+    <!-- Optional dependencies -->
     <dependency>
       <groupId>com.github.nmorel.gwtjackson</groupId>
       <artifactId>gwt-jackson</artifactId>
       <version>${gwtjackson.version}</version>
-    </dependency>
-
-    <!-- Standard Java extension jars -->
-    <dependency>
-      <groupId>javax.annotation</groupId>
-      <artifactId>javax.annotation-api</artifactId>
-      <version>${annotation.version}</version>
-      <scope>provided</scope>
+      <!--<scope>provided</scope>-->
     </dependency>
 
     <!-- Test dependencies -->

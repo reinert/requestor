@@ -151,7 +151,8 @@ public class SerdesManager {
         }
 
         throw new SerializationException("There is no Deserializer registered for " + type.getName() +
-                " and content-type " + contentType + ".");
+                " and content-type " + contentType + ". If you're relying on auto-generated deserializers," +
+                " please make sure you imported the correct GWT Module.");
     }
 
     /**
@@ -178,7 +179,8 @@ public class SerdesManager {
         }
 
         throw new SerializationException("There is no Serializer registered for type " + type.getName() +
-                " and content-type " + contentType + ".");
+                " and content-type " + contentType + ". If you're relying on auto-generated serializers," +
+                " please make sure you imported the correct GWT Module.");
     }
 
     private <T> String getClassName(Class<T> type) {
