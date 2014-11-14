@@ -46,17 +46,16 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
 
     @Override
     public DeferredRequest<Collection<T>> resolve(Request request, Response response) {
-        final RequestImpl requestImpl = (RequestImpl) request;
         final Headers headers = new Headers(response.getHeaders());
         String responseContentType = headers.getValue("Content-Type");
         if (responseContentType == null) {
             responseContentType = "*/*";
-            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + requestImpl.getUri()
+            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUri()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(requestImpl.getUri(), headers,
+        final DeserializationContext context = new HttpDeserializationContext(request.getUri(), headers,
                 responseType, providerManager);
         @SuppressWarnings("unchecked")
         Collection<T> result = deserializer.deserializeAsCollection(containerType, response.getText(), context);

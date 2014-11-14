@@ -18,7 +18,7 @@ package io.reinert.requestor;
 import com.google.gwt.http.client.Header;
 
 /**
- * Represents an HTTP response.
+ * Represents a HTTP response.
  */
 public interface Response {
 

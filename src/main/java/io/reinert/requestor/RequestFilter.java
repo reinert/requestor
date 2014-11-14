@@ -28,5 +28,5 @@ public interface RequestFilter {
      *
      * @param request   The request to be dispatched.
      */
-    void filter(Request request);
+    <R extends Request & RequestBuilder> void filter(R request);
 }

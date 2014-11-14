@@ -15,116 +15,29 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.http.client.Header;
-
 import io.reinert.requestor.header.AcceptHeader;
 
 /**
- * This type provides fluent style request building.
+ * Represents a HTTP Request.
  *
  * @author Danilo Reinert
  */
 public interface Request {
 
-    /**
-     * Set the content type of this request.
-     *
-     * @param contentType The content type of this request
-     *
-     * @return the updated Request
-     */
-    Request contentType(String contentType);
+    String getUri();
 
-    /**
-     * Set the content type accepted for the response.
-     *
-     * @param contentType The content type accepted for the response
-     *
-     * @return the updated Request
-     */
-    Request accept(String contentType);
+    String getUser();
 
-    /**
-     * Set the Accept header of the request.
-     *
-     * @param acceptHeader The accept header of the request.
-     *
-     * @return the updated Request
-     */
-    Request accept(AcceptHeader acceptHeader);
+    String getPassword();
 
-    /**
-     * Sets a request header with the given name and value. If a header with the
-     * specified name has already been set then the new value overwrites the
-     * current value.
-     *
-     * @param header the name of the header
-     * @param value the value of the header
-     *
-     * @throws NullPointerException if header or value are null
-     * @throws IllegalArgumentException if header or value are the empty string
-     */
-    Request header(String header, String value);
+    int getTimeout();
 
-    /**
-     * Sets a request header. If a header with the specified name has already been set
-     * then the new value overwrites the current value.
-     *
-     * @param header the header instance
-     */
-    Request header(Header header);
+    String getContentType();
 
-    /**
-     * Sets the user name that will be used in the request URL.
-     *
-     * @param user user name to use
-     *
-     * @throws IllegalArgumentException if the user is empty
-     * @throws NullPointerException if the user is null
-     */
-    Request user(String user);
+    Object getPayload();
 
-    /**
-     * Sets the password to use in the request URL. This is ignored if there is no
-     * user specified.
-     *
-     * @param password password to use in the request URL
-     *
-     * @throws IllegalArgumentException if the password is empty
-     * @throws NullPointerException if the password is null
-     */
-    Request password(String password);
+    AcceptHeader getAccept();
 
-    /**
-     * Sets the number of milliseconds to wait for a request to complete. Should
-     * the request timeout, the
-     * {@link com.google.gwt.http.client.RequestCallback#onError(com.google.gwt.http.client.Request, Throwable)}
-     * method will be called on the callback instance given to the
-     * {@link com.google.gwt.http.client.RequestBuilder#sendRequest(String, com.google.gwt.http.client.RequestCallback)}
-     * method. The callback method will receive an instance of the
-     * {@link com.google.gwt.http.client.RequestTimeoutException} class as its
-     * {@link Throwable} argument.
-     *
-     * @param timeoutMillis number of milliseconds to wait before canceling the
-     *          request, a value of zero disables timeouts
-     *
-     * @throws IllegalArgumentException if the timeout value is negative
-     */
-    Request timeout(int timeoutMillis);
-
-    /**
-     * Input a object to be sent in the HTTP Request payload.
-     * <p/>
-     *
-     * This object will be serialized considering its class and the current content-type.<br/>
-     * If no serializer was found matching these two factors, the a exception is thrown.
-     *
-     * @param object the payload of the request
-     *
-     * @return the updated Request
-     */
-    /* TODO: return some exception if no serializer is registered for this object and content-type,
-       or let the SerdesManager claim? */
-    Request payload(Object object);
+    Headers getHeaders();
 
 }

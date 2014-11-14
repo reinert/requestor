@@ -24,7 +24,7 @@ import io.reinert.requestor.header.AcceptHeader;
 /**
  * A {@link Request} with dispatching capabilities.
  */
-public interface RequestDispatcher extends Request {
+public interface RequestDispatcher extends RequestBuilder {
 
     @Override
     RequestDispatcher contentType(String contentType);

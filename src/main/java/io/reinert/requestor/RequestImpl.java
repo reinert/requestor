@@ -38,7 +38,7 @@ import io.reinert.requestor.serialization.Serializer;
 /**
  * Default implementation for {@link Request}.
  */
-public class RequestImpl implements RequestDispatcher {
+public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Request {
 
     private final Server server = GWT.create(Server.class);
     private final SerdesManager serdesManager;
@@ -192,35 +192,43 @@ public class RequestImpl implements RequestDispatcher {
         return send(RequestBuilder.HEAD, responseType, containerType);
     }
 
-    String getUri() {
+    @Override
+    public String getUri() {
         return uri;
     }
 
-    String getUser() {
+    @Override
+    public String getUser() {
         return user;
     }
 
-    String getPassword() {
+    @Override
+    public String getPassword() {
         return password;
     }
 
-    int getTimeout() {
+    @Override
+    public int getTimeout() {
         return timeout;
     }
 
-    String getContentType() {
+    @Override
+    public String getContentType() {
         return contentType;
     }
 
-    Object getPayload() {
+    @Override
+    public Object getPayload() {
         return payload;
     }
 
-    AcceptHeader getAccept() {
+    @Override
+    public AcceptHeader getAccept() {
         return accept;
     }
 
-    Headers getHeaders() {
+    @Override
+    public Headers getHeaders() {
         return headers;
     }
 
@@ -255,7 +263,7 @@ public class RequestImpl implements RequestDispatcher {
                     // Execute filters on this response
                     final List<ResponseFilter> filters = filterManager.getResponseFilters();
                     for (ResponseFilter filter : filters) {
-                        filter.filter(response);
+                        filter.filter(RequestImpl.this, response);
                     }
 
                     if (response.getStatusCode() / 100 == 2) {
