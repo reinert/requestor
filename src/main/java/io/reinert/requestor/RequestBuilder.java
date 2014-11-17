@@ -38,11 +38,11 @@ public interface RequestBuilder {
     /**
      * Set the content type accepted for the response.
      *
-     * @param contentType The content type accepted for the response
+     * @param accept The content type accepted for the response
      *
      * @return the updated Request
      */
-    RequestBuilder accept(String contentType);
+    RequestBuilder accept(String accept);
 
     /**
      * Set the Accept header of the request.

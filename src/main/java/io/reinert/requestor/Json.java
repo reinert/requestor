@@ -36,7 +36,7 @@ public @interface Json {
     /**
      * A list of content-type patterns.
      * These patterns will be used to match content-types of incoming responses and outgoing requests.
-     * The patterns contentType wildcards like "&#42;&#47;json".
+     * The pattern accepts wildcards like "&#42;&#47;json".
      */
     String[] value() default "application/json";
 }
