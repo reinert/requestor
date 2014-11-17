@@ -231,7 +231,7 @@ public class SerdesManager {
             deserializers.put(typeName, allHolders);
         }
 
-        final String[] accept = deserializer.accept();
+        final String[] accept = deserializer.contentType();
         final DeserializerHolder[] currHolders = new DeserializerHolder[accept.length];
         for (int i = 0; i < accept.length; i++) {
             final String pattern = accept[i];

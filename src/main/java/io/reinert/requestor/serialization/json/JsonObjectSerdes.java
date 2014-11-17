@@ -88,8 +88,8 @@ public abstract class JsonObjectSerdes<T> extends JsonSerdes<T> {
     }
 
     @Override
-    public <C extends Collection<T>> C deserializeAsCollection(Class<C> collectionType, String response,
-                                                               DeserializationContext context) {
+    public <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
+                                                   DeserializationContext context) {
         if (!isArray(response)) throw new UnableToDeserializeException("Response content is not an array.");
 
         C col = getCollectionInstance(context, collectionType);

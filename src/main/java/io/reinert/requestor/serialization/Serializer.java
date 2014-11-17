@@ -62,5 +62,5 @@ public interface Serializer<T> {
      *
      * @return The object serialized.
      */
-    String serializeFromCollection(Collection<T> c, SerializationContext context);
+    String serialize(Collection<T> c, SerializationContext context);
 }

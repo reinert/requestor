@@ -48,18 +48,13 @@ public class VoidSerdes implements Serdes<Void> {
     }
 
     @Override
-    public String[] accept() {
-        return CONTENT_TYPE_PATTERNS;
-    }
-
-    @Override
     public Void deserialize(String response, DeserializationContext context) {
         return null;
     }
 
     @Override
-    public <C extends Collection<Void>> C deserializeAsCollection(Class<C> collectionType, String response,
-                                                                  DeserializationContext context) {
+    public <C extends Collection<Void>> C deserialize(Class<C> collectionType, String response,
+                                                      DeserializationContext context) {
         return null;
     }
 
@@ -69,7 +64,7 @@ public class VoidSerdes implements Serdes<Void> {
     }
 
     @Override
-    public String serializeFromCollection(Collection<Void> c, SerializationContext context) {
+    public String serialize(Collection<Void> c, SerializationContext context) {
         return null;
     }
 }

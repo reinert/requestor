@@ -51,7 +51,7 @@ public class TextDeserializer implements Deserializer<String> {
      * @return The content type handled by this serializer.
      */
     @Override
-    public String[] accept() {
+    public String[] contentType() {
         return ACCEPT_PATTERNS;
     }
 
@@ -78,8 +78,8 @@ public class TextDeserializer implements Deserializer<String> {
      * @return The object deserialized
      */
     @Override
-    public <C extends Collection<String>> C deserializeAsCollection(Class<C> collectionType, String response,
-                                                                    DeserializationContext context) {
+    public <C extends Collection<String>> C deserialize(Class<C> collectionType, String response,
+                                                        DeserializationContext context) {
         final C col = context.getContainerInstance(collectionType);
         col.add(response);
         return col;

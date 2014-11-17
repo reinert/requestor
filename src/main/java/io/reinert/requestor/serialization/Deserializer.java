@@ -42,7 +42,7 @@ public interface Deserializer<T> {
      * 
      * @return The content-type patterns handled by this deserializer.
      */
-    String[] accept();
+    String[] contentType();
 
     /**
      * Deserialize the plain text into an object of type T.
@@ -68,6 +68,6 @@ public interface Deserializer<T> {
      *
      * @return The object deserialized
      */
-    <C extends Collection<T>> C deserializeAsCollection(Class<C> collectionType, String response,
-                                                        DeserializationContext context);
+    <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
+                                            DeserializationContext context);
 }

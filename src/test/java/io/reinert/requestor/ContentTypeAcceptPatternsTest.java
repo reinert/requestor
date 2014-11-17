@@ -44,7 +44,6 @@ public class ContentTypeAcceptPatternsTest extends GWTTestCase {
     }
 
     public void testWildcardBothParts() {
-        personSerdes.setAcceptPatterns("*/*");
         personSerdes.setContentTypePatterns("*/*");
 
         prepareStub("application/json");
@@ -69,7 +68,6 @@ public class ContentTypeAcceptPatternsTest extends GWTTestCase {
     }
 
     public void testWildcardFirstPart() {
-        personSerdes.setAcceptPatterns("*/json");
         personSerdes.setContentTypePatterns("*/json");
 
         prepareStub("application/json");
@@ -95,7 +93,6 @@ public class ContentTypeAcceptPatternsTest extends GWTTestCase {
     }
 
     public void testWildcardLastPart() {
-        personSerdes.setAcceptPatterns("application/*");
         personSerdes.setContentTypePatterns("application/*");
 
         prepareStub("application/json");
@@ -122,115 +119,7 @@ public class ContentTypeAcceptPatternsTest extends GWTTestCase {
         assertTrue(callbackSuccessCalled[0]);
     }
 
-    public void testAcceptInvalidFirstPart() {
-        personSerdes.setAcceptPatterns("anything/json");
-        personSerdes.setContentTypePatterns("application/json");
-
-        prepareStub("application/json");
-        Requestor requestor = getRequestor();
-
-        final boolean[] callbackCalled = new boolean[2];
-        try {
-            requestor.request(uri)
-                    .contentType("application/json")
-                    .accept("application/json")
-                    .payload(person).post(Person.class)
-                    .done(new DoneCallback<Person>() {
-                        @Override
-                        public void onDone(Person person) {
-                            callbackCalled[0] = true;
-                        }
-                    });
-            ServerStub.triggerPendingRequest();
-        } catch (SerializationException e) {
-            // This piece of code should not be called
-            assertNotNull(e);
-        }
-
-        assertFalse(callbackCalled[0]);
-
-        callbackCalled[1] = false;
-        personSerdes.setAcceptPatterns("application/json");
-
-        prepareStub("anything/json");
-        requestor = getRequestor();
-
-        try {
-            requestor.request(uri)
-                    .contentType("anything/json")
-                    .accept("application/json")
-                    .payload(person).post(Person.class)
-                    .done(new DoneCallback<Person>() {
-                        @Override
-                        public void onDone(Person person) {
-                            callbackCalled[0] = true;
-                        }
-                    });
-            ServerStub.triggerPendingRequest();
-        } catch (SerializationException e) {
-            // This piece of code should not be called
-            assertNotNull(e);
-        }
-
-        assertFalse(callbackCalled[0]);
-    }
-
-    public void testAcceptInvalidLastPart() {
-        personSerdes.setAcceptPatterns("application/xml");
-        personSerdes.setContentTypePatterns("application/json");
-
-        prepareStub("application/json");
-        Requestor requestor = getRequestor();
-
-        final boolean[] callbackCalled = new boolean[2];
-
-        try {
-            requestor.request(uri)
-                    .contentType("application/json")
-                    .accept("application/json")
-                    .payload(person).post(Person.class)
-                    .done(new DoneCallback<Person>() {
-                        @Override
-                        public void onDone(Person person) {
-                            callbackCalled[0] = true;
-                        }
-                    });
-            ServerStub.triggerPendingRequest();
-        } catch (SerializationException e) {
-            // This piece of code should not be called
-            assertNotNull(e);
-        }
-
-        assertFalse(callbackCalled[0]);
-
-        callbackCalled[1] = false;
-        personSerdes.setAcceptPatterns("application/json");
-
-        prepareStub("application/xml");
-        requestor = getRequestor();
-
-        try {
-            requestor.request(uri)
-                    .contentType("application/xml")
-                    .accept("application/json")
-                    .payload(person).post(Person.class)
-                    .done(new DoneCallback<Person>() {
-                        @Override
-                        public void onDone(Person person) {
-                            callbackCalled[0] = true;
-                        }
-                    });
-            ServerStub.triggerPendingRequest();
-        } catch (SerializationException e) {
-            // This piece of code should not be called
-            assertNotNull(e);
-        }
-
-        assertFalse(callbackCalled[0]);
-    }
-
     public void testContentTypeInvalidBothParts() {
-        personSerdes.setAcceptPatterns("application/json");
         personSerdes.setContentTypePatterns("app/js");
 
         prepareStub("application/json");

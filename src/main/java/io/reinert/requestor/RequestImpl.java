@@ -326,7 +326,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
                     body = "[]";
                 } else {
                     Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), contentType);
-                    body = serializer.serializeFromCollection(c, new HttpSerializationContext(uri, ensureHeaders()));
+                    body = serializer.serialize(c, new HttpSerializationContext(uri, ensureHeaders()));
                 }
             } else {
                 @SuppressWarnings("unchecked")

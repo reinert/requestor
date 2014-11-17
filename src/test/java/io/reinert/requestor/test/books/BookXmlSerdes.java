@@ -79,23 +79,13 @@ public class BookXmlSerdes implements Serdes<Book> {
      * @return The object serialized.
      */
     @Override
-    public String serializeFromCollection(Collection<Book> c, SerializationContext context) {
+    public String serialize(Collection<Book> c, SerializationContext context) {
         StringBuilder xmlBuilder = new StringBuilder("<books>");
         for (Book book : c) {
             xmlBuilder.append(buildXml(book));
         }
         xmlBuilder.append("</books>");
         return xmlBuilder.toString();
-    }
-
-    /**
-     * Informs the content type this serializer handle.
-     *
-     * @return The content type handled by this serializer.
-     */
-    @Override
-    public String[] accept() {
-        return CONTENT_TYPE_PATTERNS;
     }
 
     /**
@@ -128,8 +118,8 @@ public class BookXmlSerdes implements Serdes<Book> {
      * @return The object deserialized
      */
     @Override
-    public <C extends Collection<Book>> C deserializeAsCollection(Class<C> collectionType, String response,
-                                                                  DeserializationContext context) {
+    public <C extends Collection<Book>> C deserialize(Class<C> collectionType, String response,
+                                                      DeserializationContext context) {
         C col = context.getContainerInstance(collectionType);
 
         Document xml;

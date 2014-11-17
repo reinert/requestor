@@ -31,7 +31,6 @@ import io.reinert.requestor.serialization.UnableToDeserializeException;
  */
 public abstract class JsonSerdes<T> implements Serdes<T> {
 
-    public static String[] ACCEPT_PATTERNS = new String[] { "application/json", "application/javascript" };
     public static String[] CONTENT_TYPE_PATTERNS = new String[] { "application/json", "application/javascript" };
 
     private final Class<T> handledType;
@@ -43,11 +42,6 @@ public abstract class JsonSerdes<T> implements Serdes<T> {
     @Override
     public Class<T> handledType() {
         return handledType;
-    }
-
-    @Override
-    public String[] accept() {
-        return ACCEPT_PATTERNS;
     }
 
     @Override
@@ -71,7 +65,7 @@ public abstract class JsonSerdes<T> implements Serdes<T> {
     }
 
     @Override
-    public String serializeFromCollection(Collection<T> c, SerializationContext context) {
+    public String serialize(Collection<T> c, SerializationContext context) {
         if (c == null) return null;
         StringBuilder serialized = new StringBuilder("[");
         for (T t : c) {

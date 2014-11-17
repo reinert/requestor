@@ -58,7 +58,7 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
         final DeserializationContext context = new HttpDeserializationContext(request.getUri(), headers,
                 responseType, providerManager);
         @SuppressWarnings("unchecked")
-        Collection<T> result = deserializer.deserializeAsCollection(containerType, response.getText(), context);
+        Collection<T> result = deserializer.deserialize(containerType, response.getText(), context);
 
         super.resolve(result);
         return this;

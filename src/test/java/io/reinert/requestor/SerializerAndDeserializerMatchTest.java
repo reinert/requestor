@@ -81,7 +81,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        try {
 //            requestory.request(Person.class, Person.class).path(uri)
 //                    .contentType("anything/json")
-//                    .accept("anything/json")
+//                    .contentType("anything/json")
 //                    .post(person, new AsyncCallback<Person>() {
 //                        @Override
 //                        public void onFailure(Throwable caught) {
@@ -112,7 +112,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        try {
 //            requestory.request(Person.class, Person.class).path(uri)
 //                    .contentType("application/anything")
-//                    .accept("application/anything")
+//                    .contentType("application/anything")
 //                    .post(person, new AsyncCallback<Person>() {
 //                        @Override
 //                        public void onFailure(Throwable caught) {
@@ -141,7 +141,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        final boolean[] callbackCalled = new boolean[2];
 //
 //        requestory.request(Person.class, Person.class).path(uri)
-//                .accept("application/json")
+//                .contentType("application/json")
 //                .contentType("application/json")
 //                .post(person, new AsyncCallback<Person>() {
 //                    @Override
@@ -165,7 +165,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        requestory = getRequestory();
 //
 //        requestory.request(Person.class, Person.class).path(uri)
-//                .accept("anything/json")
+//                .contentType("anything/json")
 //                .contentType("application/json")
 //                .post(person, new AsyncCallback<Person>() {
 //                    @Override
@@ -193,7 +193,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        final boolean[] callbackCalled = new boolean[2];
 //
 //        requestory.request(Person.class, Person.class).path(uri)
-//                .accept("application/json")
+//                .contentType("application/json")
 //                .contentType("application/json")
 //                .post(person, new AsyncCallback<Person>() {
 //                    @Override
@@ -217,7 +217,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        requestory = getRequestory();
 //
 //        requestory.request(Person.class, Person.class).path(uri)
-//                .accept("application/xml")
+//                .contentType("application/xml")
 //                .contentType("application/json")
 //                .post(person, new AsyncCallback<Person>() {
 //                    @Override
@@ -246,7 +246,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //
 //        try {
 //            requestory.request(Person.class, Person.class).path(uri)
-//                    .accept("application/json")
+//                    .contentType("application/json")
 //                    .contentType("application/json")
 //                    .post(person, new AsyncCallback<Person>() {
 //                        @Override
@@ -271,7 +271,7 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //
 //        try {
 //            requestory.request(Person.class, Person.class).path(uri)
-//                    .accept("application/json")
+//                    .contentType("application/json")
 //                    .contentType("app/js")
 //                    .post(person, new AsyncCallback<Person>() {
 //                        @Override

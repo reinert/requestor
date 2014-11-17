@@ -54,7 +54,7 @@ public class FormParamSerializer implements Serializer<FormParam> {
     }
 
     @Override
-    public String serializeFromCollection(Collection<FormParam> c, SerializationContext context) {
+    public String serialize(Collection<FormParam> c, SerializationContext context) {
         MultivaluedParamComposition strategy = multivaluedParamComposition;
         if (c instanceof FormData) {
             FormData data = (FormData) c;

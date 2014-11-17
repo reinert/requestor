@@ -29,29 +29,14 @@ import io.reinert.requestor.serialization.json.JsonSerdes;
  */
 public class PersonSerdes extends JsonObjectSerdes<Person> {
 
-    private String[] acceptPatterns = JsonSerdes.ACCEPT_PATTERNS;
     private String[] contentTypePatterns = JsonSerdes.CONTENT_TYPE_PATTERNS;
 
     public PersonSerdes() {
         super(Person.class);
     }
 
-    public void setAcceptPatterns(String... acceptPatterns) {
-        this.acceptPatterns = acceptPatterns;
-    }
-
     public void setContentTypePatterns(String... contentTypePatterns) {
         this.contentTypePatterns = contentTypePatterns;
-    }
-
-    /**
-     * Informs the content type this serializer handle.
-     *
-     * @return The content type handled by this serializer.
-     */
-    @Override
-    public String[] accept() {
-        return acceptPatterns;
     }
 
     /**

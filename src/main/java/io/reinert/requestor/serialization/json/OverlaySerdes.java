@@ -57,19 +57,14 @@ public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
     }
 
     @Override
-    public String[] accept() {
-        return JsonSerdes.ACCEPT_PATTERNS;
-    }
-
-    @Override
     public T deserialize(String response, DeserializationContext context) {
         return JsonUtils.safeEval(response);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <C extends Collection<T>> C deserializeAsCollection(Class<C> collectionType, String response,
-                                                               DeserializationContext context) {
+    public <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
+                                                   DeserializationContext context) {
         JsArray<T> jsArray = JsonUtils.safeEval(response);
         if (collectionType.equals(List.class) || collectionType.equals(Collection.class)) {
             return (C) new JsArrayList(jsArray);
@@ -89,7 +84,7 @@ public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
     }
 
     @Override
-    public String serializeFromCollection(Collection<T> c, SerializationContext context) {
+    public String serialize(Collection<T> c, SerializationContext context) {
         if (c instanceof JsArrayList)
             return Overlays.stringify(((JsArrayList<T>) c).asJsArray());
 

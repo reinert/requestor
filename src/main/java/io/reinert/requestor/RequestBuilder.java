@@ -47,7 +47,7 @@ public interface RequestBuilder {
     /**
      * Set the Accept header of the request.
      *
-     * @param acceptHeader The accept header of the request.
+     * @param acceptHeader The contentType header of the request.
      *
      * @return the updated Request
      */
