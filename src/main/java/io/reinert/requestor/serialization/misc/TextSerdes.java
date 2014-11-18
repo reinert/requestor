@@ -18,65 +18,65 @@ package io.reinert.requestor.serialization.misc;
 import java.util.Collection;
 
 import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Deserializer;
+import io.reinert.requestor.serialization.Serdes;
+import io.reinert.requestor.serialization.SerializationContext;
 
 /**
  * Pass-through deserializer for plain text and generic stuff.
  *
  * @author Danilo Reinert
  */
-public class TextDeserializer implements Deserializer<String> {
+public class TextSerdes implements Serdes<String> {
+
+    public static String SEPARATOR = "\n";
 
     public static String[] MEDIA_TYPE_PATTERNS = new String[]{"text/plain", "*/*"};
 
-    private static final TextDeserializer INSTANCE = new TextDeserializer();
+    private static final TextSerdes INSTANCE = new TextSerdes();
 
-    public static TextDeserializer getInstance() {
+    public static TextSerdes getInstance() {
         return INSTANCE;
     }
 
-    /**
-     * Method for accessing type of Objects this deserializer can handle.
-     *
-     * @return The class which this deserializer can deserialize
-     */
     @Override
     public Class<String> handledType() {
         return String.class;
     }
 
-    /**
-     * Informs the content type this serializer handle.
-     *
-     * @return The content type handled by this serializer.
-     */
     @Override
     public String[] mediaType() {
         return MEDIA_TYPE_PATTERNS;
     }
 
+    @Override
+    public String serialize(String s, SerializationContext context) {
+        return s;
+    }
+
     /**
-     * Deserialize the plain text into an object of type T.
+     * Serialize a collection of strings separating them with the modifiable TextDeserializer#SEPARATOR string.
      *
-     * @param response Http response body content
-     * @param context  Context of deserialization
+     * @param c        The collection of the object to be serialized
+     * @param context   Context of the serialization
      *
-     * @return The object deserialized
+     * @return  The serialized string
      */
+    @Override
+    public String serialize(Collection<String> c, SerializationContext context) {
+        StringBuilder sb = new StringBuilder();
+        for (String s : c) {
+            sb.append(s);
+            sb.append(SEPARATOR);
+        }
+        sb.setLength(sb.length() - SEPARATOR.length());
+        return sb.toString();
+    }
+
     @Override
     public String deserialize(String response, DeserializationContext context) {
         return response;
     }
 
-    /**
-     * Deserialize the plain text into an object of type T.
-     *
-     * @param collectionType The class of the collection
-     * @param response       Http response body content
-     * @param context        Context of deserialization
-     *
-     * @return The object deserialized
-     */
     @Override
     public <C extends Collection<String>> C deserialize(Class<C> collectionType, String response,
                                                         DeserializationContext context) {

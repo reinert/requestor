@@ -27,7 +27,7 @@ import io.reinert.requestor.serialization.json.JsonBooleanSerdes;
 import io.reinert.requestor.serialization.json.JsonNumberSerdes;
 import io.reinert.requestor.serialization.json.JsonStringSerdes;
 import io.reinert.requestor.serialization.json.OverlaySerdes;
-import io.reinert.requestor.serialization.misc.TextDeserializer;
+import io.reinert.requestor.serialization.misc.TextSerdes;
 import io.reinert.requestor.serialization.misc.VoidSerdes;
 
 /**
@@ -129,7 +129,7 @@ public class RequestorImpl implements Requestor {
         serdesManager.addSerdes(JsonBooleanSerdes.getInstance());
         serdesManager.addSerdes(VoidSerdes.getInstance());
         serdesManager.addSerdes(OverlaySerdes.getInstance());
-        serdesManager.addDeserializer(TextDeserializer.getInstance());
+        serdesManager.addSerdes(TextSerdes.getInstance());
         serdesManager.addSerializer(FormParamSerializer.getInstance());
 
         initGeneratedJsonSerdes();
