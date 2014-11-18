@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.serialization;
 
-import java.util.Collection;
-
 import io.reinert.requestor.Provider;
 import io.reinert.requestor.ProviderManager;
 
@@ -35,10 +33,10 @@ public abstract class DeserializationContext {
         this.requestedType = requestedType;
     }
 
-    public <C extends Collection> C getContainerInstance(Class<C> type) {
-        final Provider<C> factory = providerManager.get(type);
+    public <T> T getInstance(Class<T> type) {
+        final Provider<T> factory = providerManager.get(type);
         if (factory == null)
-            throw new UnableToDeserializeException("Could not get container instance because there is no provider " +
+            throw new UnableToDeserializeException("Could not get instance because there is no provider " +
                     "for the type " + type.getName() + " registered in the Requestor.");
         return factory.get();
     }

@@ -17,10 +17,8 @@ package io.reinert.requestor.serialization.json;
 
 import java.util.Collection;
 
-import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.UnableToDeserializeException;
 
 /**
  * Base class for all SerDes that manipulates serialized JSON.
@@ -47,21 +45,6 @@ public abstract class JsonSerdes<T> implements Serdes<T> {
     @Override
     public String[] contentType() {
         return CONTENT_TYPE_PATTERNS;
-    }
-
-    /**
-     * Given a collection class, returns a new instance of it.
-     *
-     * @param collectionType    The class of the collection.
-     * @param <C>               The type of the collection.
-     *
-     * @return A new instance to the collection.
-     */
-    public <C extends Collection<T>> C getCollectionInstance(DeserializationContext context, Class<C> collectionType) {
-        final C col = context.getContainerInstance(collectionType);
-        if (col == null)
-            throw new UnableToDeserializeException("Could not instantiate the given collection type.");
-        return col;
     }
 
     @Override

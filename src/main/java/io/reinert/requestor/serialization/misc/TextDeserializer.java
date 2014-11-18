@@ -80,7 +80,7 @@ public class TextDeserializer implements Deserializer<String> {
     @Override
     public <C extends Collection<String>> C deserialize(Class<C> collectionType, String response,
                                                         DeserializationContext context) {
-        final C col = context.getContainerInstance(collectionType);
+        final C col = context.getInstance(collectionType);
         col.add(response);
         return col;
     }

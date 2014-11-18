@@ -69,7 +69,7 @@ public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
         if (collectionType.equals(List.class) || collectionType.equals(Collection.class)) {
             return (C) new JsArrayList(jsArray);
         } else {
-            C col = context.getContainerInstance(collectionType);
+            C col = context.getInstance(collectionType);
             for (int i = 0; i < jsArray.length(); i++) {
                 T t = jsArray.get(i);
                 col.add(t);

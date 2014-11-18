@@ -39,7 +39,7 @@ public abstract class JsonValueSerdes<T> extends JsonSerdes<T> {
         final String trimmedResponse = response.trim();
         if (!isArray(trimmedResponse)) throw new UnableToDeserializeException("Response content is not an array.");
 
-        C col = getCollectionInstance(context, collectionType);
+        C col = context.getInstance(collectionType);
 
         int initialIndex = 1;
         final int lastIndex = trimmedResponse.length() - 1;

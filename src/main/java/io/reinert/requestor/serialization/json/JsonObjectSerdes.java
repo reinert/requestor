@@ -90,9 +90,10 @@ public abstract class JsonObjectSerdes<T> extends JsonSerdes<T> {
     @Override
     public <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
                                                    DeserializationContext context) {
-        if (!isArray(response)) throw new UnableToDeserializeException("Response content is not an array.");
+        if (!isArray(response))
+            throw new UnableToDeserializeException("Response content is not an array.");
 
-        C col = getCollectionInstance(context, collectionType);
+        C col = context.getInstance(collectionType);
         @SuppressWarnings("unchecked")
         JsArray<JavaScriptObject> jsArray = (JsArray<JavaScriptObject>) eval(response);
         for (int i = 0; i < jsArray.length(); i++) {

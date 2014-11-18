@@ -120,7 +120,7 @@ public class BookXmlSerdes implements Serdes<Book> {
     @Override
     public <C extends Collection<Book>> C deserialize(Class<C> collectionType, String response,
                                                       DeserializationContext context) {
-        C col = context.getContainerInstance(collectionType);
+        C col = context.getInstance(collectionType);
 
         Document xml;
         try {

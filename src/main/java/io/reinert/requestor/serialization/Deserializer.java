@@ -60,7 +60,7 @@ public interface Deserializer<T> {
      * 
      * The collection instance can be retrieved from its {@link io.reinert.requestor.Provider},
      * obtained in {@link io.reinert.requestor.ProviderManager#get}.<br>
-     * The ContainerFactoryManager can be retrieved from {@link DeserializationContext#getContainerInstance(Class)}.
+     * The ContainerFactoryManager can be retrieved from {@link DeserializationContext#getInstance(Class)}.
      *
      * @param collectionType    The class of the collection
      * @param response          Http response body content
