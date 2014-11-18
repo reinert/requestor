@@ -27,10 +27,10 @@ import io.reinert.requestor.header.AcceptHeader;
 public interface RequestDispatcher extends RequestBuilder {
 
     @Override
-    RequestDispatcher contentType(String contentType);
+    RequestDispatcher contentType(String mediaType);
 
     @Override
-    RequestDispatcher accept(String contentType);
+    RequestDispatcher accept(String mediaType);
 
     @Override
     RequestDispatcher accept(AcceptHeader acceptHeader);

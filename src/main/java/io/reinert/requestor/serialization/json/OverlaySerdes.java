@@ -52,8 +52,8 @@ public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
     }
 
     @Override
-    public String[] contentType() {
-        return JsonSerdes.CONTENT_TYPE_PATTERNS;
+    public String[] mediaType() {
+        return JsonSerdes.MEDIA_TYPE_PATTERNS;
     }
 
     @Override

@@ -29,7 +29,7 @@ import io.reinert.requestor.serialization.SerializationContext;
  */
 public abstract class JsonSerdes<T> implements Serdes<T> {
 
-    public static String[] CONTENT_TYPE_PATTERNS = new String[] { "application/json", "application/javascript" };
+    public static String[] MEDIA_TYPE_PATTERNS = new String[] { "application/json", "application/javascript" };
 
     private final Class<T> handledType;
 
@@ -43,8 +43,8 @@ public abstract class JsonSerdes<T> implements Serdes<T> {
     }
 
     @Override
-    public String[] contentType() {
-        return CONTENT_TYPE_PATTERNS;
+    public String[] mediaType() {
+        return MEDIA_TYPE_PATTERNS;
     }
 
     @Override

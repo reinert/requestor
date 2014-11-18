@@ -52,7 +52,7 @@ public class BookXmlSerdes implements Serdes<Book> {
      * @return The content type serialized.
      */
     @Override
-    public String[] contentType() {
+    public String[] mediaType() {
         return CONTENT_TYPE_PATTERNS;
     }
 

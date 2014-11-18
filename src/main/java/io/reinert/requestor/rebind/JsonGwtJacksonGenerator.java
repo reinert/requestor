@@ -202,9 +202,9 @@ public class JsonGwtJacksonGenerator extends Generator {
         w.println("    private final String[] PATTERNS = new String[]{ %s };", toCsv(annotation.value()));
         w.println();
 
-        // contentType
+        // mediaType
         w.println("    @Override");
-        w.println("    public String[] contentType() {");
+        w.println("    public String[] mediaType() {");
         w.println("        return PATTERNS;");
         w.println("    }");
         w.println();

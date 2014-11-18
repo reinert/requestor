@@ -29,7 +29,7 @@ import io.reinert.requestor.serialization.SerializationContext;
  */
 public class VoidSerdes implements Serdes<Void> {
 
-    public static final String[] CONTENT_TYPE_PATTERNS = new String[] {"*/*"};
+    public static final String[] MEDIA_TYPE_PATTERNS = new String[] {"*/*"};
 
     private static VoidSerdes INSTANCE = new VoidSerdes();
 
@@ -43,8 +43,8 @@ public class VoidSerdes implements Serdes<Void> {
     }
 
     @Override
-    public String[] contentType() {
-        return CONTENT_TYPE_PATTERNS;
+    public String[] mediaType() {
+        return MEDIA_TYPE_PATTERNS;
     }
 
     @Override

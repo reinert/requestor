@@ -42,7 +42,7 @@ public interface Deserializer<T> {
      * 
      * @return The content-type patterns handled by this deserializer.
      */
-    String[] contentType();
+    String[] mediaType();
 
     /**
      * Deserialize the plain text into an object of type T.

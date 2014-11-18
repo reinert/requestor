@@ -34,15 +34,15 @@ public interface Serializer<T> {
     Class<T> handledType();
 
     /**
-     * Tells the content-type patterns which this serializer handles.
+     * Tells the media-type patterns which this serializer handles.
      * <p/>
      * 
      * E.g., a serializer for JSON can return {"application/json", "application/javascript"}.<br>
-     * If you want to create a serializer for any content-type just return "*&#47;*".
+     * If you want to create a serializer for any media-type just return "*&#47;*".
      *
-     * @return The content-type patterns handled by this serializer.
+     * @return The media-type patterns handled by this serializer.
      */
-    String[] contentType();
+    String[] mediaType();
 
     /**
      * Serialize T to plain text.

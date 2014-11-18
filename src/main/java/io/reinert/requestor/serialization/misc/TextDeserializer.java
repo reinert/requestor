@@ -27,7 +27,7 @@ import io.reinert.requestor.serialization.Deserializer;
  */
 public class TextDeserializer implements Deserializer<String> {
 
-    public static String[] ACCEPT_PATTERNS = new String[]{"text/plain", "*/*"};
+    public static String[] MEDIA_TYPE_PATTERNS = new String[]{"text/plain", "*/*"};
 
     private static final TextDeserializer INSTANCE = new TextDeserializer();
 
@@ -51,8 +51,8 @@ public class TextDeserializer implements Deserializer<String> {
      * @return The content type handled by this serializer.
      */
     @Override
-    public String[] contentType() {
-        return ACCEPT_PATTERNS;
+    public String[] mediaType() {
+        return MEDIA_TYPE_PATTERNS;
     }
 
     /**

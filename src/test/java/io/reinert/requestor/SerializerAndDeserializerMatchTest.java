@@ -80,8 +80,8 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //
 //        try {
 //            requestory.request(Person.class, Person.class).path(uri)
-//                    .contentType("anything/json")
-//                    .contentType("anything/json")
+//                    .mediaType("anything/json")
+//                    .mediaType("anything/json")
 //                    .post(person, new AsyncCallback<Person>() {
 //                        @Override
 //                        public void onFailure(Throwable caught) {
@@ -111,8 +111,8 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //
 //        try {
 //            requestory.request(Person.class, Person.class).path(uri)
-//                    .contentType("application/anything")
-//                    .contentType("application/anything")
+//                    .mediaType("application/anything")
+//                    .mediaType("application/anything")
 //                    .post(person, new AsyncCallback<Person>() {
 //                        @Override
 //                        public void onFailure(Throwable caught) {
@@ -141,8 +141,8 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        final boolean[] callbackCalled = new boolean[2];
 //
 //        requestory.request(Person.class, Person.class).path(uri)
-//                .contentType("application/json")
-//                .contentType("application/json")
+//                .mediaType("application/json")
+//                .mediaType("application/json")
 //                .post(person, new AsyncCallback<Person>() {
 //                    @Override
 //                    public void onFailure(Throwable caught) {
@@ -165,8 +165,8 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        requestory = getRequestory();
 //
 //        requestory.request(Person.class, Person.class).path(uri)
-//                .contentType("anything/json")
-//                .contentType("application/json")
+//                .mediaType("anything/json")
+//                .mediaType("application/json")
 //                .post(person, new AsyncCallback<Person>() {
 //                    @Override
 //                    public void onFailure(Throwable caught) {
@@ -193,8 +193,8 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        final boolean[] callbackCalled = new boolean[2];
 //
 //        requestory.request(Person.class, Person.class).path(uri)
-//                .contentType("application/json")
-//                .contentType("application/json")
+//                .mediaType("application/json")
+//                .mediaType("application/json")
 //                .post(person, new AsyncCallback<Person>() {
 //                    @Override
 //                    public void onFailure(Throwable caught) {
@@ -217,8 +217,8 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //        requestory = getRequestory();
 //
 //        requestory.request(Person.class, Person.class).path(uri)
-//                .contentType("application/xml")
-//                .contentType("application/json")
+//                .mediaType("application/xml")
+//                .mediaType("application/json")
 //                .post(person, new AsyncCallback<Person>() {
 //                    @Override
 //                    public void onFailure(Throwable caught) {
@@ -246,8 +246,8 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //
 //        try {
 //            requestory.request(Person.class, Person.class).path(uri)
-//                    .contentType("application/json")
-//                    .contentType("application/json")
+//                    .mediaType("application/json")
+//                    .mediaType("application/json")
 //                    .post(person, new AsyncCallback<Person>() {
 //                        @Override
 //                        public void onFailure(Throwable caught) {
@@ -271,8 +271,8 @@ public class SerializerAndDeserializerMatchTest extends GWTTestCase {
 //
 //        try {
 //            requestory.request(Person.class, Person.class).path(uri)
-//                    .contentType("application/json")
-//                    .contentType("app/js")
+//                    .mediaType("application/json")
+//                    .mediaType("app/js")
 //                    .post(person, new AsyncCallback<Person>() {
 //                        @Override
 //                        public void onFailure(Throwable caught) {

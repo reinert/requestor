@@ -44,7 +44,7 @@ public class FormParamSerializer implements Serializer<FormParam> {
     }
 
     @Override
-    public String[] contentType() {
+    public String[] mediaType() {
         return CONTENT_TYPE_PATTERNS;
     }
 

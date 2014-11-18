@@ -271,16 +271,16 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println("    }");
         w.println();
 
-        // contentType
+        // mediaType
         w.println("    @Override");
         w.println("    public Class[] implTypes() {");
         w.println("        return IMPL;");
         w.println("    }");
         w.println();
 
-        // contentType
+        // mediaType
         w.println("    @Override");
-        w.println("    public String[] contentType() {");
+        w.println("    public String[] mediaType() {");
         w.println("        return PATTERNS;");
         w.println("    }");
         w.println();

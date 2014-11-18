@@ -29,20 +29,20 @@ public interface RequestBuilder {
     /**
      * Set the content type of this request.
      *
-     * @param contentType The content type of this request
+     * @param mediaType The content type of this request
      *
      * @return the updated Request
      */
-    RequestBuilder contentType(String contentType);
+    RequestBuilder contentType(String mediaType);
 
     /**
      * Set the content type accepted for the response.
      *
-     * @param contentType The content type accepted for the response
+     * @param mediaType The content type accepted for the response
      *
      * @return the updated Request
      */
-    RequestBuilder accept(String contentType);
+    RequestBuilder accept(String mediaType);
 
     /**
      * Set the Accept header of the request.

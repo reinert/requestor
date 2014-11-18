@@ -63,14 +63,14 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
     }
 
     @Override
-    public RequestDispatcher contentType(String contentType) {
-        this.contentType = contentType;
+    public RequestDispatcher contentType(String mediaType) {
+        this.contentType = mediaType;
         return this;
     }
 
     @Override
-    public RequestDispatcher accept(String contentType) {
-        this.accept = new AcceptHeader(contentType);
+    public RequestDispatcher accept(String mediaType) {
+        this.accept = new AcceptHeader(mediaType);
         return this;
     }
 

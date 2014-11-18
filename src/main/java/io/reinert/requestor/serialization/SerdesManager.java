@@ -201,7 +201,7 @@ public class SerdesManager {
             serializers.put(typeName, allHolders);
         }
 
-        final String[] contentType = serializer.contentType();
+        final String[] contentType = serializer.mediaType();
         final SerializerHolder[] currHolders = new SerializerHolder[contentType.length];
         for (int i = 0; i < contentType.length; i++) {
             String pattern = contentType[i];
@@ -231,7 +231,7 @@ public class SerdesManager {
             deserializers.put(typeName, allHolders);
         }
 
-        final String[] accept = deserializer.contentType();
+        final String[] accept = deserializer.mediaType();
         final DeserializerHolder[] currHolders = new DeserializerHolder[accept.length];
         for (int i = 0; i < accept.length; i++) {
             final String pattern = accept[i];
@@ -414,7 +414,7 @@ public class SerdesManager {
                 final int otherSep = key.contentType.indexOf("/");
 
                 // !!! CAUTION !!!
-                // When contentType does not have a '/' separator, than StringArrayIndexOutOfBounds is thrown.
+                // When mediaType does not have a '/' separator, than StringArrayIndexOutOfBounds is thrown.
                 String thisInitialPart = this.contentType.substring(0, thisSep);
                 String otherInitialPart = key.contentType.substring(0, otherSep);
                 result = thisInitialPart.compareTo(otherInitialPart);
@@ -493,7 +493,7 @@ public class SerdesManager {
         public String toString() {
             return "{" +
                     "type: '" + typeName + '\'' +
-                    ", contentType: '" + contentType + '\'' +
+                    ", mediaType: '" + contentType + '\'' +
                     ", factor: " + factor +
                     '}';
         }

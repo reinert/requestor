@@ -29,7 +29,7 @@ import io.reinert.requestor.serialization.json.JsonSerdes;
  */
 public class PersonSerdes extends JsonObjectSerdes<Person> {
 
-    private String[] contentTypePatterns = JsonSerdes.CONTENT_TYPE_PATTERNS;
+    private String[] contentTypePatterns = JsonSerdes.MEDIA_TYPE_PATTERNS;
 
     public PersonSerdes() {
         super(Person.class);
@@ -45,7 +45,7 @@ public class PersonSerdes extends JsonObjectSerdes<Person> {
      * @return The content type serialized.
      */
     @Override
-    public String[] contentType() {
+    public String[] mediaType() {
         return contentTypePatterns;
     }
 
