@@ -16,18 +16,23 @@
 package io.reinert.requestor;
 
 /**
- * Exception for dispatching {@link Request}s.
+ * Superclass for the HTTP request related exceptions.
  */
-public class RequestDispatchException extends RequestException {
+public class RequestException extends RuntimeException {
 
-    public RequestDispatchException() {
+    public RequestException() {
+        super();
     }
 
-    public RequestDispatchException(String s) {
-        super(s);
+    public RequestException(String message) {
+        super(message);
     }
 
-    public RequestDispatchException(String s, Throwable throwable) {
-        super(s, throwable);
+    public RequestException(Throwable cause) {
+        super(cause);
+    }
+
+    public RequestException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

@@ -43,7 +43,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
     private final Server server = GWT.create(Server.class);
     private final SerdesManager serdesManager;
     private final ProviderManager providerManager;
-    private final String uri;
+    private final String url;
     private final FilterManager filterManager;
     private Headers headers;
     private String user;
@@ -53,13 +53,13 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
     private AcceptHeader accept;
     private Object payload;
 
-    public RequestImpl(String uri, SerdesManager serdesManager, ProviderManager providerManager,
+    public RequestImpl(String url, SerdesManager serdesManager, ProviderManager providerManager,
                        FilterManager filterManager) {
         this.serdesManager = serdesManager;
         this.providerManager = providerManager;
         this.filterManager = filterManager;
         // TODO: parse URI
-        this.uri = uri;
+        this.url = url;
     }
 
     @Override
@@ -196,7 +196,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
 
     @Override
     public String getUrl() {
-        return uri;
+        return url;
     }
 
     @Override
@@ -269,9 +269,10 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
                     }
 
                     if (response.getStatusCode() / 100 == 2) {
-                        deferred.resolve(RequestImpl.this, response);
+                        deferred.resolve(RequestImpl.this, new ResponseImpl(response));
                     } else {
-                        deferred.reject(RequestImpl.this, response);
+                        deferred.reject(new UnsuccessfulResponseException(RequestImpl.this,
+                                new ResponseImpl(response)));
                     }
                 }
 
@@ -282,7 +283,14 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
 
                 @Override
                 public void onError(Request request, Throwable exception) {
-                    deferred.reject(exception);
+                    if (exception instanceof com.google.gwt.http.client.RequestTimeoutException) {
+                        com.google.gwt.http.client.RequestTimeoutException e =
+                                (com.google.gwt.http.client.RequestTimeoutException) exception;
+                        deferred.reject(new io.reinert.requestor.RequestTimeoutException(RequestImpl.this,
+                                e.getTimeoutMillis()));
+                    } else {
+                        deferred.reject(new io.reinert.requestor.RequestException(exception));
+                    }
                 }
             };
     }
@@ -301,7 +309,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
         ServerConnection connection = server.getConnection();
 
         try {
-            connection.sendRequest(timeout, user, password, headers, method, uri, body, callback);
+            connection.sendRequest(timeout, user, password, headers, method, url, body, callback);
         } catch (final RequestException e) {
             throw new RequestDispatchException("It was not possible to dispatch the request.", e);
         }
@@ -326,13 +334,13 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
                     body = "[]";
                 } else {
                     Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), contentType);
-                    body = serializer.serialize(c, new HttpSerializationContext(uri, ensureHeaders()));
+                    body = serializer.serialize(c, new HttpSerializationContext(url, ensureHeaders()));
                 }
             } else {
                 @SuppressWarnings("unchecked")
                 Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
                         contentType);
-                body = serializer.serialize(payload, new HttpSerializationContext(uri, ensureHeaders()));
+                body = serializer.serialize(payload, new HttpSerializationContext(url, ensureHeaders()));
             }
         }
         return body;

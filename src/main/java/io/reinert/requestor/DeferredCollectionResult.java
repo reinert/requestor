@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gwt.http.client.Response;
-
 import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
@@ -61,12 +59,6 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
         Collection<T> result = deserializer.deserialize(containerType, response.getText(), context);
 
         super.resolve(result);
-        return this;
-    }
-
-    @Override
-    public DeferredRequest<Collection<T>> reject(Request request, Response response) {
-        super.reject(new UnsuccessfulResponseException(new ResponseImpl(response)));
         return this;
     }
 }

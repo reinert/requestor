@@ -114,7 +114,7 @@ requestor.request("/books").get(Response.class).done(new DoneCallback<Response>(
 ### Always executed callbacks
 Add callbacks to be called when request has either succeeded or failed.
 ```java 
-requestor.request(uri).get(Book.class).always(new AlwaysCallback<Book, Throwable, ResponseContext>() {
+requestor.request(url).get(Book.class).always(new AlwaysCallback<Book, Throwable, ResponseContext>() {
     public void onAlways(Promise.State state, Book book, Throwable throwable) {
         if (state == Promise.State.RESOLVED) {
             // Do something with book
@@ -138,7 +138,7 @@ Requestor HTTP provides two handful classes for dealing with Forms: *FormParam* 
 ```java
 FormData formData = FormData.builder().put("name", "John Doe").put("array", 1, 2.5).build();
 
-requestor.request(uri)
+requestor.request(url)
         .contentType("application/x-www-form-urlencoded")
         .post(formData); // We optionally set no callback, disregarding the server response
 ```

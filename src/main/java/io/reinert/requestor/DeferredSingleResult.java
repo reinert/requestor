@@ -18,8 +18,6 @@ package io.reinert.requestor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gwt.http.client.Response;
-
 import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
@@ -44,7 +42,7 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
         // Check if access to Response was requested
         if (responseType == io.reinert.requestor.Response.class) {
             @SuppressWarnings("unchecked")
-            final T result = (T) new ResponseImpl(response);
+            final T result = (T) response;
             super.resolve(result);
             return this;
         }
@@ -63,12 +61,6 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
         T result = deserializer.deserialize(response.getText(), context);
 
         super.resolve(result);
-        return this;
-    }
-
-    @Override
-    public DeferredRequest<T> reject(Request request, Response response) {
-        super.reject(new UnsuccessfulResponseException(new ResponseImpl(response)));
         return this;
     }
 }

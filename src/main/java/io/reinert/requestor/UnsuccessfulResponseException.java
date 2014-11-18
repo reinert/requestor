@@ -21,8 +21,9 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public class UnsuccessfulResponseException extends RuntimeException {
+public class UnsuccessfulResponseException extends RequestException {
 
+    private final Request request;
     private final Response response;
 
     /**
@@ -30,15 +31,25 @@ public class UnsuccessfulResponseException extends RuntimeException {
      *
      * @param response The response received from request.
      */
-    public UnsuccessfulResponseException(Response response) {
+    public UnsuccessfulResponseException(Request request, Response response) {
         super("The response was received but the status code was not from 'Success' class (2xx).");
+        this.request = request;
         this.response = response;
     }
 
     /**
-     * Returns the unsuccessful response.
+     * Returns the {@link Request} instance which timed out.
      *
-     * @return The unsuccessful response.
+     * @return the {@link Request} instance which timed out
+     */
+    public Request getRequest() {
+        return request;
+    }
+
+    /**
+     * Returns the {@link Response} received but with other status than 2xx.
+     *
+     * @return The unsuccessful {@link Response}.
      */
     public Response getResponse() {
         return response;
