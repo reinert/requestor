@@ -15,7 +15,11 @@
  */
 package io.reinert.requestor.serialization.json;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import io.reinert.requestor.serialization.DeserializationContext;
+import io.reinert.requestor.serialization.HasImpl;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 
@@ -24,7 +28,10 @@ import io.reinert.requestor.serialization.UnableToDeserializeException;
  *
  * @author Danilo Reinert
  */
-public class JsonNumberSerdes extends JsonValueSerdes<Number> {
+public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HasImpl {
+
+    private static final Class<?>[] IMPL_CLASSES = new Class<?>[]{Byte.class, Short.class, Integer.class,
+            Double.class, Long.class, BigInteger.class, BigDecimal.class};
 
     private static JsonNumberSerdes INSTANCE = new JsonNumberSerdes();
 
@@ -38,22 +45,65 @@ public class JsonNumberSerdes extends JsonValueSerdes<Number> {
 
     @Override
     public Number deserialize(String response, DeserializationContext context) {
+        final Class<?> clazz = context.getRequestedType();
         try {
-            if (response.contains(".")) {
-                return Double.valueOf(response);
-            }
-            try {
+            if (clazz == Integer.class)
                 return Integer.valueOf(response);
-            } catch (NumberFormatException e) {
+
+            if (clazz == Double.class)
+                return Double.valueOf(response);
+
+            if (clazz == Long.class)
                 return Long.valueOf(response);
+
+            if (clazz == BigDecimal.class)
+                return new BigDecimal(response);
+
+            if (clazz == Short.class)
+                return Short.valueOf(response);
+
+            if (clazz == BigInteger.class)
+                return new BigInteger(response);
+
+            if (clazz == Byte.class)
+                return Byte.valueOf(response);
+
+            // else Number.class, then we must guess the best suit
+            if (response.contains(".")) {
+                try {
+                    return Double.valueOf(response);
+                } catch (Exception e) {
+                    return new BigDecimal(response);
+                }
+            } else {
+                try {
+                    return Integer.valueOf(response);
+                } catch (Exception e) {
+                    try {
+                        return Long.valueOf(response);
+                    } catch (Exception e1) {
+                        return new BigInteger(response);
+                    }
+                }
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             throw new UnableToDeserializeException("Could not deserialize response as number.", e);
         }
     }
 
     @Override
+    public Class<?>[] implTypes() {
+        return IMPL_CLASSES;
+    }
+
+    @Override
     public String serialize(Number n, SerializationContext context) {
-        return String.valueOf(n);
+        if (n == null)
+            return null;
+
+        if (n instanceof BigDecimal)
+            return ((BigDecimal)n).toPlainString();
+
+        return n.toString();
     }
 }
