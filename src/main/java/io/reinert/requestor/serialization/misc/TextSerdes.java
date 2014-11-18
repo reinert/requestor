@@ -22,7 +22,7 @@ import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
 
 /**
- * Pass-through deserializer for plain text and generic stuff.
+ * Pass-through serdes for plain text and generic media types.
  *
  * @author Danilo Reinert
  */
