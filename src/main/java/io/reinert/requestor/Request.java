@@ -24,7 +24,7 @@ import io.reinert.requestor.header.AcceptHeader;
  */
 public interface Request {
 
-    String getUri();
+    String getUrl();
 
     String getUser();
 

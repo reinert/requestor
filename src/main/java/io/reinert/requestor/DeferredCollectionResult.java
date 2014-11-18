@@ -50,12 +50,12 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
         String responseContentType = headers.getValue("Content-Type");
         if (responseContentType == null) {
             responseContentType = "*/*";
-            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUri()
+            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(request.getUri(), headers,
+        final DeserializationContext context = new HttpDeserializationContext(request.getUrl(), headers,
                 responseType, providerManager);
         @SuppressWarnings("unchecked")
         Collection<T> result = deserializer.deserialize(containerType, response.getText(), context);

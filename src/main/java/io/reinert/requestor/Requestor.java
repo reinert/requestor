@@ -120,9 +120,11 @@ public interface Requestor {
     //===================================================================
 
     /**
-     * Create a {@link Request} of no request/response content.
+     * Create a {@link RequestBuilder} with the passed url.
      *
-     * @return The FluentRequest with void request and response contents.
+     * @param url   The url of the request.
+     *
+     * @return The {@link RequestBuilder} instance.
      */
-    RequestDispatcher request(String uri);
+    RequestDispatcher request(String url);
 }

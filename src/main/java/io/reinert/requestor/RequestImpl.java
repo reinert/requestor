@@ -195,7 +195,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
     }
 
     @Override
-    public String getUri() {
+    public String getUrl() {
         return uri;
     }
 

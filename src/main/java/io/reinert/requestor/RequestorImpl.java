@@ -53,8 +53,8 @@ public class RequestorImpl implements Requestor {
     //===================================================================
 
     @Override
-    public RequestDispatcher request(String uri) {
-        return createRequest(uri);
+    public RequestDispatcher request(String url) {
+        return createRequest(url);
     }
 
     //===================================================================

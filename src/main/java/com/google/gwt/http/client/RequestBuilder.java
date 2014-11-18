@@ -393,8 +393,7 @@ public class RequestBuilder {
                 xmlHttpRequest.open(httpMethod, url);
             }
         } catch (JavaScriptException e) {
-            RequestPermissionException requestPermissionException = new RequestPermissionException(
-                    url);
+            RequestPermissionException requestPermissionException = new RequestPermissionException(url);
             requestPermissionException.initCause(new RequestException(e.getMessage()));
             throw requestPermissionException;
         }

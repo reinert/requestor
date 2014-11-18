@@ -53,12 +53,12 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
         String responseContentType = headers.getValue("Content-Type");
         if (responseContentType == null) {
             responseContentType = "*/*";
-            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUri()
+            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         }
 
         final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(request.getUri(), headers,
+        final DeserializationContext context = new HttpDeserializationContext(request.getUrl(), headers,
                 responseType, providerManager);
         T result = deserializer.deserialize(response.getText(), context);
 
