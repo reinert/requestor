@@ -20,18 +20,31 @@ import java.util.Map;
 
 import com.google.gwt.http.client.Response;
 
-import io.reinert.requestor.Server;
-import io.reinert.requestor.ServerConnection;
+import io.reinert.requestor.Connection;
+import io.reinert.requestor.ConnectionCallback;
+import io.reinert.requestor.Request;
+import io.reinert.requestor.RequestDispatcher;
+import io.reinert.requestor.RequestException;
+import io.reinert.requestor.SerializationEngine;
 
 /**
  * @author Danilo Reinert
  */
-public class ServerStub implements Server {
+public class ServerStub implements RequestDispatcher {
 
-    private static Map<String, Response> responseData = new HashMap<String, Response>();
     private static Map<String, RequestMock> requestData = new HashMap<String, RequestMock>();
-
+    private static Map<String, Response> responseData = new HashMap<String, Response>();
     private static boolean returnSuccess = true;
+
+    public static void clearStub() {
+        responseData.clear();
+        requestData.clear();
+        returnSuccess = true;
+    }
+
+    public static RequestMock getRequestData(String uri) {
+        return requestData.get(uri);
+    }
 
     public static boolean isReturnSuccess() {
         return returnSuccess;
@@ -45,18 +58,8 @@ public class ServerStub implements Server {
         responseData.put(uri, response);
     }
 
-    public static RequestMock getRequestData(String uri) {
-        return requestData.get(uri);
-    }
-
     public static void triggerPendingRequest() {
         ServerConnectionMock.triggerPendingRequest();
-    }
-
-    public static void clearStub() {
-        responseData.clear();
-        requestData.clear();
-        returnSuccess = true;
     }
 
     static Response getResponseFor(String uri) {
@@ -67,13 +70,9 @@ public class ServerStub implements Server {
         return requestData.put(uri, requestMock);
     }
 
-    /**
-     * Retrieve an instance of {@link io.reinert.requestor.ServerConnection}.
-     *
-     * @return The ServerConnection instance.
-     */
     @Override
-    public ServerConnection getConnection() {
-        return new ServerConnectionMock();
+    public Connection send(Request request, SerializationEngine serializationEngine, ConnectionCallback callback)
+            throws RequestException {
+        return null;
     }
 }

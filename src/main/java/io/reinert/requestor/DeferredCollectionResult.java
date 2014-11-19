@@ -20,9 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reinert.gdeferred.impl.DeferredObject;
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.SerdesManager;
 
 class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwable, RequestProgress>
         implements DeferredRequest<Collection<T>> {
@@ -31,15 +28,13 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
 
     private final Class<T> responseType;
     private final Class<? extends Collection> containerType;
-    private final SerdesManager serdesManager;
-    private final ProviderManager providerManager;
+    private final SerializationEngine serializationEngine;
 
     public DeferredCollectionResult(Class<T> responseType, Class<? extends Collection> containerType,
-                                    SerdesManager serdesManager, ProviderManager providerManager) {
+                                    SerializationEngine serializationEngine) {
         this.responseType = responseType;
         this.containerType = containerType;
-        this.serdesManager = serdesManager;
-        this.providerManager = providerManager;
+        this.serializationEngine = serializationEngine;
     }
 
     @Override
@@ -52,11 +47,9 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         }
 
-        final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(request.getUrl(), headers,
-                responseType, providerManager);
         @SuppressWarnings("unchecked")
-        Collection<T> result = deserializer.deserialize(containerType, response.getText(), context);
+        Collection<T> result = serializationEngine.deserialize(response.getText(), responseType, containerType,
+                responseContentType, request.getUrl(), headers);
 
         super.resolve(result);
         return this;

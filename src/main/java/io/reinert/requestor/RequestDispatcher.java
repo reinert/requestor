@@ -15,72 +15,18 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-
-import io.reinert.requestor.header.AcceptHeader;
-import io.reinert.requestor.header.Header;
-
 /**
- * A {@link Request} with dispatching capabilities.
+ * Promotes communication with the backend.
  *
  * @author Danilo Reinert
  */
-public interface RequestDispatcher extends RequestBuilder {
+public interface RequestDispatcher {
 
-    @Override
-    RequestDispatcher contentType(String mediaType);
-
-    @Override
-    RequestDispatcher accept(String mediaType);
-
-    @Override
-    RequestDispatcher accept(AcceptHeader acceptHeader);
-
-    @Override
-    RequestDispatcher header(String header, String value);
-
-    @Override
-    RequestDispatcher header(Header header);
-
-    @Override
-    RequestDispatcher user(String user);
-
-    @Override
-    RequestDispatcher password(String password);
-
-    @Override
-    RequestDispatcher timeout(int timeoutMillis);
-
-    @Override
-    RequestDispatcher payload(Object object) throws IllegalArgumentException;
-
-    RequestPromise<Void> get();
-
-    <T> RequestPromise<T> get(Class<T> responseType);
-
-    <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> responseType, Class<C> containerType);
-
-    RequestPromise<Void> post();
-
-    <T> RequestPromise<T> post(Class<T> responseType);
-
-    <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> responseType, Class<C> containerType);
-
-    RequestPromise<Void> put();
-
-    <T> RequestPromise<T> put(Class<T> responseType);
-
-    <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> responseType, Class<C> containerType);
-
-    RequestPromise<Void> delete();
-
-    <T> RequestPromise<T> delete(Class<T> responseType);
-
-    <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> responseType, Class<C> containerType);
-
-    RequestPromise<Void> head();
-
-    <T> RequestPromise<T> head(Class<T> responseType);
-
-    <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType);
+    /**
+     * Sends the request and return an instance of {@link Connection}.
+     *
+     * @return The ServerConnection instance.
+     */
+    Connection send(Request request, SerializationEngine serializationEngine, ConnectionCallback callback)
+            throws RequestException;
 }

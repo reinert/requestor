@@ -15,23 +15,19 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.RequestCallback;
 
 /**
- * Default implementation of {@link Server}.
+ * HTTP client-server connection callback.
  *
  * @author Danilo Reinert
  */
-public class ServerImpl implements Server {
-
-    private final ServerConnection singleton = GWT.create(ServerConnection.class);
+public interface ConnectionCallback extends RequestCallback {
 
     /**
-     * Retrieve a singleton instance of {@link ServerConnection} created via DeferredBinding.
+     * Called when a pending {@link com.google.gwt.http.client.Request} triggers a progress event.
      *
-     * @return The ServerConnection instance.
+     * @param requestProgress the progress data
      */
-    public ServerConnection getConnection() {
-        return singleton;
-    }
+    void onProgress(RequestProgress requestProgress);
 }

@@ -15,13 +15,7 @@
  */
 package io.reinert.requestor;
 
-import javax.annotation.Nullable;
-
 import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestCallbackWithProgress;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.RequestPermissionException;
 import com.google.gwt.xhr.client.ProgressEvent;
 import com.google.gwt.xhr.client.ProgressHandler;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
@@ -30,16 +24,22 @@ import com.google.gwt.xhr.client.XMLHttpRequest;
 import io.reinert.requestor.header.Header;
 
 /**
- * Default implementation for {@link ServerConnection}.
+ * Default implementation of {@link RequestDispatcher}.
  *
  * @author Danilo Reinert
  */
-public class ServerConnectionImpl implements ServerConnection {
+public class RequestDispatcherImpl implements RequestDispatcher {
 
     @Override
-    public RequestInProgress sendRequest(int timeout, @Nullable String user, @Nullable String password,
-                                         @Nullable Headers headers, String httpMethod, String url, String data,
-                                         final RequestCallback callback) throws RequestException {
+    public Connection send(final Request request, SerializationEngine engine, final ConnectionCallback callback)
+            throws RequestException {
+        final String httpMethod = request.getMethod();
+        final String url = request.getUrl();
+        final String user = request.getUser();
+        final String password = request.getPassword();
+        final Headers headers = request.getHeaders();
+        final String body = engine.serialize(request.getPayload(), request.getContentType(), url, headers);
+
         XMLHttpRequest xmlHttpRequest = XMLHttpRequest.create();
 
         try {
@@ -62,36 +62,48 @@ public class ServerConnectionImpl implements ServerConnection {
             xmlHttpRequest.setWithCredentials(true);
         }
 
-        final RequestInProgress request = new RequestInProgress(xmlHttpRequest, timeout, callback);
+        final com.google.gwt.http.client.Request gwtRequest = new com.google.gwt.http.client.Request(xmlHttpRequest,
+                request.getTimeout(), callback);
 
-        // Must set the onreadystatechange handler before calling send().
         xmlHttpRequest.setOnReadyStateChange(new ReadyStateChangeHandler() {
             public void onReadyStateChange(XMLHttpRequest xhr) {
                 if (xhr.getReadyState() == XMLHttpRequest.DONE) {
                     xhr.clearOnReadyStateChange();
-                    request.fireOnResponseReceived(callback);
+                    gwtRequest.fireOnResponseReceived(callback);
                 }
             }
         });
 
-        // ADDED BY REQUESTOR
-        if (callback instanceof RequestCallbackWithProgress) {
-            final RequestCallbackWithProgress pCallback = (RequestCallbackWithProgress) callback;
-            xmlHttpRequest.setOnProgress(new ProgressHandler() {
-                @Override
-                public void onProgress(ProgressEvent progress) {
-                    pCallback.onProgress(new RequestProgressImpl(progress));
-                }
-            });
-        }
+        xmlHttpRequest.setOnProgress(new ProgressHandler() {
+            @Override
+            public void onProgress(ProgressEvent progress) {
+                callback.onProgress(new RequestProgressImpl(progress));
+            }
+        });
 
         try {
-            xmlHttpRequest.send(data);
+            xmlHttpRequest.send(body);
         } catch (JavaScriptException e) {
             throw new RequestException(e.getMessage());
         }
 
-        return request;
+        return new Connection() {
+
+            @Override
+            public void cancel() {
+                gwtRequest.cancel();
+            }
+
+            @Override
+            public Request getRequest() {
+                return request;
+            }
+
+            @Override
+            public boolean isPending() {
+                return gwtRequest.isPending();
+            }
+        };
     }
 
     private void setHeaders(Headers headers, XMLHttpRequest xmlHttpRequest) throws RequestException {

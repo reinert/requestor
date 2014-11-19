@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor;
 
+/**
+ * Default implementation for {@link Response}.
+ *
+ * @author Danilo Reinert
+ */
 class ResponseImpl implements Response {
 
     private final com.google.gwt.http.client.Response delegate;

@@ -15,19 +15,17 @@
  */
 package io.reinert.requestor;
 
-import javax.annotation.Nullable;
-
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-
 /**
  * Represents a connection with server-side.
  *
  * @author Danilo Reinert
  */
-public interface ServerConnection {
+public interface Connection {
 
-    RequestInProgress sendRequest(int timeout, @Nullable String user, @Nullable String password,
-                                  @Nullable Headers headers, String httpMethod, String url, String data,
-                                  RequestCallback callback) throws RequestException;
+    void cancel();
+
+    Request getRequest();
+
+    boolean isPending();
+
 }

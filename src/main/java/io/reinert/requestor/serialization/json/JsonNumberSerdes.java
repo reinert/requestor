@@ -102,7 +102,7 @@ public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HasImpl
             return null;
 
         if (n instanceof BigDecimal)
-            return ((BigDecimal)n).toPlainString();
+            return ((BigDecimal) n).toPlainString();
 
         return n.toString();
     }

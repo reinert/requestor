@@ -24,20 +24,22 @@ import io.reinert.requestor.header.AcceptHeader;
  */
 public interface Request {
 
-    String getUrl();
-
-    String getUser();
-
-    String getPassword();
-
-    int getTimeout();
+    AcceptHeader getAccept();
 
     String getContentType();
 
+    Headers getHeaders();
+
+    String getMethod();
+
+    String getPassword();
+
     Object getPayload();
 
-    AcceptHeader getAccept();
+    int getTimeout();
 
-    Headers getHeaders();
+    String getUrl();
+
+    String getUser();
 
 }

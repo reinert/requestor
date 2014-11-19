@@ -126,5 +126,5 @@ public interface Requestor {
      *
      * @return The {@link RequestBuilder} instance.
      */
-    RequestDispatcher request(String url);
+    RequestInvoker request(String url);
 }

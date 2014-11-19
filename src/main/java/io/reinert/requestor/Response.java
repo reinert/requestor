@@ -17,6 +17,8 @@ package io.reinert.requestor;
 
 /**
  * Represents a HTTP response.
+ *
+ * @author Danilo Reinert
  */
 public interface Response {
 

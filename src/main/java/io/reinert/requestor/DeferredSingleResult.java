@@ -19,22 +19,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reinert.gdeferred.impl.DeferredObject;
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.SerdesManager;
 
 class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgress> implements DeferredRequest<T> {
 
     private static Logger logger = Logger.getLogger(DeferredSingleResult.class.getName());
 
     private final Class<T> responseType;
-    private final SerdesManager serdesManager;
-    private final ProviderManager providerManager;
+    private final SerializationEngine serializationEngine;
 
-    public DeferredSingleResult(Class<T> responseType, SerdesManager serdesManager, ProviderManager providerManager) {
+    public DeferredSingleResult(Class<T> responseType, SerializationEngine serializationEngine) {
         this.responseType = responseType;
-        this.serdesManager = serdesManager;
-        this.providerManager = providerManager;
+        this.serializationEngine = serializationEngine;
     }
 
     @Override
@@ -55,10 +50,8 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         }
 
-        final Deserializer<T> deserializer = serdesManager.getDeserializer(responseType, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(request.getUrl(), headers,
-                responseType, providerManager);
-        T result = deserializer.deserialize(response.getText(), context);
+        T result = serializationEngine.deserialize(response.getText(), responseType, responseContentType,
+                request.getUrl(), headers);
 
         super.resolve(result);
         return this;

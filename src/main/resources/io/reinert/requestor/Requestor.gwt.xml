@@ -27,12 +27,8 @@
     <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.ServerConnectionImpl">
-    <when-type-is class="io.reinert.requestor.ServerConnection"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.ServerImpl">
-    <when-type-is class="io.reinert.requestor.Server"/>
+  <replace-with class="io.reinert.requestor.RequestDispatcherImpl">
+    <when-type-is class="io.reinert.requestor.RequestDispatcher"/>
   </replace-with>
 
   <replace-with class="io.reinert.requestor.RequestorImpl">

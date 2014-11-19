@@ -38,11 +38,7 @@
     <when-type-is class="io.reinert.requestor.GeneratedJsonSerdes"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.test.mock.ServerConnectionMock">
-    <when-type-is class="io.reinert.requestor.ServerConnection"/>
-  </replace-with>
-
   <replace-with class="io.reinert.requestor.test.mock.ServerStub">
-    <when-type-is class="io.reinert.requestor.Server"/>
+    <when-type-is class="io.reinert.requestor.RequestDispatcher"/>
   </replace-with>
 </module>

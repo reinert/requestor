@@ -29,10 +29,6 @@ import org.turbogwt.core.collections.LightMap;
  */
 public class Headers implements Iterable<Header> {
 
-    private static String formatKey(String headerName) {
-        return headerName.toLowerCase();
-    }
-
     private final Map<String, Header> headers = new LightMap<Header>();
 
     protected Headers(Header... headers) {
@@ -57,12 +53,16 @@ public class Headers implements Iterable<Header> {
         }
     }
 
+    private static String formatKey(String headerName) {
+        return headerName.toLowerCase();
+    }
+
     public boolean contains(String header) {
         return headers.containsKey(formatKey(header));
     }
 
-    public String getValue(String header) {
-        return getValue(formatKey(header), null);
+    public Header get(String header) {
+        return headers.get(formatKey(header));
     }
 
     public String getValue(String header, String defaultValue) {
@@ -70,8 +70,8 @@ public class Headers implements Iterable<Header> {
         return h != null ? h.getValue() : defaultValue;
     }
 
-    public Header get(String header) {
-        return headers.get(formatKey(header));
+    public String getValue(String header) {
+        return getValue(formatKey(header), null);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class Headers implements Iterable<Header> {
     /**
      * Adds a header to this container.
      *
-     * @param header    The header to be added
+     * @param header The header to be added
      */
     protected void add(Header header) {
         headers.put(formatKey(header.getName()), header);
@@ -95,9 +95,9 @@ public class Headers implements Iterable<Header> {
     /**
      * If there's a header with the given name, then it is removed and returned.
      *
-     * @param name  The name of the header to remove
+     * @param name The name of the header to remove
      *
-     * @return  The removed header or null if there was no header with the given name
+     * @return The removed header or null if there was no header with the given name
      */
     protected Header remove(String name) {
         return headers.remove(name);

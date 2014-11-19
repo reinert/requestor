@@ -16,33 +16,29 @@
 package io.reinert.requestor;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
-import io.reinert.requestor.serialization.SerdesManager;
-import io.reinert.requestor.serialization.Serializer;
 
 /**
  * Default implementation for {@link Request}.
+ *
+ * @author Danilo Reinert
  */
-public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Request {
+public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request {
 
-    private final Server server = GWT.create(Server.class);
-    private final SerdesManager serdesManager;
-    private final ProviderManager providerManager;
+    private final RequestDispatcher server = GWT.create(RequestDispatcher.class);
     private final String url;
+    private final SerializationEngine serializationEngine;
     private final FilterManager filterManager;
+    private String httpMethod;
     private Headers headers;
     private String user;
     private String password;
@@ -51,59 +47,57 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
     private AcceptHeader accept;
     private Object payload;
 
-    public RequestImpl(String url, SerdesManager serdesManager, ProviderManager providerManager,
+    public RequestImpl(String url, SerializationEngine serializationEngine,
                        FilterManager filterManager) {
-        this.serdesManager = serdesManager;
-        this.providerManager = providerManager;
+        this.serializationEngine = serializationEngine;
         this.filterManager = filterManager;
-        // TODO: parse URI
         this.url = url;
     }
 
     @Override
-    public RequestDispatcher contentType(String mediaType) {
+    public RequestInvoker contentType(String mediaType) {
         this.contentType = mediaType;
         return this;
     }
 
     @Override
-    public RequestDispatcher accept(String mediaType) {
+    public RequestInvoker accept(String mediaType) {
         this.accept = new AcceptHeader(mediaType);
         return this;
     }
 
     @Override
-    public RequestDispatcher accept(AcceptHeader acceptHeader) {
+    public RequestInvoker accept(AcceptHeader acceptHeader) {
         this.accept = acceptHeader;
         return this;
     }
 
     @Override
-    public RequestDispatcher header(String header, String value) {
+    public RequestInvoker header(String header, String value) {
         ensureHeaders().add(new SimpleHeader(header, value));
         return this;
     }
 
     @Override
-    public RequestDispatcher header(Header header) {
+    public RequestInvoker header(Header header) {
         ensureHeaders().add(header);
         return this;
     }
 
     @Override
-    public RequestDispatcher user(String user) {
+    public RequestInvoker user(String user) {
         this.user = user;
         return this;
     }
 
     @Override
-    public RequestDispatcher password(String password) {
+    public RequestInvoker password(String password) {
         this.password = password;
         return this;
     }
 
     @Override
-    public RequestDispatcher timeout(int timeoutMillis) {
+    public RequestInvoker timeout(int timeoutMillis) {
         if (timeoutMillis < 0)
             throw new IllegalArgumentException("Timeout cannot be negative.");
         timeout = timeoutMillis;
@@ -111,85 +105,85 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
     }
 
     @Override
-    public RequestDispatcher payload(Object object) throws IllegalArgumentException {
+    public RequestInvoker payload(Object object) throws IllegalArgumentException {
         payload = object;
         return this;
     }
 
     @Override
     public RequestPromise<Void> get() {
-        return send(RequestBuilder.GET, Void.class);
+        return send("GET", Void.class);
     }
 
     @Override
     public <T> RequestPromise<T> get(Class<T> responseType) {
-        return send(RequestBuilder.GET, responseType);
+        return send("GET", responseType);
     }
 
     @Override
     public <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> responseType, Class<C> containerType) {
-        return send(RequestBuilder.GET, responseType, containerType);
+        return send("GET", responseType, containerType);
     }
 
     @Override
     public RequestPromise<Void> post() {
-        return send(RequestBuilder.POST, Void.class);
+        return send("POST", Void.class);
     }
 
     @Override
     public <T> RequestPromise<T> post(Class<T> responseType) {
-        return send(RequestBuilder.POST, responseType);
+        return send("POST", responseType);
     }
 
     @Override
     public <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> responseType, Class<C> containerType) {
-        return send(RequestBuilder.POST, responseType, containerType);
+        return send("POST", responseType, containerType);
     }
 
     @Override
     public RequestPromise<Void> put() {
-        return send(RequestBuilder.PUT, Void.class);
+        return send("PUT", Void.class);
     }
 
     @Override
     public <T> RequestPromise<T> put(Class<T> responseType) {
-        return send(RequestBuilder.PUT, responseType);
+        return send("PUT", responseType);
     }
 
     @Override
     public <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> responseType, Class<C> containerType) {
-        return send(RequestBuilder.PUT, responseType, containerType);
+        return send("PUT", responseType, containerType);
     }
 
     @Override
     public RequestPromise<Void> delete() {
-        return send(RequestBuilder.DELETE, Void.class);
+        return send("DELETE", Void.class);
     }
 
     @Override
     public <T> RequestPromise<T> delete(Class<T> responseType) {
-        return send(RequestBuilder.DELETE, responseType);
+        return send("DELETE", responseType);
     }
 
     @Override
     public <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> responseType,
                                                                           Class<C> containerType) {
-        return send(RequestBuilder.DELETE, responseType, containerType);
+        return send("DELETE", responseType, containerType);
     }
 
     @Override
     public RequestPromise<Void> head() {
-        return send(RequestBuilder.HEAD, Void.class);
+        return send("HEAD", Void.class);
     }
 
     @Override
     public <T> RequestPromise<T> head(Class<T> responseType) {
-        return send(RequestBuilder.HEAD, responseType);
+        return send("HEAD", responseType);
     }
 
     @Override
     public <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType) {
-        return send(RequestBuilder.HEAD, responseType, containerType);
+        return send("HEAD", responseType, containerType);
     }
 
     @Override
@@ -232,32 +226,32 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
         return headers;
     }
 
-    private <T> RequestPromise<T> send(RequestBuilder.Method method, Class<T> responseType) {
-        final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(responseType, serdesManager,
-                providerManager);
+    @Override
+    public String getMethod() {
+        return httpMethod;
+    }
 
-        RequestCallback callback = createRequestCallback(deferred);
-
-        dispatch(method, callback);
-
+    private <T> RequestPromise<T> send(String method, Class<T> responseType) {
+        this.httpMethod = method;
+        final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(responseType, serializationEngine);
+        ConnectionCallback callback = createConnectionCallback(deferred);
+        dispatch(callback);
         return deferred;
     }
 
-    private <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder.Method method,
+    private <T, C extends Collection> RequestPromise<Collection<T>> send(String method,
                                                                          Class<T> responseType,
                                                                          Class<C> containerType) {
+        this.httpMethod = method;
         final DeferredCollectionResult<T> deferred = new DeferredCollectionResult<T>(responseType, containerType,
-                serdesManager, providerManager);
-
-        RequestCallback callback = createRequestCallback(deferred);
-
-        dispatch(method, callback);
-
+                serializationEngine);
+        ConnectionCallback callback = createConnectionCallback(deferred);
+        dispatch(callback);
         return deferred;
     }
 
-    private <D> RequestCallback createRequestCallback(final DeferredRequest<D> deferred) {
-        return new RequestCallbackWithProgress() {
+    private <D> ConnectionCallback createConnectionCallback(final DeferredRequest<D> deferred) {
+        return new ConnectionCallback() {
                 @Override
                 public void onResponseReceived(Request request, Response response) {
                     // Execute filters on this response
@@ -293,8 +287,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
             };
     }
 
-    // TODO: Change RequestBuilder.Method to new Enum
-    private void dispatch(RequestBuilder.Method method, RequestCallback callback) {
+    private Connection dispatch(ConnectionCallback callback) {
         ensureHeaders();
 
         // Execute filters on this request
@@ -303,46 +296,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
             filter.filter(this);
         }
 
-        String body = serializePayload();
-
-        ServerConnection connection = server.getConnection();
-
-        try {
-            connection.sendRequest(timeout, user, password, headers, method.toString(), url, body, callback);
-        } catch (final RequestException e) {
-            throw new RequestDispatchException("It was not possible to dispatch the request.", e);
-        }
-    }
-
-    private String serializePayload() {
-        String body = null;
-
-        if (payload != null) {
-            if (payload instanceof Collection) {
-                Collection c = (Collection) payload;
-                final Iterator iterator = c.iterator();
-                Object item = null;
-                while (iterator.hasNext() && item == null) {
-                    item = iterator.next();
-                }
-                if (item == null) {
-                    /* FIXME: This is forcing empty collections responses to be a empty json array.
-                        It will cause error for serializers expecting other content-type (e.g. XML).
-                       TODO: Create some EmptyCollectionSerializerManager for serialization of empty collections
-                        by content-type. */
-                    body = "[]";
-                } else {
-                    Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), contentType);
-                    body = serializer.serialize(c, new HttpSerializationContext(url, ensureHeaders()));
-                }
-            } else {
-                @SuppressWarnings("unchecked")
-                Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
-                        contentType);
-                body = serializer.serialize(payload, new HttpSerializationContext(url, ensureHeaders()));
-            }
-        }
-        return body;
+        return server.send(this, serializationEngine, callback);
     }
 
     private Headers ensureHeaders() {
