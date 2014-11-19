@@ -19,6 +19,8 @@ import com.google.gwt.xhr.client.ProgressEvent;
 
 /**
  * Default implementation of {@link RequestProgress}.
+ *
+ * @author Danilo Reinert
  */
 public class RequestProgressImpl implements RequestProgress {
 

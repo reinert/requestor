@@ -26,6 +26,8 @@ import io.reinert.gdeferred.DoneCallback;
  * DoneCallback<Collection<T>> that casts Collection<T> to List<T>.
  *
  * @param <T> Type of List's values
+ *
+ * @author Danilo Reinert
  */
 public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackOfList<T> {
 

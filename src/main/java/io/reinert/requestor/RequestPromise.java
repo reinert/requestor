@@ -21,6 +21,8 @@ import io.reinert.gdeferred.Promise;
  * A Promise for requests.
  *
  * @param <T> The type of successful result
+ *
+ * @author Danilo Reinert
  */
 public interface RequestPromise<T> extends Promise<T, Throwable, RequestProgress> {
 }

@@ -26,6 +26,8 @@ import io.reinert.gdeferred.DoneCallback;
  * DoneCallback<Collection<T>> that casts Collection<T> to Set<T>.
  *
  * @param <T> Type of Set's values
+ *
+ * @author Danilo Reinert
  */
 public abstract class SetDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackOfSet<T> {
 

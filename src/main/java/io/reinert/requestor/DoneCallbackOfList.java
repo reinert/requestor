@@ -21,6 +21,8 @@ import java.util.List;
  * A hack interface for enabling {@link ListDoneCallback#onDone(java.util.List)} to compile.
  *
  * @param <T> The type of list objects
+ *
+ * @author Danilo Reinert
  */
 interface DoneCallbackOfList<T> {
     void onDone(List<T> result);

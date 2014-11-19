@@ -21,6 +21,8 @@ import java.util.Set;
  * A hack interface for enabling {@link SetDoneCallback#onDone(java.util.Set)} to compile.
  *
  * @param <T> The type of Set objects
+ *
+ * @author Danilo Reinert
  */
 interface DoneCallbackOfSet<T> {
     void onDone(Set<T> result);

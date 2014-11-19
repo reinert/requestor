@@ -22,6 +22,8 @@ import io.reinert.requestor.header.Header;
 
 /**
  * A {@link Request} with dispatching capabilities.
+ *
+ * @author Danilo Reinert
  */
 public interface RequestDispatcher extends RequestBuilder {
 

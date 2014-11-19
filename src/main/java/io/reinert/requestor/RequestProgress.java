@@ -17,6 +17,8 @@ package io.reinert.requestor;
 
 /**
  * Progress data of requests.
+ *
+ * @author Danilo Reinert
  */
 public interface RequestProgress extends com.google.gwt.http.client.RequestProgress {
 }
