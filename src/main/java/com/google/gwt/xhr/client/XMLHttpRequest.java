@@ -385,7 +385,7 @@ public class XMLHttpRequest extends JavaScriptObject {
      */
     public final native void setOnProgress(ProgressHandler handler) /*-{
         this.onprogress = $entry(function(e) {
-            handler.@com.google.gwt.xhr.client.ProgressHandler::onProgress(Lcom/google/gwt/xhr/client/XhrRequestProgress;)(e);
+            handler.@com.google.gwt.xhr.client.ProgressHandler::onProgress(Lcom/google/gwt/xhr/client/ProgressEvent;)(e);
         });
     }-*/;
 

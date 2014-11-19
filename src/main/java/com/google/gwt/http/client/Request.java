@@ -60,14 +60,14 @@ public class Request {
 
                 @Override
                 public int getStatusCode() {
-                  /*
-                   * http://code.google.com/p/google-web-toolkit/issues/detail?id=5031
-                   *
-                   * The XMLHTTPRequest object in IE will return a status code of 1223 and drop some
-                   * response headers if the server returns a HTTP/204.
-                   *
-                   * This issue is fixed in IE10.
-                   */
+          /*
+           * http://code.google.com/p/google-web-toolkit/issues/detail?id=5031
+           *
+           * The XMLHTTPRequest object in IE will return a status code of 1223 and drop some
+           * response headers if the server returns a HTTP/204.
+           *
+           * This issue is fixed in IE10.
+           */
                     int statusCode = super.getStatusCode();
                     return (statusCode == 1223) ? SC_NO_CONTENT : statusCode;
                 }

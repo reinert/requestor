@@ -20,5 +20,23 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public interface RequestProgress extends com.google.gwt.http.client.RequestProgress {
+public interface RequestProgress {
+
+    public boolean isLengthComputable();
+
+    /**
+     * Returns the loaded amount of the request.
+     * If length is not computable, then 0 is returned.
+     *
+     * @return The loaded amount if available, 0 otherwise
+     */
+    public double loaded();
+
+    /**
+     * Returns the total amount of the request.
+     * If length is not computable, then 0 is returned.
+     *
+     * @return The total amount if available, 0 otherwise
+     */
+    public double total();
 }

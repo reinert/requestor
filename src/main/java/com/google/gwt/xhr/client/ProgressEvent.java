@@ -23,7 +23,7 @@ public final class ProgressEvent extends JavaScriptObject {
     }
 
     public native boolean lengthComputable() /*-{
-        return this.lengthComputable != null ? this.lengthComputable : false;
+        return this.lengthComputable || false;
     }-*/;
 
     /**
@@ -33,7 +33,7 @@ public final class ProgressEvent extends JavaScriptObject {
      * @return The loaded amount if available, 0 otherwise
      */
     public native double loaded() /*-{
-        return this.loaded != null ? this.loaded : 0;
+        return this.loaded || 0.0;
     }-*/;
 
     /**
@@ -43,6 +43,6 @@ public final class ProgressEvent extends JavaScriptObject {
      * @return The total amount if available, 0 otherwise
      */
     public native double total() /*-{
-        return this.total != null ? this.total : 0;
+        return this.total || 0.0;
     }-*/;
 }

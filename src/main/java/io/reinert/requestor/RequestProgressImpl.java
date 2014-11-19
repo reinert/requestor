@@ -36,12 +36,12 @@ public class RequestProgressImpl implements RequestProgress {
     }
 
     @Override
-    public Number loaded() {
+    public double loaded() {
         return requestProgress.loaded();
     }
 
     @Override
-    public Number total() {
+    public double total() {
         return requestProgress.total();
     }
 }

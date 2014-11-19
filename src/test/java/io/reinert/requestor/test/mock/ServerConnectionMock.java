@@ -15,13 +15,13 @@
  */
 package io.reinert.requestor.test.mock;
 
-import com.google.gwt.http.client.RequestCallbackWithProgress;
 import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.RequestProgress;
 import com.google.gwt.http.client.Response;
 
 import io.reinert.requestor.Connection;
+import io.reinert.requestor.ConnectionCallback;
 import io.reinert.requestor.Request;
+import io.reinert.requestor.RequestProgress;
 
 /**
  * A mock of {@link io.reinert.requestor.Connection}.
@@ -40,16 +40,16 @@ public class ServerConnectionMock implements Connection {
         }
 
         @Override
-        public Number loaded() {
-            return null;
+        public double loaded() {
+            return 0;
         }
 
         @Override
-        public Number total() {
-            return null;
+        public double total() {
+            return 0;
         }
     };
-    private static RequestCallbackWithProgress requestCallback;
+    private static ConnectionCallback requestCallback;
     private static String uri;
 
     public ServerConnectionMock() {
