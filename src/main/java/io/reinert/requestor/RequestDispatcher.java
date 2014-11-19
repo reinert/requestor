@@ -17,9 +17,8 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import com.google.gwt.http.client.Header;
-
 import io.reinert.requestor.header.AcceptHeader;
+import io.reinert.requestor.header.Header;
 
 /**
  * A {@link Request} with dispatching capabilities.

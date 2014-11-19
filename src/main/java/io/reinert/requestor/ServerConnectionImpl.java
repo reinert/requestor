@@ -18,7 +18,6 @@ package io.reinert.requestor;
 import javax.annotation.Nullable;
 
 import com.google.gwt.core.client.JavaScriptException;
-import com.google.gwt.http.client.Header;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestCallbackWithProgress;
 import com.google.gwt.http.client.RequestException;
@@ -27,6 +26,8 @@ import com.google.gwt.xhr.client.ProgressEvent;
 import com.google.gwt.xhr.client.ProgressHandler;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 import com.google.gwt.xhr.client.XMLHttpRequest;
+
+import io.reinert.requestor.header.Header;
 
 /**
  * Default implementation for {@link ServerConnection}.

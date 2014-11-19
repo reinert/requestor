@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.header;
 
-import com.google.gwt.http.client.Header;
-
 /**
  * Simple HTTP header with name and value.
  *

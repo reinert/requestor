@@ -47,7 +47,7 @@ class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgre
             return this;
         }
 
-        final Headers headers = new Headers(response.getHeaders());
+        final Headers headers = response.getHeaders();
         String responseContentType = headers.getValue("Content-Type");
         if (responseContentType == null) {
             responseContentType = "*/*";

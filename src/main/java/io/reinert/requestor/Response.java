@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.http.client.Header;
-
 /**
  * Represents a HTTP response.
  */
@@ -79,7 +77,7 @@ public interface Response {
      * @return array of HTTP headers; returns zero length array if there are no
      *         headers
      */
-    Header[] getHeaders();
+    Headers getHeaders();
 
     /**
      * Returns the HTTP status code that is part of this response.

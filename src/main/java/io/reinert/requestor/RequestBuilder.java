@@ -15,9 +15,8 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.http.client.Header;
-
 import io.reinert.requestor.header.AcceptHeader;
+import io.reinert.requestor.header.Header;
 
 /**
  * This type provides fluent request building.

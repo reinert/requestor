@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.http.client.Header;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -29,6 +28,7 @@ import com.google.gwt.http.client.Response;
 
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
+import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.serialization.SerdesManager;
 import io.reinert.requestor.serialization.Serializer;

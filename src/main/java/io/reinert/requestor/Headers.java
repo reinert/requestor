@@ -16,11 +16,11 @@
 package io.reinert.requestor;
 
 import java.util.Iterator;
+import java.util.Map;
 
-import com.google.gwt.http.client.Header;
+import io.reinert.requestor.header.Header;
 
-import org.turbogwt.core.collections.JsArrayList;
-import org.turbogwt.core.collections.JsMapInteger;
+import org.turbogwt.core.collections.LightMap;
 
 /**
  * Stores the headers from a HTTP request/response.
@@ -29,43 +29,54 @@ import org.turbogwt.core.collections.JsMapInteger;
  */
 public class Headers implements Iterable<Header> {
 
-    private final JsArrayList<Header> headers;
-    private final JsMapInteger indexes = JsMapInteger.create();
-
-    protected Headers() {
-        this.headers = new JsArrayList<Header>();
+    private static String formatKey(String headerName) {
+        return headerName.toLowerCase();
     }
 
-    Headers(Header... headers) {
-        this.headers = new JsArrayList<Header>(headers);
-        for (int i = 0; i < headers.length; i++) {
-            Header header = headers[i];
-            indexes.set(header.getName(), i);
+    private final Map<String, Header> headers = new LightMap<Header>();
+
+    protected Headers(Header... headers) {
+        for (final Header header : headers) {
+            this.headers.put(formatKey(header.getName()), header);
+        }
+    }
+
+    Headers(com.google.gwt.http.client.Header... headers) {
+        for (final com.google.gwt.http.client.Header header : headers) {
+            this.headers.put(formatKey(header.getName()), new Header() {
+                @Override
+                public String getName() {
+                    return header.getName();
+                }
+
+                @Override
+                public String getValue() {
+                    return header.getValue();
+                }
+            });
         }
     }
 
     public boolean contains(String header) {
-        return indexes.contains(header);
+        return headers.containsKey(formatKey(header));
     }
 
     public String getValue(String header) {
-        return getValue(header, null);
+        return getValue(formatKey(header), null);
     }
 
     public String getValue(String header, String defaultValue) {
-        final int i = indexes.get(header, -1);
-        if (i == -1) return null;
-        final Header h = headers.get(i);
+        final Header h = headers.get(formatKey(header));
         return h != null ? h.getValue() : defaultValue;
     }
 
     public Header get(String header) {
-        return headers.get(indexes.get(header));
+        return headers.get(formatKey(header));
     }
 
     @Override
     public Iterator<Header> iterator() {
-        return headers.iterator();
+        return headers.values().iterator();
     }
 
     public int size() {
@@ -73,41 +84,22 @@ public class Headers implements Iterable<Header> {
     }
 
     /**
-     * Adds a header to this container and returns if the array has increased.
+     * Adds a header to this container.
      *
      * @param header    The header to be added
-     *
-     * @return  {@code true} if there was not header set with the same header name, {@code false} otherwise
      */
-    protected boolean add(Header header) {
-        int i = indexes.get(header.getName(), -1);
-
-        if (i > -1) {
-            headers.set(i, header);
-            return false;
-        }
-
-        indexes.set(header.getName(), headers.size());
-        headers.add(header);
-        return true;
+    protected void add(Header header) {
+        headers.put(formatKey(header.getName()), header);
     }
 
     /**
-     * If there's a header with the given name, then it is removed and {@code true} is returned.
+     * If there's a header with the given name, then it is removed and returned.
      *
      * @param name  The name of the header to remove
      *
-     * @return  If a header with the given name was removed
+     * @return  The removed header or null if there was no header with the given name
      */
-    protected boolean remove(String name) {
-        int i = indexes.get(name, -1);
-
-        if (i > -1) {
-            indexes.remove(name);
-            headers.remove(i);
-            return true;
-        }
-
-        return false;
+    protected Header remove(String name) {
+        return headers.remove(name);
     }
 }

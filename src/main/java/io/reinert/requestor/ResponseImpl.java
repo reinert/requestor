@@ -15,11 +15,10 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.http.client.Header;
-
 class ResponseImpl implements Response {
 
     private final com.google.gwt.http.client.Response delegate;
+    private Headers headers;
 
     ResponseImpl(com.google.gwt.http.client.Response originalResponse) {
         this.delegate = originalResponse;
@@ -31,8 +30,10 @@ class ResponseImpl implements Response {
     }
 
     @Override
-    public Header[] getHeaders() {
-        return delegate.getHeaders();
+    public Headers getHeaders() {
+        if (headers == null)
+            headers = new Headers(delegate.getHeaders());
+        return headers;
     }
 
     @Override
