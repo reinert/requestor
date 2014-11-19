@@ -66,7 +66,8 @@ public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
     public <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
                                                    DeserializationContext context) {
         JsArray<T> jsArray = JsonUtils.safeEval(response);
-        if (collectionType.equals(List.class) || collectionType.equals(Collection.class)) {
+        if (collectionType.equals(List.class) || collectionType.equals(Collection.class)
+                || collectionType.equals(JsArrayList.class)) {
             return (C) new JsArrayList(jsArray);
         } else {
             C col = context.getInstance(collectionType);
@@ -87,9 +88,6 @@ public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
     public String serialize(Collection<T> c, SerializationContext context) {
         if (c instanceof JsArrayList)
             return Overlays.stringify(((JsArrayList<T>) c).asJsArray());
-
-        if (c instanceof JavaScriptObject)
-            return Overlays.stringify((JavaScriptObject) c);
 
         @SuppressWarnings("unchecked")
         JsArray<T> jsArray = (JsArray<T>) JsArray.createArray();

@@ -22,6 +22,7 @@ import io.reinert.requestor.serialization.Serdes;
 
 @SuppressWarnings("unchecked")
 class EmptyGeneratedJsonSerdes implements GeneratedJsonSerdes {
+
     @Override
     public List<Serdes<?>> getGeneratedSerdes() {
         return Collections.EMPTY_LIST;
