@@ -24,9 +24,7 @@ import com.google.gwt.http.client.Header;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestCallbackWithProgress;
 import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.RequestProgress;
 import com.google.gwt.http.client.Response;
 
 import io.reinert.requestor.header.AcceptHeader;
@@ -278,7 +276,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
 
                 @Override
                 public void onProgress(RequestProgress requestProgress) {
-                    deferred.notify(new RequestProgressImpl(requestProgress));
+                    deferred.notify(requestProgress);
                 }
 
                 @Override
@@ -295,6 +293,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
             };
     }
 
+    // TODO: Change RequestBuilder.Method to new Enum
     private void dispatch(RequestBuilder.Method method, RequestCallback callback) {
         ensureHeaders();
 
@@ -309,7 +308,7 @@ public class RequestImpl implements RequestDispatcher, io.reinert.requestor.Requ
         ServerConnection connection = server.getConnection();
 
         try {
-            connection.sendRequest(timeout, user, password, headers, method, url, body, callback);
+            connection.sendRequest(timeout, user, password, headers, method.toString(), url, body, callback);
         } catch (final RequestException e) {
             throw new RequestDispatchException("It was not possible to dispatch the request.", e);
         }

@@ -17,7 +17,6 @@ package io.reinert.requestor;
 
 import javax.annotation.Nullable;
 
-import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 
@@ -28,10 +27,7 @@ import com.google.gwt.http.client.RequestException;
  */
 public interface ServerConnection {
 
-    void sendRequest(RequestBuilder.Method method, String url, String data, RequestCallback callback)
-            throws RequestException;
-
-    void sendRequest(int timeout, @Nullable String user, @Nullable String password, @Nullable Headers headers,
-                     RequestBuilder.Method method, String url, String data, RequestCallback callback)
-            throws RequestException;
+    RequestInProgress sendRequest(int timeout, @Nullable String user, @Nullable String password,
+                                  @Nullable Headers headers, String httpMethod, String url, String data,
+                                  RequestCallback callback) throws RequestException;
 }

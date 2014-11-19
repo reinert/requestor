@@ -25,5 +25,5 @@ public interface ProgressHandler {
      *
      * @param progress the progress data.
      */
-    void onProgress(XhrRequestProgress progress);
+    void onProgress(ProgressEvent progress);
 }

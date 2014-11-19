@@ -17,20 +17,32 @@ package com.google.gwt.xhr.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public final class XhrRequestProgress extends JavaScriptObject {
+public final class ProgressEvent extends JavaScriptObject {
 
-    protected XhrRequestProgress() {
+    protected ProgressEvent() {
     }
 
     public native boolean lengthComputable() /*-{
-        return lengthComputable;
+        return this.lengthComputable != null ? this.lengthComputable : false;
     }-*/;
 
+    /**
+     * Returns the loaded amount of the request.
+     * If this property doesn't exist, then 0 is returned.
+     *
+     * @return The loaded amount if available, 0 otherwise
+     */
     public native double loaded() /*-{
-        return loaded;
+        return this.loaded != null ? this.loaded : 0;
     }-*/;
 
+    /**
+     * Returns the total amount of the request.
+     * If this property doesn't exist, then 0 is returned.
+     *
+     * @return The total amount if available, 0 otherwise
+     */
     public native double total() /*-{
-        return total;
+        return this.total != null ? this.total : 0;
     }-*/;
 }

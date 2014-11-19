@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.xhr.client.ProgressEvent;
 import com.google.gwt.xhr.client.ProgressHandler;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 import com.google.gwt.xhr.client.XMLHttpRequest;
-import com.google.gwt.xhr.client.XhrRequestProgress;
 
 /**
  * Builder for constructing {@link com.google.gwt.http.client.Request} objects.
@@ -420,7 +420,7 @@ public class RequestBuilder {
             final RequestCallbackWithProgress pCallback = (RequestCallbackWithProgress) callback;
             xmlHttpRequest.setOnProgress(new ProgressHandler() {
                 @Override
-                public void onProgress(XhrRequestProgress progress) {
+                public void onProgress(ProgressEvent progress) {
                     pCallback.onProgress(new RequestProgressImpl(progress));
                 }
             });

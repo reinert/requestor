@@ -17,10 +17,16 @@ package io.reinert.requestor;
 
 import javax.annotation.Nullable;
 
+import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.http.client.Header;
-import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestCallbackWithProgress;
 import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.RequestPermissionException;
+import com.google.gwt.xhr.client.ProgressEvent;
+import com.google.gwt.xhr.client.ProgressHandler;
+import com.google.gwt.xhr.client.ReadyStateChangeHandler;
+import com.google.gwt.xhr.client.XMLHttpRequest;
 
 /**
  * Default implementation for {@link ServerConnection}.
@@ -30,25 +36,72 @@ import com.google.gwt.http.client.RequestException;
 public class ServerConnectionImpl implements ServerConnection {
 
     @Override
-    public void sendRequest(RequestBuilder.Method method, String url, String data, RequestCallback callback)
-            throws RequestException {
-        new RequestBuilder(method, url).sendRequest(data, callback);
+    public RequestInProgress sendRequest(int timeout, @Nullable String user, @Nullable String password,
+                                         @Nullable Headers headers, String httpMethod, String url, String data,
+                                         final RequestCallback callback) throws RequestException {
+        XMLHttpRequest xmlHttpRequest = XMLHttpRequest.create();
+
+        try {
+            if (user != null && password != null) {
+                xmlHttpRequest.open(httpMethod, url, user, password);
+            } else if (user != null) {
+                xmlHttpRequest.open(httpMethod, url, user);
+            } else {
+                xmlHttpRequest.open(httpMethod, url);
+            }
+        } catch (JavaScriptException e) {
+            RequestPermissionException requestPermissionException = new RequestPermissionException(url);
+            requestPermissionException.initCause(new RequestException(e.getMessage()));
+            throw requestPermissionException;
+        }
+
+        setHeaders(headers, xmlHttpRequest);
+
+        if (user != null) {
+            xmlHttpRequest.setWithCredentials(true);
+        }
+
+        final RequestInProgress request = new RequestInProgress(xmlHttpRequest, timeout, callback);
+
+        // Must set the onreadystatechange handler before calling send().
+        xmlHttpRequest.setOnReadyStateChange(new ReadyStateChangeHandler() {
+            public void onReadyStateChange(XMLHttpRequest xhr) {
+                if (xhr.getReadyState() == XMLHttpRequest.DONE) {
+                    xhr.clearOnReadyStateChange();
+                    request.fireOnResponseReceived(callback);
+                }
+            }
+        });
+
+        // ADDED BY REQUESTOR
+        if (callback instanceof RequestCallbackWithProgress) {
+            final RequestCallbackWithProgress pCallback = (RequestCallbackWithProgress) callback;
+            xmlHttpRequest.setOnProgress(new ProgressHandler() {
+                @Override
+                public void onProgress(ProgressEvent progress) {
+                    pCallback.onProgress(new RequestProgressImpl(progress));
+                }
+            });
+        }
+
+        try {
+            xmlHttpRequest.send(data);
+        } catch (JavaScriptException e) {
+            throw new RequestException(e.getMessage());
+        }
+
+        return request;
     }
 
-    @Override
-    public void sendRequest(int timeout, @Nullable String user, @Nullable String password, @Nullable Headers headers,
-                            RequestBuilder.Method method, String url, String data, RequestCallback callback)
-            throws RequestException {
-        final RequestBuilder requestBuilder = new RequestBuilder(method, url);
-        if (timeout > 0) requestBuilder.setTimeoutMillis(timeout);
-        if (user != null) requestBuilder.setUser(user);
-        if (password != null) requestBuilder.setPassword(password);
-        if (user != null && password != null) requestBuilder.setIncludeCredentials(true);
-        if (headers != null) {
+    private void setHeaders(Headers headers, XMLHttpRequest xmlHttpRequest) throws RequestException {
+        if (headers != null && headers.size() > 0) {
             for (Header header : headers) {
-                requestBuilder.setHeader(header.getName(), header.getValue());
+                try {
+                    xmlHttpRequest.setRequestHeader(header.getName(), header.getValue());
+                } catch (JavaScriptException e) {
+                    throw new RequestException(e.getMessage());
+                }
             }
         }
-        requestBuilder.sendRequest(data, callback);
     }
 }

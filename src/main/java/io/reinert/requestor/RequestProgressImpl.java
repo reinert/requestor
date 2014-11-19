@@ -15,20 +15,22 @@
  */
 package io.reinert.requestor;
 
+import com.google.gwt.xhr.client.ProgressEvent;
+
 /**
  * Default implementation of {@link RequestProgress}.
  */
 public class RequestProgressImpl implements RequestProgress {
 
-    private final com.google.gwt.http.client.RequestProgress requestProgress;
+    private final ProgressEvent requestProgress;
 
-    public RequestProgressImpl(com.google.gwt.http.client.RequestProgress requestProgress) {
+    public RequestProgressImpl(ProgressEvent requestProgress) {
         this.requestProgress = requestProgress;
     }
 
     @Override
     public boolean isLengthComputable() {
-        return requestProgress.isLengthComputable();
+        return requestProgress.lengthComputable();
     }
 
     @Override

@@ -17,8 +17,6 @@ package io.reinert.requestor.test.mock;
 
 import javax.annotation.Nullable;
 
-import com.google.gwt.http.client.RequestBuilder;
-
 import io.reinert.requestor.Headers;
 
 /**
@@ -26,23 +24,23 @@ import io.reinert.requestor.Headers;
  */
 public class RequestMock {
 
-    private final RequestBuilder.Method method;
+    private final String method;
     private final String url;
     private final String data;
     private final Headers headers;
 
-    public RequestMock(RequestBuilder.Method method, String url, String data) {
-        this(method, url, data, null);
+    public RequestMock(String httpMethod, String url, String data) {
+        this(httpMethod, url, data, null);
     }
 
-    public RequestMock(RequestBuilder.Method method, String url, String data, Headers headers) {
-        this.method = method;
+    public RequestMock(String httpMethod, String url, String data, Headers headers) {
+        this.method = httpMethod;
         this.url = url;
         this.data = data;
         this.headers = headers;
     }
 
-    public RequestBuilder.Method getMethod() {
+    public String getMethod() {
         return method;
     }
 

@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.test.mock;
 
-import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestCallbackWithProgress;
 import com.google.gwt.http.client.RequestException;
@@ -23,6 +22,7 @@ import com.google.gwt.http.client.RequestProgress;
 import com.google.gwt.http.client.Response;
 
 import io.reinert.requestor.Headers;
+import io.reinert.requestor.RequestInProgress;
 import io.reinert.requestor.ServerConnection;
 
 /**
@@ -68,18 +68,11 @@ public class ServerConnectionMock implements ServerConnection {
     }
 
     @Override
-    public void sendRequest(RequestBuilder.Method method, String url, String data, RequestCallback callback)
-            throws RequestException {
-        ServerStub.setRequestData(url, new RequestMock(method, url, data));
-        uri = url;
-        requestCallback = (RequestCallbackWithProgress) callback;
-    }
-
-    @Override
-    public void sendRequest(int timeout, String user, String password, Headers headers, RequestBuilder.Method method,
+    public RequestInProgress sendRequest(int timeout, String user, String password, Headers headers, String httpMethod,
                             String url, String data, RequestCallback callback) throws RequestException {
-        ServerStub.setRequestData(url, new RequestMock(method, url, data, headers));
+        ServerStub.setRequestData(url, new RequestMock(httpMethod, url, data, headers));
         uri = url;
         requestCallback = (RequestCallbackWithProgress) callback;
+        return null;
     }
 }

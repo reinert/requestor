@@ -13,30 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.gwt.http.client;
+package io.reinert.requestor;
 
-import com.google.gwt.xhr.client.ProgressEvent;
+import com.google.gwt.http.client.RequestCallback;
 
-class RequestProgressImpl implements RequestProgress {
+/**
+ * A {@link com.google.gwt.http.client.RequestCallback} with progress handling.
+ *
+ * @author Danilo Reinert
+ */
+interface RequestCallbackWithProgress extends RequestCallback {
 
-    private final ProgressEvent progressEvent;
-
-    public RequestProgressImpl(ProgressEvent progressEvent) {
-        this.progressEvent = progressEvent;
-    }
-
-    @Override
-    public boolean isLengthComputable() {
-        return progressEvent.lengthComputable();
-    }
-
-    @Override
-    public Number loaded() {
-        return progressEvent.loaded();
-    }
-
-    @Override
-    public Number total() {
-        return progressEvent.total();
-    }
+    /**
+     * Called when a pending {@link com.google.gwt.http.client.Request} triggers a progress event.
+     *
+     * @param requestProgress the progress data
+     */
+    void onProgress(RequestProgress requestProgress);
 }

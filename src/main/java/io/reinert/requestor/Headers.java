@@ -68,6 +68,10 @@ public class Headers implements Iterable<Header> {
         return headers.iterator();
     }
 
+    public int size() {
+        return headers.size();
+    }
+
     /**
      * Adds a header to this container and returns if the array has increased.
      *
