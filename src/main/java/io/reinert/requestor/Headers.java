@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -29,28 +30,18 @@ import org.turbogwt.core.collections.LightMap;
  */
 public class Headers implements Iterable<Header> {
 
-    private final Map<String, Header> headers = new LightMap<Header>();
+    private Map<String, Header> headers;
+    private com.google.gwt.http.client.Header[] headersCache;
 
     protected Headers(Header... headers) {
+        ensureHeaders();
         for (final Header header : headers) {
             this.headers.put(formatKey(header.getName()), header);
         }
     }
 
     Headers(com.google.gwt.http.client.Header... headers) {
-        for (final com.google.gwt.http.client.Header header : headers) {
-            this.headers.put(formatKey(header.getName()), new Header() {
-                @Override
-                public String getName() {
-                    return header.getName();
-                }
-
-                @Override
-                public String getValue() {
-                    return header.getValue();
-                }
-            });
-        }
+        headersCache = headers.length > 0 ? headers : null;
     }
 
     private static String formatKey(String headerName) {
@@ -58,15 +49,15 @@ public class Headers implements Iterable<Header> {
     }
 
     public boolean contains(String header) {
-        return headers.containsKey(formatKey(header));
+        return headers != null && ensureHeaders().containsKey(formatKey(header));
     }
 
     public Header get(String header) {
-        return headers.get(formatKey(header));
+        return headers == null ? null : ensureHeaders().get(formatKey(header));
     }
 
     public String getValue(String header, String defaultValue) {
-        final Header h = headers.get(formatKey(header));
+        final Header h = headers == null ? null : ensureHeaders().get(formatKey(header));
         return h != null ? h.getValue() : defaultValue;
     }
 
@@ -76,11 +67,11 @@ public class Headers implements Iterable<Header> {
 
     @Override
     public Iterator<Header> iterator() {
-        return headers.values().iterator();
+        return headers == null ? Collections.<Header>emptyIterator() : ensureHeaders().values().iterator();
     }
 
     public int size() {
-        return headers.size();
+        return headers == null ? 0 : ensureHeaders().size();
     }
 
     /**
@@ -89,7 +80,7 @@ public class Headers implements Iterable<Header> {
      * @param header The header to be added
      */
     protected void add(Header header) {
-        headers.put(formatKey(header.getName()), header);
+        ensureHeaders().put(formatKey(header.getName()), header);
     }
 
     /**
@@ -100,6 +91,30 @@ public class Headers implements Iterable<Header> {
      * @return The removed header or null if there was no header with the given name
      */
     protected Header remove(String name) {
-        return headers.remove(name);
+        return headers == null ? null : ensureHeaders().remove(name);
+    }
+
+    private Map<String, Header> ensureHeaders() {
+        if (headers == null)
+            headers = new LightMap<Header>();
+
+        if (headersCache != null) {
+            for (final com.google.gwt.http.client.Header header : headersCache) {
+                this.headers.put(formatKey(header.getName()), new Header() {
+                    @Override
+                    public String getName() {
+                        return header.getName();
+                    }
+
+                    @Override
+                    public String getValue() {
+                        return header.getValue();
+                    }
+                });
+            }
+            headersCache = null;
+        }
+
+        return headers;
     }
 }

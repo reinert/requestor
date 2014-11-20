@@ -24,7 +24,7 @@ import io.reinert.requestor.serialization.SerdesManager;
 import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Responsible for performing managed serialization and deserialization.
+ * Responsible for performing managed de/serialization.
  *
  * @author Danilo Reinert
  */
