@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.http.client.Response;
-
 /**
  * An extension interface implemented by response filters.
  * Response filters are intended to manipulate the response before the code that invoked its request receives it.

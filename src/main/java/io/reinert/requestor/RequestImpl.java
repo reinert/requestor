@@ -36,8 +36,9 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
 
     private final RequestDispatcher server = GWT.create(RequestDispatcher.class);
     private final String url;
+    private final FilterEngine filterEngine;
     private final SerializationEngine serializationEngine;
-    private final FilterManager filterManager;
+
     private String httpMethod;
     private Headers headers;
     private String user;
@@ -48,9 +49,9 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
     private Object payload;
 
     public RequestImpl(String url, SerializationEngine serializationEngine,
-                       FilterManager filterManager) {
+                       FilterEngine filterEngine) {
+        this.filterEngine = filterEngine;
         this.serializationEngine = serializationEngine;
-        this.filterManager = filterManager;
         this.url = url;
     }
 
@@ -254,17 +255,16 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
         return new ConnectionCallback() {
                 @Override
                 public void onResponseReceived(Request request, Response response) {
+                    final ResponseImpl responseWrapper = new ResponseImpl(response);
+
                     // Execute filters on this response
-                    final List<ResponseFilter> filters = filterManager.getResponseFilters();
-                    for (ResponseFilter filter : filters) {
-                        filter.filter(RequestImpl.this, response);
-                    }
+                    filterEngine.applyResponseFilters(RequestImpl.this, responseWrapper);
 
                     if (response.getStatusCode() / 100 == 2) {
-                        deferred.resolve(RequestImpl.this, new ResponseImpl(response));
+                        deferred.resolve(RequestImpl.this, responseWrapper);
                     } else {
                         deferred.reject(new UnsuccessfulResponseException(RequestImpl.this,
-                                new ResponseImpl(response)));
+                                responseWrapper));
                     }
                 }
 
@@ -291,10 +291,7 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
         ensureHeaders();
 
         // Execute filters on this request
-        final List<RequestFilter> filters = filterManager.getRequestFilters();
-        for (RequestFilter filter : filters) {
-            filter.filter(this);
-        }
+        filterEngine.applyRequestFilters(RequestImpl.this);
 
         return server.send(this, serializationEngine, callback);
     }

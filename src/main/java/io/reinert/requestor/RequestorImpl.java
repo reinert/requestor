@@ -42,6 +42,7 @@ public class RequestorImpl implements Requestor {
     private final SerdesManager serdesManager = new SerdesManager();
     private final FilterManager filterManager = new FilterManager();
     private final ProviderManager providerManager = new ProviderManager();
+    private FilterEngine filterEngine;
     private SerializationEngine serializationEngine;
     private String defaultContentType = "application/json";
 
@@ -118,7 +119,7 @@ public class RequestorImpl implements Requestor {
     }
 
     private RequestInvoker createRequest(String uri) {
-        final RequestImpl request = new RequestImpl(uri, serializationEngine, filterManager);
+        final RequestImpl request = new RequestImpl(uri, serializationEngine, filterEngine);
         request.contentType(defaultContentType);
         request.accept(defaultContentType);
         return request;
@@ -142,6 +143,7 @@ public class RequestorImpl implements Requestor {
             providerManager.bind(provider.getType(), provider);
         }
 
+        filterEngine = new FilterEngine(filterManager);
         serializationEngine = new SerializationEngine(serdesManager, providerManager);
     }
 
