@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -42,15 +41,6 @@ public interface RequestBuilder extends Request {
      * @return the updated Request
      */
     RequestBuilder accept(String mediaType);
-
-    /**
-     * Set the Accept header of the request.
-     *
-     * @param acceptHeader The accept header of the request.
-     *
-     * @return the updated Request
-     */
-    RequestBuilder accept(AcceptHeader acceptHeader);
 
     /**
      * Sets a request header with the given name and value. If a header with the

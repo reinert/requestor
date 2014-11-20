@@ -17,7 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -32,9 +31,6 @@ public interface RequestInvoker extends RequestBuilder {
 
     @Override
     RequestInvoker accept(String mediaType);
-
-    @Override
-    RequestInvoker accept(AcceptHeader acceptHeader);
 
     @Override
     RequestInvoker header(String header, String value);

@@ -125,7 +125,7 @@ public class RequestDispatcherImpl implements RequestDispatcher {
         try {
             xmlHttpRequest.send(body);
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestException(e.getMessage()));
+            deferred.reject(new RequestDispatchException(e.getMessage()));
         }
     }
 

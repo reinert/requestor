@@ -29,7 +29,7 @@ import io.reinert.requestor.header.SimpleHeader;
  *
  * @author Danilo Reinert
  */
-public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request {
+public class RequestImpl implements RequestInvoker {
 
     private final RequestDispatcher dispatcher;
     private final String url;
@@ -39,7 +39,7 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
     private String password;
     private int timeout;
     private String contentType;
-    private AcceptHeader accept;
+    private String accept;
     private Object payload;
 
     public RequestImpl(RequestDispatcher dispatcher, String url) {
@@ -82,7 +82,7 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
     }
 
     @Override
-    public AcceptHeader getAccept() {
+    public String getAccept() {
         return accept;
     }
 
@@ -108,13 +108,7 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
 
     @Override
     public RequestInvoker accept(String mediaType) {
-        this.accept = new AcceptHeader(mediaType);
-        return this;
-    }
-
-    @Override
-    public RequestInvoker accept(AcceptHeader acceptHeader) {
-        this.accept = acceptHeader;
+        this.accept = mediaType;
         return this;
     }
 
@@ -282,7 +276,7 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
         if (headers == null) {
             headers = new Headers();
             headers.add(new ContentTypeHeader(contentType));
-            headers.add(accept);
+            headers.add(new AcceptHeader(accept));
         }
         return headers;
     }

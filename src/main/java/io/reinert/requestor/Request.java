@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.header.AcceptHeader;
-
 /**
  * Represents a HTTP Request.
  *
@@ -24,7 +22,7 @@ import io.reinert.requestor.header.AcceptHeader;
  */
 public interface Request {
 
-    AcceptHeader getAccept();
+    String getAccept();
 
     String getContentType();
 

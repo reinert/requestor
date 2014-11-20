@@ -28,12 +28,25 @@ package io.reinert.requestor.header;
  */
 public class SimpleHeaderWithParameter extends SimpleHeader {
 
-    public SimpleHeaderWithParameter(String name, String value) {
-        super(name, value);
+    public SimpleHeaderWithParameter(String name, String value, String p1, String v1, String p2, String v2,
+                                     String p3, String v3) {
+        super(name, value + paramsToString(Param.of(p1, v1), Param.of(p2, v2), Param.of(p3, v3)));
+    }
+
+    public SimpleHeaderWithParameter(String name, String value, String p1, String v1, String p2, String v2) {
+        super(name, value + paramsToString(Param.of(p1, v1), Param.of(p2, v2)));
+    }
+
+    public SimpleHeaderWithParameter(String name, String value, String p1, String v1) {
+        super(name, value + paramsToString(Param.of(p1, v1)));
     }
 
     public SimpleHeaderWithParameter(String name, String value, Param... params) {
         super(name, value + paramsToString(params));
+    }
+
+    public SimpleHeaderWithParameter(String name, String value) {
+        super(name, value);
     }
 
     /**
@@ -44,9 +57,13 @@ public class SimpleHeaderWithParameter extends SimpleHeader {
         final String key;
         final String value;
 
-        public Param(String key, String value) {
+        private Param(String key, String value) {
             this.key = key;
             this.value = value;
+        }
+
+        public static Param of(String key, String value) {
+            return new Param(key, value);
         }
 
         @Override

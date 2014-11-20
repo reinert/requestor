@@ -32,7 +32,7 @@ public class SimpleHeaderWithParameterTest extends GWTTestCase {
     public void testGetValue() {
         final String expected = "text/html; charset=ISO-8859-4";
         final SimpleHeaderWithParameter header = new SimpleHeaderWithParameter("Content-Type", "text/html",
-                new SimpleHeaderWithParameter.Param("charset", "ISO-8859-4"));
+                SimpleHeaderWithParameter.Param.of("charset", "ISO-8859-4"));
         assertEquals(expected, header.getValue());
     }
 }
