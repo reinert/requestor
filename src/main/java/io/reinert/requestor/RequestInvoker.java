@@ -78,9 +78,21 @@ public interface RequestInvoker extends RequestBuilder {
 
     <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> responseType, Class<C> containerType);
 
+    RequestPromise<Void> patch();
+
+    <T> RequestPromise<T> patch(Class<T> responseType);
+
+    <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> responseType, Class<C> containerType);
+
     RequestPromise<Void> head();
 
     <T> RequestPromise<T> head(Class<T> responseType);
 
     <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType);
+
+    RequestPromise<Void> options();
+
+    <T> RequestPromise<T> options(Class<T> responseType);
+
+    <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> responseType, Class<C> containerType);
 }

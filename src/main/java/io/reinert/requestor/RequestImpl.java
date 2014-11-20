@@ -221,6 +221,22 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
     }
 
     @Override
+    public RequestPromise<Void> patch() {
+        return send("PATCH", Void.class);
+    }
+
+    @Override
+    public <T> RequestPromise<T> patch(Class<T> responseType) {
+        return send("PATCH", responseType);
+    }
+
+    @Override
+    public <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> responseType,
+                                                                         Class<C> containerType) {
+        return send("PATCH", responseType, containerType);
+    }
+
+    @Override
     public RequestPromise<Void> head() {
         return send("HEAD", Void.class);
     }
@@ -235,13 +251,28 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
         return send("HEAD", responseType, containerType);
     }
 
+    @Override
+    public RequestPromise<Void> options() {
+        return send("OPTIONS", Void.class);
+    }
+
+    @Override
+    public <T> RequestPromise<T> options(Class<T> responseType) {
+        return send("OPTIONS", responseType);
+    }
+
+    @Override
+    public <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> responseType,
+                                                                           Class<C> containerType) {
+        return send("OPTIONS", responseType, containerType);
+    }
+
     private <T> RequestPromise<T> send(String method, Class<T> responseType) {
         this.httpMethod = method;
         return dispatcher.send(this, responseType);
     }
 
-    private <T, C extends Collection> RequestPromise<Collection<T>> send(String method,
-                                                                         Class<T> responseType,
+    private <T, C extends Collection> RequestPromise<Collection<T>> send(String method, Class<T> responseType,
                                                                          Class<C> containerType) {
         this.httpMethod = method;
         return dispatcher.send(this, responseType, containerType);
