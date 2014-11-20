@@ -19,10 +19,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.reinert.gdeferred.impl.DeferredObject;
-
-class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwable, RequestProgress>
-        implements DeferredRequest<Collection<T>> {
+class DeferredCollectionResult<T> extends DeferredRequest<Collection<T>> {
 
     private static Logger logger = Logger.getLogger(DeferredCollectionResult.class.getName());
 
@@ -30,8 +27,8 @@ class DeferredCollectionResult<T> extends DeferredObject<Collection<T>, Throwabl
     private final Class<? extends Collection> containerType;
     private final SerializationEngine serializationEngine;
 
-    public DeferredCollectionResult(Class<T> responseType, Class<? extends Collection> containerType,
-                                    SerializationEngine serializationEngine) {
+    public DeferredCollectionResult(SerializationEngine serializationEngine, Class<T> responseType,
+                                    Class<? extends Collection> containerType) {
         this.responseType = responseType;
         this.containerType = containerType;
         this.serializationEngine = serializationEngine;

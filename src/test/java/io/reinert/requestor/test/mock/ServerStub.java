@@ -74,7 +74,8 @@ public class ServerStub implements RequestDispatcher {
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request, Class<T> responseType, Class<C> containerType) {
+    public <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request, Class<T> responseType,
+                                                                        Class<C> containerType) {
         return null;
     }
 }

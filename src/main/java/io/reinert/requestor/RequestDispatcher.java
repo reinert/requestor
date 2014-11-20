@@ -32,7 +32,7 @@ public interface RequestDispatcher {
      * @param <T>           The expected type in response payload
      * @return              The promise for the dispatched request
      */
-    public <T> RequestPromise<T> send(RequestBuilder request, Class<T> responseType);
+    <T> RequestPromise<T> send(RequestBuilder request, Class<T> responseType);
 
     /**
      * Sends the request and return an instance of {@link RequestPromise} expecting a collection result.
@@ -44,7 +44,7 @@ public interface RequestDispatcher {
      * @param <C>           The collection type to hold the values
      * @return              The promise for the dispatched request
      */
-    public <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request,
+    <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request,
                                                                         Class<T> responseType,
                                                                         Class<C> containerType);
 }

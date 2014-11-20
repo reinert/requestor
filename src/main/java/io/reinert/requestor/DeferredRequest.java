@@ -16,8 +16,24 @@
 package io.reinert.requestor;
 
 import io.reinert.gdeferred.Deferred;
+import io.reinert.gdeferred.impl.DeferredObject;
 
-interface DeferredRequest<T> extends RequestPromise<T> , Deferred<T, Throwable, RequestProgress> {
+abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
+        implements RequestPromise<T> , Deferred<T, Throwable, RequestProgress> {
 
-    DeferredRequest<T> resolve(Request request, Response response);
+    private Connection connection;
+
+    abstract DeferredRequest<T> resolve(Request request, Response response);
+
+    @Override
+    public Deferred<T, Throwable, RequestProgress> reject(Throwable reject) {
+        // If the http connection is still opened, then close it
+        if (connection != null && connection.isPending())
+            connection.cancel();
+        return super.reject(reject);
+    }
+
+    void setConnection(Connection connection) {
+        this.connection = connection;
+    }
 }

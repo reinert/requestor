@@ -24,8 +24,6 @@ public interface Connection {
 
     void cancel();
 
-    Request getRequest();
-
     boolean isPending();
 
 }

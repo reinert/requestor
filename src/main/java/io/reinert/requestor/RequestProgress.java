@@ -22,7 +22,7 @@ package io.reinert.requestor;
  */
 public interface RequestProgress {
 
-    public boolean isLengthComputable();
+    boolean isLengthComputable();
 
     /**
      * Returns the loaded amount of the request.
@@ -30,7 +30,7 @@ public interface RequestProgress {
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    public double loaded();
+    double loaded();
 
     /**
      * Returns the total amount of the request.
@@ -38,5 +38,5 @@ public interface RequestProgress {
      *
      * @return The total amount if available, 0 otherwise
      */
-    public double total();
+    double total();
 }

@@ -167,7 +167,8 @@ public class XMLHttpRequest extends JavaScriptObject {
             self.onreadystatechange = new Function();
 
             // ADDED BY REQUESTOR
-            self.onprogress = null;
+            if ("onprogress" in self)
+                self.onprogress = null;
         }, 0);
     }-*/;
 
@@ -384,9 +385,11 @@ public class XMLHttpRequest extends JavaScriptObject {
      * @see #clearOnReadyStateChange()
      */
     public final native void setOnProgress(ProgressHandler handler) /*-{
-        this.onprogress = $entry(function(e) {
-            handler.@com.google.gwt.xhr.client.ProgressHandler::onProgress(Lcom/google/gwt/xhr/client/ProgressEvent;)(e);
-        });
+        if ("onprogress" in this) {
+            this.onprogress = $entry(function(e) {
+                handler.@com.google.gwt.xhr.client.ProgressHandler::onProgress(Lcom/google/gwt/xhr/client/ProgressEvent;)(e);
+            });
+        }
     }-*/;
 
     /**

@@ -18,16 +18,14 @@ package io.reinert.requestor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.reinert.gdeferred.impl.DeferredObject;
-
-class DeferredSingleResult<T> extends DeferredObject<T, Throwable, RequestProgress> implements DeferredRequest<T> {
+class DeferredSingleResult<T> extends DeferredRequest<T> {
 
     private static Logger logger = Logger.getLogger(DeferredSingleResult.class.getName());
 
     private final Class<T> responseType;
     private final SerializationEngine serializationEngine;
 
-    public DeferredSingleResult(Class<T> responseType, SerializationEngine serializationEngine) {
+    public DeferredSingleResult(SerializationEngine serializationEngine, Class<T> responseType) {
         this.responseType = responseType;
         this.serializationEngine = serializationEngine;
     }

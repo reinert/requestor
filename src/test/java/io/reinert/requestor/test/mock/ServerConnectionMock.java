@@ -15,12 +15,11 @@
  */
 package io.reinert.requestor.test.mock;
 
+import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 
 import io.reinert.requestor.Connection;
-import io.reinert.requestor.ConnectionCallback;
-import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestProgress;
 
 /**
@@ -49,7 +48,7 @@ public class ServerConnectionMock implements Connection {
             return 0;
         }
     };
-    private static ConnectionCallback requestCallback;
+    private static RequestCallback requestCallback;
     private static String uri;
 
     public ServerConnectionMock() {
@@ -60,7 +59,7 @@ public class ServerConnectionMock implements Connection {
     }
 
     static void triggerPendingRequest() {
-        requestCallback.onProgress(REQUEST_PROGRESS);
+//        requestCallback.onProgress(REQUEST_PROGRESS);
         if (ServerStub.isReturnSuccess()) {
             requestCallback.onResponseReceived(null, ServerStub.getResponseFor(uri));
         } else {
@@ -74,11 +73,6 @@ public class ServerConnectionMock implements Connection {
     @Override
     public void cancel() {
         // Do nothing
-    }
-
-    @Override
-    public Request getRequest() {
-        return null;
     }
 
     @Override
