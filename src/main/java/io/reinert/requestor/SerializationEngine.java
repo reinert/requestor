@@ -53,9 +53,9 @@ public class SerializationEngine {
         return deserializer.deserialize(payload, context);
     }
 
+    @SuppressWarnings("unchecked")
     public String serialize(Object payload, String mediaType, String url, Headers headers) {
         String body = null;
-
         if (payload != null) {
             if (payload instanceof Collection) {
                 Collection c = (Collection) payload;
@@ -75,7 +75,6 @@ public class SerializationEngine {
                     body = serializer.serialize(c, new HttpSerializationContext(url, headers));
                 }
             } else {
-                @SuppressWarnings("unchecked")
                 Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
                         mediaType);
                 body = serializer.serialize(payload, new HttpSerializationContext(url, headers));
