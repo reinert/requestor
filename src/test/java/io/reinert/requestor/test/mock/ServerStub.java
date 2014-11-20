@@ -25,7 +25,6 @@ import io.reinert.requestor.ConnectionCallback;
 import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestException;
-import io.reinert.requestor.SerializationEngine;
 
 /**
  * @author Danilo Reinert
@@ -71,8 +70,7 @@ public class ServerStub implements RequestDispatcher {
     }
 
     @Override
-    public Connection send(Request request, SerializationEngine serializationEngine, ConnectionCallback callback)
-            throws RequestException {
+    public Connection send(Request request, ConnectionCallback callback) throws RequestException {
         return null;
     }
 }

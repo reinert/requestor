@@ -30,15 +30,23 @@ import io.reinert.requestor.header.Header;
  */
 public class RequestDispatcherImpl implements RequestDispatcher {
 
+    private final SerializationEngine serializationEngine;
+    private final FilterEngine filterEngine;
+
+    public RequestDispatcherImpl(SerializationEngine serializationEngine, FilterEngine filterEngine) {
+        this.serializationEngine = serializationEngine;
+        this.filterEngine = filterEngine;
+    }
+
     @Override
-    public Connection send(final Request request, SerializationEngine engine, final ConnectionCallback callback)
+    public Connection send(final Request request, final ConnectionCallback callback)
             throws RequestException {
         final String httpMethod = request.getMethod();
         final String url = request.getUrl();
         final String user = request.getUser();
         final String password = request.getPassword();
         final Headers headers = request.getHeaders();
-        final String body = engine.serialize(request.getPayload(), request.getContentType(), url, headers);
+        final String body = serializationEngine.serialize(request.getPayload(), request.getContentType(), url, headers);
 
         XMLHttpRequest xmlHttpRequest = XMLHttpRequest.create();
 

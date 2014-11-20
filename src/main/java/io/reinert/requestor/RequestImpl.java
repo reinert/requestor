@@ -16,7 +16,6 @@
 package io.reinert.requestor;
 
 import java.util.Collection;
-import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
@@ -293,7 +292,7 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
         // Execute filters on this request
         filterEngine.applyRequestFilters(RequestImpl.this);
 
-        return server.send(this, serializationEngine, callback);
+        return server.send(this, callback);
     }
 
     private Headers ensureHeaders() {

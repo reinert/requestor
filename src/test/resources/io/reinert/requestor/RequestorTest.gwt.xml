@@ -30,6 +30,10 @@
     <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
   </replace-with>
 
+  <replace-with class="io.reinert.requestor.RequestDispatcherFactoryImpl">
+    <when-type-is class="io.reinert.requestor.RequestDispatcherFactory"/>
+  </replace-with>
+
   <replace-with class="io.reinert.requestor.RequestorImpl">
     <when-type-is class="io.reinert.requestor.Requestor"/>
   </replace-with>

@@ -16,16 +16,18 @@
 package io.reinert.requestor;
 
 /**
- * Promotes communication with the backend.
+ * Default implementation for {@link RequestDispatcherFactory}.
  *
  * @author Danilo Reinert
  */
-public interface RequestDispatcher {
+public class RequestDispatcherFactoryImpl implements RequestDispatcherFactory {
 
-    /**
-     * Sends the request and return an instance of {@link Connection}.
-     *
-     * @return The ServerConnection instance.
-     */
-    Connection send(Request request, ConnectionCallback callback) throws RequestException;
+    private RequestDispatcher requestDispatcher;
+
+    @Override
+    public RequestDispatcher getRequestDispatcher(SerializationEngine serializationEngine, FilterEngine filterEngine) {
+        if (requestDispatcher == null)
+            requestDispatcher = new RequestDispatcherImpl(serializationEngine, filterEngine);
+        return requestDispatcher;
+    }
 }

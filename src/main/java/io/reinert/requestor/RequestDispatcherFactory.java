@@ -16,16 +16,14 @@
 package io.reinert.requestor;
 
 /**
- * Promotes communication with the backend.
+ * Factory for {@link RequestDispatcher}.
+ *
+ * It's implementation is set via deferred binding.
  *
  * @author Danilo Reinert
  */
-public interface RequestDispatcher {
+public interface RequestDispatcherFactory {
 
-    /**
-     * Sends the request and return an instance of {@link Connection}.
-     *
-     * @return The ServerConnection instance.
-     */
-    Connection send(Request request, ConnectionCallback callback) throws RequestException;
+    RequestDispatcher getRequestDispatcher(SerializationEngine serializationEngine, FilterEngine filterEngine);
+
 }

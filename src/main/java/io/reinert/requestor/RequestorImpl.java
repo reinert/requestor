@@ -42,8 +42,10 @@ public class RequestorImpl implements Requestor {
     private final SerdesManager serdesManager = new SerdesManager();
     private final FilterManager filterManager = new FilterManager();
     private final ProviderManager providerManager = new ProviderManager();
+    private final RequestDispatcherFactory requestDispatcherFactory = GWT.create(RequestDispatcherFactory.class);
     private FilterEngine filterEngine;
     private SerializationEngine serializationEngine;
+
     private String defaultContentType = "application/json";
 
     public RequestorImpl() {
