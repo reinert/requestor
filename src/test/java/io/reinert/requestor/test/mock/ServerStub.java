@@ -15,16 +15,15 @@
  */
 package io.reinert.requestor.test.mock;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.http.client.Response;
 
-import io.reinert.requestor.Connection;
-import io.reinert.requestor.ConnectionCallback;
-import io.reinert.requestor.Request;
+import io.reinert.requestor.RequestBuilder;
 import io.reinert.requestor.RequestDispatcher;
-import io.reinert.requestor.RequestException;
+import io.reinert.requestor.RequestPromise;
 
 /**
  * @author Danilo Reinert
@@ -70,7 +69,12 @@ public class ServerStub implements RequestDispatcher {
     }
 
     @Override
-    public Connection send(Request request, ConnectionCallback callback) throws RequestException {
+    public <T> RequestPromise<T> send(RequestBuilder request, Class<T> responseType) {
+        return null;
+    }
+
+    @Override
+    public <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request, Class<T> responseType, Class<C> containerType) {
         return null;
     }
 }

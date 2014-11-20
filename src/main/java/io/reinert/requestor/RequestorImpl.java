@@ -121,7 +121,8 @@ public class RequestorImpl implements Requestor {
     }
 
     private RequestInvoker createRequest(String uri) {
-        final RequestImpl request = new RequestImpl(uri, serializationEngine, filterEngine);
+        final RequestImpl request = new RequestImpl(
+                requestDispatcherFactory.getRequestDispatcher(serializationEngine, filterEngine), uri);
         request.contentType(defaultContentType);
         request.accept(defaultContentType);
         return request;

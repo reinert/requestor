@@ -17,9 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.Response;
 
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
@@ -33,11 +31,8 @@ import io.reinert.requestor.header.SimpleHeader;
  */
 public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request {
 
-    private final RequestDispatcher server = GWT.create(RequestDispatcher.class);
+    private final RequestDispatcher dispatcher;
     private final String url;
-    private final FilterEngine filterEngine;
-    private final SerializationEngine serializationEngine;
-
     private String httpMethod;
     private Headers headers;
     private String user;
@@ -47,12 +42,63 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
     private AcceptHeader accept;
     private Object payload;
 
-    public RequestImpl(String url, SerializationEngine serializationEngine,
-                       FilterEngine filterEngine) {
-        this.filterEngine = filterEngine;
-        this.serializationEngine = serializationEngine;
+    public RequestImpl(RequestDispatcher dispatcher, String url) {
+        this.dispatcher = dispatcher;
         this.url = url;
     }
+
+    //===================================================================
+    // Request methods
+    //===================================================================
+
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public String getUser() {
+        return user;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public int getTimeout() {
+        return timeout;
+    }
+
+    @Override
+    public String getContentType() {
+        return contentType;
+    }
+
+    @Override
+    public Object getPayload() {
+        return payload;
+    }
+
+    @Override
+    public AcceptHeader getAccept() {
+        return accept;
+    }
+
+    @Override
+    public Headers getHeaders() {
+        return headers;
+    }
+
+    @Override
+    public String getMethod() {
+        return httpMethod;
+    }
+
+    //===================================================================
+    // RequestBuilder methods
+    //===================================================================
 
     @Override
     public RequestInvoker contentType(String mediaType) {
@@ -98,9 +144,8 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
 
     @Override
     public RequestInvoker timeout(int timeoutMillis) {
-        if (timeoutMillis < 0)
-            throw new IllegalArgumentException("Timeout cannot be negative.");
-        timeout = timeoutMillis;
+        if (timeoutMillis > 0)
+            timeout = timeoutMillis;
         return this;
     }
 
@@ -109,6 +154,10 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
         payload = object;
         return this;
     }
+
+    //===================================================================
+    // RequestInvoker methods
+    //===================================================================
 
     @Override
     public RequestPromise<Void> get() {
@@ -186,113 +235,16 @@ public class RequestImpl implements RequestInvoker, io.reinert.requestor.Request
         return send("HEAD", responseType, containerType);
     }
 
-    @Override
-    public String getUrl() {
-        return url;
-    }
-
-    @Override
-    public String getUser() {
-        return user;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public int getTimeout() {
-        return timeout;
-    }
-
-    @Override
-    public String getContentType() {
-        return contentType;
-    }
-
-    @Override
-    public Object getPayload() {
-        return payload;
-    }
-
-    @Override
-    public AcceptHeader getAccept() {
-        return accept;
-    }
-
-    @Override
-    public Headers getHeaders() {
-        return headers;
-    }
-
-    @Override
-    public String getMethod() {
-        return httpMethod;
-    }
-
     private <T> RequestPromise<T> send(String method, Class<T> responseType) {
         this.httpMethod = method;
-        final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(responseType, serializationEngine);
-        ConnectionCallback callback = createConnectionCallback(deferred);
-        dispatch(callback);
-        return deferred;
+        return dispatcher.send(this, responseType);
     }
 
     private <T, C extends Collection> RequestPromise<Collection<T>> send(String method,
                                                                          Class<T> responseType,
                                                                          Class<C> containerType) {
         this.httpMethod = method;
-        final DeferredCollectionResult<T> deferred = new DeferredCollectionResult<T>(responseType, containerType,
-                serializationEngine);
-        ConnectionCallback callback = createConnectionCallback(deferred);
-        dispatch(callback);
-        return deferred;
-    }
-
-    private <D> ConnectionCallback createConnectionCallback(final DeferredRequest<D> deferred) {
-        return new ConnectionCallback() {
-                @Override
-                public void onResponseReceived(Request request, Response response) {
-                    final ResponseImpl responseWrapper = new ResponseImpl(response);
-
-                    // Execute filters on this response
-                    filterEngine.applyResponseFilters(RequestImpl.this, responseWrapper);
-
-                    if (response.getStatusCode() / 100 == 2) {
-                        deferred.resolve(RequestImpl.this, responseWrapper);
-                    } else {
-                        deferred.reject(new UnsuccessfulResponseException(RequestImpl.this,
-                                responseWrapper));
-                    }
-                }
-
-                @Override
-                public void onProgress(RequestProgress requestProgress) {
-                    deferred.notify(requestProgress);
-                }
-
-                @Override
-                public void onError(Request request, Throwable exception) {
-                    if (exception instanceof com.google.gwt.http.client.RequestTimeoutException) {
-                        com.google.gwt.http.client.RequestTimeoutException e =
-                                (com.google.gwt.http.client.RequestTimeoutException) exception;
-                        deferred.reject(new io.reinert.requestor.RequestTimeoutException(RequestImpl.this,
-                                e.getTimeoutMillis()));
-                    } else {
-                        deferred.reject(new io.reinert.requestor.RequestException(exception));
-                    }
-                }
-            };
-    }
-
-    private Connection dispatch(ConnectionCallback callback) {
-        ensureHeaders();
-
-        // Execute filters on this request
-        filterEngine.applyRequestFilters(RequestImpl.this);
-
-        return server.send(this, callback);
+        return dispatcher.send(this, responseType, containerType);
     }
 
     private Headers ensureHeaders() {

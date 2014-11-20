@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
+
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.xhr.client.ProgressEvent;
 import com.google.gwt.xhr.client.ProgressHandler;
@@ -39,8 +41,26 @@ public class RequestDispatcherImpl implements RequestDispatcher {
     }
 
     @Override
-    public Connection send(final Request request, final ConnectionCallback callback)
-            throws RequestException {
+    public <T> RequestPromise<T> send(RequestBuilder request, Class<T> responseType) {
+        final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(responseType, serializationEngine);
+        ConnectionCallback callback = createConnectionCallback(request, deferred);
+        dispatch(request, callback);
+        return deferred;
+    }
+
+    @Override
+    public <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request,
+                                                                         Class<T> responseType,
+                                                                         Class<C> containerType) {
+        final DeferredCollectionResult<T> deferred = new DeferredCollectionResult<T>(responseType, containerType,
+                serializationEngine);
+        ConnectionCallback callback = createConnectionCallback(request, deferred);
+        dispatch(request, callback);
+        return deferred;
+    }
+
+
+    private Connection send(final Request request, final ConnectionCallback callback) throws RequestException {
         final String httpMethod = request.getMethod();
         final String url = request.getUrl();
         final String user = request.getUser();
@@ -124,5 +144,48 @@ public class RequestDispatcherImpl implements RequestDispatcher {
                 }
             }
         }
+    }
+
+    private <D> ConnectionCallback createConnectionCallback(final Request request, final DeferredRequest<D> deferred) {
+        return new ConnectionCallback() {
+            @Override
+            public void onResponseReceived(com.google.gwt.http.client.Request gwtRequest,
+                                           com.google.gwt.http.client.Response gwtResponse) {
+                final ResponseImpl responseWrapper = new ResponseImpl(gwtResponse);
+
+                // Execute filters on this response
+                filterEngine.applyResponseFilters(request, responseWrapper);
+
+                if (gwtResponse.getStatusCode() / 100 == 2) {
+                    deferred.resolve(request, responseWrapper);
+                } else {
+                    deferred.reject(new UnsuccessfulResponseException(request, responseWrapper));
+                }
+            }
+
+            @Override
+            public void onProgress(RequestProgress requestProgress) {
+                deferred.notify(requestProgress);
+            }
+
+            @Override
+            public void onError(com.google.gwt.http.client.Request gwtRequest, Throwable exception) {
+                if (exception instanceof com.google.gwt.http.client.RequestTimeoutException) {
+                    com.google.gwt.http.client.RequestTimeoutException e =
+                            (com.google.gwt.http.client.RequestTimeoutException) exception;
+                    deferred.reject(new io.reinert.requestor.RequestTimeoutException(request,
+                            e.getTimeoutMillis()));
+                } else {
+                    deferred.reject(new io.reinert.requestor.RequestException(exception));
+                }
+            }
+        };
+    }
+
+    private Connection dispatch(RequestBuilder request, ConnectionCallback callback) {
+        // Execute filters on this request
+        filterEngine.applyRequestFilters(request);
+
+        return send(request, callback);
     }
 }

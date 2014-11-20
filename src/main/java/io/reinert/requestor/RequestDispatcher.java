@@ -15,17 +15,36 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
+
 /**
- * Promotes communication with the backend.
+ * This class dispatches the requests and return promises.
  *
  * @author Danilo Reinert
  */
 public interface RequestDispatcher {
 
     /**
-     * Sends the request and return an instance of {@link Connection}.
+     * Sends the request and return an instance of {@link RequestPromise} expecting a sole result.
      *
-     * @return The ServerConnection instance.
+     * @param request       The request under construction
+     * @param responseType  The class instance of the expected type in response payload
+     * @param <T>           The expected type in response payload
+     * @return              The promise for the dispatched request
      */
-    Connection send(Request request, ConnectionCallback callback) throws RequestException;
+    public <T> RequestPromise<T> send(RequestBuilder request, Class<T> responseType);
+
+    /**
+     * Sends the request and return an instance of {@link RequestPromise} expecting a collection result.
+     *
+     * @param request       The request under construction
+     * @param responseType  The class instance of the expected type in response payload
+     * @param containerType The class instance of the container type which will hold the values
+     * @param <T>           The expected type in response payload
+     * @param <C>           The collection type to hold the values
+     * @return              The promise for the dispatched request
+     */
+    public <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request,
+                                                                        Class<T> responseType,
+                                                                        Class<C> containerType);
 }

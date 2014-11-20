@@ -28,7 +28,7 @@ public class FilterEngine {
         this.filterManager = filterManager;
     }
 
-    public <R extends Request & RequestBuilder> void applyRequestFilters(R request) {
+    public void applyRequestFilters(RequestBuilder request) {
         for (RequestFilter filter : filterManager.getRequestFilters()) {
             filter.filter(request);
         }

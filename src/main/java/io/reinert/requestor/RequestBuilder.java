@@ -23,7 +23,7 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface RequestBuilder {
+public interface RequestBuilder extends Request {
 
     /**
      * Set the content type of this request.
@@ -95,19 +95,19 @@ public interface RequestBuilder {
     RequestBuilder password(String password);
 
     /**
-     * Sets the number of milliseconds to wait for a request to complete. Should
-     * the request timeout, the
-     * {@link com.google.gwt.http.client.RequestCallback#onError(com.google.gwt.http.client.Request, Throwable)}
-     * method will be called on the callback instance given to the
-     * {@link com.google.gwt.http.client.RequestBuilder#sendRequest(String, com.google.gwt.http.client.RequestCallback)}
-     * method. The callback method will receive an instance of the
-     * {@link com.google.gwt.http.client.RequestTimeoutException} class as its
+     * Sets the number of milliseconds to wait for a request to complete.
+     *
+     * Should the request timeout, {@link io.reinert.gdeferred.FailCallback#onFail(Object)}
+     * method will be called on all registered {@link io.reinert.gdeferred.FailCallback} in the {@link RequestPromise}.
+     * The callback method will receive an instance of the {@link RequestTimeoutException} class as its
      * {@link Throwable} argument.
+     * <p/>
+     *
+     * Negative aren't allowed according to XMLHttpRequest specification.
+     * So if a value less than zero is passed, it is ignored.
      *
      * @param timeoutMillis number of milliseconds to wait before canceling the
      *          request, a value of zero disables timeouts
-     *
-     * @throws IllegalArgumentException if the timeout value is negative
      */
     RequestBuilder timeout(int timeoutMillis) throws IllegalArgumentException;
 
