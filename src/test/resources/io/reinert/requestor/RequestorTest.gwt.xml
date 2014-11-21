@@ -24,7 +24,7 @@
   <!-- required by BookXmlSerdes -->
   <inherits name="com.google.gwt.xml.XML"/>
 
-  <source path="" excludes="rebind/**/*"/>
+  <source path="" excludes="rebind/**/*,**/*Test.java,**/*TestSuite.java,**/*TestUtil.java"/>
 
   <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">
     <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
