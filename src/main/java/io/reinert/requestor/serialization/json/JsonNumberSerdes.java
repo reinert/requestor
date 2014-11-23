@@ -30,6 +30,8 @@ import io.reinert.requestor.serialization.UnableToDeserializeException;
  */
 public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HasImpl {
 
+    public static boolean SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING = false;
+
     private static final Class<?>[] IMPL_CLASSES = new Class<?>[]{Byte.class, Short.class, Integer.class,
             Double.class, Long.class, BigInteger.class, BigDecimal.class};
 
@@ -71,7 +73,8 @@ public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HasImpl
             // else Number.class, then we must guess the best suit
             if (response.contains(".")) {
                 try {
-                    return Double.valueOf(response);
+                    final Double d = Double.valueOf(response);
+                    return d.isInfinite() || d.isNaN() ? new BigDecimal(response) : d;
                 } catch (Exception e) {
                     return new BigDecimal(response);
                 }
@@ -102,7 +105,7 @@ public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HasImpl
             return null;
 
         if (n instanceof BigDecimal)
-            return ((BigDecimal) n).toPlainString();
+            return SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING ? ((BigDecimal) n).toPlainString() : n.toString();
 
         return n.toString();
     }
