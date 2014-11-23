@@ -24,14 +24,11 @@ public class JsonBooleanSerdesTest {
 
     @Test
     public void serializeCollection() throws Exception {
-        // Given
         Collection<Boolean> input = Arrays.asList(true, false, false, true, false);
+        String expected = "[true,false,false,true,false]";
 
-        // When
         String output = serdes.serialize(input, null);
 
-        // Then
-        String expected = "[true,false,false,true,false]";
         assertEquals(expected, output);
     }
 
@@ -43,19 +40,16 @@ public class JsonBooleanSerdesTest {
 
     @Test
     public void deserializeCollection() throws Exception {
-        // Prepare mock
+        // Set-up mock
         DeserializationContext context = Mockito.mock(DeserializationContext.class);
         Mockito.when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
-        // Given
         String input = "[true,false,false,true,false]";
+        Collection<Boolean> expected = Arrays.asList(true, false, false, true, false);
 
-        // When
         @SuppressWarnings("unchecked")
         Collection<Boolean> output = serdes.deserialize(List.class, input, context);
 
-        // Then
-        Collection<Boolean> expected = Arrays.asList(true, false, false, true, false);
         assertEquals(expected, output);
     }
 }
