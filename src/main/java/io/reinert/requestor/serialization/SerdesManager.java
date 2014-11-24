@@ -136,12 +136,12 @@ public class SerdesManager {
      * @throws SerializationException if no deserializer was registered for the class.
      */
     @SuppressWarnings("unchecked")
-    public <T> Deserializer<T> getDeserializer(Class<T> type, String contentType) throws SerializationException {
+    public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) throws SerializationException {
         checkNotNull(type, "Type (Class<T>) cannot be null.");
-        checkNotNull(contentType, "Content-Type cannot be null.");
+        checkNotNull(mediaType, "Media-Type cannot be null.");
 
         final String typeName = getClassName(type);
-        final Key key = new Key(typeName, contentType);
+        final Key key = new Key(typeName, mediaType);
 
         ArrayList<DeserializerHolder> holders = deserializers.get(typeName);
         if (holders != null) {
@@ -151,7 +151,7 @@ public class SerdesManager {
         }
 
         throw new SerializationException("There is no Deserializer registered for " + type.getName() +
-                " and content-type " + contentType + ". If you're relying on auto-generated deserializers," +
+                " and media-type " + mediaType + ". If you're relying on auto-generated deserializers," +
                 " please make sure you imported the correct GWT Module.");
     }
 
@@ -164,12 +164,12 @@ public class SerdesManager {
      * @throws SerializationException if no serializer was registered for the class.
      */
     @SuppressWarnings("unchecked")
-    public <T> Serializer<T> getSerializer(Class<T> type, String contentType) throws SerializationException {
+    public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) throws SerializationException {
         checkNotNull(type, "Type (Class<T>) cannot be null.");
-        checkNotNull(contentType, "Content-Type cannot be null.");
+        checkNotNull(mediaType, "Media-Type cannot be null.");
 
         final String typeName = getClassName(type);
-        final Key key = new Key(typeName, contentType);
+        final Key key = new Key(typeName, mediaType);
 
         ArrayList<SerializerHolder> holders = serializers.get(typeName);
         if (holders != null) {
@@ -179,7 +179,7 @@ public class SerdesManager {
         }
 
         throw new SerializationException("There is no Serializer registered for type " + type.getName() +
-                " and content-type " + contentType + ". If you're relying on auto-generated serializers," +
+                " and media-type " + mediaType + ". If you're relying on auto-generated serializers," +
                 " please make sure you imported the correct GWT Module.");
     }
 
@@ -201,10 +201,10 @@ public class SerdesManager {
             serializers.put(typeName, allHolders);
         }
 
-        final String[] contentType = serializer.mediaType();
-        final SerializerHolder[] currHolders = new SerializerHolder[contentType.length];
-        for (int i = 0; i < contentType.length; i++) {
-            String pattern = contentType[i];
+        final String[] mediaType = serializer.mediaType();
+        final SerializerHolder[] currHolders = new SerializerHolder[mediaType.length];
+        for (int i = 0; i < mediaType.length; i++) {
+            String pattern = mediaType[i];
             final Key key = new Key(typeName, pattern);
             final SerializerHolder holder = new SerializerHolder(key, serializer);
             allHolders.add(holder);
@@ -314,20 +314,20 @@ public class SerdesManager {
     private static class Key implements Comparable<Key> {
 
         final String typeName;
-        final String contentType;
+        final String mediaType;
         final double factor;
 
-        private Key(String typeName, String contentType) {
-            checkSeparatorPresence(contentType);
+        private Key(String typeName, String mediaType) {
+            checkSeparatorPresence(mediaType);
 
             this.typeName = typeName;
-            this.contentType = contentType;
+            this.mediaType = mediaType;
             this.factor = 1.0;
         }
 
-        private Key(String typeName, String contentType, double factor) {
+        private Key(String typeName, String mediaType, double factor) {
             this.typeName = typeName;
-            this.contentType = contentType;
+            this.mediaType = mediaType;
             this.factor = factor;
         }
 
@@ -339,11 +339,11 @@ public class SerdesManager {
 
             boolean matches;
 
-            final int thisSep = this.contentType.indexOf("/");
-            final int otherSep = key.contentType.indexOf("/");
+            final int thisSep = this.mediaType.indexOf("/");
+            final int otherSep = key.mediaType.indexOf("/");
 
-            String thisInitialPart = this.contentType.substring(0, thisSep);
-            String otherInitialPart = key.contentType.substring(0, otherSep);
+            String thisInitialPart = this.mediaType.substring(0, thisSep);
+            String otherInitialPart = key.mediaType.substring(0, otherSep);
 
             if (thisInitialPart.contains("*")) {
                 matches = matchPartsSafely(thisInitialPart, otherInitialPart);
@@ -355,8 +355,8 @@ public class SerdesManager {
 
             if (!matches) return false;
 
-            final String thisFinalPart = this.contentType.substring(thisSep + 1);
-            final String otherFinalPart = key.contentType.substring(otherSep + 1);
+            final String thisFinalPart = this.mediaType.substring(thisSep + 1);
+            final String otherFinalPart = key.mediaType.substring(otherSep + 1);
 
             if (thisFinalPart.contains("*")) {
                 matches = matchPartsSafely(thisFinalPart, otherFinalPart);
@@ -383,7 +383,7 @@ public class SerdesManager {
             if (!typeName.equals(key.typeName)) {
                 return false;
             }
-            if (!contentType.equals(key.contentType)) {
+            if (!mediaType.equals(key.mediaType)) {
                 return false;
             }
             if (Double.compare(key.factor, factor) != 0) {
@@ -398,7 +398,7 @@ public class SerdesManager {
             int result;
             long temp;
             result = typeName.hashCode();
-            result = 31 * result + contentType.hashCode();
+            result = 31 * result + mediaType.hashCode();
             temp = Double.doubleToLongBits(factor);
             result = 31 * result + (int) (temp ^ (temp >>> 32));
             return result;
@@ -410,13 +410,13 @@ public class SerdesManager {
 
             // TODO: Improve pattern matching to handle patterns without separators.
             if (result == 0) {
-                final int thisSep = this.contentType.indexOf("/");
-                final int otherSep = key.contentType.indexOf("/");
+                final int thisSep = this.mediaType.indexOf("/");
+                final int otherSep = key.mediaType.indexOf("/");
 
                 // !!! CAUTION !!!
                 // When mediaType does not have a '/' separator, than StringArrayIndexOutOfBounds is thrown.
-                String thisInitialPart = this.contentType.substring(0, thisSep);
-                String otherInitialPart = key.contentType.substring(0, otherSep);
+                String thisInitialPart = this.mediaType.substring(0, thisSep);
+                String otherInitialPart = key.mediaType.substring(0, otherSep);
                 result = thisInitialPart.compareTo(otherInitialPart);
 
                 // Invert the result if the winner contains wildcard
@@ -424,8 +424,8 @@ public class SerdesManager {
                     result = -result;
 
                 if (result == 0) {
-                    String thisFinalPart = this.contentType.substring(thisSep + 1);
-                    String otherFinalPart = key.contentType.substring(otherSep + 1);
+                    String thisFinalPart = this.mediaType.substring(thisSep + 1);
+                    String otherFinalPart = key.mediaType.substring(otherSep + 1);
                     result = thisFinalPart.compareTo(otherFinalPart);
 
                     // Invert the result if the winner contains wildcard
@@ -442,10 +442,10 @@ public class SerdesManager {
             return result;
         }
 
-        private void checkSeparatorPresence(String contentType) {
-            if (contentType.indexOf("/") < 1)
-                throw new RuntimeException("Cannot perform matching. Content-Type *" +
-                        this.contentType + "* does not have a '/' separator.");
+        private void checkSeparatorPresence(String mediaType) {
+            if (mediaType.indexOf("/") < 1)
+                throw new RuntimeException("Cannot perform matching. Media-Type *" +
+                        this.mediaType + "* does not have a '/' separator.");
         }
 
         private boolean matchPartsSafely(String left, String right) {
@@ -493,7 +493,7 @@ public class SerdesManager {
         public String toString() {
             return "{" +
                     "type: '" + typeName + '\'' +
-                    ", mediaType: '" + contentType + '\'' +
+                    ", mediaType: '" + mediaType + '\'' +
                     ", factor: " + factor +
                     '}';
         }
