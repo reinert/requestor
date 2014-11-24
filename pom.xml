@@ -185,7 +185,7 @@
             <dependency>
               <groupId>io.reinert.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>1.0.0</version>
+              <version>1.0.0-SNAPSHOT</version>
             </dependency>
           </dependencies>
           <executions>

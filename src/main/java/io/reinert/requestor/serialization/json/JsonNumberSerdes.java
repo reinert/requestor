@@ -30,7 +30,7 @@ import io.reinert.requestor.serialization.UnableToDeserializeException;
  */
 public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HasImpl {
 
-    public static boolean SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING = false;
+    public static boolean SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING;
 
     private static final Class<?>[] IMPL_CLASSES = new Class<?>[]{Byte.class, Short.class, Integer.class,
             Double.class, Long.class, BigInteger.class, BigDecimal.class};
