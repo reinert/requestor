@@ -27,7 +27,6 @@ import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
 
 import org.turbogwt.core.collections.JsArrayList;
-import org.turbogwt.core.util.Overlays;
 
 /**
  * Serializer/Deserializer of Overlay types.
@@ -79,13 +78,13 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
 
     @Override
     public String serialize(JavaScriptObject t, SerializationContext context) {
-        return Overlays.stringify(t);
+        return stringify(t);
     }
 
     @Override
     public String serialize(Collection<JavaScriptObject> c, SerializationContext context) {
         if (c instanceof JsArrayList)
-            return Overlays.stringify(((JsArrayList<JavaScriptObject>) c).asJsArray());
+            return stringify(((JsArrayList<JavaScriptObject>) c).asJsArray());
 
         @SuppressWarnings("unchecked")
         JsArray<JavaScriptObject> jsArray = (JsArray<JavaScriptObject>) JsArray.createArray();
@@ -93,10 +92,14 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
             jsArray.push(t);
         }
 
-        return Overlays.stringify(jsArray);
+        return stringify(jsArray);
     }
 
     private <T extends JavaScriptObject> T eval(String response) {
         return USE_SAFE_EVAL ? JsonUtils.<T>safeEval(response) : JsonUtils.<T>unsafeEval(response);
     }
+
+    private native String stringify(JavaScriptObject jso) /*-{
+        return JSON.stringify(jso);
+    }-*/;
 }
