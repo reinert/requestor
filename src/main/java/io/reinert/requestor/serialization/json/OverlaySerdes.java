@@ -32,23 +32,21 @@ import org.turbogwt.core.util.Overlays;
 /**
  * Serializer/Deserializer of Overlay types.
  *
- * @param <T> The overlay type of the data to be serialized.
- *
  * @author Danilo Reinert
  */
-public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
+public class OverlaySerdes implements Serdes<JavaScriptObject> {
 
-    private static OverlaySerdes<JavaScriptObject> INSTANCE = new OverlaySerdes<JavaScriptObject>();
+    public static boolean USE_SAFE_EVAL = true;
 
-    @SuppressWarnings("unchecked")
-    public static <O extends JavaScriptObject> OverlaySerdes<O> getInstance() {
-        return (OverlaySerdes<O>) INSTANCE;
+    private static OverlaySerdes INSTANCE = new OverlaySerdes();
+
+    public static OverlaySerdes getInstance() {
+        return INSTANCE;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Class<T> handledType() {
-        return (Class<T>) JavaScriptObject.class;
+    public Class<JavaScriptObject> handledType() {
+        return JavaScriptObject.class;
     }
 
     @Override
@@ -57,22 +55,22 @@ public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
     }
 
     @Override
-    public T deserialize(String response, DeserializationContext context) {
-        return JsonUtils.safeEval(response);
+    public JavaScriptObject deserialize(String response, DeserializationContext context) {
+        return eval(response);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
-                                                   DeserializationContext context) {
-        JsArray<T> jsArray = JsonUtils.safeEval(response);
+    public <C extends Collection<JavaScriptObject>> C deserialize(Class<C> collectionType, String response,
+                                                                  DeserializationContext context) {
+        JsArray<JavaScriptObject> jsArray = eval(response);
         if (collectionType.equals(List.class) || collectionType.equals(Collection.class)
                 || collectionType.equals(JsArrayList.class)) {
             return (C) new JsArrayList(jsArray);
         } else {
             C col = context.getInstance(collectionType);
             for (int i = 0; i < jsArray.length(); i++) {
-                T t = jsArray.get(i);
+                JavaScriptObject t = jsArray.get(i);
                 col.add(t);
             }
             return col;
@@ -80,21 +78,25 @@ public class OverlaySerdes<T extends JavaScriptObject> implements Serdes<T> {
     }
 
     @Override
-    public String serialize(T t, SerializationContext context) {
+    public String serialize(JavaScriptObject t, SerializationContext context) {
         return Overlays.stringify(t);
     }
 
     @Override
-    public String serialize(Collection<T> c, SerializationContext context) {
+    public String serialize(Collection<JavaScriptObject> c, SerializationContext context) {
         if (c instanceof JsArrayList)
-            return Overlays.stringify(((JsArrayList<T>) c).asJsArray());
+            return Overlays.stringify(((JsArrayList<JavaScriptObject>) c).asJsArray());
 
         @SuppressWarnings("unchecked")
-        JsArray<T> jsArray = (JsArray<T>) JsArray.createArray();
-        for (T t : c) {
+        JsArray<JavaScriptObject> jsArray = (JsArray<JavaScriptObject>) JsArray.createArray();
+        for (JavaScriptObject t : c) {
             jsArray.push(t);
         }
 
         return Overlays.stringify(jsArray);
+    }
+
+    private <T extends JavaScriptObject> T eval(String response) {
+        return USE_SAFE_EVAL ? JsonUtils.<T>safeEval(response) : JsonUtils.<T>unsafeEval(response);
     }
 }
