@@ -25,7 +25,7 @@
 
   <groupId>io.reinert.requestor</groupId>
   <artifactId>requestor</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.0-SNAPSHOT</version>
   <name>Requestor</name>
   <inceptionYear>2014</inceptionYear>
   <description>GWT HTTP client API.</description>
@@ -135,12 +135,12 @@
     </dependency>
 
     <!-- Test dependencies -->
-    <dependency>
-      <groupId>com.google.gwt.gwtmockito</groupId>
-      <artifactId>gwtmockito</artifactId>
-      <version>${gwtmockito.version}</version>
-      <scope>test</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>com.google.gwt.gwtmockito</groupId>-->
+      <!--<artifactId>gwtmockito</artifactId>-->
+      <!--<version>${gwtmockito.version}</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
