@@ -31,8 +31,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Unit tests of {@link io.reinert.requestor.serialization.json.JsonNumberSerdes}.
- *
- * @author Danilo Reinert
  */
 public class JsonNumberSerdesTest {
 

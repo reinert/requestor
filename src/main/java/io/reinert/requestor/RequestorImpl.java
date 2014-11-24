@@ -43,15 +43,14 @@ public class RequestorImpl implements Requestor {
     private final FilterManager filterManager = new FilterManager();
     private final ProviderManager providerManager = new ProviderManager();
     private final RequestDispatcherFactory requestDispatcherFactory = GWT.create(RequestDispatcherFactory.class);
-    private FilterEngine filterEngine;
-    private SerializationEngine serializationEngine;
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
 
-    private String defaultContentType = "application/json";
+    private String defaultMediaType = "application/json";
 
     public RequestorImpl() {
         initSerdesManager();
+        initProcessors();
     }
 
     //===================================================================
@@ -68,13 +67,13 @@ public class RequestorImpl implements Requestor {
     //===================================================================
 
     @Override
-    public void setDefaultContentType(String contentType) {
-        this.defaultContentType = contentType;
+    public void setDefaultMediaType(String mediaType) {
+        this.defaultMediaType = mediaType;
     }
 
     @Override
-    public String getDefaultContentType() {
-        return defaultContentType;
+    public String getDefaultMediaType() {
+        return defaultMediaType;
     }
 
     @Override
@@ -125,8 +124,8 @@ public class RequestorImpl implements Requestor {
     private RequestInvoker createRequest(String uri) {
         final RequestInvokerImpl request = new RequestInvokerImpl(uri, requestProcessor,
                 requestDispatcherFactory.getRequestDispatcher(responseProcessor));
-        request.contentType(defaultContentType);
-        request.accept(defaultContentType);
+        request.contentType(defaultMediaType);
+        request.accept(defaultMediaType);
         return request;
     }
 
@@ -139,7 +138,7 @@ public class RequestorImpl implements Requestor {
         serdesManager.addSerdes(TextSerdes.getInstance());
         serdesManager.addSerializer(FormParamSerializer.getInstance());
 
-        initGeneratedJsonSerdes();
+        ensureGeneratedJsonSerdes();
 
         for (Serdes<?> serdes : generatedJsonSerdes.getGeneratedSerdes()) {
             serdesManager.addSerdes(serdes);
@@ -147,15 +146,16 @@ public class RequestorImpl implements Requestor {
         for (GeneratedProvider provider : generatedJsonSerdes.getGeneratedProviders()) {
             providerManager.bind(provider.getType(), provider);
         }
+    }
 
-        filterEngine = new FilterEngine(filterManager);
-        serializationEngine = new SerializationEngine(serdesManager, providerManager);
-
+    private void initProcessors() {
+        final FilterEngine filterEngine = new FilterEngine(filterManager);
+        final SerializationEngine serializationEngine = new SerializationEngine(serdesManager, providerManager);
         requestProcessor = new RequestProcessor(serializationEngine, filterEngine);
         responseProcessor = new ResponseProcessor(serializationEngine, filterEngine);
     }
 
-    private void initGeneratedJsonSerdes() {
+    private void ensureGeneratedJsonSerdes() {
         if (generatedJsonSerdes == null)
             generatedJsonSerdes = GWT.create(GeneratedJsonSerdes.class);
     }

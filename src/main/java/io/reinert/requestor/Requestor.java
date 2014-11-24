@@ -50,9 +50,9 @@ public interface Requestor {
     // Requestor configuration
     //===================================================================
 
-    void setDefaultContentType(String contentType);
+    void setDefaultMediaType(String contentType);
 
-    String getDefaultContentType();
+    String getDefaultMediaType();
 
     <T> Deserializer<T> getDeserializer(Class<T> type, String contentType);
 

@@ -5,6 +5,9 @@ import org.junit.runners.Suite;
 
 import junit.framework.TestSuite;
 
+/**
+ * Test suite for serialization package.
+ */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         JsonBooleanSerdesTest.class,
