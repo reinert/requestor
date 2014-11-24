@@ -29,7 +29,7 @@ import io.reinert.gdeferred.DoneCallback;
  *
  * @author Danilo Reinert
  */
-public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackOfList<T> {
+public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackForList<T> {
 
     private static Logger logger = Logger.getLogger(ListDoneCallback.class.getName());
 

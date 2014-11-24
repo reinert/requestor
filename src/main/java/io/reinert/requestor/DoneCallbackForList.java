@@ -15,15 +15,15 @@
  */
 package io.reinert.requestor;
 
-import java.util.Set;
+import java.util.List;
 
 /**
- * A hack interface for enabling {@link SetDoneCallback#onDone(java.util.Set)} to compile.
+ * A hack interface for enabling {@link ListDoneCallback#onDone(java.util.List)} to compile.
  *
- * @param <T> The type of Set objects
+ * @param <T> The type of list objects
  *
  * @author Danilo Reinert
  */
-interface DoneCallbackOfSet<T> {
-    void onDone(Set<T> result);
+interface DoneCallbackForList<T> {
+    void onDone(List<T> result);
 }

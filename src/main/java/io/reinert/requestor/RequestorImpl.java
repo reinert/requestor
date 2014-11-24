@@ -37,8 +37,6 @@ import io.reinert.requestor.serialization.misc.VoidSerdes;
  */
 public class RequestorImpl implements Requestor {
 
-    private static GeneratedJsonSerdes generatedJsonSerdes;
-
     private final SerdesManager serdesManager = new SerdesManager();
     private final FilterManager filterManager = new FilterManager();
     private final ProviderManager providerManager = new ProviderManager();
@@ -137,15 +135,7 @@ public class RequestorImpl implements Requestor {
         serdesManager.addSerdes(OverlaySerdes.getInstance());
         serdesManager.addSerdes(TextSerdes.getInstance());
         serdesManager.addSerializer(FormParamSerializer.getInstance());
-
-        ensureGeneratedJsonSerdes();
-
-        for (Serdes<?> serdes : generatedJsonSerdes.getGeneratedSerdes()) {
-            serdesManager.addSerdes(serdes);
-        }
-        for (GeneratedProvider provider : generatedJsonSerdes.getGeneratedProviders()) {
-            providerManager.bind(provider.getType(), provider);
-        }
+        GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
     }
 
     private void initProcessors() {
@@ -153,10 +143,5 @@ public class RequestorImpl implements Requestor {
         final SerializationEngine serializationEngine = new SerializationEngine(serdesManager, providerManager);
         requestProcessor = new RequestProcessor(serializationEngine, filterEngine);
         responseProcessor = new ResponseProcessor(serializationEngine, filterEngine);
-    }
-
-    private void ensureGeneratedJsonSerdes() {
-        if (generatedJsonSerdes == null)
-            generatedJsonSerdes = GWT.create(GeneratedJsonSerdes.class);
     }
 }
