@@ -96,9 +96,9 @@ public interface Response {
     String getStatusText();
 
     /**
-     * Returns the text associated with the response.
+     * Returns the payload deserialized.
      *
-     * @return the response text
+     * @return the response payload
      */
-    String getText();
+    Object getPayload();
 }

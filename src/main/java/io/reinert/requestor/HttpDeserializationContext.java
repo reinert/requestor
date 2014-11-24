@@ -24,21 +24,21 @@ import io.reinert.requestor.serialization.DeserializationContext;
  */
 public class HttpDeserializationContext extends DeserializationContext {
 
-    private final Headers headers;
-    private final String uri;
+    private final Request request;
+    private final SerializedResponse response;
 
-    protected HttpDeserializationContext(String uri, Headers headers, Class<?> requestedType,
-                                      ProviderManager providerManager) {
+    protected HttpDeserializationContext(Request request, SerializedResponse response, Class<?> requestedType,
+                                         ProviderManager providerManager) {
         super(requestedType, providerManager);
-        this.headers = headers;
-        this.uri = uri;
+        this.request = request;
+        this.response = response;
     }
 
-    public Headers getHeaders() {
-        return headers;
+    public Request getRequest() {
+        return request;
     }
 
-    public String getUri() {
-        return uri;
+    public SerializedResponse getResponse() {
+        return response;
     }
 }

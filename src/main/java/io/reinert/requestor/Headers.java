@@ -15,9 +15,9 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import io.reinert.requestor.header.Header;
 
@@ -32,6 +32,13 @@ public class Headers implements Iterable<Header> {
 
     private Map<String, Header> headers;
     private com.google.gwt.http.client.Header[] headersCache;
+
+    protected Headers(Iterable<Header> headers) {
+        ensureHeaders();
+        for (final Header header : headers) {
+            this.headers.put(formatKey(header.getName()), header);
+        }
+    }
 
     protected Headers(Header... headers) {
         ensureHeaders();
@@ -67,7 +74,7 @@ public class Headers implements Iterable<Header> {
 
     @Override
     public Iterator<Header> iterator() {
-        return headers == null ? Collections.<Header>emptyIterator() : ensureHeaders().values().iterator();
+        return headers == null ? new EmptyIterator() : ensureHeaders().values().iterator();
     }
 
     public int size() {
@@ -116,5 +123,23 @@ public class Headers implements Iterable<Header> {
         }
 
         return headers;
+    }
+
+    private static class EmptyIterator implements Iterator<Header> {
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public Header next() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
 }

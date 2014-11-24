@@ -24,19 +24,13 @@ import io.reinert.requestor.serialization.SerializationContext;
  */
 public class HttpSerializationContext extends SerializationContext {
 
-    private final Headers headers;
-    private final String uri;
+    private final Request request;
 
-    protected HttpSerializationContext(String uri, Headers headers) {
-        this.uri = uri;
-        this.headers = headers;
+    protected HttpSerializationContext(Request request) {
+        this.request = request;
     }
 
-    public Headers getHeaders() {
-        return headers;
-    }
-
-    public String getUri() {
-        return uri;
+    public Request getRequest() {
+        return request;
     }
 }

@@ -24,6 +24,6 @@ package io.reinert.requestor;
  */
 public interface RequestDispatcherFactory {
 
-    RequestDispatcher getRequestDispatcher(SerializationEngine serializationEngine, FilterEngine filterEngine);
+    RequestDispatcher getRequestDispatcher(ResponseProcessor responseProcessor);
 
 }

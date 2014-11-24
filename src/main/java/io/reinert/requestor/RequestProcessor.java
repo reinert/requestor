@@ -16,18 +16,22 @@
 package io.reinert.requestor;
 
 /**
- * Default implementation for {@link RequestDispatcherFactory}.
+ * This class performs all necessary processing steps to ongoing requests.
  *
  * @author Danilo Reinert
  */
-public class RequestDispatcherFactoryImpl implements RequestDispatcherFactory {
+public class RequestProcessor {
 
-    private RequestDispatcher requestDispatcher;
+    private final SerializationEngine serializationEngine;
+    private final FilterEngine filterEngine;
 
-    @Override
-    public RequestDispatcher getRequestDispatcher(ResponseProcessor responseProcessor) {
-        if (requestDispatcher == null)
-            requestDispatcher = new RequestDispatcherImpl(responseProcessor);
-        return requestDispatcher;
+    public RequestProcessor(SerializationEngine serializationEngine, FilterEngine filterEngine) {
+        this.serializationEngine = serializationEngine;
+        this.filterEngine = filterEngine;
+    }
+
+    public SerializedRequest process(RequestBuilder requestBuilder) {
+        RequestBuilder filteredRequest = filterEngine.filterRequest(requestBuilder);
+        return serializationEngine.serializeRequest(filteredRequest);
     }
 }

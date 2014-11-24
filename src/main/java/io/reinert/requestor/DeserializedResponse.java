@@ -16,23 +16,31 @@
 package io.reinert.requestor;
 
 /**
- * Default implementation for {@link Response}.
+ * Represents a response with payload already deserialized.
+ *
+ * @param <T>   Type of the payload.
  *
  * @author Danilo Reinert
  */
-class ResponseImpl implements Response {
+public class DeserializedResponse<T> implements Response {
 
-    private final com.google.gwt.http.client.Response delegate;
     private final Headers headers;
+    private final int statusCode;
+    private final String statusText;
+    private final T payload;
 
-    ResponseImpl(com.google.gwt.http.client.Response originalResponse) {
-        this.delegate = originalResponse;
-        this.headers = new Headers(delegate.getHeaders());
+    public DeserializedResponse(Headers headers, int statusCode, String statusText, T payload) {
+        if (headers == null)
+            throw new NullPointerException("Headers cannot be null");
+        this.headers = headers;
+        this.statusCode = statusCode;
+        this.statusText = statusText;
+        this.payload = payload;
     }
 
     @Override
     public String getHeader(String header) {
-        return delegate.getHeader(header);
+        return headers.getValue(header);
     }
 
     @Override
@@ -42,16 +50,16 @@ class ResponseImpl implements Response {
 
     @Override
     public int getStatusCode() {
-        return delegate.getStatusCode();
+        return statusCode;
     }
 
     @Override
     public String getStatusText() {
-        return delegate.getStatusText();
+        return statusText;
     }
 
     @Override
-    public String getText() {
-        return delegate.getText();
+    public T getPayload() {
+        return payload;
     }
 }

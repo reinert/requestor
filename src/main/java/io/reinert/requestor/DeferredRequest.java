@@ -18,12 +18,29 @@ package io.reinert.requestor;
 import io.reinert.gdeferred.Deferred;
 import io.reinert.gdeferred.impl.DeferredObject;
 
-abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
+/**
+ * Abstract deferred for Requests.
+ *
+ * @param <T>   Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ */
+public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
         implements RequestPromise<T> , Deferred<T, Throwable, RequestProgress> {
 
+    private final ResponseProcessor processor;
     private Connection connection;
 
-    abstract DeferredRequest<T> resolve(Request request, Response response);
+    public DeferredRequest(ResponseProcessor processor) {
+        this.processor = processor;
+    }
+
+    protected abstract DeserializedResponse<T> process(ResponseProcessor processor, Request request,
+                                                       SerializedResponse response);
+
+    public DeferredRequest<T> resolve(Request request, SerializedResponse response) {
+        DeserializedResponse<T> deserializedResponse = process(processor, request, response);
+        super.resolve(deserializedResponse.getPayload());
+        return this;
+    }
 
     @Override
     public Deferred<T, Throwable, RequestProgress> reject(Throwable reject) {

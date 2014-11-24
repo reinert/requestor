@@ -22,29 +22,70 @@ import java.util.Collection;
  *
  * @author Danilo Reinert
  */
-public interface RequestDispatcher {
+public abstract class RequestDispatcher {
+
+    private final ResponseProcessor processor;
+
+    public RequestDispatcher(ResponseProcessor processor) {
+        this.processor = processor;
+    }
+
+    /**
+     * Sends the request through the wire and resolves (or rejects) the deferred when completed.
+     * <p/>
+     * Implementations must execute an HTTP Request with given values and resolve/reject the deferred when the request
+     * is finished. It is recommended that progress events be sent to
+     * {@link DeferredRequest#progress(io.reinert.gdeferred.ProgressCallback)}.
+     * <p/>
+     * All possible exceptions should be caught and sent to {@link DeferredRequest#reject(Throwable)} wrapped in a
+     * {@link RequestException} or any of its children. This will avoid breaking code flow when some exception occurs.
+     *
+     * @param request   The request to be sent
+     * @param deferred  The deferred to resolve or reject when completed
+     * @param <D>       The expected type of the promise
+     */
+    protected abstract <D> void send(final SerializedRequest request, final DeferredRequest<D> deferred);
 
     /**
      * Sends the request and return an instance of {@link RequestPromise} expecting a sole result.
      *
-     * @param request       The request under construction
+     * @param request       The built request
      * @param responseType  The class instance of the expected type in response payload
      * @param <T>           The expected type in response payload
      * @return              The promise for the dispatched request
      */
-    <T> RequestPromise<T> send(RequestBuilder request, Class<T> responseType);
+    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
+        final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(processor, responseType);
+        try {
+            send(request, deferred);
+        } catch (Exception e) {
+            deferred.reject(new RequestDispatchException(
+                    "Some non-caught exception occurred while dispatching the request", e));
+        }
+        return deferred;
+    }
 
     /**
      * Sends the request and return an instance of {@link RequestPromise} expecting a collection result.
      *
-     * @param request       The request under construction
+     * @param request       The built request
      * @param responseType  The class instance of the expected type in response payload
      * @param containerType The class instance of the container type which will hold the values
      * @param <T>           The expected type in response payload
      * @param <C>           The collection type to hold the values
      * @return              The promise for the dispatched request
      */
-    <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request,
-                                                                        Class<T> responseType,
-                                                                        Class<C> containerType);
+    public <T, C extends Collection> RequestPromise<Collection<T>> dispatch(SerializedRequest request,
+                                                                            Class<T> responseType,
+                                                                            Class<C> containerType) {
+        final DeferredCollectionResult<T> deferred = new DeferredCollectionResult<T>(processor, responseType,
+                containerType);
+        try {
+            send(request, deferred);
+        } catch (Exception e) {
+            deferred.reject(new RequestDispatchException(
+                    "Some non-caught exception occurred while dispatching the request", e));
+        }
+        return deferred;
+    }
 }

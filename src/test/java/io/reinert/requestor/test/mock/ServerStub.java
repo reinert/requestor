@@ -21,18 +21,24 @@ import java.util.Map;
 
 import com.google.gwt.http.client.Response;
 
-import io.reinert.requestor.RequestBuilder;
+import io.reinert.requestor.DeferredRequest;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestPromise;
+import io.reinert.requestor.ResponseProcessor;
+import io.reinert.requestor.SerializedRequest;
 
 /**
  * @author Danilo Reinert
  */
-public class ServerStub implements RequestDispatcher {
+public class ServerStub extends RequestDispatcher {
 
     private static Map<String, RequestMock> requestData = new HashMap<String, RequestMock>();
     private static Map<String, Response> responseData = new HashMap<String, Response>();
     private static boolean returnSuccess = true;
+
+    public ServerStub(ResponseProcessor processor) {
+        super(processor);
+    }
 
     public static void clearStub() {
         responseData.clear();
@@ -69,13 +75,19 @@ public class ServerStub implements RequestDispatcher {
     }
 
     @Override
-    public <T> RequestPromise<T> send(RequestBuilder request, Class<T> responseType) {
+    protected <D> void send(SerializedRequest request, DeferredRequest<D> deferred) {
+        // Do nothing
+    }
+
+    @Override
+    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
         return null;
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> send(RequestBuilder request, Class<T> responseType,
-                                                                        Class<C> containerType) {
+    public <T, C extends Collection> RequestPromise<Collection<T>> dispatch(SerializedRequest request,
+                                                                            Class<T> responseType,
+                                                                            Class<C> containerType) {
         return null;
     }
 }

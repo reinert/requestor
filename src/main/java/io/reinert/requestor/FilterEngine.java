@@ -28,15 +28,18 @@ public class FilterEngine {
         this.filterManager = filterManager;
     }
 
-    public void applyRequestFilters(RequestBuilder request) {
+    public RequestBuilder filterRequest(RequestBuilder request) {
+        RequestBuilder filtered = RequestBuilderImpl.copyOf(request);
         for (RequestFilter filter : filterManager.getRequestFilters()) {
-            filter.filter(request);
+            filter.filter(filtered);
         }
+        return filtered;
     }
 
-    public void applyResponseFilters(Request request, Response response) {
+    public Response filterResponse(Request request, Response response) {
         for (ResponseFilter filter : filterManager.getResponseFilters()) {
             filter.filter(request, response);
         }
+        return response;
     }
 }

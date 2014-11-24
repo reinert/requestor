@@ -16,39 +16,27 @@
 package io.reinert.requestor;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-class DeferredCollectionResult<T> extends DeferredRequest<Collection<T>> {
-
-    private static Logger logger = Logger.getLogger(DeferredCollectionResult.class.getName());
+/**
+ * Deferred for requests expecting an array of objects.
+ *
+ * @param <T>   Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ */
+public class DeferredCollectionResult<T> extends DeferredRequest<Collection<T>> {
 
     private final Class<T> responseType;
     private final Class<? extends Collection> containerType;
-    private final SerializationEngine serializationEngine;
 
-    public DeferredCollectionResult(SerializationEngine serializationEngine, Class<T> responseType,
+    public DeferredCollectionResult(ResponseProcessor processor, Class<T> responseType,
                                     Class<? extends Collection> containerType) {
+        super(processor);
         this.responseType = responseType;
         this.containerType = containerType;
-        this.serializationEngine = serializationEngine;
     }
 
     @Override
-    public DeferredRequest<Collection<T>> resolve(Request request, Response response) {
-        final Headers headers = response.getHeaders();
-        String responseContentType = headers.getValue("Content-Type");
-        if (responseContentType == null) {
-            responseContentType = "*/*";
-            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
-                    + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
-        }
-
-        @SuppressWarnings("unchecked")
-        Collection<T> result = serializationEngine.deserialize(response.getText(), responseType, containerType,
-                responseContentType, request.getUrl(), headers);
-
-        super.resolve(result);
-        return this;
+    protected DeserializedResponse<Collection<T>> process(ResponseProcessor processor, Request request,
+                                                          SerializedResponse response) {
+        return processor.process(request, response, responseType, containerType);
     }
 }

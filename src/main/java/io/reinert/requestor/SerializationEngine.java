@@ -17,6 +17,8 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
@@ -30,6 +32,8 @@ import io.reinert.requestor.serialization.Serializer;
  */
 public class SerializationEngine {
 
+    private static Logger logger = Logger.getLogger(SerializationEngine.class.getName());
+
     private final SerdesManager serdesManager;
     private final ProviderManager providerManager;
 
@@ -38,23 +42,30 @@ public class SerializationEngine {
         this.providerManager = providerManager;
     }
 
-    public <T, C extends Collection> Collection<T> deserialize(String payload, Class<T> type, Class<C> containerType,
-                                                               String mediaType, String url, Headers headers) {
-        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
-        final DeserializationContext context = new HttpDeserializationContext(url, headers, type, providerManager);
+    public <T, C extends Collection> DeserializedResponse<Collection<T>> deserializeResponse(Request request,
+                                                                                             SerializedResponse resp,
+                                                                                             Class<T> type,
+                                                                                             Class<C> containerType) {
+        String responseContentType = getResponseContentType(request, resp);
+        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
+        final DeserializationContext context = new HttpDeserializationContext(request, resp, type, providerManager);
         @SuppressWarnings("unchecked")
-        Collection<T> result = deserializer.deserialize(containerType, payload, context);
-        return result;
+        Collection<T> result = deserializer.deserialize(containerType, resp.getPayload(), context);
+        return getDeserializedResponse(resp, result);
     }
 
-    public <T> T deserialize(String payload, Class<T> type, String mediaType, String url, Headers headers) {
-        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
-        final DeserializationContext context = new HttpDeserializationContext(url, headers, type, providerManager);
-        return deserializer.deserialize(payload, context);
+    public <T> DeserializedResponse<T> deserializeResponse(Request request, SerializedResponse response,
+                                                           Class<T> type) {
+        String responseContentType = getResponseContentType(request, response);
+        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
+        final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
+        T result = deserializer.deserialize(response.getPayload(), context);
+        return getDeserializedResponse(response, result);
     }
 
     @SuppressWarnings("unchecked")
-    public String serialize(Object payload, String mediaType, String url, Headers headers) {
+    public SerializedRequest serializeRequest(Request request) {
+        Object payload = request.getPayload();
         String body = null;
         if (payload != null) {
             if (payload instanceof Collection) {
@@ -71,15 +82,30 @@ public class SerializationEngine {
                         by content-type. */
                     body = "[]";
                 } else {
-                    Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), mediaType);
-                    body = serializer.serialize(c, new HttpSerializationContext(url, headers));
+                    Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), request.getContentType());
+                    body = serializer.serialize(c, new HttpSerializationContext(request));
                 }
             } else {
                 Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
-                        mediaType);
-                body = serializer.serialize(payload, new HttpSerializationContext(url, headers));
+                        request.getContentType());
+                body = serializer.serialize(payload, new HttpSerializationContext(request));
             }
         }
-        return body;
+        return new SerializedRequest(request, body);
+    }
+
+    private String getResponseContentType(Request request, SerializedResponse response) {
+        String responseContentType = response.getHeader("Content-Type");
+        if (responseContentType == null) {
+            responseContentType = "*/*";
+            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
+                    + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
+        }
+        return responseContentType;
+    }
+
+    private <T> DeserializedResponse<T> getDeserializedResponse(SerializedResponse response, T result) {
+        return new DeserializedResponse<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
+                result);
     }
 }

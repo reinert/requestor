@@ -15,43 +15,23 @@
  */
 package io.reinert.requestor;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-class DeferredSingleResult<T> extends DeferredRequest<T> {
-
-    private static Logger logger = Logger.getLogger(DeferredSingleResult.class.getName());
+/**
+ * Deferred for requests expecting a single object.
+ *
+ * @param <T>   Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ */
+public class DeferredSingleResult<T> extends DeferredRequest<T> {
 
     private final Class<T> responseType;
-    private final SerializationEngine serializationEngine;
 
-    public DeferredSingleResult(SerializationEngine serializationEngine, Class<T> responseType) {
+    public DeferredSingleResult(ResponseProcessor processor, Class<T> responseType) {
+        super(processor);
         this.responseType = responseType;
-        this.serializationEngine = serializationEngine;
     }
 
     @Override
-    public DeferredRequest<T> resolve(Request request, Response response) {
-        // Check if access to Response was requested
-        if (responseType == io.reinert.requestor.Response.class) {
-            @SuppressWarnings("unchecked")
-            final T result = (T) response;
-            super.resolve(result);
-            return this;
-        }
-
-        final Headers headers = response.getHeaders();
-        String responseContentType = headers.getValue("Content-Type");
-        if (responseContentType == null) {
-            responseContentType = "*/*";
-            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
-                    + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
-        }
-
-        T result = serializationEngine.deserialize(response.getText(), responseType, responseContentType,
-                request.getUrl(), headers);
-
-        super.resolve(result);
-        return this;
+    protected DeserializedResponse<T> process(ResponseProcessor processor, Request request,
+                                              SerializedResponse response) {
+        return processor.process(request, response, responseType);
     }
 }

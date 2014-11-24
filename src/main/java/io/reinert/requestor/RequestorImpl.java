@@ -45,6 +45,8 @@ public class RequestorImpl implements Requestor {
     private final RequestDispatcherFactory requestDispatcherFactory = GWT.create(RequestDispatcherFactory.class);
     private FilterEngine filterEngine;
     private SerializationEngine serializationEngine;
+    private RequestProcessor requestProcessor;
+    private ResponseProcessor responseProcessor;
 
     private String defaultContentType = "application/json";
 
@@ -121,8 +123,8 @@ public class RequestorImpl implements Requestor {
     }
 
     private RequestInvoker createRequest(String uri) {
-        final RequestImpl request = new RequestImpl(
-                requestDispatcherFactory.getRequestDispatcher(serializationEngine, filterEngine), uri);
+        final RequestInvokerImpl request = new RequestInvokerImpl(uri, requestProcessor,
+                requestDispatcherFactory.getRequestDispatcher(responseProcessor));
         request.contentType(defaultContentType);
         request.accept(defaultContentType);
         return request;
@@ -148,6 +150,9 @@ public class RequestorImpl implements Requestor {
 
         filterEngine = new FilterEngine(filterManager);
         serializationEngine = new SerializationEngine(serdesManager, providerManager);
+
+        requestProcessor = new RequestProcessor(serializationEngine, filterEngine);
+        responseProcessor = new ResponseProcessor(serializationEngine, filterEngine);
     }
 
     private void initGeneratedJsonSerdes() {

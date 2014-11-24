@@ -17,83 +17,22 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import com.google.gwt.http.client.Request;
-
-import io.reinert.requestor.header.AcceptHeader;
-import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.header.SimpleHeader;
 
 /**
- * Default implementation for {@link Request}.
+ * Default implementation for {@link RequestInvoker}.
  *
  * @author Danilo Reinert
  */
-public class RequestImpl implements RequestInvoker {
+public class RequestInvokerImpl extends RequestBuilderImpl implements RequestInvoker {
 
+    private final RequestProcessor processor;
     private final RequestDispatcher dispatcher;
-    private final String url;
-    private String httpMethod;
-    private Headers headers;
-    private String user;
-    private String password;
-    private int timeout;
-    private String contentType;
-    private String accept;
-    private Object payload;
 
-    public RequestImpl(RequestDispatcher dispatcher, String url) {
+    public RequestInvokerImpl(String url, RequestProcessor processor, RequestDispatcher dispatcher) {
+        super(url);
+        this.processor = processor;
         this.dispatcher = dispatcher;
-        this.url = url;
-    }
-
-    //===================================================================
-    // Request methods
-    //===================================================================
-
-    @Override
-    public String getUrl() {
-        return url;
-    }
-
-    @Override
-    public String getUser() {
-        return user;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public int getTimeout() {
-        return timeout;
-    }
-
-    @Override
-    public String getContentType() {
-        return contentType;
-    }
-
-    @Override
-    public Object getPayload() {
-        return payload;
-    }
-
-    @Override
-    public String getAccept() {
-        return accept;
-    }
-
-    @Override
-    public Headers getHeaders() {
-        return headers;
-    }
-
-    @Override
-    public String getMethod() {
-        return httpMethod;
     }
 
     //===================================================================
@@ -101,51 +40,50 @@ public class RequestImpl implements RequestInvoker {
     //===================================================================
 
     @Override
-    public RequestInvoker contentType(String mediaType) {
-        this.contentType = mediaType;
+    public RequestInvoker accept(String mediaType) {
+        super.accept(mediaType);
         return this;
     }
 
     @Override
-    public RequestInvoker accept(String mediaType) {
-        this.accept = mediaType;
+    public RequestInvoker contentType(String mediaType) {
+        super.contentType(mediaType);
         return this;
     }
 
     @Override
     public RequestInvoker header(String header, String value) {
-        ensureHeaders().add(new SimpleHeader(header, value));
+        super.header(header, value);
         return this;
     }
 
     @Override
     public RequestInvoker header(Header header) {
-        ensureHeaders().add(header);
-        return this;
-    }
-
-    @Override
-    public RequestInvoker user(String user) {
-        this.user = user;
+        super.header(header);
         return this;
     }
 
     @Override
     public RequestInvoker password(String password) {
-        this.password = password;
-        return this;
-    }
-
-    @Override
-    public RequestInvoker timeout(int timeoutMillis) {
-        if (timeoutMillis > 0)
-            timeout = timeoutMillis;
+        super.password(password);
         return this;
     }
 
     @Override
     public RequestInvoker payload(Object object) throws IllegalArgumentException {
-        payload = object;
+        super.payload(object);
+        return this;
+    }
+
+    @Override
+    public RequestInvoker timeout(int timeoutMillis) {
+        super.timeout(timeoutMillis);
+        return this;
+    }
+
+    @Override
+    public RequestInvoker user(String user) {
+        super.user(user);
         return this;
     }
 
@@ -261,23 +199,19 @@ public class RequestImpl implements RequestInvoker {
         return send("OPTIONS", responseType, containerType);
     }
 
+    //===================================================================
+    // Internal methods
+    //===================================================================
+
     private <T> RequestPromise<T> send(String method, Class<T> responseType) {
-        this.httpMethod = method;
-        return dispatcher.send(this, responseType);
+        setMethod(method);
+        return dispatcher.dispatch(processor.process(this), responseType);
     }
 
     private <T, C extends Collection> RequestPromise<Collection<T>> send(String method, Class<T> responseType,
                                                                          Class<C> containerType) {
-        this.httpMethod = method;
-        return dispatcher.send(this, responseType, containerType);
+        setMethod(method);
+        return dispatcher.dispatch(processor.process(this), responseType, containerType);
     }
 
-    private Headers ensureHeaders() {
-        if (headers == null) {
-            headers = new Headers();
-            headers.add(new ContentTypeHeader(contentType));
-            headers.add(new AcceptHeader(accept));
-        }
-        return headers;
-    }
 }

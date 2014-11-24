@@ -414,7 +414,7 @@ public class RequestTest extends GWTTestCase {
         requestor.request(uri).get(Response.class).done(new DoneCallback<Response>() {
             @Override
             public void onDone(Response result) {
-                assertEquals(responseText, result.getText());
+                assertEquals(responseText, result.getPayload());
                 assertEquals(200, result.getStatusCode());
                 callbackSuccessCalled[0] = true;
             }
