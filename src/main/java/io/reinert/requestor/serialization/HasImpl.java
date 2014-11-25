@@ -16,7 +16,7 @@
 package io.reinert.requestor.serialization;
 
 /**
- * It tells the {@link io.reinert.requestor.serialization.SerdesManager} to bind an abstraction ot one or more impls.
+ * It tells the {@link io.reinert.requestor.SerdesManager} to bind an abstraction to one or more impls.
  */
 public interface HasImpl {
     Class<?>[] implTypes();

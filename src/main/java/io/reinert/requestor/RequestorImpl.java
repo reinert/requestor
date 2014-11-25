@@ -21,7 +21,6 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.FormParamSerializer;
 import io.reinert.requestor.serialization.Serdes;
-import io.reinert.requestor.serialization.SerdesManager;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.serialization.json.JsonBooleanSerdes;
 import io.reinert.requestor.serialization.json.JsonNumberSerdes;

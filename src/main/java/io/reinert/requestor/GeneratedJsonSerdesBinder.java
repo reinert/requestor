@@ -18,7 +18,6 @@ package io.reinert.requestor;
 import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.serialization.Serdes;
-import io.reinert.requestor.serialization.SerdesManager;
 
 class GeneratedJsonSerdesBinder {
 

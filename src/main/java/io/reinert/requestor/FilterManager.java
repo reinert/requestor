@@ -26,7 +26,7 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
  *
  * @author Danilo Reinert
  */
-class FilterManager {
+final class FilterManager {
 
     private final List<RequestFilter> requestFilters = new ArrayList<RequestFilter>();
     private final List<ResponseFilter> responseFilters = new ArrayList<ResponseFilter>();

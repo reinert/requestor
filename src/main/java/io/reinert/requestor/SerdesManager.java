@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.serialization;
+package io.reinert.requestor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,12 +22,18 @@ import java.util.Map;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.serialization.Deserializer;
+import io.reinert.requestor.serialization.HasImpl;
+import io.reinert.requestor.serialization.Serdes;
+import io.reinert.requestor.serialization.SerializationException;
+import io.reinert.requestor.serialization.Serializer;
+
 /**
  * Manager for registering and retrieving Serializers and Deserializers.
  *
  * @author Danilo Reinert
  */
-public class SerdesManager {
+final class SerdesManager {
 
     private final Map<String, ArrayList<DeserializerHolder>> deserializers = new HashMap<String,
             ArrayList<DeserializerHolder>>();
@@ -133,7 +139,7 @@ public class SerdesManager {
      * @param <T> The type of the deserializer.
      * @return The deserializer of the specified type.
      *
-     * @throws SerializationException if no deserializer was registered for the class.
+     * @throws io.reinert.requestor.serialization.SerializationException if no deserializer was registered for the class.
      */
     @SuppressWarnings("unchecked")
     public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) throws SerializationException {
