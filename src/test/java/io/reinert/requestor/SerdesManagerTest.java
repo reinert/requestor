@@ -21,6 +21,8 @@ import io.reinert.requestor.serialization.Serializer;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -89,8 +91,8 @@ public class SerdesManagerTest {
         Deserializer output = manager.getDeserializer(Object.class, "custom/type");
 
         // Then
-        assertTrue(expected != noise);
-        assertTrue(expected == output);
+        assertNotSame(expected, noise);
+        assertSame(expected, output);
     }
 
     @Test
@@ -110,8 +112,8 @@ public class SerdesManagerTest {
         Serializer output = manager.getSerializer(Object.class, "custom/type");
 
         // Then
-        assertTrue(expected != noise);
-        assertTrue(expected == output);
+        assertNotSame(expected, noise);
+        assertSame(expected, output);
     }
 
     @Test
@@ -144,10 +146,10 @@ public class SerdesManagerTest {
         Deserializer output4 = manager.getDeserializer(Object.class, "any/other");
 
         // Then
-        assertTrue(expected == output);
-        assertTrue(expected2 == output2);
-        assertTrue(expected3 == output3);
-        assertTrue(expected4 == output4);
+        assertSame(expected, output);
+        assertSame(expected2, output2);
+        assertSame(expected3, output3);
+        assertSame(expected4, output4);
     }
 
     @Test
@@ -180,9 +182,9 @@ public class SerdesManagerTest {
         Serializer output4 = manager.getSerializer(Object.class, "any/other");
 
         // Then
-        assertTrue(expected == output);
-        assertTrue(expected2 == output2);
-        assertTrue(expected3 == output3);
-        assertTrue(expected4 == output4);
+        assertSame(expected, output);
+        assertSame(expected2, output2);
+        assertSame(expected3, output3);
+        assertSame(expected4, output4);
     }
 }

@@ -34,7 +34,6 @@ import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -84,9 +83,9 @@ public class SerializationEngineTest {
         engine.deserializeResponse(request, response, clazz);
 
         // Then
-        verify(serdesManager, atLeastOnce()).getDeserializer(clazz, mediaType);
+        verify(serdesManager).getDeserializer(clazz, mediaType);
         verify(deserializer, never()).deserialize(any(Class.class), anyString(), any(DeserializationContext.class));
-        verify(deserializer, atLeastOnce()).deserialize(eq(payload), any(DeserializationContext.class));
+        verify(deserializer).deserialize(eq(payload), any(DeserializationContext.class));
     }
 
     @Test
@@ -112,9 +111,9 @@ public class SerializationEngineTest {
         engine.deserializeResponse(request, response, clazz, collectionClazz);
 
         // Then
-        verify(serdesManager, atLeastOnce()).getDeserializer(clazz, mediaType);
+        verify(serdesManager).getDeserializer(clazz, mediaType);
         verify(deserializer, never()).deserialize(anyString(), any(DeserializationContext.class));
-        verify(deserializer, atLeastOnce()).deserialize(eq(collectionClazz), eq(payload),
+        verify(deserializer).deserialize(eq(collectionClazz), eq(payload),
                 any(DeserializationContext.class));
     }
 
@@ -149,9 +148,9 @@ public class SerializationEngineTest {
         engine.serializeRequest(request);
 
         // Then
-        verify(serdesManager, atLeastOnce()).getSerializer(singleInstance.getClass(), mediaType);
+        verify(serdesManager).getSerializer(singleInstance.getClass(), mediaType);
         verify(serializer, never()).serialize(anyCollection(), any(SerializationContext.class));
-        verify(serializer, atLeastOnce()).serialize(eq(singleInstance), any(SerializationContext.class));
+        verify(serializer).serialize(eq(singleInstance), any(SerializationContext.class));
     }
 
     @Test
@@ -172,8 +171,8 @@ public class SerializationEngineTest {
         engine.serializeRequest(request);
 
         // Then
-        verify(serdesManager, atLeastOnce()).getSerializer(collectionInstance.get(0).getClass(), mediaType);
+        verify(serdesManager).getSerializer(collectionInstance.get(0).getClass(), mediaType);
         verify(serializer, never()).serialize(anyObject(), any(SerializationContext.class));
-        verify(serializer, atLeastOnce()).serialize(eq(collectionInstance), any(SerializationContext.class));
+        verify(serializer).serialize(eq(collectionInstance), any(SerializationContext.class));
     }
 }
