@@ -205,13 +205,16 @@ public class RequestInvokerImpl extends RequestBuilderImpl implements RequestInv
 
     private <T> RequestPromise<T> send(String method, Class<T> responseType) {
         setMethod(method);
-        return dispatcher.dispatch(processor.process(this), responseType);
+        return dispatcher.dispatch(processor.process(getDefensiveCopy()), responseType);
     }
 
     private <T, C extends Collection> RequestPromise<Collection<T>> send(String method, Class<T> responseType,
                                                                          Class<C> containerType) {
         setMethod(method);
-        return dispatcher.dispatch(processor.process(this), responseType, containerType);
+        return dispatcher.dispatch(processor.process(getDefensiveCopy()), responseType, containerType);
     }
 
+    private RequestBuilderImpl getDefensiveCopy() {
+        return RequestBuilderImpl.copyOf(this);
+    }
 }

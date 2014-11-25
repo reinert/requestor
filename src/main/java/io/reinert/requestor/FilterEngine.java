@@ -29,11 +29,10 @@ final class FilterEngine {
     }
 
     public RequestBuilder filterRequest(RequestBuilder request) {
-        RequestBuilder filtered = RequestBuilderImpl.copyOf(request);
         for (RequestFilter filter : filterManager.getRequestFilters()) {
-            filter.filter(filtered);
+            filter.filter(request);
         }
-        return filtered;
+        return request;
     }
 
     public Response filterResponse(Request request, Response response) {
