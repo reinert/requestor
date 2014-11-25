@@ -140,6 +140,10 @@ public class RequestBuilderImpl implements RequestBuilder {
         return this;
     }
 
+    protected RequestBuilder build() {
+        return RequestBuilderImpl.copyOf(this);
+    }
+
     protected void setMethod(String httpMethod) {
         this.httpMethod = httpMethod;
     }
