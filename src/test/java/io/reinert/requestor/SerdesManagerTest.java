@@ -122,29 +122,32 @@ public class SerdesManagerTest {
         when(expected.mediaType()).thenReturn(new String[]{"custom/type"});
         manager.addDeserializer(expected);
 
-        Deserializer noise = mock(Deserializer.class);
-        when(noise.handledType()).thenReturn(Object.class);
-        when(noise.mediaType()).thenReturn(new String[]{"*/type"});
-        manager.addDeserializer(noise);
+        Deserializer expected2 = mock(Deserializer.class);
+        when(expected2.handledType()).thenReturn(Object.class);
+        when(expected2.mediaType()).thenReturn(new String[]{"*/type"});
+        manager.addDeserializer(expected2);
 
-        Deserializer noise2 = mock(Deserializer.class);
-        when(noise2.handledType()).thenReturn(Object.class);
-        when(noise2.mediaType()).thenReturn(new String[]{"custom/*"});
-        manager.addDeserializer(noise2);
+        Deserializer expected3 = mock(Deserializer.class);
+        when(expected3.handledType()).thenReturn(Object.class);
+        when(expected3.mediaType()).thenReturn(new String[]{"custom/*"});
+        manager.addDeserializer(expected3);
 
-        Deserializer noise3 = mock(Deserializer.class);
-        when(noise3.handledType()).thenReturn(Object.class);
-        when(noise3.mediaType()).thenReturn(new String[]{"*/*"});
-        manager.addDeserializer(noise3);
+        Deserializer expected4 = mock(Deserializer.class);
+        when(expected4.handledType()).thenReturn(Object.class);
+        when(expected4.mediaType()).thenReturn(new String[]{"*/*"});
+        manager.addDeserializer(expected4);
 
         // When
         Deserializer output = manager.getDeserializer(Object.class, "custom/type");
+        Deserializer output2 = manager.getDeserializer(Object.class, "other/type");
+        Deserializer output3 = manager.getDeserializer(Object.class, "custom/other");
+        Deserializer output4 = manager.getDeserializer(Object.class, "any/other");
 
         // Then
-        assertTrue(expected != noise);
-        assertTrue(expected != noise2);
-        assertTrue(expected != noise3);
         assertTrue(expected == output);
+        assertTrue(expected2 == output2);
+        assertTrue(expected3 == output3);
+        assertTrue(expected4 == output4);
     }
 
     @Test
@@ -155,28 +158,31 @@ public class SerdesManagerTest {
         when(expected.mediaType()).thenReturn(new String[]{"custom/type"});
         manager.addSerializer(expected);
 
-        Serializer noise = mock(Serializer.class);
-        when(noise.handledType()).thenReturn(Object.class);
-        when(noise.mediaType()).thenReturn(new String[]{"*/type"});
-        manager.addSerializer(noise);
+        Serializer expected2 = mock(Serializer.class);
+        when(expected2.handledType()).thenReturn(Object.class);
+        when(expected2.mediaType()).thenReturn(new String[]{"*/type"});
+        manager.addSerializer(expected2);
 
-        Serializer noise2 = mock(Serializer.class);
-        when(noise2.handledType()).thenReturn(Object.class);
-        when(noise2.mediaType()).thenReturn(new String[]{"custom/*"});
-        manager.addSerializer(noise2);
+        Serializer expected3 = mock(Serializer.class);
+        when(expected3.handledType()).thenReturn(Object.class);
+        when(expected3.mediaType()).thenReturn(new String[]{"custom/*"});
+        manager.addSerializer(expected3);
 
-        Serializer noise3 = mock(Serializer.class);
-        when(noise3.handledType()).thenReturn(Object.class);
-        when(noise3.mediaType()).thenReturn(new String[]{"*/*"});
-        manager.addSerializer(noise3);
+        Serializer expected4 = mock(Serializer.class);
+        when(expected4.handledType()).thenReturn(Object.class);
+        when(expected4.mediaType()).thenReturn(new String[]{"*/*"});
+        manager.addSerializer(expected4);
 
         // When
         Serializer output = manager.getSerializer(Object.class, "custom/type");
+        Serializer output2 = manager.getSerializer(Object.class, "other/type");
+        Serializer output3 = manager.getSerializer(Object.class, "custom/other");
+        Serializer output4 = manager.getSerializer(Object.class, "any/other");
 
         // Then
-        assertTrue(expected != noise);
-        assertTrue(expected != noise2);
-        assertTrue(expected != noise3);
         assertTrue(expected == output);
+        assertTrue(expected2 == output2);
+        assertTrue(expected3 == output3);
+        assertTrue(expected4 == output4);
     }
 }
