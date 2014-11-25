@@ -42,15 +42,15 @@ class SerializationEngine {
     }
 
     public <T, C extends Collection> DeserializedResponse<Collection<T>> deserializeResponse(Request request,
-                                                                                             SerializedResponse resp,
+                                                                                            SerializedResponse response,
                                                                                              Class<T> type,
                                                                                              Class<C> containerType) {
-        String responseContentType = getResponseContentType(request, resp);
+        String responseContentType = getResponseContentType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
-        final DeserializationContext context = new HttpDeserializationContext(request, resp, type, providerManager);
+        final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
         @SuppressWarnings("unchecked")
-        Collection<T> result = deserializer.deserialize(containerType, resp.getPayload(), context);
-        return getDeserializedResponse(resp, result);
+        Collection<T> result = deserializer.deserialize(containerType, response.getPayload(), context);
+        return getDeserializedResponse(response, result);
     }
 
     public <T> DeserializedResponse<T> deserializeResponse(Request request, SerializedResponse response,
@@ -94,8 +94,8 @@ class SerializationEngine {
     }
 
     private String getResponseContentType(Request request, SerializedResponse response) {
-        String responseContentType = response.getHeader("Content-Type");
-        if (responseContentType == null) {
+        String responseContentType = response.getContentType();
+        if (responseContentType == null || responseContentType.isEmpty()) {
             responseContentType = "*/*";
             logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
