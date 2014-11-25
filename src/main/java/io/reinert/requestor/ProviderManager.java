@@ -36,7 +36,7 @@ import org.turbogwt.core.collections.JsArrayList;
  *
  * @author Danilo Reinert
  */
-final class ProviderManager {
+class ProviderManager {
 
     private final Map<String, Provider<?>> providers;
 

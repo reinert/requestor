@@ -33,7 +33,7 @@ import io.reinert.requestor.serialization.Serializer;
  *
  * @author Danilo Reinert
  */
-final class SerdesManager {
+class SerdesManager {
 
     private final Map<String, ArrayList<DeserializerHolder>> deserializers = new HashMap<String,
             ArrayList<DeserializerHolder>>();
