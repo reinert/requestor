@@ -28,6 +28,8 @@ import junit.framework.TestSuite;
         FilterEngineTest.class,
         FilterManagerTest.class,
         SerdesManagerTest.class,
-        SerializationEngineTest.class})
+        SerializationEngineTest.class,
+        RequestProcessorTest.class,
+        ResponseProcessorTest.class})
 public class RequestorTestSuite extends TestSuite {
 }
