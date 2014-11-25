@@ -135,16 +135,17 @@
     </dependency>
 
     <!-- Test dependencies -->
-    <!--<dependency>-->
-      <!--<groupId>com.google.gwt.gwtmockito</groupId>-->
-      <!--<artifactId>gwtmockito</artifactId>-->
-      <!--<version>${gwtmockito.version}</version>-->
-      <!--<scope>test</scope>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>com.google.gwt.gwtmockito</groupId>
+      <artifactId>gwtmockito</artifactId>
+      <version>${gwtmockito.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>${mockito.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -292,49 +293,49 @@
           <mode>htmlunit</mode>
           <testTimeOut>180</testTimeOut>
         </configuration>
-        <executions>
-          <execution>
-            <id>gwt-clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-            <configuration>
-              <module>io.reinert.requestor.Requestor</module>
-            </configuration>
-          </execution>
-          <execution>
-            <id>gwt-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <module>io.reinert.requestor.Requestor</module>
-            </configuration>
-          </execution>
-          <execution>
-            <id>gwt-test</id>
-            <phase>test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <module>io.reinert.requestor.Requestor</module>
-            </configuration>
-          </execution>
-          <execution>
-            <id>gwt-package</id>
-            <goals>
-              <goal>resources</goal>
-            </goals>
-            <configuration>
-              <modules>
-                <module>io.reinert.requestor.Requestor</module>
-              </modules>
-            </configuration>
-          </execution>
-        </executions>
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<id>gwt-clean</id>-->
+            <!--<phase>clean</phase>-->
+            <!--<goals>-->
+              <!--<goal>clean</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<module>io.reinert.requestor.Requestor</module>-->
+            <!--</configuration>-->
+          <!--</execution>-->
+          <!--<execution>-->
+            <!--<id>gwt-compile</id>-->
+            <!--<phase>compile</phase>-->
+            <!--<goals>-->
+              <!--<goal>compile</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<module>io.reinert.requestor.Requestor</module>-->
+            <!--</configuration>-->
+          <!--</execution>-->
+          <!--<execution>-->
+            <!--<id>gwt-test</id>-->
+            <!--<phase>test</phase>-->
+            <!--<goals>-->
+              <!--<goal>test</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<module>io.reinert.requestor.Requestor</module>-->
+            <!--</configuration>-->
+          <!--</execution>-->
+          <!--<execution>-->
+            <!--<id>gwt-package</id>-->
+            <!--<goals>-->
+              <!--<goal>resources</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<modules>-->
+                <!--<module>io.reinert.requestor.Requestor</module>-->
+              <!--</modules>-->
+            <!--</configuration>-->
+          <!--</execution>-->
+        <!--</executions>-->
 
         <dependencies>
           <dependency>
