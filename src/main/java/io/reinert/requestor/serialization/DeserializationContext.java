@@ -15,9 +15,6 @@
  */
 package io.reinert.requestor.serialization;
 
-import io.reinert.requestor.Provider;
-import io.reinert.requestor.ProviderManager;
-
 /**
  * Context of deserialization.
  *
@@ -26,26 +23,14 @@ import io.reinert.requestor.ProviderManager;
 public abstract class DeserializationContext {
 
     private final Class<?> requestedType;
-    private final ProviderManager providerManager;
 
-    public DeserializationContext(Class<?> requestedType, ProviderManager providerManager) {
-        this.providerManager = providerManager;
+    public DeserializationContext(Class<?> requestedType) {
         this.requestedType = requestedType;
     }
 
-    public <T> T getInstance(Class<T> type) {
-        final Provider<T> factory = providerManager.get(type);
-        if (factory == null)
-            throw new UnableToDeserializeException("Could not get instance because there is no provider " +
-                    "for the type " + type.getName() + " registered in the Requestor.");
-        return factory.get();
-    }
+    public abstract <T> T getInstance(Class<T> type);
 
     public Class<?> getRequestedType() {
         return requestedType;
-    }
-
-    protected ProviderManager getProviderManager() {
-        return providerManager;
     }
 }

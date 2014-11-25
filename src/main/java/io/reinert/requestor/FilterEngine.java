@@ -20,7 +20,7 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public class FilterEngine {
+final class FilterEngine {
 
     private final FilterManager filterManager;
 

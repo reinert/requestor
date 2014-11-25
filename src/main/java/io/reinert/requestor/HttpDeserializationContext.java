@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.serialization.DeserializationContext;
+import io.reinert.requestor.serialization.UnableToDeserializeException;
 
 /**
  * Context of HTTP deserialization.
@@ -26,12 +27,22 @@ public class HttpDeserializationContext extends DeserializationContext {
 
     private final Request request;
     private final SerializedResponse response;
+    private final ProviderManager providerManager;
 
     protected HttpDeserializationContext(Request request, SerializedResponse response, Class<?> requestedType,
                                          ProviderManager providerManager) {
-        super(requestedType, providerManager);
+        super(requestedType);
         this.request = request;
         this.response = response;
+        this.providerManager = providerManager;
+    }
+
+    public <T> T getInstance(Class<T> type) {
+        final Provider<T> factory = providerManager.get(type);
+        if (factory == null)
+            throw new UnableToDeserializeException("Could not get instance because there is no provider " +
+                    "for the type " + type.getName() + " registered in the Requestor.");
+        return factory.get();
     }
 
     public Request getRequest() {

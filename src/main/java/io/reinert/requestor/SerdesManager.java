@@ -139,7 +139,7 @@ final class SerdesManager {
      * @param <T> The type of the deserializer.
      * @return The deserializer of the specified type.
      *
-     * @throws io.reinert.requestor.serialization.SerializationException if no deserializer was registered for the class.
+     * @throws io.reinert.requestor.serialization.SerializationException if no deserializer was registered for the class
      */
     @SuppressWarnings("unchecked")
     public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) throws SerializationException {
