@@ -27,6 +27,7 @@ import junit.framework.TestSuite;
 @Suite.SuiteClasses({
         FilterEngineTest.class,
         FilterManagerTest.class,
-        SerdesManagerTest.class})
+        SerdesManagerTest.class,
+        SerializationEngineTest.class})
 public class RequestorTestSuite extends TestSuite {
 }

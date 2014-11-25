@@ -124,7 +124,6 @@ public class SerializationEngineTest {
         Request request = mock(Request.class);
         when(request.getPayload()).thenReturn(null);
 
-
         // When
         engine.serializeRequest(request);
 
