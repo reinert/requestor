@@ -24,7 +24,7 @@ import org.turbogwt.core.collections.JsArrayList;
 import org.turbogwt.core.util.Overlays;
 
 /**
- * Unit tests of {@link io.reinert.requestor.serialization.json.OverlaySerdes}.
+ * Unit tests of {@link OverlaySerdes}.
  */
 public class OverlaySerdesTest extends GWTTestCase {
 

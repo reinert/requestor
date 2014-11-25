@@ -139,7 +139,7 @@ final class SerdesManager {
      * @param <T> The type of the deserializer.
      * @return The deserializer of the specified type.
      *
-     * @throws io.reinert.requestor.serialization.SerializationException if no deserializer was registered for the class
+     * @throws SerializationException if no deserializer was registered for the class.
      */
     @SuppressWarnings("unchecked")
     public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) throws SerializationException {
@@ -167,6 +167,7 @@ final class SerdesManager {
      * @param type The type class of the serializer.
      * @param <T> The type of the serializer.
      * @return The serializer of the specified type.
+     *
      * @throws SerializationException if no serializer was registered for the class.
      */
     @SuppressWarnings("unchecked")
@@ -317,6 +318,7 @@ final class SerdesManager {
         }
     }
 
+    // TODO: Move to a separate file and package access level class in order to test this unit properly
     private static class Key implements Comparable<Key> {
 
         final String typeName;
@@ -337,7 +339,6 @@ final class SerdesManager {
             this.factor = factor;
         }
 
-        // TODO: test exhaustively
         public boolean matches(Key key) {
             if (!key.typeName.equals(this.typeName)) {
                 return false;
@@ -414,7 +415,7 @@ final class SerdesManager {
         public int compareTo(Key key) {
             int result = this.typeName.compareTo(key.typeName);
 
-            // TODO: Improve pattern matching to handle patterns without separators.
+            // TODO: Improve pattern matching to handle patterns without separators?
             if (result == 0) {
                 final int thisSep = this.mediaType.indexOf("/");
                 final int otherSep = key.mediaType.indexOf("/");

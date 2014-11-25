@@ -28,7 +28,7 @@ import org.mockito.Mockito;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit tests of {@link io.reinert.requestor.serialization.json.JsonStringSerdes}.
+ * Unit tests of {@link JsonStringSerdes}.
  */
 public class JsonStringSerdesTest {
 
