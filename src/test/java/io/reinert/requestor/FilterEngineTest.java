@@ -40,7 +40,7 @@ public class FilterEngineTest {
     private FilterEngine engine;
 
     @Before
-    public void initManager() {
+    public void setUpManagerAndInitEngine() {
         when(manager.getRequestFilters()).thenReturn(Arrays.asList(requestFilter));
         when(manager.getResponseFilters()).thenReturn(Arrays.asList(responseFilter));
         engine = new FilterEngine(manager);
