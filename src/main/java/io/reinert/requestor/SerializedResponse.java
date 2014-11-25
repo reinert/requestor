@@ -36,6 +36,14 @@ public class SerializedResponse implements Response {
     }
 
     @Override
+    public String getContentType() {
+        String contentType = delegate.getHeader("Content-Type");
+        if (contentType == null) // try lower case
+            contentType = delegate.getHeader("content-type");
+        return contentType;
+    }
+
+    @Override
     public Headers getHeaders() {
         return headers;
     }

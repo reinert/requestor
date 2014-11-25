@@ -44,6 +44,11 @@ public class DeserializedResponse<T> implements Response {
     }
 
     @Override
+    public String getContentType() {
+        return headers.getValue("Content-Type");
+    }
+
+    @Override
     public Headers getHeaders() {
         return headers;
     }

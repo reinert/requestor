@@ -74,6 +74,13 @@ public interface Response {
     String getHeader(String header);
 
     /**
+     * Returns the value of the content-type header.
+     *
+     * @return the value of response header
+     */
+    String getContentType();
+
+    /**
      * Returns an array of HTTP headers associated with this response.
      *
      * @return array of HTTP headers; returns zero length array if there are no
