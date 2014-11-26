@@ -28,6 +28,20 @@ import com.google.gwt.typedarrays.shared.ArrayBuffer;
  */
 public class XMLHttpRequest extends JavaScriptObject {
 
+    public static class Upload extends JavaScriptObject {
+
+        protected Upload() {
+        }
+
+        public final native void setOnProgress(ProgressHandler handler) /*-{
+            if ("onprogress" in this) {
+                this.onprogress = $entry(function(e) {
+                    handler.@com.google.gwt.xhr.client.ProgressHandler::onProgress(Lcom/google/gwt/xhr/client/ProgressEvent;)(e);
+                });
+            }
+        }-*/;
+    }
+
     /**
      * The type of response expected from the XHR.
      */
@@ -169,6 +183,11 @@ public class XMLHttpRequest extends JavaScriptObject {
             // ADDED BY REQUESTOR
             if ("onprogress" in self)
                 self.onprogress = null;
+
+            if ("upload" in self)
+                if ("onprogress" in self.upload)
+                    self.upload.onprogress = null;
+
         }, 0);
     }-*/;
 
@@ -368,28 +387,16 @@ public class XMLHttpRequest extends JavaScriptObject {
         });
     }-*/;
 
-    /**
-     * Sets the {@link ReadyStateChangeHandler} to be notified when the object's
-     * ready-state changes.
-     * <p>
-     * See <a href="http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange"
-     * >http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange</a>.
-     *
-     * <p>
-     * Note: Applications <em>must</em> call {@link #clearOnReadyStateChange()}
-     * when they no longer need this object, to ensure that it is cleaned up
-     * properly. Failure to do so will result in memory leaks on some browsers.
-     * </p>
-     *
-     * @param handler the handler to be called when the ready state changes
-     * @see #clearOnReadyStateChange()
-     */
     public final native void setOnProgress(ProgressHandler handler) /*-{
         if ("onprogress" in this) {
             this.onprogress = $entry(function(e) {
                 handler.@com.google.gwt.xhr.client.ProgressHandler::onProgress(Lcom/google/gwt/xhr/client/ProgressEvent;)(e);
             });
         }
+    }-*/;
+
+    public final native Upload getUpload() /*-{
+        return this.upload;
     }-*/;
 
     /**
