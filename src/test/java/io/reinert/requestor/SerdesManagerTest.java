@@ -16,7 +16,6 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.SerializationException;
 import io.reinert.requestor.serialization.Serializer;
 
 import org.junit.Test;
@@ -33,16 +32,6 @@ import static org.mockito.Mockito.when;
 public class SerdesManagerTest {
 
     private final SerdesManager manager = new SerdesManager();
-
-    @Test(expected = SerializationException.class)
-    public void getDeserializer_UnregisteredClassAndMediaType_ShouldThrowSerializationException() {
-        manager.getDeserializer(Object.class, "unregistered/type");
-    }
-
-    @Test(expected = SerializationException.class)
-    public void getSerializer_UnregisteredClassAndMediaType_ShouldThrowSerializationException() {
-        manager.getSerializer(Object.class, "unregistered/type");
-    }
 
     @Test
     public void getDeserializer_RegisteredClassAndMediaType_ShouldReturnRegisteredDeserializer() {

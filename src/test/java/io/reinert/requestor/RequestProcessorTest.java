@@ -15,12 +15,13 @@
  */
 package io.reinert.requestor;
 
+import com.google.gwtmockito.GwtMockitoTestRunner;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
@@ -29,7 +30,7 @@ import static org.mockito.Mockito.when;
 /**
  * Unit tests of {@link RequestProcessor}.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(GwtMockitoTestRunner.class)
 public class RequestProcessorTest {
 
     @Mock private SerializationEngine serializationEngine;

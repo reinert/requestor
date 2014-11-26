@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Header;
 import com.google.gwt.http.client.Response;
 
@@ -82,6 +83,16 @@ public class ResponseMock extends Response {
     @Override
     public String getText() {
         return text;
+    }
+
+    @Override
+    public JavaScriptObject getData() {
+        return null;
+    }
+
+    @Override
+    public String getType() {
+        return null;
     }
 
     /**

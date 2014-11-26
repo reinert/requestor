@@ -20,12 +20,9 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gwt.core.client.GWT;
-
-import io.reinert.requestor.form.FormData;
-import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
+import io.reinert.requestor.serialization.SerializationException;
 import io.reinert.requestor.serialization.Serializer;
 
 /**
@@ -39,7 +36,6 @@ class SerializationEngine {
 
     private final SerdesManager serdesManager;
     private final ProviderManager providerManager;
-    private final FormDataSerializer formDataSerializer = GWT.create(FormDataSerializer.class);
 
     public SerializationEngine(SerdesManager serdesManager, ProviderManager providerManager) {
         this.serdesManager = serdesManager;
@@ -52,9 +48,10 @@ class SerializationEngine {
                                                                                              Class<C> containerType) {
         String responseContentType = getResponseContentType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
+        checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
         @SuppressWarnings("unchecked")
-        Collection<T> result = deserializer.deserialize(containerType, response.getPayload(), context);
+        Collection<T> result = deserializer.deserialize(containerType, response.getPayload().isString(), context);
         return getDeserializedResponse(response, result);
     }
 
@@ -62,25 +59,15 @@ class SerializationEngine {
                                                            Class<T> type) {
         String responseContentType = getResponseContentType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
+        checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
-        T result = deserializer.deserialize(response.getPayload(), context);
+        T result = deserializer.deserialize(response.getPayload().isString(), context);
         return getDeserializedResponse(response, result);
     }
 
     @SuppressWarnings("unchecked")
     public SerializedRequest serializeRequest(Request request) {
         Object payload = request.getPayload();
-
-        // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
-        if (payload instanceof Payload)
-            return new SerializedRequest(request, (Payload) payload);
-
-        // FormData serialization
-        // TODO: remove FormData serialization away from here
-        if (payload instanceof FormData)
-            return new SerializedRequest(request, formDataSerializer.serialize((FormData) payload));
-
-        // Conventional serialization
         String body = null;
         if (payload != null) {
             if (payload instanceof Collection) {
@@ -98,11 +85,13 @@ class SerializationEngine {
                     body = "[]";
                 } else {
                     Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), request.getContentType());
+                    checkSerializerNotNull(request, item.getClass(), serializer);
                     body = serializer.serialize(c, new HttpSerializationContext(request));
                 }
             } else {
                 Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
                         request.getContentType());
+                checkSerializerNotNull(request, payload.getClass(), serializer);
                 body = serializer.serialize(payload, new HttpSerializationContext(request));
             }
         }
@@ -122,5 +111,17 @@ class SerializationEngine {
     private <T> DeserializedResponse<T> getDeserializedResponse(SerializedResponse response, T result) {
         return new DeserializedResponse<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
                 result);
+    }
+
+    private void checkDeserializerNotNull(SerializedResponse response, Class<?> type, Deserializer<?> deserializer) {
+        if (deserializer == null)
+            throw new SerializationException("Could not find Deserializer for class '" + type.getName() + "' and " +
+                    "media-type '" + response.getContentType() + "'.");
+    }
+
+    private void checkSerializerNotNull(Request request, Class<?> type, Serializer<?> serializer) {
+        if (serializer == null)
+            throw new SerializationException("Could not find Serializer for class '" + type.getName() + "' and " +
+                    "media-type '" + request.getContentType() + "'.");
     }
 }

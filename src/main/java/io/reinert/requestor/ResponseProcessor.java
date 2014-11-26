@@ -32,9 +32,16 @@ public class ResponseProcessor {
         this.filterEngine = filterEngine;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> DeserializedResponse<T> process(Request request, SerializedResponse response,
                                                Class<T> deserializationType) {
-        DeserializedResponse<T> r =  serializationEngine.deserializeResponse(request, response, deserializationType);
+        DeserializedResponse<T> r;
+        if (deserializationType == Payload.class) {
+            r = (DeserializedResponse<T>) new DeserializedResponse<Payload>(response.getHeaders(),
+                    response.getStatusCode(), response.getStatusText(), response.getPayload());
+        } else {
+            r = serializationEngine.deserializeResponse(request, response, deserializationType);
+        }
         filterEngine.filterResponse(request, r);
         return  r;
     }
@@ -42,7 +49,7 @@ public class ResponseProcessor {
     public <T> DeserializedResponse<Collection<T>> process(Request request, SerializedResponse response,
                                                            Class<T> deserializationType,
                                                            Class<? extends Collection> containerType) {
-        DeserializedResponse<Collection<T>> r =  serializationEngine.deserializeResponse(request, response,
+        DeserializedResponse<Collection<T>> r = serializationEngine.deserializeResponse(request, response,
                 deserializationType, containerType);
         filterEngine.filterResponse(request, r);
         return  r;

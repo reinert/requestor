@@ -59,7 +59,9 @@ public class SerializedResponse implements Response {
     }
 
     @Override
-    public String getPayload() {
-        return delegate.getText();
+    public Payload getPayload() {
+        final String type = delegate.getType();
+        return type.isEmpty() || type.equalsIgnoreCase("text") ?
+                new Payload(delegate.getText()) : new Payload(delegate.getData());
     }
 }

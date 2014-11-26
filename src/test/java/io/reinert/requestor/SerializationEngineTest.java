@@ -68,7 +68,7 @@ public class SerializationEngineTest {
         // Given
         final Class<Object> clazz = Object.class;
         final String mediaType = "don't/matter";
-        final String payload = "any serialized payload";
+        final Payload payload = new Payload("any serialized payload");
 
         SerializedResponse response = mock(SerializedResponse.class);
         when(response.getContentType()).thenReturn(mediaType);
@@ -86,7 +86,7 @@ public class SerializationEngineTest {
         // Then
         verify(serdesManager).getDeserializer(clazz, mediaType);
         verify(deserializer, never()).deserialize(any(Class.class), anyString(), any(DeserializationContext.class));
-        verify(deserializer).deserialize(eq(payload), any(DeserializationContext.class));
+        verify(deserializer).deserialize(eq(payload.isString()), any(DeserializationContext.class));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class SerializationEngineTest {
         final Class<List> collectionClazz = List.class;
         final Class<Object> clazz = Object.class;
         final String mediaType = "don't/matter";
-        final String payload = "any serialized payload";
+        final Payload payload = new Payload("any serialized payload");
 
         SerializedResponse response = mock(SerializedResponse.class);
         when(response.getContentType()).thenReturn(mediaType);
@@ -114,7 +114,7 @@ public class SerializationEngineTest {
         // Then
         verify(serdesManager).getDeserializer(clazz, mediaType);
         verify(deserializer, never()).deserialize(anyString(), any(DeserializationContext.class));
-        verify(deserializer).deserialize(eq(collectionClazz), eq(payload),
+        verify(deserializer).deserialize(eq(collectionClazz), eq(payload.isString()),
                 any(DeserializationContext.class));
     }
 

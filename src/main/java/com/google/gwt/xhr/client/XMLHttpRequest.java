@@ -215,6 +215,10 @@ public class XMLHttpRequest extends JavaScriptObject {
         return this.readyState;
     }-*/;
 
+    public final native JavaScriptObject getResponse() /*-{
+        return this.response;
+    }-*/;
+
     /**
      * Get the response as an {@link ArrayBuffer}.
      *

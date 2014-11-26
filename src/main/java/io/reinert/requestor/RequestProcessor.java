@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor;
 
+import com.google.gwt.core.client.GWT;
+
+import io.reinert.requestor.form.FormData;
+import io.reinert.requestor.form.FormDataSerializer;
+
 /**
  * This class performs all necessary processing steps to ongoing requests.
  *
@@ -22,6 +27,7 @@ package io.reinert.requestor;
  */
 public class RequestProcessor {
 
+    private final FormDataSerializer formDataSerializer = GWT.create(FormDataSerializer.class);
     private final SerializationEngine serializationEngine;
     private final FilterEngine filterEngine;
 
@@ -32,6 +38,16 @@ public class RequestProcessor {
 
     public SerializedRequest process(RequestBuilder requestBuilder) {
         RequestBuilder filteredRequest = filterEngine.filterRequest(requestBuilder);
+
+        Object payload = filteredRequest.getPayload();
+        // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
+        if (payload instanceof Payload)
+            return new SerializedRequest(filteredRequest, (Payload) payload);
+
+        // FormData serialization
+        if (payload instanceof FormData)
+            return new SerializedRequest(filteredRequest, formDataSerializer.serialize((FormData) payload));
+
         return serializationEngine.serializeRequest(filteredRequest);
     }
 }

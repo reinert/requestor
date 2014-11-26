@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
@@ -34,6 +36,8 @@ import io.reinert.requestor.serialization.Serializer;
  * @author Danilo Reinert
  */
 class SerdesManager {
+
+    private static Logger logger = Logger.getLogger(SerdesManager.class.getName());
 
     private final Map<String, ArrayList<DeserializerHolder>> deserializers = new HashMap<String,
             ArrayList<DeserializerHolder>>();
@@ -156,9 +160,11 @@ class SerdesManager {
             }
         }
 
-        throw new SerializationException("There is no Deserializer registered for " + type.getName() +
+        logger.log(Level.WARNING, "There is no Deserializer registered for " + type.getName() +
                 " and media-type " + mediaType + ". If you're relying on auto-generated deserializers," +
                 " please make sure you imported the correct GWT Module.");
+
+        return null;
     }
 
     /**
@@ -185,9 +191,11 @@ class SerdesManager {
             }
         }
 
-        throw new SerializationException("There is no Serializer registered for type " + type.getName() +
+        logger.log(Level.WARNING, "There is no Serializer registered for type " + type.getName() +
                 " and media-type " + mediaType + ". If you're relying on auto-generated serializers," +
                 " please make sure you imported the correct GWT Module.");
+
+        return null;
     }
 
     private <T> String getClassName(Class<T> type) {
