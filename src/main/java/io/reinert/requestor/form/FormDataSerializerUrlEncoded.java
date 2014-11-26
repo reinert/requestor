@@ -23,12 +23,14 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.NodeCollection;
 import com.google.gwt.http.client.URL;
 
+import io.reinert.requestor.Payload;
+
 class FormDataSerializerUrlEncoded implements FormDataSerializer {
 
     private static Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());
 
     @Override
-    public Object serialize(FormData formData) {
+    public Payload serialize(FormData formData) {
         StringBuilder serialized = new StringBuilder();
 
         final FormElement formElement = formData.getFormElement();
@@ -55,7 +57,7 @@ class FormDataSerializerUrlEncoded implements FormDataSerializer {
                 serialized.append('&');
             }
             serialized.setLength(serialized.length() - 1);
-            return serialized.toString();
+            return new Payload(serialized.toString());
         }
 
         for (FormData.Param param : formData) {
@@ -72,7 +74,7 @@ class FormDataSerializerUrlEncoded implements FormDataSerializer {
             }
         }
         serialized.setLength(serialized.length() - 1);
-        return serialized.toString();
+        return new Payload(serialized.toString());
     }
 
     private String encode(String value) {

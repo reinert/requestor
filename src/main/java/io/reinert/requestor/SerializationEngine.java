@@ -21,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.form.FormDataSerializer;
@@ -72,14 +71,16 @@ class SerializationEngine {
     public SerializedRequest serializeRequest(Request request) {
         Object payload = request.getPayload();
 
-        // TODO: remove FormData serialization away from here
-        if (payload instanceof FormData) {
-            Object serialized = formDataSerializer.serialize((FormData) payload);
-            Payload p = serialized instanceof String ?
-                    new Payload((String) serialized) : new Payload((JavaScriptObject) serialized);
-            return new SerializedRequest(request, p);
-        }
+        // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
+        if (payload instanceof Payload)
+            return new SerializedRequest(request, (Payload) payload);
 
+        // FormData serialization
+        // TODO: remove FormData serialization away from here
+        if (payload instanceof FormData)
+            return new SerializedRequest(request, formDataSerializer.serialize((FormData) payload));
+
+        // Conventional serialization
         String body = null;
         if (payload != null) {
             if (payload instanceof Collection) {

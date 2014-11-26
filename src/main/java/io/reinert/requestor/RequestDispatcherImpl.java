@@ -98,12 +98,13 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
         // Send the request
         try {
-            if (payload.isString() != null)
+            if (payload.isString() != null) {
                 xmlHttpRequest.send(payload.isString());
-            else if (payload.isJavaScriptObject() != null)
+            } else if (payload.isJavaScriptObject() != null) {
                 xmlHttpRequest.send(payload.isJavaScriptObject());
-            else
+            } else {
                 xmlHttpRequest.send();
+            }
         } catch (JavaScriptException e) {
             deferred.reject(new RequestDispatchException(e.getMessage()));
         }

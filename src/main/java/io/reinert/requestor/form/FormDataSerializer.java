@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.form;
 
+import io.reinert.requestor.Payload;
+
+/**
+ * Serializes FormData.
+ */
 public interface FormDataSerializer {
-    Object serialize(FormData formData);
+    Payload serialize(FormData formData);
 }

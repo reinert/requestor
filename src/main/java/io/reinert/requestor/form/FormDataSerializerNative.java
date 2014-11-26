@@ -17,11 +17,13 @@ package io.reinert.requestor.form;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import io.reinert.requestor.Payload;
+
 class FormDataSerializerNative implements FormDataSerializer {
     @Override
-    public Object serialize(FormData formData) {
+    public Payload serialize(FormData formData) {
         if (formData.getFormElement() != null)
-            return FormDataOverlay.create(formData.getFormElement());
+            return new Payload(FormDataOverlay.create(formData.getFormElement()));
 
         FormDataOverlay overlay = FormDataOverlay.create();
         for (FormData.Param param : formData) {
@@ -32,6 +34,6 @@ class FormDataSerializerNative implements FormDataSerializer {
                 overlay.append(param.getName(), (JavaScriptObject) value, param.getFileName());
             }
         }
-        return overlay;
+        return new Payload(overlay);
     }
 }

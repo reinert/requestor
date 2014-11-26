@@ -21,6 +21,11 @@ import java.util.Iterator;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.FormElement;
 
+/**
+ * Represents FormData interface.
+ *
+ * @author Danilo Reinert
+ */
 public class FormData implements Iterable<FormData.Param> {
 
     private final FormElement formElement;
