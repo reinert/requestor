@@ -28,6 +28,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests of {@link ResponseProcessor}.
@@ -49,8 +50,9 @@ public class ResponseProcessorTest {
     public void process_OneClass_ShouldApplyFiltersThenSerialize() {
         // Given
         final Class<Object> clazz = Object.class;
-        Request request = mock(Request.class);
         SerializedResponse response = mock(SerializedResponse.class);
+        Request request = mock(Request.class);
+        when(request.getResponseType()).thenReturn(ResponseType.DEFAULT);
 
         // When
         processor.process(request, response, clazz);
@@ -66,8 +68,9 @@ public class ResponseProcessorTest {
         // Given
         final Class<Collection> collectionClazz = Collection.class;
         final Class<Object> clazz = Object.class;
-        Request request = mock(Request.class);
         SerializedResponse response = mock(SerializedResponse.class);
+        Request request = mock(Request.class);
+        when(request.getResponseType()).thenReturn(ResponseType.DEFAULT);
 
         // When
         processor.process(request, response, clazz, collectionClazz);
