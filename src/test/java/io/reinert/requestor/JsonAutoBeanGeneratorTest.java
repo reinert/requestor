@@ -15,251 +15,172 @@
  */
 package io.reinert.requestor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.gdeferred.DoneCallback;
-import io.reinert.requestor.header.ContentTypeHeader;
-import io.reinert.requestor.test.mock.ResponseMock;
-import io.reinert.requestor.test.mock.ServerStub;
+import io.reinert.requestor.serialization.Deserializer;
+import io.reinert.requestor.serialization.HasImpl;
+import io.reinert.requestor.serialization.Serializer;
 
 /**
- * @author Danilo Reinert
+ * Unit tests for {@link io.reinert.requestor.rebind.JsonAutoBeanGenerator}.
  */
 public class JsonAutoBeanGeneratorTest extends GWTTestCase {
+
+    public static final String APP_JSON = "app*/json*";
+    public static final String JAVASCRIPT = "*/javascript*";
+
+    private SerdesManager serdesManager;
+    private ProviderManager providerManager;
 
     @Override
     public String getModuleName() {
         return "io.reinert.requestor.RequestorWithAutoBeanTest";
     }
 
-    public void testGeneratedSingleDeserialization() {
-        final Requestor requestor = getRequestor();
-        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
-
-        final Animal stuart = animalProvider.get();
-        stuart.setName("Stuart");
-        stuart.setAge(3);
-
-        final String uri = "/animal";
-
-        final String serialized = "{\"name\":\"Stuart\",\"age\":3}";
-
-        ServerStub.responseFor(uri, ResponseMock.of(serialized, 200, "OK",
-                new ContentTypeHeader("application/json")));
-
-        final boolean[] callbackDoneCalled = new boolean[1];
-
-        requestor.request(uri).get(Animal.class)
-                .done(new DoneCallback<Animal>() {
-                    @Override
-                    public void onDone(Animal animal) {
-                        callbackDoneCalled[0] = true;
-                        assertTrue(isEquals(stuart, animal));
-                    }
-                });
-
-        ServerStub.triggerPendingRequest();
-
-        assertTrue(callbackDoneCalled[0]);
+    @Override
+    public void gwtSetUp() throws Exception {
+        serdesManager = new SerdesManager();
+        providerManager = new ProviderManager();
+        GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
     }
 
-    public void testGeneratedListDeserialization() {
-        final Requestor requestor = getRequestor();
-        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
+    public void testProviderShouldBeAvailableByProviderManager() {
+        final Provider<Animal> animalProvider = providerManager.get(Animal.class);
+        assertNotNull(animalProvider);
 
-        final Animal stuart = animalProvider.get();
-        stuart.setName("Stuart");
-        stuart.setAge(3);
+        Animal animal = animalProvider.get();
+        assertNotNull(animal);
 
-        final Animal march = animalProvider.get();
-        march.setName("March");
-        march.setAge(5);
-
-        final List<Animal> list = new ArrayList<Animal>();
-        list.add(stuart); list.add(march);
-
-        final String uri = "/animals";
-
-        final String serialized = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
-
-        ServerStub.responseFor(uri, ResponseMock.of(serialized, 200, "OK",
-                new ContentTypeHeader("application/json")));
-
-        final boolean[] callbackDoneCalled = new boolean[1];
-
-        requestor.request(uri).get(Animal.class, List.class)
-                .done(new DoneCallback<Collection<Animal>>() {
-                    @Override
-                    public void onDone(Collection<Animal> animals) {
-                        callbackDoneCalled[0] = true;
-                        List<Animal> list = (List<Animal>) animals;
-                        assertTrue(Arrays.equals(list.toArray(), list.toArray()));
-                    }
-                });
-
-        ServerStub.triggerPendingRequest();
-
-        assertTrue(callbackDoneCalled[0]);
+        animal.setAge(2);
+        animal.setName("Doug");
+        assertEquals(new Integer(2), animal.getAge());
+        assertEquals("Doug", animal.getName());
     }
 
-    public void testGeneratedCustomListDeserialization() {
-        final Requestor requestor = getRequestor();
-        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
-
-        final Animal stuart = animalProvider.get();
-        stuart.setName("Stuart");
-        stuart.setAge(3);
-
-        final Animal march = animalProvider.get();
-        march.setName("March");
-        march.setAge(5);
-
-        final List<Animal> list = new ArrayList<Animal>();
-        list.add(stuart); list.add(march);
-
-        final String uri = "/animals";
-
-        final String serialized = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
-
-        ServerStub.responseFor(uri, ResponseMock.of(serialized, 200, "OK",
-                new ContentTypeHeader("application/json")));
-
-        final boolean[] callbackDoneCalled = new boolean[1];
-
-        requestor.request(uri).get(Animal.class, List.class)
-                .done(new DoneCallback<Collection<Animal>>() {
-                    @Override
-                    public void onDone(Collection<Animal> animals) {
-                        callbackDoneCalled[0] = true;
-                        List<Animal> list = (List<Animal>) animals;
-                        assertTrue(Arrays.equals(list.toArray(), list.toArray()));
-                    }
-                });
-
-        ServerStub.triggerPendingRequest();
-
-        assertTrue(callbackDoneCalled[0]);
+    public void testSerializerShouldBeAvailableBySerdesManager() {
+        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
+        assertNotNull(serializer);
     }
 
-    public void testGeneratedSingleSerialization() {
-        final Requestor requestor = getRequestor();
-        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
-
-        final Animal stuart = animalProvider.get();
-        stuart.setName("Stuart");
-        stuart.setAge(3);
-
-        final String uri = "/animal";
-
-        final String serialized = "{\"name\":\"Stuart\",\"age\":3}";
-
-        ServerStub.responseFor(uri, ResponseMock.of(null, 200, "OK",
-                new ContentTypeHeader("application/json")));
-
-        final boolean[] callbackDoneCalled = new boolean[1];
-
-        requestor.request(uri).payload(stuart).post()
-                .done(new DoneCallback<Void>() {
-                    @Override
-                    public void onDone(Void ignored) {
-                        callbackDoneCalled[0] = true;
-                    }
-                });
-
-        ServerStub.triggerPendingRequest();
-
-        assertTrue(callbackDoneCalled[0]);
-        assertEquals(serialized, ServerStub.getRequestData(uri).getData());
+    public void testDeserializerShouldBeAvailableBySerdesManager() {
+        final Deserializer<Animal> deserializer = serdesManager.getDeserializer(Animal.class, "application/json");
+        assertNotNull(deserializer);
     }
 
-    public void testGeneratedListSerialization() {
-        final Requestor requestor = getRequestor();
-        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
-
-        final Animal stuart = animalProvider.get();
-        stuart.setName("Stuart");
-        stuart.setAge(3);
-
-        final Animal march = animalProvider.get();
-        march.setName("March");
-        march.setAge(5);
-
-        final List<Animal> list = new ArrayList<Animal>();
-        list.add(stuart); list.add(march);
-
-        final String uri = "/animals";
-
-        final String serialized = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
-
-        ServerStub.responseFor(uri, ResponseMock.of(null, 200, "OK",
-                new ContentTypeHeader("application/json")));
-
-        final boolean[] callbackDoneCalled = new boolean[1];
-
-        requestor.request(uri).payload(list).post()
-                .done(new DoneCallback<Void>() {
-                    @Override
-                    public void onDone(Void ignored) {
-                        callbackDoneCalled[0] = true;
-                    }
-                });
-
-        ServerStub.triggerPendingRequest();
-
-        assertTrue(callbackDoneCalled[0]);
-        assertEquals(serialized, ServerStub.getRequestData(uri).getData());
+    // This test will prevent us to every time test the same behaviour for both Serializer and Deserializer
+    // (since they are the same)
+    public void testSerializerAndDeserializerShouldBeTheSameInstance() {
+        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
+        final Deserializer<Animal> deserializer = serdesManager.getDeserializer(Animal.class, "application/json");
+        assertSame(serializer, deserializer);
     }
 
-    public void testGeneratedCustomListSerialization() {
-        final Requestor requestor = getRequestor();
-        final Provider<Animal> animalProvider = requestor.getProvider(Animal.class);
-
-        final Animal stuart = animalProvider.get();
-        stuart.setName("Stuart");
-        stuart.setAge(3);
-
-        final Animal march = animalProvider.get();
-        march.setName("March");
-        march.setAge(5);
-
-        final List<Animal> list = new ArrayList<Animal>();
-        list.add(stuart); list.add(march);
-
-        final String uri = "/animals";
-
-        final String serialized = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
-
-        ServerStub.responseFor(uri, ResponseMock.of(null, 200, "OK",
-                new ContentTypeHeader("application/json")));
-
-        final boolean[] callbackDoneCalled = new boolean[1];
-
-        requestor.request(uri).payload(list).post()
-                .done(new DoneCallback<Void>() {
-                    @Override
-                    public void onDone(Void ignored) {
-                        callbackDoneCalled[0] = true;
-                    }
-                });
-
-        ServerStub.triggerPendingRequest();
-
-        assertTrue(callbackDoneCalled[0]);
-        assertEquals(serialized, ServerStub.getRequestData(uri).getData());
+    public void testSerializerShouldSupportMediaTypeValuesFromJsonAnnotation() {
+        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
+        assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
     }
 
-    private Requestor getRequestor() {
-        ServerStub.clearStub();
-        return GWT.create(Requestor.class);
+    @SuppressWarnings("null")
+    public void testSerializerShouldSupportAutoBeanProxyTypeAsImpl() {
+        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
+
+        assertEquals(Animal.class, serializer.handledType());
+
+        assertTrue(serializer instanceof HasImpl);
+
+        // We test if runtime class name contains generated class name, since in runtime '$1' is appended to the end of
+        // the class name. SerdesManager already handle this issue for matching.
+        final Animal autoBeanInstance = providerManager.get(Animal.class).get();
+        final String autoBeanRunTimeClassName = autoBeanInstance.getClass().getName();
+        final String autoBeanGeneratedClassName = ((HasImpl) serializer).implTypes()[0].getName();
+        assertTrue(autoBeanRunTimeClassName.contains(autoBeanGeneratedClassName));
     }
 
-    @Json({"app*/json*", "*/javascript*"})
+    @SuppressWarnings("null")
+    public void testSingleDeserialization() {
+        // Given
+        final Deserializer<Animal> deserializer = serdesManager.getDeserializer(Animal.class, "application/json");
+        final Animal expected = providerManager.get(Animal.class).get();
+        expected.setName("Stuart");
+        expected.setAge(3);
+
+        final String input = "{\"name\":\"Stuart\",\"age\":3}";
+
+        // When
+        final Animal output = deserializer.deserialize(input, null);
+
+        // Then
+        assertTrue(isEqual(expected, output));
+    }
+
+    @SuppressWarnings({"null", "unchecked"})
+    public void testDeserializationAsList() {
+        // Given
+        final Deserializer<Animal> deserializer = serdesManager.getDeserializer(Animal.class, "application/json");
+        final Provider<Animal> animalProvider = providerManager.get(Animal.class);
+
+        final Animal a0 = animalProvider.get();
+        a0.setName("Stuart");
+        a0.setAge(3);
+        final Animal a1 = animalProvider.get();
+        a1.setName("March");
+        a1.setAge(5);
+
+        final String input = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
+
+        // When
+        List<Animal> output = deserializer.deserialize(List.class, input, null);
+
+        // Then
+        assertTrue(isEqual(a0, output.get(0)));
+        assertTrue(isEqual(a1, output.get(1)));
+    }
+
+    @SuppressWarnings("null")
+    public void testSingleSerialization() {
+        // Given
+        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
+
+        final String expected = "{\"name\":\"Stuart\",\"age\":3}";
+
+        final Animal input = providerManager.get(Animal.class).get();
+        input.setName("Stuart");
+        input.setAge(3);
+
+        // When
+        final String output = serializer.serialize(input, null);
+
+        // Then
+        assertEquals(expected, output);
+    }
+
+    @SuppressWarnings({"null", "unchecked"})
+    public void testSerializationAsList() {
+        // Given
+        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
+        final Provider<Animal> animalProvider = providerManager.get(Animal.class);
+
+        final String expected = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
+
+        final Animal a0 = animalProvider.get();
+        a0.setName("Stuart");
+        a0.setAge(3);
+        final Animal a1 = animalProvider.get();
+        a1.setName("March");
+        a1.setAge(5);
+        List<Animal> input = Arrays.asList(a0, a1);
+
+        // When
+        String output = serializer.serialize(input, null);
+
+        // Then
+        assertEquals(expected, output);
+    }
+
+    @Json({APP_JSON, JAVASCRIPT})
     interface Animal {
         Integer getAge();
         String getName();
@@ -267,7 +188,7 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
         void setName(String name);
     }
 
-    private boolean isEquals(Animal a, Animal b) {
+    private boolean isEqual(Animal a, Animal b) {
         return a.getName().equals(b.getName()) && a.getAge().equals(b.getAge());
     }
 }
