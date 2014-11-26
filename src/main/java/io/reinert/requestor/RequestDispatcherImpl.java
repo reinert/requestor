@@ -42,7 +42,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         final String user = request.getUser();
         final String password = request.getPassword();
         final Headers headers = request.getHeaders();
-        final String body = request.getPayload();
+        final Payload payload = request.getPayload();
 
         // Create XMLHttpRequest
         XMLHttpRequest xmlHttpRequest = XMLHttpRequest.create();
@@ -98,7 +98,12 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
         // Send the request
         try {
-            xmlHttpRequest.send(body);
+            if (payload.isString() != null)
+                xmlHttpRequest.send(payload.isString());
+            else if (payload.isJavaScriptObject() != null)
+                xmlHttpRequest.send(payload.isJavaScriptObject());
+            else
+                xmlHttpRequest.send();
         } catch (JavaScriptException e) {
             deferred.reject(new RequestDispatchException(e.getMessage()));
         }

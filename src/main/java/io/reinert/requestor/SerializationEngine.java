@@ -20,6 +20,11 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+
+import io.reinert.requestor.form.FormData;
+import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
@@ -35,6 +40,7 @@ class SerializationEngine {
 
     private final SerdesManager serdesManager;
     private final ProviderManager providerManager;
+    private final FormDataSerializer formDataSerializer = GWT.create(FormDataSerializer.class);
 
     public SerializationEngine(SerdesManager serdesManager, ProviderManager providerManager) {
         this.serdesManager = serdesManager;
@@ -65,6 +71,15 @@ class SerializationEngine {
     @SuppressWarnings("unchecked")
     public SerializedRequest serializeRequest(Request request) {
         Object payload = request.getPayload();
+
+        // TODO: remove FormData serialization away from here
+        if (payload instanceof FormData) {
+            Object serialized = formDataSerializer.serialize((FormData) payload);
+            Payload p = serialized instanceof String ?
+                    new Payload((String) serialized) : new Payload((JavaScriptObject) serialized);
+            return new SerializedRequest(request, p);
+        }
+
         String body = null;
         if (payload != null) {
             if (payload instanceof Collection) {
@@ -90,7 +105,7 @@ class SerializationEngine {
                 body = serializer.serialize(payload, new HttpSerializationContext(request));
             }
         }
-        return new SerializedRequest(request, body);
+        return new SerializedRequest(request, new Payload(body));
     }
 
     private String getResponseContentType(Request request, SerializedResponse response) {

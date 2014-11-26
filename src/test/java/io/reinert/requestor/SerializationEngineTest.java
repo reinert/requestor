@@ -18,6 +18,8 @@ package io.reinert.requestor;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwtmockito.GwtMockitoTestRunner;
+
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.SerializationContext;
@@ -27,7 +29,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollection;
@@ -42,7 +43,7 @@ import static org.mockito.Mockito.when;
 /**
  * Unit tests of {@link SerializationEngine}.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(GwtMockitoTestRunner.class)
 public class SerializationEngineTest {
 
     @Mock private SerdesManager serdesManager;

@@ -19,7 +19,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.FormParamSerializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.serialization.json.JsonBooleanSerdes;
@@ -133,7 +132,6 @@ public class RequestorImpl implements Requestor {
         serdesManager.addSerdes(VoidSerdes.getInstance());
         serdesManager.addSerdes(OverlaySerdes.getInstance());
         serdesManager.addSerdes(TextSerdes.getInstance());
-        serdesManager.addSerializer(FormParamSerializer.getInstance());
         GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
     }
 

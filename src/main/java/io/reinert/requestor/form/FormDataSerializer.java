@@ -13,32 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.form;
 
-/**
- * Represents a single form parameter.
- * <p/>
- * It can hold one or more values.
- *
- * @author Danilo Reinert
- */
-public class FormParam {
-
-    public static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
-
-    private final String name;
-    private final Object[] values;
-
-    public FormParam(String name, Object... values) {
-        this.name = name;
-        this.values = values;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Object[] getValues() {
-        return values;
-    }
+public interface FormDataSerializer {
+    Object serialize(FormData formData);
 }

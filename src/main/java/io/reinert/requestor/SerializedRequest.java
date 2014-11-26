@@ -23,9 +23,9 @@ package io.reinert.requestor;
 public class SerializedRequest implements Request {
 
     private final Request request;
-    private final String serializedPayload;
+    private final Payload serializedPayload;
 
-    public SerializedRequest(Request request, String serializedPayload) {
+    public SerializedRequest(Request request, Payload serializedPayload) {
         this.request = request;
         this.serializedPayload = serializedPayload;
     }
@@ -56,7 +56,7 @@ public class SerializedRequest implements Request {
     }
 
     @Override
-    public String getPayload() {
+    public Payload getPayload() {
         return serializedPayload;
     }
 
