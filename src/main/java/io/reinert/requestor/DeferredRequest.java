@@ -30,6 +30,8 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
     private Connection connection;
 
     public DeferredRequest(ResponseProcessor processor) {
+        if (processor == null)
+            throw new NullPointerException("ResponseProcessor cannot be null.");
         this.processor = processor;
     }
 
