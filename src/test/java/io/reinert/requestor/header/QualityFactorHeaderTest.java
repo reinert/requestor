@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.header;
 
 import com.google.gwt.junit.client.GWTTestCase;
-
-import io.reinert.requestor.header.SimpleHeaderWithParameter;
 
 /**
  * @author Danilo Reinert
  */
-public class SimpleHeaderWithParameterTest extends GWTTestCase {
+public class QualityFactorHeaderTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
@@ -30,9 +28,8 @@ public class SimpleHeaderWithParameterTest extends GWTTestCase {
     }
 
     public void testGetValue() {
-        final String expected = "text/html; charset=ISO-8859-4";
-        final SimpleHeaderWithParameter header = new SimpleHeaderWithParameter("Content-Type", "text/html",
-                SimpleHeaderWithParameter.Param.of("charset", "ISO-8859-4"));
+        final String expected = "a/b, x/y+z; 0.2, k/l, n/m; 0.6";
+        final QualityFactorHeader header = new QualityFactorHeader("ign", "a/b", 1, "x/y+z", 0.2, "k/l", 1, "n/m", 0.6);
         assertEquals(expected, header.getValue());
     }
 }

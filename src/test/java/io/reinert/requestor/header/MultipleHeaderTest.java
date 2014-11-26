@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.header;
 
 import com.google.gwt.junit.client.GWTTestCase;
-
-import io.reinert.requestor.header.MultivaluedHeader;
 
 /**
  * @author Danilo Reinert
@@ -31,7 +29,7 @@ public class MultipleHeaderTest extends GWTTestCase {
 
     public void testGetValue() {
         final String expected = "a/b, x/y+z";
-        final MultivaluedHeader header = new MultivaluedHeader("name", "a/b", "x/y+z");
+        final MultivaluedHeader header = new MultivaluedHeader("ignored", "a/b", "x/y+z");
         assertEquals(expected, header.getValue());
     }
 }

@@ -28,7 +28,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 /**
- * Unit tests of {@link io.reinert.requestor.FilterManager}.
+ * Unit tests of {@link RequestDispatcher}.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class RequestDispatcherTest {

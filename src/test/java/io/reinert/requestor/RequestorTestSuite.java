@@ -30,6 +30,7 @@ import junit.framework.TestSuite;
         SerdesManagerTest.class,
         SerializationEngineTest.class,
         RequestProcessorTest.class,
-        ResponseProcessorTest.class})
+        ResponseProcessorTest.class,
+        RequestDispatcherTest.class})
 public class RequestorTestSuite extends TestSuite {
 }
