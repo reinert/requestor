@@ -83,11 +83,14 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
         assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
     }
 
-    @SuppressWarnings("null")
-    public void testSerializerShouldSupportAutoBeanProxyTypeAsImpl() {
+    public void testSerializerShouldHandleAnnotatedType() {
         final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
-
         assertEquals(Animal.class, serializer.handledType());
+    }
+
+    @SuppressWarnings("null")
+    public void testSerializerShouldHandleAutoBeanProxyTypeAsImpl() {
+        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
 
         assertTrue(serializer instanceof HasImpl);
 
