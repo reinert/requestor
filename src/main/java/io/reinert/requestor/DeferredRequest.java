@@ -60,7 +60,7 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
 
     @Override
     public Promise<T, Throwable, RequestProgress> uploadProgress(ProgressCallback<RequestProgress> callback) {
-        uploadProgressCallbacks.add(callback);
+        getUploadProgressCallbacks().add(callback);
         return this;
     }
 

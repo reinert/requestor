@@ -50,6 +50,9 @@ public interface RequestInvoker extends RequestBuilder {
     @Override
     RequestInvoker payload(Object object) throws IllegalArgumentException;
 
+    @Override
+    RequestInvoker responseType(ResponseType responseType);
+
     RequestPromise<Void> get();
 
     <T> RequestPromise<T> get(Class<T> responseType);

@@ -87,6 +87,12 @@ public class RequestInvokerImpl extends RequestBuilderImpl implements RequestInv
         return this;
     }
 
+    @Override
+    public RequestInvoker responseType(ResponseType responseType) {
+        super.responseType(responseType);
+        return this;
+    }
+
     //===================================================================
     // RequestInvoker methods
     //===================================================================

@@ -16,30 +16,29 @@
 package io.reinert.requestor;
 
 /**
- * Represents a HTTP Request.
- *
- * @author Danilo Reinert
+ * The type of response expected from the XMLHttpRequest.
  */
-public interface Request {
+public enum ResponseType {
 
-    String getAccept();
+    DEFAULT(""),
+    ARRAY_BUFFER("arraybuffer"),
+    BLOB("blob"),
+    DOCUMENT("document"),
+    JSON("json"),
+    TEXT("text");
 
-    String getContentType();
+    private final String value;
 
-    Headers getHeaders();
+    private ResponseType(String value) {
+        this.value = value;
+    }
 
-    String getMethod();
+    public String getValue() {
+        return value;
+    }
 
-    String getPassword();
-
-    Object getPayload();
-
-    int getTimeout();
-
-    String getUrl();
-
-    String getUser();
-
-    ResponseType getResponseType();
-
+    @Override
+    public String toString() {
+        return value;
+    }
 }

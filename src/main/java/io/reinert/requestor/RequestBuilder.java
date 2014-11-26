@@ -116,4 +116,13 @@ public interface RequestBuilder extends Request {
        or let the SerdesManager claim? */
     RequestBuilder payload(Object object);
 
+    /**
+     * Sets the expected xhr response type of this Request.
+     *
+     * @param responseType the type of response
+     *
+     * @return the updated request
+     */
+    RequestBuilder responseType(ResponseType responseType);
+
 }

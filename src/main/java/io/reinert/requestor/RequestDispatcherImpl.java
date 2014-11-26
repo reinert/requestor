@@ -43,6 +43,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         final String password = request.getPassword();
         final Headers headers = request.getHeaders();
         final Payload payload = request.getPayload();
+        final ResponseType responseType = request.getResponseType();
 
         // Create XMLHttpRequest
         XMLHttpRequest xmlHttpRequest = XMLHttpRequest.create();
@@ -67,6 +68,9 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         if (user != null) {
             xmlHttpRequest.setWithCredentials(true);
         }
+
+        // Set responseType
+        xmlHttpRequest.setResponseType(responseType.getValue());
 
         // Create RequestCallback
         final RequestCallback callback = getRequestCallback(request, deferred);

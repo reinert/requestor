@@ -74,4 +74,9 @@ public class SerializedRequest implements Request {
     public String getUser() {
         return request.getUser();
     }
+
+    @Override
+    public ResponseType getResponseType() {
+        return request.getResponseType();
+    }
 }

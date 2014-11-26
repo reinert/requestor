@@ -34,6 +34,7 @@ public class RequestBuilderImpl implements RequestBuilder {
     private Object payload;
     private int timeout;
     private String user;
+    private ResponseType responseType = ResponseType.DEFAULT;
 
     public RequestBuilderImpl(String url) {
         this(url, new Headers());
@@ -95,6 +96,11 @@ public class RequestBuilderImpl implements RequestBuilder {
         return user;
     }
 
+    @Override
+    public ResponseType getResponseType() {
+        return responseType;
+    }
+
     //===================================================================
     // RequestBuilder methods
     //===================================================================
@@ -129,6 +135,11 @@ public class RequestBuilderImpl implements RequestBuilder {
         return this;
     }
 
+    public RequestBuilder responseType(ResponseType responseType) {
+        this.responseType = responseType;
+        return this;
+    }
+
     public RequestBuilder timeout(int timeoutMillis) {
         if (timeoutMillis > 0)
             timeout = timeoutMillis;
@@ -139,6 +150,10 @@ public class RequestBuilderImpl implements RequestBuilder {
         this.user = user;
         return this;
     }
+
+    //===================================================================
+    // Own methods
+    //===================================================================
 
     protected RequestBuilder build() {
         return RequestBuilderImpl.copyOf(this);
