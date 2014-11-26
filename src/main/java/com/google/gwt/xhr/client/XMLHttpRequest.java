@@ -395,6 +395,13 @@ public class XMLHttpRequest extends JavaScriptObject {
         }
     }-*/;
 
+    public final void setUploadOnProgress(ProgressHandler handler) {
+        final Upload upload = getUpload();
+        if (upload != null) {
+            upload.setOnProgress(handler);
+        }
+    }
+
     public final native Upload getUpload() /*-{
         return this.upload;
     }-*/;

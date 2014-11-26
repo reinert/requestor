@@ -93,6 +93,14 @@ public class RequestDispatcherImpl extends RequestDispatcher {
             }
         });
 
+        // Set XMLHttpRequest's upload onprogress if available binding to promise's progress
+        xmlHttpRequest.setUploadOnProgress(new ProgressHandler() {
+            @Override
+            public void onProgress(ProgressEvent progress) {
+                deferred.notifyUpload(new RequestProgressImpl(progress));
+            }
+        });
+
         // Pass the connection to the deferred to enable it to cancel the request if necessary (RECOMMENDED PRACTICE)
         deferred.setConnection(getConnection(gwtRequest));
 

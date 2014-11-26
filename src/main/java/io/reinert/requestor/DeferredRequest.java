@@ -15,7 +15,12 @@
  */
 package io.reinert.requestor;
 
+import java.util.ArrayList;
+import java.util.logging.Level;
+
 import io.reinert.gdeferred.Deferred;
+import io.reinert.gdeferred.ProgressCallback;
+import io.reinert.gdeferred.Promise;
 import io.reinert.gdeferred.impl.DeferredObject;
 
 /**
@@ -28,6 +33,7 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
 
     private final ResponseProcessor processor;
     private Connection connection;
+    private ArrayList<ProgressCallback<RequestProgress>> uploadProgressCallbacks;
 
     public DeferredRequest(ResponseProcessor processor) {
         if (processor == null)
@@ -50,6 +56,38 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
         if (connection != null && connection.isPending())
             connection.cancel();
         return super.reject(reject);
+    }
+
+    @Override
+    public Promise<T, Throwable, RequestProgress> uploadProgress(ProgressCallback<RequestProgress> callback) {
+        uploadProgressCallbacks.add(callback);
+        return this;
+    }
+
+    public Deferred<T, Throwable, RequestProgress> notifyUpload(RequestProgress progress) {
+        if (!isPending()) {
+            throw new IllegalStateException("Deferred object already finished, cannot notify upload progress");
+        }
+
+        triggerUploadProgress(progress);
+
+        return this;
+    }
+
+    protected void triggerUploadProgress(RequestProgress progress) {
+        for (ProgressCallback<RequestProgress> callback : getUploadProgressCallbacks()) {
+            try {
+                triggerProgress(callback, progress);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "An uncaught exception occurred in a ProgressCallback", e);
+            }
+        }
+    }
+
+    protected ArrayList<ProgressCallback<RequestProgress>> getUploadProgressCallbacks() {
+        if (uploadProgressCallbacks == null)
+            uploadProgressCallbacks = new ArrayList<ProgressCallback<RequestProgress>>();
+        return uploadProgressCallbacks;
     }
 
     void setConnection(Connection connection) {

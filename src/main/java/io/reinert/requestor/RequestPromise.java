@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.gdeferred.Promise;
 
 /**
@@ -25,4 +26,6 @@ import io.reinert.gdeferred.Promise;
  * @author Danilo Reinert
  */
 public interface RequestPromise<T> extends Promise<T, Throwable, RequestProgress> {
+
+    Promise<T, Throwable, RequestProgress> uploadProgress(ProgressCallback<RequestProgress> callback);
 }

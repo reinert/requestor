@@ -30,6 +30,10 @@
     <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
   </replace-with>
 
+  <replace-with class="io.reinert.requestor.form.FormDataSerializerUrlEncoded">
+    <when-type-is class="io.reinert.requestor.form.FormDataSerializer"/>
+  </replace-with>
+
   <replace-with class="io.reinert.requestor.RequestDispatcherFactoryImpl">
     <when-type-is class="io.reinert.requestor.RequestDispatcherFactory"/>
   </replace-with>
