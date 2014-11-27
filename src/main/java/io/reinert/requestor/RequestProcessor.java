@@ -42,11 +42,11 @@ public class RequestProcessor {
         Object payload = filteredRequest.getPayload();
         // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
         if (payload instanceof Payload)
-            return new SerializedRequest(filteredRequest, (Payload) payload);
+            return new SerializedRequestImpl(filteredRequest, (Payload) payload);
 
         // FormData serialization
         if (payload instanceof FormData)
-            return new SerializedRequest(filteredRequest, formDataSerializer.serialize((FormData) payload));
+            return new SerializedRequestImpl(filteredRequest, formDataSerializer.serialize((FormData) payload));
 
         return serializationEngine.serializeRequest(filteredRequest);
     }

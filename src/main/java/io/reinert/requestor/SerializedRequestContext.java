@@ -16,17 +16,10 @@
 package io.reinert.requestor;
 
 /**
- * Allows one to modify a HTTP response.
+ * Allows one to modify a HTTP request.
  *
  * @author Danilo Reinert
  */
-public interface SerializedResponseBuilder extends SerializedResponse {
-
-    void setHeader(String name, String value);
-
-    void setContentType(String mediaType);
-
+public interface SerializedRequestContext extends SerializedRequest {
     void setPayload(Payload payload);
-
-    void setResponseType(ResponseType responseType);
 }

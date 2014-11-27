@@ -23,7 +23,7 @@ import io.reinert.requestor.header.SimpleHeader;
  *
  * @author Danilo Reinert
  */
-public class SerializedResponseImpl implements SerializedResponseBuilder {
+public class SerializedResponseImpl implements SerializedResponseContext {
 
     private final com.google.gwt.http.client.Response delegate;
     private final Headers headers;

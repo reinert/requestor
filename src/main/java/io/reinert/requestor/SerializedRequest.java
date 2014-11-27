@@ -16,67 +16,11 @@
 package io.reinert.requestor;
 
 /**
- * Represents a request with its payload already serialized.
+ * Represents a serialized HTTP request.
  *
- * @author Danilo Reinert
+ * @author Danilo Reienrt
  */
-public class SerializedRequest implements Request {
-
-    private final Request request;
-    private final Payload serializedPayload;
-
-    public SerializedRequest(Request request, Payload serializedPayload) {
-        this.request = request;
-        this.serializedPayload = serializedPayload;
-    }
-
+public interface SerializedRequest extends Request {
     @Override
-    public String getAccept() {
-        return request.getAccept();
-    }
-
-    @Override
-    public String getContentType() {
-        return request.getContentType();
-    }
-
-    @Override
-    public Headers getHeaders() {
-        return request.getHeaders();
-    }
-
-    @Override
-    public String getMethod() {
-        return request.getMethod();
-    }
-
-    @Override
-    public String getPassword() {
-        return request.getPassword();
-    }
-
-    @Override
-    public Payload getPayload() {
-        return serializedPayload;
-    }
-
-    @Override
-    public int getTimeout() {
-        return request.getTimeout();
-    }
-
-    @Override
-    public String getUrl() {
-        return request.getUrl();
-    }
-
-    @Override
-    public String getUser() {
-        return request.getUser();
-    }
-
-    @Override
-    public ResponseType getResponseType() {
-        return request.getResponseType();
-    }
+    Payload getPayload();
 }

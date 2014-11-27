@@ -95,7 +95,7 @@ class SerializationEngine {
                 body = serializer.serialize(payload, new HttpSerializationContext(request));
             }
         }
-        return new SerializedRequest(request, new Payload(body));
+        return new SerializedRequestImpl(request, new Payload(body));
     }
 
     private String getResponseContentType(Request request, SerializedResponse response) {
