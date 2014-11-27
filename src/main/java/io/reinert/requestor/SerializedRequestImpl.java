@@ -20,10 +20,10 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public class SerializedRequestImpl implements SerializedRequest {
+public class SerializedRequestImpl implements SerializedRequestContext {
 
     private final Request request;
-    private final Payload serializedPayload;
+    private Payload serializedPayload;
 
     public SerializedRequestImpl(Request request, Payload serializedPayload) {
         this.request = request;
@@ -78,5 +78,10 @@ public class SerializedRequestImpl implements SerializedRequest {
     @Override
     public ResponseType getResponseType() {
         return request.getResponseType();
+    }
+
+    @Override
+    public void setPayload(Payload payload) {
+        this.serializedPayload = payload;
     }
 }

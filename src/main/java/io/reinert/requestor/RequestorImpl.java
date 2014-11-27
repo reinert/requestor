@@ -37,6 +37,7 @@ public class RequestorImpl implements Requestor {
 
     private final SerdesManager serdesManager = new SerdesManager();
     private final FilterManager filterManager = new FilterManager();
+    private final InterceptorManager interceptorManager = new InterceptorManager();
     private final ProviderManager providerManager = new ProviderManager();
     private final RequestDispatcherFactory requestDispatcherFactory = GWT.create(RequestDispatcherFactory.class);
     private RequestProcessor requestProcessor;
@@ -113,6 +114,16 @@ public class RequestorImpl implements Requestor {
     }
 
     @Override
+    public HandlerRegistration addRequestInterceptor(RequestInterceptor requestInterceptor) {
+        return interceptorManager.addRequestInterceptor(requestInterceptor);
+    }
+
+    @Override
+    public HandlerRegistration addResponseInterceptor(ResponseInterceptor responseInterceptor) {
+        return interceptorManager.addResponseInterceptor(responseInterceptor);
+    }
+
+    @Override
     public <T> HandlerRegistration bindProvider(Class<T> type, Provider<T> factory) {
         return providerManager.bind(type, factory);
     }
@@ -138,7 +149,8 @@ public class RequestorImpl implements Requestor {
     private void initProcessors() {
         final FilterEngine filterEngine = new FilterEngine(filterManager);
         final SerializationEngine serializationEngine = new SerializationEngine(serdesManager, providerManager);
-        requestProcessor = new RequestProcessor(serializationEngine, filterEngine);
+        final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
+        requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine);
         responseProcessor = new ResponseProcessor(serializationEngine, filterEngine);
     }
 }

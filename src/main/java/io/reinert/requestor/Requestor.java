@@ -98,6 +98,24 @@ public interface Requestor {
     HandlerRegistration addResponseFilter(ResponseFilter responseFilter);
 
     /**
+     * Register a request interceptor.
+     *
+     * @param requestInterceptor The request interceptor to be registered.
+     *
+     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
+     */
+    HandlerRegistration addRequestInterceptor(RequestInterceptor requestInterceptor);
+
+    /**
+     * Register a response interceptor.
+     *
+     * @param responseInterceptor The response interceptor to be registered.
+     *
+     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
+     */
+    HandlerRegistration addResponseInterceptor(ResponseInterceptor responseInterceptor);
+
+    /**
      * Register a serializer/deserializer of the given type.
      *
      * @param serdes    The serializer/deserializer of T.

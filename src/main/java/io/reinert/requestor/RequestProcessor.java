@@ -30,24 +30,34 @@ public class RequestProcessor {
     private final FormDataSerializer formDataSerializer = GWT.create(FormDataSerializer.class);
     private final SerializationEngine serializationEngine;
     private final FilterEngine filterEngine;
+    private final InterceptorEngine interceptorEngine;
 
-    public RequestProcessor(SerializationEngine serializationEngine, FilterEngine filterEngine) {
+    public RequestProcessor(SerializationEngine serializationEngine, FilterEngine filterEngine,
+                            InterceptorEngine interceptorEngine) {
         this.serializationEngine = serializationEngine;
         this.filterEngine = filterEngine;
+        this.interceptorEngine = interceptorEngine;
     }
 
     public SerializedRequest process(RequestBuilder requestBuilder) {
+        // 1: FILTER
         RequestBuilder filteredRequest = filterEngine.filterRequest(requestBuilder);
 
+        // 2: SERIALIZE
+        SerializedRequestContext serializedRequest;
         Object payload = filteredRequest.getPayload();
-        // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
-        if (payload instanceof Payload)
-            return new SerializedRequestImpl(filteredRequest, (Payload) payload);
+        if (payload instanceof Payload) {
+            // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
+            serializedRequest = new SerializedRequestImpl(filteredRequest, (Payload) payload);
+        } else if (payload instanceof FormData) {
+            // FormData serialization
+            serializedRequest = new SerializedRequestImpl(filteredRequest, formDataSerializer.serialize((FormData) payload));
+        } else {
+            serializedRequest = serializationEngine.serializeRequest(filteredRequest);
+        }
 
-        // FormData serialization
-        if (payload instanceof FormData)
-            return new SerializedRequestImpl(filteredRequest, formDataSerializer.serialize((FormData) payload));
-
-        return serializationEngine.serializeRequest(filteredRequest);
+        // 3: INTERCEPT
+        interceptorEngine.interceptRequest(serializedRequest);
+        return serializedRequest;
     }
 }
