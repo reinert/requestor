@@ -110,7 +110,7 @@ class SerializationEngine {
 
     private <T> DeserializedResponse<T> getDeserializedResponse(SerializedResponse response, T result) {
         return new DeserializedResponse<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
-                result);
+                response.getResponseType(), result);
     }
 
     private void checkDeserializerNotNull(SerializedResponse response, Class<?> type, Deserializer<?> deserializer) {

@@ -140,7 +140,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         return new RequestCallback() {
             @Override
             public void onResponseReceived(com.google.gwt.http.client.Request gwtRequest, Response gwtResponse) {
-                final SerializedResponse serializedResponse = new SerializedResponse(gwtResponse);
+                final SerializedResponse serializedResponse = new SerializedResponseImpl(gwtResponse);
 
                 if (gwtResponse.getStatusCode() / 100 == 2) {
                     // Resolve if response is 2xx

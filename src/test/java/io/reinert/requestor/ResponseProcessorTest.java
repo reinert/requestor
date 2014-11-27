@@ -50,7 +50,7 @@ public class ResponseProcessorTest {
     public void process_OneClass_ShouldApplyFiltersThenSerialize() {
         // Given
         final Class<Object> clazz = Object.class;
-        SerializedResponse response = mock(SerializedResponse.class);
+        SerializedResponse response = mock(SerializedResponseImpl.class);
         Request request = mock(Request.class);
         when(request.getResponseType()).thenReturn(ResponseType.DEFAULT);
 
@@ -68,7 +68,7 @@ public class ResponseProcessorTest {
         // Given
         final Class<Collection> collectionClazz = Collection.class;
         final Class<Object> clazz = Object.class;
-        SerializedResponse response = mock(SerializedResponse.class);
+        SerializedResponse response = mock(SerializedResponseImpl.class);
         Request request = mock(Request.class);
         when(request.getResponseType()).thenReturn(ResponseType.DEFAULT);
 

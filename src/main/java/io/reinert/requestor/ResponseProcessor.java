@@ -41,21 +41,21 @@ public class ResponseProcessor {
     @SuppressWarnings("unchecked")
     public <T> DeserializedResponse<T> process(Request request, SerializedResponse response,
                                                Class<T> deserializationType) {
-        final ResponseType responseType = request.getResponseType();
+        final ResponseType responseType = response.getResponseType();
         DeserializedResponse<T> r;
         if (deserializationType == Payload.class) {
             r = (DeserializedResponse<T>) new DeserializedResponse<Payload>(response.getHeaders(),
-                    response.getStatusCode(), response.getStatusText(), response.getPayload());
+                    response.getStatusCode(), response.getStatusText(), responseType, response.getPayload());
         } else if (deserializationType == Response.class) {
             r = (DeserializedResponse<T>) new DeserializedResponse<Response>(response.getHeaders(),
-                    response.getStatusCode(), response.getStatusText(), response);
+                    response.getStatusCode(), response.getStatusText(), response.getResponseType(), response);
         } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
             r = serializationEngine.deserializeResponse(request, response, deserializationType);
         } else {
             logger.log(Level.SEVERE, "Could not process response of type '" + responseType + "' to class '"
                     + deserializationType.getName() + "'. A null payload will be returned.");
             r = new DeserializedResponse<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
-                    null);
+                    responseType, null);
         }
 
         filterEngine.filterResponse(request, r);
@@ -74,7 +74,7 @@ public class ResponseProcessor {
                     + Payload.class.getName());
         }
 
-        final ResponseType responseType = request.getResponseType();
+        final ResponseType responseType = response.getResponseType();
         DeserializedResponse<Collection<T>> r;
         if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
             r = serializationEngine.deserializeResponse(request, response, deserializationType, containerType);
@@ -82,7 +82,7 @@ public class ResponseProcessor {
             logger.log(Level.SEVERE, "Could not process response of type '" + responseType + "' to class '"
                     + deserializationType.getName() + "'. A null payload will be returned.");
             r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
-                    response.getStatusText(), null);
+                    response.getStatusText(), responseType, null);
         }
 
         filterEngine.filterResponse(request, r);

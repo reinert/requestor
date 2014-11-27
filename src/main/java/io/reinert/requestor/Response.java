@@ -108,4 +108,11 @@ public interface Response {
      * @return the response payload
      */
     Object getPayload();
+
+    /**
+     * Returns the response type.
+     *
+     * @return the response type
+     */
+    ResponseType getResponseType();
 }

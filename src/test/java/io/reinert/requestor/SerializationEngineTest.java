@@ -70,7 +70,7 @@ public class SerializationEngineTest {
         final String mediaType = "don't/matter";
         final Payload payload = new Payload("any serialized payload");
 
-        SerializedResponse response = mock(SerializedResponse.class);
+        SerializedResponse response = mock(SerializedResponseImpl.class);
         when(response.getContentType()).thenReturn(mediaType);
         when(response.getPayload()).thenReturn(payload);
         when(response.getHeaders()).thenReturn(mock(Headers.class));
@@ -98,7 +98,7 @@ public class SerializationEngineTest {
         final String mediaType = "don't/matter";
         final Payload payload = new Payload("any serialized payload");
 
-        SerializedResponse response = mock(SerializedResponse.class);
+        SerializedResponse response = mock(SerializedResponseImpl.class);
         when(response.getContentType()).thenReturn(mediaType);
         when(response.getPayload()).thenReturn(payload);
         when(response.getHeaders()).thenReturn(mock(Headers.class));

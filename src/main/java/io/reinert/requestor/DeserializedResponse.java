@@ -28,13 +28,15 @@ public class DeserializedResponse<T> implements Response {
     private final int statusCode;
     private final String statusText;
     private final T payload;
+    private final ResponseType type;
 
-    public DeserializedResponse(Headers headers, int statusCode, String statusText, T payload) {
+    public DeserializedResponse(Headers headers, int statusCode, String statusText, ResponseType type, T payload) {
         if (headers == null)
             throw new NullPointerException("Headers cannot be null");
         this.headers = headers;
         this.statusCode = statusCode;
         this.statusText = statusText;
+        this.type = type;
         this.payload = payload;
     }
 
@@ -66,5 +68,10 @@ public class DeserializedResponse<T> implements Response {
     @Override
     public T getPayload() {
         return payload;
+    }
+
+    @Override
+    public ResponseType getResponseType() {
+        return type;
     }
 }

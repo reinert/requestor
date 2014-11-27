@@ -16,11 +16,17 @@
 package io.reinert.requestor;
 
 /**
- * Represents a raw HTTP response.
+ * Allows one to modify a HTTP response.
  *
  * @author Danilo Reinert
  */
-public interface SerializedResponse extends Response {
-    @Override
-    Payload getPayload();
+public interface SerializedResponseBuilder extends SerializedResponse {
+
+    void setHeader(String name, String value);
+
+    void setContentType(String mediaType);
+
+    void setPayload(Payload payload);
+
+    void setResponseType(ResponseType responseType);
 }

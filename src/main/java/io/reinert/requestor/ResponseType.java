@@ -33,6 +33,23 @@ public enum ResponseType {
         this.value = value;
     }
 
+    public static ResponseType of(String responseTypeString) {
+        final String value = responseTypeString.toLowerCase();
+        if (value.equals("arraybuffer")) {
+            return ARRAY_BUFFER;
+        } else if (value.equals("blob")) {
+            return BLOB;
+        } else if (value.equals("document")) {
+            return DOCUMENT;
+        } else if (value.equals("json")) {
+            return JSON;
+        } else if (value.equals("text")) {
+            return TEXT;
+        } else {
+            return DEFAULT;
+        }
+    }
+
     public String getValue() {
         return value;
     }
