@@ -151,6 +151,6 @@ public class RequestorImpl implements Requestor {
         final SerializationEngine serializationEngine = new SerializationEngine(serdesManager, providerManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
         requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine);
-        responseProcessor = new ResponseProcessor(serializationEngine, filterEngine);
+        responseProcessor = new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine);
     }
 }

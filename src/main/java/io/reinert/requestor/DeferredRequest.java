@@ -42,9 +42,9 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
     }
 
     protected abstract DeserializedResponse<T> process(ResponseProcessor processor, Request request,
-                                                       SerializedResponse response);
+                                                       SerializedResponseContext response);
 
-    public DeferredRequest<T> resolve(Request request, SerializedResponse response) {
+    public DeferredRequest<T> resolve(Request request, SerializedResponseContext response) {
         DeserializedResponse<T> deserializedResponse = process(processor, request, response);
         super.resolve(deserializedResponse.getPayload());
         return this;

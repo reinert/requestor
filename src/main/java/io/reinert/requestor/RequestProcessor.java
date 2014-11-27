@@ -51,7 +51,8 @@ public class RequestProcessor {
             serializedRequest = new SerializedRequestImpl(filteredRequest, (Payload) payload);
         } else if (payload instanceof FormData) {
             // FormData serialization
-            serializedRequest = new SerializedRequestImpl(filteredRequest, formDataSerializer.serialize((FormData) payload));
+            serializedRequest = new SerializedRequestImpl(filteredRequest,
+                    formDataSerializer.serialize((FormData) payload));
         } else {
             serializedRequest = serializationEngine.serializeRequest(filteredRequest);
         }

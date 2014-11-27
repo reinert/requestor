@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.reinert.requestor.serialization.UnableToDeserializeException;
-
 /**
  * This class performs all necessary processing steps to incoming responses.
  *
@@ -32,15 +30,25 @@ public class ResponseProcessor {
 
     private final SerializationEngine serializationEngine;
     private final FilterEngine filterEngine;
+    private final InterceptorEngine interceptorEngine;
 
-    public ResponseProcessor(SerializationEngine serializationEngine, FilterEngine filterEngine) {
+    public ResponseProcessor(SerializationEngine serializationEngine, FilterEngine filterEngine,
+                             InterceptorEngine interceptorEngine) {
         this.serializationEngine = serializationEngine;
         this.filterEngine = filterEngine;
+        this.interceptorEngine = interceptorEngine;
     }
 
     @SuppressWarnings("unchecked")
-    public <T> DeserializedResponse<T> process(Request request, SerializedResponse response,
+    public <T> DeserializedResponse<T> process(Request request, SerializedResponseContext response,
                                                Class<T> deserializationType) {
+        // 1: FILTER
+        filterEngine.filterResponse(request, response);
+
+        // 2: INTERCEPT
+        interceptorEngine.interceptResponse(request, response);
+
+        // 3: DESERIALIZE
         final ResponseType responseType = response.getResponseType();
         DeserializedResponse<T> r;
         if (deserializationType == Payload.class) {
@@ -58,25 +66,32 @@ public class ResponseProcessor {
                     responseType, null);
         }
 
-        filterEngine.filterResponse(request, r);
         return r;
     }
 
-    public <T> DeserializedResponse<Collection<T>> process(Request request, SerializedResponse response,
+    public <T> DeserializedResponse<Collection<T>> process(Request request, SerializedResponseContext response,
                                                            Class<T> deserializationType,
                                                            Class<? extends Collection> containerType) {
-        if (deserializationType == Payload.class) {
-            throw new UnableToDeserializeException("It's not allowed to ask a collection of "
-                    + Payload.class.getName());
-        }
-        if (deserializationType == Response.class) {
-            throw new UnableToDeserializeException("It's not allowed to ask a collection of "
-                    + Payload.class.getName());
-        }
+        // 1: FILTER
+        filterEngine.filterResponse(request, response);
 
+        // 2: INTERCEPT
+        interceptorEngine.interceptResponse(request, response);
+
+        // 3: DESERIALIZE
         final ResponseType responseType = response.getResponseType();
         DeserializedResponse<Collection<T>> r;
-        if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
+        if (deserializationType == Payload.class) {
+            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Payload.class.getName()
+                    + "'. A null payload will be returned.");
+            r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
+                    response.getStatusText(), responseType, null);
+        } else if (deserializationType == Response.class) {
+            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Response.class.getName()
+                    + "'. A null payload will be returned.");
+            r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
+                    response.getStatusText(), responseType, null);
+        } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
             r = serializationEngine.deserializeResponse(request, response, deserializationType, containerType);
         } else {
             logger.log(Level.SEVERE, "Could not process response of type '" + responseType + "' to class '"
@@ -85,7 +100,6 @@ public class ResponseProcessor {
                     response.getStatusText(), responseType, null);
         }
 
-        filterEngine.filterResponse(request, r);
         return r;
     }
 }

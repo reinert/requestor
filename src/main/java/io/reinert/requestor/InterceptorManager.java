@@ -41,8 +41,8 @@ class InterceptorManager {
      *
      * @param requestInterceptor The request interceptor to be registered.
      *
-     * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object, capable of cancelling this registration
-     *          to the {@link io.reinert.requestor.InterceptorManager}.
+     * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object, capable of cancelling this
+     *          registration to the {@link io.reinert.requestor.InterceptorManager}.
      */
     public HandlerRegistration addRequestInterceptor(final RequestInterceptor requestInterceptor) {
         requestInterceptors.add(requestInterceptor);
@@ -61,8 +61,8 @@ class InterceptorManager {
      *
      * @param responseInterceptor The response interceptor to be registered.
      *
-     * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object, capable of cancelling this registration
-     *          to the {@link io.reinert.requestor.InterceptorManager}.
+     * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object, capable of cancelling this
+     *          registration to the {@link io.reinert.requestor.InterceptorManager}.
      */
     public HandlerRegistration addResponseInterceptor(final ResponseInterceptor responseInterceptor) {
         responseInterceptors.add(responseInterceptor);

@@ -38,29 +38,32 @@ public class ResponseProcessorTest {
 
     @Mock private SerializationEngine serializationEngine;
     @Mock private FilterEngine filterEngine;
+    @Mock private InterceptorEngine interceptorEngine;
 
     private ResponseProcessor processor;
 
     @Before
     public void setUp() {
-        processor = new ResponseProcessor(serializationEngine, filterEngine);
+        processor = new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine);
     }
 
     @Test
     public void process_OneClass_ShouldApplyFiltersThenSerialize() {
         // Given
         final Class<Object> clazz = Object.class;
-        SerializedResponse response = mock(SerializedResponseImpl.class);
+        SerializedResponseContext response = mock(SerializedResponseImpl.class);
         Request request = mock(Request.class);
-        when(request.getResponseType()).thenReturn(ResponseType.DEFAULT);
+        when(response.getResponseType()).thenReturn(ResponseType.DEFAULT);
+        when(response.getHeaders()).thenReturn(mock(Headers.class));
 
         // When
         processor.process(request, response, clazz);
 
         // Then
-        InOrder inOrder = inOrder(serializationEngine, filterEngine);
-        inOrder.verify(serializationEngine).deserializeResponse(request, response, clazz);
+        InOrder inOrder = inOrder(serializationEngine, filterEngine, interceptorEngine);
         inOrder.verify(filterEngine).filterResponse(eq(request), any(DeserializedResponse.class));
+        inOrder.verify(interceptorEngine).interceptResponse(eq(request), eq(response));
+        inOrder.verify(serializationEngine).deserializeResponse(request, response, clazz);
     }
 
     @Test
@@ -68,16 +71,18 @@ public class ResponseProcessorTest {
         // Given
         final Class<Collection> collectionClazz = Collection.class;
         final Class<Object> clazz = Object.class;
-        SerializedResponse response = mock(SerializedResponseImpl.class);
+        SerializedResponseContext response = mock(SerializedResponseContext.class);
         Request request = mock(Request.class);
-        when(request.getResponseType()).thenReturn(ResponseType.DEFAULT);
+        when(response.getResponseType()).thenReturn(ResponseType.DEFAULT);
+        when(response.getHeaders()).thenReturn(mock(Headers.class));
 
         // When
         processor.process(request, response, clazz, collectionClazz);
 
         // Then
-        InOrder inOrder = inOrder(serializationEngine, filterEngine);
-        inOrder.verify(serializationEngine).deserializeResponse(request, response, clazz, collectionClazz);
+        InOrder inOrder = inOrder(serializationEngine, filterEngine, interceptorEngine);
         inOrder.verify(filterEngine).filterResponse(eq(request), any(DeserializedResponse.class));
+        inOrder.verify(interceptorEngine).interceptResponse(eq(request), eq(response));
+        inOrder.verify(serializationEngine).deserializeResponse(request, response, clazz, collectionClazz);
     }
 }
