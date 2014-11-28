@@ -24,7 +24,6 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
@@ -51,7 +50,7 @@ public class ResponseProcessorTest {
     public void process_OneClass_ShouldApplyFiltersThenSerialize() {
         // Given
         final Class<Object> clazz = Object.class;
-        SerializedResponseContext response = mock(SerializedResponseImpl.class);
+        SerializedResponseImpl response = mock(SerializedResponseImpl.class);
         Request request = mock(Request.class);
         when(response.getResponseType()).thenReturn(ResponseType.DEFAULT);
         when(response.getHeaders()).thenReturn(mock(Headers.class));
@@ -61,7 +60,7 @@ public class ResponseProcessorTest {
 
         // Then
         InOrder inOrder = inOrder(serializationEngine, filterEngine, interceptorEngine);
-        inOrder.verify(filterEngine).filterResponse(eq(request), any(DeserializedResponse.class));
+        inOrder.verify(filterEngine).filterResponse(eq(request), eq(response));
         inOrder.verify(interceptorEngine).interceptResponse(eq(request), eq(response));
         inOrder.verify(serializationEngine).deserializeResponse(request, response, clazz);
     }
@@ -71,7 +70,7 @@ public class ResponseProcessorTest {
         // Given
         final Class<Collection> collectionClazz = Collection.class;
         final Class<Object> clazz = Object.class;
-        SerializedResponseContext response = mock(SerializedResponseContext.class);
+        SerializedResponseImpl response = mock(SerializedResponseImpl.class);
         Request request = mock(Request.class);
         when(response.getResponseType()).thenReturn(ResponseType.DEFAULT);
         when(response.getHeaders()).thenReturn(mock(Headers.class));
@@ -81,7 +80,7 @@ public class ResponseProcessorTest {
 
         // Then
         InOrder inOrder = inOrder(serializationEngine, filterEngine, interceptorEngine);
-        inOrder.verify(filterEngine).filterResponse(eq(request), any(DeserializedResponse.class));
+        inOrder.verify(filterEngine).filterResponse(eq(request), eq(response));
         inOrder.verify(interceptorEngine).interceptResponse(eq(request), eq(response));
         inOrder.verify(serializationEngine).deserializeResponse(request, response, clazz, collectionClazz);
     }

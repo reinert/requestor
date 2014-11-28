@@ -28,5 +28,5 @@ public interface RequestFilter {
      *
      * @param request   The request to be dispatched.
      */
-    void filter(RequestBuilder request);
+    void filter(RequestFilterContext request);
 }

@@ -49,7 +49,7 @@ public class InterceptorEngineTest {
     @Test
     public void interceptorRequest_AnyRequestBuilder_ShouldApplyAllRegisteredInterceptors() {
         // Given
-        SerializedRequestContext requestBuilder = mock(SerializedRequestContext.class);
+        RequestInterceptorContext requestBuilder = mock(RequestInterceptorContext.class);
 
         // When
         engine.interceptRequest(requestBuilder);
@@ -62,7 +62,7 @@ public class InterceptorEngineTest {
     public void interceptorResponse_AnyResponseBuilder_ShouldApplyAllRegisteredInterceptors() {
         // Given
         Request request = mock(Request.class);
-        SerializedResponseContext response = mock(SerializedResponseContext.class);
+        ResponseInterceptorContext response = mock(ResponseInterceptorContext.class);
 
         // When
         engine.interceptResponse(request, response);

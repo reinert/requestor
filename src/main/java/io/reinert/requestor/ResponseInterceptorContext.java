@@ -16,16 +16,28 @@
 package io.reinert.requestor;
 
 /**
- * Request interceptors are intended to manipulate the serialized request payload before it is sent to the server.
+ * Allows one to modify a HTTP Response Payload.
  *
  * @author Danilo Reinert
  */
-public interface RequestInterceptor {
+public interface ResponseInterceptorContext {
 
-    /**
-     * Intercept method called immediately before a request is sent to a client transport layer.
-     *
-     * @param context   The context of the request to be sent.
-     */
-    void intercept(RequestInterceptorContext context);
+    String getHeader(String header);
+
+    String getContentType();
+
+    int getStatusCode();
+
+    String getStatusText();
+
+    Payload getPayload();
+
+    ResponseType getResponseType();
+
+    void setContentType(String mediaType);
+
+    void setPayload(Payload payload);
+
+    void setResponseType(ResponseType responseType);
+
 }

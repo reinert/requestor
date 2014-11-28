@@ -39,22 +39,22 @@ public class RequestProcessor {
         this.interceptorEngine = interceptorEngine;
     }
 
-    public SerializedRequest process(RequestBuilder requestBuilder) {
+    public SerializedRequest process(RequestBuilderImpl requestBuilder) {
         // 1: FILTER
-        RequestBuilder filteredRequest = filterEngine.filterRequest(requestBuilder);
+        filterEngine.filterRequest(requestBuilder);
 
         // 2: SERIALIZE
-        SerializedRequestContext serializedRequest;
-        Object payload = filteredRequest.getPayload();
+        SerializedRequestImpl serializedRequest;
+        Object payload = requestBuilder.getPayload();
         if (payload instanceof Payload) {
             // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
-            serializedRequest = new SerializedRequestImpl(filteredRequest, (Payload) payload);
+            serializedRequest = new SerializedRequestImpl(requestBuilder, (Payload) payload);
         } else if (payload instanceof FormData) {
             // FormData serialization
-            serializedRequest = new SerializedRequestImpl(filteredRequest,
+            serializedRequest = new SerializedRequestImpl(requestBuilder,
                     formDataSerializer.serialize((FormData) payload));
         } else {
-            serializedRequest = serializationEngine.serializeRequest(filteredRequest);
+            serializedRequest = serializationEngine.serializeRequest(requestBuilder);
         }
 
         // 3: INTERCEPT

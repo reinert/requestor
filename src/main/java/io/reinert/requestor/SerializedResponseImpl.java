@@ -16,54 +16,67 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.header.ContentTypeHeader;
-import io.reinert.requestor.header.SimpleHeader;
+import io.reinert.requestor.header.Header;
 
 /**
  * Represents a response with its payload raw.
  *
  * @author Danilo Reinert
  */
-public class SerializedResponseImpl implements SerializedResponseContext {
+public class SerializedResponseImpl implements SerializedResponse, ResponseFilterContext, ResponseInterceptorContext {
 
-    private final com.google.gwt.http.client.Response delegate;
+    private final String statusText;
+    private final int statusCode;
     private final Headers headers;
     private ResponseType responseType;
     private Payload payload;
 
     public SerializedResponseImpl(com.google.gwt.http.client.Response originalResponse) {
-        this.delegate = originalResponse;
-        this.headers = new Headers(delegate.getHeaders());
+        this.statusCode = originalResponse.getStatusCode();
+        this.statusText = originalResponse.getStatusText();
+        this.headers = new Headers(originalResponse.getHeaders());
         this.responseType = ResponseType.of(originalResponse.getType());
-        this.payload = delegate.getType().isEmpty() || delegate.getType().equalsIgnoreCase("text") ?
-                new Payload(delegate.getText()) : new Payload(delegate.getData());
+        this.payload = originalResponse.getType().isEmpty() || originalResponse.getType().equalsIgnoreCase("text") ?
+                new Payload(originalResponse.getText()) : new Payload(originalResponse.getData());
+    }
+
+    public SerializedResponseImpl(String statusText, int statusCode, Headers headers, ResponseType responseType,
+                                  Payload payload) {
+        this.statusText = statusText;
+        this.statusCode = statusCode;
+        this.headers = headers;
+        this.responseType = responseType;
+        this.payload = payload;
+    }
+
+    @Override
+    public void addHeader(Header header) {
+        headers.add(header);
     }
 
     @Override
     public String getHeader(String header) {
-        return delegate.getHeader(header);
+        return headers.getValue(header);
     }
 
     @Override
     public String getContentType() {
-        String contentType = delegate.getHeader("Content-Type");
-        if (contentType == null) // try lower case
-            contentType = delegate.getHeader("content-type");
-        return contentType;
+        return headers.getValue("Content-Type");
     }
 
     @Override
     public Headers getHeaders() {
-        return headers;
+        return new Headers(headers);
     }
 
     @Override
     public int getStatusCode() {
-        return delegate.getStatusCode();
+        return statusCode;
     }
 
     @Override
     public String getStatusText() {
-        return delegate.getStatusText();
+        return statusText;
     }
 
     @Override
@@ -74,11 +87,6 @@ public class SerializedResponseImpl implements SerializedResponseContext {
     @Override
     public ResponseType getResponseType() {
         return responseType;
-    }
-
-    @Override
-    public void setHeader(String name, String value) {
-        headers.add(new SimpleHeader(name, value));
     }
 
     @Override

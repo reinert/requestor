@@ -15,18 +15,41 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.header.Header;
+
 /**
- * Allows one to modify a HTTP response.
+ *  Allows on to modify some properties of an ongoing request.
  *
- * @author Danilo Reinert
+ *  @author Danilo Reinert
  */
-public interface SerializedResponseContext extends SerializedResponse {
+public interface RequestFilterContext {
 
-    void setHeader(String name, String value);
+    String getHeader(String name);
 
-    void setContentType(String mediaType);
+    void addHeader(Header header);
 
-    void setPayload(Payload payload);
+    String getMethod();
+
+    void setMethod(String httpMethod);
+
+    String getUser();
+
+    void setUser(String username);
+
+    String getPassword();
+
+    void setPassword(String password);
+
+    int getTimeout();
+
+    void setTimeout(int timeoutMillis);
+
+    String getUrl();
+
+    Object getPayload();
+
+    ResponseType getResponseType();
 
     void setResponseType(ResponseType responseType);
+
 }

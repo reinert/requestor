@@ -23,7 +23,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -48,8 +47,9 @@ public class RequestProcessorTest {
     @Test
     public void process_ShouldFilterThenSerializeThenIntercept() {
         // Given
-        RequestBuilder request = mock(RequestBuilder.class);
-        when(filterEngine.filterRequest(request)).thenReturn(request);
+        RequestBuilderImpl request = mock(RequestBuilderImpl.class);
+        SerializedRequestImpl interceptorContext = mock(SerializedRequestImpl.class);
+        when(serializationEngine.serializeRequest(request)).thenReturn(interceptorContext);
 
         // When
         processor.process(request);
@@ -58,6 +58,6 @@ public class RequestProcessorTest {
         InOrder inOrder = inOrder(serializationEngine, filterEngine, interceptorEngine);
         inOrder.verify(filterEngine).filterRequest(request);
         inOrder.verify(serializationEngine).serializeRequest(request);
-        inOrder.verify(interceptorEngine).interceptRequest(any(SerializedRequestContext.class));
+        inOrder.verify(interceptorEngine).interceptRequest(interceptorContext);
     }
 }

@@ -25,7 +25,7 @@ import io.reinert.requestor.header.SimpleHeader;
  *
  * @author Danilo Reinert
  */
-public class RequestBuilderImpl implements RequestBuilder {
+public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     private final String url;
     private String httpMethod;
@@ -59,39 +59,48 @@ public class RequestBuilderImpl implements RequestBuilder {
     // Request methods
     //===================================================================
 
+    @Override
     public String getAccept() {
         return headers.getValue("Accept");
     }
 
+    @Override
     public String getContentType() {
         return headers.getValue("Content-Type");
     }
 
+    @Override
     public Headers getHeaders() {
         // Returns a defensive copy
         return new Headers(headers);
     }
 
+    @Override
     public String getMethod() {
         return httpMethod;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public Object getPayload() {
         return payload;
     }
 
+    @Override
     public int getTimeout() {
         return timeout;
     }
 
+    @Override
     public String getUrl() {
         return url;
     }
 
+    @Override
     public String getUser() {
         return user;
     }
@@ -105,61 +114,106 @@ public class RequestBuilderImpl implements RequestBuilder {
     // RequestBuilder methods
     //===================================================================
 
+    @Override
     public RequestBuilder accept(String mediaType) {
         headers.add(new AcceptHeader(mediaType));
         return this;
     }
 
+    @Override
     public RequestBuilder contentType(String mediaType) {
         headers.add(new ContentTypeHeader(mediaType));
         return this;
     }
 
+    @Override
     public RequestBuilder header(String header, String value) {
         headers.add(new SimpleHeader(header, value));
         return this;
     }
 
+    @Override
     public RequestBuilder header(Header header) {
         headers.add(header);
         return this;
     }
 
+    @Override
     public RequestBuilder password(String password) {
         this.password = password;
         return this;
     }
 
+    @Override
     public RequestBuilder payload(Object object) {
         payload = object;
         return this;
     }
 
+    @Override
     public RequestBuilder responseType(ResponseType responseType) {
         this.responseType = responseType;
         return this;
     }
 
+    @Override
     public RequestBuilder timeout(int timeoutMillis) {
         if (timeoutMillis > 0)
             timeout = timeoutMillis;
         return this;
     }
 
+    @Override
     public RequestBuilder user(String user) {
         this.user = user;
         return this;
     }
 
     //===================================================================
+    // RequestFilterContext methods
+    //===================================================================
+
+    @Override
+    public String getHeader(String name) {
+        return headers.get(name).getValue();
+    }
+
+    @Override
+    public void addHeader(Header header) {
+        headers.add(header);
+    }
+
+    @Override
+    public void setMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+    }
+
+    @Override
+    public void setUser(String username) {
+        this.user = username;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public void setTimeout(int timeoutMillis) {
+        this.timeout = timeoutMillis;
+    }
+
+    @Override
+    public void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
+    }
+
+    //===================================================================
     // Own methods
     //===================================================================
 
-    protected RequestBuilder build() {
+    protected RequestBuilderImpl build() {
         return RequestBuilderImpl.copyOf(this);
     }
 
-    protected void setMethod(String httpMethod) {
-        this.httpMethod = httpMethod;
-    }
 }

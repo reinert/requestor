@@ -40,7 +40,7 @@ public class ResponseProcessor {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> DeserializedResponse<T> process(Request request, SerializedResponseContext response,
+    public <T> DeserializedResponse<T> process(Request request, SerializedResponseImpl response,
                                                Class<T> deserializationType) {
         // 1: FILTER
         filterEngine.filterResponse(request, response);
@@ -69,7 +69,7 @@ public class ResponseProcessor {
         return r;
     }
 
-    public <T> DeserializedResponse<Collection<T>> process(Request request, SerializedResponseContext response,
+    public <T> DeserializedResponse<Collection<T>> process(Request request, SerializedResponseImpl response,
                                                            Class<T> deserializationType,
                                                            Class<? extends Collection> containerType) {
         // 1: FILTER

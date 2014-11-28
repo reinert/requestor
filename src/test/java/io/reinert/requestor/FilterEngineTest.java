@@ -49,20 +49,20 @@ public class FilterEngineTest {
     @Test
     public void filterRequest_AnyRequestBuilder_ShouldApplyAllRegisteredFilters() {
         // Given
-        RequestBuilder requestBuilder = mock(RequestBuilder.class);
+        RequestFilterContext request = mock(RequestFilterContext.class);
 
         // When
-        engine.filterRequest(requestBuilder);
+        engine.filterRequest(request);
 
         // Then
-        verify(requestFilter).filter(requestBuilder);
+        verify(requestFilter).filter(request);
     }
 
     @Test
     public void filterResponse_AnyResponseBuilder_ShouldApplyAllRegisteredFilters() {
         // Given
         Request request = mock(Request.class);
-        Response response = mock(Response.class);
+        ResponseFilterContext response = mock(ResponseFilterContext.class);
 
         // When
         engine.filterResponse(request, response);

@@ -28,13 +28,13 @@ class InterceptorEngine {
         this.interceptorManager = interceptorManager;
     }
 
-    public void interceptRequest(SerializedRequestContext request) {
+    public void interceptRequest(RequestInterceptorContext request) {
         for (RequestInterceptor interceptor : interceptorManager.getRequestInterceptors()) {
             interceptor.intercept(request);
         }
     }
 
-    public void interceptResponse(Request request, SerializedResponseContext response) {
+    public void interceptResponse(Request request, ResponseInterceptorContext response) {
         for (ResponseInterceptor interceptor : interceptorManager.getResponseInterceptors()) {
             interceptor.intercept(request, response);
         }

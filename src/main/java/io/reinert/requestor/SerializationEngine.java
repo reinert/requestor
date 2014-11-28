@@ -66,7 +66,7 @@ class SerializationEngine {
     }
 
     @SuppressWarnings("unchecked")
-    public SerializedRequestContext serializeRequest(Request request) {
+    public SerializedRequestImpl serializeRequest(Request request) {
         Object payload = request.getPayload();
         String body = null;
         if (payload != null) {

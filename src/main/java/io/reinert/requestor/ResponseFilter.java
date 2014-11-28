@@ -29,5 +29,5 @@ public interface ResponseFilter {
      * @param request   The sent request.
      * @param response  The received response.
      */
-    void filter(Request request, Response response);
+    void filter(Request request, ResponseFilterContext response);
 }

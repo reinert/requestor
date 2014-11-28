@@ -183,11 +183,8 @@ public class XMLHttpRequest extends JavaScriptObject {
             // ADDED BY REQUESTOR
             if ("onprogress" in self)
                 self.onprogress = null;
-
             if ("upload" in self)
-                if ("onprogress" in self.upload)
-                    self.upload.onprogress = null;
-
+                self.upload.onprogress = null;
         }, 0);
     }-*/;
 

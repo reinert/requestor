@@ -16,10 +16,28 @@
 package io.reinert.requestor;
 
 /**
- * Allows one to modify a HTTP request.
+ *  Allows on to modify the serialized payload of an ongoing request.
  *
- * @author Danilo Reinert
+ *  @author Danilo Reinert
  */
-public interface SerializedRequestContext extends SerializedRequest {
+public interface RequestInterceptorContext {
+
+    String getHeader(String name);
+
+    String getMethod();
+
+    String getUser();
+
+    String getPassword();
+
+    int getTimeout();
+
+    String getUrl();
+
+    Payload getPayload();
+
     void setPayload(Payload payload);
+
+    ResponseType getResponseType();
+
 }

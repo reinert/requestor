@@ -28,5 +28,5 @@ public interface ResponseInterceptor {
      * @param request   The sent request.
      * @param context   The context of the received response.
      */
-    void intercept(Request request, SerializedResponseContext context);
+    void intercept(Request request, ResponseInterceptorContext context);
 }

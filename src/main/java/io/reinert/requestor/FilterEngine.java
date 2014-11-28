@@ -28,17 +28,15 @@ class FilterEngine {
         this.filterManager = filterManager;
     }
 
-    public RequestBuilder filterRequest(RequestBuilder request) {
+    public void filterRequest(RequestFilterContext request) {
         for (RequestFilter filter : filterManager.getRequestFilters()) {
             filter.filter(request);
         }
-        return request;
     }
 
-    public Response filterResponse(Request request, Response response) {
+    public void filterResponse(Request request, ResponseFilterContext response) {
         for (ResponseFilter filter : filterManager.getResponseFilters()) {
             filter.filter(request, response);
         }
-        return response;
     }
 }

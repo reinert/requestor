@@ -31,7 +31,7 @@ public class DeferredSingleResult<T> extends DeferredRequest<T> {
 
     @Override
     protected DeserializedResponse<T> process(ResponseProcessor processor, Request request,
-                                              SerializedResponseContext response) {
+                                              SerializedResponseImpl response) {
         return processor.process(request, response, responseType);
     }
 }

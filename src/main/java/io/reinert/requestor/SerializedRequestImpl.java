@@ -20,7 +20,7 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public class SerializedRequestImpl implements SerializedRequestContext {
+public class SerializedRequestImpl implements SerializedRequest, RequestInterceptorContext {
 
     private final Request request;
     private Payload serializedPayload;
@@ -43,6 +43,11 @@ public class SerializedRequestImpl implements SerializedRequestContext {
     @Override
     public Headers getHeaders() {
         return request.getHeaders();
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return request.getHeaders().getValue(name);
     }
 
     @Override

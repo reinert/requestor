@@ -36,7 +36,7 @@ public class DeferredCollectionResult<T> extends DeferredRequest<Collection<T>> 
 
     @Override
     protected DeserializedResponse<Collection<T>> process(ResponseProcessor processor, Request request,
-                                                          SerializedResponseContext response) {
+                                                          SerializedResponseImpl response) {
         return processor.process(request, response, responseType, containerType);
     }
 }
