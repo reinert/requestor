@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
@@ -92,6 +93,20 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
         final Deserializer<Animal> deserializer = serdesManager.getDeserializer(Animal.class, "application/json");
         final List<Animal> expected = Arrays.asList(new Animal("Stuart", 3), new Animal("March", 5));
         final String input = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
+
+        // When
+        List<Animal> output = deserializer.deserialize(List.class, input, null);
+
+        // Then
+        assertEquals(expected, output);
+    }
+
+    @SuppressWarnings({"null", "unchecked"})
+    public void testEmptyArrayDeserializationAsList() {
+        // Given
+        final Deserializer<Animal> deserializer = serdesManager.getDeserializer(Animal.class, "application/json");
+        final List<Animal> expected = Collections.emptyList();
+        final String input = "[]";
 
         // When
         List<Animal> output = deserializer.deserialize(List.class, input, null);

@@ -62,4 +62,13 @@ public class Payload {
     public JavaScriptObject isJavaScriptObject() {
         return javaScriptObject;
     }
+
+    @Override
+    public String toString() {
+        return javaScriptObject != null ? stringify(javaScriptObject) : string;
+    }
+
+    private native String stringify(JavaScriptObject jso) /*-{
+        return JSON.stringify(jso);
+    }-*/;
 }

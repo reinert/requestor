@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +54,7 @@ class SerdesManager {
      * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object,
      *          capable of cancelling this HandlerRegistration to the {@link SerdesManager}.
      */
+    @SuppressWarnings("unchecked")
     public <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer) {
         final HandlerRegistration reg = bindDeserializerToType(deserializer, deserializer.handledType());
 
@@ -88,6 +90,7 @@ class SerdesManager {
      * @return  The {@link HandlerRegistration} object, capable of cancelling this HandlerRegistration
      *          to the {@link SerdesManager}.
      */
+    @SuppressWarnings("unchecked")
     public <T> HandlerRegistration addSerializer(Serializer<T> serializer) {
         final HandlerRegistration reg = bindSerializerToType(serializer, serializer.handledType());
 
@@ -153,10 +156,18 @@ class SerdesManager {
         final String typeName = getClassName(type);
         final Key key = new Key(typeName, mediaType);
 
+        logger.log(Level.FINE, "Querying for Deserializer of type '" + typeName + "' and " + "media-type '" + mediaType
+                + "'.");
+
         ArrayList<DeserializerHolder> holders = deserializers.get(typeName);
         if (holders != null) {
             for (DeserializerHolder holder : holders) {
-                if (holder.key.matches(key)) return (Deserializer<T>) holder.deserializer;
+                if (holder.key.matches(key)) {
+                    logger.log(Level.FINE, "Deserializer for type '" + holder.deserializer.handledType() + "' and " +
+                            "media-type '" + Arrays.toString(holder.deserializer.mediaType()) + "' matched: " +
+                            holder.deserializer.getClass().getName());
+                    return (Deserializer<T>) holder.deserializer;
+                }
             }
         }
 
@@ -184,10 +195,18 @@ class SerdesManager {
         final String typeName = getClassName(type);
         final Key key = new Key(typeName, mediaType);
 
+        logger.log(Level.FINE, "Querying for Serializer of type '" + typeName + "' and " + "media-type '" + mediaType
+                + "'.");
+
         ArrayList<SerializerHolder> holders = serializers.get(typeName);
         if (holders != null) {
             for (SerializerHolder holder : holders) {
-                if (holder.key.matches(key)) return (Serializer<T>) holder.serializer;
+                if (holder.key.matches(key)) {
+                    logger.log(Level.FINE, "Serializer for type '" + holder.serializer.handledType() + "' and " +
+                            "media-type '" + Arrays.toString(holder.serializer.mediaType()) + "' matched: " +
+                            holder.serializer.getClass().getName());
+                    return (Serializer<T>) holder.serializer;
+                }
             }
         }
 
@@ -203,7 +222,10 @@ class SerdesManager {
         // AutoBean class name normalization (remove all content after $)
         int i = typeName.indexOf("AutoBean$");
         if (i > -1) {
+            final String nonNormalizedTypeName = typeName;
             typeName = typeName.substring(0, i + 8);
+            logger.log(Level.FINE, "Performing AutoBean type name normalization from '" + nonNormalizedTypeName +
+                    "' to '" + typeName + "'.");
         }
         return typeName;
     }

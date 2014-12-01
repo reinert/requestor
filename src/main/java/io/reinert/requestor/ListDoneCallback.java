@@ -38,8 +38,8 @@ public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>>
         try {
             onDone((List<T>) result);
         } catch (ClassCastException e) {
-            logger.log(Level.SEVERE, "Could not cast the result of type " + result.getClass().getName()
-                    + " to java.util.List");
+            logger.log(Level.SEVERE, "Could not cast the result of type " + (result == null ? "null"
+                    : result.getClass().getName()) + " to java.util.List");
             throw e;
         }
     }

@@ -51,10 +51,10 @@ public class ResponseProcessor {
         // 3: DESERIALIZE
         final ResponseType responseType = response.getResponseType();
         DeserializedResponse<T> r;
-        if (deserializationType == Payload.class) {
+        if (Payload.class == deserializationType) {
             r = (DeserializedResponse<T>) new DeserializedResponse<Payload>(response.getHeaders(),
                     response.getStatusCode(), response.getStatusText(), responseType, response.getPayload());
-        } else if (deserializationType == Response.class) {
+        } else if (Response.class == deserializationType || SerializedResponse.class == deserializationType) {
             r = (DeserializedResponse<T>) new DeserializedResponse<Response>(response.getHeaders(),
                     response.getStatusCode(), response.getStatusText(), response.getResponseType(), response);
         } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
@@ -81,12 +81,12 @@ public class ResponseProcessor {
         // 3: DESERIALIZE
         final ResponseType responseType = response.getResponseType();
         DeserializedResponse<Collection<T>> r;
-        if (deserializationType == Payload.class) {
+        if (Payload.class == deserializationType) {
             logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Payload.class.getName()
                     + "'. A null payload will be returned.");
             r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
                     response.getStatusText(), responseType, null);
-        } else if (deserializationType == Response.class) {
+        } else if (Response.class == deserializationType || SerializedResponse.class == deserializationType) {
             logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Response.class.getName()
                     + "'. A null payload will be returned.");
             r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
