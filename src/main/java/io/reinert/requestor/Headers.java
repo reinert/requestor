@@ -31,24 +31,45 @@ import org.turbogwt.core.collections.LightMap;
 public class Headers implements Iterable<Header> {
 
     private Map<String, Header> headers;
-    private com.google.gwt.http.client.Header[] headersCache;
 
     protected Headers(Iterable<Header> headers) {
-        ensureHeaders();
-        for (final Header header : headers) {
-            this.headers.put(formatKey(header.getName()), header);
+        if (headers != null) {
+            final Iterator<Header> iterator = headers.iterator();
+            if (iterator.hasNext())
+                ensureHeaders();
+            while (iterator.hasNext()) {
+                Header header = iterator.next();
+                this.headers.put(formatKey(header.getName()), header);
+            }
         }
     }
 
     protected Headers(Header... headers) {
-        ensureHeaders();
-        for (final Header header : headers) {
-            this.headers.put(formatKey(header.getName()), header);
+        if (headers.length > 0) {
+            ensureHeaders();
+            for (final Header header : headers) {
+                this.headers.put(formatKey(header.getName()), header);
+            }
         }
     }
 
     Headers(com.google.gwt.http.client.Header... headers) {
-        headersCache = headers.length > 0 ? headers : null;
+        if (headers.length > 0) {
+            ensureHeaders();
+            for (final com.google.gwt.http.client.Header header : headers) {
+                this.headers.put(formatKey(header.getName()), new Header() {
+                    @Override
+                    public String getName() {
+                        return header.getName();
+                    }
+
+                    @Override
+                    public String getValue() {
+                        return header.getValue();
+                    }
+                });
+            }
+        }
     }
 
     private static String formatKey(String headerName) {
@@ -56,15 +77,15 @@ public class Headers implements Iterable<Header> {
     }
 
     public boolean contains(String header) {
-        return headers != null && ensureHeaders().containsKey(formatKey(header));
+        return !isEmpty() && headers.containsKey(formatKey(header));
     }
 
     public Header get(String header) {
-        return headers == null ? null : ensureHeaders().get(formatKey(header));
+        return isEmpty() ? null : headers.get(formatKey(header));
     }
 
     public String getValue(String header, String defaultValue) {
-        final Header h = headers == null ? null : ensureHeaders().get(formatKey(header));
+        final Header h = isEmpty() ? null : headers.get(formatKey(header));
         return h != null ? h.getValue() : defaultValue;
     }
 
@@ -74,11 +95,11 @@ public class Headers implements Iterable<Header> {
 
     @Override
     public Iterator<Header> iterator() {
-        return headers == null ? new EmptyIterator() : ensureHeaders().values().iterator();
+        return isEmpty() ? new EmptyIterator() : headers.values().iterator();
     }
 
     public int size() {
-        return headers == null ? 0 : ensureHeaders().size();
+        return isEmpty() ? 0 : headers.size();
     }
 
     /**
@@ -98,46 +119,29 @@ public class Headers implements Iterable<Header> {
      * @return The removed header or null if there was no header with the given name
      */
     protected Header remove(String name) {
-        return headers == null ? null : ensureHeaders().remove(name);
+        return isEmpty() ? null : ensureHeaders().remove(name);
     }
 
     private Map<String, Header> ensureHeaders() {
         if (headers == null)
             headers = new LightMap<Header>();
-
-        if (headersCache != null) {
-            for (final com.google.gwt.http.client.Header header : headersCache) {
-                this.headers.put(formatKey(header.getName()), new Header() {
-                    @Override
-                    public String getName() {
-                        return header.getName();
-                    }
-
-                    @Override
-                    public String getValue() {
-                        return header.getValue();
-                    }
-                });
-            }
-            headersCache = null;
-        }
-
         return headers;
+    }
+
+    private boolean isEmpty() {
+        return headers == null;
     }
 
     private static class EmptyIterator implements Iterator<Header> {
 
-        @Override
         public boolean hasNext() {
             return false;
         }
 
-        @Override
         public Header next() {
             throw new NoSuchElementException();
         }
 
-        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
