@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.xhr.client.ProgressEvent;
-
 /**
  * Default implementation of {@link RequestProgress}.
  *

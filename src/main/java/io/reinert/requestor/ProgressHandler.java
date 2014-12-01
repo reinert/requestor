@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.gwt.xhr.client;
+package io.reinert.requestor;
 
 /**
- * A progress callback for an {@link XMLHttpRequest} object.
+ * A progress callback for an {@link com.google.gwt.xhr.client.XMLHttpRequest} object.
  */
-public interface ProgressHandler {
+interface ProgressHandler {
 
     /**
      * This is called whenever the progress event of XMLHttpRequest is triggered.

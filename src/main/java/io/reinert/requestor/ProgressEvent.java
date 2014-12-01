@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.gwt.xhr.client;
+package io.reinert.requestor;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public final class ProgressEvent extends JavaScriptObject {
+final class ProgressEvent extends JavaScriptObject {
 
     protected ProgressEvent() {
     }

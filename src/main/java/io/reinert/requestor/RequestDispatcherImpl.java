@@ -18,10 +18,7 @@ package io.reinert.requestor;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.xhr.client.ProgressEvent;
-import com.google.gwt.xhr.client.ProgressHandler;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
-import com.google.gwt.xhr.client.XMLHttpRequest;
 
 import io.reinert.requestor.header.Header;
 
@@ -46,7 +43,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         final ResponseType responseType = request.getResponseType();
 
         // Create XMLHttpRequest
-        XMLHttpRequest xmlHttpRequest = XMLHttpRequest.create();
+        XMLHttpRequest xmlHttpRequest = (XMLHttpRequest) XMLHttpRequest.create();
 
         // Open XMLHttpRequest
         try {
@@ -73,7 +70,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         xmlHttpRequest.setResponseType(responseType.getValue());
 
         // Create RequestCallback
-        final RequestCallback callback = getRequestCallback(request, deferred);
+        final RequestCallback callback = getRequestCallback(request, xmlHttpRequest, deferred);
 
         // Create the underlying request from gwt.http module
         final com.google.gwt.http.client.Request gwtRequest = new com.google.gwt.http.client.Request(xmlHttpRequest,
@@ -81,9 +78,9 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
         // Properly configure XMLHttpRequest's onreadystatechange
         xmlHttpRequest.setOnReadyStateChange(new ReadyStateChangeHandler() {
-            public void onReadyStateChange(XMLHttpRequest xhr) {
+            public void onReadyStateChange(com.google.gwt.xhr.client.XMLHttpRequest xhr) {
                 if (xhr.getReadyState() == XMLHttpRequest.DONE) {
-                    xhr.clearOnReadyStateChange();
+                    ((XMLHttpRequest) xhr).clearOnReadyStateChange2();
                     gwtRequest.fireOnResponseReceived(callback);
                 }
             }
@@ -105,7 +102,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
             }
         });
 
-        // Pass the connection to the deferred to enable it to cancel the request if necessary (RECOMMENDED PRACTICE)
+        // Pass the connection to the deferred to enable it to cancel the request if necessary (RECOMMENDED)
         deferred.setConnection(getConnection(gwtRequest));
 
         // Send the request
@@ -124,34 +121,36 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
     private Connection getConnection(final com.google.gwt.http.client.Request gwtRequest) {
         return new Connection() {
-            @Override
             public void cancel() {
                 gwtRequest.cancel();
             }
 
-            @Override
             public boolean isPending() {
                 return gwtRequest.isPending();
             }
         };
     }
 
-    private <D> RequestCallback getRequestCallback(final Request request, final DeferredRequest<D> deferred) {
+    private <D> RequestCallback getRequestCallback(final Request request, final XMLHttpRequest xhr,
+                                                   final DeferredRequest<D> deferred) {
         return new RequestCallback() {
-            @Override
             public void onResponseReceived(com.google.gwt.http.client.Request gwtRequest, Response gwtResponse) {
-                final SerializedResponseImpl serializedResponse = new SerializedResponseImpl(gwtResponse);
+                final String responseType = xhr.getResponseType();
+                final Payload payload = responseType.isEmpty() || responseType.equalsIgnoreCase("text") ?
+                        new Payload(xhr.getResponseText()) : new Payload(xhr.getResponse());
+                final SerializedResponseImpl response = new SerializedResponseImpl(gwtResponse.getStatusText(),
+                        gwtResponse.getStatusCode(), new Headers(gwtResponse.getHeaders()),
+                        ResponseType.of(responseType), payload);
 
                 if (gwtResponse.getStatusCode() / 100 == 2) {
                     // Resolve if response is 2xx
-                    deferred.resolve(request, serializedResponse);
+                    deferred.resolve(request, response);
                 } else {
                     // Reject as unsuccessful response if response isn't 2xx
-                    deferred.reject(new UnsuccessfulResponseException(request, serializedResponse));
+                    deferred.reject(new UnsuccessfulResponseException(request, response));
                 }
             }
 
-            @Override
             public void onError(com.google.gwt.http.client.Request gwtRequest, Throwable exception) {
                 if (exception instanceof com.google.gwt.http.client.RequestTimeoutException) {
                     // Reject as timeout

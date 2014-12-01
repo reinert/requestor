@@ -31,15 +31,6 @@ public class SerializedResponseImpl implements SerializedResponse, ResponseFilte
     private ResponseType responseType;
     private Payload payload;
 
-    public SerializedResponseImpl(com.google.gwt.http.client.Response originalResponse) {
-        this.statusCode = originalResponse.getStatusCode();
-        this.statusText = originalResponse.getStatusText();
-        this.headers = new Headers(originalResponse.getHeaders());
-        this.responseType = ResponseType.of(originalResponse.getType());
-        this.payload = originalResponse.getType().isEmpty() || originalResponse.getType().equalsIgnoreCase("text") ?
-                new Payload(originalResponse.getText()) : new Payload(originalResponse.getData());
-    }
-
     public SerializedResponseImpl(String statusText, int statusCode, Headers headers, ResponseType responseType,
                                   Payload payload) {
         this.statusText = statusText;

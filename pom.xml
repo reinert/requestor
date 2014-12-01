@@ -73,7 +73,7 @@
 
     <!-- Maven -->
     <maven-checkstyle-plugin.version>2.11</maven-checkstyle-plugin.version>
-    <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+    <maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>2.8.1</maven-deploy-plugin.version>
     <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -142,12 +142,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>${mockito.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
@@ -169,81 +163,6 @@
 
     <plugins>
       <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${maven-checkstyle-plugin.version}</version>
-          <configuration>
-            <configLocation>/checkstyle.xml</configLocation>
-            <suppressionsLocation>/checkstyle-suppressions.xml</suppressionsLocation>
-            <propertiesLocation>/checkstyle.properties</propertiesLocation>
-            <propertyExpansion>basedir=${basedir}</propertyExpansion>
-            <consoleOutput>true</consoleOutput>
-            <failsOnError>true</failsOnError>
-            <linkXRef>false</linkXRef>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>io.reinert.tools</groupId>
-              <artifactId>checkstyle</artifactId>
-              <version>1.0.0-SNAPSHOT</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>validate</id>
-              <phase>validate</phase>
-              <goals>
-                <goal>checkstyle</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>        
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven-javadoc-plugin.version}</version>
-          <configuration>
-            <maxmemory>1024</maxmemory>
-            <failOnError>true</failOnError>
-            <doctitle>Requestor Javadocs</doctitle>
-            <links>
-              <link>http://download.oracle.com/javase/7/docs/api/</link>
-              <link>http://google-web-toolkit.googlecode.com/svn/javadoc/latest/</link>
-            </links>
-            <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
-            <reportOutputDirectory>${project.reporting.outputDirectory}/javadoc</reportOutputDirectory>
-            <excludes>
-              <exclude>**/*.txt</exclude>
-            </excludes>
-            <header>
-              <![CDATA[
-                <a href="https://github.com/reinert/requestor" target="_blank">Back to Home</a>
-              ]]>
-            </header>
-            <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-            <docletArtifact>
-              <groupId>org.umlgraph</groupId>
-              <artifactId>umlgraph</artifactId>
-              <version>5.6.6</version>
-            </docletArtifact>
-            <additionalparam>
-              -horizontal
-            </additionalparam>
-          </configuration>
-          <executions>
-            <execution>
-              <id>build-upload-javadocs</id>
-              <phase>site</phase>
-              <goals>
-                <goal>aggregate</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
@@ -251,8 +170,45 @@
           <source>${target.jdk}</source>
           <target>${target.jdk}</target>
           <encoding>${project.build.sourceEncoding}</encoding>
+          <excludes>
+            <exclude>**/com/google/gwt/http/client/*</exclude>
+          </excludes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
+        <configuration>
+          <configLocation>/checkstyle.xml</configLocation>
+          <suppressionsLocation>/checkstyle-suppressions.xml</suppressionsLocation>
+          <propertiesLocation>/checkstyle.properties</propertiesLocation>
+          <propertyExpansion>basedir=${basedir}</propertyExpansion>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>true</failsOnError>
+          <linkXRef>false</linkXRef>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>io.reinert.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>checkstyle</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -294,61 +250,91 @@
           <testTimeOut>180</testTimeOut>
         </configuration>
         <!--<executions>-->
-          <!--<execution>-->
-            <!--<id>gwt-clean</id>-->
-            <!--<phase>clean</phase>-->
-            <!--<goals>-->
-              <!--<goal>clean</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<module>io.reinert.requestor.Requestor</module>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-          <!--<execution>-->
-            <!--<id>gwt-compile</id>-->
-            <!--<phase>compile</phase>-->
-            <!--<goals>-->
-              <!--<goal>compile</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<module>io.reinert.requestor.Requestor</module>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-          <!--<execution>-->
-            <!--<id>gwt-test</id>-->
-            <!--<phase>test</phase>-->
-            <!--<goals>-->
-              <!--<goal>test</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<module>io.reinert.requestor.Requestor</module>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-          <!--<execution>-->
-            <!--<id>gwt-package</id>-->
-            <!--<goals>-->
-              <!--<goal>resources</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<modules>-->
-                <!--<module>io.reinert.requestor.Requestor</module>-->
-              <!--</modules>-->
-            <!--</configuration>-->
-          <!--</execution>-->
+        <!--<execution>-->
+        <!--<id>gwt-clean</id>-->
+        <!--<phase>clean</phase>-->
+        <!--<goals>-->
+        <!--<goal>clean</goal>-->
+        <!--</goals>-->
+        <!--<configuration>-->
+        <!--<module>io.reinert.requestor.Requestor</module>-->
+        <!--</configuration>-->
+        <!--</execution>-->
+        <!--<execution>-->
+        <!--<id>gwt-compile</id>-->
+        <!--<phase>compile</phase>-->
+        <!--<goals>-->
+        <!--<goal>compile</goal>-->
+        <!--</goals>-->
+        <!--<configuration>-->
+        <!--<module>io.reinert.requestor.Requestor</module>-->
+        <!--</configuration>-->
+        <!--</execution>-->
+        <!--<execution>-->
+        <!--<id>gwt-test</id>-->
+        <!--<phase>test</phase>-->
+        <!--<goals>-->
+        <!--<goal>test</goal>-->
+        <!--</goals>-->
+        <!--<configuration>-->
+        <!--<module>io.reinert.requestor.Requestor</module>-->
+        <!--</configuration>-->
+        <!--</execution>-->
+        <!--<execution>-->
+        <!--<id>gwt-package</id>-->
+        <!--<goals>-->
+        <!--<goal>resources</goal>-->
+        <!--</goals>-->
+        <!--<configuration>-->
+        <!--<modules>-->
+        <!--<module>io.reinert.requestor.Requestor</module>-->
+        <!--</modules>-->
+        <!--</configuration>-->
+        <!--</execution>-->
         <!--</executions>-->
+      </plugin>
 
-        <dependencies>
-          <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <version>${gwt.version}</version>
-          </dependency>
-        </dependencies>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <maxmemory>1024</maxmemory>
+          <failOnError>true</failOnError>
+          <doctitle>Requestor Javadocs</doctitle>
+          <links>
+            <link>http://download.oracle.com/javase/7/docs/api/</link>
+            <link>http://google-web-toolkit.googlecode.com/svn/javadoc/latest/</link>
+          </links>
+          <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
+          <reportOutputDirectory>${project.reporting.outputDirectory}/javadoc</reportOutputDirectory>
+          <excludes>
+            <exclude>**/*.txt</exclude>
+          </excludes>
+          <header>
+            <![CDATA[
+                <a href="https://github.com/reinert/requestor" target="_blank">Back to Home</a>
+              ]]>
+          </header>
+          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+          <docletArtifact>
+            <groupId>org.umlgraph</groupId>
+            <artifactId>umlgraph</artifactId>
+            <version>5.6.6</version>
+          </docletArtifact>
+          <additionalparam>
+            -horizontal
+          </additionalparam>
+        </configuration>
+        <executions>
+          <execution>
+            <id>build-upload-javadocs</id>
+            <phase>site</phase>
+            <goals>
+              <goal>aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
