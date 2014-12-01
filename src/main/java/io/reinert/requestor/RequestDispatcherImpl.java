@@ -80,7 +80,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         xmlHttpRequest.setOnReadyStateChange(new ReadyStateChangeHandler() {
             public void onReadyStateChange(com.google.gwt.xhr.client.XMLHttpRequest xhr) {
                 if (xhr.getReadyState() == XMLHttpRequest.DONE) {
-                    ((XMLHttpRequest) xhr).clearOnReadyStateChange2();
+                    xhr.clearOnReadyStateChange();
+                    ((XMLHttpRequest) xhr).clearOnProgress();
                     gwtRequest.fireOnResponseReceived(callback);
                 }
             }

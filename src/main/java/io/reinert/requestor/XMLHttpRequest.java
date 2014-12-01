@@ -44,19 +44,11 @@ class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
      *
      * @see #clearOnReadyStateChange()
      */
-    public final native void clearOnReadyStateChange2() /*-{
-        var self = this;
-        @com.google.gwt.core.client.impl.Impl::setTimeout(Lcom/google/gwt/core/client/JavaScriptObject;I)(function() {
-            // Using a function literal here leaks memory on ie6
-            // Using the same function object kills HtmlUnit
-            self.onreadystatechange = new Function();
-
-            // ADDED BY REQUESTOR
-            if ("onprogress" in self)
-                self.onprogress = null;
-            if ("upload" in self)
-                self.upload.onprogress = null;
-        }, 0);
+    public final native void clearOnProgress() /*-{
+        if ("onprogress" in self)
+            self.onprogress = null;
+        if ("upload" in self)
+            self.upload.onprogress = null;
     }-*/;
 
     public final native JavaScriptObject getResponse() /*-{

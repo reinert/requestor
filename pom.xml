@@ -80,7 +80,7 @@
     <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
 
     <!-- GWT -->
-    <gwt.version>2.6.1</gwt.version>
+    <gwt.version>2.7.0</gwt.version>
     <turbogwt.version>0.4.0</turbogwt.version>
     <gdeferred.version>0.9.0</gdeferred.version>
     <gwtjackson.version>0.6.2</gwtjackson.version>
