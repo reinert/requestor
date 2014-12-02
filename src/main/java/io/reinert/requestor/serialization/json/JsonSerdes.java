@@ -17,6 +17,8 @@ package io.reinert.requestor.serialization.json;
 
 import java.util.Collection;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
 
@@ -62,4 +64,8 @@ public abstract class JsonSerdes<T> implements Serdes<T> {
         final String trim = text.trim();
         return trim.startsWith("[") && trim.endsWith("]");
     }
+
+    protected native String stringify(JavaScriptObject jso) /*-{
+        return JSON.stringify(jso);
+    }-*/;
 }

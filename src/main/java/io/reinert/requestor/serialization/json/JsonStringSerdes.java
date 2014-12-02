@@ -37,7 +37,9 @@ public class JsonStringSerdes extends JsonValueSerdes<String> {
 
     @Override
     public String deserialize(String response, DeserializationContext context) {
-        return response.substring(1, response.length() - 1);
+        if (response.startsWith("\"") && response.endsWith("\""))
+            return response.substring(1, response.length() - 1);
+        return response;
     }
 
     @Override

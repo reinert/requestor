@@ -25,8 +25,6 @@ import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 
-import org.turbogwt.core.util.Overlays;
-
 /**
  * Base class for all SerDes that manipulates serialized JSON objects.
  *
@@ -83,6 +81,7 @@ public abstract class JsonObjectSerdes<T> extends JsonSerdes<T> {
     public T deserialize(String response, DeserializationContext context) {
         if (!isObject(response))
             throw new UnableToDeserializeException("Response content is not an object");
+
         final JavaScriptObject deserialized = eval(response);
         return readJson((JsonRecordReader) deserialized, context);
     }
@@ -107,7 +106,7 @@ public abstract class JsonObjectSerdes<T> extends JsonSerdes<T> {
     public String serialize(T t, SerializationContext context) {
         final JsonRecordWriter writer = JsonRecordWriter.create();
         writeJson(t, writer, context);
-        return Overlays.stringify(writer);
+        return stringify(writer);
     }
 
     /**
