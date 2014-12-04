@@ -21,6 +21,7 @@ import io.reinert.requestor.header.MultipleHeaderTest;
 import io.reinert.requestor.header.QualityFactorHeaderTest;
 import io.reinert.requestor.header.SimpleHeaderWithParameterTest;
 import io.reinert.requestor.serialization.OverlaySerdesTest;
+import io.reinert.requestor.uri.UriBuilderTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -29,6 +30,9 @@ public class RequestorGwtTestSuite extends GWTTestSuite {
 
     public static Test suite() {
         TestSuite suite = new TestSuite("Requestor GWT Test Suite");
+
+        // Uri
+        suite.addTestSuite(UriBuilderTest.class);
 
         // Header
         suite.addTestSuite(QualityFactorHeaderTest.class);
