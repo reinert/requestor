@@ -28,6 +28,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
 /**
  * Unit tests of {@link ResponseProcessor}.
@@ -47,10 +48,13 @@ public class ResponseProcessorTest {
     }
 
     @Test
-    public void process_OneClass_ShouldApplyFiltersThenSerialize() {
+    public <R extends SerializedResponse & ResponseFilterContext & ResponseInterceptorContext>
+            void process_OneClass_ShouldApplyFiltersThenSerialize() {
         // Given
         final Class<Object> clazz = Object.class;
-        SerializedResponseImpl response = mock(SerializedResponseImpl.class);
+        @SuppressWarnings("unchecked")
+        R response = (R) mock(SerializedResponseImpl.class, withSettings().extraInterfaces(ResponseFilterContext.class,
+                ResponseInterceptorContext.class));
         Request request = mock(Request.class);
         when(response.getResponseType()).thenReturn(ResponseType.DEFAULT);
         when(response.getHeaders()).thenReturn(mock(Headers.class));
@@ -66,11 +70,14 @@ public class ResponseProcessorTest {
     }
 
     @Test
-    public void process_TwoClasses_ShouldApplyFiltersThenSerialize() {
+    public <R extends SerializedResponse & ResponseFilterContext & ResponseInterceptorContext>
+            void process_TwoClasses_ShouldApplyFiltersThenSerialize() {
         // Given
         final Class<Collection> collectionClazz = Collection.class;
         final Class<Object> clazz = Object.class;
-        SerializedResponseImpl response = mock(SerializedResponseImpl.class);
+        @SuppressWarnings("unchecked")
+        R response = (R) mock(SerializedResponseImpl.class, withSettings().extraInterfaces(ResponseFilterContext.class,
+                ResponseInterceptorContext.class));
         Request request = mock(Request.class);
         when(response.getResponseType()).thenReturn(ResponseType.DEFAULT);
         when(response.getHeaders()).thenReturn(mock(Headers.class));

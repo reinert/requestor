@@ -26,6 +26,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
 /**
  * Unit tests of {@link RequestProcessor}.
@@ -45,9 +46,10 @@ public class RequestProcessorTest {
     }
 
     @Test
-    public void process_ShouldFilterThenSerializeThenIntercept() {
+    public <R extends RequestBuilder & RequestFilterContext> void process_ShouldFilterThenSerializeThenIntercept() {
         // Given
-        RequestBuilderImpl request = mock(RequestBuilderImpl.class);
+        @SuppressWarnings("unchecked")
+        R request = (R) mock(RequestBuilder.class, withSettings().extraInterfaces(RequestFilterContext.class));
         SerializedRequestImpl interceptorContext = mock(SerializedRequestImpl.class);
         when(serializationEngine.serializeRequest(request)).thenReturn(interceptorContext);
 
