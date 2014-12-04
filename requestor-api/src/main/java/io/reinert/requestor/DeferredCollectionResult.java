@@ -20,7 +20,7 @@ import java.util.Collection;
 /**
  * Deferred for requests expecting an array of objects.
  *
- * @param <T>   Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T>   Expected type in {@link GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
 public class DeferredCollectionResult<T> extends DeferredRequest<Collection<T>> {
 

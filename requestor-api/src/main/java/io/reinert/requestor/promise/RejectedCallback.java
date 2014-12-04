@@ -13,19 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
-
-import io.reinert.gdeferred.ProgressCallback;
-import io.reinert.gdeferred.Promise;
+package io.reinert.requestor.promise;
 
 /**
- * A Promise for requests.
+ * Callback executed when a promise fails.
  *
- * @param <T> The type of successful result
- *
- * @author Danilo Reinert
+ * @param <T> Type of result received on callback.
  */
-public interface RequestPromise<T> extends Promise<T, Throwable, RequestProgress> {
-
-    Promise<T, Throwable, RequestProgress> uploadProgress(ProgressCallback<RequestProgress> callback);
+public interface RejectedCallback<T, F_OUT, R_OUT> {
+    Promise<F_OUT, R_OUT> onRejected(T result);
 }

@@ -48,7 +48,7 @@ public class RequestDispatcherTest {
         SerializedRequest request = mock(SerializedRequestImpl.class);
 
         // When
-        RequestPromise<Object> deferred = dispatcher.dispatch(request, type);
+        GDeferredPromise<Object> deferred = dispatcher.dispatch(request, type);
 
         // Then
         verify(dispatcher).send(request, (DeferredRequest<Object>) deferred);
@@ -62,7 +62,7 @@ public class RequestDispatcherTest {
         SerializedRequest request = mock(SerializedRequestImpl.class);
 
         // When
-        RequestPromise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
+        GDeferredPromise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
 
         // Then
         verify(dispatcher).send(request, (DeferredRequest<Collection<Object>>) deferred);

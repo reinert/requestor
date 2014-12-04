@@ -22,8 +22,8 @@ import java.util.Map;
 import com.google.gwt.http.client.Response;
 
 import io.reinert.requestor.DeferredRequest;
+import io.reinert.requestor.GDeferredPromise;
 import io.reinert.requestor.RequestDispatcher;
-import io.reinert.requestor.RequestPromise;
 import io.reinert.requestor.ResponseProcessor;
 import io.reinert.requestor.SerializedRequest;
 
@@ -80,12 +80,12 @@ public class ServerStub extends RequestDispatcher {
     }
 
     @Override
-    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
+    public <T> GDeferredPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
         return null;
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> dispatch(SerializedRequest request,
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> dispatch(SerializedRequest request,
                                                                             Class<T> responseType,
                                                                             Class<C> containerType) {
         return null;

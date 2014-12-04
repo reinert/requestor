@@ -18,7 +18,7 @@ package io.reinert.requestor;
 /**
  * Deferred for requests expecting a single object.
  *
- * @param <T>   Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T>   Expected type in {@link GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
 public class DeferredSingleResult<T> extends DeferredRequest<T> {
 

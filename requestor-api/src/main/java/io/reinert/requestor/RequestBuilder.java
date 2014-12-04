@@ -88,7 +88,7 @@ public interface RequestBuilder extends Request {
      * Sets the number of milliseconds to wait for a request to complete.
      *
      * Should the request timeout, {@link io.reinert.gdeferred.FailCallback#onFail(Object)}
-     * method will be called on all registered {@link io.reinert.gdeferred.FailCallback} in the {@link RequestPromise}.
+     * method will be called on all registered {@link io.reinert.gdeferred.FailCallback} in the {@link GDeferredPromise}.
      * The callback method will receive an instance of the {@link RequestTimeoutException} class as its
      * {@link Throwable} argument.
      * <p/>

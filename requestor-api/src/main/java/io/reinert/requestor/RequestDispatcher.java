@@ -47,14 +47,14 @@ public abstract class RequestDispatcher {
     protected abstract <D> void send(final SerializedRequest request, final DeferredRequest<D> deferred);
 
     /**
-     * Sends the request and return an instance of {@link RequestPromise} expecting a sole result.
+     * Sends the request and return an instance of {@link GDeferredPromise} expecting a sole result.
      *
      * @param request       The built request
      * @param responseType  The class instance of the expected type in response payload
      * @param <T>           The expected type in response payload
      * @return              The promise for the dispatched request
      */
-    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
+    public <T> GDeferredPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
         final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(processor, responseType);
         try {
             send(request, deferred);
@@ -66,7 +66,7 @@ public abstract class RequestDispatcher {
     }
 
     /**
-     * Sends the request and return an instance of {@link RequestPromise} expecting a collection result.
+     * Sends the request and return an instance of {@link GDeferredPromise} expecting a collection result.
      *
      * @param request       The built request
      * @param responseType  The class instance of the expected type in response payload
@@ -75,7 +75,7 @@ public abstract class RequestDispatcher {
      * @param <C>           The collection type to hold the values
      * @return              The promise for the dispatched request
      */
-    public <T, C extends Collection> RequestPromise<Collection<T>> dispatch(SerializedRequest request,
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> dispatch(SerializedRequest request,
                                                                             Class<T> responseType,
                                                                             Class<C> containerType) {
         final DeferredCollectionResult<T> deferred = new DeferredCollectionResult<T>(processor, responseType,

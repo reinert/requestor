@@ -22,14 +22,16 @@ import io.reinert.gdeferred.Deferred;
 import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.gdeferred.Promise;
 import io.reinert.gdeferred.impl.DeferredObject;
+import io.reinert.requestor.promise.FulfilledCallback;
+import io.reinert.requestor.promise.RejectedCallback;
 
 /**
  * Abstract deferred for Requests.
  *
- * @param <T>   Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T>   Expected type in {@link GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
 public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
-        implements RequestPromise<T> , Deferred<T, Throwable, RequestProgress> {
+        implements RequestPromise<T> {
 
     private final ResponseProcessor processor;
     private Connection connection;
@@ -43,6 +45,15 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
 
     protected abstract DeserializedResponse<T> process(ResponseProcessor processor, Request request,
                                                        SerializedResponseImpl response);
+
+    @Override
+    @Deprecated
+    /**
+     * Use {@link DeferredRequest#resolve(Request, SerializedResponseImpl)}.
+     */
+    public Deferred<T, Throwable, RequestProgress> resolve(T resolve) {
+        return super.resolve(resolve);
+    }
 
     public DeferredRequest<T> resolve(Request request, SerializedResponseImpl response) {
         DeserializedResponse<T> deserializedResponse = process(processor, request, response);
@@ -64,13 +75,37 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
         return this;
     }
 
+    @Override
+    public boolean isFulfilled() {
+        return isResolved();
+    }
+
+    @Override
+    public <F_OUT, R_OUT> io.reinert.requestor.promise.Promise<F_OUT, R_OUT> then(
+            final FulfilledCallback<T, F_OUT, R_OUT> fulfilledCallback) {
+        // TODO: Implement!
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <F_OUT, R_OUT> io.reinert.requestor.promise.Promise<F_OUT, R_OUT> then(
+            RejectedCallback<Throwable, F_OUT, R_OUT> rejectedCallback) {
+        // TODO: Implement!
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <F_OUT, R_OUT> io.reinert.requestor.promise.Promise<F_OUT, R_OUT> then(
+            FulfilledCallback<T, F_OUT, R_OUT> fulfilledCallback,
+            RejectedCallback<Throwable, F_OUT, R_OUT> rejectedCallback) {
+        // TODO: Implement!
+        throw new UnsupportedOperationException();
+    }
+
     public Deferred<T, Throwable, RequestProgress> notifyUpload(RequestProgress progress) {
-        if (!isPending()) {
+        if (!isPending())
             throw new IllegalStateException("Deferred object already finished, cannot notify upload progress");
-        }
-
         triggerUploadProgress(progress);
-
         return this;
     }
 

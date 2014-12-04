@@ -98,109 +98,109 @@ public class RequestInvokerImpl extends RequestBuilderImpl implements RequestInv
     //===================================================================
 
     @Override
-    public RequestPromise<Void> get() {
+    public GDeferredPromise<Void> get() {
         return send("GET", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> get(Class<T> responseType) {
+    public <T> GDeferredPromise<T> get(Class<T> responseType) {
         return send("GET", responseType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> responseType, Class<C> containerType) {
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> get(Class<T> responseType, Class<C> containerType) {
         return send("GET", responseType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> post() {
+    public GDeferredPromise<Void> post() {
         return send("POST", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> post(Class<T> responseType) {
+    public <T> GDeferredPromise<T> post(Class<T> responseType) {
         return send("POST", responseType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> responseType, Class<C> containerType) {
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> post(Class<T> responseType, Class<C> containerType) {
         return send("POST", responseType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> put() {
+    public GDeferredPromise<Void> put() {
         return send("PUT", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> put(Class<T> responseType) {
+    public <T> GDeferredPromise<T> put(Class<T> responseType) {
         return send("PUT", responseType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> responseType, Class<C> containerType) {
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> put(Class<T> responseType, Class<C> containerType) {
         return send("PUT", responseType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> delete() {
+    public GDeferredPromise<Void> delete() {
         return send("DELETE", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> delete(Class<T> responseType) {
+    public <T> GDeferredPromise<T> delete(Class<T> responseType) {
         return send("DELETE", responseType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> responseType,
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> delete(Class<T> responseType,
                                                                           Class<C> containerType) {
         return send("DELETE", responseType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> patch() {
+    public GDeferredPromise<Void> patch() {
         return send("PATCH", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> patch(Class<T> responseType) {
+    public <T> GDeferredPromise<T> patch(Class<T> responseType) {
         return send("PATCH", responseType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> responseType,
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> patch(Class<T> responseType,
                                                                          Class<C> containerType) {
         return send("PATCH", responseType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> head() {
+    public GDeferredPromise<Void> head() {
         return send("HEAD", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> head(Class<T> responseType) {
+    public <T> GDeferredPromise<T> head(Class<T> responseType) {
         return send("HEAD", responseType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType) {
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType) {
         return send("HEAD", responseType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> options() {
+    public GDeferredPromise<Void> options() {
         return send("OPTIONS", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> options(Class<T> responseType) {
+    public <T> GDeferredPromise<T> options(Class<T> responseType) {
         return send("OPTIONS", responseType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> responseType,
+    public <T, C extends Collection> GDeferredPromise<Collection<T>> options(Class<T> responseType,
                                                                            Class<C> containerType) {
         return send("OPTIONS", responseType, containerType);
     }
@@ -209,12 +209,12 @@ public class RequestInvokerImpl extends RequestBuilderImpl implements RequestInv
     // Internal methods
     //===================================================================
 
-    private <T> RequestPromise<T> send(String method, Class<T> responseType) {
+    private <T> GDeferredPromise<T> send(String method, Class<T> responseType) {
         setMethod(method);
         return dispatcher.dispatch(processor.process(build()), responseType);
     }
 
-    private <T, C extends Collection> RequestPromise<Collection<T>> send(String method, Class<T> responseType,
+    private <T, C extends Collection> GDeferredPromise<Collection<T>> send(String method, Class<T> responseType,
                                                                          Class<C> containerType) {
         setMethod(method);
         return dispatcher.dispatch(processor.process(build()), responseType, containerType);
