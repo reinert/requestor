@@ -24,7 +24,7 @@ public class UriBuilderTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorTest";
+        return "io.reinert.requestor.RequestorApiTest";
     }
 
     public void testBasicFlow() {

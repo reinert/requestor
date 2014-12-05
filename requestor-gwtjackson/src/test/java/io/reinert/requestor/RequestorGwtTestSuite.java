@@ -13,13 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.promise;
+package io.reinert.requestor;
 
-/**
- * Callback executed when a promise fails.
- *
- * @param <T> Type of result received on callback.
- */
-public interface RejectedCallback<T, F_OUT, R_OUT> {
-    Promise<F_OUT, R_OUT> onRejected(T result);
+import com.google.gwt.junit.tools.GWTTestSuite;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+public class RequestorGwtTestSuite extends GWTTestSuite {
+
+    public static Test suite() {
+        TestSuite suite = new TestSuite("Requestor GWT Test Suite");
+
+        suite.addTestSuite(JsonGwtJacksonGeneratorTest.class);
+
+        return suite;
+    }
 }

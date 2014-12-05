@@ -20,23 +20,23 @@ import java.util.Collection;
 /**
  * Deferred for requests expecting an array of objects.
  *
- * @param <T>   Expected type in {@link GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T>   Expected type in {@link io.reinert.requestor.GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
-public class DeferredCollectionResult<T> extends DeferredRequest<Collection<T>> {
+public class GDeferredCollectionResult<T> extends GDeferredRequest<Collection<T>> {
 
     private final Class<T> responseType;
     private final Class<? extends Collection> containerType;
 
-    public DeferredCollectionResult(ResponseProcessor processor, Class<T> responseType,
-                                    Class<? extends Collection> containerType) {
+    public GDeferredCollectionResult(ResponseProcessor processor, Class<T> responseType,
+                                     Class<? extends Collection> containerType) {
         super(processor);
         this.responseType = responseType;
         this.containerType = containerType;
     }
 
     @Override
-    protected DeserializedResponse<Collection<T>> process(ResponseProcessor processor, Request request,
-                                                          SerializedResponseImpl response) {
+    protected <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
+    DeserializedResponse<Collection<T>> process(ResponseProcessor processor, Request request, R response) {
         return processor.process(request, response, responseType, containerType);
     }
 }

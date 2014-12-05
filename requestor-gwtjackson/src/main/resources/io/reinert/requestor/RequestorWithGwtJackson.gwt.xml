@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.Requestor"/>
+  <inherits name="io.reinert.requestor.RequestorApi"/>
 
   <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
 

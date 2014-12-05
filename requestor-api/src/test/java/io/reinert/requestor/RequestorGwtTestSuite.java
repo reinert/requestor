@@ -44,7 +44,6 @@ public class RequestorGwtTestSuite extends GWTTestSuite {
 
         // Requestor
         suite.addTestSuite(JsonAutoBeanGeneratorTest.class);
-        suite.addTestSuite(JsonGwtJacksonGeneratorTest.class);
 
         return suite;
     }

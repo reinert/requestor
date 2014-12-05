@@ -22,40 +22,40 @@ import io.reinert.gdeferred.Deferred;
 import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.gdeferred.Promise;
 import io.reinert.gdeferred.impl.DeferredObject;
-import io.reinert.requestor.promise.FulfilledCallback;
-import io.reinert.requestor.promise.RejectedCallback;
+import io.reinert.requestor.deferred.Callback;
 
 /**
  * Abstract deferred for Requests.
  *
- * @param <T>   Expected type in {@link GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T>   Expected type in {@link io.reinert.requestor.GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
-public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
-        implements RequestPromise<T> {
+public abstract class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
+        implements RequestPromise<T>, io.reinert.requestor.deferred.DeferredRequest<T> {
 
     private final ResponseProcessor processor;
     private Connection connection;
     private ArrayList<ProgressCallback<RequestProgress>> uploadProgressCallbacks;
 
-    public DeferredRequest(ResponseProcessor processor) {
+    public GDeferredRequest(ResponseProcessor processor) {
         if (processor == null)
             throw new NullPointerException("ResponseProcessor cannot be null.");
         this.processor = processor;
     }
 
-    protected abstract DeserializedResponse<T> process(ResponseProcessor processor, Request request,
-                                                       SerializedResponseImpl response);
+    protected abstract <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
+    DeserializedResponse<T> process(ResponseProcessor processor, Request request, R response);
 
     @Override
     @Deprecated
     /**
-     * Use {@link DeferredRequest#resolve(Request, SerializedResponseImpl)}.
+     * Use {@link GDeferredRequest#resolve(io.reinert.requestor.Request, io.reinert.requestor.SerializedResponseImpl)}.
      */
     public Deferred<T, Throwable, RequestProgress> resolve(T resolve) {
         return super.resolve(resolve);
     }
 
-    public DeferredRequest<T> resolve(Request request, SerializedResponseImpl response) {
+    public <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
+    GDeferredRequest<T> resolve(Request request, R response) {
         DeserializedResponse<T> deserializedResponse = process(processor, request, response);
         super.resolve(deserializedResponse.getPayload());
         return this;
@@ -70,7 +70,7 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
     }
 
     @Override
-    public Promise<T, Throwable, RequestProgress> uploadProgress(ProgressCallback<RequestProgress> callback) {
+    public Promise<T, Throwable, RequestProgress> upProgress(ProgressCallback<RequestProgress> callback) {
         getUploadProgressCallbacks().add(callback);
         return this;
     }
@@ -81,32 +81,55 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
     }
 
     @Override
-    public <F_OUT, R_OUT> io.reinert.requestor.promise.Promise<F_OUT, R_OUT> then(
-            final FulfilledCallback<T, F_OUT, R_OUT> fulfilledCallback) {
+    public <R> io.reinert.requestor.deferred.Promise<R> downProgress(Callback<RequestProgress, R> onProgress) {
         // TODO: Implement!
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <F_OUT, R_OUT> io.reinert.requestor.promise.Promise<F_OUT, R_OUT> then(
-            RejectedCallback<Throwable, F_OUT, R_OUT> rejectedCallback) {
+    public <R> io.reinert.requestor.deferred.Promise<R> upProgress(Callback<RequestProgress, R> onProgress) {
         // TODO: Implement!
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <F_OUT, R_OUT> io.reinert.requestor.promise.Promise<F_OUT, R_OUT> then(
-            FulfilledCallback<T, F_OUT, R_OUT> fulfilledCallback,
-            RejectedCallback<Throwable, F_OUT, R_OUT> rejectedCallback) {
+    public <R> io.reinert.requestor.deferred.Promise<R> then(Callback<T, R> onFulfilled) {
         // TODO: Implement!
         throw new UnsupportedOperationException();
     }
 
-    public Deferred<T, Throwable, RequestProgress> notifyUpload(RequestProgress progress) {
+    @Override
+    public <R> io.reinert.requestor.deferred.Promise<R> then(Callback<T, R> onFulfilled,
+                                                             Callback<Throwable, R> onRejected) {
+        // TODO: Implement!
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
+    void doResolve(Request request, R response) {
+        resolve(request, response);
+    }
+
+    @Override
+    public void doReject(Throwable error) {
+        reject(error);
+    }
+
+    @Override
+    public void notifyDownload(RequestProgress progress) {
+        notify(progress);
+    }
+
+    @Override
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public void notifyUpload(RequestProgress progress) {
         if (!isPending())
             throw new IllegalStateException("Deferred object already finished, cannot notify upload progress");
         triggerUploadProgress(progress);
-        return this;
     }
 
     protected void triggerUploadProgress(RequestProgress progress) {
@@ -123,9 +146,5 @@ public abstract class DeferredRequest<T> extends DeferredObject<T, Throwable, Re
         if (uploadProgressCallbacks == null)
             uploadProgressCallbacks = new ArrayList<ProgressCallback<RequestProgress>>();
         return uploadProgressCallbacks;
-    }
-
-    void setConnection(Connection connection) {
-        this.connection = connection;
     }
 }

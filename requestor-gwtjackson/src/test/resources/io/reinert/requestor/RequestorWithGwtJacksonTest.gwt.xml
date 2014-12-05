@@ -15,11 +15,7 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.RequestorTest"/>
+  <inherits name="io.reinert.requestor.RequestorWithGwtJackson"/>
 
-  <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
-
-  <generate-with class="io.reinert.requestor.rebind.JsonGwtJacksonGenerator">
-    <when-type-is class="io.reinert.requestor.GeneratedJsonSerdes"/>
-  </generate-with>
+  <source path="" excludes="rebind/**/*"/>
 </module>

@@ -18,20 +18,20 @@ package io.reinert.requestor;
 /**
  * Deferred for requests expecting a single object.
  *
- * @param <T>   Expected type in {@link GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T>   Expected type in {@link io.reinert.requestor.GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
-public class DeferredSingleResult<T> extends DeferredRequest<T> {
+public class GDeferredSingleResult<T> extends GDeferredRequest<T> {
 
     private final Class<T> responseType;
 
-    public DeferredSingleResult(ResponseProcessor processor, Class<T> responseType) {
+    public GDeferredSingleResult(ResponseProcessor processor, Class<T> responseType) {
         super(processor);
         this.responseType = responseType;
     }
 
     @Override
-    protected DeserializedResponse<T> process(ResponseProcessor processor, Request request,
-                                              SerializedResponseImpl response) {
+    protected <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
+    DeserializedResponse<T> process(ResponseProcessor processor, Request request, R response) {
         return processor.process(request, response, responseType);
     }
 }

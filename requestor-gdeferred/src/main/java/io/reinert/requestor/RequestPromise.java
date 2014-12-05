@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.promise.Promise;
-
 /**
  * A Promise for requests.
  *
@@ -24,5 +22,5 @@ import io.reinert.requestor.promise.Promise;
  *
  * @author Danilo Reinert
  */
-public interface RequestPromise<T> extends GDeferredPromise<T>, Promise<T, Throwable> {
+public interface RequestPromise<T> extends GDeferredPromise<T>, io.reinert.requestor.deferred.RequestPromise<T> {
 }

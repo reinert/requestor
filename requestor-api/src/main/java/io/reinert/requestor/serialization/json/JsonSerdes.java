@@ -65,7 +65,7 @@ public abstract class JsonSerdes<T> implements Serdes<T> {
         return trim.startsWith("[") && trim.endsWith("]");
     }
 
-    protected native String stringify(JavaScriptObject jso) /*-{
+    public static native String stringify(JavaScriptObject jso) /*-{
         return JSON.stringify(jso);
     }-*/;
 }

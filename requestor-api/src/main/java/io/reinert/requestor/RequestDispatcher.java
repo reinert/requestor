@@ -17,6 +17,11 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import com.google.gwt.core.client.GWT;
+
+import io.reinert.requestor.deferred.DeferredRequest;
+import io.reinert.requestor.deferred.RequestPromise;
+
 /**
  * This class dispatches the requests and return promises.
  *
@@ -25,6 +30,7 @@ import java.util.Collection;
 public abstract class RequestDispatcher {
 
     private final ResponseProcessor processor;
+    private final DeferredRequestFactory deferredFactory = GWT.create(DeferredRequestFactory.class);
 
     public RequestDispatcher(ResponseProcessor processor) {
         this.processor = processor;
@@ -35,7 +41,8 @@ public abstract class RequestDispatcher {
      * <p/>
      * Implementations must execute an HTTP Request with given values and resolve/reject the deferred when the request
      * is finished. It is recommended that progress events be sent to
-     * {@link DeferredRequest#progress(io.reinert.gdeferred.ProgressCallback)}.
+     * {@link DeferredRequest#notifyDownload(RequestProgress)} and
+     * {@link DeferredRequest#notifyUpload(RequestProgress)}.
      * <p/>
      * All possible exceptions should be caught and sent to {@link DeferredRequest#reject(Throwable)} wrapped in a
      * {@link RequestException} or any of its children. This will avoid breaking code flow when some exception occurs.
@@ -47,26 +54,26 @@ public abstract class RequestDispatcher {
     protected abstract <D> void send(final SerializedRequest request, final DeferredRequest<D> deferred);
 
     /**
-     * Sends the request and return an instance of {@link GDeferredPromise} expecting a sole result.
+     * Sends the request and return an instance of {@link RequestPromise} expecting a sole result.
      *
      * @param request       The built request
      * @param responseType  The class instance of the expected type in response payload
      * @param <T>           The expected type in response payload
      * @return              The promise for the dispatched request
      */
-    public <T> GDeferredPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
-        final DeferredSingleResult<T> deferred = new DeferredSingleResult<T>(processor, responseType);
+    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
+        final DeferredRequest<T> deferred = deferredFactory.getDeferredRequest(processor, responseType);
         try {
             send(request, deferred);
         } catch (Exception e) {
-            deferred.reject(new RequestDispatchException(
+            deferred.doReject(new RequestDispatchException(
                     "Some non-caught exception occurred while dispatching the request", e));
         }
         return deferred;
     }
 
     /**
-     * Sends the request and return an instance of {@link GDeferredPromise} expecting a collection result.
+     * Sends the request and return an instance of {@link RequestPromise} expecting a collection result.
      *
      * @param request       The built request
      * @param responseType  The class instance of the expected type in response payload
@@ -75,15 +82,15 @@ public abstract class RequestDispatcher {
      * @param <C>           The collection type to hold the values
      * @return              The promise for the dispatched request
      */
-    public <T, C extends Collection> GDeferredPromise<Collection<T>> dispatch(SerializedRequest request,
+    public <T, C extends Collection> RequestPromise<Collection<T>> dispatch(SerializedRequest request,
                                                                             Class<T> responseType,
                                                                             Class<C> containerType) {
-        final DeferredCollectionResult<T> deferred = new DeferredCollectionResult<T>(processor, responseType,
+        final DeferredRequest<Collection<T>> deferred = deferredFactory.getDeferredRequest(processor, responseType,
                 containerType);
         try {
             send(request, deferred);
         } catch (Exception e) {
-            deferred.reject(new RequestDispatchException(
+            deferred.doReject(new RequestDispatchException(
                     "Some non-caught exception occurred while dispatching the request", e));
         }
         return deferred;

@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.RequestorTest"/>
+  <inherits name="io.reinert.requestor.RequestorApiTest"/>
 
   <inherits name="com.google.web.bindery.autobean.AutoBean"/>
 

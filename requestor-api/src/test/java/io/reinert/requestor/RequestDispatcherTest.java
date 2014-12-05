@@ -17,11 +17,15 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import com.google.gwtmockito.GwtMockitoTestRunner;
+
+import io.reinert.requestor.deferred.DeferredRequest;
+import io.reinert.requestor.deferred.RequestPromise;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -30,7 +34,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Unit tests of {@link RequestDispatcher}.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(GwtMockitoTestRunner.class)
 public class RequestDispatcherTest {
 
     @Mock private ResponseProcessor processor;
@@ -48,7 +52,7 @@ public class RequestDispatcherTest {
         SerializedRequest request = mock(SerializedRequestImpl.class);
 
         // When
-        GDeferredPromise<Object> deferred = dispatcher.dispatch(request, type);
+        RequestPromise<Object> deferred = dispatcher.dispatch(request, type);
 
         // Then
         verify(dispatcher).send(request, (DeferredRequest<Object>) deferred);
@@ -62,7 +66,7 @@ public class RequestDispatcherTest {
         SerializedRequest request = mock(SerializedRequestImpl.class);
 
         // When
-        GDeferredPromise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
+        RequestPromise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
 
         // Then
         verify(dispatcher).send(request, (DeferredRequest<Collection<Object>>) deferred);

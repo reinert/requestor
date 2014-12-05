@@ -129,7 +129,7 @@ public class RequestorImpl implements Requestor {
     }
 
     private RequestInvoker createRequest(String uri) {
-        final RequestInvokerImpl request = new RequestInvokerImpl(uri, requestProcessor,
+        final AbstractRequestInvoker request = new RequestInvokerImpl(uri, requestProcessor,
                 requestDispatcherFactory.getRequestDispatcher(responseProcessor));
         request.contentType(defaultMediaType);
         request.accept(defaultMediaType);

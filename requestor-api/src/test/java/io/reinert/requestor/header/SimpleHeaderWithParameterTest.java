@@ -24,7 +24,7 @@ public class SimpleHeaderWithParameterTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorTest";
+        return "io.reinert.requestor.RequestorApiTest";
     }
 
     public void testGetValue() {

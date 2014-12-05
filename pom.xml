@@ -16,17 +16,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <packaging>pom</packaging>
-  <modules>
-    <module>requestor-api</module>
-    <module>requestor-gdeferred</module>
-  </modules>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
     <version>7</version>
   </parent>
+
+  <packaging>pom</packaging>
 
   <groupId>io.reinert.requestor</groupId>
   <artifactId>requestor</artifactId>
@@ -35,6 +32,14 @@
   <inceptionYear>2014</inceptionYear>
   <description>GWT HTTP client API.</description>
   <url>http://reinert.io</url>
+
+  <modules>
+    <module>requestor-annotations</module>
+    <module>requestor-api</module>
+    <module>requestor-gdeferred</module>
+    <module>requestor-gwtjackson</module>
+    <module>requestor-turbogwt</module>
+  </modules>
 
   <scm>
     <connection>scm:git:ssh://github.com/reinert/${project.artifactId}.git</connection>
@@ -104,55 +109,57 @@
   </properties>
 
 
-  <dependencies>
-    <!-- Required dependencies -->
-    <dependency>
-      <groupId>io.reinert.gdeferred</groupId>
-      <artifactId>gdeferred</artifactId>
-      <version>${gdeferred.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.turbogwt.core</groupId>
-      <artifactId>turbogwt-core</artifactId>
-      <version>${turbogwt.version}</version>
-    </dependency>
+  <dependencyManagement>
+    <dependencies>
+      <!-- Custom dependencies -->
+      <dependency>
+        <groupId>io.reinert.gdeferred</groupId>
+        <artifactId>gdeferred</artifactId>
+        <version>${gdeferred.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.turbogwt.core</groupId>
+        <artifactId>turbogwt-core</artifactId>
+        <version>${turbogwt.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.github.nmorel.gwtjackson</groupId>
+        <artifactId>gwt-jackson</artifactId>
+        <version>${gwtjackson.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <!-- Provided dependencies -->
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <version>${gwt.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <version>${gwt.version}</version>
-      <scope>provided</scope>
-    </dependency>
+      <!-- GWT dependencies -->
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-user</artifactId>
+        <version>${gwt.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-dev</artifactId>
+        <version>${gwt.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
-    <!-- Optional dependencies -->
-    <dependency>
-      <groupId>com.github.nmorel.gwtjackson</groupId>
-      <artifactId>gwt-jackson</artifactId>
-      <version>${gwtjackson.version}</version>
-      <!--<scope>provided</scope>-->
-    </dependency>
-
-    <!-- Test dependencies -->
-    <dependency>
-      <groupId>com.google.gwt.gwtmockito</groupId>
-      <artifactId>gwtmockito</artifactId>
-      <version>${gwtmockito.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+      <!-- Test dependencies -->
+      <dependency>
+        <groupId>com.google.gwt.gwtmockito</groupId>
+        <artifactId>gwtmockito</artifactId>
+        <version>${gwtmockito.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <resources>
@@ -166,6 +173,41 @@
       </resource>
     </resources>
 
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+        </plugin>
+
+        <!-- Skip GWTTests during JUnit tests -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <includes>
+              <include>**/*TestSuite.java</include>
+            </includes>
+            <excludes>
+              <exclude>**/*GwtTest*.java</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>gwt-maven-plugin</artifactId>
+          <version>${gwt.version}</version>
+          <configuration>
+            <extraJvmArgs>-Xss16M -Xms1024M -Xmx2048M</extraJvmArgs>
+            <includes>**/*GwtTestSuite.java</includes>
+            <testTimeOut>180</testTimeOut>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -176,7 +218,7 @@
           <target>${target.jdk}</target>
           <encoding>${project.build.sourceEncoding}</encoding>
           <excludes>
-            <exclude>**/com/google/gwt/http/client/*</exclude>
+            <exclude>**/com/google/gwt/**/*</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -213,90 +255,10 @@
         </executions>
       </plugin>
 
-
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
         <version>${maven-deploy-plugin.version}</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <arguments>-Psonatype-oss-release -Dgpg.passphrase=${gpg.passphrase}</arguments>
-        </configuration>
-      </plugin>
-
-      <!-- Skip GWTTests during JUnit tests -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin.version}</version>
-        <configuration>
-          <includes>
-            <include>**/*TestSuite.java</include>
-          </includes>
-          <excludes>
-            <exclude>**/*GwtTest*.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <version>${gwt.version}</version>
-        <configuration>
-          <extraJvmArgs>-Xss24M -Xms1024M -Xmx2048M</extraJvmArgs>
-          <includes>**/*GwtTestSuite.java</includes>
-          <mode>htmlunit</mode>
-          <testTimeOut>180</testTimeOut>
-        </configuration>
-        <!--<executions>-->
-        <!--<execution>-->
-        <!--<id>gwt-clean</id>-->
-        <!--<phase>clean</phase>-->
-        <!--<goals>-->
-        <!--<goal>clean</goal>-->
-        <!--</goals>-->
-        <!--<configuration>-->
-        <!--<module>io.reinert.requestor.Requestor</module>-->
-        <!--</configuration>-->
-        <!--</execution>-->
-        <!--<execution>-->
-        <!--<id>gwt-compile</id>-->
-        <!--<phase>compile</phase>-->
-        <!--<goals>-->
-        <!--<goal>compile</goal>-->
-        <!--</goals>-->
-        <!--<configuration>-->
-        <!--<module>io.reinert.requestor.Requestor</module>-->
-        <!--</configuration>-->
-        <!--</execution>-->
-        <!--<execution>-->
-        <!--<id>gwt-test</id>-->
-        <!--<phase>test</phase>-->
-        <!--<goals>-->
-        <!--<goal>test</goal>-->
-        <!--</goals>-->
-        <!--<configuration>-->
-        <!--<module>io.reinert.requestor.Requestor</module>-->
-        <!--</configuration>-->
-        <!--</execution>-->
-        <!--<execution>-->
-        <!--<id>gwt-package</id>-->
-        <!--<goals>-->
-        <!--<goal>resources</goal>-->
-        <!--</goals>-->
-        <!--<configuration>-->
-        <!--<modules>-->
-        <!--<module>io.reinert.requestor.Requestor</module>-->
-        <!--</modules>-->
-        <!--</configuration>-->
-        <!--</execution>-->
-        <!--</executions>-->
       </plugin>
 
       <plugin>

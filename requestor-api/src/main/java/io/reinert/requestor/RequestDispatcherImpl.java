@@ -20,6 +20,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
+import io.reinert.requestor.deferred.DeferredRequest;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -51,14 +52,14 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         } catch (JavaScriptException e) {
             RequestPermissionException requestPermissionException = new RequestPermissionException(url);
             requestPermissionException.initCause(new RequestException(e.getMessage()));
-            deferred.reject(requestPermissionException);
+            deferred.doReject(requestPermissionException);
         }
 
         // Fulfill headers
         try {
             setHeaders(headers, xmlHttpRequest);
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestException(e.getMessage()));
+            deferred.doReject(new RequestException(e.getMessage()));
         }
 
         // Set withCredentials if necessary
@@ -91,7 +92,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         xmlHttpRequest.setOnProgress(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                deferred.notify(new RequestProgressImpl(progress));
+                deferred.notifyDownload(new RequestProgressImpl(progress));
             }
         });
 
@@ -116,7 +117,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                 xmlHttpRequest.send();
             }
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestDispatchException(e.getMessage()));
+            deferred.doReject(new RequestDispatchException(e.getMessage()));
         }
     }
 
@@ -145,10 +146,10 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
                 if (gwtResponse.getStatusCode() / 100 == 2) {
                     // Resolve if response is 2xx
-                    deferred.resolve(request, response);
+                    deferred.doResolve(request, response);
                 } else {
                     // Reject as unsuccessful response if response isn't 2xx
-                    deferred.reject(new UnsuccessfulResponseException(request, response));
+                    deferred.doReject(new UnsuccessfulResponseException(request, response));
                 }
             }
 
@@ -157,10 +158,10 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                     // Reject as timeout
                     com.google.gwt.http.client.RequestTimeoutException e =
                             (com.google.gwt.http.client.RequestTimeoutException) exception;
-                    deferred.reject(new RequestTimeoutException(request, e.getTimeoutMillis()));
+                    deferred.doReject(new RequestTimeoutException(request, e.getTimeoutMillis()));
                 } else {
                     // Reject as generic request exception
-                    deferred.reject(new RequestException(exception));
+                    deferred.doReject(new RequestException(exception));
                 }
             }
         };

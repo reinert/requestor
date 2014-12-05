@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.promise;
+package io.reinert.requestor;
+
+import io.reinert.gdeferred.ProgressCallback;
+import io.reinert.gdeferred.Promise;
 
 /**
- * Callback executed when a promise succeeds.
+ * A Promise for requests.
  *
- * @param <T> Type of result received on callback.
+ * @param <T> The type of successful result
+ *
+ * @author Danilo Reinert
  */
-public interface FulfilledCallback<T, F_OUT, R_OUT> {
-    Promise<F_OUT, R_OUT> onFulfilled(T result);
+public interface GDeferredPromise<T> extends Promise<T, Throwable, RequestProgress> {
+    Promise<T, Throwable, RequestProgress> upProgress(ProgressCallback<RequestProgress> callback);
 }

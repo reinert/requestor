@@ -22,8 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines that the type must have an auto-generated json serializer and deserializer
- * registered by default in any {@link io.reinert.requestor.Requestor} instance.
+ * Defines that the type must have an auto-generated json serializer and deserializer.
  * <br/>
  *
  * The implementation of the serializer is let to third-part projects.

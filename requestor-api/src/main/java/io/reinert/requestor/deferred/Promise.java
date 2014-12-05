@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.promise;
+package io.reinert.requestor.deferred;
 
 /**
  * Promise interface based on Promises/A+ spec.
  *
  * @param <F> The type of the fulfilled result
- * @param <R> The type of the rejected result
  *
  * @author Danilo Reinert
  */
-public interface Promise<F, R> {
+public interface Promise<F> {
 
     /**
      * Informs if the promise is still pending.
@@ -47,47 +46,31 @@ public interface Promise<F, R> {
     boolean isFulfilled();
 
     /**
-     * Register a {@link FulfilledCallback} so that when the Promise is fulfilled it is called.
+     * Register a FulFilledCallback so that when the Promise is fulfilled it is called.
      * <p/>
      *
      * You can register multiple callbacks by calling the method multiple times.
      * The order of callback trigger is based on the order they are registered.
      * <p/>
      *
-     * @param fulfilledCallback The callback to be executed when the promise is fulfilled
+     * @param onFulfilled The callback to be executed when the promise is fulfilled
      *
      * @return The promise returned from the callback
      */
-    <F_OUT, R_OUT> Promise<F_OUT, R_OUT> then(FulfilledCallback<F, F_OUT, R_OUT> fulfilledCallback);
+    <R> Promise<R> then(Callback<F, R> onFulfilled);
 
     /**
-     * Register a {@link RejectedCallback} so that when the Promise is rejected it is called.
+     * Register a FulFilledCallback and a RejectedCallback.
      * <p/>
      *
      * You can register multiple callbacks by calling the method multiple times.
      * The order of callback trigger is based on the order they are registered.
      * <p/>
      *
-     * @param rejectedCallback  The callback to be executed when the promise is rejected
+     * @param onFulfilled The callback to be executed when the promise is fulfilled
+     * @param onRejected  The callback to be executed when the promise is rejected
      *
      * @return The promise returned from the callback
      */
-    <F_OUT, R_OUT> Promise<F_OUT, R_OUT> then(RejectedCallback<R, F_OUT, R_OUT> rejectedCallback);
-
-    /**
-     * Register a {@link FulfilledCallback} and a {@link RejectedCallback}.
-     * <p/>
-     *
-     * You can register multiple callbacks by calling the method multiple times.
-     * The order of callback trigger is based on the order they are registered.
-     * <p/>
-     *
-     * @param fulfilledCallback The callback to be executed when the promise is fulfilled
-     * @param rejectedCallback  The callback to be executed when the promise is rejected
-     *
-     * @return The promise returned from the callback
-     */
-    <F_OUT, R_OUT> Promise<F_OUT, R_OUT> then(FulfilledCallback<F, F_OUT, R_OUT> fulfilledCallback,
-                                              RejectedCallback<R, F_OUT, R_OUT> rejectedCallback);
-
+    <R> Promise<R> then(Callback<F, R> onFulfilled, Callback<Throwable, R> onRejected);
 }

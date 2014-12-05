@@ -52,8 +52,6 @@ import io.reinert.requestor.serialization.json.JsonObjectSerdes;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
-import org.turbogwt.core.util.Overlays;
-
 /**
  * Generator for {@link io.reinert.requestor.Json} annotated types powered by GWT-Jackson.
  *
@@ -113,7 +111,6 @@ public class JsonGwtJacksonGenerator extends Generator {
     }
 
     private void generateFields(SourceWriter srcWriter) {
-        // Initialize a field with binary name of the remote service interface
         srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
         srcWriter.println("private final ArrayList<GeneratedProvider<?>> providersList = " +
                 "new ArrayList<GeneratedProvider<?>>();");
@@ -215,7 +212,7 @@ public class JsonGwtJacksonGenerator extends Generator {
         w.println("    @Override");
         w.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
                 qualifiedSourceName);
-        w.println("        return %s.read(Overlays.stringify(r));", singleMapperField);
+        w.println("        return %s.read(JsonObjectSerdes.stringify(r));", singleMapperField);
         w.println("    }");
         w.println();
 
@@ -334,9 +331,7 @@ public class JsonGwtJacksonGenerator extends Generator {
                 UnableToSerializeException.class.getName(),
                 Serdes.class.getCanonicalName(),
                 Serializer.class.getCanonicalName(),
-                SerializationContext.class.getCanonicalName(),
-                // org.turbogwt
-                Overlays.class.getCanonicalName()
+                SerializationContext.class.getCanonicalName()
         };
 
         for (String imp : imports) {
