@@ -15,13 +15,12 @@
  */
 package io.reinert.requestor;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 import io.reinert.requestor.header.Header;
-
-import org.turbogwt.core.collections.LightMap;
 
 /**
  * Stores the headers from a HTTP request/response.
@@ -124,7 +123,7 @@ public class Headers implements Iterable<Header> {
 
     private Map<String, Header> ensureHeaders() {
         if (headers == null)
-            headers = new LightMap<Header>();
+            headers = new HashMap<String, Header>();
         return headers;
     }
 

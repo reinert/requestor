@@ -18,8 +18,6 @@ package io.reinert.requestor.header;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import org.turbogwt.core.collections.JsArrayIterator;
-
 /**
  * HTTP Header with relative quality factors.
  *
@@ -72,7 +70,7 @@ public class QualityFactorHeader extends MultivaluedHeader implements Iterable<Q
 
     @Override
     public Iterator<Value> iterator() {
-        return new JsArrayIterator<Value>(values);
+        return Arrays.asList(values).iterator();
     }
 
     /**

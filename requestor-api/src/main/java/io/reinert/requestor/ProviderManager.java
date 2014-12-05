@@ -29,8 +29,6 @@ import javax.annotation.Nullable;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import org.turbogwt.core.collections.JsArrayList;
-
 /**
  * Manager of instance providers.
  *
@@ -57,12 +55,12 @@ class ProviderManager {
                 return new LinkedList();
             }
         });
-        providers.put(JsArrayList.class.getName(), new Provider<JsArrayList>() {
-            @Override
-            public JsArrayList get() {
-                return new JsArrayList();
-            }
-        });
+//        providers.put(JsArrayList.class.getName(), new Provider<JsArrayList>() {
+//            @Override
+//            public JsArrayList get() {
+//                return new JsArrayList();
+//            }
+//        });
         final Provider<HashSet> hashSetProvider = new Provider<HashSet>() {
             @Override
             public HashSet get() {

@@ -16,7 +16,6 @@
 package io.reinert.requestor.serialization.json;
 
 import java.util.Collection;
-import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -25,8 +24,6 @@ import com.google.gwt.core.client.JsonUtils;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
-
-import org.turbogwt.core.collections.JsArrayList;
 
 /**
  * Serializer/Deserializer of Overlay types.
@@ -63,17 +60,23 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
     public <C extends Collection<JavaScriptObject>> C deserialize(Class<C> collectionType, String response,
                                                                   DeserializationContext context) {
         JsArray<JavaScriptObject> jsArray = eval(response);
-        if (collectionType.equals(List.class) || collectionType.equals(Collection.class)
-                || collectionType.equals(JsArrayList.class)) {
-            return (C) new JsArrayList(jsArray);
-        } else {
-            C col = context.getInstance(collectionType);
-            for (int i = 0; i < jsArray.length(); i++) {
-                JavaScriptObject t = jsArray.get(i);
-                col.add(t);
-            }
-            return col;
+//        if (collectionType.equals(List.class) || collectionType.equals(Collection.class)
+//                || collectionType.equals(JsArrayList.class)) {
+//            return (C) new JsArrayList(jsArray);
+//        } else {
+//            C col = context.getInstance(collectionType);
+//            for (int i = 0; i < jsArray.length(); i++) {
+//                JavaScriptObject t = jsArray.get(i);
+//                col.add(t);
+//            }
+//            return col;
+//        }
+        C col = context.getInstance(collectionType);
+        for (int i = 0; i < jsArray.length(); i++) {
+            JavaScriptObject t = jsArray.get(i);
+            col.add(t);
         }
+        return col;
     }
 
     @Override
@@ -83,8 +86,8 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
 
     @Override
     public String serialize(Collection<JavaScriptObject> c, SerializationContext context) {
-        if (c instanceof JsArrayList)
-            return stringify(((JsArrayList<JavaScriptObject>) c).asJsArray());
+//        if (c instanceof JsArrayList)
+//            return stringify(((JsArrayList<JavaScriptObject>) c).asJsArray());
 
         @SuppressWarnings("unchecked")
         JsArray<JavaScriptObject> jsArray = (JsArray<JavaScriptObject>) JsArray.createArray();

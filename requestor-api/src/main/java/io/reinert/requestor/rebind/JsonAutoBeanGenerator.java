@@ -52,8 +52,6 @@ import io.reinert.requestor.serialization.json.JsonObjectSerdes;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
-import org.turbogwt.core.util.Overlays;
-
 /**
  * Generator for {@link io.reinert.requestor.Json} annotated types powered by GWT AutoBean Framework.
  *
@@ -291,7 +289,7 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println("    @Override");
         w.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
                 qualifiedSourceName);
-        w.println("        return AutoBeanCodex.decode(%s, %s.class, Overlays.stringify(r)).as();",
+        w.println("        return AutoBeanCodex.decode(%s, %s.class, JsonObjectSerdes.stringify(r)).as();",
                 factoryFieldName, qualifiedSourceName);
         w.println("    }");
         w.println();
@@ -449,8 +447,6 @@ public class JsonAutoBeanGenerator extends Generator {
                 JsonObjectSerdes.class.getCanonicalName(),
                 JsonRecordReader.class.getCanonicalName(),
                 JsonRecordWriter.class.getCanonicalName(),
-                // org.turbogwt.core.util
-                Overlays.class.getCanonicalName()
         };
 
         for (String imp : imports) {
