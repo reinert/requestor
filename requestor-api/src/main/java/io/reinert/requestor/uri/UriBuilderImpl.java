@@ -16,13 +16,15 @@
 package io.reinert.requestor.uri;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.http.client.URL;
+
+import io.reinert.requestor.LightMap;
 
 /**
  * Default implementation of {@link io.reinert.requestor.uri.UriBuilder}.
@@ -123,7 +125,7 @@ public class UriBuilderImpl extends UriBuilder {
         assertNotNull(values, "Parameter values cannot be null.");
 
         if (matrixParams == null) {
-            matrixParams = new HashMap<String, Map<String, Object[]>>();
+            matrixParams = GWT.create(LightMap.class);
         }
 
         // TODO: validate this assertion
@@ -134,7 +136,7 @@ public class UriBuilderImpl extends UriBuilder {
 
         Map<String, Object[]> segmentParams = matrixParams.get(segment);
         if (segmentParams == null) {
-            segmentParams = new HashMap<String, Object[]>();
+            segmentParams = GWT.create(LightMap.class);
             matrixParams.put(segment, segmentParams);
         }
         // TODO: instead of setting the array, incrementally add to an existing one?
@@ -148,7 +150,7 @@ public class UriBuilderImpl extends UriBuilder {
         assertNotNull(name, "Parameter name cannot be null.");
         assertNotNull(values, "Parameter values cannot be null.");
         if (queryParams == null)
-            queryParams = new HashMap<String, Object[]>();
+            queryParams = GWT.create(LightMap.class);
         queryParams.put(name, values);
         return this;
     }

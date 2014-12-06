@@ -85,6 +85,7 @@
     <maven-checkstyle-plugin.version>2.11</maven-checkstyle-plugin.version>
     <maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>2.8.1</maven-deploy-plugin.version>
+    <maven-jar-plugin.version>2.5</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>

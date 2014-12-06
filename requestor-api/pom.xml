@@ -13,12 +13,6 @@
   <artifactId>requestor-api</artifactId>
 
   <dependencies>
-    <!-- Custom dependencies -->
-    <dependency>
-      <groupId>org.turbogwt.core</groupId>
-      <artifactId>turbogwt-core</artifactId>
-    </dependency>
-
     <!-- Requestor dependencies -->
     <dependency>
       <groupId>io.reinert.requestor.core</groupId>
@@ -52,6 +46,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-plugin.version}</version>
         <executions>
           <execution>
             <id>default-jar</id>
@@ -75,5 +70,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

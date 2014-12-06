@@ -18,27 +18,21 @@
   <inherits name="com.google.gwt.user.User"/>
   <inherits name="com.google.gwt.http.HTTP"/>
 
-  <inherits name="org.turbogwt.core.Core"/>
-
   <!-- required by BookXmlSerdes -->
   <inherits name="com.google.gwt.xml.XML"/>
 
   <source path="" excludes="rebind/**/*"/>
 
-  <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">
-    <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.form.FormDataSerializerUrlEncoded">
-    <when-type-is class="io.reinert.requestor.form.FormDataSerializer"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.RequestDispatcherFactoryImpl">
-    <when-type-is class="io.reinert.requestor.RequestDispatcherFactory"/>
-  </replace-with>
-
   <replace-with class="io.reinert.requestor.RequestorImpl">
     <when-type-is class="io.reinert.requestor.Requestor"/>
+  </replace-with>
+
+  <replace-with class="java.util.HashMap">
+    <when-type-is class="io.reinert.requestor.LightMap"/>
+  </replace-with>
+
+  <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">
+    <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
   </replace-with>
 
   <replace-with class="io.reinert.requestor.EmptyGeneratedJsonSerdes">
@@ -47,5 +41,13 @@
 
   <replace-with class="io.reinert.requestor.test.mock.ServerStub">
     <when-type-is class="io.reinert.requestor.RequestDispatcher"/>
+  </replace-with>
+
+  <replace-with class="io.reinert.requestor.form.FormDataSerializerUrlEncoded">
+    <when-type-is class="io.reinert.requestor.form.FormDataSerializer"/>
+  </replace-with>
+
+  <replace-with class="io.reinert.requestor.RequestorInitializerForJson">
+    <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
   </replace-with>
 </module>
