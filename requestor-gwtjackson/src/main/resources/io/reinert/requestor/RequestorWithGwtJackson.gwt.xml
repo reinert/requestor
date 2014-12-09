@@ -19,6 +19,8 @@
 
   <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
 
+  <source path="" excludes="rebind/**/*"/>
+
   <generate-with class="io.reinert.requestor.rebind.JsonGwtJacksonGenerator">
     <when-type-is class="io.reinert.requestor.GeneratedJsonSerdes"/>
   </generate-with>

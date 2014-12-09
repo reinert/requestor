@@ -15,38 +15,5 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="com.google.gwt.user.User"/>
-  <inherits name="com.google.gwt.http.HTTP"/>
-
-  <replace-with class="io.reinert.requestor.RequestorImpl">
-    <when-type-is class="io.reinert.requestor.Requestor"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">
-    <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.EmptyGeneratedJsonSerdes">
-    <when-type-is class="io.reinert.requestor.GeneratedJsonSerdes"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.RequestDispatcherFactoryImpl">
-    <when-type-is class="io.reinert.requestor.RequestDispatcherFactory"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.form.FormDataSerializerUrlEncoded">
-    <when-type-is class="io.reinert.requestor.form.FormDataSerializer"/>
-  </replace-with>
-
-  <inherits name="org.turbogwt.core.Core"/>
-
-  <replace-with class="org.turbogwt.core.collections.LightMap">
-    <when-type-is class="io.reinert.requestor.LightMap"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.RequestorInitializerTurboGwt">
-    <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
-  </replace-with>
-
-  <source path="" excludes="rebind/**/*"/>
+  <inherits name="io.reinert.requestor.RequestorWithTurboGwt"/>
 </module>

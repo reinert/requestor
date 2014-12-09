@@ -18,14 +18,14 @@
   <inherits name="com.google.gwt.user.User"/>
   <inherits name="com.google.gwt.http.HTTP"/>
 
-  <source path="" excludes="rebind/**/*,test/**/*,**/*Test.java,**/*TestSuite.java,**/*TestUtil.java"/>
+  <source path="" excludes="rebind/**/*"/>
 
   <replace-with class="io.reinert.requestor.RequestorImpl">
     <when-type-is class="io.reinert.requestor.Requestor"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.LightMap">
-    <when-type-is class="java.util.HashMap"/>
+  <replace-with class="java.util.HashMap">
+    <when-type-is class="io.reinert.requestor.LightMap"/>
   </replace-with>
 
   <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">

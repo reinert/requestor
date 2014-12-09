@@ -19,6 +19,8 @@
 
   <inherits name="org.turbogwt.core.Core"/>
 
+  <source path="" excludes="rebind/**/*"/>
+
   <replace-with class="org.turbogwt.core.collections.LightMap">
     <when-type-is class="io.reinert.requestor.LightMap"/>
   </replace-with>
