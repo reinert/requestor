@@ -15,9 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.gdeferred.ProgressCallback;
-import io.reinert.gdeferred.Promise;
-
 /**
  * A Promise for requests.
  *
@@ -25,6 +22,5 @@ import io.reinert.gdeferred.Promise;
  *
  * @author Danilo Reinert
  */
-public interface GDeferredPromise<T> extends Promise<T, Throwable, RequestProgress> {
-    Promise<T, Throwable, RequestProgress> upProgress(ProgressCallback<RequestProgress> callback);
+public interface GDeferredRequestPromise<T> extends RequestPromise<T>, io.reinert.requestor.deferred.RequestPromise<T> {
 }

@@ -26,10 +26,10 @@ import io.reinert.requestor.deferred.Callback;
 /**
  * Abstract deferred for Requests.
  *
- * @param <T> Expected type in {@link io.reinert.requestor.GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T> Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
 public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
-        implements RequestPromise<T>, io.reinert.requestor.deferred.DeferredRequest<T> {
+        implements GDeferredRequestPromise<T>, io.reinert.requestor.deferred.DeferredRequest<T> {
 
     private HttpConnection connection;
     private ArrayList<ProgressCallback<RequestProgress>> uploadProgressCallbacks;

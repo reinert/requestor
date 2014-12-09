@@ -53,45 +53,45 @@ public interface RequestInvoker extends RequestBuilder {
     @Override
     RequestInvoker responseType(ResponseType responseType);
 
-    GDeferredPromise<Void> get();
+    RequestPromise<Void> get();
 
-    <T> GDeferredPromise<T> get(Class<T> responseType);
+    <T> RequestPromise<T> get(Class<T> responseType);
 
-    <T, C extends Collection> GDeferredPromise<Collection<T>> get(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> responseType, Class<C> containerType);
 
-    GDeferredPromise<Void> post();
+    RequestPromise<Void> post();
 
-    <T> GDeferredPromise<T> post(Class<T> responseType);
+    <T> RequestPromise<T> post(Class<T> responseType);
 
-    <T, C extends Collection> GDeferredPromise<Collection<T>> post(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> responseType, Class<C> containerType);
 
-    GDeferredPromise<Void> put();
+    RequestPromise<Void> put();
 
-    <T> GDeferredPromise<T> put(Class<T> responseType);
+    <T> RequestPromise<T> put(Class<T> responseType);
 
-    <T, C extends Collection> GDeferredPromise<Collection<T>> put(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> responseType, Class<C> containerType);
 
-    GDeferredPromise<Void> delete();
+    RequestPromise<Void> delete();
 
-    <T> GDeferredPromise<T> delete(Class<T> responseType);
+    <T> RequestPromise<T> delete(Class<T> responseType);
 
-    <T, C extends Collection> GDeferredPromise<Collection<T>> delete(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> responseType, Class<C> containerType);
 
-    GDeferredPromise<Void> patch();
+    RequestPromise<Void> patch();
 
-    <T> GDeferredPromise<T> patch(Class<T> responseType);
+    <T> RequestPromise<T> patch(Class<T> responseType);
 
-    <T, C extends Collection> GDeferredPromise<Collection<T>> patch(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> responseType, Class<C> containerType);
 
-    GDeferredPromise<Void> head();
+    RequestPromise<Void> head();
 
-    <T> GDeferredPromise<T> head(Class<T> responseType);
+    <T> RequestPromise<T> head(Class<T> responseType);
 
-    <T, C extends Collection> GDeferredPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType);
 
-    GDeferredPromise<Void> options();
+    RequestPromise<Void> options();
 
-    <T> GDeferredPromise<T> options(Class<T> responseType);
+    <T> RequestPromise<T> options(Class<T> responseType);
 
-    <T, C extends Collection> GDeferredPromise<Collection<T>> options(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> responseType, Class<C> containerType);
 }
