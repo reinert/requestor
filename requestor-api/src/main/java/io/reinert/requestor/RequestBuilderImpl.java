@@ -30,10 +30,10 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     private final String url;
     private String httpMethod;
     private Headers headers;
-    private String password;
-    private Object payload;
-    private int timeout;
     private String user;
+    private String password;
+    private int timeout;
+    private Object payload;
     private ResponseType responseType = ResponseType.DEFAULT;
 
     public RequestBuilderImpl(String url) {
@@ -47,11 +47,12 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
 
     public static RequestBuilderImpl copyOf(RequestBuilder request) {
         RequestBuilderImpl copy = new RequestBuilderImpl(request.getUrl(), request.getHeaders());
-        copy.password = request.getPassword();
+        copy.httpMethod = request.getMethod();
         copy.user = request.getUser();
+        copy.password = request.getPassword();
         copy.timeout = request.getTimeout();
         copy.payload = request.getPayload();
-        copy.httpMethod = request.getMethod();
+        copy.responseType = request.getResponseType();
         return copy;
     }
 
