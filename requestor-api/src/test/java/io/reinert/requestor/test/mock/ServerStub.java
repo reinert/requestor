@@ -40,6 +40,17 @@ public class ServerStub extends RequestDispatcher {
         super(processor);
     }
 
+    @Override
+    protected <T> void send(SerializedRequest request, DeferredRequest<T> deferred, Class<T> resultType) {
+        // do nothing
+    }
+
+    @Override
+    protected <T, C extends Collection> void send(SerializedRequest request, DeferredRequest<C> deferred,
+                                                  Class<T> resultType, Class<C> containerType) {
+        // do nothing
+    }
+
     public static void clearStub() {
         responseData.clear();
         requestData.clear();
@@ -75,18 +86,13 @@ public class ServerStub extends RequestDispatcher {
     }
 
     @Override
-    protected <D> void send(SerializedRequest request, DeferredRequest<D> deferred) {
-        // Do nothing
-    }
-
-    @Override
-    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
+    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> resultType) {
         return null;
     }
 
     @Override
     public <T, C extends Collection> RequestPromise<Collection<T>> dispatch(SerializedRequest request,
-                                                                            Class<T> responseType,
+                                                                            Class<T> resultType,
                                                                             Class<C> containerType) {
         return null;
     }

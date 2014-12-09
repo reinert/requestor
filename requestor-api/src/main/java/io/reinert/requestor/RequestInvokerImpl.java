@@ -21,6 +21,12 @@ import io.reinert.requestor.deferred.RequestPromise;
 
 /**
  * Default implementation for {@link RequestInvoker}.
+ * <p/>
+ *
+ * NOTE: This class is removed from classpath when assembling the jar.
+ * Implementers should provide an own implementation of its own {@link RequestInvoker}.
+ *
+ * @see RequestInvoker
  *
  * @author Danilo Reinert
  */
@@ -40,13 +46,13 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> RequestPromise<T> get(Class<T> responseType) {
-        return send("GET", responseType);
+    public <T> RequestPromise<T> get(Class<T> resultType) {
+        return send("GET", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> responseType, Class<C> containerType) {
-        return send("GET", responseType, containerType);
+    public <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> resultType, Class<C> containerType) {
+        return send("GET", resultType, containerType);
     }
 
     @Override
@@ -55,13 +61,13 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> RequestPromise<T> post(Class<T> responseType) {
-        return send("POST", responseType);
+    public <T> RequestPromise<T> post(Class<T> resultType) {
+        return send("POST", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> responseType, Class<C> containerType) {
-        return send("POST", responseType, containerType);
+    public <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> resultType, Class<C> containerType) {
+        return send("POST", resultType, containerType);
     }
 
     @Override
@@ -70,13 +76,13 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> RequestPromise<T> put(Class<T> responseType) {
-        return send("PUT", responseType);
+    public <T> RequestPromise<T> put(Class<T> resultType) {
+        return send("PUT", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> responseType, Class<C> containerType) {
-        return send("PUT", responseType, containerType);
+    public <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> resultType, Class<C> containerType) {
+        return send("PUT", resultType, containerType);
     }
 
     @Override
@@ -85,14 +91,14 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> RequestPromise<T> delete(Class<T> responseType) {
-        return send("DELETE", responseType);
+    public <T> RequestPromise<T> delete(Class<T> resultType) {
+        return send("DELETE", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> responseType,
+    public <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> resultType,
                                                                           Class<C> containerType) {
-        return send("DELETE", responseType, containerType);
+        return send("DELETE", resultType, containerType);
     }
 
     @Override
@@ -101,14 +107,14 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> RequestPromise<T> patch(Class<T> responseType) {
-        return send("PATCH", responseType);
+    public <T> RequestPromise<T> patch(Class<T> resultType) {
+        return send("PATCH", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> responseType,
+    public <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> resultType,
                                                                          Class<C> containerType) {
-        return send("PATCH", responseType, containerType);
+        return send("PATCH", resultType, containerType);
     }
 
     @Override
@@ -117,13 +123,13 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> RequestPromise<T> head(Class<T> responseType) {
-        return send("HEAD", responseType);
+    public <T> RequestPromise<T> head(Class<T> resultType) {
+        return send("HEAD", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType) {
-        return send("HEAD", responseType, containerType);
+    public <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> resultType, Class<C> containerType) {
+        return send("HEAD", resultType, containerType);
     }
 
     @Override
@@ -132,13 +138,13 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> RequestPromise<T> options(Class<T> responseType) {
-        return send("OPTIONS", responseType);
+    public <T> RequestPromise<T> options(Class<T> resultType) {
+        return send("OPTIONS", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> responseType,
+    public <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> resultType,
                                                                            Class<C> containerType) {
-        return send("OPTIONS", responseType, containerType);
+        return send("OPTIONS", resultType, containerType);
     }
 }

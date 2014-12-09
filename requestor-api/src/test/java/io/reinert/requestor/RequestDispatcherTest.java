@@ -25,8 +25,10 @@ import io.reinert.requestor.deferred.RequestPromise;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -42,7 +44,7 @@ public class RequestDispatcherTest {
 
     @Before
     public void setUp() {
-        dispatcher = spy(new RequestDispatcherFake(processor));
+        dispatcher = spy(new RequestDispatcherDummy(processor));
     }
 
     @Test
@@ -55,7 +57,7 @@ public class RequestDispatcherTest {
         RequestPromise<Object> deferred = dispatcher.dispatch(request, type);
 
         // Then
-        verify(dispatcher).send(request, (DeferredRequest<Object>) deferred);
+        verify(dispatcher).send(request, (DeferredRequest<Object>) deferred, type);
     }
 
     @Test
@@ -69,17 +71,25 @@ public class RequestDispatcherTest {
         RequestPromise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
 
         // Then
-        verify(dispatcher).send(request, (DeferredRequest<Collection<Object>>) deferred);
+        verify(dispatcher).send(eq(request), eq((DeferredRequest<Collection<Object>>) deferred), eq(type),
+                Matchers.<Class<Collection<Object>>>anyObject()); /* Should be eq(collectionType)
+                                                                     but it was not possible due to generics */
     }
 
-    class RequestDispatcherFake extends RequestDispatcher {
+    class RequestDispatcherDummy extends RequestDispatcher {
 
-        public RequestDispatcherFake(ResponseProcessor processor) {
+        public RequestDispatcherDummy(ResponseProcessor processor) {
             super(processor);
         }
 
         @Override
-        protected <D> void send(SerializedRequest request, DeferredRequest<D> deferred) {
+        protected <T> void send(SerializedRequest request, DeferredRequest<T> deferred, Class<T> resultType) {
+            // Do nothing
+        }
+
+        @Override
+        protected <T, C extends Collection> void send(SerializedRequest request, DeferredRequest<C> deferred,
+                                                      Class<T> resultType, Class<C> containerType) {
             // Do nothing
         }
     }

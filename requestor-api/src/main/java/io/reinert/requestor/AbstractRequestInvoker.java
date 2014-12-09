@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 Danilo Reinert
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.reinert.requestor;
 
 import java.util.Collection;
@@ -5,6 +20,12 @@ import java.util.Collection;
 import io.reinert.requestor.deferred.RequestPromise;
 import io.reinert.requestor.header.Header;
 
+/**
+ * Abstract implementation for {@link RequestInvoker} with dispatching methods already implemented.
+ * It should be used by implementers when providing a implementation for {@link RequestInvoker}.
+ *
+ * @author Danilo Reinert
+ */
 public abstract class AbstractRequestInvoker extends RequestBuilderImpl implements RequestInvoker {
 
     protected final RequestDispatcher dispatcher;
@@ -79,16 +100,16 @@ public abstract class AbstractRequestInvoker extends RequestBuilderImpl implemen
     //===================================================================
 
     @SuppressWarnings("unchecked")
-    protected <T, P extends RequestPromise<T>> P send(String method, Class<T> responseType) {
+    protected <T, P extends RequestPromise<T>> P send(String method, Class<T> resultType) {
         setMethod(method);
-        return (P) dispatcher.dispatch(processor.process(build()), responseType);
+        return (P) dispatcher.dispatch(processor.process(build()), resultType);
     }
 
     @SuppressWarnings("unchecked")
     protected <T, C extends Collection, P extends RequestPromise<Collection<T>>> P send(String method,
-                                                                                        Class<T> responseType,
+                                                                                        Class<T> resultType,
                                                                                         Class<C> containerType) {
         setMethod(method);
-        return (P) dispatcher.dispatch(processor.process(build()), responseType, containerType);
+        return (P) dispatcher.dispatch(processor.process(build()), resultType, containerType);
     }
 }

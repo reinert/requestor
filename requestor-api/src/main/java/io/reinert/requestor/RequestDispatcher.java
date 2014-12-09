@@ -44,29 +44,33 @@ public abstract class RequestDispatcher {
      * {@link DeferredRequest#notifyDownload(RequestProgress)} and
      * {@link DeferredRequest#notifyUpload(RequestProgress)}.
      * <p/>
-     * All possible exceptions should be caught and sent to {@link DeferredRequest#reject(Throwable)} wrapped in a
-     * {@link RequestException} or any of its children. This will avoid breaking code flow when some exception occurs.
+     * All possible exceptions should be caught and sent to {@link DeferredRequest#rejectPromise(RequestException)}
+     * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
+     * exception occurs.
      *
      * @param request   The request to be sent
      * @param deferred  The deferred to resolve or reject when completed
-     * @param <D>       The expected type of the promise
+     * @param <T>       The expected type of the promise
      */
-    protected abstract <D> void send(final SerializedRequest request, final DeferredRequest<D> deferred);
+    protected abstract <T> void send(SerializedRequest request, DeferredRequest<T> deferred, Class<T> resultType);
+
+    protected abstract <T, C extends Collection> void send(SerializedRequest request, DeferredRequest<C> deferred,
+                                                           Class<T> resultType, Class<C> containerType);
 
     /**
      * Sends the request and return an instance of {@link RequestPromise} expecting a sole result.
      *
      * @param request       The built request
-     * @param responseType  The class instance of the expected type in response payload
+     * @param resultType  The class instance of the expected type in response payload
      * @param <T>           The expected type in response payload
      * @return              The promise for the dispatched request
      */
-    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> responseType) {
-        final DeferredRequest<T> deferred = deferredFactory.getDeferredRequest(processor, responseType);
+    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> resultType) {
+        final DeferredRequest<T> deferred = deferredFactory.getDeferredRequest();
         try {
-            send(request, deferred);
+            send(request, deferred, resultType);
         } catch (Exception e) {
-            deferred.doReject(new RequestDispatchException(
+            deferred.rejectPromise(new RequestDispatchException(
                     "Some non-caught exception occurred while dispatching the request", e));
         }
         return deferred;
@@ -76,23 +80,28 @@ public abstract class RequestDispatcher {
      * Sends the request and return an instance of {@link RequestPromise} expecting a collection result.
      *
      * @param request       The built request
-     * @param responseType  The class instance of the expected type in response payload
+     * @param resultType  The class instance of the expected type in response payload
      * @param containerType The class instance of the container type which will hold the values
      * @param <T>           The expected type in response payload
      * @param <C>           The collection type to hold the values
      * @return              The promise for the dispatched request
      */
     public <T, C extends Collection> RequestPromise<Collection<T>> dispatch(SerializedRequest request,
-                                                                            Class<T> responseType,
+                                                                            Class<T> resultType,
                                                                             Class<C> containerType) {
-        final DeferredRequest<Collection<T>> deferred = deferredFactory.getDeferredRequest(processor, responseType,
-                containerType);
+        final DeferredRequest<Collection<T>> deferred = deferredFactory.getDeferredRequest();
         try {
-            send(request, deferred);
+            @SuppressWarnings("unchecked")
+            final Class<Collection<T>> collectionClass = (Class<Collection<T>>) containerType;
+            send(request, deferred, resultType, collectionClass);
         } catch (Exception e) {
-            deferred.doReject(new RequestDispatchException(
+            deferred.rejectPromise(new RequestDispatchException(
                     "Some non-caught exception occurred while dispatching the request", e));
         }
         return deferred;
+    }
+
+    protected ResponseProcessor getResponseProcessor() {
+        return processor;
     }
 }

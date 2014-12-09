@@ -19,18 +19,18 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 
-import io.reinert.requestor.Connection;
+import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.RequestProgress;
 
 /**
- * A mock of {@link io.reinert.requestor.Connection}.
+ * A mock of {@link io.reinert.requestor.HttpConnection}.
  * <p/>
  * You should add expected {@link Response}s to the underlying server stub with #responseFor in order to mock responses
  * from server.
  *
  * @author Danilo Reinert
  */
-public class ServerConnectionMock implements Connection {
+public class ServerConnectionMock implements HttpConnection {
 
     private static final RequestProgress REQUEST_PROGRESS = new RequestProgress() {
         @Override

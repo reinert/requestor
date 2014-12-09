@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-
 import io.reinert.requestor.deferred.DeferredRequest;
 
 /**
@@ -24,8 +22,6 @@ import io.reinert.requestor.deferred.DeferredRequest;
  */
 public interface DeferredRequestFactory {
 
-    <T> DeferredRequest<T> getDeferredRequest(ResponseProcessor processor, Class<T> responseType);
+    <T> DeferredRequest<T> getDeferredRequest();
 
-    <T, C extends Collection> DeferredRequest<Collection<T>> getDeferredRequest(ResponseProcessor processor,
-                                                                         Class<T> responseType, Class<C> containerType);
 }

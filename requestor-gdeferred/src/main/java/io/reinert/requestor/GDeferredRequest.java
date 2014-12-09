@@ -18,7 +18,6 @@ package io.reinert.requestor;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import io.reinert.gdeferred.Deferred;
 import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.gdeferred.Promise;
 import io.reinert.gdeferred.impl.DeferredObject;
@@ -29,44 +28,26 @@ import io.reinert.requestor.deferred.Callback;
  *
  * @param <T>   Expected type in {@link io.reinert.requestor.GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
-public abstract class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
+public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
         implements RequestPromise<T>, io.reinert.requestor.deferred.DeferredRequest<T> {
 
-    private final ResponseProcessor processor;
-    private Connection connection;
+    private HttpConnection connection;
     private ArrayList<ProgressCallback<RequestProgress>> uploadProgressCallbacks;
 
-    public GDeferredRequest(ResponseProcessor processor) {
-        if (processor == null)
-            throw new NullPointerException("ResponseProcessor cannot be null.");
-        this.processor = processor;
-    }
-
-    protected abstract <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
-    DeserializedResponse<T> process(ResponseProcessor processor, Request request, R response);
-
-    @Override
-    @Deprecated
-    /**
-     * Use {@link GDeferredRequest#resolve(io.reinert.requestor.Request, io.reinert.requestor.SerializedResponseImpl)}.
-     */
-    public Deferred<T, Throwable, RequestProgress> resolve(T resolve) {
-        return super.resolve(resolve);
-    }
-
-    public <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
-    GDeferredRequest<T> resolve(Request request, R response) {
-        DeserializedResponse<T> deserializedResponse = process(processor, request, response);
-        super.resolve(deserializedResponse.getPayload());
-        return this;
+    public GDeferredRequest() {
     }
 
     @Override
-    public Deferred<T, Throwable, RequestProgress> reject(Throwable reject) {
+    public void resolvePromise(T result) {
+        super.resolve(result);
+    }
+
+    @Override
+    public void rejectPromise(RequestException error) {
         // If the http connection is still opened, then close it
         if (connection != null && connection.isPending())
             connection.cancel();
-        return super.reject(reject);
+        super.reject(error);
     }
 
     @Override
@@ -106,23 +87,12 @@ public abstract class GDeferredRequest<T> extends DeferredObject<T, Throwable, R
     }
 
     @Override
-    public <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
-    void doResolve(Request request, R response) {
-        resolve(request, response);
-    }
-
-    @Override
-    public void doReject(Throwable error) {
-        reject(error);
-    }
-
-    @Override
     public void notifyDownload(RequestProgress progress) {
         notify(progress);
     }
 
     @Override
-    public void setConnection(Connection connection) {
+    public void setHttpConnection(HttpConnection connection) {
         this.connection = connection;
     }
 
