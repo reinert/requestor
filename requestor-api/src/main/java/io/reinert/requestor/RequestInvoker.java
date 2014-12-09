@@ -23,6 +23,12 @@ import io.reinert.requestor.header.Header;
 /**
  * A {@link Request} with dispatching capabilities.
  *
+ * NOTE: This class is removed from classpath when assembling the jar.
+ * Implementers should provide an own implementation exposing a preferred Promises API.
+ * Implementers must follow the pattern of this class in order to be officially integrated.
+ *
+ * @see RequestInvokerImpl
+ *
  * @author Danilo Reinert
  */
 public interface RequestInvoker extends RequestBuilder {
@@ -56,43 +62,43 @@ public interface RequestInvoker extends RequestBuilder {
 
     RequestPromise<Void> get();
 
-    <T> RequestPromise<T> get(Class<T> responseType);
+    <T> RequestPromise<T> get(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> resultType, Class<C> containerType);
 
     RequestPromise<Void> post();
 
-    <T> RequestPromise<T> post(Class<T> responseType);
+    <T> RequestPromise<T> post(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> resultType, Class<C> containerType);
 
     RequestPromise<Void> put();
 
-    <T> RequestPromise<T> put(Class<T> responseType);
+    <T> RequestPromise<T> put(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> resultType, Class<C> containerType);
 
     RequestPromise<Void> delete();
 
-    <T> RequestPromise<T> delete(Class<T> responseType);
+    <T> RequestPromise<T> delete(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> resultType, Class<C> containerType);
 
     RequestPromise<Void> patch();
 
-    <T> RequestPromise<T> patch(Class<T> responseType);
+    <T> RequestPromise<T> patch(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> resultType, Class<C> containerType);
 
     RequestPromise<Void> head();
 
-    <T> RequestPromise<T> head(Class<T> responseType);
+    <T> RequestPromise<T> head(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> resultType, Class<C> containerType);
 
     RequestPromise<Void> options();
 
-    <T> RequestPromise<T> options(Class<T> responseType);
+    <T> RequestPromise<T> options(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> responseType, Class<C> containerType);
+    <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> resultType, Class<C> containerType);
 }

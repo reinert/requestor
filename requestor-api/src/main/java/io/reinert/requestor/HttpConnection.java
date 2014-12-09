@@ -20,7 +20,7 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public interface Connection {
+public interface HttpConnection {
 
     void cancel();
 

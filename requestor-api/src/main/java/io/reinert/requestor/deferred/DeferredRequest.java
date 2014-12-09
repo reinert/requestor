@@ -15,12 +15,9 @@
  */
 package io.reinert.requestor.deferred;
 
-import io.reinert.requestor.Connection;
-import io.reinert.requestor.Request;
+import io.reinert.requestor.HttpConnection;
+import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestProgress;
-import io.reinert.requestor.ResponseFilterContext;
-import io.reinert.requestor.ResponseInterceptorContext;
-import io.reinert.requestor.SerializedResponse;
 
 /**
  * A Promise with resolving capabilities.
@@ -31,14 +28,14 @@ import io.reinert.requestor.SerializedResponse;
  */
 public interface DeferredRequest<T> extends RequestPromise<T> {
 
-    <R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext> void doResolve(
-            Request request, R response);
+    void resolvePromise(T result);
 
-    void doReject(Throwable error);
+    void rejectPromise(RequestException error);
 
     void notifyDownload(RequestProgress progress);
 
     void notifyUpload(RequestProgress progress);
 
-    void setConnection(Connection connection);
+    void setHttpConnection(HttpConnection connection);
+
 }
