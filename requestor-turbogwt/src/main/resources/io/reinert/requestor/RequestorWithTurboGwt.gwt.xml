@@ -17,11 +17,13 @@
 <module>
   <inherits name="io.reinert.requestor.RequestorApi"/>
 
-  <inherits name="io.reinert.gdeferred.GDeferred"/>
+  <inherits name="org.turbogwt.core.Core"/>
 
-  <source path="" excludes="rebind/**/*,test/**/*,**/*Test.java,**/*TestSuite.java,**/*TestUtil.java"/>
+  <replace-with class="org.turbogwt.core.collections.LightMap">
+    <when-type-is class="io.reinert.requestor.LightMap"/>
+  </replace-with>
 
-  <replace-with class="io.reinert.requestor.DeferredRequestFactoryImpl">
-    <when-type-is class="io.reinert.requestor.DeferredRequestFactory"/>
+  <replace-with class="io.reinert.requestor.RequestorInitializerTurboGwt">
+    <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
   </replace-with>
 </module>

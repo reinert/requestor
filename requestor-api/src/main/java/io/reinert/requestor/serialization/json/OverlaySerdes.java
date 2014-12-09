@@ -60,17 +60,6 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
     public <C extends Collection<JavaScriptObject>> C deserialize(Class<C> collectionType, String response,
                                                                   DeserializationContext context) {
         JsArray<JavaScriptObject> jsArray = eval(response);
-//        if (collectionType.equals(List.class) || collectionType.equals(Collection.class)
-//                || collectionType.equals(JsArrayList.class)) {
-//            return (C) new JsArrayList(jsArray);
-//        } else {
-//            C col = context.getInstance(collectionType);
-//            for (int i = 0; i < jsArray.length(); i++) {
-//                JavaScriptObject t = jsArray.get(i);
-//                col.add(t);
-//            }
-//            return col;
-//        }
         C col = context.getInstance(collectionType);
         for (int i = 0; i < jsArray.length(); i++) {
             JavaScriptObject t = jsArray.get(i);
@@ -86,9 +75,6 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
 
     @Override
     public String serialize(Collection<JavaScriptObject> c, SerializationContext context) {
-//        if (c instanceof JsArrayList)
-//            return stringify(((JsArrayList<JavaScriptObject>) c).asJsArray());
-
         @SuppressWarnings("unchecked")
         JsArray<JavaScriptObject> jsArray = (JsArray<JavaScriptObject>) JsArray.createArray();
         for (JavaScriptObject t : c) {
@@ -98,11 +84,11 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
         return stringify(jsArray);
     }
 
-    private <T extends JavaScriptObject> T eval(String response) {
+    protected <T extends JavaScriptObject> T eval(String response) {
         return USE_SAFE_EVAL ? JsonUtils.<T>safeEval(response) : JsonUtils.<T>unsafeEval(response);
     }
 
-    private native String stringify(JavaScriptObject jso) /*-{
+    protected native String stringify(JavaScriptObject jso) /*-{
         return JSON.stringify(jso);
     }-*/;
 }

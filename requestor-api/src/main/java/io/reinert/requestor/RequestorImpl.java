@@ -21,12 +21,6 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
-import io.reinert.requestor.serialization.json.JsonBooleanSerdes;
-import io.reinert.requestor.serialization.json.JsonNumberSerdes;
-import io.reinert.requestor.serialization.json.JsonStringSerdes;
-import io.reinert.requestor.serialization.json.OverlaySerdes;
-import io.reinert.requestor.serialization.misc.TextSerdes;
-import io.reinert.requestor.serialization.misc.VoidSerdes;
 
 /**
  * Default implementation for {@link Requestor}.
@@ -46,8 +40,9 @@ public class RequestorImpl implements Requestor {
     private String defaultMediaType = "application/json";
 
     public RequestorImpl() {
-        initSerdesManager();
         initProcessors();
+        GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
+        GWT.<RequestorInitializer>create(RequestorInitializer.class).configure(this);
     }
 
     //===================================================================
@@ -124,26 +119,16 @@ public class RequestorImpl implements Requestor {
     }
 
     @Override
-    public <T> HandlerRegistration bindProvider(Class<T> type, Provider<T> factory) {
+    public <T> HandlerRegistration bindProvider(Class<T> type, Provider<? extends T> factory) {
         return providerManager.bind(type, factory);
     }
 
     private RequestInvoker createRequest(String uri) {
-        final AbstractRequestInvoker request = new RequestInvokerImpl(uri, requestProcessor,
+        final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor,
                 requestDispatcherFactory.getRequestDispatcher(responseProcessor));
         request.contentType(defaultMediaType);
         request.accept(defaultMediaType);
         return request;
-    }
-
-    private void initSerdesManager() {
-        serdesManager.addSerdes(JsonStringSerdes.getInstance());
-        serdesManager.addSerdes(JsonNumberSerdes.getInstance());
-        serdesManager.addSerdes(JsonBooleanSerdes.getInstance());
-        serdesManager.addSerdes(VoidSerdes.getInstance());
-        serdesManager.addSerdes(OverlaySerdes.getInstance());
-        serdesManager.addSerdes(TextSerdes.getInstance());
-        GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
     }
 
     private void initProcessors() {

@@ -36,10 +36,9 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
  */
 class ProviderManager {
 
-    private final Map<String, Provider<?>> providers;
+    private final Map<String, Provider<?>> providers = new HashMap<String, Provider<?>>();
 
     public ProviderManager() {
-        providers = new HashMap<String, Provider<?>>();
         final Provider<ArrayList> arrayListProvider = new Provider<ArrayList>() {
             @Override
             public ArrayList get() {
@@ -55,12 +54,6 @@ class ProviderManager {
                 return new LinkedList();
             }
         });
-//        providers.put(JsArrayList.class.getName(), new Provider<JsArrayList>() {
-//            @Override
-//            public JsArrayList get() {
-//                return new JsArrayList();
-//            }
-//        });
         final Provider<HashSet> hashSetProvider = new Provider<HashSet>() {
             @Override
             public HashSet get() {
@@ -87,7 +80,7 @@ class ProviderManager {
      * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object,
      *          capable of cancelling this registration to the {@link ProviderManager}
      */
-    public <T> HandlerRegistration bind(Class<T> type, Provider<T> provider) {
+    public <T> HandlerRegistration bind(Class<T> type, Provider<? extends T> provider) {
         final String typeName = type.getName();
         providers.put(typeName, provider);
 

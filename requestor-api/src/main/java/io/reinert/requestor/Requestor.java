@@ -68,7 +68,7 @@ public interface Requestor {
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <T> HandlerRegistration bindProvider(Class<T> type, Provider<T> provider);
+    <T> HandlerRegistration bindProvider(Class<T> type, Provider<? extends T> provider);
 
     /**
      * Register a deserializer of the given type.

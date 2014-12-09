@@ -15,10 +15,11 @@
  */
 package io.reinert.requestor;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
+import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.header.Header;
 
@@ -123,7 +124,7 @@ public class Headers implements Iterable<Header> {
 
     private Map<String, Header> ensureHeaders() {
         if (headers == null)
-            headers = new HashMap<String, Header>();
+            headers = GWT.create(LightMap.class);
         return headers;
     }
 

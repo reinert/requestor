@@ -19,10 +19,6 @@
       <artifactId>gdeferred</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.turbogwt.core</groupId>
-      <artifactId>turbogwt-core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.github.nmorel.gwtjackson</groupId>
       <artifactId>gwt-jackson</artifactId>
     </dependency>
@@ -63,5 +59,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

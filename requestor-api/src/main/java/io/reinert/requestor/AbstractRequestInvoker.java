@@ -21,8 +21,9 @@ import io.reinert.requestor.deferred.RequestPromise;
 import io.reinert.requestor.header.Header;
 
 /**
- * Abstract implementation for {@link RequestInvoker} with dispatching methods already implemented.
- * It should be used by implementers when providing a implementation for {@link RequestInvoker}.
+ * Abstract class for {@link RequestInvoker} interface.
+ * It has ready {@link RequestPromise} auto-casting dispatch methods.
+ * Requestor API implementers should inherit this class to dispatch the requests.
  *
  * @author Danilo Reinert
  */

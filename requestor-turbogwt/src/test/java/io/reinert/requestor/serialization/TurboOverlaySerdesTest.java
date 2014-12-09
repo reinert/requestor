@@ -15,50 +15,35 @@
  */
 package io.reinert.requestor.serialization;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.serialization.json.JsonSerdes;
-import io.reinert.requestor.serialization.json.OverlaySerdes;
+import io.reinert.requestor.serialization.json.TurboOverlaySerdes;
+
+import org.turbogwt.core.collections.JsArrayList;
+import org.turbogwt.core.util.Overlays;
 
 /**
- * Unit tests of {@link OverlaySerdes}.
+ * Unit tests of {@link io.reinert.requestor.serialization.json.OverlaySerdes}.
  */
-public class OverlaySerdesTest extends GWTTestCase {
+public class TurboOverlaySerdesTest extends GWTTestCase {
 
-    private final OverlaySerdes serdes = OverlaySerdes.getInstance();
+    private final TurboOverlaySerdes serdes = TurboOverlaySerdes.getInstance();
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorApiTest";
+        return "io.reinert.requestor.RequestorWithTurboGwtTest";
     }
 
-    @SuppressWarnings("unchecked")
     public void testDeserializeCollection() throws Exception {
-        DeserializationContext ctx = new DeserializationContext(JavaScriptObject.class) {
-            @Override
-            public <T> T getInstance(Class<T> type) {
-                return (T) new ArrayList<Object>();
-            }
-        };
-
         String input = "[{\"name\":\"John Doe\",\"age\":31},{\"name\":\"Alice\",\"age\":27}]";
+        JsArrayList<JavaScriptObject> expected = new JsArrayList<JavaScriptObject>(create("John Doe", 31),
+                create("Alice", 27));
 
-        JsArray<JavaScriptObject> expected = (JsArray<JavaScriptObject>) JavaScriptObject.createArray();
-        expected.push(create("John Doe", 31));
-        expected.push(create("Alice", 27));
+        @SuppressWarnings("unchecked")
+        JsArrayList<JavaScriptObject> output = serdes.deserialize(JsArrayList.class, input, null);
 
-        List<JavaScriptObject> output = serdes.deserialize(List.class, input, ctx);
-        JsArray<JavaScriptObject> outputArray = (JsArray<JavaScriptObject>) JavaScriptObject.createArray();
-        outputArray.push(output.get(0));
-        outputArray.push(output.get(1));
-
-        assertEquals(JsonSerdes.stringify(expected), JsonSerdes.stringify(outputArray));
+        assertEquals(Overlays.stringify(expected.asJsArray()), Overlays.stringify(output.asJsArray()));
     }
 
     public void testDeserializeValue() throws Exception {
@@ -67,11 +52,12 @@ public class OverlaySerdesTest extends GWTTestCase {
 
         final JavaScriptObject output = serdes.deserialize(input, null);
 
-        assertEquals(JsonSerdes.stringify(expected), JsonSerdes.stringify(output));
+        assertEquals(Overlays.stringify(expected), Overlays.stringify(output));
     }
 
     public void testSerializeCollection() throws Exception {
-        List<JavaScriptObject> input = Arrays.asList(create("John Doe", 31), create("Alice", 27));
+        JsArrayList<JavaScriptObject> input = new JsArrayList<JavaScriptObject>(create("John Doe", 31),
+                create("Alice", 27));
         String expected = "[{\"name\":\"John Doe\",\"age\":31},{\"name\":\"Alice\",\"age\":27}]";
 
         String output = serdes.serialize(input, null);

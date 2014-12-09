@@ -22,11 +22,6 @@
     <!-- Requestor dependencies -->
     <dependency>
       <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-annotations</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.reinert.requestor.core</groupId>
       <artifactId>requestor-api</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -56,5 +51,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

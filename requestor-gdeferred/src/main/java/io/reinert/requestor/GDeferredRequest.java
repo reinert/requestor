@@ -26,7 +26,7 @@ import io.reinert.requestor.deferred.Callback;
 /**
  * Abstract deferred for Requests.
  *
- * @param <T>   Expected type in {@link io.reinert.requestor.GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T> Expected type in {@link io.reinert.requestor.GDeferredPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
 public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
         implements RequestPromise<T>, io.reinert.requestor.deferred.DeferredRequest<T> {
@@ -63,26 +63,26 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
 
     @Override
     public <R> io.reinert.requestor.deferred.Promise<R> downProgress(Callback<RequestProgress, R> onProgress) {
-        // TODO: Implement!
+        // Not used
         throw new UnsupportedOperationException();
     }
 
     @Override
     public <R> io.reinert.requestor.deferred.Promise<R> upProgress(Callback<RequestProgress, R> onProgress) {
-        // TODO: Implement!
+        // Not used
         throw new UnsupportedOperationException();
     }
 
     @Override
     public <R> io.reinert.requestor.deferred.Promise<R> then(Callback<T, R> onFulfilled) {
-        // TODO: Implement!
+        // Not used
         throw new UnsupportedOperationException();
     }
 
     @Override
     public <R> io.reinert.requestor.deferred.Promise<R> then(Callback<T, R> onFulfilled,
                                                              Callback<Throwable, R> onRejected) {
-        // TODO: Implement!
+        // Not used
         throw new UnsupportedOperationException();
     }
 
