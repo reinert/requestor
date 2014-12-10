@@ -24,7 +24,7 @@ import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.deferred.Callback;
 
 /**
- * Abstract deferred for Requests.
+ * DeferredRequest implementation of GDeferred.
  *
  * @param <T> Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
@@ -92,14 +92,15 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     }
 
     @Override
-    public void setHttpConnection(HttpConnection connection) {
-        this.connection = connection;
-    }
-
     public void notifyUpload(RequestProgress progress) {
         if (!isPending())
             throw new IllegalStateException("Deferred object already finished, cannot notify upload progress");
         triggerUploadProgress(progress);
+    }
+
+    @Override
+    public void setHttpConnection(HttpConnection connection) {
+        this.connection = connection;
     }
 
     protected void triggerUploadProgress(RequestProgress progress) {

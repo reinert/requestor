@@ -18,7 +18,7 @@ package io.reinert.requestor;
 import java.util.Collection;
 
 /**
- * Default implementation for {@link io.reinert.requestor.RequestInvoker}.
+ * {@link io.reinert.requestor.RequestInvoker} implementation.
  *
  * @author Danilo Reinert
  */

@@ -20,7 +20,9 @@ import java.util.Collection;
 import io.reinert.requestor.header.Header;
 
 /**
- * A {@link io.reinert.requestor.Request} with dispatching capabilities.
+ * RequestInvoker custom interface exposing only GDeferred Promise API.
+ * Notice that the dispatch methods are returning {@link RequestPromise} which exposes only GDeferred's API.
+ * So Requestor's default Promise API ({@link io.reinert.requestor.deferred.RequestPromise}) is omitted.
  *
  * @author Danilo Reinert
  */

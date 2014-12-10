@@ -19,8 +19,6 @@ package io.reinert.requestor;
  * A Promise for requests.
  *
  * @param <T> The type of successful result
- *
- * @author Danilo Reinert
  */
 public interface GDeferredRequestPromise<T> extends RequestPromise<T>, io.reinert.requestor.deferred.RequestPromise<T> {
 }
