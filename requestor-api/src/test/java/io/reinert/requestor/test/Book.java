@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.test.books;
+package io.reinert.requestor.test;
+
+import java.util.Date;
 
 /**
  * @author Danilo Reinert
@@ -23,11 +25,13 @@ public class Book {
     private final Integer id;
     private String title;
     private String author;
+    private Date publicationDate;
 
-    public Book(Integer id, String title, String author) {
+    public Book(Integer id, String title, String author, Date publicationDate) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.publicationDate = publicationDate;
     }
 
     public Integer getId() {
@@ -50,26 +54,31 @@ public class Book {
         this.author = author;
     }
 
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
+        if (this == o)
             return true;
-        }
-        if (!(o instanceof Book)) {
+        if (o == null || getClass() != o.getClass())
             return false;
-        }
 
         final Book book = (Book) o;
 
-        if (author != null ? !author.equals(book.author) : book.author != null) {
+        if (author != null ? !author.equals(book.author) : book.author != null)
             return false;
-        }
-        if (id != null ? !id.equals(book.id) : book.id != null) {
+        if (id != null ? !id.equals(book.id) : book.id != null)
             return false;
-        }
-        if (title != null ? !title.equals(book.title) : book.title != null) {
+        if (publicationDate != null ? !publicationDate.equals(book.publicationDate) : book.publicationDate != null)
             return false;
-        }
+        if (title != null ? !title.equals(book.title) : book.title != null)
+            return false;
 
         return true;
     }
@@ -79,6 +88,7 @@ public class Book {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (publicationDate != null ? publicationDate.hashCode() : 0);
         return result;
     }
 }

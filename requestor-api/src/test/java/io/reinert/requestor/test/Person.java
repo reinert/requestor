@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.test.model;
+package io.reinert.requestor.test;
 
 import java.util.Date;
 
 /**
+ * Just a POJO.
+ *
  * @author Danilo Reinert
  */
 public class Person {

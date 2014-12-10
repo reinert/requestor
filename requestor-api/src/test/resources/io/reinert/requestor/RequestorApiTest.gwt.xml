@@ -19,8 +19,4 @@
 
   <!-- required by BookXmlSerdes -->
   <inherits name="com.google.gwt.xml.XML"/>
-
-  <replace-with class="io.reinert.requestor.test.mock.ServerStub">
-    <when-type-is class="io.reinert.requestor.RequestDispatcher"/>
-  </replace-with>
 </module>

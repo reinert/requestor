@@ -17,8 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import com.google.gwtmockito.GwtMockitoTestRunner;
-
 import io.reinert.requestor.deferred.DeferredRequest;
 import io.reinert.requestor.deferred.RequestPromise;
 
@@ -27,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -36,7 +35,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Unit tests of {@link RequestDispatcher}.
  */
-@RunWith(GwtMockitoTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class RequestDispatcherTest {
 
     @Mock private ResponseProcessor processor;

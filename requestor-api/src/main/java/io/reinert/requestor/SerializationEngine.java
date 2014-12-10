@@ -44,8 +44,8 @@ class SerializationEngine {
 
     public <T, C extends Collection> DeserializedResponse<Collection<T>> deserializeResponse(Request request,
                                                                                             SerializedResponse response,
-                                                                                             Class<T> type,
-                                                                                             Class<C> containerType) {
+                                                                                            Class<T> type,
+                                                                                            Class<C> containerType) {
         String responseContentType = getResponseContentType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
         checkDeserializerNotNull(response, type, deserializer);

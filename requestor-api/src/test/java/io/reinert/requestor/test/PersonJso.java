@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.test.model;
+package io.reinert.requestor.test;
 
 import java.util.Date;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
+ * Overlay implementation of {@link Person}.
+ *
  * @author Danilo Reinert
  */
 public final class PersonJso extends JavaScriptObject {
