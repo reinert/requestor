@@ -15,8 +15,10 @@
  */
 package io.reinert.requestor.deferred;
 
+import io.reinert.requestor.RequestProgress;
+
 /**
- * Promise interface based on Promises/A+ spec.
+ * Promise extension with Request related progresses.
  *
  * @param <F> The type of the fulfilled result
  *
@@ -73,4 +75,33 @@ public interface Promise<F> {
      * @return The promise returned from the callback
      */
     <R> Promise<R> then(Callback<F, R> onFulfilled, Callback<Throwable, R> onRejected);
+
+    /**
+     * Register a ProgressCallback to monitor download progress.
+     * <p/>
+     *
+     * You can register multiple callbacks by calling the method multiple times.
+     * The order of callback trigger is based on the order they are registered.
+     * <p/>
+     *
+     * @param onProgress The callback to be executed when the promise is fulfilled
+     *
+     * @return The promise returned from the callback
+     */
+    <R> Promise<R> downProgress(Callback<RequestProgress, R> onProgress);
+
+    /**
+     * Register a ProgressCallback to monitor upload progress.
+     * <p/>
+     *
+     * You can register multiple callbacks by calling the method multiple times.
+     * The order of callback trigger is based on the order they are registered.
+     * <p/>
+     *
+     * @param onProgress The callback to be executed when the promise is fulfilled
+     *
+     * @return The promise returned from the callback
+     */
+    <R> Promise<R> upProgress(Callback<RequestProgress, R> onProgress);
+
 }

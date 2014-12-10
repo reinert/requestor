@@ -22,6 +22,7 @@ import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.gdeferred.Promise;
 import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.deferred.Callback;
+import io.reinert.requestor.deferred.Deferred;
 
 /**
  * DeferredRequest implementation of GDeferred.
@@ -29,7 +30,7 @@ import io.reinert.requestor.deferred.Callback;
  * @param <T> Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
 public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
-        implements GDeferredRequestPromise<T>, io.reinert.requestor.deferred.DeferredRequest<T> {
+        implements GDeferredRequestPromise<T>, Deferred<T> {
 
     private HttpConnection connection;
     private ArrayList<ProgressCallback<RequestProgress>> uploadProgressCallbacks;

@@ -34,7 +34,7 @@ public class RequestorImpl implements Requestor {
     private final InterceptorManager interceptorManager = new InterceptorManager();
     private final ProviderManager providerManager = new ProviderManager();
     private final RequestDispatcherFactory requestDispatcherFactory = GWT.create(RequestDispatcherFactory.class);
-    private final DeferredRequestFactory deferredFactory = GWT.create(DeferredRequestFactory.class);
+    private final DeferredFactory deferredFactory = GWT.create(DeferredFactory.class);
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
 

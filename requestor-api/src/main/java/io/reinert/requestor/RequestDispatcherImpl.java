@@ -24,7 +24,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
-import io.reinert.requestor.deferred.DeferredRequest;
+import io.reinert.requestor.deferred.Deferred;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -34,22 +34,22 @@ import io.reinert.requestor.header.Header;
  */
 public class RequestDispatcherImpl extends RequestDispatcher {
 
-    public RequestDispatcherImpl(ResponseProcessor processor, DeferredRequestFactory deferredFactory) {
+    public RequestDispatcherImpl(ResponseProcessor processor, DeferredFactory deferredFactory) {
         super(processor, deferredFactory);
     }
 
     @Override
-    protected <T> void send(SerializedRequest request, DeferredRequest<T> deferred, Class<T> resultType) {
+    protected <T> void send(SerializedRequest request, Deferred<T> deferred, Class<T> resultType) {
         doSend(request, deferred, resultType, null);
     }
 
     @Override
-    protected <T, C extends Collection> void send(SerializedRequest request, DeferredRequest<C> deferred,
+    protected <T, C extends Collection> void send(SerializedRequest request, Deferred<C> deferred,
                                                   Class<T> resultType, Class<C> containerType) {
         doSend(request, deferred, containerType, resultType);
     }
 
-    protected <D> void doSend(SerializedRequest request, final DeferredRequest<D> deferred, Class<D> resolveType,
+    protected <D> void doSend(SerializedRequest request, final Deferred<D> deferred, Class<D> resolveType,
                               @Nullable Class<?> parametrizedType) {
         final String httpMethod = request.getMethod();
         final String url = request.getUrl();
@@ -151,7 +151,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
     }
 
     private <D> RequestCallback getRequestCallback(final Request request, final XMLHttpRequest xhr,
-                                                   final DeferredRequest<D> deferred, final Class<D> resolveType,
+                                                   final Deferred<D> deferred, final Class<D> resolveType,
                                                    final Class<?> parametrizedType) {
         return new RequestCallback() {
             public void onResponseReceived(com.google.gwt.http.client.Request gwtRequest, Response gwtResponse) {

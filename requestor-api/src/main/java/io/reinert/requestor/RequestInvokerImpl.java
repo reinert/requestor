@@ -17,7 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.deferred.RequestPromise;
+import io.reinert.requestor.deferred.Promise;
 
 /**
  * Default implementation for {@link RequestInvoker}.
@@ -41,109 +41,109 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     //===================================================================
 
     @Override
-    public RequestPromise<Void> get() {
+    public Promise<Void> get() {
         return send("GET", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> get(Class<T> resultType) {
+    public <T> Promise<T> get(Class<T> resultType) {
         return send("GET", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> resultType, Class<C> containerType) {
+    public <T, C extends Collection> Promise<Collection<T>> get(Class<T> resultType, Class<C> containerType) {
         return send("GET", resultType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> post() {
+    public Promise<Void> post() {
         return send("POST", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> post(Class<T> resultType) {
+    public <T> Promise<T> post(Class<T> resultType) {
         return send("POST", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> resultType, Class<C> containerType) {
+    public <T, C extends Collection> Promise<Collection<T>> post(Class<T> resultType, Class<C> containerType) {
         return send("POST", resultType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> put() {
+    public Promise<Void> put() {
         return send("PUT", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> put(Class<T> resultType) {
+    public <T> Promise<T> put(Class<T> resultType) {
         return send("PUT", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> resultType, Class<C> containerType) {
+    public <T, C extends Collection> Promise<Collection<T>> put(Class<T> resultType, Class<C> containerType) {
         return send("PUT", resultType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> delete() {
+    public Promise<Void> delete() {
         return send("DELETE", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> delete(Class<T> resultType) {
+    public <T> Promise<T> delete(Class<T> resultType) {
         return send("DELETE", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> resultType,
+    public <T, C extends Collection> Promise<Collection<T>> delete(Class<T> resultType,
                                                                           Class<C> containerType) {
         return send("DELETE", resultType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> patch() {
+    public Promise<Void> patch() {
         return send("PATCH", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> patch(Class<T> resultType) {
+    public <T> Promise<T> patch(Class<T> resultType) {
         return send("PATCH", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> resultType,
+    public <T, C extends Collection> Promise<Collection<T>> patch(Class<T> resultType,
                                                                          Class<C> containerType) {
         return send("PATCH", resultType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> head() {
+    public Promise<Void> head() {
         return send("HEAD", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> head(Class<T> resultType) {
+    public <T> Promise<T> head(Class<T> resultType) {
         return send("HEAD", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> resultType, Class<C> containerType) {
+    public <T, C extends Collection> Promise<Collection<T>> head(Class<T> resultType, Class<C> containerType) {
         return send("HEAD", resultType, containerType);
     }
 
     @Override
-    public RequestPromise<Void> options() {
+    public Promise<Void> options() {
         return send("OPTIONS", Void.class);
     }
 
     @Override
-    public <T> RequestPromise<T> options(Class<T> resultType) {
+    public <T> Promise<T> options(Class<T> resultType) {
         return send("OPTIONS", resultType);
     }
 
     @Override
-    public <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> resultType,
+    public <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType,
                                                                            Class<C> containerType) {
         return send("OPTIONS", resultType, containerType);
     }

@@ -17,8 +17,8 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.deferred.DeferredRequest;
-import io.reinert.requestor.deferred.RequestPromise;
+import io.reinert.requestor.deferred.Deferred;
+import io.reinert.requestor.deferred.Promise;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.verify;
 public class RequestDispatcherTest {
 
     @Mock private ResponseProcessor processor;
-    @Mock private DeferredRequestFactory deferredFactory;
+    @Mock private DeferredFactory deferredFactory;
     private RequestDispatcher dispatcher;
 
     @Before
@@ -54,10 +54,10 @@ public class RequestDispatcherTest {
         SerializedRequest request = mock(SerializedRequestImpl.class);
 
         // When
-        RequestPromise<Object> deferred = dispatcher.dispatch(request, type);
+        Promise<Object> deferred = dispatcher.dispatch(request, type);
 
         // Then
-        verify(dispatcher).send(request, (DeferredRequest<Object>) deferred, type);
+        verify(dispatcher).send(request, (Deferred<Object>) deferred, type);
     }
 
     @Test
@@ -68,27 +68,27 @@ public class RequestDispatcherTest {
         SerializedRequest request = mock(SerializedRequestImpl.class);
 
         // When
-        RequestPromise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
+        Promise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
 
         // Then
-        verify(dispatcher).send(eq(request), eq((DeferredRequest<Collection<Object>>) deferred), eq(type),
+        verify(dispatcher).send(eq(request), eq((Deferred<Collection<Object>>) deferred), eq(type),
                 Matchers.<Class<Collection<Object>>>anyObject()); /* Should be eq(collectionType)
                                                                      but it was not possible due to generics */
     }
 
     private static class RequestDispatcherDummy extends RequestDispatcher {
 
-        public RequestDispatcherDummy(ResponseProcessor processor, DeferredRequestFactory deferredFactory) {
+        public RequestDispatcherDummy(ResponseProcessor processor, DeferredFactory deferredFactory) {
             super(processor, deferredFactory);
         }
 
         @Override
-        protected <T> void send(SerializedRequest request, DeferredRequest<T> deferred, Class<T> resultType) {
+        protected <T> void send(SerializedRequest request, Deferred<T> deferred, Class<T> resultType) {
             // Do nothing
         }
 
         @Override
-        protected <T, C extends Collection> void send(SerializedRequest request, DeferredRequest<C> deferred,
+        protected <T, C extends Collection> void send(SerializedRequest request, Deferred<C> deferred,
                                                       Class<T> resultType, Class<C> containerType) {
             // Do nothing
         }

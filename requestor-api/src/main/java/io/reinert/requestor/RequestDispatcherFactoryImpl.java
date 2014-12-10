@@ -26,7 +26,7 @@ public class RequestDispatcherFactoryImpl implements RequestDispatcherFactory {
 
     @Override
     public RequestDispatcher getRequestDispatcher(ResponseProcessor responseProcessor,
-                                                  DeferredRequestFactory deferredFactory) {
+                                                  DeferredFactory deferredFactory) {
         if (requestDispatcher == null)
             requestDispatcher = new RequestDispatcherImpl(responseProcessor, deferredFactory);
         return requestDispatcher;

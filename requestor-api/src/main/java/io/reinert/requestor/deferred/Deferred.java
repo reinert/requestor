@@ -26,7 +26,7 @@ import io.reinert.requestor.RequestProgress;
  *
  * @author Danilo Reinert
  */
-public interface DeferredRequest<T> extends RequestPromise<T> {
+public interface Deferred<T> extends Promise<T> {
 
     void resolvePromise(T result);
 

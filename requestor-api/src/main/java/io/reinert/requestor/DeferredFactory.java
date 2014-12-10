@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.deferred;
+package io.reinert.requestor;
 
-import io.reinert.requestor.RequestProgress;
+import io.reinert.requestor.deferred.Deferred;
 
 /**
- * Promise extension with Request related progresses.
- *
- * @param <F> The type of the fulfilled result
- *
- * @author Danilo Reinert
+ * Factory for {@link io.reinert.requestor.deferred.Deferred}.
  */
-public interface RequestPromise<F> extends Promise<F> {
+public interface DeferredFactory {
 
-    <R> Promise<R> downProgress(Callback<RequestProgress, R> onProgress);
-
-    <R> Promise<R> upProgress(Callback<RequestProgress, R> onProgress);
+    <T> Deferred<T> getDeferredRequest();
 
 }

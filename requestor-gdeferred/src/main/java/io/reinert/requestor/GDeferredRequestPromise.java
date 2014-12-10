@@ -15,10 +15,12 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.deferred.Promise;
+
 /**
  * A Promise for requests.
  *
  * @param <T> The type of successful result
  */
-public interface GDeferredRequestPromise<T> extends RequestPromise<T>, io.reinert.requestor.deferred.RequestPromise<T> {
+public interface GDeferredRequestPromise<T> extends RequestPromise<T>, Promise<T> {
 }

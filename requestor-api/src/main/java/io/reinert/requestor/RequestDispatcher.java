@@ -17,8 +17,8 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.deferred.DeferredRequest;
-import io.reinert.requestor.deferred.RequestPromise;
+import io.reinert.requestor.deferred.Deferred;
+import io.reinert.requestor.deferred.Promise;
 
 /**
  * This class dispatches the requests and return promises.
@@ -28,9 +28,9 @@ import io.reinert.requestor.deferred.RequestPromise;
 public abstract class RequestDispatcher {
 
     private final ResponseProcessor processor;
-    private final DeferredRequestFactory deferredFactory;
+    private final DeferredFactory deferredFactory;
 
-    public RequestDispatcher(ResponseProcessor processor, DeferredRequestFactory deferredFactory) {
+    public RequestDispatcher(ResponseProcessor processor, DeferredFactory deferredFactory) {
         this.processor = processor;
         this.deferredFactory = deferredFactory;
     }
@@ -41,10 +41,10 @@ public abstract class RequestDispatcher {
      * <p/>
      * Implementations must execute an HTTP Request with given values and resolve/reject the deferred when the request
      * is finished. It is recommended that progress events be sent to
-     * {@link DeferredRequest#notifyDownload(RequestProgress)} and
-     * {@link DeferredRequest#notifyUpload(RequestProgress)}.
+     * {@link Deferred#notifyDownload(RequestProgress)} and
+     * {@link Deferred#notifyUpload(RequestProgress)}.
      * <p/>
-     * All possible exceptions should be caught and sent to {@link DeferredRequest#rejectPromise(RequestException)}
+     * All possible exceptions should be caught and sent to {@link Deferred#rejectPromise(RequestException)}
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.
      *
@@ -53,7 +53,7 @@ public abstract class RequestDispatcher {
      * @param resultType The class of the expected result
      * @param <T>        The expected type of the promise
      */
-    protected abstract <T> void send(SerializedRequest request, DeferredRequest<T> deferred, Class<T> resultType);
+    protected abstract <T> void send(SerializedRequest request, Deferred<T> deferred, Class<T> resultType);
 
     /**
      * Sends the request through the wire and resolves (or rejects) the deferred when completed.
@@ -61,10 +61,10 @@ public abstract class RequestDispatcher {
      * <p/>
      * Implementations must execute an HTTP Request with given values and resolve/reject the deferred when the request
      * is finished. It is recommended that progress events be sent to
-     * {@link DeferredRequest#notifyDownload(RequestProgress)} and
-     * {@link DeferredRequest#notifyUpload(RequestProgress)}.
+     * {@link Deferred#notifyDownload(RequestProgress)} and
+     * {@link Deferred#notifyUpload(RequestProgress)}.
      * <p/>
-     * All possible exceptions should be caught and sent to {@link DeferredRequest#rejectPromise(RequestException)}
+     * All possible exceptions should be caught and sent to {@link Deferred#rejectPromise(RequestException)}
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.
      *
@@ -75,19 +75,19 @@ public abstract class RequestDispatcher {
      * @param containerType The class of the container which will hold the result
      * @param <C>           The expected collection subtype which will hold the result
      */
-    protected abstract <T, C extends Collection> void send(SerializedRequest request, DeferredRequest<C> deferred,
+    protected abstract <T, C extends Collection> void send(SerializedRequest request, Deferred<C> deferred,
                                                            Class<T> resultType, Class<C> containerType);
 
     /**
-     * Sends the request and return an instance of {@link RequestPromise} expecting a sole result.
+     * Sends the request and return an instance of {@link Promise} expecting a sole result.
      *
      * @param request       The built request
      * @param resultType  The class instance of the expected type in response payload
      * @param <T>           The expected type in response payload
      * @return              The promise for the dispatched request
      */
-    public <T> RequestPromise<T> dispatch(SerializedRequest request, Class<T> resultType) {
-        final DeferredRequest<T> deferred = deferredFactory.getDeferredRequest();
+    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> resultType) {
+        final Deferred<T> deferred = deferredFactory.getDeferredRequest();
         try {
             send(request, deferred, resultType);
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public abstract class RequestDispatcher {
     }
 
     /**
-     * Sends the request and return an instance of {@link RequestPromise} expecting a collection result.
+     * Sends the request and return an instance of {@link Promise} expecting a collection result.
      *
      * @param request       The built request
      * @param resultType  The class instance of the expected type in response payload
@@ -107,10 +107,10 @@ public abstract class RequestDispatcher {
      * @param <C>           The collection type to hold the values
      * @return              The promise for the dispatched request
      */
-    public <T, C extends Collection> RequestPromise<Collection<T>> dispatch(SerializedRequest request,
+    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request,
                                                                             Class<T> resultType,
                                                                             Class<C> containerType) {
-        final DeferredRequest<Collection<T>> deferred = deferredFactory.getDeferredRequest();
+        final Deferred<Collection<T>> deferred = deferredFactory.getDeferredRequest();
         try {
             @SuppressWarnings("unchecked")
             final Class<Collection<T>> collectionClass = (Class<Collection<T>>) containerType;

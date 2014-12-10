@@ -17,12 +17,12 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.deferred.RequestPromise;
+import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.header.Header;
 
 /**
  * Abstract class for {@link RequestInvoker} interface.
- * It has ready {@link RequestPromise} auto-casting dispatch methods.
+ * It has ready {@link io.reinert.requestor.deferred.Promise} auto-casting dispatch methods.
  * Requestor API implementers should inherit this class to dispatch the requests.
  *
  * @author Danilo Reinert
@@ -101,13 +101,13 @@ public abstract class AbstractRequestInvoker extends RequestBuilderImpl implemen
     //===================================================================
 
     @SuppressWarnings("unchecked")
-    protected <T, P extends RequestPromise<T>> P send(String method, Class<T> resultType) {
+    protected <T, P extends Promise<T>> P send(String method, Class<T> resultType) {
         setMethod(method);
         return (P) dispatcher.dispatch(processor.process(build()), resultType);
     }
 
     @SuppressWarnings("unchecked")
-    protected <T, C extends Collection, P extends RequestPromise<Collection<T>>> P send(String method,
+    protected <T, C extends Collection, P extends Promise<Collection<T>>> P send(String method,
                                                                                         Class<T> resultType,
                                                                                         Class<C> containerType) {
         setMethod(method);

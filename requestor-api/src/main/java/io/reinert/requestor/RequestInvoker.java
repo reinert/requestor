@@ -17,7 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.deferred.RequestPromise;
+import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -60,45 +60,45 @@ public interface RequestInvoker extends RequestBuilder {
     @Override
     RequestInvoker responseType(ResponseType responseType);
 
-    RequestPromise<Void> get();
+    Promise<Void> get();
 
-    <T> RequestPromise<T> get(Class<T> resultType);
+    <T> Promise<T> get(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> get(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> get(Class<T> resultType, Class<C> containerType);
 
-    RequestPromise<Void> post();
+    Promise<Void> post();
 
-    <T> RequestPromise<T> post(Class<T> resultType);
+    <T> Promise<T> post(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> post(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> post(Class<T> resultType, Class<C> containerType);
 
-    RequestPromise<Void> put();
+    Promise<Void> put();
 
-    <T> RequestPromise<T> put(Class<T> resultType);
+    <T> Promise<T> put(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> put(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> put(Class<T> resultType, Class<C> containerType);
 
-    RequestPromise<Void> delete();
+    Promise<Void> delete();
 
-    <T> RequestPromise<T> delete(Class<T> resultType);
+    <T> Promise<T> delete(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> delete(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> delete(Class<T> resultType, Class<C> containerType);
 
-    RequestPromise<Void> patch();
+    Promise<Void> patch();
 
-    <T> RequestPromise<T> patch(Class<T> resultType);
+    <T> Promise<T> patch(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> patch(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> patch(Class<T> resultType, Class<C> containerType);
 
-    RequestPromise<Void> head();
+    Promise<Void> head();
 
-    <T> RequestPromise<T> head(Class<T> resultType);
+    <T> Promise<T> head(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> head(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> head(Class<T> resultType, Class<C> containerType);
 
-    RequestPromise<Void> options();
+    Promise<Void> options();
 
-    <T> RequestPromise<T> options(Class<T> resultType);
+    <T> Promise<T> options(Class<T> resultType);
 
-    <T, C extends Collection> RequestPromise<Collection<T>> options(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType, Class<C> containerType);
 }
