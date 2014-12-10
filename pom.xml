@@ -27,55 +27,17 @@
   <packaging>pom</packaging>
 
   <groupId>io.reinert.requestor</groupId>
-  <artifactId>requestor</artifactId>
+  <artifactId>requestor-project</artifactId>
   <version>0.1.0-SNAPSHOT</version>
-  <name>Requestor</name>
   <inceptionYear>2014</inceptionYear>
   <description>GWT HTTP client API.</description>
   <url>http://reinert.io</url>
 
   <modules>
-    <module>requestor-annotations</module>
-    <module>requestor-api</module>
-    <module>requestor-gdeferred</module>
-    <module>requestor-gwtjackson</module>
-    <module>requestor-turbogwt</module>
+    <module>tools</module>
+    <module>requestor</module>
+    <module>examples</module>
   </modules>
-
-  <scm>
-    <connection>scm:git:ssh://github.com/reinert/${project.artifactId}.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/reinert/${project.artifactId}.git</developerConnection>
-    <url>https://github.com/reinert/${project.artifactId}</url>
-  </scm>
-
-  <issueManagement>
-    <url>https://github.com/reinert/${project.artifactId}/issues</url>
-    <system>Github Issues</system>
-  </issueManagement>
-
-  <licenses>
-    <license>
-      <name>Apache 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-      <comments>A business-friendly OSS license</comments>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <id>reinert</id>
-      <name>Danilo Reinert</name>
-      <email>daniloreinert@growbit.com</email>
-      <organization>Grow bit</organization>
-      <organizationUrl>http://growbit.com</organizationUrl>
-      <roles>
-        <role>architect</role>
-        <role>lead developer</role>
-      </roles>
-      <timezone>-3</timezone>
-    </developer>
-  </developers>
 
   <properties>
     <target.jdk>1.6</target.jdk>
@@ -110,6 +72,38 @@
     <github.version>0.10</github.version>
   </properties>
 
+  <scm>
+    <connection>scm:git:ssh://github.com/reinert/requestor.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/reinert/requestor.git</developerConnection>
+    <url>https://github.com/reinert/requestor</url>
+  </scm>
+
+  <issueManagement>
+    <url>https://github.com/reinert/requestor/issues</url>
+    <system>Github Issues</system>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>https://raw.githubusercontent.com/reinert/requestor/master/LICENSE</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>reinert</id>
+      <name>Danilo Reinert</name>
+      <email>daniloreinert@growbit.com</email>
+      <organization>Grow bit</organization>
+      <organizationUrl>http://growbit.com</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>lead developer</role>
+      </roles>
+      <timezone>-3</timezone>
+    </developer>
+  </developers>
 
   <dependencyManagement>
     <dependencies>
@@ -164,148 +158,43 @@
   </dependencyManagement>
 
   <build>
-    <resources>
-      <!-- Bundle sources with the jar, so they are visible to GWT's compiler -->
-      <resource>
-        <directory>src/main/java</directory>
-      </resource>
-      <!-- Bundle module descriptor with the jar, so it is visible to GWT's compiler -->
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-        </plugin>
-
-        <!-- Skip GWTTests during JUnit tests -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${maven-checkstyle-plugin.version}</version>
           <configuration>
-            <includes>
-              <include>**/*TestSuite.java</include>
-            </includes>
-            <excludes>
-              <exclude>**/*GwtTest*.java</exclude>
-            </excludes>
+            <configLocation>/checkstyle.xml</configLocation>
+            <suppressionsLocation>/checkstyle-suppressions.xml</suppressionsLocation>
+            <propertiesLocation>/checkstyle.properties</propertiesLocation>
+            <propertyExpansion>basedir=${basedir}</propertyExpansion>
+            <consoleOutput>true</consoleOutput>
+            <failsOnError>true</failsOnError>
+            <linkXRef>false</linkXRef>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
           </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>gwt-maven-plugin</artifactId>
-          <version>${gwt.version}</version>
-          <configuration>
-            <extraJvmArgs>-Xss16M -Xms1024M -Xmx2048M</extraJvmArgs>
-            <includes>**/*GwtTestSuite.java</includes>
-            <testTimeOut>180</testTimeOut>
-          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>io.reinert.requestor.tools</groupId>
+              <artifactId>requestor-checkstyle</artifactId>
+              <version>0.1.0-SNAPSHOT</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>validate</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>checkstyle</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
 
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-        <configuration>
-          <source>${target.jdk}</source>
-          <target>${target.jdk}</target>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <excludes>
-            <exclude>**/com/google/gwt/**/*</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${maven-checkstyle-plugin.version}</version>
-        <configuration>
-          <configLocation>/checkstyle.xml</configLocation>
-          <suppressionsLocation>/checkstyle-suppressions.xml</suppressionsLocation>
-          <propertiesLocation>/checkstyle.properties</propertiesLocation>
-          <propertyExpansion>basedir=${basedir}</propertyExpansion>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>true</failsOnError>
-          <linkXRef>false</linkXRef>
-          <includeTestSourceDirectory>true</includeTestSourceDirectory>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>io.reinert.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-          </dependency>
-        </dependencies>
-        <executions>
-          <execution>
-            <id>validate</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>checkstyle</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>${maven-deploy-plugin.version}</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin.version}</version>
-        <configuration>
-          <maxmemory>1024</maxmemory>
-          <failOnError>true</failOnError>
-          <doctitle>Requestor Javadocs</doctitle>
-          <links>
-            <link>http://download.oracle.com/javase/7/docs/api/</link>
-            <link>http://google-web-toolkit.googlecode.com/svn/javadoc/latest/</link>
-          </links>
-          <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
-          <reportOutputDirectory>${project.reporting.outputDirectory}/javadoc</reportOutputDirectory>
-          <excludes>
-            <exclude>**/*.txt</exclude>
-          </excludes>
-          <header>
-            <![CDATA[
-                <a href="https://github.com/reinert/requestor" target="_blank">Back to Home</a>
-              ]]>
-          </header>
-          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-          <docletArtifact>
-            <groupId>org.umlgraph</groupId>
-            <artifactId>umlgraph</artifactId>
-            <version>5.6.6</version>
-          </docletArtifact>
-          <additionalparam>
-            -horizontal
-          </additionalparam>
-        </configuration>
-        <executions>
-          <execution>
-            <id>build-upload-javadocs</id>
-            <phase>site</phase>
-            <goals>
-              <goal>aggregate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <plugin>
         <groupId>com.github.github</groupId>
         <artifactId>site-maven-plugin</artifactId>
@@ -347,5 +236,4 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
-
 </project>

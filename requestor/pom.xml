@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2014 Danilo Reinert
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.reinert.requestor</groupId>
+    <artifactId>requestor-project</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <packaging>pom</packaging>
+
+  <groupId>io.reinert.requestor</groupId>
+  <artifactId>requestor-parent</artifactId>
+
+  <modules>
+    <module>core</module>
+    <module>impl</module>
+    <module>ext</module>
+  </modules>
+
+  <build>
+    <resources>
+      <!-- Bundle sources with the jar, so they are visible to GWT's compiler -->
+      <resource>
+        <directory>src/main/java</directory>
+      </resource>
+      <!-- Bundle module descriptor with the jar, so it is visible to GWT's compiler -->
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
+    <pluginManagement>
+      <plugins>
+        <!-- Skip GWTTests during JUnit tests -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <includes>
+              <include>**/*TestSuite.java</include>
+            </includes>
+            <excludes>
+              <exclude>**/*GwtTest*.java</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>gwt-maven-plugin</artifactId>
+          <version>${gwt.version}</version>
+          <configuration>
+            <extraJvmArgs>-Xss16M -Xms1024M -Xmx2048M</extraJvmArgs>
+            <includes>**/*GwtTestSuite.java</includes>
+            <testTimeOut>180</testTimeOut>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${target.jdk}</source>
+          <target>${target.jdk}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <excludes>
+            <exclude>**/com/google/gwt/**/*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy-plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <maxmemory>1024</maxmemory>
+          <failOnError>true</failOnError>
+          <doctitle>Requestor GWT HTTP Client ${project.version} API</doctitle>
+          <links>
+            <link>http://download.oracle.com/javase/7/docs/api/</link>
+            <link>http://google-web-toolkit.googlecode.com/svn/javadoc/latest/</link>
+          </links>
+          <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
+          <reportOutputDirectory>${project.reporting.outputDirectory}/javadoc</reportOutputDirectory>
+          <excludes>
+            <exclude>**/*.txt</exclude>
+          </excludes>
+          <header>
+            <![CDATA[
+                <a href="https://github.com/reinert/requestor" target="_blank">Back to Home</a>
+              ]]>
+          </header>
+          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+          <docletArtifact>
+            <groupId>org.umlgraph</groupId>
+            <artifactId>umlgraph</artifactId>
+            <version>5.6.6</version>
+          </docletArtifact>
+          <additionalparam>
+            -horizontal
+          </additionalparam>
+        </configuration>
+        <executions>
+          <execution>
+            <id>build-upload-javadocs</id>
+            <phase>site</phase>
+            <goals>
+              <goal>aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

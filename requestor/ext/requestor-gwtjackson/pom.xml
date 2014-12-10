@@ -18,20 +18,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>requestor</artifactId>
-    <groupId>io.reinert.requestor</groupId>
+    <groupId>io.reinert.requestor.ext</groupId>
+    <artifactId>requestor-ext-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.reinert.requestor.impl</groupId>
-  <artifactId>requestor-gdeferred</artifactId>
+  <artifactId>requestor-gwtjackson</artifactId>
 
   <dependencies>
-    <!-- GDeferred dependencies -->
+    <!-- gwt-jackson dependencies -->
     <dependency>
-      <groupId>io.reinert.gdeferred</groupId>
-      <artifactId>gdeferred</artifactId>
+      <groupId>com.github.nmorel.gwtjackson</groupId>
+      <artifactId>gwt-jackson</artifactId>
     </dependency>
 
     <!-- Requestor dependencies -->
@@ -52,10 +51,6 @@
     </dependency>
 
     <!-- Test dependencies -->
-    <dependency>
-      <groupId>com.google.gwt.gwtmockito</groupId>
-      <artifactId>gwtmockito</artifactId>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

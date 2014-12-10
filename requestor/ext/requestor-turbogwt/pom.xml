@@ -18,20 +18,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>requestor</artifactId>
-    <groupId>io.reinert.requestor</groupId>
+    <groupId>io.reinert.requestor.ext</groupId>
+    <artifactId>requestor-ext-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.reinert.requestor.core</groupId>
-  <artifactId>requestor-api</artifactId>
+  <artifactId>requestor-turbogwt</artifactId>
 
   <dependencies>
+    <!-- TurboGWT dependencies -->
+    <dependency>
+      <groupId>org.turbogwt.core</groupId>
+      <artifactId>turbogwt-core</artifactId>
+    </dependency>
+
     <!-- Requestor dependencies -->
     <dependency>
       <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-annotations</artifactId>
+      <artifactId>requestor-api</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -47,10 +52,6 @@
 
     <!-- Test dependencies -->
     <dependency>
-      <groupId>com.google.gwt.gwtmockito</groupId>
-      <artifactId>gwtmockito</artifactId>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
@@ -58,27 +59,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven-jar-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>default-jar</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <excludes>
-                <exclude>io/reinert/requestor/RequestInvoker.*</exclude>
-                <exclude>io/reinert/requestor/RequestInvokerImpl.*</exclude>
-              </excludes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
