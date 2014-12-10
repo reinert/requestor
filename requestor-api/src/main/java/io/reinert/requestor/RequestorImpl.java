@@ -70,8 +70,8 @@ public class RequestorImpl implements Requestor {
     }
 
     @Override
-    public <T> Deserializer<T> getDeserializer(Class<T> type, String contentType) {
-        return serdesManager.getDeserializer(type, contentType);
+    public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) {
+        return serdesManager.getDeserializer(type, mediaType);
     }
 
     @Override
@@ -80,8 +80,8 @@ public class RequestorImpl implements Requestor {
     }
 
     @Override
-    public <T> Serializer<T> getSerializer(Class<T> type, String contentType) {
-        return serdesManager.getSerializer(type, contentType);
+    public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) {
+        return serdesManager.getSerializer(type, mediaType);
     }
 
     @Override

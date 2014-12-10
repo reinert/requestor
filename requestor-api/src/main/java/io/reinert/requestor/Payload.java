@@ -68,7 +68,7 @@ public class Payload {
         return javaScriptObject != null ? stringify(javaScriptObject) : string;
     }
 
-    private native String stringify(JavaScriptObject jso) /*-{
+    private static native String stringify(JavaScriptObject jso) /*-{
         return JSON.stringify(jso);
     }-*/;
 }

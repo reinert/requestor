@@ -54,11 +54,11 @@ public interface Requestor {
 
     String getDefaultMediaType();
 
-    <T> Deserializer<T> getDeserializer(Class<T> type, String contentType);
+    <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType);
 
     <T> Provider<T> getProvider(Class<T> type);
 
-    <T> Serializer<T> getSerializer(Class<T> type, String contentType);
+    <T> Serializer<T> getSerializer(Class<T> type, String mediaType);
 
     /**
      * Register a collection Provider.
