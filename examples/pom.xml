@@ -30,6 +30,36 @@
   <artifactId>requestor-examples-parent</artifactId>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <!-- Skip GWTTests during JUnit tests -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <includes>
+              <include>**/*TestSuite.java</include>
+            </includes>
+            <excludes>
+              <exclude>**/*GwtTest*.java</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>gwt-maven-plugin</artifactId>
+          <version>${gwt.version}</version>
+          <configuration>
+            <extraJvmArgs>-Xss16M -Xms1024M -Xmx2048M</extraJvmArgs>
+            <includes>**/*GwtTestSuite.java</includes>
+            <testTimeOut>180</testTimeOut>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
