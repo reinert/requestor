@@ -34,8 +34,8 @@ import io.reinert.requestor.header.Header;
  */
 public class RequestDispatcherImpl extends RequestDispatcher {
 
-    public RequestDispatcherImpl(ResponseProcessor processor) {
-        super(processor);
+    public RequestDispatcherImpl(ResponseProcessor processor, DeferredRequestFactory deferredFactory) {
+        super(processor, deferredFactory);
     }
 
     @Override

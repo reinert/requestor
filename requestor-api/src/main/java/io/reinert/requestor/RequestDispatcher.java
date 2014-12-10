@@ -17,8 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import com.google.gwt.core.client.GWT;
-
 import io.reinert.requestor.deferred.DeferredRequest;
 import io.reinert.requestor.deferred.RequestPromise;
 
@@ -30,14 +28,16 @@ import io.reinert.requestor.deferred.RequestPromise;
 public abstract class RequestDispatcher {
 
     private final ResponseProcessor processor;
-    private final DeferredRequestFactory deferredFactory = GWT.create(DeferredRequestFactory.class);
+    private final DeferredRequestFactory deferredFactory;
 
-    public RequestDispatcher(ResponseProcessor processor) {
+    public RequestDispatcher(ResponseProcessor processor, DeferredRequestFactory deferredFactory) {
         this.processor = processor;
+        this.deferredFactory = deferredFactory;
     }
 
     /**
      * Sends the request through the wire and resolves (or rejects) the deferred when completed.
+     * The success result must be a instance of #resultType.
      * <p/>
      * Implementations must execute an HTTP Request with given values and resolve/reject the deferred when the request
      * is finished. It is recommended that progress events be sent to
@@ -48,12 +48,33 @@ public abstract class RequestDispatcher {
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.
      *
-     * @param request   The request to be sent
-     * @param deferred  The deferred to resolve or reject when completed
-     * @param <T>       The expected type of the promise
+     * @param request    The request to be sent
+     * @param deferred   The deferred to resolve or reject when completed
+     * @param resultType The class of the expected result
+     * @param <T>        The expected type of the promise
      */
     protected abstract <T> void send(SerializedRequest request, DeferredRequest<T> deferred, Class<T> resultType);
 
+    /**
+     * Sends the request through the wire and resolves (or rejects) the deferred when completed.
+     * The success result must be a containerType of resultType.
+     * <p/>
+     * Implementations must execute an HTTP Request with given values and resolve/reject the deferred when the request
+     * is finished. It is recommended that progress events be sent to
+     * {@link DeferredRequest#notifyDownload(RequestProgress)} and
+     * {@link DeferredRequest#notifyUpload(RequestProgress)}.
+     * <p/>
+     * All possible exceptions should be caught and sent to {@link DeferredRequest#rejectPromise(RequestException)}
+     * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
+     * exception occurs.
+     *
+     * @param request       The request to be sent
+     * @param deferred      The deferred to resolve or reject when completed
+     * @param <T>           The expected type of the promise
+     * @param resultType    The class of the expected result
+     * @param containerType The class of the container which will hold the result
+     * @param <C>           The expected collection subtype which will hold the result
+     */
     protected abstract <T, C extends Collection> void send(SerializedRequest request, DeferredRequest<C> deferred,
                                                            Class<T> resultType, Class<C> containerType);
 

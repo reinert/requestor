@@ -34,6 +34,7 @@ public class RequestorImpl implements Requestor {
     private final InterceptorManager interceptorManager = new InterceptorManager();
     private final ProviderManager providerManager = new ProviderManager();
     private final RequestDispatcherFactory requestDispatcherFactory = GWT.create(RequestDispatcherFactory.class);
+    private final DeferredRequestFactory deferredFactory = GWT.create(DeferredRequestFactory.class);
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
 
@@ -125,7 +126,7 @@ public class RequestorImpl implements Requestor {
 
     private RequestInvoker createRequest(String uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor,
-                requestDispatcherFactory.getRequestDispatcher(responseProcessor));
+                requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory));
         request.contentType(defaultMediaType);
         request.accept(defaultMediaType);
         return request;

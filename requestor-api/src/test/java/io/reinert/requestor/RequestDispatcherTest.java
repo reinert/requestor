@@ -40,11 +40,12 @@ import static org.mockito.Mockito.verify;
 public class RequestDispatcherTest {
 
     @Mock private ResponseProcessor processor;
+    @Mock private DeferredRequestFactory deferredFactory;
     private RequestDispatcher dispatcher;
 
     @Before
     public void setUp() {
-        dispatcher = spy(new RequestDispatcherDummy(processor));
+        dispatcher = spy(new RequestDispatcherDummy(processor, deferredFactory));
     }
 
     @Test
@@ -76,10 +77,10 @@ public class RequestDispatcherTest {
                                                                      but it was not possible due to generics */
     }
 
-    class RequestDispatcherDummy extends RequestDispatcher {
+    private static class RequestDispatcherDummy extends RequestDispatcher {
 
-        public RequestDispatcherDummy(ResponseProcessor processor) {
-            super(processor);
+        public RequestDispatcherDummy(ResponseProcessor processor, DeferredRequestFactory deferredFactory) {
+            super(processor, deferredFactory);
         }
 
         @Override

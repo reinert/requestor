@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.google.gwt.http.client.Response;
 
+import io.reinert.requestor.DeferredRequestFactory;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.ResponseProcessor;
 import io.reinert.requestor.SerializedRequest;
@@ -36,8 +37,8 @@ public class ServerStub extends RequestDispatcher {
     private static Map<String, Response> responseData = new HashMap<String, Response>();
     private static boolean returnSuccess = true;
 
-    public ServerStub(ResponseProcessor processor) {
-        super(processor);
+    public ServerStub(ResponseProcessor processor, DeferredRequestFactory deferredFactory) {
+        super(processor, deferredFactory);
     }
 
     @Override
