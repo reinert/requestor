@@ -27,7 +27,7 @@ import com.google.gwt.http.client.URL;
 import io.reinert.requestor.Payload;
 
 
-class FormDataSerializerUrlEncoded implements FormDataSerializer {
+public class FormDataSerializerUrlEncoded implements FormDataSerializer {
 
     private static Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());
 

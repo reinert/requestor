@@ -19,7 +19,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import io.reinert.requestor.Payload;
 
-class FormDataSerializerNative implements FormDataSerializer {
+public class FormDataSerializerNative implements FormDataSerializer {
 
     @Override
     public String mediaType() {
