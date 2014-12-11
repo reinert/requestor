@@ -19,6 +19,7 @@ import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.form.FormDataSerializer;
+import io.reinert.requestor.header.ContentTypeHeader;
 
 /**
  * This class performs all necessary processing steps to ongoing requests.
@@ -51,8 +52,9 @@ public class RequestProcessor {
             serializedRequest = new SerializedRequestImpl(request, (Payload) payload);
         } else if (payload instanceof FormData) {
             // FormData serialization
-            serializedRequest = new SerializedRequestImpl(request,
-                    formDataSerializer.serialize((FormData) payload));
+            final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
+            request.putHeader(new ContentTypeHeader(formDataSerializer.mediaType()));
+            serializedRequest = new SerializedRequestImpl(request, serializedPayload);
         } else {
             serializedRequest = serializationEngine.serializeRequest(request);
         }

@@ -21,5 +21,9 @@ import io.reinert.requestor.Payload;
  * Serializes FormData.
  */
 public interface FormDataSerializer {
+
+    String mediaType();
+
     Payload serialize(FormData formData);
+
 }

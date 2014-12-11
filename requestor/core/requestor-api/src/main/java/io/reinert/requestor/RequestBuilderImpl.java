@@ -180,7 +180,12 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public void addHeader(Header header) {
+    public void setHeader(String name, String value) {
+        headers.add(new SimpleHeader(name, value));
+    }
+
+    @Override
+    public void putHeader(Header header) {
         headers.add(header);
     }
 

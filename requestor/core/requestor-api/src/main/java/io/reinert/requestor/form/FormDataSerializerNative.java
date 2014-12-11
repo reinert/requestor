@@ -20,6 +20,12 @@ import com.google.gwt.core.client.JavaScriptObject;
 import io.reinert.requestor.Payload;
 
 class FormDataSerializerNative implements FormDataSerializer {
+
+    @Override
+    public String mediaType() {
+        return "multipart/form-data";
+    }
+
     @Override
     public Payload serialize(FormData formData) {
         if (formData.getFormElement() != null)

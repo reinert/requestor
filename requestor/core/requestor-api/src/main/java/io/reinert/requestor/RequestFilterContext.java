@@ -26,7 +26,9 @@ public interface RequestFilterContext {
 
     String getHeader(String name);
 
-    void addHeader(Header header);
+    void setHeader(String name, String value);
+
+    void putHeader(Header header);
 
     String getMethod();
 

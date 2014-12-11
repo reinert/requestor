@@ -35,14 +35,21 @@ public class RequestorImpl implements Requestor {
     private final ProviderManager providerManager = new ProviderManager();
     private final RequestDispatcherFactory requestDispatcherFactory = GWT.create(RequestDispatcherFactory.class);
     private final DeferredFactory deferredFactory = GWT.create(DeferredFactory.class);
-    private RequestProcessor requestProcessor;
-    private ResponseProcessor responseProcessor;
+    private final RequestProcessor requestProcessor;
+    private final ResponseProcessor responseProcessor;
 
     private String defaultMediaType = "application/json";
 
     public RequestorImpl() {
-        initProcessors();
+        // init processors
+        final FilterEngine filterEngine = new FilterEngine(filterManager);
+        final SerializationEngine serializationEngine = new SerializationEngine(serdesManager, providerManager);
+        final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
+        requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine);
+        responseProcessor = new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine);
+        // bind generated serdes to the requestor
         GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
+        // perform initial set-up by user
         GWT.<RequestorInitializer>create(RequestorInitializer.class).configure(this);
     }
 
@@ -130,13 +137,5 @@ public class RequestorImpl implements Requestor {
         request.contentType(defaultMediaType);
         request.accept(defaultMediaType);
         return request;
-    }
-
-    private void initProcessors() {
-        final FilterEngine filterEngine = new FilterEngine(filterManager);
-        final SerializationEngine serializationEngine = new SerializationEngine(serdesManager, providerManager);
-        final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
-        requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine);
-        responseProcessor = new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine);
     }
 }

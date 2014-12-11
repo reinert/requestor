@@ -18,6 +18,7 @@ package io.reinert.requestor.form;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.NodeCollection;
@@ -25,9 +26,15 @@ import com.google.gwt.http.client.URL;
 
 import io.reinert.requestor.Payload;
 
+
 class FormDataSerializerUrlEncoded implements FormDataSerializer {
 
     private static Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());
+
+    @Override
+    public String mediaType() {
+        return "application/x-www-form-urlencoded";
+    }
 
     @Override
     public Payload serialize(FormData formData) {
@@ -38,42 +45,47 @@ class FormDataSerializerUrlEncoded implements FormDataSerializer {
             final NodeCollection<Element> elements = formElement.getElements();
             for (int i = 0; i < elements.getLength(); i++) {
                 Element field =  elements.getItem(i);
-                if (!field.hasAttribute("name"))
-                    continue;
+
+                try {
+                    if (!field.hasAttribute("name"))
+                        continue;
+                } catch (JavaScriptException e) {
+                    continue; // variable is not an element
+                }
 
                 String type = field.getNodeName().equalsIgnoreCase("input") ?
-                        field.getAttribute("type").toUpperCase() : "TEXT";
+                        field.getAttribute("type").toLowerCase() : "text";
 
-                if (type.equals("FILE")) {
+                if (type.equals("file")) {
                     logger.log(Level.WARNING, "An attempt to serialize a non-string value from a FormData has failed." +
-                            " Files and Blobs are not supported by FormDataSerializerUrlEncodedImpl." +
+                            " Files and Blobs are not supported by FormDataSerializerUrlEncoded." +
                             " Maybe you want to switch the selected FormDataSerializer via deferred binding.");
                     continue;
                 }
 
-                serialized.append(encode(getName(field)));
-                serialized.append('=');
-                serialized.append(encode(getValue(field)));
-                serialized.append('&');
+                if ((type.equals("radio") || type.equals("checkbox")) && !isChecked(field))
+                    continue;
+
+                final String name = encode(getName(field));
+                final String value = encode(getValue(field));
+                serialized.append(name).append('=').append(value).append('&'); // append 'name=value&'
             }
-            serialized.setLength(serialized.length() - 1);
+            serialized.setLength(serialized.length() - 1); // remove last '&' character
             return new Payload(serialized.toString());
         }
 
         for (FormData.Param param : formData) {
             final Object value = param.getValue();
             if (value instanceof String) {
-                serialized.append(encode(param.getName()));
-                serialized.append('=');
-                serialized.append(encode((String) value));
-                serialized.append('&');
+                // append 'name=value&'
+                serialized.append(encode(param.getName())).append('=').append(encode((String) value)).append('&');
             } else {
                 logger.log(Level.WARNING, "An attempt to serialize a non-string value from a FormData has failed." +
-                        " Files and Blobs are not supported by FormDataSerializerUrlEncodedImpl." +
-                        " Maybe you want to switch the selected FormDataSerializer via deferred binding.");
+                        " Files and Blobs are not supported by FormDataSerializerUrlEncoded" +
+                        " You may want to switch the selected FormDataSerializer via deferred binding.");
             }
         }
-        serialized.setLength(serialized.length() - 1);
+        serialized.setLength(serialized.length() - 1); // remove last '&' character
         return new Payload(serialized.toString());
     }
 
@@ -87,5 +99,9 @@ class FormDataSerializerUrlEncoded implements FormDataSerializer {
 
     private native String getValue(Element e) /*-{
         return (e.value && '' + e.value) || '';
+    }-*/;
+
+    private native boolean isChecked(Element e) /*-{
+        return e.checked || false;
     }-*/;
 }
