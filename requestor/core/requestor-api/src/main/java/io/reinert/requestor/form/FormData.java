@@ -16,6 +16,7 @@
 package io.reinert.requestor.form;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -55,7 +56,7 @@ public class FormData implements Iterable<FormData.Param> {
 
     @Override
     public Iterator<Param> iterator() {
-        return params.iterator();
+        return params == null ? Collections.<Param>emptyIterator() : params.iterator();
     }
 
     static class Builder {

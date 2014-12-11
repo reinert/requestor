@@ -15,9 +15,9 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import com.google.gwt.core.client.GWT;
 
@@ -95,7 +95,7 @@ public class Headers implements Iterable<Header> {
 
     @Override
     public Iterator<Header> iterator() {
-        return isEmpty() ? new EmptyIterator() : headers.values().iterator();
+        return isEmpty() ? Collections.<Header>emptyIterator() : headers.values().iterator();
     }
 
     public int size() {
@@ -130,20 +130,5 @@ public class Headers implements Iterable<Header> {
 
     private boolean isEmpty() {
         return headers == null;
-    }
-
-    private static class EmptyIterator implements Iterator<Header> {
-
-        public boolean hasNext() {
-            return false;
-        }
-
-        public Header next() {
-            throw new NoSuchElementException();
-        }
-
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
     }
 }
