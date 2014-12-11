@@ -25,7 +25,7 @@
     <when-type-is class="io.reinert.requestor.LightMap"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.RequestorInitializerTurboGwt">
+  <replace-with class="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt">
     <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
   </replace-with>
 </module>

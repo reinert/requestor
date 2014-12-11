@@ -18,13 +18,13 @@ package io.reinert.requestor.serialization;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.serialization.json.TurboOverlaySerdes;
+import io.reinert.requestor.turbogwt.serialization.TurboOverlaySerdes;
 
 import org.turbogwt.core.collections.JsArrayList;
 import org.turbogwt.core.util.Overlays;
 
 /**
- * Unit tests of {@link io.reinert.requestor.serialization.json.OverlaySerdes}.
+ * Unit tests of {@link io.reinert.requestor.turbogwt.serialization.OverlaySerdes}.
  */
 public class TurboOverlaySerdesTest extends GWTTestCase {
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.serialization.json;
+package io.reinert.requestor.turbogwt.serialization;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +23,7 @@ import com.google.gwt.core.client.JsArray;
 
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.serialization.json.OverlaySerdes;
 
 import org.turbogwt.core.collections.JsArrayList;
 
