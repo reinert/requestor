@@ -39,5 +39,7 @@ public class RequestorInitializerForJson implements RequestorInitializer {
         requestor.addSerdes(JsonBooleanSerdes.getInstance());
 
         requestor.addSerdes(OverlaySerdes.getInstance());
+
+        requestor.setDefaultMediaType("application/json");
     }
 }

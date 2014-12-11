@@ -38,7 +38,7 @@ public class RequestorImpl implements Requestor {
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
 
-    private String defaultMediaType = "application/json";
+    private String defaultMediaType;
 
     public RequestorImpl() {
         // init processors
@@ -134,8 +134,10 @@ public class RequestorImpl implements Requestor {
     private RequestInvoker createRequest(String uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor,
                 requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory));
-        request.contentType(defaultMediaType);
-        request.accept(defaultMediaType);
+        if (defaultMediaType != null) {
+            request.contentType(defaultMediaType);
+            request.accept(defaultMediaType);
+        }
         return request;
     }
 }

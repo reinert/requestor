@@ -39,6 +39,7 @@ public class RequestorInitializerTurboGwt implements RequestorInitializer {
         requestor.addSerdes(JsonBooleanSerdes.getInstance());
         requestor.addSerdes(VoidSerdes.getInstance());
         requestor.addSerdes(TextSerdes.getInstance());
+        requestor.setDefaultMediaType("application/json");
         requestor.bindProvider(JsArrayList.class, new Provider<JsArrayList>() {
             @Override
             public JsArrayList get() {
