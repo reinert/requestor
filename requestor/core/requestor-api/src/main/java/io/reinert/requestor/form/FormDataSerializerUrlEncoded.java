@@ -26,7 +26,12 @@ import com.google.gwt.http.client.URL;
 
 import io.reinert.requestor.Payload;
 
-
+/**
+ * FormDataSerializer that serialize the {@link FormData} into chained URL encoded key-value pairs.
+ * It does not support serializing {@link com.google.gwt.core.client.JavaScriptObject}.
+ *
+ * @author Danilo Reinert
+ */
 public class FormDataSerializerUrlEncoded implements FormDataSerializer {
 
     private static Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());

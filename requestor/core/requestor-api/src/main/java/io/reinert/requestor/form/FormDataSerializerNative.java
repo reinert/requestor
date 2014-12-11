@@ -19,6 +19,11 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import io.reinert.requestor.Payload;
 
+/**
+ * FormDataSerializer based on native JS FormData object.
+ *
+ * @author Danilo Reinert
+ */
 public class FormDataSerializerNative implements FormDataSerializer {
 
     @Override
