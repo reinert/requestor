@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gdeferred;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -21,6 +21,9 @@ import java.util.logging.Level;
 import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.gdeferred.Promise;
 import io.reinert.gdeferred.impl.DeferredObject;
+import io.reinert.requestor.HttpConnection;
+import io.reinert.requestor.RequestException;
+import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.deferred.Callback;
 import io.reinert.requestor.deferred.Deferred;
 

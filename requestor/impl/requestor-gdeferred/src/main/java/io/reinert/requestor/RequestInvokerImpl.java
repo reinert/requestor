@@ -17,6 +17,8 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import io.reinert.requestor.gdeferred.GDeferredRequestPromise;
+
 /**
  * {@link io.reinert.requestor.RequestInvoker} implementation.
  *

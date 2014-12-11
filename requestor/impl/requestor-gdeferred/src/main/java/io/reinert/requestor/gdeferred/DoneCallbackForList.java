@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gdeferred;
 
-import io.reinert.requestor.deferred.Promise;
+import java.util.List;
 
 /**
- * A Promise for requests.
+ * A hack interface for enabling {@link ListDoneCallback#onDone(java.util.List)} to compile.
  *
- * @param <T> The type of successful result
+ * @param <T> The type of list objects
+ *
+ * @author Danilo Reinert
  */
-public interface GDeferredRequestPromise<T> extends RequestPromise<T>, Promise<T> {
+interface DoneCallbackForList<T> {
+    void onDone(List<T> result);
 }
