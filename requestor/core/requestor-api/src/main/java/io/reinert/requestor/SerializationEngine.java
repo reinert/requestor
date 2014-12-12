@@ -104,6 +104,8 @@ class SerializationEngine {
             responseContentType = "*/*";
             logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
+        } else {
+            responseContentType = responseContentType.split(";")[0]; // detach from params
         }
         return responseContentType;
     }
