@@ -53,8 +53,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                               @Nullable Class<?> parametrizedType) {
         final String httpMethod = request.getMethod();
         final String url = request.getUrl();
-        final String user = request.getUser();
-        final String password = request.getPassword();
+        final String user = request.getPrincipals();
+        final String password = request.getCredentials();
         final Headers headers = request.getHeaders();
         final Payload payload = request.getPayload();
         final ResponseType responseType = request.getResponseType();
@@ -64,7 +64,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
         // Open XMLHttpRequest
         try {
-            open(httpMethod, url, user, password, xmlHttpRequest);
+            open(xmlHttpRequest, httpMethod, url, user, password);
         } catch (JavaScriptException e) {
             RequestPermissionException requestPermissionException = new RequestPermissionException(url);
             requestPermissionException.initCause(new RequestException(e.getMessage()));
@@ -76,11 +76,6 @@ public class RequestDispatcherImpl extends RequestDispatcher {
             setHeaders(headers, xmlHttpRequest);
         } catch (JavaScriptException e) {
             deferred.rejectPromise(new RequestException(e.getMessage()));
-        }
-
-        // Set withCredentials if necessary
-        if (user != null) {
-            xmlHttpRequest.setWithCredentials(true);
         }
 
         // Set responseType
@@ -191,14 +186,21 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         };
     }
 
-    private void open(String httpMethod, String url, String user, String password, XMLHttpRequest xmlHttpRequest)
+    private void open(XMLHttpRequest xmlHttpRequest, String httpMethod, String url, String user, String password)
             throws JavaScriptException {
+        // withCredentials approach
+//        if (user != null && password != null) {
+//            xmlHttpRequest.open(httpMethod, url, user, password);
+//            xmlHttpRequest.setWithCredentials(true);
+//        } else if (user != null) {
+//            xmlHttpRequest.open(httpMethod, url, user);
+//            xmlHttpRequest.setWithCredentials(true);
+//        } else {
+//            xmlHttpRequest.open(httpMethod, url);
+//        }
+        xmlHttpRequest.open(httpMethod, url);
         if (user != null && password != null) {
-            xmlHttpRequest.open(httpMethod, url, user, password);
-        } else if (user != null) {
-            xmlHttpRequest.open(httpMethod, url, user);
-        } else {
-            xmlHttpRequest.open(httpMethod, url);
+            xmlHttpRequest.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + password));
         }
     }
 
@@ -209,4 +211,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
             }
         }
     }
+
+    private native String btoa(String str) /*-{
+        return $wnd.btoa(str);
+    }-*/;
 }

@@ -30,8 +30,8 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     private final String url;
     private String httpMethod;
     private Headers headers;
-    private String user;
-    private String password;
+    private String principals;
+    private String credentials;
     private int timeout;
     private Object payload;
     private ResponseType responseType = ResponseType.DEFAULT;
@@ -48,8 +48,8 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     public static RequestBuilderImpl copyOf(RequestBuilder request) {
         RequestBuilderImpl copy = new RequestBuilderImpl(request.getUrl(), request.getHeaders());
         copy.httpMethod = request.getMethod();
-        copy.user = request.getUser();
-        copy.password = request.getPassword();
+        copy.principals = request.getPrincipals();
+        copy.credentials = request.getCredentials();
         copy.timeout = request.getTimeout();
         copy.payload = request.getPayload();
         copy.responseType = request.getResponseType();
@@ -82,8 +82,8 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public String getPassword() {
-        return password;
+    public String getCredentials() {
+        return credentials;
     }
 
     @Override
@@ -102,8 +102,8 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public String getUser() {
-        return user;
+    public String getPrincipals() {
+        return principals;
     }
 
     @Override
@@ -140,12 +140,6 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public RequestBuilder password(String password) {
-        this.password = password;
-        return this;
-    }
-
-    @Override
     public RequestBuilder payload(Object object) {
         payload = object;
         return this;
@@ -165,8 +159,9 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public RequestBuilder user(String user) {
-        this.user = user;
+    public RequestBuilder auth(String principals, String credentials) {
+        this.principals = principals;
+        this.credentials = credentials;
         return this;
     }
 
@@ -195,13 +190,9 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public void setUser(String username) {
-        this.user = username;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAuth(String principals, String credentials) {
+        this.principals = principals;
+        this.credentials = credentials;
     }
 
     @Override

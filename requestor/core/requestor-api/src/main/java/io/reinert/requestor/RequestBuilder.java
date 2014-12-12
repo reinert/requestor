@@ -45,44 +45,32 @@ public interface RequestBuilder extends Request {
     /**
      * Sets a request header with the given name and value. If a header with the
      * specified name has already been set then the new value overwrites the
-     * current value.
+     * current value. Null/empty values are ignored.
      *
      * @param header the name of the header
      * @param value the value of the header
      *
-     * @throws NullPointerException if header or value are null
-     * @throws IllegalArgumentException if header or value are the empty string
+     * @return the updated Request
      */
     RequestBuilder header(String header, String value);
 
     /**
      * Sets a request header. If a header with the specified name has already been set
-     * then the new value overwrites the current value.
+     * then the new value overwrites the current value. Null/empty values are ignored.
      *
      * @param header the header instance
      */
     RequestBuilder header(Header header);
 
     /**
-     * Sets the user name that will be used in the request URL.
+     * Sets the necessary information for authenticating the request against the server.
      *
-     * @param user user name to use
+     * @param principals    the identification of the subject
+     * @param credentials   the secret of the subject
      *
-     * @throws IllegalArgumentException if the user is empty
-     * @throws NullPointerException if the user is null
+     * @return the updated Request
      */
-    RequestBuilder user(String user);
-
-    /**
-     * Sets the password to use in the request URL. This is ignored if there is no
-     * user specified.
-     *
-     * @param password password to use in the request URL
-     *
-     * @throws IllegalArgumentException if the password is empty
-     * @throws NullPointerException if the password is null
-     */
-    RequestBuilder password(String password);
+    RequestBuilder auth(String principals, String credentials);
 
     /**
      * Sets the number of milliseconds to wait for a request to complete.
@@ -96,7 +84,9 @@ public interface RequestBuilder extends Request {
      * So if a value less than zero is passed, it is ignored.
      *
      * @param timeoutMillis number of milliseconds to wait before canceling the
-     *          request, a value of zero disables timeouts
+     *                      request, a value of zero disables timeouts
+     *
+     * @return the updated Request
      */
     RequestBuilder timeout(int timeoutMillis);
 
@@ -111,8 +101,6 @@ public interface RequestBuilder extends Request {
      *
      * @return the updated Request
      */
-    /* TODO: return some exception if no serializer is registered for this object and content-type,
-       or let the SerdesManager claim? */
     RequestBuilder payload(Object object);
 
     /**

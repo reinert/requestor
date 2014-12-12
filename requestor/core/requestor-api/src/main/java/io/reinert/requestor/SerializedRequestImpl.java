@@ -56,8 +56,13 @@ public class SerializedRequestImpl implements SerializedRequest, RequestIntercep
     }
 
     @Override
-    public String getPassword() {
-        return request.getPassword();
+    public String getPrincipals() {
+        return request.getPrincipals();
+    }
+
+    @Override
+    public String getCredentials() {
+        return request.getCredentials();
     }
 
     @Override
@@ -73,11 +78,6 @@ public class SerializedRequestImpl implements SerializedRequest, RequestIntercep
     @Override
     public String getUrl() {
         return request.getUrl();
-    }
-
-    @Override
-    public String getUser() {
-        return request.getUser();
     }
 
     @Override

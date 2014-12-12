@@ -45,10 +45,7 @@ public interface RequestInvoker extends RequestBuilder {
     RequestInvoker header(Header header);
 
     @Override
-    RequestInvoker user(String user);
-
-    @Override
-    RequestInvoker password(String password);
+    RequestInvoker auth(String principals, String credentials);
 
     @Override
     RequestInvoker timeout(int timeoutMillis);

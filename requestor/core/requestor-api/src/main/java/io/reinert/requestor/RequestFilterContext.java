@@ -34,13 +34,9 @@ public interface RequestFilterContext {
 
     void setMethod(String httpMethod);
 
-    String getUser();
+    String getPrincipals();
 
-    void setUser(String username);
-
-    String getPassword();
-
-    void setPassword(String password);
+    void setAuth(String principals, String credentials);
 
     int getTimeout();
 

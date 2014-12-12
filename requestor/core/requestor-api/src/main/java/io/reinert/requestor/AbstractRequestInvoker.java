@@ -67,8 +67,8 @@ public abstract class AbstractRequestInvoker extends RequestBuilderImpl implemen
     }
 
     @Override
-    public RequestInvoker password(String password) {
-        super.password(password);
+    public RequestInvoker auth(String principals, String credentials) {
+        super.auth(principals, credentials);
         return this;
     }
 
@@ -81,12 +81,6 @@ public abstract class AbstractRequestInvoker extends RequestBuilderImpl implemen
     @Override
     public RequestInvoker timeout(int timeoutMillis) {
         super.timeout(timeoutMillis);
-        return this;
-    }
-
-    @Override
-    public RequestInvoker user(String user) {
-        super.user(user);
         return this;
     }
 
@@ -107,9 +101,8 @@ public abstract class AbstractRequestInvoker extends RequestBuilderImpl implemen
     }
 
     @SuppressWarnings("unchecked")
-    protected <T, C extends Collection, P extends Promise<Collection<T>>> P send(String method,
-                                                                                        Class<T> resultType,
-                                                                                        Class<C> containerType) {
+    protected <T, C extends Collection, P extends Promise<Collection<T>>> P send(String method, Class<T> resultType,
+                                                                                 Class<C> containerType) {
         setMethod(method);
         return (P) dispatcher.dispatch(processor.process(build()), resultType, containerType);
     }

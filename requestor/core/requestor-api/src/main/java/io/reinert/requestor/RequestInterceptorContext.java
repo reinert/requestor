@@ -26,9 +26,7 @@ public interface RequestInterceptorContext {
 
     String getMethod();
 
-    String getUser();
-
-    String getPassword();
+    String getPrincipals();
 
     int getTimeout();
 

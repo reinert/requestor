@@ -30,15 +30,15 @@ public interface Request {
 
     String getMethod();
 
-    String getPassword();
-
     Object getPayload();
 
     int getTimeout();
 
     String getUrl();
 
-    String getUser();
+    String getPrincipals();
+
+    String getCredentials();
 
     ResponseType getResponseType();
 
