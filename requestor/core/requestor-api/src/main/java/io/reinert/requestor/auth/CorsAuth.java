@@ -18,21 +18,15 @@ package io.reinert.requestor.auth;
 import io.reinert.requestor.RequestOrder;
 
 /**
- * Abstraction for HTTP Authentication methods.
+ * This class sets withCredentials to true to enable CORS authentication.
  *
  * @author Danilo Reinert
  */
-public interface Authentication {
+public class CorsAuth implements Authentication {
 
-    /**
-     * Performs the logic for making the request authenticated, then dispatch the request.
-     * <p/>
-     *
-     * IMPORTANT: You must call requestOrder#send() after the authentication has finished in order to dispatch the
-     * request, otherwise the request will never be sent. <br>
-     * The request can be sent only once.
-     *
-     * @param requestOrder  The request about to be sent
-     */
-    void authenticate(RequestOrder requestOrder);
+    @Override
+    public void authenticate(RequestOrder requestOrder) {
+        requestOrder.setWithCredentials(true);
+        requestOrder.send();
+    }
 }

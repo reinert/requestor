@@ -27,10 +27,12 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests of {@link RequestDispatcher}.
@@ -52,12 +54,13 @@ public class RequestDispatcherTest {
         // Given
         Class<Object> type = Object.class;
         RequestOrder request = mock(RequestOrder.class);
+        when(request.getAuth()).thenReturn(PassThroughAuthentication.getInstance());
 
         // When
         Promise<Object> deferred = dispatcher.dispatch(request, type);
 
         // Then
-        verify(dispatcher).send(request, (Deferred<Object>) deferred, type);
+        verify(dispatcher).send(any(RequestOrder.class), eq((Deferred<Object>) deferred), eq(type));
     }
 
     @Test
@@ -65,13 +68,14 @@ public class RequestDispatcherTest {
         // Given
         Class<Collection> collectionType = Collection.class;
         Class<Object> type = Object.class;
-        RequestOrder request = mock(RequestOrder.class);
+        SerializedRequest request = mock(SerializedRequest.class);
+        when(request.getAuth()).thenReturn(PassThroughAuthentication.getInstance());
 
         // When
         Promise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
 
         // Then
-        verify(dispatcher).send(eq(request), eq((Deferred<Collection<Object>>) deferred), eq(type),
+        verify(dispatcher).send(any(RequestOrder.class), eq((Deferred<Collection<Object>>) deferred), eq(type),
                 Matchers.<Class<Collection<Object>>>anyObject()); /* Should be eq(collectionType)
                                                                      but it was not possible due to generics */
     }

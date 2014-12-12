@@ -66,7 +66,7 @@ public interface RequestBuilder extends Request {
     /**
      * Sets the necessary information for authenticating the request against the server.
      *
-     * @param auth  the authentication procedure
+     * @param auth The authentication procedure
      *
      * @return the updated Request
      */

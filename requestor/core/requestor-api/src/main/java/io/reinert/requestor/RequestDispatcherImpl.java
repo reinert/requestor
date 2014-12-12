@@ -62,7 +62,6 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
         // Open XMLHttpRequest
         try {
-            //open(xmlHttpRequest, httpMethod, url);
             xmlHttpRequest.open(httpMethod, url);
         } catch (JavaScriptException e) {
             RequestPermissionException requestPermissionException = new RequestPermissionException(url);
@@ -188,26 +187,6 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         };
     }
 
-    private void open(XMLHttpRequest xmlHttpRequest, String httpMethod, String url, String user, String password)
-            throws JavaScriptException {
-        // withCredentials approach
-//        if (user != null && password != null) {
-//            xmlHttpRequest.open(httpMethod, url, user, password);
-//            xmlHttpRequest.setWithCredentials(true);
-//        } else if (user != null) {
-//            xmlHttpRequest.open(httpMethod, url, user);
-//            xmlHttpRequest.setWithCredentials(true);
-//        } else {
-//            xmlHttpRequest.open(httpMethod, url);
-//        }
-
-        // basic authentication using native encoder approach
-//        xmlHttpRequest.open(httpMethod, url);
-//        if (user != null && password != null) {
-//            xmlHttpRequest.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + password));
-//        }
-    }
-
     private void setHeaders(Headers headers, XMLHttpRequest xmlHttpRequest) throws JavaScriptException {
         if (headers != null && headers.size() > 0) {
             for (Header header : headers) {
@@ -215,8 +194,4 @@ public class RequestDispatcherImpl extends RequestDispatcher {
             }
         }
     }
-
-    private native String btoa(String str) /*-{
-        return $wnd.btoa(str);
-    }-*/;
 }
