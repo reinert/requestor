@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.auth.Authentication;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -34,9 +35,7 @@ public interface RequestFilterContext {
 
     void setMethod(String httpMethod);
 
-    String getPrincipals();
-
-    void setAuth(String principals, String credentials);
+    void setAuth(Authentication auth);
 
     int getTimeout();
 

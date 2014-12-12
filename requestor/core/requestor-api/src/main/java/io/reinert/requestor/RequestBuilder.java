@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.auth.Authentication;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -65,12 +66,11 @@ public interface RequestBuilder extends Request {
     /**
      * Sets the necessary information for authenticating the request against the server.
      *
-     * @param principals    the identification of the subject
-     * @param credentials   the secret of the subject
+     * @param auth  the authentication procedure
      *
      * @return the updated Request
      */
-    RequestBuilder auth(String principals, String credentials);
+    RequestBuilder auth(Authentication auth);
 
     /**
      * Sets the number of milliseconds to wait for a request to complete.

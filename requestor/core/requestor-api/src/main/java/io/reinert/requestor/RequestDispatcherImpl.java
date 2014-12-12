@@ -39,22 +39,20 @@ public class RequestDispatcherImpl extends RequestDispatcher {
     }
 
     @Override
-    protected <T> void send(SerializedRequest request, Deferred<T> deferred, Class<T> resultType) {
+    protected <T> void send(RequestOrder request, Deferred<T> deferred, Class<T> resultType) {
         doSend(request, deferred, resultType, null);
     }
 
     @Override
-    protected <T, C extends Collection> void send(SerializedRequest request, Deferred<C> deferred,
+    protected <T, C extends Collection> void send(RequestOrder request, Deferred<C> deferred,
                                                   Class<T> resultType, Class<C> containerType) {
         doSend(request, deferred, containerType, resultType);
     }
 
-    protected <D> void doSend(SerializedRequest request, final Deferred<D> deferred, Class<D> resolveType,
+    protected <D> void doSend(RequestOrder request, final Deferred<D> deferred, Class<D> resolveType,
                               @Nullable Class<?> parametrizedType) {
         final String httpMethod = request.getMethod();
         final String url = request.getUrl();
-        final String user = request.getPrincipals();
-        final String password = request.getCredentials();
         final Headers headers = request.getHeaders();
         final Payload payload = request.getPayload();
         final ResponseType responseType = request.getResponseType();
@@ -64,12 +62,16 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
         // Open XMLHttpRequest
         try {
-            open(xmlHttpRequest, httpMethod, url, user, password);
+            //open(xmlHttpRequest, httpMethod, url);
+            xmlHttpRequest.open(httpMethod, url);
         } catch (JavaScriptException e) {
             RequestPermissionException requestPermissionException = new RequestPermissionException(url);
             requestPermissionException.initCause(new RequestException(e.getMessage()));
             deferred.rejectPromise(requestPermissionException);
         }
+
+        // Set withCredentials
+        xmlHttpRequest.setWithCredentials(request.isWithCredentials());
 
         // Fulfill headers
         try {
@@ -198,10 +200,12 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 //        } else {
 //            xmlHttpRequest.open(httpMethod, url);
 //        }
-        xmlHttpRequest.open(httpMethod, url);
-        if (user != null && password != null) {
-            xmlHttpRequest.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + password));
-        }
+
+        // basic authentication using native encoder approach
+//        xmlHttpRequest.open(httpMethod, url);
+//        if (user != null && password != null) {
+//            xmlHttpRequest.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + password));
+//        }
     }
 
     private void setHeaders(Headers headers, XMLHttpRequest xmlHttpRequest) throws JavaScriptException {

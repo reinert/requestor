@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.auth.Authentication;
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
@@ -25,16 +26,15 @@ import io.reinert.requestor.header.SimpleHeader;
  *
  * @author Danilo Reinert
  */
-public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
+class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     private final String url;
     private String httpMethod;
     private Headers headers;
-    private String principals;
-    private String credentials;
     private int timeout;
     private Object payload;
     private ResponseType responseType = ResponseType.DEFAULT;
+    private Authentication auth = PassThroughAuthentication.getInstance();
 
     public RequestBuilderImpl(String url) {
         this(url, new Headers());
@@ -48,8 +48,7 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     public static RequestBuilderImpl copyOf(RequestBuilder request) {
         RequestBuilderImpl copy = new RequestBuilderImpl(request.getUrl(), request.getHeaders());
         copy.httpMethod = request.getMethod();
-        copy.principals = request.getPrincipals();
-        copy.credentials = request.getCredentials();
+        copy.auth = request.getAuth();
         copy.timeout = request.getTimeout();
         copy.payload = request.getPayload();
         copy.responseType = request.getResponseType();
@@ -82,11 +81,6 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public String getCredentials() {
-        return credentials;
-    }
-
-    @Override
     public Object getPayload() {
         return payload;
     }
@@ -102,13 +96,13 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public String getPrincipals() {
-        return principals;
+    public ResponseType getResponseType() {
+        return responseType;
     }
 
     @Override
-    public ResponseType getResponseType() {
-        return responseType;
+    public Authentication getAuth() {
+        return auth;
     }
 
     //===================================================================
@@ -159,9 +153,8 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public RequestBuilder auth(String principals, String credentials) {
-        this.principals = principals;
-        this.credentials = credentials;
+    public RequestBuilder auth(Authentication auth) {
+        this.auth = auth;
         return this;
     }
 
@@ -171,7 +164,7 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
 
     @Override
     public String getHeader(String name) {
-        return headers.get(name).getValue();
+        return headers.getValue(name);
     }
 
     @Override
@@ -190,9 +183,8 @@ public class RequestBuilderImpl implements RequestBuilder, RequestFilterContext 
     }
 
     @Override
-    public void setAuth(String principals, String credentials) {
-        this.principals = principals;
-        this.credentials = credentials;
+    public void setAuth(Authentication auth) {
+        this.auth = auth;
     }
 
     @Override

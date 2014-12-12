@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.auth.Authentication;
+
 /**
  * Represents a request with its payload already serialized.
  *
@@ -47,7 +49,7 @@ public class SerializedRequestImpl implements SerializedRequest, RequestIntercep
 
     @Override
     public String getHeader(String name) {
-        return request.getHeaders().getValue(name);
+        return request.getHeader(name);
     }
 
     @Override
@@ -56,13 +58,8 @@ public class SerializedRequestImpl implements SerializedRequest, RequestIntercep
     }
 
     @Override
-    public String getPrincipals() {
-        return request.getPrincipals();
-    }
-
-    @Override
-    public String getCredentials() {
-        return request.getCredentials();
+    public Authentication getAuth() {
+        return request.getAuth();
     }
 
     @Override

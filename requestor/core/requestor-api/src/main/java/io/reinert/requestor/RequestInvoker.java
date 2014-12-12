@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import io.reinert.requestor.auth.Authentication;
 import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.header.Header;
 
@@ -46,7 +47,7 @@ public interface RequestInvoker extends RequestBuilder {
     RequestInvoker header(Header header);
 
     @Override
-    RequestInvoker auth(String principals, String credentials);
+    RequestInvoker auth(Authentication auth);
 
     @Override
     RequestInvoker timeout(int timeoutMillis);

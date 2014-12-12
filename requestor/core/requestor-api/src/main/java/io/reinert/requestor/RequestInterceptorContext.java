@@ -26,8 +26,6 @@ public interface RequestInterceptorContext {
 
     String getMethod();
 
-    String getPrincipals();
-
     int getTimeout();
 
     String getUrl();

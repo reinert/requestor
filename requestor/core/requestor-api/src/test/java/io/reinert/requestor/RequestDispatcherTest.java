@@ -51,7 +51,7 @@ public class RequestDispatcherTest {
     public void dispatch_OneClass_ShouldCallSend() {
         // Given
         Class<Object> type = Object.class;
-        SerializedRequest request = mock(SerializedRequestImpl.class);
+        RequestOrder request = mock(RequestOrder.class);
 
         // When
         Promise<Object> deferred = dispatcher.dispatch(request, type);
@@ -65,7 +65,7 @@ public class RequestDispatcherTest {
         // Given
         Class<Collection> collectionType = Collection.class;
         Class<Object> type = Object.class;
-        SerializedRequest request = mock(SerializedRequestImpl.class);
+        RequestOrder request = mock(RequestOrder.class);
 
         // When
         Promise<Collection<Object>> deferred = dispatcher.dispatch(request, type, collectionType);
@@ -83,12 +83,12 @@ public class RequestDispatcherTest {
         }
 
         @Override
-        protected <T> void send(SerializedRequest request, Deferred<T> deferred, Class<T> resultType) {
+        protected <T> void send(RequestOrder request, Deferred<T> deferred, Class<T> resultType) {
             // Do nothing
         }
 
         @Override
-        protected <T, C extends Collection> void send(SerializedRequest request, Deferred<C> deferred,
+        protected <T, C extends Collection> void send(RequestOrder request, Deferred<C> deferred,
                                                       Class<T> resultType, Class<C> containerType) {
             // Do nothing
         }

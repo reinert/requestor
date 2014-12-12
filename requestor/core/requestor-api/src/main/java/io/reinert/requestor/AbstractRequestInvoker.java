@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import io.reinert.requestor.auth.Authentication;
 import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.header.Header;
 
@@ -27,7 +28,7 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public abstract class AbstractRequestInvoker extends RequestBuilderImpl implements RequestInvoker {
+abstract class AbstractRequestInvoker extends RequestBuilderImpl implements RequestInvoker {
 
     protected final RequestDispatcher dispatcher;
     protected final RequestProcessor processor;
@@ -67,8 +68,8 @@ public abstract class AbstractRequestInvoker extends RequestBuilderImpl implemen
     }
 
     @Override
-    public RequestInvoker auth(String principals, String credentials) {
-        super.auth(principals, credentials);
+    public RequestInvoker auth(Authentication auth) {
+        super.auth(auth);
         return this;
     }
 

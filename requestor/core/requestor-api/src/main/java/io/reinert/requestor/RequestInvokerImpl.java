@@ -30,7 +30,7 @@ import io.reinert.requestor.deferred.Promise;
  *
  * @author Danilo Reinert
  */
-public class RequestInvokerImpl extends AbstractRequestInvoker {
+class RequestInvokerImpl extends AbstractRequestInvoker {
 
     public RequestInvokerImpl(String url, RequestProcessor processor, RequestDispatcher dispatcher) {
         super(url, dispatcher, processor);
@@ -97,7 +97,7 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> delete(Class<T> resultType,
-                                                                          Class<C> containerType) {
+                                                                   Class<C> containerType) {
         return send("DELETE", resultType, containerType);
     }
 
@@ -113,7 +113,7 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> patch(Class<T> resultType,
-                                                                         Class<C> containerType) {
+                                                                  Class<C> containerType) {
         return send("PATCH", resultType, containerType);
     }
 
@@ -144,7 +144,7 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType,
-                                                                           Class<C> containerType) {
+                                                                    Class<C> containerType) {
         return send("OPTIONS", resultType, containerType);
     }
 }

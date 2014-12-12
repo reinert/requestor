@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.auth.Authentication;
+
 /**
  * Represents a HTTP Request.
  *
@@ -28,6 +30,8 @@ public interface Request {
 
     Headers getHeaders();
 
+    String getHeader(String name);
+
     String getMethod();
 
     Object getPayload();
@@ -36,10 +40,8 @@ public interface Request {
 
     String getUrl();
 
-    String getPrincipals();
-
-    String getCredentials();
-
     ResponseType getResponseType();
+
+    Authentication getAuth();
 
 }
