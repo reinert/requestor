@@ -57,6 +57,10 @@ public class ResponseProcessor {
         } else if (Response.class == deserializationType || SerializedResponse.class == deserializationType) {
             r = (DeserializedResponse<T>) new DeserializedResponse<Response>(response.getHeaders(),
                     response.getStatusCode(), response.getStatusText(), response.getResponseType(), response);
+        } else if (Headers.class == deserializationType) {
+            r = (DeserializedResponse<T>) new DeserializedResponse<Headers>(response.getHeaders(),
+                    response.getStatusCode(), response.getStatusText(), response.getResponseType(),
+                    response.getHeaders());
         } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
             r = serializationEngine.deserializeResponse(request, response, deserializationType);
         } else {
@@ -88,6 +92,11 @@ public class ResponseProcessor {
                     response.getStatusText(), responseType, null);
         } else if (Response.class == deserializationType || SerializedResponse.class == deserializationType) {
             logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Response.class.getName()
+                    + "'. A null payload will be returned.");
+            r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
+                    response.getStatusText(), responseType, null);
+        } else if (Headers.class == deserializationType) {
+            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Headers.class.getName()
                     + "'. A null payload will be returned.");
             r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
                     response.getStatusText(), responseType, null);
