@@ -70,7 +70,7 @@
             </goals>
             <configuration>
               <excludes>
-                <exclude>io/reinert/requestor/RequestInvoker.*</exclude>
+                <exclude>io/reinert/requestor/HasHttpMethods.*</exclude>
                 <exclude>io/reinert/requestor/RequestInvokerImpl.*</exclude>
               </excludes>
             </configuration>

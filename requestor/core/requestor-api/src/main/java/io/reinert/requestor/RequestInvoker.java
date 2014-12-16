@@ -15,10 +15,7 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-
 import io.reinert.requestor.auth.Authentication;
-import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -32,7 +29,7 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface RequestInvoker extends RequestBuilder {
+public interface RequestInvoker extends RequestBuilder, HasHttpMethods {
 
     @Override
     RequestInvoker contentType(String mediaType);
@@ -58,45 +55,4 @@ public interface RequestInvoker extends RequestBuilder {
     @Override
     RequestInvoker responseType(ResponseType responseType);
 
-    Promise<Void> get();
-
-    <T> Promise<T> get(Class<T> resultType);
-
-    <T, C extends Collection> Promise<Collection<T>> get(Class<T> resultType, Class<C> containerType);
-
-    Promise<Void> post();
-
-    <T> Promise<T> post(Class<T> resultType);
-
-    <T, C extends Collection> Promise<Collection<T>> post(Class<T> resultType, Class<C> containerType);
-
-    Promise<Void> put();
-
-    <T> Promise<T> put(Class<T> resultType);
-
-    <T, C extends Collection> Promise<Collection<T>> put(Class<T> resultType, Class<C> containerType);
-
-    Promise<Void> delete();
-
-    <T> Promise<T> delete(Class<T> resultType);
-
-    <T, C extends Collection> Promise<Collection<T>> delete(Class<T> resultType, Class<C> containerType);
-
-    Promise<Void> patch();
-
-    <T> Promise<T> patch(Class<T> resultType);
-
-    <T, C extends Collection> Promise<Collection<T>> patch(Class<T> resultType, Class<C> containerType);
-
-    Promise<Void> head();
-
-    <T> Promise<T> head(Class<T> resultType);
-
-    <T, C extends Collection> Promise<Collection<T>> head(Class<T> resultType, Class<C> containerType);
-
-    Promise<Void> options();
-
-    <T> Promise<T> options(Class<T> resultType);
-
-    <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType, Class<C> containerType);
 }

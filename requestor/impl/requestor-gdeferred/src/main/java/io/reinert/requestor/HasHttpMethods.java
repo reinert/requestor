@@ -17,12 +17,10 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.auth.Authentication;
 import io.reinert.requestor.gdeferred.RequestPromise;
-import io.reinert.requestor.header.Header;
 
 /**
- * RequestInvoker custom interface exposing only GDeferred Promise API.
+ * HasHttpMethods custom interface exposing only GDeferred Promise API.
  * <p/>
  *
  * Notice that the dispatch methods are returning {@link io.reinert.requestor.gdeferred.RequestPromise}
@@ -31,31 +29,7 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface RequestInvoker extends RequestBuilder {
-
-    @Override
-    RequestInvoker contentType(String mediaType);
-
-    @Override
-    RequestInvoker accept(String mediaType);
-
-    @Override
-    RequestInvoker header(String header, String value);
-
-    @Override
-    RequestInvoker header(Header header);
-
-    @Override
-    RequestInvoker auth(Authentication auth);
-
-    @Override
-    RequestInvoker timeout(int timeoutMillis);
-
-    @Override
-    RequestInvoker payload(Object object) throws IllegalArgumentException;
-
-    @Override
-    RequestInvoker responseType(ResponseType responseType);
+public interface HasHttpMethods {
 
     RequestPromise<Void> get();
 
