@@ -13,9 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.examples.showcase.place;
+package io.reinert.requestor.examples.showcase;
 
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceHistoryMapper;
 
-public class HomePlace extends Place {
+public class ShowcasePlaceHistoryMapper implements PlaceHistoryMapper {
+
+    @Override
+    public Place getPlace(String token) {
+        return MenuOption.of(token).getPlace();
+    }
+
+    @Override
+    public String getToken(Place place) {
+        return ((HasToken) place).getToken();
+    }
 }

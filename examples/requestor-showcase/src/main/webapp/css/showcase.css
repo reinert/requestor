@@ -1,0 +1,85 @@
+@media (min-width: 992px) {
+    .requestor-showcase-header h1, .requestor-showcase-header p {
+        margin-right: 380px;
+    }
+
+    .requestor-showcase-header {
+        font-size: 24px;
+    }
+}
+
+@media (min-width: 768px) {
+    .requestor-showcase-header h1 {
+        font-size: 60px;
+        line-height: 1;
+    }
+}
+
+.requestor-showcase-nav {
+    margin-bottom: 0;
+    background-color: #fff;
+    border-bottom: 0;
+}
+
+.requestor-showcase-nav .navbar-brand, .requestor-showcase-nav .navbar-nav>li>a {
+    font-weight: 500;
+    color: #000;
+}
+
+.requestor-showcase-nav .navbar-nav>li>a:hover, .requestor-showcase-nav .navbar-nav>.active>a, .requestor-showcase-nav .navbar-nav>.active>a:hover {
+    background-color: #f9f9f9;
+}
+
+.requestor-showcase-header {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    text-align: left;
+    margin-bottom: 40px;
+    font-size: 24px;
+    position: relative;
+    padding: 30px 15px;
+    color: #e9e6eb;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+    background-color: #000;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#563d7c),to(#6f5499));
+    background-image: -webkit-linear-gradient(top,#000 0,#222 100%);
+    background-image: -o-linear-gradient(top,#000 0,#222 100%);
+    background-image: linear-gradient(to bottom,#000 0,#222 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000', endColorstr='#222', GradientType=0);
+    background-repeat: repeat-x;
+}
+
+.requestor-showcase-header h1 {
+    font-size: 60px;
+    line-height: 1;
+    margin-top: 0;
+    color: #fff;
+}
+
+.requestor-showcase-header p {
+    margin-bottom: 0;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.highlight {
+    padding: 9px 14px;
+    margin-bottom: 14px;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+}
+
+.highlight pre {
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    word-break: normal;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+.highlight pre code {
+    background-color: #f7f7f9;
+}

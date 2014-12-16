@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.examples.showcase.place;
+package io.reinert.requestor.examples.showcase;
 
-import com.google.gwt.place.shared.Place;
-
-public class HomePlace extends Place {
+public interface HasToken {
+    String getToken();
 }
