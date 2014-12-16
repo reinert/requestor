@@ -43,9 +43,6 @@
           <source>${target.jdk}</source>
           <target>${target.jdk}</target>
           <encoding>${project.build.sourceEncoding}</encoding>
-          <excludes>
-            <exclude>**/com/google/gwt/**/*</exclude>
-          </excludes>
         </configuration>
       </plugin>
     </plugins>

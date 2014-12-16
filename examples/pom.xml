@@ -29,6 +29,10 @@
   <groupId>io.reinert.requestor.examples</groupId>
   <artifactId>requestor-examples-parent</artifactId>
 
+  <modules>
+    <module>requestor-showcase</module>
+  </modules>
+
   <build>
     <pluginManagement>
       <plugins>
@@ -51,11 +55,15 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
           <version>${gwt.version}</version>
-          <configuration>
-            <extraJvmArgs>-Xss16M -Xms1024M -Xmx2048M</extraJvmArgs>
-            <includes>**/*GwtTestSuite.java</includes>
-            <testTimeOut>180</testTimeOut>
-          </configuration>
+          <executions>
+            <execution>
+              <id>gwt-compile</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
