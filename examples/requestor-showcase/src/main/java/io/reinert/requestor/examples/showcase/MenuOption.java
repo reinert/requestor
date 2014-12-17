@@ -19,6 +19,7 @@ import com.google.gwt.place.shared.Place;
 
 import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
 import io.reinert.requestor.examples.showcase.place.HomePlace;
+import io.reinert.requestor.examples.showcase.place.RequestingPlace;
 
 /**
  * Menu options of Requestor Showcase.
@@ -40,7 +41,7 @@ public enum MenuOption implements HasToken, HasPlace {
     REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, new HasPlace() {
         @Override
         public Place getPlace() {
-            return null;
+            return new RequestingPlace();
         }
     }),
     FORM("Form", Tokens.FORM_TOKEN, null),
@@ -63,6 +64,8 @@ public enum MenuOption implements HasToken, HasPlace {
     public static MenuOption of(String token) {
         if (token.equals(Tokens.GETTING_STARTED_TOKEN)) {
             return GETTING_STARTED;
+        } else if (token.equals(Tokens.REQUESTING_TOKEN)) {
+            return REQUESTING;
         } else if (token.equals(Tokens.FORM_TOKEN)) {
             return FORM;
         } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {

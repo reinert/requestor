@@ -28,9 +28,6 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.web.bindery.event.shared.EventBus;
 
@@ -41,13 +38,12 @@ import io.reinert.requestor.examples.showcase.place.HomePlace;
  */
 public class Showcase implements EntryPoint {
 
+    private final AcceptsOneWidget container = new RootSimplePanel();
     private final Place defaultPlace = new HomePlace();
 
     @Override
     public void onModuleLoad() {
-
-        final AcceptsOneWidget container = new RootSimplePanel();
-
+        // Populate the menu
         final Element menu = Document.get().getElementById("menu-list");
         for (MenuOption o : MenuOption.values()) {
             if (o != MenuOption.HOME) {
@@ -80,36 +76,9 @@ public class Showcase implements EntryPoint {
 
         // Goes to place represented on URL or default place
         historyHandler.handleCurrentHistory();
-
-//        GWT.log(clientFactory.getRequestor().getDefaultMediaType());
-//        final RequestInvoker request = clientFactory.getRequestor().request("http://httpbin.org/ip");
-//        GWT.log(request.getAccept());
-//        GWT.log(request.getContentType());
-//        request.get(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
-//            @Override
-//            public void onDone(JavaScriptObject result) {
-//                GWT.log(JsonSerdes.stringify(result));
-//            }
-//        });
-    }
-
-    static class RootWidget extends Composite implements AcceptsOneWidget {
-
-        final RootPanel rootPanel = RootPanel.get("page-container");
-
-        public RootWidget() {
-            initWidget(rootPanel);
-        }
-
-        @Override
-        public void setWidget(IsWidget w) {
-            rootPanel.clear();
-            rootPanel.add(w);
-        }
     }
 
     static class RootSimplePanel extends SimplePanel {
-
         public RootSimplePanel() {
             super(Document.get().getElementById("page-container"));
         }

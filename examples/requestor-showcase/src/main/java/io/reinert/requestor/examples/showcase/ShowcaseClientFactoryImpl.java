@@ -23,6 +23,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
+import io.reinert.requestor.examples.showcase.ui.Requesting;
 
 public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
 
@@ -31,6 +32,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private final Requestor requestor = GWT.create(Requestor.class);
     private Home home;
     private GettingStarted gettingStarted;
+    private Requesting requesting;
 
     public ShowcaseClientFactoryImpl() {
         requestor.setDefaultMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
@@ -63,5 +65,12 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (gettingStarted == null)
             gettingStarted = new GettingStarted();
         return gettingStarted;
+    }
+
+    @Override
+    public Requesting getRequesting() {
+        if (requesting == null)
+            requesting = new Requesting();
+        return requesting;
     }
 }
