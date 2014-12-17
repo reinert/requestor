@@ -15,7 +15,19 @@
  */
 package io.reinert.requestor.examples.showcase.place;
 
+import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.place.shared.Place;
 
-public class GettingStartedPlace extends Place {
+import io.reinert.requestor.examples.showcase.HasActivity;
+import io.reinert.requestor.examples.showcase.Showcase;
+import io.reinert.requestor.examples.showcase.activity.GettingStartedActivity;
+
+public class GettingStartedPlace extends Place implements HasActivity {
+
+    public static GettingStartedPlace INSTANCE = new GettingStartedPlace();
+
+    @Override
+    public Activity getActivity() {
+        return new GettingStartedActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getGettingStarted());
+    }
 }

@@ -16,13 +16,7 @@
 package io.reinert.requestor.examples.showcase;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.activity.shared.ActivityMapper;
-import com.google.gwt.place.shared.Place;
 
-public class ShowcaseActivityMapper implements ActivityMapper {
-
-    @Override
-    public Activity getActivity(Place place) {
-        return ((HasActivity) place).getActivity();
-    }
+public interface HasActivity {
+    Activity getActivity();
 }

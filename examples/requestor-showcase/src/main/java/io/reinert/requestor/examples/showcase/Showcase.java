@@ -38,6 +38,8 @@ import io.reinert.requestor.examples.showcase.place.HomePlace;
  */
 public class Showcase implements EntryPoint {
 
+    public static final ShowcaseClientFactory SHOWCASE_CLIENT_FACTORY = GWT.create(ShowcaseClientFactory.class);
+
     private final AcceptsOneWidget container = new RootSimplePanel();
     private final Place defaultPlace = new HomePlace();
 
@@ -60,12 +62,12 @@ public class Showcase implements EntryPoint {
 
         // Create ClientFactory using deferred binding so we can replace with different
         // impls in gwt.xml
-        ShowcaseClientFactory clientFactory = GWT.create(ShowcaseClientFactory.class);
+        ShowcaseClientFactory clientFactory = SHOWCASE_CLIENT_FACTORY;
         EventBus eventBus = clientFactory.getEventBus();
         PlaceController placeController = clientFactory.getPlaceController();
 
         // Start ActivityManager for the main widget with our ActivityMapper
-        ActivityMapper activityMapper = new ShowcaseActivityMapper(clientFactory);
+        ActivityMapper activityMapper = new ShowcaseActivityMapper();
         ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
         activityManager.setDisplay(container);
 

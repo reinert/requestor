@@ -15,7 +15,19 @@
  */
 package io.reinert.requestor.examples.showcase.place;
 
+import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.place.shared.Place;
 
-public class HomePlace extends Place {
+import io.reinert.requestor.examples.showcase.HasActivity;
+import io.reinert.requestor.examples.showcase.Showcase;
+import io.reinert.requestor.examples.showcase.activity.HomeActivity;
+
+public class HomePlace extends Place implements HasActivity {
+
+    public static HomePlace INSTANCE = new HomePlace();
+
+    @Override
+    public Activity getActivity() {
+        return new HomeActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getHome());
+    }
 }
