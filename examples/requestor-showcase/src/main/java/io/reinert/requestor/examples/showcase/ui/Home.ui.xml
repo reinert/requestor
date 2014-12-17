@@ -18,17 +18,17 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
     <g:HTMLPanel>
         <div class="highlight">
-            <pre>
-                <code class="java">
-                    public interface SampleClientFactory {
-                        String getUserName();
-                        EventBus getEventBus();
-                        PlaceController getPlaceController();
-                        Requestor getRequestor();
-                        Home getHome();
-                        About getAbout();
-                    }
-                </code>
+            <pre ui:field="sampleCode">
+<code class="java">
+public interface SampleClientFactory {<br/>
+  &#32;&#32;&#32;&#32;String getUserName();<br/>
+  &#32;&#32;&#32;&#32;EventBus getEventBus();<br/>
+  &#32;&#32;&#32;&#32;PlaceController getPlaceController();<br/>
+  &#32;&#32;&#32;&#32;Requestor getRequestor();<br/>
+  &#32;&#32;&#32;&#32;Home getHome();<br/>
+  &#32;&#32;&#32;&#32;About getAbout();<br/>
+}
+</code>
             </pre>
         </div>
     </g:HTMLPanel>

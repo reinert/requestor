@@ -57,10 +57,23 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <!-- TODO: skip javadocs -->
+          <!--<suppressionsLocation>/checkstyle-suppressions.xml</suppressionsLocation>-->
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <configuration>
           <module>io.reinert.requestor.examples.showcase.Showcase</module>
+          <localWorkers>2</localWorkers>
+          <runTarget>index.html</runTarget>
+          <webappDirectory>src/main/webapp</webappDirectory>
           <style>DETAILED</style>
           <strict>true</strict>
           <genParam>false</genParam>

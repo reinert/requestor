@@ -28,6 +28,7 @@
     <set-property name="gwt.logging.systemHandler" value="DISABLED" />
     <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
 
+    <inherits name="io.reinert.requestor.RequestorApi"/>
     <inherits name="io.reinert.requestor.RequestorByGDeferred"/>
 
     <source path=""/>
@@ -43,7 +44,7 @@
     </replace-with>
 
     <!-- Use ClientFactoryImpl by default -->
-    <!--<replace-with class="io.reinert.gwtsamples.twitter.SampleClientFactoryImpl">-->
-        <!--<when-type-is class="io.reinert.gwtsamples.twitter.SampleClientFactory"/>-->
-    <!--</replace-with>-->
+    <replace-with class="io.reinert.requestor.examples.showcase.ShowcaseClientFactoryImpl">
+        <when-type-is class="io.reinert.requestor.examples.showcase.ShowcaseClientFactory"/>
+    </replace-with>
 </module>
