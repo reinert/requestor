@@ -17,74 +17,133 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <g:HTMLPanel>
-    <h1 class="page-header">Download</h1>
+    <h1 class="page-header" id="download">Download</h1>
     <p class="lead">
       Requestor is available at maven central for installation or download.
     </p>
 
-    <h3>Install with Maven</h3>
-    <p>You can simply import the following modules to your POM.</p>
-    <div class="highlight">
-      <pre ui:field="mavenInstallation">
-        <code class="xml">
-          &lt;dependency&gt;
-          <br/>
-          &#32;&#32;&lt;groupId&gt;io.reinert.gdeferred&lt;/groupId&gt;
-          <br/>
-          &#32;&#32;&lt;artifactId&gt;gdeferred&lt;/artifactId&gt;
-          <br/>
-          &#32;&#32;&lt;version&gt;0.9.0&lt;/version&gt;
-          <br/>
-          &lt;/dependency&gt;
-          <br/>
-          &lt;dependency&gt;
-          <br/>
-          &#32;&#32;&lt;groupId&gt;io.reinert.requestor.impl&lt;/groupId&gt;
-          <br/>
-          &#32;&#32;&lt;artifactId&gt;requestor-gdeferred&lt;/artifactId&gt;
-          <br/>
-          &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
-          <br/>
-          &lt;/dependency&gt;
-          <br/>
-          &lt;dependency&gt;
-          <br/>
-          &#32;&#32;&lt;groupId&gt;io.reinert.requestor.core&lt;/groupId&gt;
-          <br/>
-          &#32;&#32;&lt;artifactId&gt;requestor-api&lt;/artifactId&gt;
-          <br/>
-          &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
-          <br/>
-          &lt;/dependency&gt;
-          <br/>
-          &lt;dependency&gt;
-          <br/>
-          &#32;&#32;&lt;groupId&gt;io.reinert.requestor.core&lt;/groupId&gt;
-          <br/>
-          &#32;&#32;&lt;artifactId&gt;requestor-annotations&lt;/artifactId&gt;
-          <br/>
-          &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
-          <br/>
-          &lt;/dependency&gt;
-        </code>
-      </pre>
+    <div class="requestor-showcase-section">
+      <h3>Install with Maven</h3>
+      <p>You can simply import the following modules to your POM.</p>
+      <div class="highlight">
+        <pre ui:field="mavenInstallation">
+          <code class="xml">
+            &lt;dependency&gt;
+            <br/>
+            &#32;&#32;&lt;groupId&gt;io.reinert.gdeferred&lt;/groupId&gt;
+            <br/>
+            &#32;&#32;&lt;artifactId&gt;gdeferred&lt;/artifactId&gt;
+            <br/>
+            &#32;&#32;&lt;version&gt;0.9.0&lt;/version&gt;
+            <br/>
+            &lt;/dependency&gt;
+            <br/>
+            &lt;dependency&gt;
+            <br/>
+            &#32;&#32;&lt;groupId&gt;io.reinert.requestor.impl&lt;/groupId&gt;
+            <br/>
+            &#32;&#32;&lt;artifactId&gt;requestor-gdeferred&lt;/artifactId&gt;
+            <br/>
+            &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+            <br/>
+            &lt;/dependency&gt;
+            <br/>
+            &lt;dependency&gt;
+            <br/>
+            &#32;&#32;&lt;groupId&gt;io.reinert.requestor.core&lt;/groupId&gt;
+            <br/>
+            &#32;&#32;&lt;artifactId&gt;requestor-api&lt;/artifactId&gt;
+            <br/>
+            &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+            <br/>
+            &lt;/dependency&gt;
+            <br/>
+            &lt;dependency&gt;
+            <br/>
+            &#32;&#32;&lt;groupId&gt;io.reinert.requestor.core&lt;/groupId&gt;
+            <br/>
+            &#32;&#32;&lt;artifactId&gt;requestor-annotations&lt;/artifactId&gt;
+            <br/>
+            &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+            <br/>
+            &lt;/dependency&gt;
+          </code>
+        </pre>
+      </div>
+
+      <h3>Get the JAR</h3>
+      <p>Maven Central provides links for the latest releases.</p>
+      <ul>
+        <li>
+          <a href="https://repo1.maven.org/maven2/io/reinert/gdeferred/0.9.0/gdeferred-0.9.0.jar">GDeferred 0.9.0
+            (required for impl bellow)
+          </a>
+        </li>
+        <li>
+          <a href="https://repo1.maven.org/maven2/io/reinert/requestor/impl/requestor-gdeferred/0.1.0/requestor-gdeferred-0.1.0.jar">
+            GDeferred's Requestor Impl 0.1.0
+          </a>
+        </li>
+        <li>
+          <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-api/0.1.0/requestor-api-0.1.0.jar">
+            Requestor API 0.1.0
+          </a>
+        </li>
+        <li>
+          <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-annotations/0.1.0/requestor-annotations-0.1.0.jar">
+            Requestor Annotations 0.1.0 (optional)
+          </a>
+        </li>
+      </ul>
     </div>
 
-    <h3>Get the JAR</h3>
-    <p>Maven Central provides links for the latest releases.</p>
-    <ul>
-      <li>
-        <a href="https://repo1.maven.org/maven2/io/reinert/gdeferred/0.9.0/gdeferred-0.9.0.jar">GDeferred 0.9.0 (required for impl bellow)</a>
-      </li>
-      <li>
-        <a href="https://repo1.maven.org/maven2/io/reinert/requestor/impl/requestor-gdeferred/0.1.0/requestor-gdeferred-0.1.0.jar">GDeferred's Requestor Impl</a>
-      </li>
-      <li>
-        <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-api/0.1.0/requestor-api-0.1.0.jar">Requestor API</a>
-      </li>
-      <li>
-        <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-annotations/0.1.0/requestor-annotations-0.1.0.jar">Requestor Annotations (optional)</a>
-      </li>
-    </ul>
+    <div class="requestor-showcase-section">
+      <h1 class="page-header" id="configure-gwt">Configure your GWT project</h1>
+      <p class="lead">
+        You must import a Requestor impl module to your module XML file.<br/>
+        Following this tutorial, let's use Requestor-GDeferred's module.
+      </p>
+      <div class="highlight">
+        <pre ui:field="gwtModule">
+          <code class="xml">
+            &lt;inherits name=&quot;io.reinert.requestor.RequestorByGDeferred&quot;/&gt;
+          </code>
+        </pre>
+      </div>
+    </div>
+
+    <div class="requestor-showcase-section">
+      <h1 class="page-header" id="use-requestor">Use Requestor</h1>
+      <p class="lead">
+        Now Requestor is available to your project.<br/>
+        You must get an instance of the Requestor object and use it as a singleton.
+      </p>
+
+      <h3>Get an instance of Requestor</h3>
+      <div class="highlight">
+        <pre ui:field="getRequestorInstance">
+          <code class="java">
+            Requestor r = GWT.create(Requestor.class);
+          </code>
+        </pre>
+      </div>
+
+      <h3>Make a request</h3>
+      <div class="highlight">
+        <pre ui:field="makeRequest">
+          <code class="java">
+            r.req("http://httpbin.org/ip").get(String.class).done(new DoneCallback&lt;String&gt;() {
+            <br/>
+            &#32;&#32;&#32;&#32;public void onDone(String ip) {
+            <br/>
+            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Window.alert(ip);
+            <br/>
+            &#32;&#32;&#32;&#32;}
+            <br/>
+            });
+          </code>
+        </pre>
+      </div>
+    </div>
   </g:HTMLPanel>
 </ui:UiBinder>

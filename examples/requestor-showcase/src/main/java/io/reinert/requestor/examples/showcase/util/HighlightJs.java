@@ -23,7 +23,13 @@ public final class HighlightJs {
         $wnd.hljs.initHighlighting();
     }-*/;
 
-    public static native void highlightBlock(Element e) /*-{
+    public static void highlightBlock(Element... e) {
+        for (Element el : e) {
+            highlightBlockNative(el);
+        }
+    }
+
+    private static native void highlightBlockNative(Element e) /*-{
         $wnd.hljs.highlightBlock(e);
     }-*/;
 

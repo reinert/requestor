@@ -30,10 +30,10 @@ public class GettingStarted extends Composite {
 
     private static GettingStartedUiBinder uiBinder = GWT.create(GettingStartedUiBinder.class);
 
-    @UiField Element mavenInstallation;
+    @UiField Element mavenInstallation, gwtModule, getRequestorInstance, makeRequest;
 
     public GettingStarted() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(mavenInstallation);
+        HighlightJs.highlightBlock(mavenInstallation, gwtModule, getRequestorInstance, makeRequest);
     }
 }
