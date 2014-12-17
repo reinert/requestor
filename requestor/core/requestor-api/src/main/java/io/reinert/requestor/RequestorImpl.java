@@ -134,7 +134,7 @@ public class RequestorImpl implements Requestor {
     private RequestInvoker createRequest(String uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor,
                 requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory));
-        if (defaultMediaType != null) {
+        if (defaultMediaType != null && !defaultMediaType.isEmpty()) {
             request.contentType(defaultMediaType);
             request.accept(defaultMediaType);
         }

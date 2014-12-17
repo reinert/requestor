@@ -22,4 +22,8 @@
   <generate-with class="io.reinert.requestor.rebind.JsonAutoBeanGenerator">
     <when-type-is class="io.reinert.requestor.GeneratedJsonSerdes"/>
   </generate-with>
+
+  <replace-with class="io.reinert.requestor.RequestorInitializerForJson">
+    <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
+  </replace-with>
 </module>
