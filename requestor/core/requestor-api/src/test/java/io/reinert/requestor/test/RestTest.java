@@ -42,7 +42,7 @@ public class RestTest extends GWTTestCase {
 //        final boolean[] callbacksCalled = new boolean[1];
 //        final Book data = new Book(1, "RESTful Web Services", "Leonard Richardson");
 //
-//        requestor.request(uri).payload(data).post().done(new DoneCallback<Void>() {
+//        requestor.req(uri).payload(data).post().done(new DoneCallback<Void>() {
 //            @Override
 //            public void onDone(Void aVoid) {
 //                callbacksCalled[0] = true;
@@ -64,7 +64,7 @@ public class RestTest extends GWTTestCase {
 //
 //        ServerStub.responseFor(uri, ResponseMock.of(null, 200, "OK", new ContentTypeHeader("application/json")));
 //
-//        requestor.request(uri).delete(); // You can optionally dismiss any server response
+//        requestor.req(uri).delete(); // You can optionally dismiss any server response
 //        ServerStub.triggerPendingRequest();
 //
 //        assertEquals(RequestBuilder.DELETE, ServerStub.getRequestData(uri).getMethod());
@@ -91,7 +91,7 @@ public class RestTest extends GWTTestCase {
 //
 //        final boolean[] callbacksCalled = new boolean[1];
 //
-//        requestor.request(uri).get(Book.class, List.class).done(new ListDoneCallback<Book>() {
+//        requestor.req(uri).get(Book.class, List.class).done(new ListDoneCallback<Book>() {
 //            @Override
 //            public void onDone(List<Book> books) {
 //                callbacksCalled[0] = true;
@@ -120,7 +120,7 @@ public class RestTest extends GWTTestCase {
 //
 //        final boolean[] callbacksCalled = new boolean[1];
 //
-//        requestor.request(uri).get(Book.class).done(new DoneCallback<Book>() {
+//        requestor.req(uri).get(Book.class).done(new DoneCallback<Book>() {
 //            @Override
 //            public void onDone(Book book) {
 //                callbacksCalled[0] = true;
@@ -148,7 +148,7 @@ public class RestTest extends GWTTestCase {
 //        final boolean[] callbacksCalled = new boolean[1];
 //        final Book data = new Book(1, "RESTful Web Services", "Leonard Richardson");
 //
-//        requestor.request(uri).payload(data).put().done(new DoneCallback<Void>() {
+//        requestor.req(uri).payload(data).put().done(new DoneCallback<Void>() {
 //            @Override
 //            public void onDone(Void result) {
 //                callbacksCalled[0] = true;

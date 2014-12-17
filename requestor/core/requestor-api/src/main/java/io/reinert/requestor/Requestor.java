@@ -144,5 +144,5 @@ public interface Requestor {
      *
      * @return The {@link RequestBuilder} instance.
      */
-    RequestInvoker request(String url);
+    RequestInvoker req(String url);
 }

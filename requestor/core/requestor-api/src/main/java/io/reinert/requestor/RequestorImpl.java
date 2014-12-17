@@ -58,7 +58,7 @@ public class RequestorImpl implements Requestor {
     //===================================================================
 
     @Override
-    public RequestInvoker request(String url) {
+    public RequestInvoker req(String url) {
         return createRequest(url);
     }
 
