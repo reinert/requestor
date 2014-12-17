@@ -29,9 +29,10 @@ public enum MenuOption implements HasToken, HasPlace {
     HOME("Requestor", Tokens.HOME_TOKEN, HomePlace.INSTANCE),
     GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, GettingStartedPlace.INSTANCE),
     REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, RequestingPlace.INSTANCE),
+    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, null),
     FORM("Form", Tokens.FORM_TOKEN, null),
-    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, null),
     STREAM("Stream", Tokens.STREAM_TOKEN, null),
+    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, null),
     FILTERS("Filters", Tokens.FILTERS_TOKEN, null),
     INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, null);
 
@@ -39,9 +40,10 @@ public enum MenuOption implements HasToken, HasPlace {
         public static final String HOME_TOKEN = "home";
         public static final String GETTING_STARTED_TOKEN = "getting-started";
         public static final String REQUESTING_TOKEN = "requesting";
+        public static final String SERIALIZATION_TOKEN = "serialization";
         public static final String FORM_TOKEN = "form";
-        public static final String AUTHENTICATION_TOKEN = "authentication";
         public static final String STREAM_TOKEN = "stream";
+        public static final String AUTHENTICATION_TOKEN = "authentication";
         public static final String FILTERS_TOKEN = "filters";
         public static final String INTERCEPTORS_TOKEN = "interceptors";
     }
@@ -51,6 +53,8 @@ public enum MenuOption implements HasToken, HasPlace {
             return GETTING_STARTED;
         } else if (token.equals(Tokens.REQUESTING_TOKEN)) {
             return REQUESTING;
+        } else if (token.equals(Tokens.SERIALIZATION_TOKEN)) {
+            return SERIALIZATION;
         } else if (token.equals(Tokens.FORM_TOKEN)) {
             return FORM;
         } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {
