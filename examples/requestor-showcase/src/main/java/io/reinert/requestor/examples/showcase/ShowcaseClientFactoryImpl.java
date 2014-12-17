@@ -30,6 +30,10 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private final Requestor requestor = GWT.create(Requestor.class);
     private Home home;
 
+    public ShowcaseClientFactoryImpl() {
+        requestor.setDefaultMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
+    }
+
     @Override
     public EventBus getEventBus() {
         return eventBus;

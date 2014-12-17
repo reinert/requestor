@@ -43,11 +43,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-annotations</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <version>${gwt.version}</version>
@@ -73,7 +68,7 @@
           <module>io.reinert.requestor.examples.showcase.Showcase</module>
           <localWorkers>2</localWorkers>
           <runTarget>index.html</runTarget>
-          <webappDirectory>src/main/webapp</webappDirectory>
+          <copyWebapp>true</copyWebapp>
           <style>DETAILED</style>
           <strict>true</strict>
           <genParam>false</genParam>

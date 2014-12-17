@@ -28,7 +28,6 @@
     <set-property name="gwt.logging.systemHandler" value="DISABLED" />
     <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
 
-    <inherits name="io.reinert.requestor.RequestorApi"/>
     <inherits name="io.reinert.requestor.RequestorByGDeferred"/>
 
     <source path=""/>
@@ -37,6 +36,11 @@
 
     <!-- Only support recent browsers -->
     <set-property name="user.agent" value="ie10,gecko1_8,safari"/>
+
+    <!-- Use the JSON initializer -->
+    <replace-with class="io.reinert.requestor.RequestorInitializerForJson">
+        <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
+    </replace-with>
 
     <!-- Based on native FormData object which is supported since ie10 -->
     <replace-with class="io.reinert.requestor.form.FormDataSerializerNative">
