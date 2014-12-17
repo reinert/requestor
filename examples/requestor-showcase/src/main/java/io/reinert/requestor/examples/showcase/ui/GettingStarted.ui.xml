@@ -1,0 +1,90 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <h1 class="page-header">Download</h1>
+    <p class="lead">
+      Requestor is available at maven central for installation or download.
+    </p>
+
+    <h3>Install with Maven</h3>
+    <p>You can simply import the following modules to your POM.</p>
+    <div class="highlight">
+      <pre ui:field="mavenInstallation">
+        <code class="xml">
+          &lt;dependency&gt;
+          <br/>
+          &#32;&#32;&lt;groupId&gt;io.reinert.gdeferred&lt;/groupId&gt;
+          <br/>
+          &#32;&#32;&lt;artifactId&gt;gdeferred&lt;/artifactId&gt;
+          <br/>
+          &#32;&#32;&lt;version&gt;0.9.0&lt;/version&gt;
+          <br/>
+          &lt;/dependency&gt;
+          <br/>
+          &lt;dependency&gt;
+          <br/>
+          &#32;&#32;&lt;groupId&gt;io.reinert.requestor.impl&lt;/groupId&gt;
+          <br/>
+          &#32;&#32;&lt;artifactId&gt;requestor-gdeferred&lt;/artifactId&gt;
+          <br/>
+          &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+          <br/>
+          &lt;/dependency&gt;
+          <br/>
+          &lt;dependency&gt;
+          <br/>
+          &#32;&#32;&lt;groupId&gt;io.reinert.requestor.core&lt;/groupId&gt;
+          <br/>
+          &#32;&#32;&lt;artifactId&gt;requestor-api&lt;/artifactId&gt;
+          <br/>
+          &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+          <br/>
+          &lt;/dependency&gt;
+          <br/>
+          &lt;dependency&gt;
+          <br/>
+          &#32;&#32;&lt;groupId&gt;io.reinert.requestor.core&lt;/groupId&gt;
+          <br/>
+          &#32;&#32;&lt;artifactId&gt;requestor-annotations&lt;/artifactId&gt;
+          <br/>
+          &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+          <br/>
+          &lt;/dependency&gt;
+        </code>
+      </pre>
+    </div>
+
+    <h3>Get the JAR</h3>
+    <p>Maven Central provides links for the latest releases.</p>
+    <ul>
+      <li>
+        <a href="https://repo1.maven.org/maven2/io/reinert/gdeferred/0.9.0/gdeferred-0.9.0.jar">GDeferred 0.9.0 (required for impl bellow)</a>
+      </li>
+      <li>
+        <a href="https://repo1.maven.org/maven2/io/reinert/requestor/impl/requestor-gdeferred/0.1.0/requestor-gdeferred-0.1.0.jar">GDeferred's Requestor Impl</a>
+      </li>
+      <li>
+        <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-api/0.1.0/requestor-api-0.1.0.jar">Requestor API</a>
+      </li>
+      <li>
+        <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-annotations/0.1.0/requestor-annotations-0.1.0.jar">Requestor Annotations (optional)</a>
+      </li>
+    </ul>
+  </g:HTMLPanel>
+</ui:UiBinder>

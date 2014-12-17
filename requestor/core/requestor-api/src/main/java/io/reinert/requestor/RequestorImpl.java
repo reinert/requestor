@@ -68,6 +68,11 @@ public class RequestorImpl implements Requestor {
 
     @Override
     public void setDefaultMediaType(String mediaType) {
+        if (mediaType != null) {
+            int i = mediaType.indexOf('/');
+            if (i == -1 || i != mediaType.lastIndexOf('/'))
+                throw new IllegalArgumentException("Media-type must follow the pattern {type}/{subtype}");
+        }
         this.defaultMediaType = mediaType;
     }
 
@@ -134,7 +139,7 @@ public class RequestorImpl implements Requestor {
     private RequestInvoker createRequest(String uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor,
                 requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory));
-        if (defaultMediaType != null && !defaultMediaType.isEmpty()) {
+        if (defaultMediaType != null) {
             request.contentType(defaultMediaType);
             request.accept(defaultMediaType);
         }

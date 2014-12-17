@@ -17,6 +17,7 @@ package io.reinert.requestor.examples.showcase;
 
 import com.google.gwt.place.shared.Place;
 
+import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
 import io.reinert.requestor.examples.showcase.place.HomePlace;
 
 /**
@@ -24,8 +25,24 @@ import io.reinert.requestor.examples.showcase.place.HomePlace;
  */
 public enum MenuOption implements HasToken, HasPlace {
 
-    HOME("Requestor", Tokens.HOME_TOKEN, new HomePlace()),
-    GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, null),
+    HOME("Requestor", Tokens.HOME_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace() {
+            return new HomePlace();
+        }
+    }),
+    GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace() {
+            return new GettingStartedPlace();
+        }
+    }),
+    REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace() {
+            return null;
+        }
+    }),
     FORM("Form", Tokens.FORM_TOKEN, null),
     AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, null),
     STREAM("Stream", Tokens.STREAM_TOKEN, null),
@@ -35,6 +52,7 @@ public enum MenuOption implements HasToken, HasPlace {
     public static class Tokens {
         public static final String HOME_TOKEN = "home";
         public static final String GETTING_STARTED_TOKEN = "getting-started";
+        public static final String REQUESTING_TOKEN = "requesting";
         public static final String FORM_TOKEN = "form";
         public static final String AUTHENTICATION_TOKEN = "authentication";
         public static final String STREAM_TOKEN = "stream";
@@ -62,12 +80,12 @@ public enum MenuOption implements HasToken, HasPlace {
 
     private final String label;
     private final String token;
-    private final Place place;
+    private final HasPlace placeCallback;
 
-    private MenuOption(String label, String token, Place place) {
+    private MenuOption(String label, String token, HasPlace placeCallback) {
         this.label = label;
         this.token = token;
-        this.place = place;
+        this.placeCallback = placeCallback;
     }
 
     public String getLabel() {
@@ -76,7 +94,7 @@ public enum MenuOption implements HasToken, HasPlace {
 
     @Override
     public Place getPlace() {
-        return place;
+        return placeCallback.getPlace();
     }
 
     @Override

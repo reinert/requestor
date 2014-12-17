@@ -21,6 +21,7 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
 
 public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
@@ -29,6 +30,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private final PlaceController placeController = new PlaceController(eventBus);
     private final Requestor requestor = GWT.create(Requestor.class);
     private Home home;
+    private GettingStarted gettingStarted;
 
     public ShowcaseClientFactoryImpl() {
         requestor.setDefaultMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
@@ -54,5 +56,12 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (home == null)
             home = new Home();
         return home;
+    }
+
+    @Override
+    public GettingStarted getGettingStarted() {
+        if (gettingStarted == null)
+            gettingStarted = new GettingStarted();
+        return gettingStarted;
     }
 }

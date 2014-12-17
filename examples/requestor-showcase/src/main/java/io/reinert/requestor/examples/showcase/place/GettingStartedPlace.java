@@ -13,19 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.examples.showcase;
+package io.reinert.requestor.examples.showcase.place;
 
-import com.google.gwt.place.shared.PlaceController;
-import com.google.web.bindery.event.shared.EventBus;
+import com.google.gwt.place.shared.Place;
 
-import io.reinert.requestor.Requestor;
-import io.reinert.requestor.examples.showcase.ui.GettingStarted;
-import io.reinert.requestor.examples.showcase.ui.Home;
-
-public interface ShowcaseClientFactory {
-    EventBus getEventBus();
-    PlaceController getPlaceController();
-    Requestor getRequestor();
-    Home getHome();
-    GettingStarted getGettingStarted();
+public class GettingStartedPlace extends Place {
 }

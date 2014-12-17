@@ -19,7 +19,9 @@ import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 
+import io.reinert.requestor.examples.showcase.activity.GettingStartedActivity;
 import io.reinert.requestor.examples.showcase.activity.HomeActivity;
+import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
 import io.reinert.requestor.examples.showcase.place.HomePlace;
 
 public class ShowcaseActivityMapper implements ActivityMapper {
@@ -34,6 +36,8 @@ public class ShowcaseActivityMapper implements ActivityMapper {
     public Activity getActivity(Place place) {
         if (place instanceof HomePlace)
             return new HomeActivity(clientFactory.getHome());
+        if (place instanceof GettingStartedPlace)
+            return new GettingStartedActivity(clientFactory.getGettingStarted());
         return null;
     }
 }

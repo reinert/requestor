@@ -19,21 +19,21 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.examples.showcase.ui.Home;
+import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.util.Page;
 
-public class HomeActivity extends AbstractActivity {
+public class GettingStartedActivity extends AbstractActivity {
 
-    private final Home home;
+    private final GettingStarted gettingStarted;
 
-    public HomeActivity(Home home) {
-        this.home = home;
+    public GettingStartedActivity(GettingStarted gettingStarted) {
+        this.gettingStarted = gettingStarted;
     }
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        Page.setTitle("Requestor", true);
-        Page.setDescription("Requesting made easy for GWT.", true);
-        panel.setWidget(home);
+        Page.setTitle("Getting Started");
+        Page.setDescription("The steps for download, install and set-up the GWT project.");
+        panel.setWidget(gettingStarted);
     }
 }

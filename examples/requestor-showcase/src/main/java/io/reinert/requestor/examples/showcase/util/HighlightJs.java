@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.examples.showcase.ui;
+package io.reinert.requestor.examples.showcase.util;
 
 import com.google.gwt.dom.client.Element;
 
