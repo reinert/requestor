@@ -1,14 +1,14 @@
 @media (min-width: 992px) {
-    .requestor-showcase-header h1, .requestor-showcase-header p {
-        margin-right: 380px;
-    }
-
     .requestor-showcase-header {
         font-size: 24px;
     }
 }
 
 @media (min-width: 768px) {
+    .requestor-showcase-featurette-title {
+        font-size: 40px;
+    }
+
     .requestor-showcase-header h1 {
         font-size: 60px;
         line-height: 1;
@@ -28,6 +28,13 @@
 
 .requestor-showcase-nav .navbar-nav>li>a:hover, .requestor-showcase-nav .navbar-nav>.active>a, .requestor-showcase-nav .navbar-nav>.active>a:hover {
     background-color: #f9f9f9;
+}
+
+.requestor-showcase-featurette-title {
+    margin-bottom: 5px;
+    font-size: 30px;
+    font-weight: 400;
+    color: #333;
 }
 
 .requestor-showcase-header {
@@ -60,6 +67,11 @@
     margin-bottom: 0;
     font-weight: 300;
     line-height: 1.4;
+}
+
+.half-rule {
+    width: 100px;
+    margin: 40px auto;
 }
 
 .highlight {

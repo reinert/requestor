@@ -24,24 +24,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Home extends Composite {
 
-    public interface Handler {
-    }
-
-    interface HomeUiBinder extends UiBinder<Widget, Home> {
-    }
+    interface HomeUiBinder extends UiBinder<Widget, Home> {}
 
     private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);
 
     @UiField Element sampleCode;
-    private Handler handler;
 
     public Home() {
         Widget rootElement = uiBinder.createAndBindUi(this);
-        HighlightJs.highlightBlock(sampleCode);
-        initWidget(rootElement);
-    }
 
-    public void setHandler(Handler handler) {
-        this.handler = handler;
+        HighlightJs.highlightBlock(sampleCode);
+        Page.setTitle("Requestor", true);
+        Page.setDescription("Requesting made easy for GWT.", true);
+
+        initWidget(rootElement);
     }
 }

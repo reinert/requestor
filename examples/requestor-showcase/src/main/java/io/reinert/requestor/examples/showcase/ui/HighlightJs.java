@@ -17,7 +17,7 @@ package io.reinert.requestor.examples.showcase.ui;
 
 import com.google.gwt.dom.client.Element;
 
-public class HighlightJs {
+public final class HighlightJs {
 
     public static native void initHighlighting() /*-{
         $wnd.hljs.initHighlighting();

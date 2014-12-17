@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.examples.showcase.ui.Home;
 
-public class HomeActivity extends AbstractActivity implements Home.Handler {
+public class HomeActivity extends AbstractActivity {
 
     private final Home home;
 
@@ -31,12 +31,6 @@ public class HomeActivity extends AbstractActivity implements Home.Handler {
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        home.setHandler(this);
         panel.setWidget(home);
-    }
-
-    @Override
-    public void onStop() {
-        home.setHandler(null);
     }
 }

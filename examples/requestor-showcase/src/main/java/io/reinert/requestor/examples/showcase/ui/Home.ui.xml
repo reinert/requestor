@@ -16,20 +16,31 @@
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-    <g:HTMLPanel>
-        <div class="highlight">
-            <pre ui:field="sampleCode">
-<code class="java">
-public interface SampleClientFactory {<br/>
-  &#32;&#32;&#32;&#32;String getUserName();<br/>
-  &#32;&#32;&#32;&#32;EventBus getEventBus();<br/>
-  &#32;&#32;&#32;&#32;PlaceController getPlaceController();<br/>
-  &#32;&#32;&#32;&#32;Requestor getRequestor();<br/>
-  &#32;&#32;&#32;&#32;Home getHome();<br/>
-  &#32;&#32;&#32;&#32;About getAbout();<br/>
-}
-</code>
-            </pre>
-        </div>
-    </g:HTMLPanel>
+  <g:HTMLPanel>
+    <h1 class="requestor-showcase-featurette-title text-center">Simple and complete</h1>
+    <p class="lead text-center">
+      Requestor cares for the beauty and simplicity of your code while strictly focuses on the extensibility of its API.
+    </p>
+    <div class="highlight">
+      <pre ui:field="sampleCode">
+        <code class="java">
+          public interface SampleClientFactory {
+          <br/>
+          &#32;&#32;&#32;&#32;String getUserName();
+          <br/>
+          &#32;&#32;&#32;&#32;EventBus getEventBus();
+          <br/>
+          &#32;&#32;&#32;&#32;PlaceController getPlaceController();
+          <br/>
+          &#32;&#32;&#32;&#32;Requestor getRequestor();
+          <br/>
+          &#32;&#32;&#32;&#32;Home getHome();
+          <br/>
+          &#32;&#32;&#32;&#32;About getAbout();
+          <br/>
+          }
+        </code>
+      </pre>
+    </div>
+  </g:HTMLPanel>
 </ui:UiBinder>

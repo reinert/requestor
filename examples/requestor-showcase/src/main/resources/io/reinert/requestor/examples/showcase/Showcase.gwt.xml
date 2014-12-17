@@ -16,7 +16,6 @@
 -->
 <module rename-to="showcase">
     <inherits name="com.google.gwt.user.User"/>
-    <inherits name="com.google.gwt.user.theme.clean.Clean"/>
     <inherits name="com.google.gwt.place.Place"/>
     <inherits name="com.google.gwt.activity.Activity"/>
 
