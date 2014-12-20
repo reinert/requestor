@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.serialization.json;
 
+import java.lang.StringBuilder;
 import java.util.Collection;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -75,13 +76,12 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
 
     @Override
     public String serialize(Collection<JavaScriptObject> c, SerializationContext context) {
-        @SuppressWarnings("unchecked")
-        JsArray<JavaScriptObject> jsArray = (JsArray<JavaScriptObject>) JsArray.createArray();
+        StringBuilder sb = new StringBuilder("[");
         for (JavaScriptObject t : c) {
-            jsArray.push(t);
+            sb.append(stringify(t)).append(',');
         }
-
-        return stringify(jsArray);
+        sb.setCharAt(sb.length() - 1, ']');
+        return sb.toString(); 
     }
 
     protected <T extends JavaScriptObject> T eval(String response) {
