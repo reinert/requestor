@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.deferred;
+package io.reinert.requestor.gdeferred;
 
-import io.reinert.requestor.HttpConnection;
-import io.reinert.requestor.RequestException;
-import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Response;
 
 /**
- * A Promise with resolving capabilities.
+ * DoneCallback with optional access to the response.
  *
- * @param <T> The type of the promise value
- *
- * @author Danilo Reinert
+ * @param <T> Type of the response payload
  */
-public interface Deferred<T> extends Promise<T> {
+public abstract class DoneCallback<T> implements io.reinert.gdeferred.DoneCallback<T> {
 
-    void resolve(Response<T> response);
+    @Override
+    public void onDone(T result) {
+    }
 
-    void reject(RequestException error);
-
-    void notifyDownload(RequestProgress progress);
-
-    void notifyUpload(RequestProgress progress);
-
-    void setHttpConnection(HttpConnection connection);
-
+    public void onDone(Response<T> result) {
+        onDone(result.getPayload());
+    }
 }

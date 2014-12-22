@@ -45,7 +45,7 @@ public abstract class RequestDispatcher {
      * {@link Deferred#notifyDownload(RequestProgress)} and
      * {@link Deferred#notifyUpload(RequestProgress)}.
      * <p/>
-     * All possible exceptions should be caught and sent to {@link Deferred#rejectPromise(RequestException)}
+     * All possible exceptions should be caught and sent to {@link Deferred#reject(RequestException)}
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.
      *
@@ -65,7 +65,7 @@ public abstract class RequestDispatcher {
      * {@link Deferred#notifyDownload(RequestProgress)} and
      * {@link Deferred#notifyUpload(RequestProgress)}.
      * <p/>
-     * All possible exceptions should be caught and sent to {@link Deferred#rejectPromise(RequestException)}
+     * All possible exceptions should be caught and sent to {@link Deferred#reject(RequestException)}
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.
      *
@@ -89,7 +89,7 @@ public abstract class RequestDispatcher {
      * @return              The promise for the dispatched request
      */
     public <T> Promise<T> dispatch(SerializedRequest request, final Class<T> resultType) {
-        final Deferred<T> deferred = deferredFactory.getDeferredRequest();
+        final Deferred<T> deferred = deferredFactory.getDeferred();
 
         final Authentication auth = request.getAuth();
         auth.authenticate(new AbstractRequestOrder(request) {
@@ -98,7 +98,7 @@ public abstract class RequestDispatcher {
                 try {
                     RequestDispatcher.this.send(this, deferred, resultType);
                 } catch (Exception e) {
-                    deferred.rejectPromise(new RequestDispatchException(
+                    deferred.reject(new RequestDispatchException(
                             "Some non-caught exception occurred while dispatching the request", e));
                 }
             }
@@ -121,7 +121,7 @@ public abstract class RequestDispatcher {
     public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request,
                                                                      final Class<T> resultType,
                                                                      final Class<C> containerType) {
-        final Deferred<Collection<T>> deferred = deferredFactory.getDeferredRequest();
+        final Deferred<Collection<T>> deferred = deferredFactory.getDeferred();
 
         final Authentication auth = request.getAuth();
         auth.authenticate(new AbstractRequestOrder(request) {
@@ -132,7 +132,7 @@ public abstract class RequestDispatcher {
                     final Class<Collection<T>> collectionClass = (Class<Collection<T>>) containerType;
                     RequestDispatcher.this.send(this, deferred, resultType, collectionClass);
                 } catch (Exception e) {
-                    deferred.rejectPromise(new RequestDispatchException(
+                    deferred.reject(new RequestDispatchException(
                             "Some non-caught exception occurred while dispatching the request", e));
                 }
             }

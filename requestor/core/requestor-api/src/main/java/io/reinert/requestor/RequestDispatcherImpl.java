@@ -21,7 +21,6 @@ import javax.annotation.Nullable;
 
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
 import io.reinert.requestor.deferred.Deferred;
@@ -49,8 +48,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         doSend(request, deferred, containerType, resultType);
     }
 
-    protected <D> void doSend(RequestOrder request, final Deferred<D> deferred, Class<D> resolveType,
-                              @Nullable Class<?> parametrizedType) {
+    protected <D> void doSend(RequestOrder request, final Deferred<D> deferred,
+                              Class<D> resolveType, @Nullable Class<?> parametrizedType) {
         final String httpMethod = request.getMethod();
         final String url = request.getUrl();
         final Headers headers = request.getHeaders();
@@ -66,7 +65,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         } catch (JavaScriptException e) {
             RequestPermissionException requestPermissionException = new RequestPermissionException(url);
             requestPermissionException.initCause(new RequestException(e.getMessage()));
-            deferred.rejectPromise(requestPermissionException);
+            deferred.reject(requestPermissionException);
         }
 
         // Set withCredentials
@@ -76,7 +75,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         try {
             setHeaders(headers, xmlHttpRequest);
         } catch (JavaScriptException e) {
-            deferred.rejectPromise(new RequestException(e.getMessage()));
+            deferred.reject(new RequestException(e.getMessage()));
         }
 
         // Set responseType
@@ -130,7 +129,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                 xmlHttpRequest.send();
             }
         } catch (JavaScriptException e) {
-            deferred.rejectPromise(new RequestDispatchException(e.getMessage()));
+            deferred.reject(new RequestDispatchException(e.getMessage()));
         }
     }
 
@@ -147,10 +146,12 @@ public class RequestDispatcherImpl extends RequestDispatcher {
     }
 
     private <D> RequestCallback getRequestCallback(final Request request, final XMLHttpRequest xhr,
-                                                   final Deferred<D> deferred, final Class<D> resolveType,
+                                                   final Deferred<D> deferred,
+                                                   final Class<D> resolveType,
                                                    final Class<?> parametrizedType) {
         return new RequestCallback() {
-            public void onResponseReceived(com.google.gwt.http.client.Request gwtRequest, Response gwtResponse) {
+            public void onResponseReceived(com.google.gwt.http.client.Request gwtRequest,
+                                           com.google.gwt.http.client.Response gwtResponse) {
                 final String responseType = xhr.getResponseType();
                 final Payload payload = responseType.isEmpty() || responseType.equalsIgnoreCase("text") ?
                         new Payload(xhr.getResponseText()) : new Payload(xhr.getResponse());
@@ -162,26 +163,26 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                     // Resolve if response is 2xx
                     final ResponseProcessor processor = getResponseProcessor();
                     @SuppressWarnings("unchecked")  // Ok, this is ugly
-                    final DeserializedResponse<D> re = parametrizedType != null ?
+                    final DeserializedResponse<D> r = parametrizedType != null ?
                             (DeserializedResponse<D>) processor.process(request, response, parametrizedType,
-                                    (Class<? extends Collection>) resolveType) :
+                                    (Class<Collection>) resolveType) :
                             processor.process(request, response, resolveType);
-                    deferred.resolvePromise(re.getPayload());
+                    deferred.resolve(r);
                 } else {
-                    // rejectPromise as unsuccessful response if response isn't 2xx
-                    deferred.rejectPromise(new UnsuccessfulResponseException(request, response));
+                    // reject as unsuccessful response if response isn't 2xx
+                    deferred.reject(new UnsuccessfulResponseException(request, response));
                 }
             }
 
             public void onError(com.google.gwt.http.client.Request gwtRequest, Throwable exception) {
                 if (exception instanceof com.google.gwt.http.client.RequestTimeoutException) {
-                    // rejectPromise as timeout
+                    // reject as timeout
                     com.google.gwt.http.client.RequestTimeoutException e =
                             (com.google.gwt.http.client.RequestTimeoutException) exception;
-                    deferred.rejectPromise(new RequestTimeoutException(request, e.getTimeoutMillis()));
+                    deferred.reject(new RequestTimeoutException(request, e.getTimeoutMillis()));
                 } else {
-                    // rejectPromise as generic request exception
-                    deferred.rejectPromise(new RequestException(exception));
+                    // reject as generic request exception
+                    deferred.reject(new RequestException(exception));
                 }
             }
         };

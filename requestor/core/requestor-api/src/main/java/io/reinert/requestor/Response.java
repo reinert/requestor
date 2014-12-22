@@ -18,9 +18,11 @@ package io.reinert.requestor;
 /**
  * Represents a HTTP response.
  *
+ * @param <T> Type of the payload
+ *
  * @author Danilo Reinert
  */
-public interface Response {
+public interface Response<T> {
 
     int ACCEPTED = 202;
     int BAD_GATEWAY = 502;
@@ -106,7 +108,7 @@ public interface Response {
      *
      * @return the response payload
      */
-    Object getPayload();
+    T getPayload();
 
     /**
      * Returns the response type.

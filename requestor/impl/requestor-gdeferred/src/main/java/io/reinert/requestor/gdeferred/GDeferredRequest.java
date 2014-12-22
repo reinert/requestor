@@ -24,6 +24,7 @@ import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestProgress;
+import io.reinert.requestor.Response;
 import io.reinert.requestor.deferred.Callback;
 import io.reinert.requestor.deferred.Deferred;
 
@@ -41,13 +42,39 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     public GDeferredRequest() {
     }
 
-    @Override
-    public void resolvePromise(T result) {
-        super.resolve(result);
+    @SuppressWarnings("unchecked")
+    protected void triggerDone(Response<T> resolved) {
+        for (io.reinert.gdeferred.DoneCallback<T> callback : getDoneCallbacks()) {
+            try {
+                if (callback instanceof DoneCallback) {
+                    ((DoneCallback) callback).onDone(resolved);
+                } else {
+                    callback.onDone(resolved.getPayload());
+                }
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "An uncaught exception occurred in a DoneCallback", e);
+            }
+        }
     }
 
     @Override
-    public void rejectPromise(RequestException error) {
+    public void resolve(final Response<T> response) {
+        if (!isPending()) {
+            throw new IllegalStateException("Deferred object already finished, cannot resolve again");
+        }
+
+        state = State.RESOLVED;
+        resolveResult = response.getPayload();
+
+        try {
+            triggerDone(response);
+        } finally {
+            triggerAlways(resolveResult, null);
+        }
+    }
+
+    @Override
+    public void reject(RequestException error) {
         // If the http connection is still opened, then close it
         if (connection != null && connection.isPending())
             connection.cancel();

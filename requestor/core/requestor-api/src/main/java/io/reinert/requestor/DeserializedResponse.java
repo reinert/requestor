@@ -22,7 +22,7 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public class DeserializedResponse<T> implements Response {
+public class DeserializedResponse<T> implements Response<T> {
 
     private final Headers headers;
     private final int statusCode;

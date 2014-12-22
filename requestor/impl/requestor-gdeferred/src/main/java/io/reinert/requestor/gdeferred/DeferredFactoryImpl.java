@@ -24,7 +24,7 @@ import io.reinert.requestor.deferred.Deferred;
 public class DeferredFactoryImpl implements DeferredFactory {
 
     @Override
-    public <T> Deferred<T> getDeferredRequest() {
+    public <T> Deferred<T> getDeferred() {
         return new GDeferredRequest<T>();
     }
 }

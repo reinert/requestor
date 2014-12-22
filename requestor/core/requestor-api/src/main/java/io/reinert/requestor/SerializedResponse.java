@@ -20,7 +20,7 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public interface SerializedResponse extends Response {
+public interface SerializedResponse extends Response<Payload> {
     @Override
     Payload getPayload();
 }

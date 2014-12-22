@@ -21,7 +21,5 @@ import io.reinert.requestor.deferred.Deferred;
  * Factory for {@link io.reinert.requestor.deferred.Deferred}.
  */
 public interface DeferredFactory {
-
-    <T> Deferred<T> getDeferredRequest();
-
+    <T> Deferred<T> getDeferred();
 }
