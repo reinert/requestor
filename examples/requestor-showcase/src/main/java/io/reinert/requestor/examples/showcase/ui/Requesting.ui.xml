@@ -17,203 +17,221 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <g:HTMLPanel>
-    <h1 class="page-header">First requests - API introduction</h1>
-    <p class="lead">
-      Requestor was designed with fluent API in order to make it simple to interact with the library.
-    </p>
-
-    <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>Let's make a simple request to find out your origin ip.</p>
-      <div class="highlight">
-        <pre ui:field="getIp" class="java">
-          <code>
-            RequestPromise&lt;JavaScriptObject&gt; promise = requestor.req(&quot;http://httpbin.org/ip&quot;).get(JavaScriptObject.class);
-          </code>
-        </pre>
-      </div>
-
-      <p>
-        The <code>get</code> method invokes a HTTP GET request and returns a promise.
-        <br/>
-        Now, with the <code>promise</code>, we can register callbacks to handle the future results.
+    <g:HTMLPanel>
+      <h1 class="page-header" id="first-requests-api-introduction">First requests - API introduction</h1>
+      <p class="lead">
+        Requestor was designed with fluent API in order to make it simple to interact with the library.
       </p>
-      <div class="highlight">
-        <pre ui:field="promiseIp" class="java">
-          <code>
-            promise.done(new DoneCallback&lt;JavaScriptObject&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setIpText(Util.formatJson(result));
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
-          </code>
-        </pre>
-      </div>
 
-      <g:HTMLPanel styleName="action-panel">
-        <g:HTMLPanel styleName="action">
-          <g:Button ui:field="getIpButton" styleName="btn">GET</g:Button>
+      <g:HTMLPanel styleName="requestor-showcase-innersection">
+        <p>Let's make a simple request to find out your origin ip.</p>
+        <div class="highlight">
+          <pre ui:field="getIp" class="java">
+            <code>
+              RequestPromise&lt;JavaScriptObject&gt; promise = requestor.req(&quot;http://httpbin.org/ip&quot;).get(JavaScriptObject.class);
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          The <code>get</code> method invokes a HTTP GET request and returns a promise.
+          <br/>
+          Now, with the <code>promise</code>, we can register callbacks to handle the future results.
+        </p>
+        <div class="highlight">
+          <pre ui:field="promiseIp" class="java">
+            <code>
+              promise.done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              <br/>
+              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setIpText(Util.formatJson(result));
+              <br/>
+              &#32;&#32;&#32;&#32;}
+              <br/>
+              });
+            </code>
+          </pre>
+        </div>
+
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="getIpButton" styleName="btn">GET</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="ipTextArea" class="form-control result" rows="3" readonly="readonly"/>
         </g:HTMLPanel>
-        <textarea ui:field="ipTextArea" class="form-control result" rows="3" readonly="readonly"/>
+
+        <p>
+          The parameter <code>JavaScriptObject.class</code> indicates we expect a object of this type as result of the
+          request.
+        </p>
       </g:HTMLPanel>
 
-      <p>
-        The parameter <code>JavaScriptObject.class</code> indicates we expect a object of this type as result of the
-        request.
-      </p>
-    </g:HTMLPanel>
-
-    <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>How about a POST request?</p>
-      <div class="highlight">
-        <pre ui:field="postSample" class="java">
-          <code>
-            requestor.req(&quot;http://httpbin.org/post&quot;).post(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPostText(Util.formatJson(result));
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
-          </code>
-        </pre>
-      </div>
-      <g:HTMLPanel styleName="action-panel">
-        <g:HTMLPanel styleName="action">
-          <g:Button ui:field="postButton" styleName="btn">POST</g:Button>
+      <g:HTMLPanel styleName="requestor-showcase-innersection">
+        <p>How about a POST request?</p>
+        <div class="highlight">
+          <pre ui:field="postSample" class="java">
+            <code>
+              requestor.req(&quot;http://httpbin.org/post&quot;).post(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              <br/>
+              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPostText(Util.formatJson(result));
+              <br/>
+              &#32;&#32;&#32;&#32;}
+              <br/>
+              });
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="postButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="postTextArea" class="form-control result" rows="3" readonly="readonly"/>
         </g:HTMLPanel>
-        <textarea ui:field="postTextArea" class="form-control result" rows="3" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <g:HTMLPanel styleName="requestor-showcase-innersection">
+        <p>Requestor's fluent API provides methods to perform any of the HTTP methods. Check this PUT request.</p>
+        <div class="highlight">
+          <pre ui:field="putSample" class="java">
+            <code>
+              requestor.req(&quot;http://httpbin.org/put&quot;).put(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              <br/>
+              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPutText(Util.formatJson(result));
+              <br/>
+              &#32;&#32;&#32;&#32;}
+              <br/>
+              });
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="putButton" styleName="btn">PUT</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="putTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
+      </g:HTMLPanel>
+
+      <g:HTMLPanel styleName="requestor-showcase-innersection">
+        <p>DELETE request.</p>
+        <div class="highlight">
+          <pre ui:field="deleteSample" class="java">
+            <code>
+              requestor.req(&quot;http://httpbin.org/delete&quot;).delete(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              <br/>
+              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setDeleteText(Util.formatJson(result));
+              <br/>
+              &#32;&#32;&#32;&#32;}
+              <br/>
+              });
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="deleteButton" styleName="btn">DELETE</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="deleteTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
+      </g:HTMLPanel>
+
+      <g:HTMLPanel styleName="requestor-showcase-innersection">
+        <p>HEAD request.</p>
+        <div class="highlight">
+          <pre ui:field="headSample" class="java">
+            <code>
+              requestor.req(&quot;http://httpbin.org/headers&quot;).head(Headers.class).done(new DoneCallback&lt;Headers&gt;() {
+              <br/>
+              &#32;&#32;&#32;&#32;public void onDone(Headers result) {
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setHeadText(Util.formatHeaders(result));
+              <br/>
+              &#32;&#32;&#32;&#32;}
+              <br/>
+              });
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="headButton" styleName="btn">HEAD</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="headTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
+      </g:HTMLPanel>
+
+      <g:HTMLPanel styleName="requestor-showcase-innersection">
+        <p>OPTIONS request.</p>
+        <div class="highlight">
+          <pre ui:field="optionsSample" class="java">
+            <code>
+              requestor.req(&quot;http://httpbin.org/get&quot;).options(Headers.class).done(new DoneCallback&lt;Headers&gt;() {
+              <br/>
+              &#32;&#32;&#32;&#32;public void onDone(Headers result) {
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setOptionsText(Util.formatHeaders(result));
+              <br/>
+              &#32;&#32;&#32;&#32;}
+              <br/>
+              });
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="optionsButton" styleName="btn">OPTIONS</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="optionsTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
+      </g:HTMLPanel>
+
+      <g:HTMLPanel styleName="requestor-showcase-innersection">
+        <p>PATCH request.</p>
+        <div class="highlight">
+          <pre ui:field="patchSample" class="java">
+            <code>
+              requestor.req(&quot;http://httpbin.org/patch&quot;).patch(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              <br/>
+              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(Util.formatJson(result));
+              <br/>
+              &#32;&#32;&#32;&#32;}
+              <br/>
+              });
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="patchButton" styleName="btn">PATCH</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="patchTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
       </g:HTMLPanel>
     </g:HTMLPanel>
 
-    <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>Requestor's fluent API provides methods to perform any of the HTTP methods. Check this PUT request.</p>
-      <div class="highlight">
-        <pre ui:field="putSample" class="java">
-          <code>
-            requestor.req(&quot;http://httpbin.org/put&quot;).put(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPutText(Util.formatJson(result));
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
-          </code>
-        </pre>
-      </div>
-      <g:HTMLPanel styleName="action-panel">
-        <g:HTMLPanel styleName="action">
-          <g:Button ui:field="putButton" styleName="btn">PUT</g:Button>
-        </g:HTMLPanel>
-        <textarea ui:field="putTextArea" class="form-control result" rows="3" readonly="readonly"/>
-      </g:HTMLPanel>
-    </g:HTMLPanel>
-
-    <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>DELETE request.</p>
-      <div class="highlight">
-        <pre ui:field="deleteSample" class="java">
-          <code>
-            requestor.req(&quot;http://httpbin.org/delete&quot;).delete(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setDeleteText(Util.formatJson(result));
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
-          </code>
-        </pre>
-      </div>
-      <g:HTMLPanel styleName="action-panel">
-        <g:HTMLPanel styleName="action">
-          <g:Button ui:field="deleteButton" styleName="btn">DELETE</g:Button>
-        </g:HTMLPanel>
-        <textarea ui:field="deleteTextArea" class="form-control result" rows="3" readonly="readonly"/>
-      </g:HTMLPanel>
-    </g:HTMLPanel>
-
-    <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>HEAD request.</p>
-      <div class="highlight">
-        <pre ui:field="headSample" class="java">
-          <code>
-            requestor.req(&quot;http://httpbin.org/headers&quot;).head(Headers.class).done(new DoneCallback&lt;Headers&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void onDone(Headers result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setHeadText(Util.formatHeaders(result));
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
-          </code>
-        </pre>
-      </div>
-      <g:HTMLPanel styleName="action-panel">
-        <g:HTMLPanel styleName="action">
-          <g:Button ui:field="headButton" styleName="btn">HEAD</g:Button>
-        </g:HTMLPanel>
-        <textarea ui:field="headTextArea" class="form-control result" rows="3" readonly="readonly"/>
-      </g:HTMLPanel>
-    </g:HTMLPanel>
-
-    <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>OPTIONS request.</p>
-      <div class="highlight">
-        <pre ui:field="optionsSample" class="java">
-          <code>
-            requestor.req(&quot;http://httpbin.org/get&quot;).options(Headers.class).done(new DoneCallback&lt;Headers&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void onDone(Headers result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setOptionsText(Util.formatHeaders(result));
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
-          </code>
-        </pre>
-      </div>
-      <g:HTMLPanel styleName="action-panel">
-        <g:HTMLPanel styleName="action">
-          <g:Button ui:field="optionsButton" styleName="btn">OPTIONS</g:Button>
-        </g:HTMLPanel>
-        <textarea ui:field="optionsTextArea" class="form-control result" rows="3" readonly="readonly"/>
-      </g:HTMLPanel>
-    </g:HTMLPanel>
-
-    <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>PATCH request.</p>
-      <div class="highlight">
-        <pre ui:field="patchSample" class="java">
-          <code>
-            requestor.req(&quot;http://httpbin.org/patch&quot;).patch(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(Util.formatJson(result));
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
-          </code>
-        </pre>
-      </div>
-      <g:HTMLPanel styleName="action-panel">
-        <g:HTMLPanel styleName="action">
-          <g:Button ui:field="patchButton" styleName="btn">PATCH</g:Button>
-        </g:HTMLPanel>
-        <textarea ui:field="patchTextArea" class="form-control result" rows="3" readonly="readonly"/>
-      </g:HTMLPanel>
-    </g:HTMLPanel>
+    <!--<g:HTMLPanel>-->
+      <!--<h1 class="page-header" id="response-content">Response Content</h1>-->
+      <!--<p class="lead">Easily retrieve the desired response.</p>-->
+      <!--<p>-->
+        <!--As shown before, it's possible to specify the expected type of the request result.-->
+        <!--By doing this, you're telling Requestor to deserialize the response as the type you want. <br/>-->
+        <!--When the response arrives, Requestor looks for a deserializer by matching both the content-type header of the response and the class you requested.-->
+        <!--If no deserializer was found, then a null payload is returned as result, and an error is logged. Otherwise, the content is submitted to the deserializer for deserialization.-->
+        <!--No exception is caught from the deserializer.-->
+      <!--</p>-->
+      <!--<p>-->
+        <!--Requestor allows one to specify if she wants (1) no response content, (2) a single object or (3) a collection as the response content.-->
+        <!--For each invoke method, there are three overloads-->
+      <!--</p>-->
+    <!--</g:HTMLPanel>-->
   </g:HTMLPanel>
 </ui:UiBinder>

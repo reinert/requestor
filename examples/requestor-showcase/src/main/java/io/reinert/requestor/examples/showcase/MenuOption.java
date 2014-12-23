@@ -29,12 +29,13 @@ public enum MenuOption implements HasToken, HasPlace {
     HOME("Requestor", Tokens.HOME_TOKEN, HomePlace.INSTANCE),
     GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, GettingStartedPlace.INSTANCE),
     REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, RequestingPlace.INSTANCE),
-    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, null),
-    FORM("Form", Tokens.FORM_TOKEN, null),
-    STREAM("Stream", Tokens.STREAM_TOKEN, null),
-    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, null),
-    FILTERS("Filters", Tokens.FILTERS_TOKEN, null),
-    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, null);
+//    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, null),
+//    FORM("Form", Tokens.FORM_TOKEN, null),
+//    STREAM("Stream", Tokens.STREAM_TOKEN, null),
+//    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, null),
+//    FILTERS("Filters", Tokens.FILTERS_TOKEN, null),
+//    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, null)
+    ;
 
     public static class Tokens {
         public static final String HOME_TOKEN = "home";
@@ -53,18 +54,18 @@ public enum MenuOption implements HasToken, HasPlace {
             return GETTING_STARTED;
         } else if (token.equals(Tokens.REQUESTING_TOKEN)) {
             return REQUESTING;
-        } else if (token.equals(Tokens.SERIALIZATION_TOKEN)) {
-            return SERIALIZATION;
-        } else if (token.equals(Tokens.FORM_TOKEN)) {
-            return FORM;
-        } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {
-            return AUTHENTICATION;
-        } else if (token.equals(Tokens.STREAM_TOKEN)) {
-            return STREAM;
-        } else if (token.equals(Tokens.FILTERS_TOKEN)) {
-            return FILTERS;
-        } else if (token.equals(Tokens.INTERCEPTORS_TOKEN)) {
-            return INTERCEPTORS;
+//        } else if (token.equals(Tokens.SERIALIZATION_TOKEN)) {
+//            return SERIALIZATION;
+//        } else if (token.equals(Tokens.FORM_TOKEN)) {
+//            return FORM;
+//        } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {
+//            return AUTHENTICATION;
+//        } else if (token.equals(Tokens.STREAM_TOKEN)) {
+//            return STREAM;
+//        } else if (token.equals(Tokens.FILTERS_TOKEN)) {
+//            return FILTERS;
+//        } else if (token.equals(Tokens.INTERCEPTORS_TOKEN)) {
+//            return INTERCEPTORS;
         } else {
             return HOME;
         }

@@ -29,13 +29,13 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
 
     private final EventBus eventBus = new SimpleEventBus();
     private final PlaceController placeController = new PlaceController(eventBus);
-    private final Requestor requestor = GWT.create(Requestor.class);
+    private Requestor requestor;
     private Home home;
     private GettingStarted gettingStarted;
     private Requesting requesting;
 
     public ShowcaseClientFactoryImpl() {
-        requestor.setDefaultMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
+        initRequestor();
     }
 
     @Override
@@ -72,5 +72,10 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (requesting == null)
             requesting = new Requesting();
         return requesting;
+    }
+
+    private void initRequestor() {
+        requestor = GWT.create(Requestor.class);
+        requestor.setDefaultMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
     }
 }
