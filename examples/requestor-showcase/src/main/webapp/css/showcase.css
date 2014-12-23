@@ -15,6 +15,24 @@
     }
 }
 
+.result {
+    margin-left: 10px;
+}
+
+.action {
+    margin: auto;
+}
+
+textarea[readonly].result {
+    background-color: #fff;
+    cursor: text;
+}
+
+.action-panel {
+    margin-bottom: 10px;
+    display: flex;
+}
+
 h1[id] {
     padding-top: 20px;
     margin-top: 0;
@@ -76,6 +94,10 @@ h1[id] {
 
 .requestor-showcase-section {
     margin-bottom: 60px;
+}
+
+.requestor-showcase-innersection {
+    margin-bottom: 30px;
 }
 
 .half-rule {

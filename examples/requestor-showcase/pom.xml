@@ -28,6 +28,10 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.turbogwt.core</groupId>
+      <artifactId>turbogwt-core</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.reinert.gdeferred</groupId>
       <artifactId>gdeferred</artifactId>
       <version>${gdeferred.version}</version>

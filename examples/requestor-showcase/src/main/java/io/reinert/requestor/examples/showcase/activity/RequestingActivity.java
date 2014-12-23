@@ -16,24 +16,109 @@
 package io.reinert.requestor.examples.showcase.activity;
 
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
+import io.reinert.requestor.Headers;
+import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.util.Page;
+import io.reinert.requestor.examples.showcase.util.Util;
+import io.reinert.requestor.gdeferred.DoneCallback;
+import io.reinert.requestor.gdeferred.RequestPromise;
 
-public class RequestingActivity extends AbstractActivity {
+public class RequestingActivity extends AbstractActivity implements Requesting.Handler {
 
-    private final Requesting requesting;
+    private final Requesting view;
+    private final Requestor requestor;
 
-    public RequestingActivity(Requesting requesting) {
-        this.requesting = requesting;
+    public RequestingActivity(Requesting requesting, Requestor requestor) {
+        this.view = requesting;
+        this.requestor = requestor;
+    }
+
+    @Override
+    public void onGetIpButtonClick() {
+        RequestPromise<JavaScriptObject> promise = requestor.req("http://httpbin.org/ip").get(JavaScriptObject.class);
+        promise.done(new DoneCallback<JavaScriptObject>() {
+            @Override
+            public void onDone(JavaScriptObject result) {
+                view.setIpText(Util.formatJson(result));
+            }
+        });
+    }
+
+    @Override
+    public void onPostButtonClick() {
+        requestor.req("http://httpbin.org/post").post(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
+            @Override
+            public void onDone(JavaScriptObject result) {
+                view.setPostText(Util.formatJson(result));
+            }
+        });
+    }
+
+    @Override
+    public void onPutButtonClick() {
+        requestor.req("http://httpbin.org/put").put(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
+            @Override
+            public void onDone(JavaScriptObject result) {
+                view.setPutText(Util.formatJson(result));
+            }
+        });
+    }
+
+    @Override
+    public void onDeleteButtonClick() {
+        requestor.req("http://httpbin.org/delete").delete(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
+            @Override
+            public void onDone(JavaScriptObject result) {
+                view.setDeleteText(Util.formatJson(result));
+            }
+        });
+    }
+
+    @Override
+    public void onHeadButtonClick() {
+        requestor.req("http://httpbin.org/headers").head(Headers.class).done(new DoneCallback<Headers>() {
+            @Override
+            public void onDone(Headers result) {
+                view.setHeadText(Util.formatHeaders(result));
+            }
+        });
+    }
+
+    @Override
+    public void onOptionsButtonClick() {
+        requestor.req("http://httpbin.org/get").options(Headers.class).done(new DoneCallback<Headers>() {
+            @Override
+            public void onDone(Headers result) {
+                view.setOptionsText(Util.formatHeaders(result));
+            }
+        });
+    }
+
+    @Override
+    public void onPatchButtonClick() {
+        requestor.req("http://httpbin.org/patch").patch(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
+            @Override
+            public void onDone(JavaScriptObject result) {
+                view.setPatchText(Util.formatJson(result));
+            }
+        });
     }
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
+        view.setHandler(this);
         Page.setTitle("Requesting");
         Page.setDescription("A quick intro on how to request with Requestor.");
-        panel.setWidget(requesting);
+        panel.setWidget(view);
+    }
+
+    @Override
+    public void onStop() {
+        view.setHandler(null);
     }
 }

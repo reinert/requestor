@@ -27,7 +27,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.web.bindery.event.shared.EventBus;
 
@@ -40,7 +40,6 @@ public class Showcase implements EntryPoint {
 
     public static final ShowcaseClientFactory SHOWCASE_CLIENT_FACTORY = GWT.create(ShowcaseClientFactory.class);
 
-    private final AcceptsOneWidget container = new RootSimplePanel();
     private final Place defaultPlace = new HomePlace();
 
     @Override
@@ -60,6 +59,10 @@ public class Showcase implements EntryPoint {
             }
         }
 
+        final SimplePanel container = new SimplePanel();
+        container.setStyleName("container requestor-showcase-container");
+        RootPanel.get().add(container);
+
         // Create ClientFactory using deferred binding so we can replace with different
         // impls in gwt.xml
         ShowcaseClientFactory clientFactory = SHOWCASE_CLIENT_FACTORY;
@@ -78,11 +81,5 @@ public class Showcase implements EntryPoint {
 
         // Goes to place represented on URL or default place
         historyHandler.handleCurrentHistory();
-    }
-
-    static class RootSimplePanel extends SimplePanel {
-        public RootSimplePanel() {
-            super(Document.get().getElementById("page-container"));
-        }
     }
 }

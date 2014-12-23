@@ -19,15 +19,22 @@ import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.place.shared.Place;
 
 import io.reinert.requestor.examples.showcase.HasActivity;
+import io.reinert.requestor.examples.showcase.HasToken;
+import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.activity.HomeActivity;
 
-public class HomePlace extends Place implements HasActivity {
+public class HomePlace extends Place implements HasActivity, HasToken {
 
     public static HomePlace INSTANCE = new HomePlace();
 
     @Override
     public Activity getActivity() {
         return new HomeActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getHome());
+    }
+
+    @Override
+    public String getToken() {
+        return MenuOption.Tokens.HOME_TOKEN;
     }
 }
