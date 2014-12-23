@@ -42,10 +42,10 @@ class SerializationEngine {
         this.providerManager = providerManager;
     }
 
-    public <T, C extends Collection> DeserializedResponse<Collection<T>> deserializeResponse(Request request,
-                                                                                            SerializedResponse response,
-                                                                                            Class<T> type,
-                                                                                            Class<C> containerType) {
+    public <T, C extends Collection> Response<Collection<T>> deserializeResponse(Request request,
+                                                                                 SerializedResponse response,
+                                                                                 Class<T> type,
+                                                                                 Class<C> containerType) {
         String responseContentType = getResponseContentType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
         checkDeserializerNotNull(response, type, deserializer);
@@ -55,8 +55,7 @@ class SerializationEngine {
         return getDeserializedResponse(response, result);
     }
 
-    public <T> DeserializedResponse<T> deserializeResponse(Request request, SerializedResponse response,
-                                                           Class<T> type) {
+    public <T> Response<T> deserializeResponse(Request request, SerializedResponse response, Class<T> type) {
         String responseContentType = getResponseContentType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
         checkDeserializerNotNull(response, type, deserializer);
@@ -110,8 +109,8 @@ class SerializationEngine {
         return responseContentType;
     }
 
-    private <T> DeserializedResponse<T> getDeserializedResponse(SerializedResponse response, T result) {
-        return new DeserializedResponse<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
+    private <T> Response<T> getDeserializedResponse(SerializedResponse response, T result) {
+        return new ResponseImpl<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
                 response.getResponseType(), result);
     }
 

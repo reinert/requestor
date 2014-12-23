@@ -43,13 +43,13 @@ public class RequestDispatcherImpl extends RequestDispatcher {
     }
 
     @Override
-    protected <T, C extends Collection> void send(RequestOrder request, Deferred<C> deferred,
-                                                  Class<T> resultType, Class<C> containerType) {
+    protected <T, C extends Collection> void send(RequestOrder request, Deferred<C> deferred, Class<T> resultType,
+                                                  Class<C> containerType) {
         doSend(request, deferred, containerType, resultType);
     }
 
-    protected <D> void doSend(RequestOrder request, final Deferred<D> deferred,
-                              Class<D> resolveType, @Nullable Class<?> parametrizedType) {
+    protected <D> void doSend(RequestOrder request, final Deferred<D> deferred, Class<D> resolveType,
+                              @Nullable Class<?> parametrizedType) {
         final String httpMethod = request.getMethod();
         final String url = request.getUrl();
         final Headers headers = request.getHeaders();
@@ -163,8 +163,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                     // Resolve if response is 2xx
                     final ResponseProcessor processor = getResponseProcessor();
                     @SuppressWarnings("unchecked")  // Ok, this is ugly
-                    final DeserializedResponse<D> r = parametrizedType != null ?
-                            (DeserializedResponse<D>) processor.process(request, response, parametrizedType,
+                    final Response<D> r = parametrizedType != null ?
+                            (Response<D>) processor.process(request, response, parametrizedType,
                                     (Class<Collection>) resolveType) :
                             processor.process(request, response, resolveType);
                     deferred.resolve(r);

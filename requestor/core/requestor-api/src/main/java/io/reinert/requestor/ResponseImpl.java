@@ -22,7 +22,7 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public class DeserializedResponse<T> implements Response<T> {
+public class ResponseImpl<T> implements Response<T> {
 
     private final Headers headers;
     private final int statusCode;
@@ -30,7 +30,7 @@ public class DeserializedResponse<T> implements Response<T> {
     private final T payload;
     private final ResponseType type;
 
-    public DeserializedResponse(Headers headers, int statusCode, String statusText, ResponseType type, T payload) {
+    public ResponseImpl(Headers headers, int statusCode, String statusText, ResponseType type, T payload) {
         if (headers == null)
             throw new NullPointerException("Headers cannot be null");
         this.headers = headers;

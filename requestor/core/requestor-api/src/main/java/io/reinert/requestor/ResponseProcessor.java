@@ -41,7 +41,7 @@ public class ResponseProcessor {
 
     @SuppressWarnings("unchecked")
     public <T, R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
-    DeserializedResponse<T> process(Request request, R response, Class<T> deserializationType) {
+    Response<T> process(Request request, R response, Class<T> deserializationType) {
         // 1: FILTER
         filterEngine.filterResponse(request, response);
 
@@ -50,15 +50,15 @@ public class ResponseProcessor {
 
         // 3: DESERIALIZE
         final ResponseType responseType = response.getResponseType();
-        DeserializedResponse<T> r;
+        Response<T> r;
         if (Payload.class == deserializationType) {
-            r = (DeserializedResponse<T>) new DeserializedResponse<Payload>(response.getHeaders(),
+            r = (Response<T>) new ResponseImpl<Payload>(response.getHeaders(),
                     response.getStatusCode(), response.getStatusText(), responseType, response.getPayload());
         } else if (Response.class == deserializationType || SerializedResponse.class == deserializationType) {
-            r = (DeserializedResponse<T>) new DeserializedResponse<Response>(response.getHeaders(),
+            r = (Response<T>) new ResponseImpl<Response>(response.getHeaders(),
                     response.getStatusCode(), response.getStatusText(), response.getResponseType(), response);
         } else if (Headers.class == deserializationType) {
-            r = (DeserializedResponse<T>) new DeserializedResponse<Headers>(response.getHeaders(),
+            r = (Response<T>) new ResponseImpl<Headers>(response.getHeaders(),
                     response.getStatusCode(), response.getStatusText(), response.getResponseType(),
                     response.getHeaders());
         } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
@@ -66,7 +66,7 @@ public class ResponseProcessor {
         } else {
             logger.log(Level.SEVERE, "Could not process response of type '" + responseType + "' to class '"
                     + deserializationType.getName() + "'. A null payload will be returned.");
-            r = new DeserializedResponse<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
+            r = new ResponseImpl<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
                     responseType, null);
         }
 
@@ -74,8 +74,8 @@ public class ResponseProcessor {
     }
 
     public <T, R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
-    DeserializedResponse<Collection<T>> process(Request request, R response, Class<T> deserializationType,
-                                                Class<? extends Collection> containerType) {
+    Response<Collection<T>> process(Request request, R response, Class<T> deserializationType,
+                                    Class<? extends Collection> containerType) {
         // 1: FILTER
         filterEngine.filterResponse(request, response);
 
@@ -84,28 +84,28 @@ public class ResponseProcessor {
 
         // 3: DESERIALIZE
         final ResponseType responseType = response.getResponseType();
-        DeserializedResponse<Collection<T>> r;
+        Response<Collection<T>> r;
         if (Payload.class == deserializationType) {
             logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Payload.class.getName()
                     + "'. A null payload will be returned.");
-            r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
+            r = new ResponseImpl<Collection<T>>(response.getHeaders(), response.getStatusCode(),
                     response.getStatusText(), responseType, null);
         } else if (Response.class == deserializationType || SerializedResponse.class == deserializationType) {
             logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Response.class.getName()
                     + "'. A null payload will be returned.");
-            r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
+            r = new ResponseImpl<Collection<T>>(response.getHeaders(), response.getStatusCode(),
                     response.getStatusText(), responseType, null);
         } else if (Headers.class == deserializationType) {
             logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Headers.class.getName()
                     + "'. A null payload will be returned.");
-            r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
+            r = new ResponseImpl<Collection<T>>(response.getHeaders(), response.getStatusCode(),
                     response.getStatusText(), responseType, null);
         } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
             r = serializationEngine.deserializeResponse(request, response, deserializationType, containerType);
         } else {
             logger.log(Level.SEVERE, "Could not process response of type '" + responseType + "' to class '"
                     + deserializationType.getName() + "'. A null payload will be returned.");
-            r = new DeserializedResponse<Collection<T>>(response.getHeaders(), response.getStatusCode(),
+            r = new ResponseImpl<Collection<T>>(response.getHeaders(), response.getStatusCode(),
                     response.getStatusText(), responseType, null);
         }
 
