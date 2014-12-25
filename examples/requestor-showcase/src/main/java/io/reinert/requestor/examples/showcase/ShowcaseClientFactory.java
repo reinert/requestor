@@ -19,6 +19,7 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
@@ -30,4 +31,5 @@ public interface ShowcaseClientFactory {
     Home getHome();
     GettingStarted getGettingStarted();
     Requesting getRequesting();
+    Form getForm();
 }

@@ -21,6 +21,7 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
@@ -33,6 +34,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private Home home;
     private GettingStarted gettingStarted;
     private Requesting requesting;
+    private Form form;
 
     public ShowcaseClientFactoryImpl() {
         initRequestor();
@@ -72,6 +74,13 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (requesting == null)
             requesting = new Requesting();
         return requesting;
+    }
+
+    @Override
+    public Form getForm() {
+        if (form == null)
+            form = new Form();
+        return form;
     }
 
     private void initRequestor() {

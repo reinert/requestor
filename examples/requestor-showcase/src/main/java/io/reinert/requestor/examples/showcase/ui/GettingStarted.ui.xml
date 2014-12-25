@@ -72,7 +72,9 @@
       </div>
 
       <h3>Get the JAR</h3>
-      <p>Maven Central provides links for the latest releases.</p>
+      <p>
+        Maven Central provides links for the latest releases.
+      </p>
       <ul>
         <li>
           <a href="https://repo1.maven.org/maven2/io/reinert/gdeferred/0.9.0/gdeferred-0.9.0.jar">GDeferred 0.9.0

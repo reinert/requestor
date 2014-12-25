@@ -42,8 +42,8 @@
         <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
     </replace-with>
 
-    <!-- Based on native FormData object which is supported since ie10 -->
-    <replace-with class="io.reinert.requestor.form.FormDataSerializerNative">
+    <!-- Serialize FormData to x-www-form-urlencoded type. It doesn`t support files -->
+    <replace-with class="io.reinert.requestor.form.FormDataSerializerUrlEncoded">
         <when-type-is class="io.reinert.requestor.form.FormDataSerializer"/>
     </replace-with>
 

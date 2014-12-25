@@ -1,0 +1,55 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <g:HTMLPanel>
+      <h1 class="page-header" id="first-requests-api-introduction">Simple Form request</h1>
+      <p class="lead">
+        Fill and submit the following form.
+      </p>
+
+      <form ui:field="form">
+        <p><label>Customer name: <input name="custname"/></label></p>
+        <p><label>Telephone: <input type="tel" name="custtel"/></label></p>
+        <p><label>E-mail address: <input type="email" name="custemail"/></label></p>
+        <fieldset>
+          <legend> Pizza Size </legend>
+          <p><label><input type="radio" name="size" value="small"/> Small</label></p>
+          <p><label><input type="radio" name="size" value="medium"/> Medium </label></p>
+          <p><label><input type="radio" name="size" value="large"/> Large </label></p>
+        </fieldset>
+        <fieldset>
+          <legend> Pizza Toppings </legend>
+          <p><label> <input type="checkbox" name="topping" value="bacon"/> Bacon </label></p>
+          <p><label> <input type="checkbox" name="topping" value="cheese"/> Extra Cheese </label></p>
+          <p><label> <input type="checkbox" name="topping" value="onion"/> Onion </label></p>
+          <p><label> <input type="checkbox" name="topping" value="mushroom"/> Mushroom </label></p>
+        </fieldset>
+        <p><label>Preferred delivery time: <input type="time" min="11:00" max="21:00" step="900" name="delivery"/></label></p>
+        <p><label>Delivery instructions: <textarea name="comments"></textarea></label></p>
+      </form>
+
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="postButton" styleName="btn">POST</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="postTextArea" class="form-control result" rows="5" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+  </g:HTMLPanel>
+</ui:UiBinder>
