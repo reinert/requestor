@@ -20,7 +20,11 @@ import java.util.Collection;
 import io.reinert.requestor.deferred.Promise;
 
 /**
- * Defines HTTP invocation methods.
+ * Defines HTTP request invocation methods.
+ *
+ * NOTE: This class is removed from classpath when assembling the jar.
+ * Implementers should provide an own implementation exposing a preferred Promises API.
+ * Implementers must follow the pattern of this class in order to be officially integrated.
  *
  * @see io.reinert.requestor.RequestInvoker
  *

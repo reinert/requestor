@@ -29,14 +29,19 @@ import io.reinert.requestor.serialization.Serializer;
  * It provides a convenience API for managing/creating HTTP Requests.
  * <p/>
  *
- * You can register {@link RequestFilter}s with #addRequestFilter, so the are executed over all your requests.
- * The same for {@link io.reinert.requestor.ResponseFilter}.
+ * You can register {@link RequestFilter}s with #addRequestFilter, so they are executed over all your requests.
+ * The same for {@link ResponseFilter}.
+ * <p/>
+ *
+ * You can register {@link RequestInterceptor}s with #addRequestInterceptor to intercept every ongoing request.
+ * As well you can register {@link ResponseInterceptor}s with #addResponseInterceptor to intercept every incoming
+ * response.
  * <p/>
  *
  * You can register custom {@link io.reinert.requestor.serialization.Serializer} with #registerSerializer.
- * The same for {@link io.reinert.requestor.serialization.Deserializer}.
+ * The same for {@link Deserializer}.
  * If you want to support both serialization and deserialization for your custom object,
- * register a {@link io.reinert.requestor.serialization.Serdes} with #registerSerdes.
+ * register a {@link Serdes} with #registerSerdes.
  * <p/>
  *
  * SerDes for {@link String}, {@link Number}, {@link Boolean}
@@ -56,9 +61,9 @@ public interface Requestor {
 
     <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType);
 
-    <T> Provider<T> getProvider(Class<T> type);
-
     <T> Serializer<T> getSerializer(Class<T> type, String mediaType);
+
+    <T> Provider<T> getProvider(Class<T> type);
 
     /**
      * Register a collection Provider.

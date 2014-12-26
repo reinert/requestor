@@ -19,7 +19,7 @@ import io.reinert.requestor.auth.Authentication;
 import io.reinert.requestor.header.Header;
 
 /**
- * This type provides fluent request building.
+ * A fluent request builder.
  *
  * @author Danilo Reinert
  */
@@ -30,7 +30,7 @@ public interface RequestBuilder extends Request {
      *
      * @param mediaType The content type of this request
      *
-     * @return the updated Request
+     * @return This building request
      */
     RequestBuilder contentType(String mediaType);
 
@@ -39,7 +39,7 @@ public interface RequestBuilder extends Request {
      *
      * @param mediaType The content type accepted for the response
      *
-     * @return the updated Request
+     * @return This building request
      */
     RequestBuilder accept(String mediaType);
 
@@ -48,10 +48,10 @@ public interface RequestBuilder extends Request {
      * specified name has already been set then the new value overwrites the
      * current value. Null/empty values are ignored.
      *
-     * @param header the name of the header
-     * @param value the value of the header
+     * @param header The name of the header
+     * @param value  The value of the header
      *
-     * @return the updated Request
+     * @return This building request
      */
     RequestBuilder header(String header, String value);
 
@@ -59,7 +59,9 @@ public interface RequestBuilder extends Request {
      * Sets a request header. If a header with the specified name has already been set
      * then the new value overwrites the current value. Null/empty values are ignored.
      *
-     * @param header the header instance
+     * @param header The header instance
+     *
+     * @return This building request
      */
     RequestBuilder header(Header header);
 
@@ -68,7 +70,7 @@ public interface RequestBuilder extends Request {
      *
      * @param auth The authentication procedure
      *
-     * @return the updated Request
+     * @return This building request
      */
     RequestBuilder auth(Authentication auth);
 
@@ -83,10 +85,10 @@ public interface RequestBuilder extends Request {
      * Negative aren't allowed according to XMLHttpRequest specification.
      * So if a value less than zero is passed, it is ignored.
      *
-     * @param timeoutMillis number of milliseconds to wait before canceling the
+     * @param timeoutMillis Number of milliseconds to wait before canceling the
      *                      request, a value of zero disables timeouts
      *
-     * @return the updated Request
+     * @return This building request
      */
     RequestBuilder timeout(int timeoutMillis);
 
@@ -97,18 +99,18 @@ public interface RequestBuilder extends Request {
      * This object will be serialized considering its class and the current content-type.<br/>
      * If no serializer was found matching these two factors, the a exception is thrown.
      *
-     * @param object the payload of the request
+     * @param object The payload of the request
      *
-     * @return the updated Request
+     * @return This building request
      */
     RequestBuilder payload(Object object);
 
     /**
      * Sets the expected xhr response type of this Request.
      *
-     * @param responseType the type of response
+     * @param responseType The type of response
      *
-     * @return the updated request
+     * @return This building request
      */
     RequestBuilder responseType(ResponseType responseType);
 

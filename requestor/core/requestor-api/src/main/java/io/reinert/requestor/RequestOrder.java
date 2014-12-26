@@ -16,9 +16,11 @@
 package io.reinert.requestor;
 
 /**
- * The final form of a request. <br>
+ * The final form of a request.
+ * <p/>
  * When assuming this type, a request has already been processed and can only pass through an authentication before
- * been finally dispatched. <br>
+ * been finally dispatched.
+ * <p/>
  * This class has self dispatching capabilities through the #send method, which should be called only once.
  *
  * @author Danilo Reinert

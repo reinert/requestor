@@ -21,10 +21,6 @@ import io.reinert.requestor.header.Header;
 /**
  * A {@link Request} with dispatching capabilities.
  *
- * NOTE: This class is removed from classpath when assembling the jar.
- * Implementers should provide an own implementation exposing a preferred Promises API.
- * Implementers must follow the pattern of this class in order to be officially integrated.
- *
  * @see RequestInvokerImpl
  *
  * @author Danilo Reinert
