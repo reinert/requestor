@@ -185,6 +185,32 @@
     </g:HTMLPanel>
 
     <!-- AUTH SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="auth">Auth (Authentication)</h1>
+      <p class="lead">
+        Inform how the request should be authenticated.
+      </p>
+      <p>
+        
+      </p>
+      <div class="highlight">
+        <pre ui:field="auth1" class="java">
+          <code>
+            reqBuilder.auth(new BasicAuth("user", "passwd"));
+          </code>
+        </pre>
+      </div>
+      <p>
+        
+      </p>
+      <div class="highlight">
+        <pre ui:field="auth2" class="java">
+          <code>
+            reqBuilder.auth(new MyCustomAuth(someId, someKey));
+          </code>
+        </pre>
+      </div>
+    </g:HTMLPanel>
 
   </g:HTMLPanel>
 </ui:UiBinder>
