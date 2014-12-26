@@ -59,9 +59,12 @@ public class FormData implements Iterable<FormData.Param> {
         return params == null ? Collections.<Param>emptyIterator() : params.iterator();
     }
 
-    static class Builder {
+    public static class Builder {
 
         private final ArrayList<Param> params = new ArrayList<Param>();
+
+        private Builder() {
+        }
 
         public Builder append(String name, String value) {
             params.add(new Param(name, value));
@@ -80,6 +83,13 @@ public class FormData implements Iterable<FormData.Param> {
 
         public Builder append(String name, boolean value) {
             params.add(new Param(name, String.valueOf(value)));
+            return this;
+        }
+
+        public Builder append(String name, Iterable<?> values) {
+            for (Object value : values) {
+                params.add(new Param(name, value.toString()));
+            }
             return this;
         }
 
