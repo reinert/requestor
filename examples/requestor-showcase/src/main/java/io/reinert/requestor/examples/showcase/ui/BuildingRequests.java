@@ -30,10 +30,10 @@ public class BuildingRequests extends Composite {
 
     private static BuildingRequestsUiBinder uiBinder = GWT.create(BuildingRequestsUiBinder.class);
 
-    @UiField PreElement req, header1, header2, header3, header4;
+    @UiField PreElement req, header1, header2, header3, header4, timeout;
 
     public BuildingRequests() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(req, header1, header2, header3, header4);
+        HighlightJs.highlightBlock(req, header1, header2, header3, header4, timeout);
     }
 }

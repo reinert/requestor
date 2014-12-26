@@ -17,6 +17,7 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <g:HTMLPanel>
+    <!-- START SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="start-building">Start building</h1>
       <p class="lead">
@@ -37,6 +38,7 @@
       </p>
     </g:HTMLPanel>
 
+    <!-- HEADERS SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="headers">Headers</h1>
       <p class="lead">
@@ -101,6 +103,21 @@
             </code>
           </pre>
         </div>
+      </div>
+    </g:HTMLPanel>
+
+    <!-- TIMEOUT SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="timeout">Timeout</h1>
+      <p class="lead">
+        The <code>#timeout</code> method allows you to set the timeout (in milliseconds) of the request.
+      </p>
+      <div class="highlight">
+        <pre ui:field="timeout" class="java">
+          <code>
+            reqBuilder.timeout(60000); // set the timeout to 1 min
+          </code>
+        </pre>
       </div>
     </g:HTMLPanel>
 
