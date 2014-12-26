@@ -145,5 +145,46 @@
       </p>
     </g:HTMLPanel>
 
+    <!-- PAYLOAD SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="payload">Payload</h1>
+      <p class="lead">
+        Set the request payload (entity body).
+      </p>
+      <p>
+        With the <code>#payload</code> method you can fill the request with an object which will be later serialized to the body of the HTTP request.
+      </p>
+      <div class="highlight">
+        <pre ui:field="payload1" class="java">
+          <code>
+            reqBuilder.payload(anyObject);
+          </code>
+        </pre>
+      </div>
+      <p>
+        See the <a href="#serialization">Serialization</a> page to understand how this object will be serialized.
+      </p>
+      <p>
+        You can skip serialization of the payload by setting a <code>Payload</code> object as the request payload.
+        <br/>
+        The <code>Payload</code> type represents the already serialized entity body of a request/response.
+        <br/>
+        It can be a <code>String</code> (serialized text) or a <code>JavaScriptObject</code> (some native type supported by XHR like a Blob, an ArrayBuffer, a Document, etc.).
+      </p>
+      <div class="highlight">
+        <pre ui:field="payload2" class="java">
+          <code>
+            JavaScriptObject blob = getBlob(); <br/>
+            reqBuilder.payload(new Payload(blob)); // this payload will compose the request as raw data
+          </code>
+        </pre>
+      </div>
+      <p>
+        Check <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#send()" target="_blank">MDN</a> for more details.
+      </p>
+    </g:HTMLPanel>
+
+    <!-- AUTH SECTION -->
+
   </g:HTMLPanel>
 </ui:UiBinder>
