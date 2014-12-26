@@ -16,19 +16,16 @@
 package io.reinert.requestor.examples.showcase.activity;
 
 import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.Headers;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.SerializedResponse;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.examples.showcase.util.Util;
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.gdeferred.DoneCallback;
-import io.reinert.requestor.gdeferred.RequestPromise;
 
 public class FormActivity extends AbstractActivity implements Form.Handler {
 
@@ -41,7 +38,8 @@ public class FormActivity extends AbstractActivity implements Form.Handler {
     }
 
     @Override
-    public void onSubmitClick(FormData formData) {
+    public void onSubmitClick(FormElement formElement) {
+        FormData formData = FormData.wrap(formElement);
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(SerializedResponse.class) // retrieve the raw response

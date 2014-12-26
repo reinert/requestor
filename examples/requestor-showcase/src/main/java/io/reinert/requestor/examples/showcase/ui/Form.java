@@ -16,9 +16,8 @@
 package io.reinert.requestor.examples.showcase.ui;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.ButtonElement;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
+import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -28,12 +27,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 import io.reinert.requestor.examples.showcase.util.HighlightJs;
-import io.reinert.requestor.form.FormData;
 
 public class Form extends Composite {
 
     public interface Handler {
-        void onSubmitClick(FormData formData);
+        void onSubmitClick(FormElement formElement);
     }
 
     interface FormUiBinder extends UiBinder<HTMLPanel, Form> {}
@@ -44,12 +42,14 @@ public class Form extends Composite {
     FormElement form;
     @UiField
     TextAreaElement postTextArea;
+    @UiField
+    PreElement wrapping;
 
     private Handler handler;
 
     public Form() {
         initWidget(uiBinder.createAndBindUi(this));
-//        HighlightJs.highlightBlock(getIp);
+        HighlightJs.highlightBlock(wrapping);
     }
 
     public void setHandler(Handler handler) {
@@ -57,8 +57,8 @@ public class Form extends Composite {
     }
 
     @UiHandler("postButton")
-    public void onPostButtonClick(ClickEvent event) {
-        handler.onSubmitClick(FormData.wrap(form));
+    public void onPostButtonClick(ClickEvent e) {
+        handler.onSubmitClick(form);
     }
 
     public void setResultText(String content) {

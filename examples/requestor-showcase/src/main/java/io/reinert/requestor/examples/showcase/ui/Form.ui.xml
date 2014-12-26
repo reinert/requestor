@@ -17,39 +17,63 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <g:HTMLPanel>
-    <g:HTMLPanel>
-      <h1 class="page-header" id="first-requests-api-introduction">Simple Form request</h1>
+      <h1 class="page-header" id="basic-sample">Meet the FormData</h1>
       <p class="lead">
-        Fill and submit the following form.
+        The Requestor API provides a special type to deal with form data dynamically: <code>FormData</code>.
       </p>
 
-      <form ui:field="form">
-        <p><label>Customer name: <input name="custname"/></label></p>
-        <p><label>Telephone: <input type="tel" name="custtel"/></label></p>
-        <p><label>E-mail address: <input type="email" name="custemail"/></label></p>
+      <p>
+        There are two ways of creating form data dynamically through the <code>FormData</code> object: (1) wrapping a form element or (2) appending params to a builder.
+        <br/>
+        Fill out the form below and experiment the both ways.
+      </p>
+
+      <form ui:field="form" style="margin-top: 30px">
         <fieldset>
-          <legend> Pizza Size </legend>
-          <p><label><input type="radio" name="size" value="small"/> Small</label></p>
-          <p><label><input type="radio" name="size" value="medium"/> Medium </label></p>
-          <p><label><input type="radio" name="size" value="large"/> Large </label></p>
+          <legend>Customer Details</legend>
+          <div class="form-group"><label>Customer name:</label><input ui:field="custname" name="custname" class="form-control"/></div>
+          <div class="form-group"><label>Telephone:</label><input ui:field="custtel" type="tel" name="custtel" class="form-control"/></div>
+          <div class="form-group"><label>E-mail address:</label><input ui:field="custemail" type="email" name="custemail" class="form-control"/></div>
         </fieldset>
         <fieldset>
-          <legend> Pizza Toppings </legend>
-          <p><label> <input type="checkbox" name="topping" value="bacon"/> Bacon </label></p>
-          <p><label> <input type="checkbox" name="topping" value="cheese"/> Extra Cheese </label></p>
-          <p><label> <input type="checkbox" name="topping" value="onion"/> Onion </label></p>
-          <p><label> <input type="checkbox" name="topping" value="mushroom"/> Mushroom </label></p>
+          <legend>Pizza Size</legend>
+          <div class="radio"><label><input type="radio" name="size" value="small"/> Small</label></div>
+          <div class="radio"><label><input type="radio" name="size" value="medium"/> Medium</label></div>
+          <div class="radio"><label><input type="radio" name="size" value="large"/> Large</label></div>
         </fieldset>
-        <p><label>Preferred delivery time: <input type="time" min="11:00" max="21:00" step="900" name="delivery"/></label></p>
-        <p><label>Delivery instructions: <textarea name="comments"></textarea></label></p>
+        <fieldset>
+          <legend>Pizza Toppings</legend>
+          <div class="checkbox"><label> <input type="checkbox" name="topping" value="bacon"/> Bacon</label></div>
+          <div class="checkbox"><label> <input type="checkbox" name="topping" value="cheese"/> Extra Cheese</label></div>
+          <div class="checkbox"><label> <input type="checkbox" name="topping" value="onion"/> Onion</label></div>
+          <div class="checkbox"><label> <input type="checkbox" name="topping" value="mushroom"/> Mushroom</label></div>
+        </fieldset>
+        <fieldset>
+          <legend>Delivery Details</legend>
+          <div class="form-group"><label>Preferred delivery time:</label><input type="time" min="11:00" max="21:00" step="900" name="delivery" class="form-control"/></div>
+          <div class="form-group"><label>Delivery instructions:</label><textarea name="comments" class="form-control" rows="3"/></div>
+        </fieldset>
       </form>
 
-      <g:HTMLPanel styleName="action-panel">
-        <g:HTMLPanel styleName="action">
-          <g:Button ui:field="postButton" styleName="btn">POST</g:Button>
+      <g:HTMLPanel styleName="requestor-showcase-section">
+        <h3>1) Wrap the FormElement</h3>
+        <p>This is a pratical way of creating a FormData object from an existing form element.</p>
+        <div class="highlight">
+          <pre ui:field="wrapping" class="java">
+            <code>
+              FormData formData = FormData.wrap(formElement);
+              <br/>
+              requestor.req("http://httpbin.org/post").payload(formData).post();
+            </code>
+          </pre>
+        </div>
+
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="postButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="postTextArea" class="form-control result" rows="5" readonly="readonly"/>
         </g:HTMLPanel>
-        <textarea ui:field="postTextArea" class="form-control result" rows="5" readonly="readonly"/>
       </g:HTMLPanel>
-    </g:HTMLPanel>
   </g:HTMLPanel>
 </ui:UiBinder>

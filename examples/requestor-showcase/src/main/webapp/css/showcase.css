@@ -23,6 +23,15 @@
     margin: auto;
 }
 
+fieldset + fieldset {
+    margin-top: 10px;
+}
+
+legend + .radio,
+legend + .checkbox {
+    margin-top: 0;
+}
+
 textarea[readonly].result {
     background-color: #fff;
     cursor: text;
