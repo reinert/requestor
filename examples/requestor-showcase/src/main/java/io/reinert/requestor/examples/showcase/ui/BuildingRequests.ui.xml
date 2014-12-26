@@ -1,0 +1,108 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="start-building">Start building</h1>
+      <p class="lead">
+        <code>Requestor</code> object provides the <code>#req</code> method to start building a request.
+        A target url is required by it.
+      </p>
+      <div class="highlight">
+        <pre ui:field="req" class="java">
+          <code>
+            Requestor r = GWT.create(Requestor); <br/>
+            RequestBuilder reqBuilder = r.req(&quot;/target&quot;);
+          </code>
+        </pre>
+      </div>
+
+      <p style="margin-bottom: 0">
+        Note: <code>Requestor#req</code> returns a <code>RequestInvoker</code> which inherits from <code>RequestBuilder</code> but has additional dispatching capabilities.
+      </p>
+    </g:HTMLPanel>
+
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="headers">Headers</h1>
+      <p class="lead">
+        Handful methods are provided to add header to the request.
+      </p>
+
+      <div class="requestor-showcase-innersection">
+        <h3>#header(String, String)</h3>
+        <p>
+          This method allows you to add a headers to the request by simply specifying it's name and value.
+        </p>
+        <div class="highlight">
+          <pre ui:field="header1" class="java">
+            <code>
+              reqBuilder.header("Content-Type", "application/json; charset=utf-8");
+            </code>
+          </pre>
+        </div>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3>#header(Header)</h3>
+        <p>
+          Alternatively, you can add a <code>Header</code> to the request.
+          The Header type has several childs representing different kind of headers.
+          Some of them are: <code>SimpleHeader</code>, <code>SimpleHeaderWithParameter</code>,
+          <code>MultivaluedHeader</code>, <code>QualityFactorHeader</code>, <code>ContentTypeHeader</code>,
+          <code>AcceptHeader</code>.
+        </p>
+        <div class="highlight">
+          <pre ui:field="header2" class="java">
+            <code>
+              reqBuilder.header(new ContentTypeHeader("application/json", Param.of("charset", "utf-8")));
+            </code>
+          </pre>
+        </div>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3>#contentType(String)</h3>
+        <p>
+          This method is a shortcut for setting the Content-Type header.
+        </p>
+        <div class="highlight">
+          <pre ui:field="header3" class="java">
+            <code>
+              reqBuilder.contentType("application/json; charset=utf-8");
+            </code>
+          </pre>
+        </div>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3>#accept(String)</h3>
+        <p>
+          This method is a shortcut for setting the Accept header.
+        </p>
+        <div class="highlight">
+          <pre ui:field="header4" class="java">
+            <code>
+              reqBuilder.accept("application/json, text/plain; q=0.8");
+            </code>
+          </pre>
+        </div>
+      </div>
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>
