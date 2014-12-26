@@ -18,11 +18,11 @@ package io.reinert.requestor.examples.showcase.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
 public class Home extends Composite {
 
-    interface HomeUiBinder extends UiBinder<Widget, Home> {}
+    interface HomeUiBinder extends UiBinder<HTMLPanel, Home> {}
 
     private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);
 

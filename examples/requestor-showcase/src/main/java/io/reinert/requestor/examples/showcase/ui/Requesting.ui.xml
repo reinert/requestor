@@ -34,6 +34,8 @@
         </div>
 
         <p>
+          The <code>req</code> method starts building a request targeted to the given url.
+          <br/>
           The <code>get</code> method invokes a HTTP GET request and returns a promise.
           <br/>
           Now, with the <code>promise</code>, we can register callbacks to handle the future results.
