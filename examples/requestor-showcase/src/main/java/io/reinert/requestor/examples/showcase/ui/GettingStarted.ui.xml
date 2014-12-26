@@ -26,8 +26,8 @@
       <h3>Install with Maven</h3>
       <p>You can simply import the following modules to your POM.</p>
       <div class="highlight">
-        <pre ui:field="mavenInstallation">
-          <code class="xml">
+        <pre ui:field="mavenInstallation" class="xml">
+          <code>
             &lt;dependency&gt;
             <br/>
             &#32;&#32;&lt;groupId&gt;io.reinert.gdeferred&lt;/groupId&gt;
@@ -106,8 +106,8 @@
         Following this tutorial, let's use Requestor-GDeferred's module.
       </p>
       <div class="highlight">
-        <pre ui:field="gwtModule">
-          <code class="xml">
+        <pre ui:field="gwtModule" class="xml">
+          <code>
             &lt;inherits name=&quot;io.reinert.requestor.RequestorByGDeferred&quot;/&gt;
           </code>
         </pre>
@@ -132,8 +132,8 @@
 
       <h3>Make a request</h3>
       <div class="highlight">
-        <pre ui:field="makeRequest">
-          <code class="java">
+        <pre ui:field="makeRequest" class="java">
+          <code>
             r.req("http://httpbin.org/ip").get(String.class).done(new DoneCallback&lt;String&gt;() {
             <br/>
             &#32;&#32;&#32;&#32;public void onDone(String ip) {
