@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
+import java.util.List;
+
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.event.shared.EventBus;
@@ -38,7 +40,7 @@ public class FormActivity extends AbstractActivity implements Form.Handler {
     }
 
     @Override
-    public void onSubmitClick(FormElement formElement) {
+    public void onWrappingPostButtonClick(FormElement formElement) {
         FormData formData = FormData.wrap(formElement);
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
@@ -49,10 +51,35 @@ public class FormActivity extends AbstractActivity implements Form.Handler {
                         // the payload is parsed as string by default
                         // to change it, we can set the desired responseType in the RequestBuilder
                         final String payload = response.getPayload().isString();
-                        view.setResultText(payload);
+                        view.setWrappingText(payload);
                     }
                 });
 
+    }
+
+    @Override
+    public void onBuildingPostButtonClick(String custname, String custtel, String custemail, String size,
+                                          List<String> toppings, String time, String comments) {
+        FormData formData = FormData.builder()
+                .append("custname", custname)
+                .append("custtel", custtel)
+                .append("size", size)
+                .append("topping", toppings)
+                .append("time", time)
+                .append("comments", comments)
+                .build();
+        requestor.req("http://httpbin.org/post")
+                .payload(formData)
+                .post(SerializedResponse.class) // retrieve the raw response
+                .done(new DoneCallback<SerializedResponse>() {
+                    @Override
+                    public void onDone(SerializedResponse response) {
+                        // the payload is parsed as string by default
+                        // to change it, we can set the desired responseType in the RequestBuilder
+                        final String payload = response.getPayload().isString();
+                        view.setBuildingText(payload);
+                    }
+                });
     }
 
     @Override

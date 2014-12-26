@@ -37,21 +37,21 @@
         </fieldset>
         <fieldset>
           <legend>Pizza Size</legend>
-          <div class="radio"><label><input type="radio" name="size" value="small"/> Small</label></div>
-          <div class="radio"><label><input type="radio" name="size" value="medium"/> Medium</label></div>
-          <div class="radio"><label><input type="radio" name="size" value="large"/> Large</label></div>
+          <div class="radio"><label><input ui:field="sizeSmall" type="radio" name="size" value="small"/> Small</label></div>
+          <div class="radio"><label><input ui:field="sizeMedium" type="radio" name="size" value="medium"/> Medium</label></div>
+          <div class="radio"><label><input ui:field="sizeLarge" type="radio" name="size" value="large"/> Large</label></div>
         </fieldset>
         <fieldset>
           <legend>Pizza Toppings</legend>
-          <div class="checkbox"><label> <input type="checkbox" name="topping" value="bacon"/> Bacon</label></div>
-          <div class="checkbox"><label> <input type="checkbox" name="topping" value="cheese"/> Extra Cheese</label></div>
-          <div class="checkbox"><label> <input type="checkbox" name="topping" value="onion"/> Onion</label></div>
-          <div class="checkbox"><label> <input type="checkbox" name="topping" value="mushroom"/> Mushroom</label></div>
+          <div class="checkbox"><label><input ui:field="topBacon" type="checkbox" name="topping" value="bacon"/> Bacon</label></div>
+          <div class="checkbox"><label><input ui:field="topCheese" type="checkbox" name="topping" value="cheese"/> Extra Cheese</label></div>
+          <div class="checkbox"><label><input ui:field="topOnion" type="checkbox" name="topping" value="onion"/> Onion</label></div>
+          <div class="checkbox"><label><input ui:field="topMushroom" type="checkbox" name="topping" value="mushroom"/> Mushroom</label></div>
         </fieldset>
         <fieldset>
           <legend>Delivery Details</legend>
-          <div class="form-group"><label>Preferred delivery time:</label><input type="time" min="11:00" max="21:00" step="900" name="delivery" class="form-control"/></div>
-          <div class="form-group"><label>Delivery instructions:</label><textarea name="comments" class="form-control" rows="3"/></div>
+          <div class="form-group"><label>Preferred delivery time:</label><input ui:field="time" type="time" min="11:00" max="21:00" step="900" name="delivery" class="form-control"/></div>
+          <div class="form-group"><label>Delivery instructions:</label><textarea ui:field="comments" name="comments" class="form-control" rows="3"/></div>
         </fieldset>
       </form>
 
@@ -70,9 +70,37 @@
 
         <g:HTMLPanel styleName="action-panel">
           <g:HTMLPanel styleName="action">
-            <g:Button ui:field="postButton" styleName="btn">POST</g:Button>
+            <g:Button ui:field="wrappingPostButton" styleName="btn">POST</g:Button>
           </g:HTMLPanel>
-          <textarea ui:field="postTextArea" class="form-control result" rows="5" readonly="readonly"/>
+          <textarea ui:field="wrappingTextArea" class="form-control result" rows="5" readonly="readonly"/>
+        </g:HTMLPanel>
+      </g:HTMLPanel>
+
+      <g:HTMLPanel styleName="requestor-showcase-section">
+        <h3>2) Build the FormData</h3>
+        <p>FormData exposes a builder to dynamically create an instance of it.</p>
+        <div class="highlight">
+          <pre ui:field="building" class="java">
+            <code>
+              FormData formData = FormData.builder()
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("custname", custname)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("custtel", custtel)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("size", size)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("topping", toppings) /* toppings is a List&lt;String&gt; */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("time", time)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("comments", comments)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.build();
+              <br/>
+              requestor.req("http://httpbin.org/post").payload(formData).post();
+            </code>
+          </pre>
+        </div>
+
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="buildingPostButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="buildingTextArea" class="form-control result" rows="5" readonly="readonly"/>
         </g:HTMLPanel>
       </g:HTMLPanel>
   </g:HTMLPanel>
