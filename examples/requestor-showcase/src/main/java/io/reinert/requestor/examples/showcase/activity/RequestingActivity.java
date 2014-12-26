@@ -16,7 +16,6 @@
 package io.reinert.requestor.examples.showcase.activity;
 
 import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
@@ -40,41 +39,41 @@ public class RequestingActivity extends AbstractActivity implements Requesting.H
 
     @Override
     public void onGetIpButtonClick() {
-        RequestPromise<JavaScriptObject> promise = requestor.req("http://httpbin.org/ip").get(JavaScriptObject.class);
-        promise.done(new DoneCallback<JavaScriptObject>() {
+        RequestPromise<String> promise = requestor.req("http://httpbin.org/ip").get(String.class);
+        promise.done(new DoneCallback<String>() {
             @Override
-            public void onDone(JavaScriptObject result) {
-                view.setIpText(Util.formatJson(result));
+            public void onDone(String result) {
+                view.setIpText(result);
             }
         });
     }
 
     @Override
     public void onPostButtonClick() {
-        requestor.req("http://httpbin.org/post").post(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
+        requestor.req("http://httpbin.org/post").post(String.class).done(new DoneCallback<String>() {
             @Override
-            public void onDone(JavaScriptObject result) {
-                view.setPostText(Util.formatJson(result));
+            public void onDone(String result) {
+                view.setPostText(result);
             }
         });
     }
 
     @Override
     public void onPutButtonClick() {
-        requestor.req("http://httpbin.org/put").put(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
+        requestor.req("http://httpbin.org/put").put(String.class).done(new DoneCallback<String>() {
             @Override
-            public void onDone(JavaScriptObject result) {
-                view.setPutText(Util.formatJson(result));
+            public void onDone(String result) {
+                view.setPutText(result);
             }
         });
     }
 
     @Override
     public void onDeleteButtonClick() {
-        requestor.req("http://httpbin.org/delete").delete(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
+        requestor.req("http://httpbin.org/delete").delete(String.class).done(new DoneCallback<String>() {
             @Override
-            public void onDone(JavaScriptObject result) {
-                view.setDeleteText(Util.formatJson(result));
+            public void onDone(String result) {
+                view.setDeleteText(result);
             }
         });
     }
@@ -101,10 +100,10 @@ public class RequestingActivity extends AbstractActivity implements Requesting.H
 
     @Override
     public void onPatchButtonClick() {
-        requestor.req("http://httpbin.org/patch").patch(JavaScriptObject.class).done(new DoneCallback<JavaScriptObject>() {
+        requestor.req("http://httpbin.org/patch").patch(String.class).done(new DoneCallback<String>() {
             @Override
-            public void onDone(JavaScriptObject result) {
-                view.setPatchText(Util.formatJson(result));
+            public void onDone(String result) {
+                view.setPatchText(result);
             }
         });
     }

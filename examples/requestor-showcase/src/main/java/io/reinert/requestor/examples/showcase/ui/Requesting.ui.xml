@@ -28,7 +28,7 @@
         <div class="highlight">
           <pre ui:field="getIp" class="java">
             <code>
-              RequestPromise&lt;JavaScriptObject&gt; promise = requestor.req(&quot;http://httpbin.org/ip&quot;).get(JavaScriptObject.class);
+              RequestPromise&lt;String&gt; promise = requestor.req(&quot;http://httpbin.org/ip&quot;).get(String.class);
             </code>
           </pre>
         </div>
@@ -41,11 +41,11 @@
         <div class="highlight">
           <pre ui:field="promiseIp" class="java">
             <code>
-              promise.done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              promise.done(new DoneCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              &#32;&#32;&#32;&#32;public void onDone(String result) {
               <br/>
-              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setIpText(Util.formatJson(result));
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setIpText(result);
               <br/>
               &#32;&#32;&#32;&#32;}
               <br/>
@@ -62,7 +62,7 @@
         </g:HTMLPanel>
 
         <p>
-          The parameter <code>JavaScriptObject.class</code> indicates we expect a object of this type as result of the
+          The parameter <code>String.class</code> indicates we expect a object of this type as result of the
           request.
         </p>
       </g:HTMLPanel>
@@ -72,11 +72,11 @@
         <div class="highlight">
           <pre ui:field="postSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/post&quot;).post(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              requestor.req(&quot;http://httpbin.org/post&quot;).post(String.class).done(new DoneCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              &#32;&#32;&#32;&#32;public void onDone(String result) {
               <br/>
-              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPostText(Util.formatJson(result));
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPostText(result);
               <br/>
               &#32;&#32;&#32;&#32;}
               <br/>
@@ -97,11 +97,11 @@
         <div class="highlight">
           <pre ui:field="putSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/put&quot;).put(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              requestor.req(&quot;http://httpbin.org/put&quot;).put(String.class).done(new DoneCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              &#32;&#32;&#32;&#32;public void onDone(String result) {
               <br/>
-              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPutText(Util.formatJson(result));
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPutText(result);
               <br/>
               &#32;&#32;&#32;&#32;}
               <br/>
@@ -122,11 +122,11 @@
         <div class="highlight">
           <pre ui:field="deleteSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/delete&quot;).delete(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              requestor.req(&quot;http://httpbin.org/delete&quot;).delete(String.class).done(new DoneCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              &#32;&#32;&#32;&#32;public void onDone(String result) {
               <br/>
-              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setDeleteText(Util.formatJson(result));
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setDeleteText(result);
               <br/>
               &#32;&#32;&#32;&#32;}
               <br/>
@@ -197,11 +197,11 @@
         <div class="highlight">
           <pre ui:field="patchSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/patch&quot;).patch(JavaScriptObject.class).done(new DoneCallback&lt;JavaScriptObject&gt;() {
+              requestor.req(&quot;http://httpbin.org/patch&quot;).patch(String.class).done(new DoneCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(JavaScriptObject result) {
+              &#32;&#32;&#32;&#32;public void onDone(String result) {
               <br/>
-              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(Util.formatJson(result));
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(result);
               <br/>
               &#32;&#32;&#32;&#32;}
               <br/>
