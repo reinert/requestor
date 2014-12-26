@@ -46,8 +46,8 @@ class SerializationEngine {
                                                                                  SerializedResponse response,
                                                                                  Class<T> type,
                                                                                  Class<C> containerType) {
-        String responseContentType = getResponseContentType(request, response);
-        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
+        final String mediaType = getResponseMediaType(request, response);
+        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
         @SuppressWarnings("unchecked")
@@ -56,8 +56,8 @@ class SerializationEngine {
     }
 
     public <T> Response<T> deserializeResponse(Request request, SerializedResponse response, Class<T> type) {
-        String responseContentType = getResponseContentType(request, response);
-        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, responseContentType);
+        final String mediaType = getResponseMediaType(request, response);
+        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
         T result = deserializer.deserialize(response.getPayload().isString(), context);
@@ -69,6 +69,7 @@ class SerializationEngine {
         Object payload = request.getPayload();
         String body = null;
         if (payload != null) {
+            final String mediaType = getRequestMediaType(request);
             if (payload instanceof Collection) {
                 Collection c = (Collection) payload;
                 final Iterator iterator = c.iterator();
@@ -83,13 +84,13 @@ class SerializationEngine {
                         by content-type. */
                     body = "[]";
                 } else {
-                    Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), request.getContentType());
+                    Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), mediaType);
                     checkSerializerNotNull(request, item.getClass(), serializer);
                     body = serializer.serialize(c, new HttpSerializationContext(request));
                 }
             } else {
                 Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
-                        request.getContentType());
+                        mediaType);
                 checkSerializerNotNull(request, payload.getClass(), serializer);
                 body = serializer.serialize(payload, new HttpSerializationContext(request));
             }
@@ -97,16 +98,32 @@ class SerializationEngine {
         return new SerializedRequestImpl(request, new Payload(body));
     }
 
-    private String getResponseContentType(Request request, SerializedResponse response) {
-        String responseContentType = response.getContentType();
-        if (responseContentType == null || responseContentType.isEmpty()) {
-            responseContentType = "*/*";
+    private String getRequestMediaType(Request request) {
+        String mediaType = request.getContentType();
+        if (mediaType == null || mediaType.isEmpty()) {
+            mediaType = "*/*";
+            logger.log(Level.INFO, "Request with no 'Content-Type' header being dispatched to '" + request.getUrl()
+                    + "'. The content-type value has been automatically set to '*/*' to match serializers.");
+        } else {
+            mediaType = extractMediaTypeFromContentType(mediaType);
+        }
+        return mediaType;
+    }
+
+    private String getResponseMediaType(Request request, SerializedResponse response) {
+        String medaType = response.getContentType();
+        if (medaType == null || medaType.isEmpty()) {
+            medaType = "*/*";
             logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         } else {
-            responseContentType = responseContentType.split(";")[0]; // detach from params
+            medaType = extractMediaTypeFromContentType(medaType);
         }
-        return responseContentType;
+        return medaType;
+    }
+
+    private String extractMediaTypeFromContentType(String contentType) {
+        return contentType.split(";")[0];
     }
 
     private <T> Response<T> getDeserializedResponse(SerializedResponse response, T result) {
