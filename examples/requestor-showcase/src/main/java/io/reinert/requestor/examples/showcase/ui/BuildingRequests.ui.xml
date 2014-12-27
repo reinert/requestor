@@ -191,7 +191,12 @@
         Inform how the request should be authenticated.
       </p>
       <p>
-        
+        Requestor allows you to easily specify the authentication procedure for your requests.
+        <br/>
+        The HTTP BASIC authentication method is already implemented in the API, so you can use it nicely.
+        <!--This feature was carefully designed to be as simple and extensible as possible, allowing one to set whatever authentication worflow necessary at the same time not requiring expensive coding.-->
+        <!--<br/>-->
+        <!--Any authentication procedure must implement the <code>Authentication</code> class, which is simple-->
       </p>
       <div class="highlight">
         <pre ui:field="auth1" class="java">
@@ -201,7 +206,7 @@
         </pre>
       </div>
       <p>
-        
+        Any authentication procedure can be coded by implementing the <code>Authentication</code> class.
       </p>
       <div class="highlight">
         <pre ui:field="auth2" class="java">
