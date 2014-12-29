@@ -45,7 +45,14 @@
         </form>
         <textarea ui:field="basicTextArea" class="form-control result" rows="4" readonly="readonly"/>
       </g:HTMLPanel>
+
+      <p>
+        <em>Note: Alternatively, BasicAuth constructor accepts a boolean third param: withCredentials.
+          It will affect the XHR withCredentials property.</em>
+      </p>
     </g:HTMLPanel>
+
+
 
     <!-- CUSTOM SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">

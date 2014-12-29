@@ -39,6 +39,10 @@
     margin-bottom: 10px;
 }
 
+.action-grid .progress {
+    margin-bottom: 10px;
+}
+
 .action-panel .result {
     /* nothing yet */
 }

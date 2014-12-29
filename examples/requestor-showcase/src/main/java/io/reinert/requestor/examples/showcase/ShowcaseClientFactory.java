@@ -20,6 +20,7 @@ import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.Authentication;
+import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
@@ -38,4 +39,5 @@ public interface ShowcaseClientFactory {
     BuildingRequests getBuildingRequests();
     SendingRequests getSendingRequests();
     Authentication getAuthentication();
+    BinaryData getBinaryData();
 }

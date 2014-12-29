@@ -18,6 +18,7 @@ package io.reinert.requestor.examples.showcase;
 import com.google.gwt.place.shared.Place;
 
 import io.reinert.requestor.examples.showcase.place.AuthenticationPlace;
+import io.reinert.requestor.examples.showcase.place.BinaryDataPlace;
 import io.reinert.requestor.examples.showcase.place.BuildingRequestsPlace;
 import io.reinert.requestor.examples.showcase.place.FormPlace;
 import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
@@ -37,7 +38,7 @@ public enum MenuOption implements HasToken, HasPlace {
     SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, SendingRequestsPlace.INSTANCE),
 //    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, null),
     FORM("Form", Tokens.FORM_TOKEN, FormPlace.INSTANCE),
-//    STREAM("Stream", Tokens.STREAM_TOKEN, null),
+    BINARY_DATA("Binary Data", Tokens.BINARY_DATA_TOKEN, BinaryDataPlace.INSTANCE),
     AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE),
 //    FILTERS("Filters", Tokens.FILTERS_TOKEN, null),
 //    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, null)
@@ -51,7 +52,7 @@ public enum MenuOption implements HasToken, HasPlace {
         public static final String SENDING_REQUESTS_TOKEN = "sending-requests";
         public static final String SERIALIZATION_TOKEN = "serialization";
         public static final String FORM_TOKEN = "form";
-        public static final String STREAM_TOKEN = "stream";
+        public static final String BINARY_DATA_TOKEN = "binary-data";
         public static final String AUTHENTICATION_TOKEN = "authentication";
         public static final String FILTERS_TOKEN = "filters";
         public static final String INTERCEPTORS_TOKEN = "interceptors";
@@ -70,10 +71,10 @@ public enum MenuOption implements HasToken, HasPlace {
 //            return SERIALIZATION;
         } else if (token.equals(Tokens.FORM_TOKEN)) {
             return FORM;
+        } else if (token.equals(Tokens.BINARY_DATA_TOKEN)) {
+            return BINARY_DATA;
         } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {
             return AUTHENTICATION;
-//        } else if (token.equals(Tokens.STREAM_TOKEN)) {
-//            return STREAM;
 //        } else if (token.equals(Tokens.FILTERS_TOKEN)) {
 //            return FILTERS;
 //        } else if (token.equals(Tokens.INTERCEPTORS_TOKEN)) {

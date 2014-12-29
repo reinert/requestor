@@ -22,6 +22,7 @@ import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.Authentication;
+import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
@@ -39,6 +40,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private Requesting requesting;
     private BuildingRequests buildingRequests;
     private SendingRequests sendingRequests;
+    private BinaryData binaryData;
     private Authentication authentication;
     private Form form;
 
@@ -94,6 +96,13 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (sendingRequests == null)
             sendingRequests = new SendingRequests();
         return sendingRequests;
+    }
+
+    @Override
+    public BinaryData getBinaryData() {
+        if (binaryData == null)
+            binaryData = new BinaryData();
+        return binaryData;
     }
 
     @Override

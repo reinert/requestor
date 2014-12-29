@@ -1,0 +1,64 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- SEND SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="sending-data">Sending data</h1>
+      <p class="lead">
+        Sending binary data with Requestor is so simple!
+        Just wrap the data in a Payload object and put it in the request.
+      </p>
+      <div class="highlight">
+        <pre ui:field="send" class="java">
+          <code>
+            JavaScriptObject file = getFile();<br/>
+            requestor.req("http://httpbin.org/post")
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new Payload(file))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.upProgress(new ProgressCallback&lt;RequestProgress&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onProgress(RequestProgress progress) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (progress.isLengthComputable())
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus((progress.loaded() / progress.total()) * 100);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;})
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Void&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(Void result) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus(100);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+          </code>
+        </pre>
+      </div>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <input ui:field="file" type="file" class="form-control"/>
+          <g:Button ui:field="sendButton" styleName="btn">POST</g:Button>
+        </form>
+
+        <div class="progress">
+          <div ui:field="sendProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"/>
+        </div>
+
+        <textarea ui:field="sendTextArea" class="form-control result" rows="4" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>
