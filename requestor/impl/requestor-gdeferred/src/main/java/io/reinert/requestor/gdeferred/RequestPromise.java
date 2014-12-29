@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.gdeferred;
 
-import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.gdeferred.Promise;
 import io.reinert.requestor.RequestProgress;
 
@@ -27,5 +26,36 @@ import io.reinert.requestor.RequestProgress;
  * @author Danilo Reinert
  */
 public interface RequestPromise<T> extends Promise<T, Throwable, RequestProgress> {
-    Promise<T, Throwable, RequestProgress> upProgress(ProgressCallback<RequestProgress> callback);
+
+    RequestPromise<T> upProgress(io.reinert.gdeferred.ProgressCallback<RequestProgress> callback);
+
+    @Override
+    RequestPromise<T> always(io.reinert.gdeferred.AlwaysCallback<T, Throwable> callback);
+
+    @Override
+    RequestPromise<T> done(io.reinert.gdeferred.DoneCallback<T> callback);
+
+    @Override
+    RequestPromise<T> fail(io.reinert.gdeferred.FailCallback<Throwable> callback);
+
+    @Override
+    RequestPromise<T> progress(io.reinert.gdeferred.ProgressCallback<RequestProgress> callback);
+
+    @Override
+    RequestPromise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback);
+
+    @Override
+    RequestPromise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback,
+                           io.reinert.gdeferred.FailCallback<Throwable> failCallback);
+
+    @Override
+    RequestPromise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback,
+                           io.reinert.gdeferred.FailCallback<Throwable> failCallback,
+                           io.reinert.gdeferred.ProgressCallback<RequestProgress> progressCallback);
+
+    RequestPromise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback,
+                           io.reinert.gdeferred.FailCallback<Throwable> failCallback,
+                           io.reinert.gdeferred.ProgressCallback<RequestProgress> progressCallback,
+                           io.reinert.gdeferred.ProgressCallback<RequestProgress> upProgressCallback);
+
 }

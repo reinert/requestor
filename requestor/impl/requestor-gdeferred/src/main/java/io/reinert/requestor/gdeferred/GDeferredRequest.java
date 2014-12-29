@@ -18,8 +18,6 @@ package io.reinert.requestor.gdeferred;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import io.reinert.gdeferred.ProgressCallback;
-import io.reinert.gdeferred.Promise;
 import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.RequestException;
@@ -37,55 +35,79 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
         implements GDeferredRequestPromise<T>, Deferred<T> {
 
     private HttpConnection connection;
-    private ArrayList<ProgressCallback<RequestProgress>> uploadProgressCallbacks;
+    private ArrayList<io.reinert.gdeferred.ProgressCallback<RequestProgress>> uploadProgressCallbacks;
 
     public GDeferredRequest() {
     }
 
-    @SuppressWarnings("unchecked")
-    protected void triggerDone(Response<T> resolved) {
-        for (io.reinert.gdeferred.DoneCallback<T> callback : getDoneCallbacks()) {
-            try {
-                if (callback instanceof DoneCallback) {
-                    ((DoneCallback) callback).onDone(resolved);
-                } else {
-                    callback.onDone(resolved.getPayload());
-                }
-            } catch (Exception e) {
-                log.log(Level.SEVERE, "An uncaught exception occurred in a DoneCallback", e);
-            }
-        }
+    //===================================================================
+    // RequestPromise
+    //===================================================================
+
+    @Override
+    public RequestPromise<T> always(io.reinert.gdeferred.AlwaysCallback<T, Throwable> callback) {
+        super.always(callback);
+        return this;
     }
 
     @Override
-    public void resolve(final Response<T> response) {
-        if (!isPending()) {
-            throw new IllegalStateException("Deferred object already finished, cannot resolve again");
-        }
-
-        state = State.RESOLVED;
-        resolveResult = response.getPayload();
-
-        try {
-            triggerDone(response);
-        } finally {
-            triggerAlways(resolveResult, null);
-        }
+    public RequestPromise<T> done(io.reinert.gdeferred.DoneCallback<T> callback) {
+        super.done(callback);
+        return this;
     }
 
     @Override
-    public void reject(RequestException error) {
-        // If the http connection is still opened, then close it
-        if (connection != null && connection.isPending())
-            connection.cancel();
-        super.reject(error);
+    public RequestPromise<T> fail(io.reinert.gdeferred.FailCallback<Throwable> callback) {
+        super.fail(callback);
+        return this;
     }
 
     @Override
-    public Promise<T, Throwable, RequestProgress> upProgress(ProgressCallback<RequestProgress> callback) {
+    public RequestPromise<T> progress(io.reinert.gdeferred.ProgressCallback<RequestProgress> callback) {
+        super.progress(callback);
+        return this;
+    }
+
+    @Override
+    public RequestPromise<T> upProgress(io.reinert.gdeferred.ProgressCallback<RequestProgress> callback) {
         getUploadProgressCallbacks().add(callback);
         return this;
     }
+
+    @Override
+    public RequestPromise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback) {
+        super.then(doneCallback);
+        return this;
+    }
+
+    @Override
+    public RequestPromise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback,
+                                  io.reinert.gdeferred.FailCallback<Throwable> failCallback) {
+        super.then(doneCallback, failCallback);
+        return this;
+    }
+
+    @Override
+    public RequestPromise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback,
+                                  io.reinert.gdeferred.FailCallback<Throwable> failCallback,
+                                  io.reinert.gdeferred.ProgressCallback<RequestProgress> progressCallback) {
+        super.then(doneCallback, failCallback, progressCallback);
+        return this;
+    }
+
+    @Override
+    public RequestPromise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback,
+                                  io.reinert.gdeferred.FailCallback<Throwable> failCallback,
+                                  io.reinert.gdeferred.ProgressCallback<RequestProgress> progressCallback,
+                                  io.reinert.gdeferred.ProgressCallback<RequestProgress> upProgressCallback) {
+        super.then(doneCallback, failCallback, progressCallback);
+        this.upProgress(upProgressCallback);
+        return this;
+    }
+
+    //===================================================================
+    // Promise
+    //===================================================================
 
     @Override
     public boolean isFulfilled() {
@@ -117,6 +139,34 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
         throw new UnsupportedOperationException();
     }
 
+    //===================================================================
+    // Deferred
+    //===================================================================
+
+    @Override
+    public void resolve(final Response<T> response) {
+        if (!isPending()) {
+            throw new IllegalStateException("Deferred object already finished, cannot resolve again");
+        }
+
+        state = State.RESOLVED;
+        resolveResult = response.getPayload();
+
+        try {
+            triggerDone(response);
+        } finally {
+            triggerAlways(resolveResult, null);
+        }
+    }
+
+    @Override
+    public void reject(RequestException error) {
+        // If the http connection is still opened, then close it
+        if (connection != null && connection.isPending())
+            connection.cancel();
+        super.reject(error);
+    }
+
     @Override
     public void notifyDownload(RequestProgress progress) {
         notify(progress);
@@ -134,8 +184,27 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
         this.connection = connection;
     }
 
+    //===================================================================
+    // Internal methods
+    //===================================================================
+
+    @SuppressWarnings("unchecked")
+    protected void triggerDone(Response<T> resolved) {
+        for (io.reinert.gdeferred.DoneCallback<T> callback : getDoneCallbacks()) {
+            try {
+                if (callback instanceof DoneCallback) {
+                    ((DoneCallback) callback).onDone(resolved);
+                } else {
+                    callback.onDone(resolved.getPayload());
+                }
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "An uncaught exception occurred in a DoneCallback", e);
+            }
+        }
+    }
+
     protected void triggerUploadProgress(RequestProgress progress) {
-        for (ProgressCallback<RequestProgress> callback : getUploadProgressCallbacks()) {
+        for (io.reinert.gdeferred.ProgressCallback<RequestProgress> callback : getUploadProgressCallbacks()) {
             try {
                 triggerProgress(callback, progress);
             } catch (Exception e) {
@@ -144,9 +213,9 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
         }
     }
 
-    protected ArrayList<ProgressCallback<RequestProgress>> getUploadProgressCallbacks() {
+    protected ArrayList<io.reinert.gdeferred.ProgressCallback<RequestProgress>> getUploadProgressCallbacks() {
         if (uploadProgressCallbacks == null)
-            uploadProgressCallbacks = new ArrayList<ProgressCallback<RequestProgress>>();
+            uploadProgressCallbacks = new ArrayList<io.reinert.gdeferred.ProgressCallback<RequestProgress>>();
         return uploadProgressCallbacks;
     }
 }
