@@ -65,7 +65,7 @@ class SerializationEngine {
     }
 
     @SuppressWarnings("unchecked")
-    public SerializedRequestImpl serializeRequest(Request request) {
+    public SerializedRequestDelegate serializeRequest(Request request) {
         Object payload = request.getPayload();
         String body = null;
         if (payload != null) {
@@ -95,7 +95,7 @@ class SerializationEngine {
                 body = serializer.serialize(payload, new HttpSerializationContext(request));
             }
         }
-        return new SerializedRequestImpl(request, new Payload(body));
+        return new SerializedRequestDelegate(request, new Payload(body));
     }
 
     private String getRequestMediaType(Request request) {

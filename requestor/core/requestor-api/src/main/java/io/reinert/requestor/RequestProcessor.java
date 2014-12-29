@@ -45,16 +45,16 @@ public class RequestProcessor {
         filterEngine.filterRequest(request);
 
         // 2: SERIALIZE
-        SerializedRequestImpl serializedRequest;
+        SerializedRequestDelegate serializedRequest;
         Object payload = request.getPayload();
         if (payload instanceof Payload) {
             // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
-            serializedRequest = new SerializedRequestImpl(request, (Payload) payload);
+            serializedRequest = new SerializedRequestDelegate(request, (Payload) payload);
         } else if (payload instanceof FormData) {
             // FormData serialization
             final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
             request.putHeader(new ContentTypeHeader(formDataSerializer.mediaType()));
-            serializedRequest = new SerializedRequestImpl(request, serializedPayload);
+            serializedRequest = new SerializedRequestDelegate(request, serializedPayload);
         } else {
             serializedRequest = serializationEngine.serializeRequest(request);
         }

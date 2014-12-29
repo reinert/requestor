@@ -32,7 +32,7 @@ public class Headers implements Iterable<Header> {
 
     private Map<String, Header> headers;
 
-    protected Headers(Iterable<Header> headers) {
+    public Headers(Iterable<Header> headers) {
         if (headers != null) {
             final Iterator<Header> iterator = headers.iterator();
             if (iterator.hasNext())
@@ -44,7 +44,7 @@ public class Headers implements Iterable<Header> {
         }
     }
 
-    protected Headers(Header... headers) {
+    public Headers(Header... headers) {
         if (headers.length > 0) {
             ensureHeaders();
             for (final Header header : headers) {

@@ -50,7 +50,7 @@ public class RequestProcessorTest {
         // Given
         @SuppressWarnings("unchecked")
         R request = (R) mock(RequestBuilder.class, withSettings().extraInterfaces(RequestFilterContext.class));
-        SerializedRequestImpl interceptorContext = mock(SerializedRequestImpl.class);
+        SerializedRequestDelegate interceptorContext = mock(SerializedRequestDelegate.class);
         when(serializationEngine.serializeRequest(request)).thenReturn(interceptorContext);
 
         // When

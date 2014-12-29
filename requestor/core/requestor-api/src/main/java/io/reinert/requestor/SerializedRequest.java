@@ -21,8 +21,6 @@ package io.reinert.requestor;
  * @author Danilo Reienrt
  */
 public interface SerializedRequest extends Request {
-
     @Override
     Payload getPayload();
-
 }

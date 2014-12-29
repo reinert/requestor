@@ -19,71 +19,105 @@ import io.reinert.requestor.auth.Authentication;
 
 /**
  * Represents a request with its payload already serialized.
+ * <p/>
+ *
+ * This is the final form of a request before it's sent to the server.
  *
  * @author Danilo Reinert
  */
-public class SerializedRequestImpl implements SerializedRequest, RequestInterceptorContext {
+public class SerializedRequestImpl implements SerializedRequest {
 
-    private final Request request;
-    private Payload serializedPayload;
+    private final HttpMethod httpMethod;
+    private final String url;
+    private final Headers headers;
+    private final Payload payload;
+    private final int timeout;
+    private final ResponseType responseType;
+    private final Authentication auth;
 
-    public SerializedRequestImpl(Request request, Payload serializedPayload) {
-        this.request = request;
-        this.serializedPayload = serializedPayload;
+    public SerializedRequestImpl(HttpMethod httpMethod, String url) {
+        this(httpMethod, url, new Headers(), null, 0, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
     }
 
-    @Override
-    public String getAccept() {
-        return request.getAccept();
+    public SerializedRequestImpl(HttpMethod httpMethod, String url, Payload payload) {
+        this(httpMethod, url, new Headers(), payload, 0, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
     }
 
-    @Override
-    public String getContentType() {
-        return request.getContentType();
+    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers) {
+        this(httpMethod, url, headers, null, 0, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
     }
 
-    @Override
-    public Headers getHeaders() {
-        return request.getHeaders();
+    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload) {
+        this(httpMethod, url, headers, payload, 0, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
     }
 
-    @Override
-    public String getHeader(String name) {
-        return request.getHeader(name);
+    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout) {
+        this(httpMethod, url, headers, payload, timeout, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
+    }
+
+    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
+                          ResponseType responseType) {
+        this(httpMethod, url, headers, payload, timeout, responseType, PassThroughAuthentication.getInstance());
+    }
+
+    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
+                          ResponseType responseType, Authentication auth) {
+        this.httpMethod = httpMethod;
+        this.url = url;
+        this.headers = headers;
+        this.payload = payload;
+        this.timeout = timeout;
+        this.responseType = responseType;
+        this.auth = auth;
     }
 
     @Override
     public HttpMethod getMethod() {
-        return request.getMethod();
-    }
-
-    @Override
-    public Authentication getAuth() {
-        return request.getAuth();
-    }
-
-    @Override
-    public Payload getPayload() {
-        return serializedPayload;
-    }
-
-    @Override
-    public int getTimeout() {
-        return request.getTimeout();
+        return httpMethod;
     }
 
     @Override
     public String getUrl() {
-        return request.getUrl();
+        return url;
+    }
+
+    @Override
+    public String getAccept() {
+        return headers.getValue("Accept");
+    }
+
+    @Override
+    public String getContentType() {
+        return headers.getValue("Content-Type");
+    }
+
+    @Override
+    public Headers getHeaders() {
+        return headers;
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return headers.getValue(name);
+    }
+
+    @Override
+    public Payload getPayload() {
+        return payload;
+    }
+
+    @Override
+    public Authentication getAuth() {
+        return auth;
+    }
+
+    @Override
+    public int getTimeout() {
+        return timeout;
     }
 
     @Override
     public ResponseType getResponseType() {
-        return request.getResponseType();
-    }
-
-    @Override
-    public void setPayload(Payload payload) {
-        this.serializedPayload = payload;
+        return responseType;
     }
 }
