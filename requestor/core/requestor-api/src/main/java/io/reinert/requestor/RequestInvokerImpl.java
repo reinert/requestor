@@ -42,109 +42,109 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
 
     @Override
     public Promise<Void> get() {
-        return send("GET", Void.class);
+        return send(HttpMethod.GET, Void.class);
     }
 
     @Override
     public <T> Promise<T> get(Class<T> resultType) {
-        return send("GET", resultType);
+        return send(HttpMethod.GET, resultType);
     }
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> get(Class<T> resultType, Class<C> containerType) {
-        return send("GET", resultType, containerType);
+        return send(HttpMethod.GET, resultType, containerType);
     }
 
     @Override
     public Promise<Void> post() {
-        return send("POST", Void.class);
+        return send(HttpMethod.POST, Void.class);
     }
 
     @Override
     public <T> Promise<T> post(Class<T> resultType) {
-        return send("POST", resultType);
+        return send(HttpMethod.POST, resultType);
     }
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> post(Class<T> resultType, Class<C> containerType) {
-        return send("POST", resultType, containerType);
+        return send(HttpMethod.POST, resultType, containerType);
     }
 
     @Override
     public Promise<Void> put() {
-        return send("PUT", Void.class);
+        return send(HttpMethod.PUT, Void.class);
     }
 
     @Override
     public <T> Promise<T> put(Class<T> resultType) {
-        return send("PUT", resultType);
+        return send(HttpMethod.PUT, resultType);
     }
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> put(Class<T> resultType, Class<C> containerType) {
-        return send("PUT", resultType, containerType);
+        return send(HttpMethod.PUT, resultType, containerType);
     }
 
     @Override
     public Promise<Void> delete() {
-        return send("DELETE", Void.class);
+        return send(HttpMethod.DELETE, Void.class);
     }
 
     @Override
     public <T> Promise<T> delete(Class<T> resultType) {
-        return send("DELETE", resultType);
+        return send(HttpMethod.DELETE, resultType);
     }
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> delete(Class<T> resultType,
                                                                    Class<C> containerType) {
-        return send("DELETE", resultType, containerType);
+        return send(HttpMethod.DELETE, resultType, containerType);
     }
 
     @Override
     public Promise<Void> patch() {
-        return send("PATCH", Void.class);
+        return send(HttpMethod.PATCH, Void.class);
     }
 
     @Override
     public <T> Promise<T> patch(Class<T> resultType) {
-        return send("PATCH", resultType);
+        return send(HttpMethod.PATCH, resultType);
     }
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> patch(Class<T> resultType,
                                                                   Class<C> containerType) {
-        return send("PATCH", resultType, containerType);
+        return send(HttpMethod.PATCH, resultType, containerType);
     }
 
     @Override
     public Promise<Void> head() {
-        return send("HEAD", Void.class);
+        return send(HttpMethod.HEAD, Void.class);
     }
 
     @Override
     public <T> Promise<T> head(Class<T> resultType) {
-        return send("HEAD", resultType);
+        return send(HttpMethod.HEAD, resultType);
     }
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> head(Class<T> resultType, Class<C> containerType) {
-        return send("HEAD", resultType, containerType);
+        return send(HttpMethod.HEAD, resultType, containerType);
     }
 
     @Override
     public Promise<Void> options() {
-        return send("OPTIONS", Void.class);
+        return send(HttpMethod.OPTIONS, Void.class);
     }
 
     @Override
     public <T> Promise<T> options(Class<T> resultType) {
-        return send("OPTIONS", resultType);
+        return send(HttpMethod.OPTIONS, resultType);
     }
 
     @Override
     public <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType,
                                                                     Class<C> containerType) {
-        return send("OPTIONS", resultType, containerType);
+        return send(HttpMethod.OPTIONS, resultType, containerType);
     }
 }

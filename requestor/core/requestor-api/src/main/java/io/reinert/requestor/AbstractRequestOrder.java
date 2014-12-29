@@ -68,7 +68,7 @@ abstract class AbstractRequestOrder implements RequestOrder {
     }
 
     @Override
-    public String getMethod() {
+    public HttpMethod getMethod() {
         return request.getMethod();
     }
 

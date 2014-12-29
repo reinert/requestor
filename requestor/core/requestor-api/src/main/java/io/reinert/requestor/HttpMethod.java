@@ -15,33 +15,31 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Authentication;
-
 /**
- * Represents a HTTP Request.
- *
- * @author Danilo Reinert
+ * Represents an HTTP Method.
  */
-public interface Request {
+public enum HttpMethod {
 
-    String getAccept();
+    GET("GET"),
+    POST("POST"),
+    PUT("PUT"),
+    DELETE("DELETE"),
+    PATCH("PATCH"),
+    HEAD("HEAD"),
+    OPTIONS("OPTIONS");
 
-    String getContentType();
+    private final String value;
 
-    Headers getHeaders();
+    HttpMethod(String value) {
+        this.value = value;
+    }
 
-    String getHeader(String name);
+    public String getValue() {
+        return value;
+    }
 
-    HttpMethod getMethod();
-
-    Object getPayload();
-
-    int getTimeout();
-
-    String getUrl();
-
-    ResponseType getResponseType();
-
-    Authentication getAuth();
-
+    @Override
+    public String toString() {
+        return value;
+    }
 }

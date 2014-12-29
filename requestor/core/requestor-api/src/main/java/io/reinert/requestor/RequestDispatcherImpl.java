@@ -50,7 +50,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
     protected <D> void doSend(RequestOrder request, final Deferred<D> deferred, Class<D> resolveType,
                               @Nullable Class<?> parametrizedType) {
-        final String httpMethod = request.getMethod();
+        final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUrl();
         final Headers headers = request.getHeaders();
         final Payload payload = request.getPayload();
@@ -61,7 +61,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
         // Open XMLHttpRequest
         try {
-            xmlHttpRequest.open(httpMethod, url);
+            xmlHttpRequest.open(httpMethod.getValue(), url);
         } catch (JavaScriptException e) {
             RequestPermissionException requestPermissionException = new RequestPermissionException(url);
             requestPermissionException.initCause(new RequestException(e.getMessage()));

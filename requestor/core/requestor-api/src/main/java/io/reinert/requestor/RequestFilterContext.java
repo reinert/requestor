@@ -31,9 +31,9 @@ public interface RequestFilterContext {
 
     void putHeader(Header header);
 
-    String getMethod();
+    HttpMethod getMethod();
 
-    void setMethod(String httpMethod);
+    void setMethod(HttpMethod httpMethod);
 
     void setAuth(Authentication auth);
 

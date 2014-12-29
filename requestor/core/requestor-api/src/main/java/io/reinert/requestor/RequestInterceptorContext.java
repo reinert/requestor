@@ -24,7 +24,7 @@ public interface RequestInterceptorContext {
 
     String getHeader(String name);
 
-    String getMethod();
+    HttpMethod getMethod();
 
     int getTimeout();
 

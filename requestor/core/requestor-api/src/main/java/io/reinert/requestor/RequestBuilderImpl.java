@@ -29,7 +29,7 @@ import io.reinert.requestor.header.SimpleHeader;
 class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     private final String url;
-    private String httpMethod;
+    private HttpMethod httpMethod;
     private Headers headers;
     private int timeout;
     private Object payload;
@@ -76,7 +76,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public String getMethod() {
+    public HttpMethod getMethod() {
         return httpMethod;
     }
 
@@ -178,7 +178,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public void setMethod(String httpMethod) {
+    public void setMethod(HttpMethod httpMethod) {
         this.httpMethod = httpMethod;
     }
 

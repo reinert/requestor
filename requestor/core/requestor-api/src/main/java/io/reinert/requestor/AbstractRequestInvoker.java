@@ -96,13 +96,13 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     //===================================================================
 
     @SuppressWarnings("unchecked")
-    protected <T, P extends Promise<T>> P send(String method, Class<T> resultType) {
+    protected <T, P extends Promise<T>> P send(HttpMethod method, Class<T> resultType) {
         setMethod(method);
         return (P) dispatcher.dispatch(processor.process(build()), resultType);
     }
 
     @SuppressWarnings("unchecked")
-    protected <T, C extends Collection, P extends Promise<Collection<T>>> P send(String method, Class<T> resultType,
+    protected <T, C extends Collection, P extends Promise<Collection<T>>> P send(HttpMethod method, Class<T> resultType,
                                                                                  Class<C> containerType) {
         setMethod(method);
         return (P) dispatcher.dispatch(processor.process(build()), resultType, containerType);

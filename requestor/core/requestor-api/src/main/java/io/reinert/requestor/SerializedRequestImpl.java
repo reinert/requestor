@@ -53,7 +53,7 @@ public class SerializedRequestImpl implements SerializedRequest, RequestIntercep
     }
 
     @Override
-    public String getMethod() {
+    public HttpMethod getMethod() {
         return request.getMethod();
     }
 
