@@ -1,0 +1,115 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- BASIC SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="http-basic-authentication">HTTP Basic Authentication</h1>
+      <p class="lead">
+        Basic auth is already provided by the API.
+      </p>
+      <div class="highlight">
+        <pre ui:field="basic" class="java">
+          <code>
+            requestor.req(&quot;http://httpbin.org/basic-auth/&quot; + user + &quot;/&quot; + password)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new BasicAuth(user, password))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Fill user and password inputs an try the code above.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <input ui:field="user" placeholder="user" class="form-control"/>
+          <input ui:field="password" placeholder="password" class="form-control"/>
+          <g:Button ui:field="basicButton" styleName="btn">AUTH</g:Button>
+        </form>
+        <textarea ui:field="basicTextArea" class="form-control result" rows="4" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+    <!-- CUSTOM SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="custom-authentication">Custom Authentication</h1>
+      <p class="lead">
+        All authentication methods must apply the <code>Authentication</code> interface.
+        Implement it to have your own auth.
+      </p>
+
+      <p>
+        Suppose the following custom auth implementation.
+      </p>
+      <div class="highlight">
+        <pre ui:field="myAuth" class="java">
+          <code>
+            private static class MyAuth implements Authentication {
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;private final String key;
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;private MyAuth(String key) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this.key = key;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public void authenticate(RequestOrder requestOrder) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Apply the header &quot;Authentication = MyAuth {key}&quot; */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;requestOrder.setHeader(&quot;Authentication&quot;, &quot;MyAuth &quot; + key);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Mandatory to have the request actually sent. */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Call it after putting all necessary auth info in the request. */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;requestOrder.send();
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>}
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Now let's use <code>MyAuth</code> and check how the request was affected.
+      </p>
+      <div class="highlight">
+        <pre ui:field="custom" class="java">
+          <code>
+            requestor.req(&quot;http://httpbin.org/headers&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new MyAuth(key))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Fill the key and perform the request.
+        <br/>
+        See the authentication header applied according to <code>MyAuth</code> implementation.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <input ui:field="key" placeholder="key" class="form-control"/>
+          <g:Button ui:field="customButton" styleName="btn">AUTH</g:Button>
+        </form>
+        <textarea ui:field="customTextArea" class="form-control result" rows="4" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>

@@ -21,11 +21,13 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.examples.showcase.ui.Authentication;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
+import io.reinert.requestor.examples.showcase.ui.SendingRequests;
 
 public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
 
@@ -36,6 +38,8 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private GettingStarted gettingStarted;
     private Requesting requesting;
     private BuildingRequests buildingRequests;
+    private SendingRequests sendingRequests;
+    private Authentication authentication;
     private Form form;
 
     public ShowcaseClientFactoryImpl() {
@@ -83,6 +87,20 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (buildingRequests == null)
             buildingRequests = new BuildingRequests();
         return buildingRequests;
+    }
+
+    @Override
+    public SendingRequests getSendingRequests() {
+        if (sendingRequests == null)
+            sendingRequests = new SendingRequests();
+        return sendingRequests;
+    }
+
+    @Override
+    public Authentication getAuthentication() {
+        if (authentication == null)
+            authentication = new Authentication();
+        return authentication;
     }
 
     @Override

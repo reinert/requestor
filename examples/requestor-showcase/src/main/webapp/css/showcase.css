@@ -15,12 +15,32 @@
     }
 }
 
-.result {
+.action-panel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.action-panel .action {
+    margin: auto;
+}
+
+.action-panel .result {
     margin-left: 10px;
 }
 
-.action {
-    margin: auto;
+.action-grid {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.action-grid .action {
+    margin-bottom: 10px;
+}
+
+.action-panel .result {
+    /* nothing yet */
 }
 
 fieldset + fieldset {
@@ -35,11 +55,6 @@ legend + .checkbox {
 textarea[readonly].result {
     background-color: #fff;
     cursor: text;
-}
-
-.action-panel {
-    margin-bottom: 10px;
-    display: flex;
 }
 
 h1[id] {

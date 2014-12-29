@@ -17,11 +17,13 @@ package io.reinert.requestor.examples.showcase;
 
 import com.google.gwt.place.shared.Place;
 
+import io.reinert.requestor.examples.showcase.place.AuthenticationPlace;
 import io.reinert.requestor.examples.showcase.place.BuildingRequestsPlace;
 import io.reinert.requestor.examples.showcase.place.FormPlace;
 import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
 import io.reinert.requestor.examples.showcase.place.HomePlace;
 import io.reinert.requestor.examples.showcase.place.RequestingPlace;
+import io.reinert.requestor.examples.showcase.place.SendingRequestsPlace;
 
 /**
  * Menu options of Requestor Showcase.
@@ -32,10 +34,11 @@ public enum MenuOption implements HasToken, HasPlace {
     GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, GettingStartedPlace.INSTANCE),
     REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, RequestingPlace.INSTANCE),
     BUILDING_REQUESTS("Building Requests", Tokens.BUILDING_REQUESTS_TOKEN, BuildingRequestsPlace.INSTANCE),
+    SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, SendingRequestsPlace.INSTANCE),
 //    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, null),
     FORM("Form", Tokens.FORM_TOKEN, FormPlace.INSTANCE),
 //    STREAM("Stream", Tokens.STREAM_TOKEN, null),
-//    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, null),
+    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE),
 //    FILTERS("Filters", Tokens.FILTERS_TOKEN, null),
 //    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, null)
     ;
@@ -45,6 +48,7 @@ public enum MenuOption implements HasToken, HasPlace {
         public static final String GETTING_STARTED_TOKEN = "getting-started";
         public static final String REQUESTING_TOKEN = "requesting";
         public static final String BUILDING_REQUESTS_TOKEN = "building-requests";
+        public static final String SENDING_REQUESTS_TOKEN = "sending-requests";
         public static final String SERIALIZATION_TOKEN = "serialization";
         public static final String FORM_TOKEN = "form";
         public static final String STREAM_TOKEN = "stream";
@@ -60,12 +64,14 @@ public enum MenuOption implements HasToken, HasPlace {
             return REQUESTING;
         } else if (token.equals(Tokens.BUILDING_REQUESTS_TOKEN)) {
             return BUILDING_REQUESTS;
+        } else if (token.equals(Tokens.SENDING_REQUESTS_TOKEN)) {
+            return SENDING_REQUESTS;
 //        } else if (token.equals(Tokens.SERIALIZATION_TOKEN)) {
 //            return SERIALIZATION;
         } else if (token.equals(Tokens.FORM_TOKEN)) {
             return FORM;
-//        } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {
-//            return AUTHENTICATION;
+        } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {
+            return AUTHENTICATION;
 //        } else if (token.equals(Tokens.STREAM_TOKEN)) {
 //            return STREAM;
 //        } else if (token.equals(Tokens.FILTERS_TOKEN)) {

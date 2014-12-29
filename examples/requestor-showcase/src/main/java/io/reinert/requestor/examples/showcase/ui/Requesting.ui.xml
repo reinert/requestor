@@ -24,7 +24,7 @@
       </p>
 
       <g:HTMLPanel styleName="requestor-showcase-innersection">
-        <p>Let's make a simple request to find out your origin ip.</p>
+        <p>Let's make a quick request to find out your origin ip.</p>
         <div class="highlight">
           <pre ui:field="getIp" class="java">
             <code>

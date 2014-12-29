@@ -28,7 +28,7 @@ public abstract class DoneCallback<T> implements io.reinert.gdeferred.DoneCallba
     public void onDone(T result) {
     }
 
-    public void onDone(Response<T> result) {
-        onDone(result.getPayload());
+    public void onDone(Response<T> response) {
+        onDone(response.getPayload());
     }
 }

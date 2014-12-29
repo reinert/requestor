@@ -34,7 +34,7 @@
       </div>
 
       <p style="margin-bottom: 0">
-        Note: <code>Requestor#req</code> returns a <code>RequestInvoker</code> which inherits from <code>RequestBuilder</code> but has additional dispatching capabilities.
+        Note: <code>Requestor#req</code> returns a <code>RequestSender</code> which inherits from <code>RequestBuilder</code> but has additional dispatching capabilities.
       </p>
     </g:HTMLPanel>
 
