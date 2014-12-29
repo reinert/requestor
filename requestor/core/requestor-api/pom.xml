@@ -82,8 +82,8 @@
             </goals>
             <configuration>
               <excludes>
-                <exclude>io/reinert/requestor/HasHttpMethods.*</exclude>
-                <exclude>io/reinert/requestor/RequestInvokerImpl.*</exclude>
+                <exclude>io/reinert/requestor/HasHttpSendMethods.*</exclude>
+                <exclude>io/reinert/requestor/RequestSenderImpl.*</exclude>
               </excludes>
             </configuration>
           </execution>

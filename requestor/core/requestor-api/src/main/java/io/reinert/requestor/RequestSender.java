@@ -19,36 +19,36 @@ import io.reinert.requestor.auth.Authentication;
 import io.reinert.requestor.header.Header;
 
 /**
- * A {@link Request} with dispatching capabilities.
+ * A {@link RequestBuilder} capable of sending itself.
  *
- * @see RequestInvokerImpl
+ * @see RequestSenderImpl
  *
  * @author Danilo Reinert
  */
-public interface RequestInvoker extends RequestBuilder, HasHttpMethods {
+public interface RequestSender extends RequestBuilder, HasHttpSendMethods {
 
     @Override
-    RequestInvoker contentType(String mediaType);
+    RequestSender contentType(String mediaType);
 
     @Override
-    RequestInvoker accept(String mediaType);
+    RequestSender accept(String mediaType);
 
     @Override
-    RequestInvoker header(String header, String value);
+    RequestSender header(String header, String value);
 
     @Override
-    RequestInvoker header(Header header);
+    RequestSender header(Header header);
 
     @Override
-    RequestInvoker auth(Authentication auth);
+    RequestSender auth(Authentication auth);
 
     @Override
-    RequestInvoker timeout(int timeoutMillis);
+    RequestSender timeout(int timeoutMillis);
 
     @Override
-    RequestInvoker payload(Object object) throws IllegalArgumentException;
+    RequestSender payload(Object object) throws IllegalArgumentException;
 
     @Override
-    RequestInvoker responseType(ResponseType responseType);
+    RequestSender responseType(ResponseType responseType);
 
 }

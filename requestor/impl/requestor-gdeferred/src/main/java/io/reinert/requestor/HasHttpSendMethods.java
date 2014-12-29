@@ -20,7 +20,7 @@ import java.util.Collection;
 import io.reinert.requestor.gdeferred.RequestPromise;
 
 /**
- * HasHttpMethods custom interface exposing only GDeferred Promise API.
+ * HasHttpSendMethods custom interface exposing only GDeferred Promise API.
  * <p/>
  *
  * Notice that the dispatch methods are returning {@link io.reinert.requestor.gdeferred.RequestPromise}
@@ -29,7 +29,7 @@ import io.reinert.requestor.gdeferred.RequestPromise;
  *
  * @author Danilo Reinert
  */
-public interface HasHttpMethods {
+public interface HasHttpSendMethods {
 
     RequestPromise<Void> get();
 

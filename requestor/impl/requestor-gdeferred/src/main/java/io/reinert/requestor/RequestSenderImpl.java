@@ -20,18 +20,18 @@ import java.util.Collection;
 import io.reinert.requestor.gdeferred.GDeferredRequestPromise;
 
 /**
- * {@link io.reinert.requestor.RequestInvoker} implementation.
+ * {@link RequestSender} implementation.
  *
  * @author Danilo Reinert
  */
-public class RequestInvokerImpl extends AbstractRequestInvoker {
+public class RequestSenderImpl extends AbstractRequestSender {
 
-    public RequestInvokerImpl(String url, RequestProcessor processor, RequestDispatcher dispatcher) {
+    public RequestSenderImpl(String url, RequestProcessor processor, RequestDispatcher dispatcher) {
         super(url, dispatcher, processor);
     }
 
     //===================================================================
-    // RequestInvoker methods
+    // RequestSender methods
     //===================================================================
 
     @Override

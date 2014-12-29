@@ -143,11 +143,11 @@ public interface Requestor {
     //===================================================================
 
     /**
-     * Create a {@link RequestBuilder} with the passed url.
+     * Create a {@link RequestSender} with the given url.
      *
      * @param url   The url of the request.
      *
-     * @return The {@link RequestBuilder} instance.
+     * @return  The request builder.
      */
-    RequestInvoker req(String url);
+    RequestSender req(String url);
 }
