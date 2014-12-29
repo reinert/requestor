@@ -37,16 +37,17 @@ public class BinaryData extends Composite {
 //        void onBasicButtonClick(String user, String password);
 //        void onCustomButtonClick(String key);
         void onSendButtonClick(JavaScriptObject file);
+        void onRetrieveButtonClick(String url);
     }
 
     interface AuthenticationUiBinder extends UiBinder<HTMLPanel, BinaryData> {}
 
     private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
 
-    @UiField PreElement send;
+    @UiField PreElement send, retrieve;
     @UiField TextAreaElement sendTextArea;
-    @UiField InputElement file;
-    @UiField Element sendProgress;
+    @UiField InputElement file, imgUrl;
+    @UiField Element sendProgress, retrieveProgress;
 
     private Handler handler;
 
@@ -56,7 +57,7 @@ public class BinaryData extends Composite {
     }
 
     @UiHandler("sendButton")
-    public void onBasicButtonClick(ClickEvent e) {
+    public void onSendButtonClick(ClickEvent e) {
         handler.onSendButtonClick(getFile(file, 0));
     }
 
@@ -67,6 +68,16 @@ public class BinaryData extends Composite {
     public void setSendProgressStatus(double pctComplete) {
         sendProgress.getStyle().setWidth(pctComplete, Style.Unit.PCT);
         sendProgress.setAttribute("aria-valuenow", String.valueOf(pctComplete));
+    }
+
+    @UiHandler("retrieveButton")
+    public void onRetrieveButtonClick(ClickEvent e) {
+        handler.onRetrieveButtonClick(imgUrl.getValue());
+    }
+
+    public void setRetrieveProgressStatus(double pctComplete) {
+        retrieveProgress.getStyle().setWidth(pctComplete, Style.Unit.PCT);
+        retrieveProgress.setAttribute("aria-valuenow", String.valueOf(pctComplete));
     }
 
     public void setHandler(Handler handler) {

@@ -18,7 +18,10 @@ package io.reinert.requestor.examples.showcase.activity;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.gdeferred.DoneCallback;
@@ -26,6 +29,7 @@ import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.ResponseType;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
 
@@ -73,6 +77,34 @@ public class BinaryDataActivity extends AbstractActivity implements BinaryData.H
                 });
     }
 
+    @Override
+    public void onRetrieveButtonClick(String url) {
+        requestor.req(url)
+                .responseType(ResponseType.BLOB)
+                .get(Payload.class)
+                .progress(new ProgressCallback<RequestProgress>() {
+                    @Override
+                    public void onProgress(RequestProgress progress) {
+                        if (progress.isLengthComputable())
+                            view.setRetrieveProgressStatus((progress.loaded() / progress.total()) * 100);
+                    }
+                })
+                .done(new DoneCallback<Payload>() {
+                    @Override
+                    public void onDone(Payload result) {
+                        view.setRetrieveProgressStatus(100);
+
+                        final JavaScriptObject blob = result.isJavaScriptObject();
+                        if (blob == null) {
+                            Window.alert("No content received.");
+                            view.setRetrieveProgressStatus(0);
+                        }
+
+                        appendImage(blob, Document.get().getElementById("img-container"));
+                    }
+                });
+    }
+
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
@@ -86,4 +118,15 @@ public class BinaryDataActivity extends AbstractActivity implements BinaryData.H
     public void onStop() {
         view.setHandler(null);
     }
+
+    private native void appendImage(JavaScriptObject blob, Element container) /*-{
+        container.innerHTML = "";
+        var img = $doc.createElement('img');
+        img.onload = function() {
+            $wnd.URL.revokeObjectURL(img.src); // Clean up after yourself.
+        };
+        img.className = 'img-responsive img-thumbnail';
+        img.src = $wnd.URL.createObjectURL(blob);
+        container.appendChild(img);
+    }-*/;
 }

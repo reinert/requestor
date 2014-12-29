@@ -67,5 +67,42 @@
       </g:HTMLPanel>
     </g:HTMLPanel>
 
+
+    <!-- RETRIEVE SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="retrieving-data">Retrieving data</h1>
+      <p class="lead">
+        Correctly set the ResponseType of the request and you can retrieve the payload as a binary data.
+      </p>
+      <div class="highlight">
+        <pre ui:field="retrieve" class="java">
+          <code>
+            ...
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Type some image service enpoint and check the result.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="action">
+          <div class="row">
+            <div class="col-xs-6">
+              <input ui:field="imgUrl" type="text" class="form-control col-xs-4" value="http://placekitten.com/g/1200/720"/>
+            </div>
+            <div class="col-xs-6">
+              <g:Button ui:field="retrieveButton" styleName="btn">GET</g:Button>
+            </div>
+          </div>
+        </form>
+        <div class="progress">
+          <div ui:field="retrieveProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"/>
+        </div>
+        <div id="img-container"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
   </g:HTMLPanel>
 </ui:UiBinder>
