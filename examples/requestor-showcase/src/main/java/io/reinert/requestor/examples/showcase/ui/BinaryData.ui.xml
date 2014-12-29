@@ -24,6 +24,11 @@
         Sending binary data with Requestor is so simple!
         Just wrap the data in a Payload object and put it in the request.
       </p>
+      <p>
+        Along with sending data through HTTP requests, it is customary to monitor the progress of the submission.
+        <br/>
+        Requestor allows you to make it pretty nicely.
+      </p>
       <div class="highlight">
         <pre ui:field="send" class="java">
           <code>
@@ -46,17 +51,19 @@
         </pre>
       </div>
 
+      <p>
+        Choose a file and send it. You'll see its binary content encoded in the response.
+      </p>
+
       <g:HTMLPanel styleName="action-grid">
         <form class="form-inline action">
           <input ui:field="file" type="file" class="form-control"/>
           <g:Button ui:field="sendButton" styleName="btn">POST</g:Button>
         </form>
-
         <div class="progress">
           <div ui:field="sendProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"/>
         </div>
-
-        <textarea ui:field="sendTextArea" class="form-control result" rows="4" readonly="readonly"/>
+        <textarea ui:field="sendTextArea" class="form-control result" rows="6" readonly="readonly"/>
       </g:HTMLPanel>
     </g:HTMLPanel>
 
