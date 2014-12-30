@@ -61,12 +61,12 @@ public class BinaryDataActivity extends AbstractActivity implements BinaryData.H
                     public void onProgress(RequestProgress progress) {
                         GWT.log("--- UPLOAD PROGRESS ---");
                         GWT.log(progress.isLengthComputable() + "");
-                        GWT.log(progress.total() + "");
-                        GWT.log(progress.loaded() + "");
+                        GWT.log(progress.getTotal() + "");
+                        GWT.log(progress.getLoaded() + "");
                         GWT.log("-----------------------");
 
                         if (progress.isLengthComputable())
-                            view.setSendProgressStatus((progress.loaded() / progress.total()) * 100);
+                            view.setSendProgressStatus(progress.getCompletedFraction(100));
                     }
                 })
                 .done(new DoneCallback<String>() {
@@ -86,7 +86,7 @@ public class BinaryDataActivity extends AbstractActivity implements BinaryData.H
                     @Override
                     public void onProgress(RequestProgress progress) {
                         if (progress.isLengthComputable())
-                            view.setRetrieveProgressStatus((progress.loaded() / progress.total()) * 100);
+                            view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
                     }
                 })
                 .done(new DoneCallback<Payload>() {

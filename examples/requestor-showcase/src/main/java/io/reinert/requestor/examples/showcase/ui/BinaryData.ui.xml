@@ -22,7 +22,7 @@
       <h1 class="page-header" id="sending-data">Sending data</h1>
       <p class="lead">
         Sending binary data with Requestor is so simple!
-        Just wrap the data in a Payload object and put it in the request.
+        Just wrap the data in a Payload and put it in the request.
       </p>
       <p>
         Along with sending data through HTTP requests, it is customary to monitor the progress of the submission.
@@ -90,7 +90,7 @@
         <form class="action">
           <div class="row">
             <div class="col-xs-6">
-              <input ui:field="imgUrl" type="text" class="form-control col-xs-4" value="http://placekitten.com/g/1200/720"/>
+              <input ui:field="imgUrl" type="text" class="form-control col-xs-4" value="http://placekitten.com/g/1920/1080"/>
             </div>
             <div class="col-xs-6">
               <g:Button ui:field="retrieveButton" styleName="btn">GET</g:Button>

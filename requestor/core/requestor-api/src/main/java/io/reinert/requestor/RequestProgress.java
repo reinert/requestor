@@ -26,17 +26,43 @@ public interface RequestProgress {
 
     /**
      * Returns the loaded amount of the request.
+     * <p/>
+     *
      * If length is not computable, then 0 is returned.
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    double loaded();
+    double getLoaded();
 
     /**
      * Returns the total amount of the request.
+     * <p/>
+     *
      * If length is not computable, then 0 is returned.
      *
      * @return The total amount if available, 0 otherwise
      */
-    double total();
+    double getTotal();
+
+    /**
+     * Returns the completed amount of the request in a interval [0,1].
+     * This value is calculated by dividing the loaded amount by the total.
+     * <p/>
+     *
+     * If length is not computable, then 0 is returned.
+     *
+     * @return The completed amount if available, 0 otherwise
+     */
+    double getCompletedFraction();
+
+    /**
+     * Returns the completed amount of the request in a interval [0,1] multiplied by the given factor.
+     * This value is calculated by dividing the loaded amount by the total and then multiplying by the factor.
+     * <p/>
+     *
+     * If length is not computable, then 0 is returned.
+     *
+     * @return The completed amount if available, 0 otherwise
+     */
+    double getCompletedFraction(double multiplyingFactor);
 }

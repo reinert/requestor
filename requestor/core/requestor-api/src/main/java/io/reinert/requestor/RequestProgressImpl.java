@@ -34,12 +34,24 @@ public class RequestProgressImpl implements RequestProgress {
     }
 
     @Override
-    public double loaded() {
+    public double getLoaded() {
         return requestProgress.loaded();
     }
 
     @Override
-    public double total() {
+    public double getTotal() {
         return requestProgress.total();
+    }
+
+    @Override
+    public double getCompletedFraction() {
+        return getCompletedFraction(1);
+    }
+
+    @Override
+    public double getCompletedFraction(double multiplyingFactor) {
+        if (isLengthComputable())
+            return 0;
+        return (getLoaded() / getTotal()) * multiplyingFactor;
     }
 }
