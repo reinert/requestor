@@ -32,6 +32,14 @@ public interface ResponseFilterContext {
     void addHeader(Header header);
 
     /**
+     * Set a header to this response.
+     *
+     * @param name the header name
+     * @param value the header value
+     */
+    void setHeader(String name, String value);
+
+    /**
      * Returns the value of the requested header or null if the header was not specified.
      *
      * @param header the header to query for

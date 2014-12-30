@@ -29,7 +29,7 @@ public interface RequestFilterContext {
 
     void setHeader(String name, String value);
 
-    void putHeader(Header header);
+    void addHeader(Header header);
 
     HttpMethod getMethod();
 

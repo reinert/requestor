@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.header.SimpleHeader;
 
 /**
  * Represents a response with its payload raw.
@@ -43,6 +44,11 @@ public class SerializedResponseImpl implements SerializedResponse, ResponseFilte
     @Override
     public void addHeader(Header header) {
         headers.add(header);
+    }
+
+    @Override
+    public void setHeader(String name, String value) {
+        headers.add(new SimpleHeader(name, value));
     }
 
     @Override

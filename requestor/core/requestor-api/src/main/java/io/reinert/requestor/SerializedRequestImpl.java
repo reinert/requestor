@@ -62,11 +62,16 @@ public class SerializedRequestImpl implements SerializedRequest {
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
                           ResponseType responseType, Authentication auth) {
+        checkNotNull(httpMethod, "HTTP Method cannot be null.");
+        checkNotNullOrEmpty(url, "URL cannot be null neither empty.");
+        checkNotNull(headers, "Headers cannot be null.");
+        checkNotNull(responseType, "ResponseType cannot be null.");
+        checkNotNull(auth, "Auth cannot be null.");
         this.httpMethod = httpMethod;
         this.url = url;
         this.headers = headers;
         this.payload = payload;
-        this.timeout = timeout;
+        this.timeout = timeout > 0 ? timeout : 0;
         this.responseType = responseType;
         this.auth = auth;
     }
@@ -119,5 +124,13 @@ public class SerializedRequestImpl implements SerializedRequest {
     @Override
     public ResponseType getResponseType() {
         return responseType;
+    }
+
+    private void checkNotNull(Object o, String message) {
+        if (o == null) throw new IllegalArgumentException(message);
+    }
+
+    private void checkNotNullOrEmpty(String s, String message) {
+        if (s == null || s.isEmpty()) throw new IllegalArgumentException(message);
     }
 }

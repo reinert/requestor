@@ -173,7 +173,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public void putHeader(Header header) {
+    public void addHeader(Header header) {
         headers.add(header);
     }
 

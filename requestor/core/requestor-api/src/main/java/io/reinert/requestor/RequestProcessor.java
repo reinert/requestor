@@ -52,7 +52,7 @@ class RequestProcessor {
         } else if (payload instanceof FormData) {
             // FormData serialization
             final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
-            request.putHeader(new ContentTypeHeader(formDataSerializer.mediaType()));
+            request.addHeader(new ContentTypeHeader(formDataSerializer.mediaType()));
             serializedRequest = new SerializedRequestDelegate(request, serializedPayload);
         } else {
             serializedRequest = serializationEngine.serializeRequest(request);
