@@ -53,7 +53,7 @@ public class BinaryData extends Composite {
 
     public BinaryData() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(send);
+        HighlightJs.highlightBlock(send, retrieve);
     }
 
     @UiHandler("sendButton")

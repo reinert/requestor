@@ -39,7 +39,7 @@
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.upProgress(new ProgressCallback&lt;RequestProgress&gt;() {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onProgress(RequestProgress progress) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (progress.isLengthComputable())
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus((progress.loaded() / progress.total()) * 100);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus((progress.getLoaded() / progress.getTotal()) * 100);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;})
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Void&gt;() {
@@ -72,12 +72,24 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="retrieving-data">Retrieving data</h1>
       <p class="lead">
-        Correctly set the ResponseType of the request and you can retrieve the payload as a binary data.
+        Correctly set the ResponseType of the request and you can retrieve the payload as binary data.
       </p>
       <div class="highlight">
         <pre ui:field="retrieve" class="java">
-          <code>
-            ...
+          <code>requestor.req(url)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.responseType(ResponseType.BLOB)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(Payload.class)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.progress(new ProgressCallback&lt;RequestProgress&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onProgress(RequestProgress progress) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* calculates (loaded/total)*100 */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;})
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Payload&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(Payload result) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(100);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
           </code>
         </pre>
       </div>
