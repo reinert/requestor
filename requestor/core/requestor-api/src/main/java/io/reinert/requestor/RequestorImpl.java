@@ -15,9 +15,13 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
+
 import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.deferred.Promise;
+import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
@@ -33,33 +37,58 @@ public class RequestorImpl implements Requestor {
     private final FilterManager filterManager = new FilterManager();
     private final InterceptorManager interceptorManager = new InterceptorManager();
     private final ProviderManager providerManager = new ProviderManager();
-    private final RequestDispatcherFactory requestDispatcherFactory = GWT.create(RequestDispatcherFactory.class);
-    private final DeferredFactory deferredFactory = GWT.create(DeferredFactory.class);
+    private final RequestDispatcher requestDispatcher;
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
 
     private String defaultMediaType;
 
     public RequestorImpl() {
+        this(GWT.<FormDataSerializer>create(FormDataSerializer.class));
+    }
+
+    public RequestorImpl(FormDataSerializer formDataSerializer) {
+        this(formDataSerializer,
+             GWT.<RequestDispatcherFactory>create(RequestDispatcherFactory.class),
+             GWT.<DeferredFactory>create(DeferredFactory.class));
+    }
+
+    public RequestorImpl(FormDataSerializer formDataSerializer, RequestDispatcherFactory requestDispatcherFactory,
+                         DeferredFactory deferredFactory) {
         // init processors
         final FilterEngine filterEngine = new FilterEngine(filterManager);
         final SerializationEngine serializationEngine = new SerializationEngine(serdesManager, providerManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
-        requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine);
+        requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine,
+                formDataSerializer);
         responseProcessor = new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine);
+
+        // init dispatcher
+        requestDispatcher = requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory);
+
         // bind generated serdes to the requestor
         GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
+
         // perform initial set-up by user
         GWT.<RequestorInitializer>create(RequestorInitializer.class).configure(this);
     }
 
     //===================================================================
-    // Request factory methods
+    // Request methods
     //===================================================================
 
     @Override
     public RequestSender req(String url) {
         return createRequest(url);
+    }
+
+    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> returnType) {
+        return requestDispatcher.dispatch(request, returnType);
+    }
+
+    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> returnType,
+                                                                     Class<C> containerType) {
+        return requestDispatcher.dispatch(request, returnType, containerType);
     }
 
     //===================================================================
@@ -137,8 +166,7 @@ public class RequestorImpl implements Requestor {
     }
 
     private RequestSender createRequest(String uri) {
-        final RequestSender request = new RequestSenderImpl(uri, requestProcessor,
-                requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory));
+        final RequestSender request = new RequestSenderImpl(uri, requestProcessor, requestDispatcher);
         if (defaultMediaType != null) {
             request.contentType(defaultMediaType);
             request.accept(defaultMediaType);

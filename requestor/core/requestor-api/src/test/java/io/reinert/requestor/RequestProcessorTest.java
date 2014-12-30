@@ -15,13 +15,14 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwtmockito.GwtMockitoTestRunner;
+import io.reinert.requestor.form.FormDataSerializer;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
@@ -31,18 +32,19 @@ import static org.mockito.Mockito.withSettings;
 /**
  * Unit tests of {@link RequestProcessor}.
  */
-@RunWith(GwtMockitoTestRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class RequestProcessorTest {
 
     @Mock private SerializationEngine serializationEngine;
     @Mock private FilterEngine filterEngine;
     @Mock private InterceptorEngine interceptorEngine;
+    @Mock private FormDataSerializer formDataSerializer;
 
     private RequestProcessor processor;
 
     @Before
     public void setUp() {
-        processor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine);
+        processor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine, formDataSerializer);
     }
 
     @Test

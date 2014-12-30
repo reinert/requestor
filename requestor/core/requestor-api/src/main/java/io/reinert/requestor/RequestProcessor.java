@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.core.client.GWT;
-
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.header.ContentTypeHeader;
@@ -26,18 +24,19 @@ import io.reinert.requestor.header.ContentTypeHeader;
  *
  * @author Danilo Reinert
  */
-public class RequestProcessor {
+class RequestProcessor {
 
-    private final FormDataSerializer formDataSerializer = GWT.create(FormDataSerializer.class);
+    private final FormDataSerializer formDataSerializer;
     private final SerializationEngine serializationEngine;
     private final FilterEngine filterEngine;
     private final InterceptorEngine interceptorEngine;
 
     public RequestProcessor(SerializationEngine serializationEngine, FilterEngine filterEngine,
-                            InterceptorEngine interceptorEngine) {
+                            InterceptorEngine interceptorEngine, FormDataSerializer formDataSerializer) {
         this.serializationEngine = serializationEngine;
         this.filterEngine = filterEngine;
         this.interceptorEngine = interceptorEngine;
+        this.formDataSerializer = formDataSerializer;
     }
 
     public <R extends RequestBuilder & RequestFilterContext> SerializedRequest process(R request) {
