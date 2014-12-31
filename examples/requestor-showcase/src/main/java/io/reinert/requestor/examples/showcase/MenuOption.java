@@ -20,6 +20,7 @@ import com.google.gwt.place.shared.Place;
 import io.reinert.requestor.examples.showcase.place.AuthenticationPlace;
 import io.reinert.requestor.examples.showcase.place.BinaryDataPlace;
 import io.reinert.requestor.examples.showcase.place.BuildingRequestsPlace;
+import io.reinert.requestor.examples.showcase.place.FiltersPlace;
 import io.reinert.requestor.examples.showcase.place.FormPlace;
 import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
 import io.reinert.requestor.examples.showcase.place.HomePlace;
@@ -40,7 +41,7 @@ public enum MenuOption implements HasToken, HasPlace {
     FORM("Form", Tokens.FORM_TOKEN, FormPlace.INSTANCE),
     BINARY_DATA("Binary Data", Tokens.BINARY_DATA_TOKEN, BinaryDataPlace.INSTANCE),
     AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE),
-//    FILTERS("Filters", Tokens.FILTERS_TOKEN, null),
+    FILTERS("Filters", Tokens.FILTERS_TOKEN, FiltersPlace.INSTANCE),
 //    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, null)
     ;
 
@@ -75,8 +76,8 @@ public enum MenuOption implements HasToken, HasPlace {
             return BINARY_DATA;
         } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {
             return AUTHENTICATION;
-//        } else if (token.equals(Tokens.FILTERS_TOKEN)) {
-//            return FILTERS;
+        } else if (token.equals(Tokens.FILTERS_TOKEN)) {
+            return FILTERS;
 //        } else if (token.equals(Tokens.INTERCEPTORS_TOKEN)) {
 //            return INTERCEPTORS;
         } else {

@@ -128,6 +128,39 @@ h1[id] {
     margin-bottom: 30px;
 }
 
+.requestor-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.requestor-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.requestor-callout p:last-child {
+    margin-bottom: 0;
+}
+
+.requestor-callout-warning {
+    border-left-color: #d9534f;
+}
+
+.requestor-callout-danger h4 {
+    color: #d9534f;
+}
+
+.requestor-callout-warning {
+    border-left-color: #f0ad4e;
+}
+
+.requestor-callout-warning h4 {
+    color: #f0ad4e;
+}
+
 .half-rule {
     width: 100px;
     margin: 40px auto;

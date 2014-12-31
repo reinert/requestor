@@ -22,19 +22,19 @@ import io.reinert.requestor.header.Header;
 public class Util {
 
     public static String formatHeaders(Header... headers) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("\"headers\": {\n");
         for (Header header : headers) {
-            sb.append(header.getName()).append(": ").append(header.getValue()).append('\n');
+            sb.append("  \"").append(header.getName()).append("\": \"").append(header.getValue()).append("\",\n");
         }
-        return sb.toString();
+        return sb.replace(sb.length() - 2, sb.length(), "\n}").toString();
     }
 
     public static String formatHeaders(Iterable<Header> headers) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("\"headers\": {\n");
         for (Header header : headers) {
-            sb.append(header.getName()).append(": ").append(header.getValue()).append('\n');
+            sb.append("  \"").append(header.getName()).append("\": \"").append(header.getValue()).append("\",\n");
         }
-        return sb.toString();
+        return sb.replace(sb.length() - 2, sb.length(), "\n}").toString();
     }
 
     public static native String formatJson(JavaScriptObject o) /*-{

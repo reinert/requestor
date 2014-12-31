@@ -1,0 +1,140 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- REQUEST FILTER SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="request-filters">Request Filters</h1>
+      <p class="lead">
+        Request Filters allow the manipulation of the requests before they are sent.
+      </p>
+
+      <p>
+        You can add custom headers, set the authentication method, timeout, response type, or even change the http method.
+      </p>
+
+      <p>
+        Suppose we register the following filter in the requestor.
+      </p>
+      <div class="highlight">
+        <pre ui:field="requestFilter" class="java">
+          <code>requestor.addRequestFilter(new RequestFilter() {
+            <br/>&#32;&#32;&#32;&#32;public void filter(RequestFilterContext request) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setHeader("A-Request-Filter-Header", "It Works!");
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>});
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Now let's perform a request, and check if the previous filter was really applied.
+        <br/>
+        The headers property should contain the header set in the filter.
+      </p>
+      <div class="highlight">
+        <pre ui:field="requestFilterReq" class="java">
+          <code>requestor.req(&quot;http://httpbin.org/headers/&quot;).get();</code>
+        </pre>
+      </div>
+
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="requestFilterButton" styleName="btn">GET</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="requestFilterTextArea" class="form-control result" rows="5" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <p>
+        The Request Filters are applied following the same order they are registered in the requestor.
+      </p>
+      <div class="requestor-callout requestor-callout-warning">
+        <h4>Filtering affects later request processing</h4>
+        Be aware that request filtering is the first processing step of the requests.
+        It affects thus the subsequent serialization and interception.
+        <br/>
+        For example, if you set the Content-Type header in a filter,
+        the serialization process, which is performed following, will consider it when serializaring the payload.
+      </div>
+    </g:HTMLPanel>
+
+
+    <!-- RESPONSE FILTER SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="response-filters">Response Filters</h1>
+      <p class="lead">
+        Response Filters allow manipulation of the responses as soon as they arrive.
+      </p>
+
+      <p>
+        You can add custom headers to the responses.
+      </p>
+
+      <p>
+        Suppose we register the following response filter in the requestor.
+      </p>
+      <div class="highlight">
+        <pre ui:field="responseFilter" class="java">
+          <code>requestor.addResponseFilter(new ResponseFilter() {
+            <br/>&#32;&#32;&#32;&#32;public void filter(Request request, ResponseFilterContext response) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;response.setHeader("A-Response-Filter-Header", "It Works!");
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>});
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Now let's perform a request, and check if the previous filter was really applied.
+        <br/>
+        The response should contain the header set in the filter, but the request shouldn't.
+      </p>
+      <div class="highlight">
+        <pre ui:field="responseFilterReq" class="java">
+          <code>requestor.req(&quot;http://httpbin.org/headers/&quot;).get();</code>
+        </pre>
+      </div>
+
+      <g:HTMLPanel styleName="action-panel">
+        <div class="action" style="margin-right: 28px">
+          <g:Button ui:field="responseFilterButton" styleName="btn">GET</g:Button>
+        </div>
+        <textarea ui:field="responseFilterTextArea" class="form-control result" rows="5" readonly="readonly"/>
+        <textarea ui:field="responseFilterTextArea2" class="form-control result" rows="5" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <p>
+        Notice in you browser dev tools that the request didn't contain the custom header.
+        It was added programmatically after the response has arrived.
+      </p>
+
+      <p>
+        The Response Filters are applied following the same order they are registered in the requestor.
+      </p>
+      <div class="requestor-callout requestor-callout-warning">
+        <h4>Filtering affects later response processing</h4>
+        Be aware that response filtering is the first processing step of the responses.
+        It affects thus the subsequent interception and deserialization.
+        <br/>
+        For example, if you set the Content-Type header in a response filter,
+        the deserialization process will consider it when deserializaring the payload.
+      </div>
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>

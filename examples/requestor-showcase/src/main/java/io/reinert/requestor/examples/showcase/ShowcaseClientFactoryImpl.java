@@ -24,6 +24,7 @@ import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.Authentication;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
+import io.reinert.requestor.examples.showcase.ui.Filters;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
@@ -40,9 +41,10 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private Requesting requesting;
     private BuildingRequests buildingRequests;
     private SendingRequests sendingRequests;
+    private Form form;
     private BinaryData binaryData;
     private Authentication authentication;
-    private Form form;
+    private Filters filters;
 
     public ShowcaseClientFactoryImpl() {
         initRequestor();
@@ -117,6 +119,13 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (form == null)
             form = new Form();
         return form;
+    }
+
+    @Override
+    public Filters getFilters() {
+        if (filters == null)
+            filters = new Filters();
+        return filters;
     }
 
     private void initRequestor() {
