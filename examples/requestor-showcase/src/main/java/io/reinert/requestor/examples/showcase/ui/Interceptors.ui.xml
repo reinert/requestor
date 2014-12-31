@@ -21,21 +21,26 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="request-interceptors">Request Interceptors</h1>
       <p class="lead">
-        Request Interceptors allow the manipulation of the requests before they are sent.
+        Request Interceptors allow the manipulation of payloads immediately before sending the requests.
       </p>
 
       <p>
-        You can add custom headers, set the authentication method, timeout, response type, or even change the http method.
+        It is useful for appending security characters in serialized payloads, encode, compress, etc.
       </p>
 
       <p>
-        Suppose we register the following interceptor in the requestor.
+        Suppose we register the following interceptor in the requestor, appending some chars in the beginning.
       </p>
       <div class="highlight">
         <pre ui:field="requestInterceptor" class="java">
           <code>requestor.addRequestInterceptor(new RequestInterceptor() {
-            <br/>&#32;&#32;&#32;&#32;public void interceptor(RequestInterceptorContext request) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setHeader("A-Request-Interceptor-Header", "It Works!");
+            <br/>&#32;&#32;&#32;&#32;public void intercept(RequestInterceptorContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final String json = context.getPayload().isString();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Make sure the payload is a serialized json */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (json != null) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Add )]}',\n to the beginning of json payloads */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;context.setPayload(new Payload(&quot;)]}',\\n&quot; + json));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;}
             <br/>});
           </code>
@@ -43,34 +48,30 @@
       </div>
 
       <p>
-        Now let's perform a request, and check if the previous interceptor was really applied.
+        Now let's perform a request, and check if the payload was really transformed.
         <br/>
-        The headers property should contain the header set in the interceptor.
+        The data property should contain the json with the appended chars at the beginning.
       </p>
       <div class="highlight">
         <pre ui:field="requestInterceptorReq" class="java">
-          <code>requestor.req(&quot;http://httpbin.org/headers/&quot;).get();</code>
+          <code>JavaScriptObject json = getMessageJson(&quot;Requestor is awesome!&quot;);
+            <br/>requestor.req(&quot;http://httpbin.org/post&quot;).payload(json).post();</code>
         </pre>
       </div>
 
       <g:HTMLPanel styleName="action-panel">
         <g:HTMLPanel styleName="action">
-          <g:Button ui:field="requestInterceptorButton" styleName="btn">GET</g:Button>
+          <g:Button ui:field="requestInterceptorButton" styleName="btn">POST</g:Button>
         </g:HTMLPanel>
-        <textarea ui:field="requestInterceptorTextArea" class="form-control result" rows="5" readonly="readonly"/>
+        <textarea ui:field="requestInterceptorTextArea" class="form-control result" rows="4" readonly="readonly"/>
       </g:HTMLPanel>
 
       <p>
         The Request Interceptors are applied following the same order they are registered in the requestor.
-      </p>
-      <div class="requestor-callout requestor-callout-warning">
-        <h4>Interceptoring affects later request processing</h4>
-        Be aware that request interceptoring is the first processing step of the requests.
-        It affects thus the subsequent serialization and interception.
         <br/>
-        For example, if you set the Content-Type header in a interceptor,
-        the serialization process, which is performed following, will consider it when serializaring the payload.
-      </div>
+        They are executed after the requests are serialized, so they only manipulate serialized payloads,
+        represented by the <code>Payload</code> object.
+      </p>
     </g:HTMLPanel>
 
 
@@ -78,21 +79,26 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="response-interceptors">Response Interceptors</h1>
       <p class="lead">
-        Response Interceptors allow manipulation of the responses as soon as they arrive.
+        Response Interceptors allow manipulation of payloads after receiving responses.
       </p>
 
       <p>
-        You can add custom headers to the responses.
+        It is useful for removing security characters in serialized payloads, decode, uncompress, etc.
       </p>
 
       <p>
-        Suppose we register the following response interceptor in the requestor.
+        Suppose we register the following response interceptor in the requestor, removing the first six security chars.
       </p>
       <div class="highlight">
         <pre ui:field="responseInterceptor" class="java">
           <code>requestor.addResponseInterceptor(new ResponseInterceptor() {
-            <br/>&#32;&#32;&#32;&#32;public void interceptor(Request request, ResponseInterceptorContext response) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;response.setHeader("A-Response-Interceptor-Header", "It Works!");
+            <br/>&#32;&#32;&#32;&#32;public void intercept(Request request, ResponseInterceptorContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final String json = context.getPayload().isString();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Make sure the payload is a serialized json */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (json != null) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Remove first 6 chars )]}',\n */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;context.setPayload(new Payload(json.substring(6)));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;}
             <br/>});
           </code>
@@ -100,13 +106,14 @@
       </div>
 
       <p>
-        Now let's perform a request, and check if the previous interceptor was really applied.
+        Now let's perform a request, and check if the previous interceptor was really executed.
         <br/>
-        The response should contain the header set in the interceptor, but the request shouldn't.
+        The mocked endpoint <strong>http://www.mocky.io/v2/54a3ec74fd145c6c0195e912</strong> gives us the raw response <code>)]}',\n{ "message": "Requestor is awesome! \o/" }</code>.
+        The interceptor should remove the first six characters.
       </p>
       <div class="highlight">
         <pre ui:field="responseInterceptorReq" class="java">
-          <code>requestor.req(&quot;http://httpbin.org/headers/&quot;).get();</code>
+          <code>requestor.req(&quot;http://www.mocky.io/v2/54a3ec74fd145c6c0195e912&quot;).get();</code>
         </pre>
       </div>
 
@@ -114,25 +121,18 @@
         <div class="action">
           <g:Button ui:field="responseInterceptorButton" styleName="btn">GET</g:Button>
         </div>
-        <textarea ui:field="responseInterceptorTextArea" class="form-control result" rows="5" readonly="readonly"/>
+        <textarea ui:field="responseInterceptorTextArea" class="form-control result" rows="2" readonly="readonly"/>
       </g:HTMLPanel>
 
       <p>
-        Notice in you browser dev tools that the request didn't contain the custom header.
-        It was added programmatically after the response has arrived.
+        See in you browser dev tools that the raw response had the initial &quot;)]}',\n&quot; chars.
       </p>
 
       <p>
         The Response Interceptors are applied following the same order they are registered in the requestor.
-      </p>
-      <div class="requestor-callout requestor-callout-warning">
-        <h4>Interceptoring affects later response processing</h4>
-        Be aware that response interceptoring is the first processing step of the responses.
-        It affects thus the subsequent interception and deserialization.
         <br/>
-        For example, if you set the Content-Type header in a response interceptor,
-        the deserialization process will consider it when deserializaring the payload.
-      </div>
+        They are executed after the filters and before the deserialization.
+      </p>
     </g:HTMLPanel>
 
   </g:HTMLPanel>

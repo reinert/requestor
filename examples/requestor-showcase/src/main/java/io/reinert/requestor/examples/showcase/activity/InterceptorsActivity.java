@@ -73,8 +73,7 @@ public class InterceptorsActivity extends AbstractActivity implements Intercepto
         });
 
         // Perform the request
-        JavaScriptObject json = JavaScriptObject.createObject();
-        Overlays.setString(json, "message", "Requestor is awesome! \\o/");
+        JavaScriptObject json = getMessageJson("Requestor is awesome!");
         requestor.req("http://httpbin.org/post").payload(json).post(String.class)
                 .done(new DoneCallback<String>() {
                     @Override
@@ -117,5 +116,11 @@ public class InterceptorsActivity extends AbstractActivity implements Intercepto
                         registration.removeHandler(); // cancel interceptor registration
                     }
                 });
+    }
+
+    private JavaScriptObject getMessageJson(String message) {
+        JavaScriptObject json = JavaScriptObject.createObject();
+        Overlays.setString(json, "message", message);
+        return json;
     }
 }
