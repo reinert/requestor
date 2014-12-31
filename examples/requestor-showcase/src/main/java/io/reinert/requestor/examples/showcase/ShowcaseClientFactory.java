@@ -26,6 +26,7 @@ import io.reinert.requestor.examples.showcase.ui.Filters;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
+import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.ui.SendingRequests;
 
@@ -42,4 +43,5 @@ public interface ShowcaseClientFactory {
     Authentication getAuthentication();
     BinaryData getBinaryData();
     Filters getFilters();
+    Interceptors getInterceptors();
 }

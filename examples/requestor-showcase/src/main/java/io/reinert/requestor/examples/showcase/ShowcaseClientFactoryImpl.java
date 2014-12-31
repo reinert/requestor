@@ -28,6 +28,7 @@ import io.reinert.requestor.examples.showcase.ui.Filters;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
+import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.ui.SendingRequests;
 
@@ -45,6 +46,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private BinaryData binaryData;
     private Authentication authentication;
     private Filters filters;
+    private Interceptors interceptors;
 
     public ShowcaseClientFactoryImpl() {
         initRequestor();
@@ -126,6 +128,13 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (filters == null)
             filters = new Filters();
         return filters;
+    }
+
+    @Override
+    public Interceptors getInterceptors() {
+        if (interceptors == null)
+            interceptors = new Interceptors();
+        return interceptors;
     }
 
     private void initRequestor() {

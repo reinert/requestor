@@ -24,6 +24,7 @@ import io.reinert.requestor.examples.showcase.place.FiltersPlace;
 import io.reinert.requestor.examples.showcase.place.FormPlace;
 import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
 import io.reinert.requestor.examples.showcase.place.HomePlace;
+import io.reinert.requestor.examples.showcase.place.InterceptorsPlace;
 import io.reinert.requestor.examples.showcase.place.RequestingPlace;
 import io.reinert.requestor.examples.showcase.place.SendingRequestsPlace;
 
@@ -42,7 +43,7 @@ public enum MenuOption implements HasToken, HasPlace {
     BINARY_DATA("Binary Data", Tokens.BINARY_DATA_TOKEN, BinaryDataPlace.INSTANCE),
     AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE),
     FILTERS("Filters", Tokens.FILTERS_TOKEN, FiltersPlace.INSTANCE),
-//    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, null)
+    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, InterceptorsPlace.INSTANCE)
     ;
 
     public static class Tokens {
@@ -78,8 +79,8 @@ public enum MenuOption implements HasToken, HasPlace {
             return AUTHENTICATION;
         } else if (token.equals(Tokens.FILTERS_TOKEN)) {
             return FILTERS;
-//        } else if (token.equals(Tokens.INTERCEPTORS_TOKEN)) {
-//            return INTERCEPTORS;
+        } else if (token.equals(Tokens.INTERCEPTORS_TOKEN)) {
+            return INTERCEPTORS;
         } else {
             return HOME;
         }
