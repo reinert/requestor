@@ -66,9 +66,9 @@
       </div>
 
       <div class="requestor-showcase-innersection">
-        <h3>AutoBeans</h3>
+        <h3>JavaBean Interfaces</h3>
         <p>
-          The AutoBean Framework is a powerful feature from GWT to serialize/deserialize JavaBean Interfaces to/from JSON content.
+          GWT has a powerful feature to serialize/deserialize JavaBean Interfaces to/from JSON content: the <strong>AutoBean Framework</strong>.
           It can be used both in server and client sides.
         </p>
 
