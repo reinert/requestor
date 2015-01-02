@@ -42,7 +42,7 @@ public class Showcase implements EntryPoint {
 
     public static final ShowcaseClientFactory SHOWCASE_CLIENT_FACTORY = GWT.create(ShowcaseClientFactory.class);
 
-    private final Place defaultPlace = new HomePlace();
+    private final Place defaultPlace = HomePlace.INSTANCE;
 
     @Override
     public void onModuleLoad() {
@@ -92,19 +92,18 @@ public class Showcase implements EntryPoint {
         container.setStyleName("container requestor-showcase-container");
         RootPanel.get().add(container);
 
-        // Create ClientFactory using deferred binding so we can replace with different
-        // impls in gwt.xml
+        // Main Factory (Dependency Injector)
         ShowcaseClientFactory clientFactory = SHOWCASE_CLIENT_FACTORY;
         EventBus eventBus = clientFactory.getEventBus();
         PlaceController placeController = clientFactory.getPlaceController();
 
-        // Start ActivityManager for the main widget with our ActivityMapper
+        // Activity-Place binding
         ActivityMapper activityMapper = new ShowcaseActivityMapper();
         ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
         activityManager.setDisplay(container);
 
-        // Start PlaceHistoryHandler with our PlaceHistoryMapper
-        PlaceHistoryMapper historyMapper = GWT.create(ShowcasePlaceHistoryMapper.class);
+        // Place-History binding
+        PlaceHistoryMapper historyMapper = new ShowcasePlaceHistoryMapper();
         PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
         historyHandler.register(placeController, eventBus, defaultPlace);
 

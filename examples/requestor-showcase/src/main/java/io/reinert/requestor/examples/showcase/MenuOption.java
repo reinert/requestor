@@ -34,19 +34,23 @@ import io.reinert.requestor.examples.showcase.place.SendingRequestsPlace;
 public enum MenuOption implements HasToken, HasPlace {
 
     HOME("Requestor", Tokens.HOME_TOKEN, HomePlace.INSTANCE),
-    GET_STARTED("Get Started"),
-    PROCESSES("Processes"),
-    FEATURES("Features"),
-    GETTING_STARTED("Setup", Tokens.GETTING_STARTED_TOKEN, GettingStartedPlace.INSTANCE, GET_STARTED),
-    REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, RequestingPlace.INSTANCE, GET_STARTED),
-    BUILDING_REQUESTS("Building Requests", Tokens.BUILDING_REQUESTS_TOKEN, BuildingRequestsPlace.INSTANCE, GET_STARTED),
-    SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, SendingRequestsPlace.INSTANCE, GET_STARTED),
+
+    GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, GettingStartedPlace.INSTANCE),
+
+    BASIC_USAGE("Basic Usage"),
+    REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, RequestingPlace.INSTANCE, BASIC_USAGE),
+    BUILDING_REQUESTS("Building Requests", Tokens.BUILDING_REQUESTS_TOKEN, BuildingRequestsPlace.INSTANCE, BASIC_USAGE),
+    SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, SendingRequestsPlace.INSTANCE, BASIC_USAGE),
+
+    MANAGING_REQUESTS("Managing Requests"),
 //    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, null),
-    FORM("Form", Tokens.FORM_TOKEN, FormPlace.INSTANCE, FEATURES),
+    FILTERS("Filters", Tokens.FILTERS_TOKEN, FiltersPlace.INSTANCE, MANAGING_REQUESTS),
+    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, InterceptorsPlace.INSTANCE, MANAGING_REQUESTS),
+
+    FEATURES("Features"),
+    FORM("Form Data", Tokens.FORM_TOKEN, FormPlace.INSTANCE, FEATURES),
     BINARY_DATA("Binary Data", Tokens.BINARY_DATA_TOKEN, BinaryDataPlace.INSTANCE, FEATURES),
-    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE, PROCESSES),
-    FILTERS("Filters", Tokens.FILTERS_TOKEN, FiltersPlace.INSTANCE, PROCESSES),
-    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, InterceptorsPlace.INSTANCE, PROCESSES)
+    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE, FEATURES)
     ;
 
     public static class Tokens {

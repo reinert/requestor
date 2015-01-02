@@ -33,7 +33,7 @@ public class GettingStartedActivity extends AbstractActivity {
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         Page.setTitle("Getting Started");
-        Page.setDescription("The steps for download, install and set-up the GWT project.");
+        Page.setDescription("The steps to download, install and set up the GWT project.");
         panel.setWidget(gettingStarted);
     }
 }
