@@ -50,7 +50,7 @@ public class RequestProgressImpl implements RequestProgress {
 
     @Override
     public double getCompletedFraction(double multiplyingFactor) {
-        if (isLengthComputable())
+        if (!isLengthComputable())
             return 0;
         return (getLoaded() / getTotal()) * multiplyingFactor;
     }

@@ -110,7 +110,7 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="timeout">Timeout</h1>
       <p class="lead">
-        The <code>#timeout</code> method allows you to set the timeout (in milliseconds) of the request.
+        Set the timeout (in milliseconds) of the request.
       </p>
       <div class="highlight">
         <pre ui:field="timeout" class="java">
