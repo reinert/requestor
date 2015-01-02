@@ -26,7 +26,6 @@
 
       <div class="requestor-showcase-innersection">
         <h3>Overlays</h3>
-
         <p>
           Overlay Types are a great feature from GWT to deal with JSON data efficiently.
           They interoperate with native javascript objects with zero overhead.
@@ -64,7 +63,42 @@
             Read more at the <a href="https://github.com/reinert/requestor/wiki/Overlay-Types-(TurboGWT)" target="_blank">docs</a>.
           </p>
         </div>
+      </div>
 
+      <div class="requestor-showcase-innersection">
+        <h3>AutoBeans</h3>
+        <p>
+          The AutoBean Framework is a powerful feature from GWT to serialize/deserialize JavaBean Interfaces to/from JSON content.
+          It can be used both in server and client sides.
+        </p>
+
+        <p>
+          If you are working with JavaBean interfaces, you can enable AutoBeans auto-serialization for serializing and deserializing your interfaces:
+          just import the <code>RequestorWithAutoBean</code> module in your GWT module descriptor.
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="autobeansSetup" class="xml">
+            <code>&lt;inherits name=&quot;io.reinert.requestor.RequestorWithAutoBean&quot;/&gt;
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Now, annotate each JavaBean interface with the <code>@Json</code> annotation (present in requestor-annotations dependency).
+          Requestor will handle the serialization of the annotated types using the AutoBean Framework.
+          More information can be found at the <a href="https://github.com/reinert/requestor/wiki/JSON-Auto-Serialization-by-AutoBeans" target="_blank">docs</a>.
+        </p>
+
+        <div class="requestor-callout requestor-callout-danger">
+          <h4>Deserialize arrays only to List or Set</h4>
+          <p>
+            The AutoBean Framework has a special implementation for deserializing objects efficiently.
+            It doesn't deserialize arrays to specific collection types (Lists or Sets implementations).
+            Thereby, we cannot ask for any concrete collection classes when requesting for collections of objects.
+            Use only <code>List.class</code> or <code>Set.class</code> when you intended to retrieve a collection result.
+          </p>
+        </div>
       </div>
 
     </g:HTMLPanel>
