@@ -19,21 +19,30 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.examples.showcase.ui.GettingStarted;
+import io.reinert.requestor.Requestor;
+import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.examples.showcase.util.Page;
 
-public class GettingStartedActivity extends AbstractActivity {
+public class SerializationActivity extends AbstractActivity implements Serialization.Handler {
 
-    private final GettingStarted gettingStarted;
+    private final Serialization view;
+    private final Requestor requestor;
 
-    public GettingStartedActivity(GettingStarted gettingStarted) {
-        this.gettingStarted = gettingStarted;
+    public SerializationActivity(Serialization view, Requestor requestor) {
+        this.view = view;
+        this.requestor = requestor;
     }
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        Page.setTitle("Getting Started");
-        Page.setDescription("The steps to download, install and set up Requestor.");
-        panel.setWidget(gettingStarted);
+        view.setHandler(this);
+        Page.setTitle("Serialization");
+        Page.setDescription("Exchange any media type with a powerful serialization mechanism.");
+        panel.setWidget(view);
+    }
+
+    @Override
+    public void onStop() {
+        view.setHandler(null);
     }
 }

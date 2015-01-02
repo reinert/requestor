@@ -31,6 +31,7 @@ import io.reinert.requestor.examples.showcase.ui.Home;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.ui.SendingRequests;
+import io.reinert.requestor.examples.showcase.ui.Serialization;
 
 public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
 
@@ -47,6 +48,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private Authentication authentication;
     private Filters filters;
     private Interceptors interceptors;
+    private Serialization serialization;
 
     public ShowcaseClientFactoryImpl() {
         initRequestor();
@@ -121,6 +123,13 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (form == null)
             form = new Form();
         return form;
+    }
+
+    @Override
+    public Serialization getSerialization() {
+        if (serialization == null)
+            serialization = new Serialization();
+        return serialization;
     }
 
     @Override

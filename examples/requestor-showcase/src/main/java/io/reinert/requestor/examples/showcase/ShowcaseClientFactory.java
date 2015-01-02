@@ -29,6 +29,7 @@ import io.reinert.requestor.examples.showcase.ui.Home;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.ui.SendingRequests;
+import io.reinert.requestor.examples.showcase.ui.Serialization;
 
 public interface ShowcaseClientFactory {
     EventBus getEventBus();
@@ -44,4 +45,5 @@ public interface ShowcaseClientFactory {
     BinaryData getBinaryData();
     Filters getFilters();
     Interceptors getInterceptors();
+    Serialization getSerialization();
 }

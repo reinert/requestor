@@ -40,6 +40,19 @@ public class FormActivity extends AbstractActivity implements Form.Handler {
     }
 
     @Override
+    public void start(AcceptsOneWidget panel, EventBus eventBus) {
+        view.setHandler(this);
+        Page.setTitle("Form Data");
+        Page.setDescription("Submit AJAX Forms easily.");
+        panel.setWidget(view);
+    }
+
+    @Override
+    public void onStop() {
+        view.setHandler(null);
+    }
+
+    @Override
     public void onWrappingPostButtonClick(FormElement formElement) {
         FormData formData = FormData.wrap(formElement);
         requestor.req("http://httpbin.org/post")
@@ -80,18 +93,5 @@ public class FormActivity extends AbstractActivity implements Form.Handler {
                         view.setBuildingText(payload);
                     }
                 });
-    }
-
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        view.setHandler(this);
-        Page.setTitle("Form");
-        Page.setDescription("Submit AJAX Forms easily.");
-        panel.setWidget(view);
-    }
-
-    @Override
-    public void onStop() {
-        view.setHandler(null);
     }
 }

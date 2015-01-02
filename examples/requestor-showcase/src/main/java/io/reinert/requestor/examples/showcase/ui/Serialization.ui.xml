@@ -1,0 +1,73 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- JSON SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="request-filters">JSON Serialization</h1>
+      <p class="lead">
+        Requestor has built-in serialization for JSON.
+      </p>
+
+      <div class="requestor-showcase-innersection">
+        <h3>Overlays</h3>
+
+        <p>
+          Overlay Types are a great feature from GWT to deal with JSON data efficiently.
+          They interoperate with native javascript objects with zero overhead.
+        </p>
+
+        <p>
+          With one configuration you can enable JSON serialization for Overlay Types:
+          in you GWT module descriptor set the <code>RequestorInitializer</code> to be <code>RequestorInitializerForJson</code>.
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="overlaysSetup" class="xml">
+            <code>&lt;replace-with class=&quot;io.reinert.requestor.RequestorInitializerForJson&quot;&gt;
+              <br/>&#32;&#32;&lt;when-type-is class="io.reinert.requestor.RequestorInitializer"/&gt;
+              <br/>&lt;/replace-with&gt;
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Now, your <code>Requestor</code> container is initialized with a serializer and deserializer for JSON-Overlays.
+          <br/>
+          When you send a request with some overlay type in the payload, it will be serialized with the browser's <code>JSON#stringify</code> method.
+          <br/>
+          When you ask an overlay type in a request, the response payload will be deserialized using <code>JsonUtils#safeEval</code>.
+          You can alternatively use <code>JsonUtils#unsafeEval</code> (faster but not secure) by setting the public flag <code>OverlaySerdes#USE_SAFE_EVAL</code> to false.
+        </p>
+
+        <div class="requestor-callout requestor-callout-info">
+          <h4>Even faster deserialization</h4>
+          <p>
+            JSON deserialization to Overlay Types is faster than normal because it only requires the evaluation of the serialized content into a JavaScript object.
+            Nevertheless, the deserialization of json arrays is not so fast, because an iteration over all items is necessary to accumulate the result in a collection.
+            If you want even faster deserialization, you may consider using the Requestor-TurboGWT extension, which overcome this issue when possible.
+            Read more at the <a href="https://github.com/reinert/requestor/wiki/Overlay-Types-(TurboGWT)" target="_blank">docs</a>.
+          </p>
+        </div>
+
+      </div>
+
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>
