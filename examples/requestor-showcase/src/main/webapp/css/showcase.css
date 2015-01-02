@@ -66,6 +66,22 @@ h1[id] {
     margin-top: 0;
 }
 
+.requestor-showcase-icon-bar {
+    background-color: #fff;
+}
+
+.requestor-showcase-navbar-toggle {
+    color: #e9e6eb;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+    background-color: #050505;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#563d7c),to(#6f5499));
+    background-image: -webkit-linear-gradient(top,#050505 0,#272727 100%);
+    background-image: -o-linear-gradient(top,#050505 0,#272727 100%);
+    background-image: linear-gradient(to bottom,#050505 0,#272727 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#050505', endColorstr='#272727', GradientType=0);
+    background-repeat: repeat-x;
+}
+
 .requestor-showcase-nav {
     margin-bottom: 0;
     background-color: #fff;
