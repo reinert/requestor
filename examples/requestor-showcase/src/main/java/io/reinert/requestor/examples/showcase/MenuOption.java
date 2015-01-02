@@ -34,16 +34,19 @@ import io.reinert.requestor.examples.showcase.place.SendingRequestsPlace;
 public enum MenuOption implements HasToken, HasPlace {
 
     HOME("Requestor", Tokens.HOME_TOKEN, HomePlace.INSTANCE),
-    GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, GettingStartedPlace.INSTANCE),
-    REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, RequestingPlace.INSTANCE),
-    BUILDING_REQUESTS("Building Requests", Tokens.BUILDING_REQUESTS_TOKEN, BuildingRequestsPlace.INSTANCE),
-    SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, SendingRequestsPlace.INSTANCE),
+    GET_STARTED("Get Started"),
+    PROCESSES("Processes"),
+    FEATURES("Features"),
+    GETTING_STARTED("Setup", Tokens.GETTING_STARTED_TOKEN, GettingStartedPlace.INSTANCE, GET_STARTED),
+    REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, RequestingPlace.INSTANCE, GET_STARTED),
+    BUILDING_REQUESTS("Building Requests", Tokens.BUILDING_REQUESTS_TOKEN, BuildingRequestsPlace.INSTANCE, GET_STARTED),
+    SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, SendingRequestsPlace.INSTANCE, GET_STARTED),
 //    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, null),
-    FORM("Form", Tokens.FORM_TOKEN, FormPlace.INSTANCE),
-    BINARY_DATA("Binary Data", Tokens.BINARY_DATA_TOKEN, BinaryDataPlace.INSTANCE),
-    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE),
-    FILTERS("Filters", Tokens.FILTERS_TOKEN, FiltersPlace.INSTANCE),
-    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, InterceptorsPlace.INSTANCE)
+    FORM("Form", Tokens.FORM_TOKEN, FormPlace.INSTANCE, FEATURES),
+    BINARY_DATA("Binary Data", Tokens.BINARY_DATA_TOKEN, BinaryDataPlace.INSTANCE, FEATURES),
+    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE, PROCESSES),
+    FILTERS("Filters", Tokens.FILTERS_TOKEN, FiltersPlace.INSTANCE, PROCESSES),
+    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, InterceptorsPlace.INSTANCE, PROCESSES)
     ;
 
     public static class Tokens {
@@ -89,11 +92,21 @@ public enum MenuOption implements HasToken, HasPlace {
     private final String label;
     private final String token;
     private final Place place;
+    private final MenuOption parent;
+
+    private MenuOption(String label) {
+        this(label, null, null, null);
+    }
 
     private MenuOption(String label, String token, Place place) {
+        this(label, token, place, null);
+    }
+
+    private MenuOption(String label, String token, Place place, MenuOption parent) {
         this.label = label;
         this.token = token;
         this.place = place;
+        this.parent = parent;
     }
 
     public String getLabel() {
@@ -108,5 +121,17 @@ public enum MenuOption implements HasToken, HasPlace {
     @Override
     public String getToken() {
         return token;
+    }
+
+    public boolean isGroup() {
+        return token == null;
+    }
+
+    public MenuOption getParent() {
+        return parent;
+    }
+
+    public boolean hasParent() {
+        return parent != null;
     }
 }

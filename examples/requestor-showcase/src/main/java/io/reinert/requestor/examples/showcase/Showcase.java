@@ -23,6 +23,8 @@ import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.LIElement;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
@@ -48,14 +50,41 @@ public class Showcase implements EntryPoint {
         final Element menu = Document.get().getElementById("menu-list");
         for (MenuOption o : MenuOption.values()) {
             if (o != MenuOption.HOME) {
-                AnchorElement a = Document.get().createAnchorElement();
-                a.setInnerText(o.getLabel());
-                a.setHref("#" + o.getToken());
+                if (o.isGroup()) {
+                    AnchorElement a = Document.get().createAnchorElement();
+                    a.getStyle().setCursor(Style.Cursor.POINTER);
+                    a.setClassName("dropdown-toggle");
+                    a.setAttribute("role", "button");
+                    a.setAttribute("data-toggle", "dropdown");
+                    a.setInnerHTML(o.getLabel() + " <span class=\"caret\"></span>");
 
-                LIElement li = Document.get().createLIElement();
-                li.appendChild(a);
+                    UListElement ul = Document.get().createULElement();
+                    ul.setClassName("dropdown-menu");
+                    ul.setAttribute("role", "menu");
+                    ul.setId(getMenuGroupId(o));
 
-                menu.appendChild(li);
+                    LIElement li = Document.get().createLIElement();
+                    li.setClassName("dropdown");
+                    li.appendChild(a);
+                    li.appendChild(ul);
+
+                    menu.appendChild(li);
+                } else {
+                    AnchorElement a = Document.get().createAnchorElement();
+                    a.setInnerText(o.getLabel());
+                    a.setHref("#" + o.getToken());
+
+                    LIElement li = Document.get().createLIElement();
+                    li.appendChild(a);
+
+                    if (o.hasParent()) {
+                        MenuOption parent = o.getParent();
+                        UListElement ul = (UListElement) Document.get().getElementById(getMenuGroupId(parent));
+                        ul.appendChild(li);
+                    } else {
+                        menu.appendChild(li);
+                    }
+                }
             }
         }
 
@@ -81,5 +110,9 @@ public class Showcase implements EntryPoint {
 
         // Goes to place represented on URL or default place
         historyHandler.handleCurrentHistory();
+    }
+
+    private String getMenuGroupId(MenuOption o) {
+        return o.getLabel().toLowerCase().replace(" ", "-");
     }
 }
