@@ -30,10 +30,10 @@ public class SendingRequests extends Composite {
 
     private static SendingRequestsUiBinder uiBinder = GWT.create(SendingRequestsUiBinder.class);
 
-    @UiField PreElement req;
+    @UiField PreElement hsmNoArg, hsmOneArg, hsmTwoArgs;
 
     public SendingRequests() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(req);
+        HighlightJs.highlightBlock(hsmNoArg, hsmOneArg, hsmTwoArgs);
     }
 }

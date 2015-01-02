@@ -21,7 +21,7 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="start-building">Start building</h1>
       <p class="lead">
-        <code>Requestor</code> object provides the <code>#req</code> method to start building a request.
+        Start building a request by calling <code>Requestor#req</code>.
         A target url is required by it.
       </p>
       <div class="highlight">

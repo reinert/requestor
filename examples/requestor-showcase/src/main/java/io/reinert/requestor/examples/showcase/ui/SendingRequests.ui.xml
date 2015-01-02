@@ -19,17 +19,95 @@
   <g:HTMLPanel>
     <!-- START SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="start-building">TODO</h1>
+      <h1 class="page-header" id="http-send-methods">HTTP Send Methods</h1>
       <p class="lead">
-        TODO
+        Send your requests fluently.
       </p>
-      <div class="highlight">
-        <pre ui:field="req" class="java">
-          <code>
-            Requestor r = GWT.create(Requestor); <br/>
-          </code>
-        </pre>
+
+      <p>
+        To maintain a fluent interface for requesting, Requestor provides methods named similarly to the HTTP Methods to actually send the requests.
+        <br/>
+        E.g., if you want to dispatch a building request with the GET method you can call <code>req.get()</code>.
+        <br/>
+        The available HTTP Methods are: GET, POST, PUT, DELETE, HEAD, PATCH and OPTIONS.
+      </p>
+
+      <p>
+        After sending a request you will receive a Promise which will enable you to handle the future results flexibly.
+        <br/>
+        The Promise interface returned depends on the Requestor API implementation you are using.
+        <br/>
+        Requestor-GDeferred (used in this showcase) returns a <code>RequestPromise</code> exposing GDeferred's Promise API.
+      </p>
+
+      <p>
+        HTTP Send Methods can have up to three overloads:
+      </p>
+
+      <div class="requestor-showcase-innersection">
+        <h3>#{http-method}()</h3>
+        <p>
+          The no-arg signature provides a <code>Promise&lt;Void&gt;</code>.
+          It's then assumed that no payload will be received in the response.
+        </p>
+        <div class="highlight">
+          <pre ui:field="hsmNoArg" class="java">
+            <code>requestor.req("/server/books/1")
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.delete() /* here delete has no args */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Void&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(Void result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* result == null */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+            </code>
+          </pre>
+        </div>
       </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3>#{http-method}(Class&lt;T&gt;)</h3>
+        <p>
+          The one-arg signature provides a <code>Promise&lt;T&gt;</code>.
+          It's expected that a response with a single object T will be received.
+        </p>
+        <div class="highlight">
+          <pre ui:field="hsmOneArg" class="java">
+            <code>requestor.req("/server/books")
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(Book.class) /* here post has one class arg */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Book&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(Book result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+            </code>
+          </pre>
+        </div>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3>#{http-method}(Class&lt;T&gt;, Class&lt;C extends Collection&gt;)</h3>
+        <p>
+          The two-arg signature provides a Promise&lt;Collection&lt;T&gt;&gt;, thus expecting a response with a serialized array of T in the payload.
+          The type C is the collection which will hold the elements in the deserialization process.
+        </p>
+        <div class="highlight">
+          <pre ui:field="hsmTwoArgs" class="java">
+            <code>requestor.req("/server/books")
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(Book.class, Collection.class) /* here get has two class args */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Collection&lt;Book&gt;&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(&lt;Collection&lt;Book&gt;&gt; result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+            </code>
+          </pre>
+        </div>
+        <p>
+          This method will always return a Promise&lt;Collection&lt;T&gt;&gt;, regardless of the second class passed.
+          That happens because it's not possible to declare "generics of generics" in Java.
+        </p>
+      </div>
+
     </g:HTMLPanel>
 
   </g:HTMLPanel>
