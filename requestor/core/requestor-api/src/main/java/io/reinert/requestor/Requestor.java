@@ -65,6 +65,8 @@ public interface Requestor {
 
     <T> Provider<T> getProvider(Class<T> type);
 
+    <T> T getInstance(Class<T> type);
+
     /**
      * Register a collection Provider.
      *

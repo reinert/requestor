@@ -121,6 +121,14 @@ public class RequestorImpl implements Requestor {
     }
 
     @Override
+    public <T> T getInstance(Class<T> type) {
+        Provider<T> provider = providerManager.get(type);
+        if (provider == null)
+            throw new RuntimeException("There's no Provider registered for this class.");
+        return provider.get();
+    }
+
+    @Override
     public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) {
         return serdesManager.getSerializer(type, mediaType);
     }

@@ -99,6 +99,15 @@
             Use only <code>List.class</code> or <code>Set.class</code> when you intend to retrieve a collection result.
           </p>
         </div>
+
+        <div class="requestor-callout requestor-callout-info">
+          <h4>Use Requestor to get instances of the annotated types</h4>
+          <p>
+            Requestor automatically generates factories for the annotated interfaces.
+            So if you need to obtain new instances of these types you can resort to <code>Requestor#getInstance(Class&lt;T&gt;)</code>.
+            Alternatively you can get the Provider&lt;T&gt; with <code>Requestor#getProvider(Class&lt;T&gt;)</code> and later get an instance with <code>Provider#get()</code>.
+          </p>
+        </div>
       </div>
 
       <div class="requestor-showcase-innersection">
