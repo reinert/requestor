@@ -19,7 +19,7 @@
   <g:HTMLPanel>
     <!-- JSON SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="request-filters">JSON Serialization</h1>
+      <h1 class="page-header" id="json-serialization">JSON Serialization</h1>
       <p class="lead">
         Requestor has built-in serialization for JSON.
       </p>
@@ -139,8 +139,62 @@
           </p>
         </div>
       </div>
-
     </g:HTMLPanel>
+
+  <!-- CUSTOM SECTION -->
+  <g:HTMLPanel styleName="requestor-showcase-section">
+    <h1 class="page-header" id="custom-serialization">Custom Serialization</h1>
+    <p class="lead">
+      Create Serializers and Deserializers for specific classes and media types.
+    </p>
+
+    <div class="requestor-showcase-innersection">
+      <h3>Serializers</h3>
+      <p>
+        Serializers are responsible for serializing objects to some media type.
+      </p>
+
+      <p>
+        To create a serializer you must implement the <code>Serializer</code> interface.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="mySerializer" class="java">
+          <code>class MySerializer implements Serializer&lt;MyObject&gt; {
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public Class&lt;MyObject&gt; handledType() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return MyObject.class;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public String[] mediaType() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Return an array of media type patterns; wildcards are acceptable */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new String[]{"*/xml"};
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public String serialize(MyObject myObject, SerializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return "&lt;my&gt;&lt;stringField&gt;" + myObject.getStringField() + "&lt;/stringField&gt;"
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;+ "&lt;intField&gt;" + myObject.getIntField() + "&lt;/intField&gt;"
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;+ "&lt;dateField&gt;" + myObject.getDateField().getTime() + "&lt;/dateField&gt;&lt;/my&gt;";
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public String serialize(Collection&lt;MyObject&gt; myCollection, SerializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;StringBuilder sb = new StringBuilder("&lt;array&gt;");
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;for (MyObject myObject : myCollection) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sb.append(serialize(myObject, ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return sb.append("&lt;/array&gt;").toString();
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>}
+          </code>
+        </pre>
+      </div>
+
+    </div>
+  </g:HTMLPanel>
 
   </g:HTMLPanel>
 </ui:UiBinder>
