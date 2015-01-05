@@ -19,20 +19,20 @@ under the License.
 -->
 <rss version="0.91">
   <channel>
-    <title>requestor-gdeferred - Checkstyle report</title>
-    <link>http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred</link>
-    <description>requestor-gdeferred - Checkstyle report</description>
+    <title>requestor-gwtjackson - Checkstyle report</title>
+    <link>http://github.com/reinert/requestor/requestor-parent/requestor-ext-parent/requestor-gwtjackson</link>
+    <description>requestor-gwtjackson - Checkstyle report</description>
     <language>en-us</language>
     <copyright>&#169;2014 - 2015</copyright>
     <item>
-      <title>File: 13,
+      <title>File: 3,
              Errors: 0,
-             Warnings: 0,
-             Infos: 0
+             Warnings: 1,
+             Infos: 1
       </title>
-            <link>http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html</link>
+            <link>http://github.com/reinert/requestor/requestor-parent/requestor-ext-parent/requestor-gwtjackson/checkstyle.html</link>
       <description>
-        <p>Click <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="http://github.com/reinert/requestor/requestor-parent/requestor-ext-parent/requestor-gwtjackson/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -46,10 +46,24 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.HasHttpSendMethods.java">io/reinert/requestor/HasHttpSendMethods.java</a>
+                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-ext-parent/requestor-gwtjackson/checkstyle.html#io.reinert.requestor.rebind.JsonGwtJacksonGenerator.java">io/reinert/requestor/rebind/JsonGwtJacksonGenerator.java</a>
                 </td>
                 <td>
                   0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-ext-parent/requestor-gwtjackson/checkstyle.html#io.reinert.requestor.RequestorGwtTestSuite.java">io/reinert/requestor/RequestorGwtTestSuite.java</a>
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -60,161 +74,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.DeferredFactoryImpl.java">io/reinert/requestor/gdeferred/DeferredFactoryImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.DoneCallbackForList.java">io/reinert/requestor/gdeferred/DoneCallbackForList.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.FailCallback.java">io/reinert/requestor/gdeferred/FailCallback.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.RequestSenderImpl.java">io/reinert/requestor/RequestSenderImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.RequestPromise.java">io/reinert/requestor/gdeferred/RequestPromise.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.DoneCallback.java">io/reinert/requestor/gdeferred/DoneCallback.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.DoneCallbackForSet.java">io/reinert/requestor/gdeferred/DoneCallbackForSet.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.ListDoneCallback.java">io/reinert/requestor/gdeferred/ListDoneCallback.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.GDeferredRequestPromise.java">io/reinert/requestor/gdeferred/GDeferredRequestPromise.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.ProgressCallback.java">io/reinert/requestor/gdeferred/ProgressCallback.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.SetDoneCallback.java">io/reinert/requestor/gdeferred/SetDoneCallback.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.GDeferredRequest.java">io/reinert/requestor/gdeferred/GDeferredRequest.java</a>
+                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-ext-parent/requestor-gwtjackson/checkstyle.html#io.reinert.requestor.JsonGwtJacksonGeneratorTest.java">io/reinert/requestor/JsonGwtJacksonGeneratorTest.java</a>
                 </td>
                 <td>
                   0
