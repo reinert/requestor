@@ -340,5 +340,178 @@
     </div>
   </g:HTMLPanel>
 
+  <!-- CUSTOM SECTION -->
+  <g:HTMLPanel styleName="requestor-showcase-section">
+    <h1 class="page-header" id="multiple-serialization">Multiple Serialization</h1>
+    <p class="lead">
+      Requestor is prepared to handle serialization of several media types for the same java type.
+    </p>
+
+    <p>
+      Suppose you need to exchange the same object in different formats, XML and JSON.
+      Requestor selects the right serializer/deserializer by matching both the class and the media type (extracted from Content-Type header).
+      So you can have multiple serializers and deserializers registered for the same class, as long as they handle different different media type patterns.
+    </p>
+
+    <p>
+      Let's test the examples described above.
+      Having the class MyObject with the fields stringField, intField and dateField, first we register the serializers and deserializers.
+    </p>
+
+    <div class="highlight">
+      <pre ui:field="testReg" class="java">
+        <code>requestor.addSerializer(new MySerializer()); /* XML serializer for MyObject */
+          <br/>requestor.addDeserializer(new MyDeserializer()); /* XML deserializer for MyObject */
+          <br/>requestor.addSerdes(new MyJsonSerdes()); /* JSON serdes for MyObject */
+        </code>
+      </pre>
+    </div>
+
+    <p>
+      Now let's make some requests and check if the data are correctly serialized and deserialized.
+    </p>
+
+    <!-- XML -->
+    <p>
+      Get a single xml element. The mocked url <em>http://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08</em> returns a single MyObject xml element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="singleXmlGet" class="java">
+        <code>requestor.req("http://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08").get(MyObject.class)...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="singleXmlGetButton" styleName="btn">GET</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="singleXmlGetTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Get a collection xml element. The mocked url <em>http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09</em> returns a xml array of MyObject.
+    </p>
+    <div class="highlight">
+      <pre ui:field="collectionXmlGet" class="java">
+        <code>requestor.req("http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09").get(MyObject.class, List.class)...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="collectionXmlGetButton" styleName="btn">GET</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="collectionXmlGetTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Post a single xml element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="singleXmlPost" class="java">
+        <code>requestor.req("http://httpbin.org/post")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/xml")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="singleXmlPostButton" styleName="btn">POST</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="singleXmlPostTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Post a collection xml element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="collectionXmlPost" class="java">
+        <code>requestor.req("http://httpbin.org/post")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/xml")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(Arrays.asList(
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Lorem", 1900, new Date(1420416000000L)),
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Ipsum", 210, new Date(1420070400000L))))
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="collectionXmlPostButton" styleName="btn">POST</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="collectionXmlPostTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+    
+    
+    <!-- JSON -->
+    <p>
+      Get a single json element. The mocked url <em>http://www.mocky.io/v2/54aa93c307b5f2671021ba0c</em> returns a single MyObject json element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="singleJsonGet" class="java">
+        <code>requestor.req("http://www.mocky.io/v2/54aa93c307b5f2671021ba0c").get(MyObject.class)...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="singleJsonGetButton" styleName="btn">GET</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="singleJsonGetTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Get a collection json element. The mocked url <em>http://www.mocky.io/v2/54aa937407b5f2601021ba0b</em> returns a json array of MyObject.
+    </p>
+    <div class="highlight">
+      <pre ui:field="collectionJsonGet" class="java">
+        <code>requestor.req("http://www.mocky.io/v2/54aa937407b5f2601021ba0b").get(MyObject.class, List.class)...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="collectionJsonGetButton" styleName="btn">GET</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="collectionJsonGetTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Post a single json element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="singleJsonPost" class="java">
+        <code>requestor.req("http://httpbin.org/post")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/json")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="singleJsonPostButton" styleName="btn">POST</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="singleJsonPostTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Post a collection json element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="collectionJsonPost" class="java">
+        <code>requestor.req("http://httpbin.org/post")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/json")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(Arrays.asList(
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Lorem", 1900, new Date(1420416000000L)),
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Ipsum", 210, new Date(1420070400000L))))
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="collectionJsonPostButton" styleName="btn">POST</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="collectionJsonPostTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+    
+    
+  </g:HTMLPanel>
+
   </g:HTMLPanel>
 </ui:UiBinder>

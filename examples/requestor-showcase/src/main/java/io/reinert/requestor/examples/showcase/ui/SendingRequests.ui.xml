@@ -72,7 +72,7 @@
         </p>
         <div class="highlight">
           <pre ui:field="hsmOneArg" class="java">
-            <code>requestor.req("/server/books")
+            <code>requestor.req(&quot;/server/books&quot;)
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(Book.class) /* here post has one class arg */
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Book&gt;() {
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(Book result) {
@@ -92,7 +92,7 @@
         </p>
         <div class="highlight">
           <pre ui:field="hsmTwoArgs" class="java">
-            <code>requestor.req("/server/books")
+            <code>requestor.req(&quot;/server/books&quot;)
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(Book.class, Collection.class) /* here get has two class args */
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Collection&lt;Book&gt;&gt;() {
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(&lt;Collection&lt;Book&gt;&gt; result) {

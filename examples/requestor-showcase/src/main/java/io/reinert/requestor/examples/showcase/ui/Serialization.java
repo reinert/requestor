@@ -17,8 +17,11 @@ package io.reinert.requestor.examples.showcase.ui;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.PreElement;
+import com.google.gwt.dom.client.TextAreaElement;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
@@ -27,6 +30,14 @@ import io.reinert.requestor.examples.showcase.util.HighlightJs;
 public class Serialization extends Composite {
 
     public interface Handler {
+        void onXmlObjectGet();
+        void onXmlCollectionGet();
+        void onXmlObjectPost();
+        void onXmlCollectionPost();
+        void onJsonObjectGet();
+        void onJsonCollectionGet();
+        void onJsonObjectPost();
+        void onJsonCollectionPost();
     }
 
     interface SerializationUiBinder extends UiBinder<HTMLPanel, Serialization> {}
@@ -34,35 +45,92 @@ public class Serialization extends Composite {
     private static SerializationUiBinder uiBinder = GWT.create(SerializationUiBinder.class);
 
     @UiField PreElement overlaysSetup, autobeansSetup, gwtjacksonSetup, mySerializer, mySerializerReg, myDeserializer,
-            myDeserializerReg, mySerdesReg, myJsonSerdes;
-//    @UiField TextAreaElement requestFilterTextArea, responseFilterTextArea, responseFilterTextArea2;
+            myDeserializerReg, mySerdesReg, myJsonSerdes, singleXmlGet, collectionXmlGet, singleXmlPost,
+            collectionXmlPost, singleJsonGet, collectionJsonGet, singleJsonPost, collectionJsonPost;
+    @UiField TextAreaElement singleXmlGetTextArea, collectionXmlGetTextArea, singleXmlPostTextArea,
+            collectionXmlPostTextArea, singleJsonGetTextArea, collectionJsonGetTextArea, singleJsonPostTextArea,
+            collectionJsonPostTextArea;
 
     private Handler handler;
 
     public Serialization() {
         initWidget(uiBinder.createAndBindUi(this));
         HighlightJs.highlightBlock(overlaysSetup, autobeansSetup, gwtjacksonSetup, mySerializer, mySerializerReg,
-                myDeserializer, myDeserializerReg, mySerdesReg, myJsonSerdes);
+                myDeserializer, myDeserializerReg, mySerdesReg, myJsonSerdes, singleXmlGet, collectionXmlGet,
+                singleXmlPost,  collectionXmlPost);
     }
 
-//    @UiHandler("requestFilterButton")
-//    public void onRequestFilterButtonClick(ClickEvent e) {
-//        handler.onRequestFilterButtonClick();
-//    }
-//
-//    @UiHandler("responseFilterButton")
-//    public void onResponseFilterButtonClick(ClickEvent e) {
-//        handler.onResponseFilterButtonClick();
-//    }
-//
-//    public void setRequestFilterText(String content) {
-//        requestFilterTextArea.setInnerText(content);
-//    }
-//
-//    public void setResponseFilterText(String headers, String content) {
-//        responseFilterTextArea.setInnerText(content);
-//        responseFilterTextArea2.setInnerText(headers);
-//    }
+    @UiHandler("singleXmlGetButton")
+    public void onSingleXmlGetButtonClick(ClickEvent e) {
+        handler.onXmlObjectGet();
+    }
+
+    public void setSingleXmlGetText(String content) {
+        singleXmlGetTextArea.setValue(content);
+    }
+
+    @UiHandler("collectionXmlGetButton")
+    public void onCollectionXmlGetButtonClick(ClickEvent e) {
+        handler.onXmlCollectionGet();
+    }
+
+    public void setCollectionXmlGetText(String content) {
+        collectionXmlGetTextArea.setValue(content);
+    }
+
+    @UiHandler("singleXmlPostButton")
+    public void onSingleXmlPostButtonClick(ClickEvent e) {
+        handler.onXmlObjectPost();
+    }
+
+    public void setSingleXmlPostText(String content) {
+        singleXmlPostTextArea.setValue(content);
+    }
+
+    @UiHandler("collectionXmlPostButton")
+    public void onCollectionXmlPostButtonClick(ClickEvent e) {
+        handler.onXmlCollectionPost();
+    }
+
+    public void setCollectionXmlPostText(String content) {
+        collectionXmlPostTextArea.setValue(content);
+    }
+
+    @UiHandler("singleJsonGetButton")
+    public void onSingleJsonGetButtonClick(ClickEvent e) {
+        handler.onJsonObjectGet();
+    }
+
+    public void setSingleJsonGetText(String content) {
+        singleJsonGetTextArea.setValue(content);
+    }
+
+    @UiHandler("collectionJsonGetButton")
+    public void onCollectionJsonGetButtonClick(ClickEvent e) {
+        handler.onJsonCollectionGet();
+    }
+
+    public void setCollectionJsonGetText(String content) {
+        collectionJsonGetTextArea.setValue(content);
+    }
+
+    @UiHandler("singleJsonPostButton")
+    public void onSingleJsonPostButtonClick(ClickEvent e) {
+        handler.onJsonObjectPost();
+    }
+
+    public void setSingleJsonPostText(String content) {
+        singleJsonPostTextArea.setValue(content);
+    }
+
+    @UiHandler("collectionJsonPostButton")
+    public void onCollectionJsonPostButtonClick(ClickEvent e) {
+        handler.onJsonCollectionPost();
+    }
+
+    public void setCollectionJsonPostText(String content) {
+        collectionJsonPostTextArea.setValue(content);
+    }
 
     public void setHandler(Handler handler) {
         this.handler = handler;
