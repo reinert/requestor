@@ -29,9 +29,11 @@
   <groupId>io.reinert.requestor</groupId>
   <artifactId>requestor-project</artifactId>
   <version>0.1.0-SNAPSHOT</version>
-  <inceptionYear>2014</inceptionYear>
+
+  <name>Requestor</name>
   <description>Requesting made easy for GWT.</description>
-  <url>http://reinert.io</url>
+  <inceptionYear>2014</inceptionYear>
+  <url>http://github.com/reinert/requestor</url>
 
   <modules>
     <module>requestor</module>
@@ -42,14 +44,19 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <!-- Maven -->
+    <!-- Plugins -->
     <maven-checkstyle-plugin.version>2.11</maven-checkstyle-plugin.version>
     <maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>2.8.1</maven-deploy-plugin.version>
+    <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
     <maven-jar-plugin.version>2.5</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+    <maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+    <maven-site-plugin.version>3.4</maven-site-plugin.version>
+    <doxia-module-markdown.version>1.6</doxia-module-markdown.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
+    <github.version>0.10</github.version>
 
     <!-- GWT -->
     <gwt.version>2.7.0</gwt.version>
@@ -66,8 +73,10 @@
     <mockito.version>1.10.8</mockito.version>
     <junit.version>4.11</junit.version>
 
-    <!-- GitHub Sites -->
-    <github.version>0.10</github.version>
+    <!-- Site -->
+    <rootDirectory>${basedir}</rootDirectory>
+    <site.examplesDirectory>${rootDirectory}/target/site/examples</site.examplesDirectory>
+
   </properties>
 
   <scm>
@@ -200,7 +209,7 @@
             <doctitle>Requestor ${project.version} API</doctitle>
             <links>
               <link>http://download.oracle.com/javase/7/docs/api/</link>
-              <link>http://google-web-toolkit.googlecode.com/svn/javadoc/latest/</link>
+              <link>http://www.gwtproject.org/javadoc/latest/</link>
             </links>
             <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
             <reportOutputDirectory>${project.reporting.outputDirectory}/javadoc</reportOutputDirectory>
@@ -272,27 +281,95 @@
         <module>requestor</module>
       </modules>
       <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-site-plugin</artifactId>
+              <version>${maven-site-plugin.version}</version>
+              <dependencies>
+                <dependency>
+                  <groupId>org.apache.maven.doxia</groupId>
+                  <artifactId>doxia-module-markdown</artifactId>
+                  <version>${doxia-module-markdown.version}</version>
+                </dependency>
+              </dependencies>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>build-upload-javadocs</id>
+                  <phase>site</phase>
+                  <goals>
+                    <goal>aggregate</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </pluginManagement>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>build-upload-javadocs</id>
-                <phase>site</phase>
-                <goals>
-                  <goal>aggregate</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>examples</id>
+      <modules>
+        <module>examples</module>
+      </modules>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>gwt-maven-plugin</artifactId>
+              <version>${gwt.version}</version>
+              <executions>
+                <execution>
+                  <goals>
+                    <goal>compile</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>2.6</version>
+              <executions>
+                <execution>
+                  <id>copy-resources</id>
+                  <phase>install</phase>
+                  <goals>
+                    <goal>copy-resources</goal>
+                  </goals>
+                  <configuration>
+                    <outputDirectory>${site.examplesDirectory}/${site.projectDirectory}</outputDirectory>
+                    <resources>
+                      <resource>
+                        <directory>${project.basedir}/src/main/webapp</directory>
+                      </resource>
+                      <resource>
+                        <directory>${project.build.directory}/${project.build.finalName}</directory>
+                      </resource>
+                    </resources>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </pluginManagement>
       </build>
     </profile>
 
@@ -333,7 +410,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.5</version>
+            <version>${maven-gpg-plugin.version}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

@@ -26,6 +26,11 @@
 
   <artifactId>requestor-showcase</artifactId>
 
+  <properties>
+    <rootDirectory>${basedir}/../..</rootDirectory>
+    <site.projectDirectory>showcase</site.projectDirectory>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.turbogwt.core</groupId>
@@ -80,4 +85,22 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>examples</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>gwt-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
