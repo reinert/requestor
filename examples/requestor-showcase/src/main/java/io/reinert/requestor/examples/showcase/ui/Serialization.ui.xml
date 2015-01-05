@@ -192,10 +192,24 @@
           </code>
         </pre>
       </div>
+
+      <p>
+        Make your serializer available to Requestor by registering it.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="mySerializerReg" class="java">
+          <code>requestor.addSerializer(new MySerializer());</code>
+        </pre>
+      </div>
+
+      <p>
+        <em>Note: #addSerializer returns a HandlerRegistration instance which enables you to later cancel the registration.</em>
+      </p>
     </div>
 
     <div class="requestor-showcase-innersection">
-      <h3>Serializers</h3>
+      <h3>Deserializers</h3>
       <p>
         Deserializers are responsible for deserializing raw content of some media type to an object.
       </p>
@@ -252,6 +266,42 @@
           </code>
         </pre>
       </div>
+
+      <p>
+        Make your deserializer available to Requestor by registering it.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="myDeserializerReg" class="java">
+          <code>requestor.addDeserializer(new MyDeserializer());</code>
+        </pre>
+      </div>
+
+      <p>
+        <em>Note: #addDeserializer returns a HandlerRegistration instance which enables you to later cancel the registration.</em>
+      </p>
+    </div>
+
+    <div class="requestor-showcase-innersection">
+      <h3>Serdes</h3>
+      <p>
+        The <code>Serdes</code> interface joins Serializer and Deserializer into one.
+        Implement it if you want to provide both serialization and deserialization for some type.
+      </p>
+
+      <p>
+        Make your serdes available to Requestor by registering it.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="mySerdesReg" class="java">
+          <code>requestor.addSerdes(new MySerdes());</code>
+        </pre>
+      </div>
+
+      <p>
+        <em>Note: #addSerdes returns a HandlerRegistration instance which enables you to later cancel the registration.</em>
+      </p>
     </div>
   </g:HTMLPanel>
 
