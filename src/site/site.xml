@@ -41,14 +41,13 @@
       <item name="GitHub" href="https://github.com/reinert/requestor" target="_blank"/>
     </links>
 
+    <menu name="Examples">
+      <item name="Showcase" href="examples/showcase" target="_blank"/>
+    </menu>
+
     <menu name="Documentation">
       <item name="Wiki" href="https://github.com/reinert/requestor/wiki" target="_blank"/>
       <item name="Javadoc" href="javadoc/apidocs" target="_blank"/>
-      <item name="FAQ" href="faq.html"/>
-    </menu>
-
-    <menu name="Examples">
-      <item name="Showcase" href="examples/showcase" target="_blank"/>
     </menu>
 
     <menu ref="reports"/>
