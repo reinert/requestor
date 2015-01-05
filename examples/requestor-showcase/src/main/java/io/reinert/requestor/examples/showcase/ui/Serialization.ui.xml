@@ -192,7 +192,66 @@
           </code>
         </pre>
       </div>
+    </div>
 
+    <div class="requestor-showcase-innersection">
+      <h3>Serializers</h3>
+      <p>
+        Deserializers are responsible for deserializing raw content of some media type to an object.
+      </p>
+
+      <p>
+        To create a deserializer you must implement the <code>Deserializer</code> interface.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="myDeserializer" class="java">
+          <code>class MyDeserializer implements Deserializer&lt;MyObject&gt; {
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public Class&lt;MyObject&gt; handledType() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return MyObject.class;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public String[] mediaType() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new String[]{&quot;*/xml&quot;};
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(String response, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldStart = response.indexOf(&quot;&lt;stringField&gt;&quot;) + 13;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldEnd = response.indexOf(&quot;&lt;/stringField&gt;&quot;, stringFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String stringField = response.substring(stringFieldStart, stringFieldEnd);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intFieldStart = response.indexOf(&quot;&lt;intField&gt;&quot;, stringFieldEnd) + 10;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intFieldEnd = response.indexOf(&quot;&lt;/intField&gt;&quot;, intFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intField = Integer.parseInt(response.substring(intFieldStart, intFieldEnd));
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int dateFieldStart = response.indexOf(&quot;&lt;dateField&gt;&quot;, intFieldEnd) + 11;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int dateFieldEnd = response.indexOf(&quot;&lt;/dateField&gt;&quot;, dateFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Date dateField = new Date(Long.parseLong(response.substring(dateFieldStart, dateFieldEnd)));
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new MyObject(stringField, intField, dateField);
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, String response, DeserializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;C collection = ctx.getInstance(collectionType);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;while (nextStart != -1) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextEnd = response.indexOf(&quot;&lt;/my&gt;&quot;, nextStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(response.substring(nextStart + 4, nextEnd), ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nextStart = response.indexOf(&quot;&lt;my&gt;&quot;, nextEnd);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return collection;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>}
+          </code>
+        </pre>
+      </div>
     </div>
   </g:HTMLPanel>
 
