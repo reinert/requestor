@@ -1,2 +1,2 @@
-mvn clean install -P!project -Dpresite
+#mvn clean install -P!project,examples
 mvn site-deploy -P!project,site

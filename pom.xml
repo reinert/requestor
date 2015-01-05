@@ -214,7 +214,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>${maven-javadoc-plugin.version}</version>
           <configuration>
-            <maxmemory>1024</maxmemory>
+            <maxmemory>2048</maxmemory>
             <failOnError>true</failOnError>
             <doctitle>Requestor ${project.version} API</doctitle>
             <links>
@@ -338,7 +338,7 @@
                   <phase>site-deploy</phase>
                   <configuration>
                     <server>github</server>
-                    <message>Building site for my project</message>
+                    <message>Building Requestor site</message>
                     <path>${project.version}</path>
                     <merge>true</merge>
                   </configuration>
@@ -356,10 +356,10 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
           </plugin>
-          <plugin>
-            <groupId>com.github.github</groupId>
-            <artifactId>site-maven-plugin</artifactId>
-          </plugin>
+          <!--<plugin>-->
+            <!--<groupId>com.github.github</groupId>-->
+            <!--<artifactId>site-maven-plugin</artifactId>-->
+          <!--</plugin>-->
         </plugins>
       </build>
     </profile>
@@ -377,18 +377,6 @@
       <build>
         <pluginManagement>
           <plugins>
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>gwt-maven-plugin</artifactId>
-              <version>${gwt.version}</version>
-              <executions>
-                <execution>
-                  <goals>
-                    <goal>compile</goal>
-                  </goals>
-                </execution>
-              </executions>
-            </plugin>
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-resources-plugin</artifactId>
