@@ -34,7 +34,7 @@ public class Serialization extends Composite {
     private static SerializationUiBinder uiBinder = GWT.create(SerializationUiBinder.class);
 
     @UiField PreElement overlaysSetup, autobeansSetup, gwtjacksonSetup, mySerializer, mySerializerReg, myDeserializer,
-            myDeserializerReg, mySerdesReg;
+            myDeserializerReg, mySerdesReg, myJsonSerdes;
 //    @UiField TextAreaElement requestFilterTextArea, responseFilterTextArea, responseFilterTextArea2;
 
     private Handler handler;
@@ -42,7 +42,7 @@ public class Serialization extends Composite {
     public Serialization() {
         initWidget(uiBinder.createAndBindUi(this));
         HighlightJs.highlightBlock(overlaysSetup, autobeansSetup, gwtjacksonSetup, mySerializer, mySerializerReg,
-                myDeserializer, myDeserializerReg, mySerdesReg);
+                myDeserializer, myDeserializerReg, mySerdesReg, myJsonSerdes);
     }
 
 //    @UiHandler("requestFilterButton")

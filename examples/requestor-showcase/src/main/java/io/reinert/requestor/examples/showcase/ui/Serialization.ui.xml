@@ -156,6 +156,7 @@
 
       <p>
         To create a serializer you must implement the <code>Serializer</code> interface.
+        Besides informing the class and the media type patterns it handle, you must implement two methods for serialization of a single object and a collection.
       </p>
 
       <div class="highlight">
@@ -216,6 +217,7 @@
 
       <p>
         To create a deserializer you must implement the <code>Deserializer</code> interface.
+        Parallel to the serializer, you must implement deserialization of a single serialized element and of an array of elements.
       </p>
 
       <div class="highlight">
@@ -302,6 +304,39 @@
       <p>
         <em>Note: #addSerdes returns a HandlerRegistration instance which enables you to later cancel the registration.</em>
       </p>
+    </div>
+
+    <div class="requestor-showcase-innersection">
+      <h3>JSON Serdes</h3>
+      <p>
+        If you find yourself needing to implement custom serialization/deserialization to/from JSON, you may find useful to extend the JsonObjectSerdes abstract class.
+        It requires the implementation of only two methods for reading and writing a single JSON record.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="myJsonSerdes" class="java">
+          <code>class MyJsonSerdes extends JsonObjectSerdes&lt;MyObject&gt; {
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;public MyJsonSerdes() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;super(MyObject.class);
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public MyObject readJson(JsonRecordReader reader, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new MyObject(reader.readString(&quot;stringField&quot;), reader.readIntPrimitive(&quot;intField&quot;),
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new Date(reader.readLong(&quot;dateField&quot;)));
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public void writeJson(MyObject myObject, JsonRecordWriter writer, SerializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;writer.writeString(&quot;stringField&quot;, myObject.getStringField());
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;writer.writeInt(&quot;intField&quot;, myObject.getIntField());
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;writer.writeDouble(&quot;dateField&quot;, myObject.getDateField().getTime());
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>}
+          </code>
+        </pre>
+      </div>
     </div>
   </g:HTMLPanel>
 
