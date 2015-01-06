@@ -11,19 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.serialization.HasImpl
-	c3987 [label=<<table title="io.reinert.requestor.serialization.HasImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasImpl.html">
+	c4134 [label=<<table title="io.reinert.requestor.serialization.HasImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.json.JsonNumberSerdes
-	c3997 [label=<<table title="io.reinert.requestor.serialization.json.JsonNumberSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./json/JsonNumberSerdes.html">
+	c4144 [label=<<table title="io.reinert.requestor.serialization.json.JsonNumberSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./json/JsonNumberSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonNumberSerdes </td></tr>
 		</table></td></tr>
 		</table>>, URL="./json/JsonNumberSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.serialization.json.JsonNumberSerdes implements io.reinert.requestor.serialization.HasImpl
-	c3987:p -> c3997:p [dir=back,arrowtail=empty,style=dashed];
+	c4134:p -> c4144:p [dir=back,arrowtail=empty,style=dashed];
 }
 

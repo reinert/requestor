@@ -11,29 +11,29 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.RequestSender
-	c7394 [label=<<table title="io.reinert.requestor.RequestSender" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSender.html">
+	c7573 [label=<<table title="io.reinert.requestor.RequestSender" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSender.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestSender </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestSender.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestBuilder
-	c7414 [label=<<table title="io.reinert.requestor.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestBuilder.html">
+	c7593 [label=<<table title="io.reinert.requestor.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Request
-	c7415 [label=<<table title="io.reinert.requestor.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Request.html">
+	c7594 [label=<<table title="io.reinert.requestor.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Request.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Request </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Request.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RequestSender implements io.reinert.requestor.RequestBuilder
-	c7414:p -> c7394:p [dir=back,arrowtail=empty,style=dashed];
+	c7593:p -> c7573:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestBuilder implements io.reinert.requestor.Request
-	c7415:p -> c7414:p [dir=back,arrowtail=empty,style=dashed];
+	c7594:p -> c7593:p [dir=back,arrowtail=empty,style=dashed];
 }
 

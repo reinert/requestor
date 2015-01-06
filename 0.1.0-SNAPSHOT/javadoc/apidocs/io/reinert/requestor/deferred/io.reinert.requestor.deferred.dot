@@ -11,27 +11,27 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.deferred.Promise<F>
-	c375 [label=<<table title="io.reinert.requestor.deferred.Promise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Promise.html">
+	c378 [label=<<table title="io.reinert.requestor.deferred.Promise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Promise.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Promise&lt;F&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Promise.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.deferred.Deferred<T>
-	c376 [label=<<table title="io.reinert.requestor.deferred.Deferred" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Deferred.html">
+	c379 [label=<<table title="io.reinert.requestor.deferred.Deferred" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Deferred.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Deferred&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Deferred.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.deferred.Callback<T, R>
-	c377 [label=<<table title="io.reinert.requestor.deferred.Callback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Callback.html">
+	c380 [label=<<table title="io.reinert.requestor.deferred.Callback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Callback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Callback&lt;T, R&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Callback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.deferred.Deferred<T> implements io.reinert.requestor.deferred.Promise<F>
-	c375:p -> c376:p [dir=back,arrowtail=empty,style=dashed];
+	c378:p -> c379:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -11,19 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.DeferredFactory
-	c2548 [label=<<table title="io.reinert.requestor.DeferredFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../DeferredFactory.html">
+	c2682 [label=<<table title="io.reinert.requestor.DeferredFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../DeferredFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeferredFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="../DeferredFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.DeferredFactoryImpl
-	c2608 [label=<<table title="io.reinert.requestor.gdeferred.DeferredFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeferredFactoryImpl.html">
+	c2742 [label=<<table title="io.reinert.requestor.gdeferred.DeferredFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeferredFactoryImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DeferredFactoryImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeferredFactoryImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gdeferred.DeferredFactoryImpl implements io.reinert.requestor.DeferredFactory
-	c2548:p -> c2608:p [dir=back,arrowtail=empty,style=dashed];
+	c2682:p -> c2742:p [dir=back,arrowtail=empty,style=dashed];
 }
 

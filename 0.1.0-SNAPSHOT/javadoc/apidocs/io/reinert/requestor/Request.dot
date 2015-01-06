@@ -11,29 +11,29 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.SerializedRequest
-	c7276 [label=<<table title="io.reinert.requestor.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
+	c7454 [label=<<table title="io.reinert.requestor.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestBuilder
-	c7306 [label=<<table title="io.reinert.requestor.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
+	c7484 [label=<<table title="io.reinert.requestor.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Request
-	c7307 [label=<<table title="io.reinert.requestor.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Request.html">
+	c7485 [label=<<table title="io.reinert.requestor.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Request.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Request </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Request.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.SerializedRequest implements io.reinert.requestor.Request
-	c7307:p -> c7276:p [dir=back,arrowtail=empty,style=dashed];
+	c7485:p -> c7454:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestBuilder implements io.reinert.requestor.Request
-	c7307:p -> c7306:p [dir=back,arrowtail=empty,style=dashed];
+	c7485:p -> c7484:p [dir=back,arrowtail=empty,style=dashed];
 }
 

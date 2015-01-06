@@ -11,35 +11,35 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.RequestorInitializerForJson
-	c9561 [label=<<table title="io.reinert.requestor.RequestorInitializerForJson" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerForJson.html">
+	c9760 [label=<<table title="io.reinert.requestor.RequestorInitializerForJson" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerForJson.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorInitializerForJson </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializerForJson.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestorInitializerClean
-	c9562 [label=<<table title="io.reinert.requestor.RequestorInitializerClean" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerClean.html">
+	c9761 [label=<<table title="io.reinert.requestor.RequestorInitializerClean" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerClean.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorInitializerClean </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializerClean.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestorInitializer
-	c9563 [label=<<table title="io.reinert.requestor.RequestorInitializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestorInitializer.html">
+	c9762 [label=<<table title="io.reinert.requestor.RequestorInitializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestorInitializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestorInitializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt
-	c9649 [label=<<table title="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./turbogwt/RequestorInitializerTurboGwt.html">
+	c9849 [label=<<table title="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./turbogwt/RequestorInitializerTurboGwt.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorInitializerTurboGwt </td></tr>
 		</table></td></tr>
 		</table>>, URL="./turbogwt/RequestorInitializerTurboGwt.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RequestorInitializerForJson implements io.reinert.requestor.RequestorInitializer
-	c9563:p -> c9561:p [dir=back,arrowtail=empty,style=dashed];
+	c9762:p -> c9760:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestorInitializerClean implements io.reinert.requestor.RequestorInitializer
-	c9563:p -> c9562:p [dir=back,arrowtail=empty,style=dashed];
+	c9762:p -> c9761:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt implements io.reinert.requestor.RequestorInitializer
-	c9563:p -> c9649:p [dir=back,arrowtail=empty,style=dashed];
+	c9762:p -> c9849:p [dir=back,arrowtail=empty,style=dashed];
 }
 
