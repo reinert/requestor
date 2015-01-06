@@ -27,7 +27,7 @@
 
   <groupId>io.reinert.requestor</groupId>
   <artifactId>requestor-project</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
 
   <name>Requestor</name>
   <description>Requesting made easy for GWT.</description>
@@ -54,6 +54,7 @@
     <maven-resources-plugin.version>2.7</maven-resources-plugin.version>
     <maven-site-plugin.version>3.4</maven-site-plugin.version>
     <doxia-module-markdown.version>1.6</doxia-module-markdown.version>
+    <maven-scm-plugin.version>1.9.2</maven-scm-plugin.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
     <github.version>0.10</github.version>
@@ -83,7 +84,7 @@
     <connection>scm:git:ssh://github.com/reinert/requestor.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/reinert/requestor.git</developerConnection>
     <url>https://github.com/reinert/requestor</url>
-    <tag>HEAD</tag>
+    <tag>0.1.0</tag>
   </scm>
 
   <issueManagement>
@@ -222,6 +223,15 @@
               <version>5.6.6</version>
             </docletArtifact>
             <additionalparam>-horizontal</additionalparam>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-plugin</artifactId>
+          <version>${maven-scm-plugin.version}</version>
+          <configuration>
+            <tag>requestor-${project.version}</tag>
           </configuration>
         </plugin>
 
