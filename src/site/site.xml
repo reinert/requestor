@@ -50,6 +50,10 @@
       <item name="Javadoc" href="javadoc/apidocs" target="_blank"/>
     </menu>
 
+    <menu name="Community">
+      <item name="Group" href="https://groups.google.com/forum/#!forum/requestor" target="_blank"/>
+    </menu>
+
     <menu ref="reports"/>
   </body>
 </project>
