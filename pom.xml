@@ -262,6 +262,7 @@
           <artifactId>maven-release-plugin</artifactId>
           <version>${maven-release-plugin.version}</version>
           <configuration>
+            <tagNameFormat>requestor-@{project.version}</tagNameFormat>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <useReleaseProfile>false</useReleaseProfile>
             <releaseProfiles>!project,release,site</releaseProfiles>
