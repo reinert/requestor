@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <!--
-~ Copyright 2014 Danilo Reinert
+~ Copyright 2015 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -20,6 +20,11 @@
     <h1 class="requestor-showcase-featurette-title text-center">Simple and complete</h1>
     <p class="lead text-center">
       Requestor cares for the beauty and simplicity of your code while strictly focuses on the extensibility of its API.
+    </p>
+    <p>
+      This showcase application aims to expose most of the features provided by Requestor API.
+      Some of them, though, cannot be shown in the same application because the configuration is made via deferred binding.
+      Still, you'll get a feeling of what Requestor is capable of. Welcome and enjoy!
     </p>
   </g:HTMLPanel>
 </ui:UiBinder>
