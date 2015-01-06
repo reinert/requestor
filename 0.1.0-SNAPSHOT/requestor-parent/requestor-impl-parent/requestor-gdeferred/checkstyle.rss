@@ -25,10 +25,10 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2014 - 2015</copyright>
     <item>
-      <title>File: 13,
+      <title>File: 14,
              Errors: 0,
              Warnings: 0,
-             Infos: 0
+             Infos: 1
       </title>
             <link>http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html</link>
       <description>
@@ -218,6 +218,20 @@ under the License.
                 </td>
                 <td>
                   0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://github.com/reinert/requestor/requestor-parent/requestor-impl-parent/requestor-gdeferred/checkstyle.html#io.reinert.requestor.gdeferred.AlwaysCallback.java">io/reinert/requestor/gdeferred/AlwaysCallback.java</a>
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
