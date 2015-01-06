@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./RequestSender.html" title="io.reinert.requestor.RequestSender" alt="" coords="235,50,344,94"/>
+<area shape="rect" id="node1" href="./RequestSender.html" title="&lt;TABLE&gt;" alt="" coords="224,45,355,99"/>
+<area shape="rect" id="node2_1" href="./RequestBuilder.html" title="io.reinert.requestor.RequestBuilder" alt="" coords="36,10,145,54"/>
+<area shape="rect" id="node2" href="./RequestBuilder.html" title="&lt;TABLE&gt;" alt="" coords="25,5,156,59"/>
+<area shape="rect" id="node3_2" href="./HasHttpSendMethods.html" title="io.reinert.requestor.HasHttpSendMethods" alt="" coords="17,89,165,133"/>
+<area shape="rect" id="node3" href="./HasHttpSendMethods.html" title="&lt;TABLE&gt;" alt="" coords="6,83,175,138"/>
+</map>
