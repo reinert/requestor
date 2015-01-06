@@ -233,8 +233,8 @@
             <tagNameFormat>requestor-@{project.version}</tagNameFormat>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <useReleaseProfile>false</useReleaseProfile>
-            <releaseProfiles>release,site</releaseProfiles>
-            <arguments>-Dcheckstyle.skip</arguments>
+            <goals>deploy</goals>
+            <arguments>-P!project,release -Dcheckstyle.skip</arguments>
           </configuration>
         </plugin>
       </plugins>
