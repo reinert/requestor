@@ -14,7 +14,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -27,7 +28,7 @@
 
   <groupId>io.reinert.requestor</groupId>
   <artifactId>requestor-project</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
+  <version>0.1.0-SNAPSHOT</version>
 
   <name>Requestor</name>
   <description>Requesting made easy for GWT.</description>
@@ -83,7 +84,6 @@
     <connection>scm:git:ssh://github.com/reinert/requestor.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/reinert/requestor.git</developerConnection>
     <url>https://github.com/reinert/requestor</url>
-    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
@@ -202,7 +202,7 @@
             <dependency>
               <groupId>io.reinert.requestor.tools</groupId>
               <artifactId>requestor-checkstyle</artifactId>
-              <version>0.2.0-SNAPSHOT</version>
+              <version>0.1.0-SNAPSHOT</version>
             </dependency>
           </dependencies>
           <executions>
