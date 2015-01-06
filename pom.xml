@@ -76,6 +76,7 @@
     <!-- Site -->
     <rootDirectory>${basedir}</rootDirectory>
     <site.examplesDirectory>${rootDirectory}/target/site/examples</site.examplesDirectory>
+    <sitePath>${project.version}</sitePath>
   </properties>
 
   <scm>
@@ -93,7 +94,7 @@
     <site>
       <id>github-pages-site</id>
       <name>Deployment through GitHub's site deployment plugin</name>
-      <url>${project.version}</url>
+      <url>${sitePath}</url>
     </site>
     <snapshotRepository>
       <id>ossrh</id>
