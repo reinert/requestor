@@ -103,6 +103,12 @@ REQUESTOR CHANGELOG
     * @Json
 * Requestor Impl GDeferred
     * RequestPromise (exposes only GDeferred API)
+        * done
+        * fail
+        * always
+        * progress
+        * upProgress
+        * then
 * Requestor Ext Gwt-Jackson
     * JsonGwtJacksonGenerator (@Json)
 * Requestor Ext TurboGWT
