@@ -5,7 +5,7 @@ It is pleasant to use and fully configurable and extensible.
 
 ## Preview
 
-Requesting is now simple and cool.
+Requesting is now simple and nice.
 
 ```java
 requestor.req("http://httpbin.org/ip").get(String.class).done(new DoneCallback<String>() {
@@ -15,7 +15,7 @@ requestor.req("http://httpbin.org/ip").get(String.class).done(new DoneCallback<S
 });
 ```
 
-With Java 8 support, it will be even better!
+With Java 8 support, it will be really cool!
 
 ```java
 requestor.req("http://httpbin.org/ip").get(String.class).done(r -> Window.alert(r));
