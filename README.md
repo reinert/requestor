@@ -45,7 +45,7 @@ try {
 }
 ```
 
-Make a request is a trivial task and now you can do it healthily. :)
+Make a request is a trivial task and now you can do it healthily. :)  
 Requesting will never be boring again!
 
 ## Features
