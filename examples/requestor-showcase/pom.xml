@@ -39,7 +39,6 @@
     <dependency>
       <groupId>io.reinert.gdeferred</groupId>
       <artifactId>gdeferred</artifactId>
-      <version>${gdeferred.version}</version>
     </dependency>
     <dependency>
       <groupId>io.reinert.requestor.impl</groupId>
@@ -64,7 +63,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <!-- TODO: skip javadocs -->
+          <!-- TODO: skip javadoc check only -->
           <!--<suppressionsLocation>/checkstyle-suppressions.xml</suppressionsLocation>-->
           <skip>true</skip>
         </configuration>

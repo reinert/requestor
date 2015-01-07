@@ -3,11 +3,50 @@ Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=ma
 A Modern HTTP Client API for GWT, Requestor offers all features needed for a current robust AJAX application.
 It is pleasant to use and fully configurable and extensible.
 
-## Preview (Java8 syntax)
+## Preview
+
+Requesting is now simple and cool.
+
+```java
+requestor.req("http://httpbin.org/ip").get(String.class).done(new DoneCallback<String>() {
+  public void onDone(String result) {
+      Window.alert(result);
+  }
+});
+```
+
+With Java 8 support, it will be even better!
 
 ```java
 requestor.req("http://httpbin.org/ip").get(String.class).done(r -> Window.alert(r));
 ```
+
+The low-level RequestBuilder way would be...
+
+```java
+/* Original GWT RequestBuilder approach */
+RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, "http://httpbin.org/ip");
+rb.setCallback(new RequestCallback() {
+    @Override
+    public void onResponseReceived(Request request, Response response) {
+        String result = response.getText();
+        Window.alert(result);
+    }
+
+    @Override
+    public void onError(Request request, Throwable exception) {
+        // Please don't force me!
+    }
+});
+try {
+    rb.send();
+} catch (RequestException e) {
+    // Uhh!
+}
+```
+
+Make a request is a trivial task and now you can do it healthily. :)
+Requesting will never be boring again!
 
 ## Features
 
