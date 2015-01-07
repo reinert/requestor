@@ -21,4 +21,5 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   sh ./tag.sh HEAD
   git add .
   git commit -m "Start $2 development"
+  git push origin master
 fi
