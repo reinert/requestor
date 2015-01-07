@@ -1,7 +1,7 @@
 REQUESTOR CHANGELOG
 ==
 
-### 0.1.0 - 06 Jan 2015 (Initial Release)
+### 0.1.0 - 07 Jan 2015 (Initial Release)
 * Requestor Core API
     * RequestBuilder
         * contentType

@@ -41,7 +41,7 @@ requestor.req("http://httpbin.org/ip").get(String.class).done(r -> Window.alert(
 * [Discussion Group](https://groups.google.com/forum/#!forum/requestor)
 
 ## Current Release
-0.1.0 (06 Jan 2015)
+0.1.0 (07 Jan 2015)
 
 ## Installation
 
