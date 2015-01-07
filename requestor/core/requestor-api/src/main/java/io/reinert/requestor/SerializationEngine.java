@@ -74,15 +74,15 @@ class SerializationEngine {
                 Collection c = (Collection) payload;
                 final Iterator iterator = c.iterator();
                 Object item = null;
+                // Get the first non-null element to obtain its class instance
                 while (iterator.hasNext() && item == null) {
                     item = iterator.next();
                 }
                 if (item == null) {
-                    /* FIXME: This is forcing empty collections responses to be a empty json array.
-                        It will cause error for serializers expecting other content-type (e.g. XML).
-                       TODO: Create some EmptyCollectionSerializerManager for serialization of empty collections
-                        by content-type. */
-                    body = "[]";
+                    // There were no non-null elements in the collection.
+                    // An empty array is then assumed.
+                    // TODO: provide some way of configuring this behavior
+                    body = isJsonMediaType(mediaType) ? "[]" : "";
                 } else {
                     Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), mediaType);
                     checkSerializerNotNull(request, item.getClass(), serializer);
@@ -141,5 +141,9 @@ class SerializationEngine {
         if (serializer == null)
             throw new SerializationException("Could not find Serializer for class '" + type.getName() + "' and " +
                     "media-type '" + request.getContentType() + "'.");
+    }
+
+    private boolean isJsonMediaType(String mediaType) {
+        return mediaType.contains("json") || mediaType.contains("javascript");
     }
 }
