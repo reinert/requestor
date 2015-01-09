@@ -111,7 +111,7 @@ To make requestor available to your GWT project, import the implementation's mod
 <inherits name="io.reinert.requestor.RequestorByGDeferred"/>
 ```
 
-Read the [Getting Started](/reinert/requestor/wiki/Getting-Started) wiki page for more information.
+Read the [Getting Started](https://github.com/reinert/requestor/wiki/Getting-Started) wiki page for more information.
 
 ## License
 Requestor is freely distributable under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html)
