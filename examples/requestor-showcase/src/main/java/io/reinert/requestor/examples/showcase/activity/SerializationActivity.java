@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
@@ -38,7 +37,7 @@ import io.reinert.requestor.serialization.json.JsonObjectSerdes;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
-public class SerializationActivity extends AbstractActivity implements Serialization.Handler {
+public class SerializationActivity extends ShowcaseActivity implements Serialization.Handler {
 
     private final Serialization view;
     private final Requestor requestor;
@@ -47,7 +46,8 @@ public class SerializationActivity extends AbstractActivity implements Serializa
     private HandlerRegistration serializerRegistration;
     private HandlerRegistration serdesRegistration;
 
-    public SerializationActivity(Serialization view, Requestor requestor) {
+    public SerializationActivity(String section, Serialization view, Requestor requestor) {
+        super(section);
         this.view = view;
         this.requestor = requestor;
     }
@@ -63,6 +63,7 @@ public class SerializationActivity extends AbstractActivity implements Serializa
         Page.setTitle("Serialization");
         Page.setDescription("Exchange any media type with a powerful serialization mechanism.");
         panel.setWidget(view);
+        scrollToSection();
     }
 
     @Override

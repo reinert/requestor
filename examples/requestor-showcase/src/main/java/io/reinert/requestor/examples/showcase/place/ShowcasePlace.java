@@ -15,21 +15,27 @@
  */
 package io.reinert.requestor.examples.showcase.place;
 
-import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.place.shared.Place;
 
-import io.reinert.requestor.examples.showcase.MenuOption;
-import io.reinert.requestor.examples.showcase.Showcase;
-import io.reinert.requestor.examples.showcase.activity.SendingRequestsActivity;
+import io.reinert.requestor.examples.showcase.HasActivity;
+import io.reinert.requestor.examples.showcase.HasToken;
 
-public class SendingRequestsPlace extends ShowcasePlace {
+public abstract class ShowcasePlace extends Place implements HasToken, HasActivity {
 
-    public SendingRequestsPlace(String section) {
-        super(MenuOption.Tokens.SENDING_REQUESTS_TOKEN, section);
+    private final String page;
+    private final String section;
+
+    protected ShowcasePlace(String page, String section) {
+        this.page = page;
+        this.section = section;
     }
 
     @Override
-    public Activity getActivity() {
-        return new SendingRequestsActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getSendingRequests(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+    public String getToken() {
+        return section != null ? page + ":" + section : page;
+    }
+
+    protected String getSection() {
+        return section;
     }
 }

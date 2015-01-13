@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
@@ -34,12 +33,13 @@ import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
 import io.reinert.requestor.gdeferred.DoneCallback;
 
-public class FiltersActivity extends AbstractActivity implements Filters.Handler {
+public class FiltersActivity extends ShowcaseActivity implements Filters.Handler {
 
     private final Filters view;
     private final Requestor requestor;
 
-    public FiltersActivity(Filters view, Requestor requestor) {
+    public FiltersActivity(String section, Filters view, Requestor requestor) {
+        super(section);
         this.view = view;
         this.requestor = requestor;
     }
@@ -50,6 +50,7 @@ public class FiltersActivity extends AbstractActivity implements Filters.Handler
         Page.setTitle("Filters");
         Page.setDescription("Explore the power of managing your requests by applying filters.");
         panel.setWidget(view);
+        scrollToSection();
     }
 
     @Override

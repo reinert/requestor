@@ -42,7 +42,7 @@ public class Showcase implements EntryPoint {
 
     public static final ShowcaseClientFactory SHOWCASE_CLIENT_FACTORY = GWT.create(ShowcaseClientFactory.class);
 
-    private final Place defaultPlace = HomePlace.INSTANCE;
+    private final Place defaultPlace = new HomePlace();
 
     @Override
     public void onModuleLoad() {

@@ -17,7 +17,6 @@ package io.reinert.requestor.examples.showcase.activity;
 
 import java.util.List;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -29,12 +28,13 @@ import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.gdeferred.DoneCallback;
 
-public class FormActivity extends AbstractActivity implements Form.Handler {
+public class FormActivity extends ShowcaseActivity implements Form.Handler {
 
     private final Form view;
     private final Requestor requestor;
 
-    public FormActivity(Form form, Requestor requestor) {
+    public FormActivity(String section, Form form, Requestor requestor) {
+        super(section);
         this.view = form;
         this.requestor = requestor;
     }
@@ -45,6 +45,7 @@ public class FormActivity extends AbstractActivity implements Form.Handler {
         Page.setTitle("Form Data");
         Page.setDescription("Submit AJAX Forms easily.");
         panel.setWidget(view);
+        scrollToSection();
     }
 
     @Override

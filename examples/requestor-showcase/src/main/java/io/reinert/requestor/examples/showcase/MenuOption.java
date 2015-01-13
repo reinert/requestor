@@ -34,24 +34,79 @@ import io.reinert.requestor.examples.showcase.place.SerializationPlace;
  */
 public enum MenuOption implements HasToken, HasPlace {
 
-    HOME("Requestor", Tokens.HOME_TOKEN, HomePlace.INSTANCE),
+    HOME("Requestor", Tokens.HOME_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new HomePlace();
+        }
+    }),
 
-    GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, GettingStartedPlace.INSTANCE),
+    GETTING_STARTED("Getting Started", Tokens.GETTING_STARTED_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new GettingStartedPlace(section);
+        }
+    }),
 
     BASIC_USAGE("Basic Usage"),
-    REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, RequestingPlace.INSTANCE, BASIC_USAGE),
-    BUILDING_REQUESTS("Building Requests", Tokens.BUILDING_REQUESTS_TOKEN, BuildingRequestsPlace.INSTANCE, BASIC_USAGE),
-    SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, SendingRequestsPlace.INSTANCE, BASIC_USAGE),
+    REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new RequestingPlace(section);
+        }
+    }, BASIC_USAGE),
+    BUILDING_REQUESTS("Building Requests", Tokens.BUILDING_REQUESTS_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new BuildingRequestsPlace(section);
+        }
+    }, BASIC_USAGE),
+    SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new SendingRequestsPlace(section);
+        }
+    }, BASIC_USAGE),
 
     MANAGING_REQUESTS("Managing Requests"),
-    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, SerializationPlace.INSTANCE, MANAGING_REQUESTS),
-    FILTERS("Filters", Tokens.FILTERS_TOKEN, FiltersPlace.INSTANCE, MANAGING_REQUESTS),
-    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, InterceptorsPlace.INSTANCE, MANAGING_REQUESTS),
+    SERIALIZATION("Serialization", Tokens.SERIALIZATION_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new SerializationPlace(section);
+        }
+    }, MANAGING_REQUESTS),
+    FILTERS("Filters", Tokens.FILTERS_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new FiltersPlace(section);
+        }
+    }, MANAGING_REQUESTS),
+    INTERCEPTORS("Interceptors", Tokens.INTERCEPTORS_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new InterceptorsPlace(section);
+        }
+    }, MANAGING_REQUESTS),
 
     FEATURES("Features"),
-    FORM("Form Data", Tokens.FORM_TOKEN, FormPlace.INSTANCE, FEATURES),
-    BINARY_DATA("Binary Data", Tokens.BINARY_DATA_TOKEN, BinaryDataPlace.INSTANCE, FEATURES),
-    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, AuthenticationPlace.INSTANCE, FEATURES)
+    FORM("Form Data", Tokens.FORM_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new FormPlace(section);
+        }
+    }, FEATURES),
+    BINARY_DATA("Binary Data", Tokens.BINARY_DATA_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new BinaryDataPlace(section);
+        }
+    }, FEATURES),
+    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new AuthenticationPlace(section);
+        }
+    }, FEATURES)
     ;
 
     public static class Tokens {
@@ -96,18 +151,18 @@ public enum MenuOption implements HasToken, HasPlace {
 
     private final String label;
     private final String token;
-    private final Place place;
+    private final HasPlace place;
     private final MenuOption parent;
 
     private MenuOption(String label) {
         this(label, null, null, null);
     }
 
-    private MenuOption(String label, String token, Place place) {
+    private MenuOption(String label, String token, HasPlace place) {
         this(label, token, place, null);
     }
 
-    private MenuOption(String label, String token, Place place, MenuOption parent) {
+    private MenuOption(String label, String token, HasPlace place, MenuOption parent) {
         this.label = label;
         this.token = token;
         this.place = place;
@@ -119,8 +174,8 @@ public enum MenuOption implements HasToken, HasPlace {
     }
 
     @Override
-    public Place getPlace() {
-        return place;
+    public Place getPlace(String section) {
+        return place.getPlace(section);
     }
 
     @Override

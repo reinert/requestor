@@ -15,18 +15,18 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.util.Page;
 
-public class GettingStartedActivity extends AbstractActivity {
+public class GettingStartedActivity extends ShowcaseActivity {
 
     private final GettingStarted gettingStarted;
 
-    public GettingStartedActivity(GettingStarted gettingStarted) {
+    public GettingStartedActivity(String section, GettingStarted gettingStarted) {
+        super(section);
         this.gettingStarted = gettingStarted;
     }
 
@@ -35,5 +35,6 @@ public class GettingStartedActivity extends AbstractActivity {
         Page.setTitle("Getting Started");
         Page.setDescription("The steps to download, install and set up Requestor.");
         panel.setWidget(gettingStarted);
+        scrollToSection();
     }
 }

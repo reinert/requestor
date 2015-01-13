@@ -16,26 +16,20 @@
 package io.reinert.requestor.examples.showcase.place;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.place.shared.Place;
 
-import io.reinert.requestor.examples.showcase.HasActivity;
-import io.reinert.requestor.examples.showcase.HasToken;
 import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.activity.SerializationActivity;
 
-public class SerializationPlace extends Place implements HasActivity, HasToken {
+public class SerializationPlace extends ShowcasePlace {
 
-    public static SerializationPlace INSTANCE = new SerializationPlace();
-
-    @Override
-    public Activity getActivity() {
-        return new SerializationActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getSerialization(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+    public SerializationPlace(String section) {
+        super(MenuOption.Tokens.SERIALIZATION_TOKEN, section);
     }
 
     @Override
-    public String getToken() {
-        return MenuOption.Tokens.SERIALIZATION_TOKEN;
+    public Activity getActivity() {
+        return new SerializationActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getSerialization(),
+                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
     }
 }

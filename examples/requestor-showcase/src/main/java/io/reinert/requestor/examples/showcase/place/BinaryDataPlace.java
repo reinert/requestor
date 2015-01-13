@@ -16,26 +16,20 @@
 package io.reinert.requestor.examples.showcase.place;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.place.shared.Place;
 
-import io.reinert.requestor.examples.showcase.HasActivity;
-import io.reinert.requestor.examples.showcase.HasToken;
 import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.activity.BinaryDataActivity;
 
-public class BinaryDataPlace extends Place implements HasActivity, HasToken {
+public class BinaryDataPlace extends ShowcasePlace {
 
-    public static BinaryDataPlace INSTANCE = new BinaryDataPlace();
-
-    @Override
-    public Activity getActivity() {
-        return new BinaryDataActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getBinaryData(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+    public BinaryDataPlace(String section) {
+        super(MenuOption.Tokens.BINARY_DATA_TOKEN, section);
     }
 
     @Override
-    public String getToken() {
-        return MenuOption.Tokens.BINARY_DATA_TOKEN;
+    public Activity getActivity() {
+        return new BinaryDataActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getBinaryData(),
+                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
     }
 }

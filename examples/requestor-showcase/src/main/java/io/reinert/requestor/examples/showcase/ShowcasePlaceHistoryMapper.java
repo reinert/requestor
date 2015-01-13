@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.examples.showcase;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 
@@ -22,7 +23,11 @@ public class ShowcasePlaceHistoryMapper implements PlaceHistoryMapper {
 
     @Override
     public Place getPlace(String token) {
-        return MenuOption.of(token).getPlace();
+        GWT.log(token);
+        String[] tokens = token.split(":");
+        String page = tokens[0];
+        String section = tokens.length > 1 ? tokens[1] : null;
+        return MenuOption.of(page).getPlace(section);
     }
 
     @Override

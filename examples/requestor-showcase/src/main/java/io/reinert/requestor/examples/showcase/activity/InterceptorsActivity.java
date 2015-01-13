@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -36,12 +35,13 @@ import io.reinert.requestor.gdeferred.DoneCallback;
 
 import org.turbogwt.core.util.Overlays;
 
-public class InterceptorsActivity extends AbstractActivity implements Interceptors.Handler {
+public class InterceptorsActivity extends ShowcaseActivity implements Interceptors.Handler {
 
     private final Interceptors view;
     private final Requestor requestor;
 
-    public InterceptorsActivity(Interceptors view, Requestor requestor) {
+    public InterceptorsActivity(String section, Interceptors view, Requestor requestor) {
+        super(section);
         this.view = view;
         this.requestor = requestor;
     }
@@ -52,6 +52,7 @@ public class InterceptorsActivity extends AbstractActivity implements Intercepto
         Page.setTitle("Interceptors");
         Page.setDescription("Transform incoming and outgoing payloads.");
         panel.setWidget(view);
+        scrollToSection();
     }
 
     @Override

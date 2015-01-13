@@ -16,26 +16,20 @@
 package io.reinert.requestor.examples.showcase.place;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.place.shared.Place;
 
-import io.reinert.requestor.examples.showcase.HasActivity;
-import io.reinert.requestor.examples.showcase.HasToken;
 import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.activity.FormActivity;
 
-public class FormPlace extends Place implements HasActivity, HasToken {
+public class FormPlace extends ShowcasePlace {
 
-    public static FormPlace INSTANCE = new FormPlace();
-
-    @Override
-    public Activity getActivity() {
-        return new FormActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getForm(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+    public FormPlace(String section) {
+        super(MenuOption.Tokens.FORM_TOKEN, section);
     }
 
     @Override
-    public String getToken() {
-        return MenuOption.Tokens.FORM_TOKEN;
+    public Activity getActivity() {
+        return new FormActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getForm(),
+                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
     }
 }

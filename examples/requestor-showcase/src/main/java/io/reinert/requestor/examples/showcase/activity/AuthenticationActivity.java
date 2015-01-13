@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
@@ -26,7 +25,7 @@ import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.examples.showcase.ui.Authentication;
 import io.reinert.requestor.examples.showcase.util.Page;
 
-public class AuthenticationActivity extends AbstractActivity implements Authentication.Handler {
+public class AuthenticationActivity extends ShowcaseActivity implements Authentication.Handler {
 
     private static class MyAuth implements io.reinert.requestor.auth.Authentication {
 
@@ -49,7 +48,8 @@ public class AuthenticationActivity extends AbstractActivity implements Authenti
     private final Authentication view;
     private final Requestor requestor;
 
-    public AuthenticationActivity(Authentication view, Requestor requestor) {
+    public AuthenticationActivity(String section, Authentication view, Requestor requestor) {
+        super(section);
         this.view = view;
         this.requestor = requestor;
     }
@@ -86,6 +86,7 @@ public class AuthenticationActivity extends AbstractActivity implements Authenti
         Page.setTitle("Authentication");
         Page.setDescription("See how to authenticate requests in practice.");
         panel.setWidget(view);
+        scrollToSection();
     }
 
     @Override

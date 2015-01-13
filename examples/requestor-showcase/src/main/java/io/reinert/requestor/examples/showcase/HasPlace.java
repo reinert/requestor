@@ -18,5 +18,5 @@ package io.reinert.requestor.examples.showcase;
 import com.google.gwt.place.shared.Place;
 
 public interface HasPlace {
-    Place getPlace();
+    Place getPlace(String section);
 }

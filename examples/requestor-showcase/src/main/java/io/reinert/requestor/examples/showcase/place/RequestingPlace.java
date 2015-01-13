@@ -16,26 +16,20 @@
 package io.reinert.requestor.examples.showcase.place;
 
 import com.google.gwt.activity.shared.Activity;
-import com.google.gwt.place.shared.Place;
 
-import io.reinert.requestor.examples.showcase.HasActivity;
-import io.reinert.requestor.examples.showcase.HasToken;
 import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.activity.RequestingActivity;
 
-public class RequestingPlace extends Place implements HasActivity, HasToken {
+public class RequestingPlace extends ShowcasePlace {
 
-    public static RequestingPlace INSTANCE = new RequestingPlace();
-
-    @Override
-    public Activity getActivity() {
-        return new RequestingActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getRequesting(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+    public RequestingPlace(String section) {
+        super(MenuOption.Tokens.REQUESTING_TOKEN, section);
     }
 
     @Override
-    public String getToken() {
-        return MenuOption.Tokens.REQUESTING_TOKEN;
+    public Activity getActivity() {
+        return new RequestingActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getRequesting(),
+                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
     }
 }

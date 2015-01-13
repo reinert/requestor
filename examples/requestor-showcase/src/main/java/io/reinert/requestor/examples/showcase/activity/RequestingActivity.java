@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
@@ -27,12 +26,13 @@ import io.reinert.requestor.examples.showcase.util.Util;
 import io.reinert.requestor.gdeferred.DoneCallback;
 import io.reinert.requestor.gdeferred.RequestPromise;
 
-public class RequestingActivity extends AbstractActivity implements Requesting.Handler {
+public class RequestingActivity extends ShowcaseActivity implements Requesting.Handler {
 
     private final Requesting view;
     private final Requestor requestor;
 
-    public RequestingActivity(Requesting requesting, Requestor requestor) {
+    public RequestingActivity(String section, Requesting requesting, Requestor requestor) {
+        super(section);
         this.view = requesting;
         this.requestor = requestor;
     }
@@ -114,6 +114,7 @@ public class RequestingActivity extends AbstractActivity implements Requesting.H
         Page.setTitle("Requesting");
         Page.setDescription("A quick intro on how to request with Requestor.");
         panel.setWidget(view);
+        scrollToSection();
     }
 
     @Override

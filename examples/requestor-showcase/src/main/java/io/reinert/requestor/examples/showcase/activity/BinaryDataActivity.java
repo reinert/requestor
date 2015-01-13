@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Document;
@@ -33,12 +32,13 @@ import io.reinert.requestor.ResponseType;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
 
-public class BinaryDataActivity extends AbstractActivity implements BinaryData.Handler {
+public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.Handler {
 
     private final BinaryData view;
     private final Requestor requestor;
 
-    public BinaryDataActivity(BinaryData view, Requestor requestor) {
+    public BinaryDataActivity(String section, BinaryData view, Requestor requestor) {
+        super(section);
         this.view = view;
         this.requestor = requestor;
     }
@@ -112,6 +112,7 @@ public class BinaryDataActivity extends AbstractActivity implements BinaryData.H
         Page.setTitle("Binary Data");
         Page.setDescription("Easily transfer binary data from/to server.");
         panel.setWidget(view);
+        scrollToSection();
     }
 
     @Override

@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
@@ -23,12 +22,13 @@ import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.util.Page;
 
-public class BuildingRequestsActivity extends AbstractActivity {
+public class BuildingRequestsActivity extends ShowcaseActivity {
 
     private final BuildingRequests view;
     private final Requestor requestor;
 
-    public BuildingRequestsActivity(BuildingRequests view, Requestor requestor) {
+    public BuildingRequestsActivity(String section, BuildingRequests view, Requestor requestor) {
+        super(section);
         this.view = view;
         this.requestor = requestor;
     }
@@ -38,5 +38,6 @@ public class BuildingRequestsActivity extends AbstractActivity {
         Page.setTitle("Building Requests");
         Page.setDescription("Know the options for building a request.");
         panel.setWidget(view);
+        scrollToSection();
     }
 }

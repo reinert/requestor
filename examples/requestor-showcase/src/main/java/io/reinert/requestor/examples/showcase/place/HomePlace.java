@@ -26,8 +26,6 @@ import io.reinert.requestor.examples.showcase.activity.HomeActivity;
 
 public class HomePlace extends Place implements HasActivity, HasToken {
 
-    public static HomePlace INSTANCE = new HomePlace();
-
     @Override
     public Activity getActivity() {
         return new HomeActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getHome());

@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
@@ -23,12 +22,13 @@ import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.SendingRequests;
 import io.reinert.requestor.examples.showcase.util.Page;
 
-public class SendingRequestsActivity extends AbstractActivity {
+public class SendingRequestsActivity extends ShowcaseActivity {
 
     private final SendingRequests view;
     private final Requestor requestor;
 
-    public SendingRequestsActivity(SendingRequests view, Requestor requestor) {
+    public SendingRequestsActivity(String section, SendingRequests view, Requestor requestor) {
+        super(section);
         this.view = view;
         this.requestor = requestor;
     }
@@ -38,5 +38,6 @@ public class SendingRequestsActivity extends AbstractActivity {
         Page.setTitle("Sending Requests");
         Page.setDescription("Know the options for sending a request.");
         panel.setWidget(view);
+        scrollToSection();
     }
 }
