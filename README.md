@@ -73,7 +73,7 @@ Requesting will never be boring again!
 
 ## Documentation
 * [Wiki](/reinert/requestor/wiki)
-* [Javadoc](http://reinert.github.io/requestor/javadoc/apidocs/index.html)
+* [Javadoc](http://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
 * [Project Site](https://reinert.github.io/requestor/latest)
 
 ## Community
