@@ -5,6 +5,8 @@ It is pleasant to use and fully configurable and extensible.
 
 ## Preview
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/reinert/requestor?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Requesting is now simple and nice.
 
 ```java
