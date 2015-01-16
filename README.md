@@ -1,9 +1,11 @@
-Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor)
+Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor) [![Gitter](https://img.shields.io/badge/Gitter-Join%20Chat-blue.svg?style=flat)](https://gitter.im/reinert/requestor)
 ==
 A Modern HTTP Client API for GWT, Requestor offers all features needed for a current robust AJAX application.
 It is pleasant to use and fully configurable and extensible.
 
 ## Preview
+
+
 
 Requesting is now simple and nice.
 
