@@ -74,7 +74,7 @@ Requesting will never be boring again!
 * [Showcase](http://reinert.github.io/requestor/latest/examples/showcase)
 
 ## Documentation
-* [Wiki](/reinert/requestor/wiki)
+* [Wiki](https://github.com/reinert/requestor/wiki)
 * [Javadoc](http://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
 * [Project Site](https://reinert.github.io/requestor/latest)
 
