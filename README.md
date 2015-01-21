@@ -5,8 +5,6 @@ It is pleasant to use and fully configurable and extensible.
 
 ## Preview
 
-
-
 Requesting is now simple and nice.
 
 ```java
@@ -80,6 +78,7 @@ Requesting will never be boring again!
 
 ## Community
 * [Discussion Group](https://groups.google.com/forum/#!forum/requestor)
+* [Chat](https://gitter.im/reinert/requestor)
 
 ## Current Release
 0.1.0 (07 Jan 2015)
