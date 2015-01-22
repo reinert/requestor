@@ -18,6 +18,7 @@ package io.reinert.requestor.gdeferred;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import io.reinert.gdeferred.FailCallback;
 import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.RequestException;
@@ -25,6 +26,7 @@ import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.deferred.Callback;
 import io.reinert.requestor.deferred.Deferred;
+import io.reinert.requestor.deferred.Promise;
 
 /**
  * DeferredRequest implementation of GDeferred.
@@ -127,16 +129,34 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     }
 
     @Override
-    public <R> io.reinert.requestor.deferred.Promise<R> then(Callback<T, R> onFulfilled) {
-        // Not used
-        throw new UnsupportedOperationException();
+    public <R> io.reinert.requestor.deferred.Promise<R> then(final Callback<T, R> onFulfilled) {
+        // FIXME: It's ignoring the callback return
+        done(new io.reinert.gdeferred.DoneCallback<T>() {
+            @Override
+            public void onDone(T result) {
+                onFulfilled.call(result);
+            }
+        });
+        return (Promise<R>) this;
     }
 
     @Override
-    public <R> io.reinert.requestor.deferred.Promise<R> then(Callback<T, R> onFulfilled,
-                                                             Callback<Throwable, R> onRejected) {
-        // Not used
-        throw new UnsupportedOperationException();
+    public <R> io.reinert.requestor.deferred.Promise<R> then(final Callback<T, R> onFulfilled,
+                                                             final Callback<Throwable, R> onRejected) {
+        // FIXME: It's ignoring the callback return
+        done(new io.reinert.gdeferred.DoneCallback<T>() {
+            @Override
+            public void onDone(T result) {
+                onFulfilled.call(result);
+            }
+        });
+        fail(new FailCallback<Throwable>() {
+            @Override
+            public void onFail(Throwable result) {
+                onRejected.call(result);
+            }
+        });
+        return (Promise<R>) this;
     }
 
     //===================================================================
