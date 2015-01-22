@@ -32,6 +32,7 @@ public class Authentication extends Composite {
 
     public interface Handler {
         void onBasicButtonClick(String user, String password);
+        void onDigestButtonClick(String user, String password);
         void onCustomButtonClick(String key);
     }
 
@@ -39,9 +40,9 @@ public class Authentication extends Composite {
 
     private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
 
-    @UiField PreElement basic, myAuth, custom;
-    @UiField TextAreaElement basicTextArea, customTextArea;
-    @UiField InputElement user, password, key;
+    @UiField PreElement basic, digest, myAuth, custom;
+    @UiField TextAreaElement basicTextArea, digestTextArea, customTextArea;
+    @UiField InputElement user, password, digestUser, digestPassword, key;
 
     private Handler handler;
 
@@ -55,6 +56,11 @@ public class Authentication extends Composite {
         handler.onBasicButtonClick(user.getValue(), password.getValue());
     }
 
+    @UiHandler("digestButton")
+    public void onDigestButtonClick(ClickEvent e) {
+        handler.onDigestButtonClick(digestUser.getValue(), digestPassword.getValue());
+    }
+
     @UiHandler("customButton")
     public void onCustomButtonClick(ClickEvent e) {
         handler.onCustomButtonClick(key.getValue());
@@ -62,6 +68,10 @@ public class Authentication extends Composite {
 
     public void setBasicText(String content) {
         basicTextArea.setInnerText(content);
+    }
+
+    public void setDigestText(String content) {
+        digestTextArea.setInnerText(content);
     }
 
     public void setCustomText(String content) {

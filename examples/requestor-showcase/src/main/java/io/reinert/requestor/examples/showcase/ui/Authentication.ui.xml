@@ -53,6 +53,41 @@
     </g:HTMLPanel>
 
 
+    <!-- DIGEST SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="http-digest-authentication">HTTP Digest Authentication</h1>
+      <p class="lead">
+        Digest auth is already provided by the API.
+      </p>
+      <div class="highlight">
+        <pre ui:field="digest" class="java">
+          <code>
+            requestor.req(&quot;http://httpbin.org/digest-auth/&quot; + user + &quot;/&quot; + password)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new DigestAuth(user, password))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Fill user and password inputs an try the code above.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <input ui:field="digestUser" placeholder="user" class="form-control"/>
+          <input ui:field="digestPassword" placeholder="password" class="form-control"/>
+          <g:Button ui:field="digestButton" styleName="btn">AUTH</g:Button>
+        </form>
+        <textarea ui:field="digestTextArea" class="form-control result" rows="4" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <p>
+        <em>Note: Alternatively, DigestAuth constructor accepts a boolean third param: withCredentials.
+          It will affect the XHR withCredentials property.</em>
+      </p>
+    </g:HTMLPanel>
+
 
     <!-- CUSTOM SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
