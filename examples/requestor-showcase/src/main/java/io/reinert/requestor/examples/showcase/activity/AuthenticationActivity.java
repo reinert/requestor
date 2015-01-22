@@ -22,6 +22,7 @@ import io.reinert.gdeferred.DoneCallback;
 import io.reinert.requestor.RequestOrder;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.auth.BasicAuth;
+import io.reinert.requestor.auth.DigestAuth;
 import io.reinert.requestor.examples.showcase.ui.Authentication;
 import io.reinert.requestor.examples.showcase.util.Page;
 
@@ -57,12 +58,25 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
     @Override
     public void onBasicButtonClick(String user, String password) {
         requestor.req("http://httpbin.org/basic-auth/" + user + "/" + password)
-                .auth(new BasicAuth(user, password))
+                .auth(new BasicAuth(requestor, user, password))
                 .get(String.class)
                 .done(new DoneCallback<String>() {
                     @Override
                     public void onDone(String result) {
                         view.setBasicText(result);
+                    }
+                });
+    }
+
+    @Override
+    public void onDigestButtonClick(String user, String password) {
+        requestor.req("http://httpbin.org/digest-auth/auth" + user + "/" + password)
+                .auth(new DigestAuth(requestor, user, password))
+                .get(String.class)
+                .done(new DoneCallback<String>() {
+                    @Override
+                    public void onDone(String result) {
+                        view.setDigestText(result);
                     }
                 });
     }
