@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,11 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
+
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
@@ -152,4 +155,29 @@ public interface Requestor {
      * @return  The request builder.
      */
     RequestSender req(String url);
+
+    /**
+     * Quickly dispatch serialized requests.
+     *
+     * @param request       The request to be sent
+     * @param expectedType  The expected type class of the response
+     * @param <T>           The expected type of the response
+     *
+     * @return  Promise of the expected type
+     */
+    <T> Promise<T> dispatch(SerializedRequest request, Class<T> expectedType);
+
+    /**
+     * Quickly dispatch serialized requests.
+     *
+     * @param request       The request to be sent
+     * @param expectedType  The expected type class of the response
+     * @param containerType The container to accumulate the result
+     * @param <T>           The expected type of the response
+     * @param <C>           The type of the container
+     *
+     * @return  Promise of the expected type
+     */
+    <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> expectedType,
+                                                  Class<C> containerType);
 }

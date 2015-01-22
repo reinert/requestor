@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,10 +82,12 @@ public class RequestorImpl implements Requestor {
         return createRequest(url);
     }
 
+    @Override
     public <T> Promise<T> dispatch(SerializedRequest request, Class<T> returnType) {
         return requestDispatcher.dispatch(request, returnType);
     }
 
+    @Override
     public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> returnType,
                                                                      Class<C> containerType) {
         return requestDispatcher.dispatch(request, returnType, containerType);

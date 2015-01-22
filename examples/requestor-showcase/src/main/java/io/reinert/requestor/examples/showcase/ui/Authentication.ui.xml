@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <!--
-~ Copyright 2014 Danilo Reinert
+~ Copyright 2015 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -39,8 +39,8 @@
 
       <g:HTMLPanel styleName="action-grid">
         <form class="form-inline action">
-          <input ui:field="user" placeholder="user" class="form-control"/>
-          <input ui:field="password" placeholder="password" class="form-control"/>
+          <input ui:field="basicUser" placeholder="user" class="form-control"/>
+          <input ui:field="basicPassword" placeholder="password" class="form-control"/>
           <g:Button ui:field="basicButton" styleName="btn">AUTH</g:Button>
         </form>
         <textarea ui:field="basicTextArea" class="form-control result" rows="4" readonly="readonly"/>
@@ -57,13 +57,13 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="http-digest-authentication">HTTP Digest Authentication</h1>
       <p class="lead">
-        Digest auth is already provided by the API.
+        Do Digest authentication as easily as Basic.
       </p>
       <div class="highlight">
         <pre ui:field="digest" class="java">
           <code>
-            requestor.req(&quot;http://httpbin.org/digest-auth/&quot; + user + &quot;/&quot; + password)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new DigestAuth(user, password))
+            requestor.req(&quot;http://httpbin.org/digest-auth/auth/&quot; + user + &quot;/&quot; + password)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new DigestAuth(requestor, user, password))
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
           </code>
         </pre>
@@ -83,7 +83,7 @@
       </g:HTMLPanel>
 
       <p>
-        <em>Note: Alternatively, DigestAuth constructor accepts a boolean third param: withCredentials.
+        <em>Note: Alternatively, DigestAuth constructor accepts a boolean fourth param: withCredentials.
           It will affect the XHR withCredentials property.</em>
       </p>
     </g:HTMLPanel>

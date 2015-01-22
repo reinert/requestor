@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class Authentication extends Composite {
 
     @UiField PreElement basic, digest, myAuth, custom;
     @UiField TextAreaElement basicTextArea, digestTextArea, customTextArea;
-    @UiField InputElement user, password, digestUser, digestPassword, key;
+    @UiField InputElement basicUser, basicPassword, digestUser, digestPassword, key;
 
     private Handler handler;
 
@@ -53,7 +53,7 @@ public class Authentication extends Composite {
 
     @UiHandler("basicButton")
     public void onBasicButtonClick(ClickEvent e) {
-        handler.onBasicButtonClick(user.getValue(), password.getValue());
+        handler.onBasicButtonClick(basicUser.getValue(), basicPassword.getValue());
     }
 
     @UiHandler("digestButton")
