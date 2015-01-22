@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,10 +121,12 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
         // Send the request
         try {
-            if (payload.isString() != null) {
-                xmlHttpRequest.send(payload.isString());
-            } else if (payload.isJavaScriptObject() != null) {
-                xmlHttpRequest.send(payload.isJavaScriptObject());
+            if (payload != null) {
+                if (payload.isString() != null) {
+                    xmlHttpRequest.send(payload.isString());
+                } else {
+                    xmlHttpRequest.send(payload.isJavaScriptObject());
+                }
             } else {
                 xmlHttpRequest.send();
             }

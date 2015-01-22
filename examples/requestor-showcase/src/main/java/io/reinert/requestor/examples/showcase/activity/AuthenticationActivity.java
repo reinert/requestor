@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
     @Override
     public void onBasicButtonClick(String user, String password) {
         requestor.req("http://httpbin.org/basic-auth/" + user + "/" + password)
-                .auth(new BasicAuth(requestor, user, password))
+                .auth(new BasicAuth(user, password))
                 .get(String.class)
                 .done(new DoneCallback<String>() {
                     @Override
@@ -70,7 +70,7 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
 
     @Override
     public void onDigestButtonClick(String user, String password) {
-        requestor.req("http://httpbin.org/digest-auth/auth" + user + "/" + password)
+        requestor.req("http://httpbin.org/digest-auth/auth/" + user + "/" + password)
                 .auth(new DigestAuth(requestor, user, password))
                 .get(String.class)
                 .done(new DoneCallback<String>() {
