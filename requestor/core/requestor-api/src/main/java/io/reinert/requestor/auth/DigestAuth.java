@@ -55,7 +55,6 @@ public class DigestAuth implements Authentication {
 
     @Override
     public void authenticate(final RequestOrder request) {
-
         final Promise<Void> promise = requestor.dispatch(new SerializedRequestImpl(request.getMethod(),
                 request.getUrl(), request.getPayload()), Void.class);
 
