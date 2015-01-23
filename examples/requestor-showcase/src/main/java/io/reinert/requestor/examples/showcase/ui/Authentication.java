@@ -48,7 +48,7 @@ public class Authentication extends Composite {
 
     public Authentication() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(basic, myAuth, custom);
+        HighlightJs.highlightBlock(basic, digest, myAuth, custom);
     }
 
     @UiHandler("basicButton")
