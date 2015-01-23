@@ -16,7 +16,6 @@
 package io.reinert.requestor.examples.showcase.activity;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.EventBus;
@@ -59,12 +58,6 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
                 .upProgress(new ProgressCallback<RequestProgress>() {
                     @Override
                     public void onProgress(RequestProgress progress) {
-                        GWT.log("--- UPLOAD PROGRESS ---");
-                        GWT.log(progress.isLengthComputable() + "");
-                        GWT.log(progress.getTotal() + "");
-                        GWT.log(progress.getLoaded() + "");
-                        GWT.log("-----------------------");
-
                         if (progress.isLengthComputable())
                             view.setSendProgressStatus(progress.getCompletedFraction(100));
                     }
