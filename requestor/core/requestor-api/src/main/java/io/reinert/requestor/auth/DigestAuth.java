@@ -80,96 +80,108 @@ public class DigestAuth implements Authentication {
     }
 
     private void digest(Headers result, RequestOrder request) {
-        final StringBuilder authBuilder = new StringBuilder("Digest username=\"").append(user);
+        final StringBuilder digestBuilder = new StringBuilder("Digest username=\"").append(user);
         final String authHeader = result.getValue("WWW-Authenticate");
 
-        // Read Realm
-        int realmStartIdx = authHeader.indexOf("realm=\"") + 7;
-        int realmEndIdx = authHeader.indexOf("\"", realmStartIdx);
-        final String realm = authHeader.substring(realmStartIdx, realmEndIdx);
+        final String realm = readRealm(authHeader);
+        final String opaque = readOpaque(authHeader);
+        final String nonce = readNonce(authHeader);
+        final String qop = readQop(authHeader);
 
-        // Append Realm
-        authBuilder.append("\", realm=\"").append(realm);
+        final String nc = getNextNonceCount();
+        final String cNonce = generateClientNonce(nonce, nc);
 
-        // Read Nonce
-        int nonceStartIdx = authHeader.indexOf("nonce=\"") + 7;
-        int nonceEndIdx = authHeader.indexOf("\"", nonceStartIdx);
-        final String nonce = authHeader.substring(nonceStartIdx, nonceEndIdx);
+        digestBuilder.append("\", realm=\"").append(realm);
+        digestBuilder.append("\", nonce=\"").append(nonce);
+        digestBuilder.append("\", uri=\"").append(request.getUrl());
+        digestBuilder.append("\", nc=\"").append(nc);
+        digestBuilder.append("\", cnonce=\"").append(cNonce);
 
-        // Append Nonce
-        authBuilder.append("\", nonce=\"").append(nonce);
+        // Calculate HA1
+        String ha1 = generateHa1(realm);
 
-        // Append URI
-        authBuilder.append("\", uri=\"").append(request.getUrl());
-
-        // Read QoP
-        int qopStartIdx = authHeader.indexOf("qop=\"") + 5;
-        final String qop = qopStartIdx != 6 ?
-                authHeader.substring(qopStartIdx, authHeader.indexOf("\"", qopStartIdx)) : null;
-
-        // Calculate Nonce Count
-        final String nc = NC_FORMAT.format(++NONCE_COUNT);
-
-        // Append Nonce Count
-        authBuilder.append("\", nc=\"").append(nc);
-
-        // Generate Client Nonce
-        final String cNonce = MD5.hash(nc + nonce + Duration.currentTimeMillis() + getRandom());
-
-        // Append Client Nonce
-        authBuilder.append("\", cnonce=\"").append(cNonce);
-
-        // Calculate ha1
-        String ha1 = MD5.hash(user + ":" + realm + ":" + password);
-
-        String ha2str = null;
-        String response = null;
+        String response;
         if (qop != null) {
             if (qop.contains("auth-int") && !qop.contains("auth")) {
-                // "Auth-Int" method
-                final String body = request.getPayload() == null ? "" : request.getPayload().isString();
-                if (body == null) {
-                    // TODO: Try to convert the JavaScriptObject to String before throwing the exception
-                    throw new AuthenticationException("Cannot convert a JavaScriptObjectPayload to a string");
-                }
-                ha2str = request.getMethod().getValue() + ":" + request.getUrl() + ":" + MD5.hash(body);
-
-                // Append QoP
-                authBuilder.append("\", qop=\"").append("auth-int");
+                // "auth-int" method
+                response = generateResponseAuthIntMethod(request, ha1, nonce, nc, cNonce);
+                digestBuilder.append("\", qop=\"").append("auth-int");
             } else {
-                // "Auth" method
-                ha2str = request.getMethod().getValue() + ":" + request.getUrl();
-
-                // Append QoP
-                authBuilder.append("\", qop=\"").append("auth");
+                // "auth" method
+                response = generateResponseAuthMethod(request, ha1, nonce, nc, cNonce);
+                digestBuilder.append("\", qop=\"").append("auth");
             }
-            final String ha2 = MD5.hash(ha2str);
-            // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
-            final String respStr = ha1 + ":" + nonce + ":" + nc + ":" + cNonce + ":" + qop + ":" + ha2;
-            response = MD5.hash(respStr);
         } else {
             // unspecified method
-            ha2str = request.getMethod().getValue() + ":" + request.getUrl();
-            final String ha2 = MD5.hash(ha2str);
-
-            // MD5(ha1:nonce:ha2)
-            final String respStr = ha1 + ":" + nonce + ":" + ha2;
-            response = MD5.hash(respStr);
+            response = generateResponseUnspecifiedQop(request, nonce, ha1);
         }
 
-        // Append Response
-        authBuilder.append("\", response=\"").append(response);
+        digestBuilder.append("\", response=\"").append(response);
+        digestBuilder.append("\", opaque=\"").append(opaque).append("\"");
 
-        int opaqueStartIdx = authHeader.indexOf("opaque=\"") + 8;
-        int opaqueEndIdx = authHeader.indexOf("\"", opaqueStartIdx);
-        final String opaque = authHeader.substring(opaqueStartIdx, opaqueEndIdx);
-
-        // Append Opaque
-        authBuilder.append("\", opaque=\"").append(opaque).append("\"");
-
-        request.setHeader("Authorization", authBuilder.toString());
+        request.setHeader("Authorization", digestBuilder.toString());
         request.setWithCredentials(withCredentials);
         request.send();
+    }
+
+    private String generateResponseAuthIntMethod(RequestOrder request, String ha1, String nonce, String nc,
+                                                 String cNonce) {
+        final String body = request.getPayload() == null ? "" : request.getPayload().isString();
+        if (body == null) {
+            // TODO: Try to convert the JavaScriptObject to String before throwing the exception
+            throw new AuthenticationException("Cannot convert a JavaScriptObject payload to a String");
+        }
+        final String ha2 = MD5.hash(request.getMethod().getValue() + ":" + request.getUrl() + ":" + MD5.hash(body));
+        // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
+        return MD5.hash(ha1 + ":" + nonce + ":" + nc + ":" + cNonce + ":auth-int:" + ha2);
+    }
+
+    private String generateResponseAuthMethod(RequestOrder request, String ha1, String nonce, String nc,
+                                                 String cNonce) {
+        final String ha2 = MD5.hash(request.getMethod().getValue() + ":" + request.getUrl());
+        // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
+        return MD5.hash(ha1 + ":" + nonce + ":" + nc + ":" + cNonce + ":auth:" + ha2);
+    }
+
+    private String generateResponseUnspecifiedQop(RequestOrder request, String nonce, String ha1) {
+        final String ha2 = MD5.hash(request.getMethod().getValue() + ":" + request.getUrl());
+        // MD5(ha1:nonce:ha2)
+        return MD5.hash(ha1 + ":" + nonce + ":" + ha2);
+    }
+
+    private String generateHa1(String realm) {
+        return MD5.hash(user + ":" + realm + ":" + password);
+    }
+
+    private String getNextNonceCount() {
+        return NC_FORMAT.format(++NONCE_COUNT);
+    }
+
+    private String generateClientNonce(String nonce, String nc) {
+        return MD5.hash(nc + nonce + Duration.currentTimeMillis() + getRandom());
+    }
+
+    private String readQop(String authHeader) {
+        int qopStartIdx = authHeader.indexOf("qop=\"") + 5;
+        return qopStartIdx != 6 ? authHeader.substring(qopStartIdx, authHeader.indexOf("\"", qopStartIdx)) : null;
+    }
+
+    private String readNonce(String authHeader) {
+        int nonceStartIdx = authHeader.indexOf("nonce=\"") + 7;
+        int nonceEndIdx = authHeader.indexOf("\"", nonceStartIdx);
+        return authHeader.substring(nonceStartIdx, nonceEndIdx);
+    }
+
+    private String readOpaque(String authHeader) {
+        int opaqueStartIdx = authHeader.indexOf("opaque=\"") + 8;
+        int opaqueEndIdx = authHeader.indexOf("\"", opaqueStartIdx);
+        return authHeader.substring(opaqueStartIdx, opaqueEndIdx);
+    }
+
+    private String readRealm(String authHeader) {
+        int realmStartIdx = authHeader.indexOf("realm=\"") + 7;
+        int realmEndIdx = authHeader.indexOf("\"", realmStartIdx);
+        return authHeader.substring(realmStartIdx, realmEndIdx);
     }
 
     private static int getRandom() {
