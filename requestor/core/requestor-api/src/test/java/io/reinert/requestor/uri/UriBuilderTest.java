@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package io.reinert.requestor.uri;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import org.junit.Test;
+
 /**
  * @author Danilo Reinert
  */
@@ -27,7 +29,26 @@ public class UriBuilderTest extends GWTTestCase {
         return "io.reinert.requestor.RequestorApiTest";
     }
 
-    public void testBasicFlow() {
+    @Test
+    public void testSimple() {
+        String expected = "http://user:pwd@localhost:8888/server/resource#first";
+
+        String uri = UriBuilder.newInstance()
+                .scheme("http")
+                .user("user")
+                .password("pwd")
+                .host("localhost")
+                .port(8888)
+                .path("server")
+                .segment("resource")
+                .fragment("first")
+                .build().toString();
+
+        assertEquals(expected, uri);
+    }
+
+    @Test
+    public void testComplete() {
         String expected = "http://user:pwd@localhost:8888/server/root/resource;class=2;class=5;class=6" +
                 "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#first";
 
@@ -37,7 +58,7 @@ public class UriBuilderTest extends GWTTestCase {
                 .password("pwd")
                 .host("localhost")
                 .port(8888)
-                .path("server")
+                .path("/server/")
                 .segment("root", "resource")
                 .matrixParam("class", 2, 5, 6)
                 .segment("child")
@@ -51,25 +72,7 @@ public class UriBuilderTest extends GWTTestCase {
         assertEquals(expected, uri);
     }
 
-    public void testCommaSeparatedStrategy() {
-        String expected = "/server/root;class=2,5,6" +
-                "/child;group=A;subGroup=A.1,A.2?age=12&name=Aa,Zz#first";
-
-        String uri = UriBuilder.fromPath("server")
-                .multivaluedParamComposition(MultivaluedParamComposition.COMMA_SEPARATED_VALUE)
-                .segment("root")
-                .matrixParam("class", 2, 5, 6)
-                .segment("child")
-                .matrixParam("group", "A")
-                .matrixParam("subGroup", "A.1", "A.2")
-                .queryParam("age", 12)
-                .queryParam("name", "Aa", "Zz")
-                .fragment("first")
-                .build().toString();
-
-        assertEquals(expected, uri);
-    }
-
+    @Test
     public void testTemplateParams() {
         String expected = "http://user:pwd@localhost:8888/server/root/any;class=2;class=5;class=6" +
                 "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#firstserver";
@@ -80,7 +83,7 @@ public class UriBuilderTest extends GWTTestCase {
                 .password("pwd")
                 .host("localhost")
                 .port(8888)
-                .path("{a}/{b}")
+                .path("/{a}/{b}")
                 .segment("{c}")
                 .matrixParam("class", 2, 5, 6)
                 .segment("child")
@@ -94,6 +97,7 @@ public class UriBuilderTest extends GWTTestCase {
         assertEquals(expected, uri);
     }
 
+    @Test
     public void testInsufficientTemplateParams() {
         try {
             assertNull(UriBuilder.newInstance()
@@ -101,7 +105,7 @@ public class UriBuilderTest extends GWTTestCase {
                     .segment("{c}")
                     .fragment("{d}{a}")
                     .build("server", "root", "any").toString());
-        } catch (UriBuilderException e) {
+        } catch (IllegalArgumentException e) {
             assertNotNull(e);
         }
     }

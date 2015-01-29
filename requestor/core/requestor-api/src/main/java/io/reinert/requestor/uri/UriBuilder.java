@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,38 +22,67 @@ import com.google.gwt.core.shared.GWT;
  * <p/>
  * It is aware of templates.
  * <p/>
- * <p>Builder methods perform contextual encoding of characters not permitted in the corresponding URI component
- * following the rules of the
- * <a href="http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.1">application/x-www-form-urlencoded</a>
- * media type for query parameters and <a href="http://ietf.org/rfc/rfc3986.txt">RFC 3986</a> for all other components.
- * Note that only characters not permitted in a particular component are subject to encoding so, e.g., a path supplied
- * to one of the {@code path} methods may contain matrix parameters or multiple path segments since the separators are
- * legal characters and will not be encoded. Percent encoded values are also recognized where allowed and will not be
- * double encoded.</p>
  */
 public abstract class UriBuilder {
 
+    private static UriParser PARSER;
+
     public static UriBuilder fromPath(String path) {
-        final UriBuilder uriBuilder = GWT.create(UriBuilder.class);
-        uriBuilder.path(path);
-        return uriBuilder;
+        final UriBuilder builder = newInstance();
+        final UriParser parser = getParser();
+        parser.parse(path);
+        Uri parsed = parser.getUri();
+        builder.path(parsed.getPath());
+        return builder;
+    }
+
+    public static UriBuilder fromUri(String uri) {
+        final UriBuilder builder = newInstance();
+        final UriParser parser = getParser();
+        parser.parse(uri);
+        Uri parsed = parser.getUri();
+        final String scheme = parsed.getScheme();
+        if (scheme != null) builder.scheme(scheme);
+        final String user = parsed.getUser();
+        if (user != null) builder.user(user);
+        final String password = parsed.getPassword();
+        if (password != null) builder.password(password);
+        final String host = parsed.getHost();
+        if (host != null) builder.host(host);
+        final String[] segments = parsed.getSegments();
+        if (segments != null) {
+            for (String segment : segments) {
+                builder.segment(segment);
+                // Check matrix params for this segment
+                final String[] matrixParams = parsed.getMatrixParams(segment);
+                if (matrixParams != null) {
+                    for (String param : matrixParams) {
+                        builder.matrixParam(param, parsed.getMatrixValues(segment, param));
+                    }
+                }
+            }
+        }
+        final int port = parsed.getPort();
+        builder.port(port);
+        final String[] queryParams = parsed.getQueryParams();
+        if (queryParams != null) {
+            for (String param : queryParams) {
+                builder.queryParam(param, parsed.getQueryValues(param));
+            }
+        }
+        final String fragment = parsed.getFragment();
+        if (fragment != null) builder.fragment(fragment);
+        return builder;
     }
 
     public static UriBuilder newInstance() {
         return GWT.create(UriBuilder.class);
     }
 
-    /**
-     * Set the strategy for appending parameters with multiple values.
-     *
-     * @param strategy the strategy.
-     *
-     * @return the updated UriBuilder
-     *
-     * @throws IllegalArgumentException if strategy is null
-     */
-    public abstract UriBuilder multivaluedParamComposition(MultivaluedParamComposition strategy)
-            throws IllegalArgumentException;
+    private static UriParser getParser() {
+        if (PARSER == null) PARSER = UriParser.newInstance();
+        return PARSER;
+    }
 
     /**
      * Set the URI user of user-info part.

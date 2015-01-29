@@ -17,6 +17,10 @@
 <module>
   <inherits name="io.reinert.requestor.RequestorApi"/>
 
+  <replace-with class="io.reinert.requestor.uri.BucketsMock">
+    <when-type-is class="io.reinert.requestor.uri.Buckets"/>
+  </replace-with>
+
   <!-- required by BookXmlSerdes -->
   <inherits name="com.google.gwt.xml.XML"/>
 </module>

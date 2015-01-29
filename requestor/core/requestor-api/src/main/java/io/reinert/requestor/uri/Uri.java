@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,31 +15,41 @@
  */
 package io.reinert.requestor.uri;
 
+import java.util.Map;
+
+import com.google.gwt.http.client.URL;
+
 /**
  * Represents a URI.
  */
-public class Uri implements Comparable<Uri> {
+public class Uri {
 
     private String scheme;
     private String user;
     private String password;
     private String host;
-    private Integer port;
+    private int port = -1;
     private String path;
+    private String[] pathSegments;
+    private Map<String, Buckets> matrixParams;
     private String query;
+    private Buckets queryParams;
     private String fragment;
     private String uriString;
 
-    public Uri(String scheme, String user, String password, String host, Integer port, String path, String query,
-               String fragment) {
-        // TODO: validate
+    Uri(String scheme, String user, String password, String host, int port, String[] pathSegments,
+        Map<String, Buckets> matrixParams, Buckets queryParams, String fragment) {
+        // TODO: validate?
         this.scheme = scheme;
         this.user = user;
         this.password = password;
         this.host = host;
         this.port = port;
-        this.path = path;
-        this.query = query;
+        this.pathSegments = pathSegments;
+        this.matrixParams = matrixParams;
+        buildPath();
+        this.queryParams = queryParams;
+        buildQuery();
         this.fragment = fragment;
     }
 
@@ -59,7 +69,7 @@ public class Uri implements Comparable<Uri> {
         return host;
     }
 
-    public Integer getPort() {
+    public int getPort() {
         return port;
     }
 
@@ -67,8 +77,42 @@ public class Uri implements Comparable<Uri> {
         return path;
     }
 
+    public String[] getSegments() {
+        return pathSegments;
+    }
+
+    public String[] getMatrixParams(String segment) {
+        final Buckets buckets = matrixParams.get(segment);
+        return buckets != null ? buckets.getKeys() : null;
+    }
+
+    public String[] getMatrixValues(String segment, String param) {
+        final Buckets buckets = matrixParams.get(segment);
+        return buckets != null ? buckets.get(param) : null;
+    }
+
+    public String getFirstMatrixValue(String segment, String param) {
+        final Buckets buckets = matrixParams.get(segment);
+        final String[] values = buckets != null ? buckets.get(param) : null;
+        return values != null ? values[0] : null;
+    }
+
     public String getQuery() {
+        if (queryParams != null && query == null) buildQuery();
         return query;
+    }
+
+    public String[] getQueryParams() {
+        return queryParams != null ? queryParams.getKeys() : null;
+    }
+
+    public String[] getQueryValues(String param) {
+        return queryParams.get(param);
+    }
+
+    public String getFirstQueryValue(String param) {
+        final String[] values = queryParams.get(param);
+        return values != null ? values[0] : null;
     }
 
     public String getFragment() {
@@ -83,11 +127,10 @@ public class Uri implements Comparable<Uri> {
             if (scheme != null) {
                 uri.append(scheme).append("://");
             }
-
             if (user != null) {
-                uri.append(user);
+                uri.append(URL.encode(user));
                 if (password != null) {
-                    uri.append(':').append(password);
+                    uri.append(':').append(URL.encode(password));
                 }
                 uri.append('@');
             }
@@ -96,22 +139,20 @@ public class Uri implements Comparable<Uri> {
                 uri.append(host);
             }
 
-            if (port != null) {
+            if (port > 0) {
                 uri.append(':').append(port);
             }
-
-            uri.append('/');
 
             if (path != null) {
                 uri.append(path);
             }
 
-            if (query != null) {
+            if (query != null && !query.isEmpty()) {
                 uri.append('?').append(query);
             }
 
             if (fragment != null) {
-                uri.append('#').append(fragment);
+                uri.append('#').append(URL.encode(fragment));
             }
 
             uriString = uri.toString();
@@ -122,39 +163,29 @@ public class Uri implements Comparable<Uri> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
+        if (this == o)
             return true;
-        }
-        if (!(o instanceof Uri)) {
+        if (o == null || getClass() != o.getClass())
             return false;
-        }
 
         final Uri uri = (Uri) o;
 
-        if (fragment != null ? !fragment.equals(uri.fragment) : uri.fragment != null) {
+        if (port != uri.port)
             return false;
-        }
-        if (host != null ? !host.equals(uri.host) : uri.host != null) {
+        if (fragment != null ? !fragment.equals(uri.fragment) : uri.fragment != null)
             return false;
-        }
-        if (password != null ? !password.equals(uri.password) : uri.password != null) {
+        if (host != null ? !host.equals(uri.host) : uri.host != null)
             return false;
-        }
-        if (path != null ? !path.equals(uri.path) : uri.path != null) {
+        if (password != null ? !password.equals(uri.password) : uri.password != null)
             return false;
-        }
-        if (port != null ? !port.equals(uri.port) : uri.port != null) {
+        if (path != null ? !path.equals(uri.path) : uri.path != null)
             return false;
-        }
-        if (query != null ? !query.equals(uri.query) : uri.query != null) {
+        if (query != null ? !query.equals(uri.query) : uri.query != null)
             return false;
-        }
-        if (scheme != null ? !scheme.equals(uri.scheme) : uri.scheme != null) {
+        if (scheme != null ? !scheme.equals(uri.scheme) : uri.scheme != null)
             return false;
-        }
-        if (user != null ? !user.equals(uri.user) : uri.user != null) {
+        if (user != null ? !user.equals(uri.user) : uri.user != null)
             return false;
-        }
 
         return true;
     }
@@ -165,63 +196,72 @@ public class Uri implements Comparable<Uri> {
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (host != null ? host.hashCode() : 0);
-        result = 31 * result + (port != null ? port.hashCode() : 0);
+        result = 31 * result + port;
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (query != null ? query.hashCode() : 0);
         result = 31 * result + (fragment != null ? fragment.hashCode() : 0);
         return result;
     }
 
-    @Override
-    public int compareTo(Uri that) {
-        if (this.scheme.compareTo(that.scheme) < 0) {
-            return -1;
-        } else if (this.scheme.compareTo(that.scheme) > 0) {
-            return 1;
-        }
+    private void buildPath() {
+        StringBuilder pathBuilder = new StringBuilder("/");
+        if (pathSegments != null && pathSegments.length > 0) {
+            for (final String segment : pathSegments) {
+                pathBuilder.append(URL.encodePathSegment(segment));
 
-        if (this.host.compareTo(that.host) < 0) {
-            return -1;
-        } else if (this.host.compareTo(that.host) > 0) {
-            return 1;
+                // Check if there are matrix params for this segment
+                if (matrixParams != null) {
+                    Buckets segmentParams = matrixParams.get(segment);
+                    if (segmentParams != null) {
+                        String[] params = segmentParams.getKeys();
+                        for (String param : params) {
+                            String[] values = segmentParams.get(param);
+                            // Check if the param has values
+                            if (values.length == 0) {
+                                // Append only the param name without any value
+                                pathBuilder.append(';').append(URL.encodePathSegment(param));
+                            } else {
+                                // Append the param and its values
+                                for (String value : values) {
+                                    pathBuilder.append(';').append(URL.encodePathSegment(param));
+                                    if (value != null) {
+                                        pathBuilder.append('=').append(URL.encodePathSegment(value));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                pathBuilder.append('/');
+            }
+            pathBuilder.deleteCharAt(pathBuilder.length() - 1);
         }
+        path = pathBuilder.toString();
+    }
 
-        if (this.port.compareTo(that.port) < 0) {
-            return -1;
-        } else if (this.port.compareTo(that.port) > 0) {
-            return 1;
+    private void buildQuery() {
+        StringBuilder queryBuilder = new StringBuilder();
+        if (queryParams != null && !queryParams.isEmpty()) {
+            String[] params = queryParams.getKeys();
+            for (String param : params) {
+                final String[] values = queryParams.get(param);
+                // Check if the param has values
+                if (values.length == 0) {
+                    // Append only the param name without any value
+                    queryBuilder.append(URL.encodeQueryString(param)).append('&');
+                } else {
+                    // Append the param and its values
+                    for (String value : values) {
+                        queryBuilder.append(URL.encodeQueryString(param));
+                        if (value != null) {
+                            queryBuilder.append('=').append(URL.encodeQueryString(value));
+                        }
+                        queryBuilder.append('&');
+                    }
+                }
+            }
+            queryBuilder.deleteCharAt(queryBuilder.length() - 1);
+            query = queryBuilder.toString();
         }
-
-        if (this.path.compareTo(that.path) < 0) {
-            return -1;
-        } else if (this.path.compareTo(that.path) > 0) {
-            return 1;
-        }
-
-        if (this.query.compareTo(that.query) < 0) {
-            return -1;
-        } else if (this.query.compareTo(that.query) > 0) {
-            return 1;
-        }
-
-        if (this.fragment.compareTo(that.fragment) < 0) {
-            return -1;
-        } else if (this.fragment.compareTo(that.fragment) > 0) {
-            return 1;
-        }
-
-        if (this.user.compareTo(that.user) < 0) {
-            return -1;
-        } else if (this.user.compareTo(that.user) > 0) {
-            return 1;
-        }
-
-        if (this.password.compareTo(that.password) < 0) {
-            return -1;
-        } else if (this.password.compareTo(that.password) > 0) {
-            return 1;
-        }
-
-        return 0;
     }
 }
