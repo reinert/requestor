@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public abstract class MultivaluedParamComposition {
      *
      * @return URI part
      */
-    public abstract String asUriPart(String separator, String name, Object... values);
+    public abstract String asUriPart(String separator, String name, String... values);
 
     /**
      * Assert that the value is not null or empty.
@@ -69,16 +69,15 @@ public abstract class MultivaluedParamComposition {
          * @return encoded URI part
          */
         @Override
-        public String asUriPart(String separator, String name, Object... values) {
+        public String asUriPart(String separator, String name, String... values) {
             assertNotNullOrEmpty(name, "Parameter name cannot be null or empty.");
             String uriPart = "";
             String sep = "";
-            for (Object value : values) {
-                String strValue = value.toString();
-                assertNotNullOrEmpty(strValue, "Parameter value of *" + name
+            for (String value : values) {
+                assertNotNullOrEmpty(value, "Parameter value of *" + name
                         + "* null or empty. You must inform a valid value");
 
-                uriPart += sep + URL.encodeQueryString(name) + "=" + URL.encodeQueryString(strValue);
+                uriPart += sep + URL.encodeQueryString(name) + "=" + URL.encodeQueryString(value);
                 sep = separator;
             }
             return uriPart;
@@ -101,16 +100,15 @@ public abstract class MultivaluedParamComposition {
          * @return encoded URI part
          */
         @Override
-        public String asUriPart(String separator, String name, Object... values) {
+        public String asUriPart(String separator, String name, String... values) {
             assertNotNullOrEmpty(name, "Parameter name cannot be null or empty.");
             String uriPart = URL.encodeQueryString(name) + "=";
             String sep = "";
-            for (Object value : values) {
-                String strValue = value.toString();
-                assertNotNullOrEmpty(strValue, "Parameter value of *" + name
+            for (String value : values) {
+                assertNotNullOrEmpty(value, "Parameter value of *" + name
                         + "* null or empty. You must inform a valid value");
 
-                uriPart += sep + URL.encodeQueryString(strValue);
+                uriPart += sep + URL.encodeQueryString(value);
                 sep = ",";
             }
             return uriPart;

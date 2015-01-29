@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,8 @@ package io.reinert.requestor.uri;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArrayString;
-import com.google.gwt.http.client.URL;
+import com.google.gwt.core.shared.GWT;
 
 import io.reinert.requestor.LightMap;
 
@@ -33,24 +30,15 @@ import io.reinert.requestor.LightMap;
  */
 public class UriBuilderImpl extends UriBuilder {
 
-    private MultivaluedParamComposition strategy = MultivaluedParamComposition.REPEATED_PARAM;
     private String scheme;
     private String user;
     private String password;
     private String host;
-    private Integer port;
-    private JsArrayString segments;
+    private int port;
+    private List<String> segments;
     private String fragment;
-    private Map<String, Object[]> queryParams;
-    private Map<String, Map<String, Object[]>> matrixParams;
-
-    @Override
-    public UriBuilder multivaluedParamComposition(MultivaluedParamComposition strategy)
-            throws IllegalArgumentException {
-        assertNotNull(strategy, "MultivaluedParamComposition strategy cannot be null.");
-        this.strategy = strategy;
-        return this;
-    }
+    private Buckets queryParams;
+    private Map<String, Buckets> matrixParams;
 
     @Override
     public UriBuilder scheme(String scheme) throws IllegalArgumentException {
@@ -77,19 +65,15 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     @Override
-    public UriBuilder host(String host) throws IllegalArgumentException {
+    public UriBuilder host(String host) {
         // TODO: check host validity
         this.host = host;
         return this;
     }
 
     @Override
-    public UriBuilder port(int port) throws IllegalArgumentException {
-        if (port > -1) {
-            this.port = port;
-        } else {
-            this.port = null;
-        }
+    public UriBuilder port(int port) {
+        this.port = port < 0 ? -1 : port;
         return this;
     }
 
@@ -97,11 +81,10 @@ public class UriBuilderImpl extends UriBuilder {
     public UriBuilder path(String path) {
         assertNotNull(path, "Path cannot be null.");
         if (!path.isEmpty()) {
-            String[] splittedSegments = path.split("/");
+            String[] splitSegments = path.split("/");
             ensureSegments();
-            for (String segment : splittedSegments) {
-                if (!segment.isEmpty())
-                    this.segments.push(segment);
+            for (String segment : splitSegments) {
+                if (!segment.isEmpty()) this.segments.add(segment);
             }
         }
         return this;
@@ -114,7 +97,7 @@ public class UriBuilderImpl extends UriBuilder {
         for (Object o : segments) {
             String segment = o.toString();
             assertNotNullOrEmpty(segment, "Segment cannot be null or empty.", false);
-            this.segments.push(segment);
+            this.segments.add(segment);
         }
         return this;
     }
@@ -128,19 +111,20 @@ public class UriBuilderImpl extends UriBuilder {
             matrixParams = GWT.create(LightMap.class);
         }
 
-        // TODO: validate this assertion
+        // At least one segment must exist
         assertNotNull(segments, "There is no segment added to the URI. " +
                 "There must be at least one segment added in order to bind matrix parameters");
 
-        String segment = segments.get(segments.length() - 1);
+        String segment = segments.get(segments.size() - 1);
 
-        Map<String, Object[]> segmentParams = matrixParams.get(segment);
+        Buckets segmentParams = matrixParams.get(segment);
         if (segmentParams == null) {
-            segmentParams = GWT.create(LightMap.class);
+            segmentParams = GWT.create(Buckets.class);
             matrixParams.put(segment, segmentParams);
         }
-        // TODO: instead of setting the array, incrementally add to an existing one?
-        segmentParams.put(name, values);
+        for (Object value : values) {
+            segmentParams.add(name, value != null ? value.toString() : null);
+        }
 
         return this;
     }
@@ -149,9 +133,11 @@ public class UriBuilderImpl extends UriBuilder {
     public UriBuilder queryParam(String name, Object... values) throws IllegalArgumentException {
         assertNotNull(name, "Parameter name cannot be null.");
         assertNotNull(values, "Parameter values cannot be null.");
-        if (queryParams == null)
-            queryParams = GWT.create(LightMap.class);
-        queryParams.put(name, values);
+
+        if (queryParams == null) queryParams = GWT.create(Buckets.class);
+        for (Object value : values) {
+            queryParams.add(name, value != null ? value.toString() : null);
+        }
         return this;
     }
 
@@ -162,57 +148,28 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     @Override
-    public Uri build(Object... values) {
-        final String encScheme = encodePart(scheme);
-        final String encUser = encodePart(user);
-        final String encPassword = encodePart(password);
-        final String encHost = encodePart(host);
-
+    public Uri build(Object... templateValues) {
         List<String> templateParams = new ArrayList<String>();
 
-        StringBuilder pathBuilder = new StringBuilder();
         if (segments != null) {
-            for (int i = 0; i < segments.length(); i++) {
+            for (int i = 0; i < segments.size(); i++) {
                 final String segment = segments.get(i);
-                final String parsed = parsePart(values, templateParams, segment);
-                pathBuilder.append(URL.encodePathSegment(parsed));
+                final String parsed = parsePart(templateValues, templateParams, segment);
 
-                // Check if there are matrix params for this segment
-                if (matrixParams != null) {
-                    Map<String, Object[]> segmentParams = matrixParams.get(segment);
-                    if (segmentParams != null) {
-                        pathBuilder.append(";");
-                        Set<String> params = segmentParams.keySet();
-                        for (String param : params) {
-                            pathBuilder.append(strategy.asUriPart(";", param, segmentParams.get(param))).append(';');
-                        }
-                        pathBuilder.deleteCharAt(pathBuilder.length() - 1);
-                    }
+                // Replace the template segment for the parsed one if necessary
+                if (matrixParams != null && matrixParams.containsKey(segment) && segment.contains("{")) {
+                    final Buckets segmentMatrixParams = matrixParams.remove(segment);
+                    matrixParams.put(parsed, segmentMatrixParams);
                 }
-                pathBuilder.append('/');
+
+                segments.set(i, parsed);
             }
-            pathBuilder.deleteCharAt(pathBuilder.length() - 1);
         }
-        final String encPath = pathBuilder.toString();
 
-        StringBuilder queryBuilder = null;
-        if (queryParams != null) {
-            queryBuilder = new StringBuilder();
-            Set<String> params = queryParams.keySet();
-            for (String param : params) {
-                queryBuilder.append(strategy.asUriPart("&", param, queryParams.get(param))).append('&');
-            }
-            queryBuilder.deleteCharAt(queryBuilder.length() - 1);
-        }
-        final String encQuery = queryBuilder != null ? queryBuilder.toString() : null;
+        final String parsedFrag = parsePart(templateValues, templateParams, fragment);
 
-        final String encFragment = fragment != null ? encodePart(parsePart(values, templateParams, fragment)) : null;
-
-        return new Uri(encScheme, encUser, encPassword, encHost, port, encPath, encQuery, encFragment);
-    }
-
-    private String encodePart(String segment) {
-        return segment != null ? URL.encodePathSegment(segment) : null;
+        final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
+        return new Uri(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
     }
 
     private String parsePart(Object[] values, List<String> templateParams, String segment) {
@@ -225,13 +182,16 @@ public class UriBuilderImpl extends UriBuilder {
                 if (i == -1) {
                     // Check if has more template values
                     if (values.length < templateParams.size() + 1)
-                        throw new UriBuilderException("The supplied values are not enough to replace the existing " +
-                                "template params");
+                        throw new IllegalArgumentException("Uri could no be built: The supplied values are not enough "
+                                + "to replace the existing template params.");
                     // Add template param
                     i = templateParams.size();
                     templateParams.add(param);
                 }
-                final String value = values[i].toString();
+                final Object o = values[i];
+                if (o == null)
+                    throw new IllegalArgumentException("Uri could not be built: Null values are not allowed.");
+                final String value = o.toString();
                 segment = segment.substring(0, cursor) + value + segment.substring(closingBracket + 1);
                 cursor = segment.indexOf("{", closingBracket + 1);
             } else {
@@ -276,7 +236,6 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     private void ensureSegments() {
-        if (this.segments == null)
-            this.segments = (JsArrayString) JsArrayString.createArray();
+        if (this.segments == null) this.segments = new ArrayList<String>();
     }
 }

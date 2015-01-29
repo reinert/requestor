@@ -24,8 +24,12 @@
     <when-type-is class="io.reinert.requestor.Requestor"/>
   </replace-with>
 
-  <replace-with class="java.util.HashMap">
+  <replace-with class="java.util.LinkedHashMap">
     <when-type-is class="io.reinert.requestor.LightMap"/>
+  </replace-with>
+
+  <replace-with class="io.reinert.requestor.uri.BucketsImpl">
+    <when-type-is class="io.reinert.requestor.uri.Buckets"/>
   </replace-with>
 
   <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">
