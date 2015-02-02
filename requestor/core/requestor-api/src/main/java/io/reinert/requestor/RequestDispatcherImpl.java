@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-
 import javax.annotation.Nullable;
 
 import com.google.gwt.core.client.JavaScriptException;
@@ -38,18 +36,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
     }
 
     @Override
-    protected <T> void send(RequestOrder request, Deferred<T> deferred, Class<T> resultType) {
-        doSend(request, deferred, resultType, null);
-    }
-
-    @Override
-    protected <T, C extends Collection> void send(RequestOrder request, Deferred<C> deferred, Class<T> resultType,
-                                                  Class<C> containerType) {
-        doSend(request, deferred, containerType, resultType);
-    }
-
-    protected <D> void doSend(RequestOrder request, final Deferred<D> deferred, Class<D> resolveType,
-                              @Nullable Class<?> parametrizedType) {
+    protected <D> void send(RequestOrder request, final Deferred<D> deferred, Class<D> resolveType,
+                            @Nullable Class<?> parametrizedType) {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUrl();
         final Headers headers = request.getHeaders();
@@ -57,7 +45,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         final ResponseType responseType = request.getResponseType();
 
         // Create XMLHttpRequest
-        XMLHttpRequest xmlHttpRequest = (XMLHttpRequest) XMLHttpRequest.create();
+        final XMLHttpRequest xmlHttpRequest = (XMLHttpRequest) XMLHttpRequest.create();
 
         // Open XMLHttpRequest
         try {
@@ -155,25 +143,15 @@ public class RequestDispatcherImpl extends RequestDispatcher {
             public void onResponseReceived(com.google.gwt.http.client.Request gwtRequest,
                                            com.google.gwt.http.client.Response gwtResponse) {
                 final String responseType = xhr.getResponseType();
+
                 final Payload payload = responseType.isEmpty() || responseType.equalsIgnoreCase("text") ?
                         new Payload(xhr.getResponseText()) : new Payload(xhr.getResponse());
+
                 final SerializedResponseImpl response = new SerializedResponseImpl(gwtResponse.getStatusText(),
                         gwtResponse.getStatusCode(), new Headers(gwtResponse.getHeaders()),
                         ResponseType.of(responseType), payload);
 
-                if (gwtResponse.getStatusCode() / 100 == 2) {
-                    // Resolve if response is 2xx
-                    final ResponseProcessor processor = getResponseProcessor();
-                    @SuppressWarnings("unchecked")  // Ok, this is ugly
-                    final Response<D> r = parametrizedType != null ?
-                            (Response<D>) processor.process(request, response, parametrizedType,
-                                    (Class<Collection>) resolveType) :
-                            processor.process(request, response, resolveType);
-                    deferred.resolve(r);
-                } else {
-                    // reject as unsuccessful response if response isn't 2xx
-                    deferred.reject(new UnsuccessfulResponseException(request, response));
-                }
+                evalResponse(request, deferred, resolveType, parametrizedType, response);
             }
 
             public void onError(com.google.gwt.http.client.Request gwtRequest, Throwable exception) {

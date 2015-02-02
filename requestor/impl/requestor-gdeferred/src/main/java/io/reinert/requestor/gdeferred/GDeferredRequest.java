@@ -34,7 +34,7 @@ import io.reinert.requestor.deferred.Promise;
  * @param <T> Expected type in {@link RequestPromise#done(io.reinert.gdeferred.DoneCallback)}.
  */
 public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
-        implements GDeferredRequestPromise<T>, Deferred<T> {
+        implements GDeferredRequestPromise<T>, Deferred<T>, Promise<T> {
 
     private HttpConnection connection;
     private ArrayList<io.reinert.gdeferred.ProgressCallback<RequestProgress>> uploadProgressCallbacks;
@@ -108,7 +108,7 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     }
 
     //===================================================================
-    // Promise
+    // Requestor Promise
     //===================================================================
 
     @Override
@@ -160,7 +160,7 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     }
 
     //===================================================================
-    // Deferred
+    // Requestor Deferred
     //===================================================================
 
     @Override
@@ -202,6 +202,11 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     @Override
     public void setHttpConnection(HttpConnection connection) {
         this.connection = connection;
+    }
+
+    @Override
+    public Promise<T> getPromise() {
+        return this;
     }
 
     //===================================================================
