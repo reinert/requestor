@@ -87,6 +87,16 @@ class RequestOrderImpl<T> implements RequestOrder {
     }
 
     @Override
+    public void abort(RequestException error) {
+        if (sent)
+            throw new IllegalStateException("RequestOrder couldn't be aborted: RequestOrder has already been sent.");
+
+        deferred.reject(error);
+
+        sent = true;
+    }
+
+    @Override
     public void send() {
         if (sent)
             throw new IllegalStateException("RequestOrder has already been sent.");

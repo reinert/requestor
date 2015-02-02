@@ -21,7 +21,6 @@ import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.i18n.client.NumberFormat;
 
-import io.reinert.requestor.Headers;
 import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.RawResponse;
@@ -119,18 +118,21 @@ public class DigestAuth implements Authentication {
 
             @Override
             public void reject(RequestException error) {
-                if (error instanceof UnsuccessfulResponseException) {
-                    UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
-                    if (contains(EXPECTED_CODES, e.getStatusCode())) {
-                        // If the error response code is expected, then continue trying to authenticate
-                        attempt(originalRequest, e.getResponse());
-                        return;
+                try {
+                    if (error instanceof UnsuccessfulResponseException) {
+                        UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
+                        if (contains(EXPECTED_CODES, e.getStatusCode())) {
+                            // If the error response code is expected, then continue trying to authenticate
+                            attempt(originalRequest, e.getResponse());
+                            return;
+                        }
                     }
+                    // Otherwise, throw an AuthenticationException and reject the promise with it
+                    throw new AuthenticationException("Unable to authenticate using Digest: The server returned other "
+                            + "response than one from expected.", error);
+                } catch (Exception e) {
+                    originalRequest.abort(new RequestException("Request could not be completed. See previous log.", e));
                 }
-                // Otherwise, throw an AuthenticationException which will be caught by the RequestDispatcher who will
-                // reject the promise with it
-                throw new AuthenticationException("Some error occurred while trying to authenticate the request.",
-                        error);
             }
         });
     }
@@ -139,8 +141,14 @@ public class DigestAuth implements Authentication {
         if (attemptResponse == null)
             return;
 
-        final Headers result = attemptResponse.getHeaders();
-        final String authHeader = result.getValue("WWW-Authenticate");
+        final String authHeader = attemptResponse.getHeader("WWW-Authenticate");
+        if (authHeader == null) {
+            throw new AuthenticationException("Unable to authenticate using Digest: It was not possible to retrieve "
+                    + "the 'WWW-Authenticate' header from server response. If you're using CORS, make sure your "
+                    + "server allows the client to access this header by adding the header "
+                    + "\"Access-Control-Expose-Headers: WWW-Authenticate\" to the response.");
+        }
+
         final StringBuilder digestBuilder = new StringBuilder("Digest username=\"").append(user);
 
         if (uri == null) {
