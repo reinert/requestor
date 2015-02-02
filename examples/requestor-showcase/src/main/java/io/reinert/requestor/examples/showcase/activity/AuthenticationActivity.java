@@ -69,9 +69,9 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
     }
 
     @Override
-    public void onDigestButtonClick(String user, String password) {
-        requestor.req("http://httpbin.org/digest-auth/auth/" + user + "/" + password)
-                .auth(new DigestAuth(requestor, user, password))
+    public void onDigestButtonClick(String user, String password, String qop) {
+        requestor.req("http://httpbin.org/digest-auth/" + qop + '/' + user + '/' + password)
+                .auth(new DigestAuth(user, password, true))
                 .get(String.class)
                 .done(new DoneCallback<String>() {
                     @Override

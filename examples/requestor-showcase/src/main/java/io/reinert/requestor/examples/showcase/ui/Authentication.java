@@ -32,7 +32,7 @@ public class Authentication extends Composite {
 
     public interface Handler {
         void onBasicButtonClick(String user, String password);
-        void onDigestButtonClick(String user, String password);
+        void onDigestButtonClick(String user, String password, String qop);
         void onCustomButtonClick(String key);
     }
 
@@ -42,7 +42,7 @@ public class Authentication extends Composite {
 
     @UiField PreElement basic, digest, myAuth, custom;
     @UiField TextAreaElement basicTextArea, digestTextArea, customTextArea;
-    @UiField InputElement basicUser, basicPassword, digestUser, digestPassword, key;
+    @UiField InputElement basicUser, basicPassword, digestUser, digestPassword, noQop, authQop, authIntQop, key;
 
     private Handler handler;
 
@@ -58,7 +58,10 @@ public class Authentication extends Composite {
 
     @UiHandler("digestButton")
     public void onDigestButtonClick(ClickEvent e) {
-        handler.onDigestButtonClick(digestUser.getValue(), digestPassword.getValue());
+        final String qop = noQop.isChecked() ? noQop.getValue() :
+                authQop.isChecked() ? authQop.getValue() :
+                authIntQop.isChecked() ? authIntQop.getValue() : "";
+        handler.onDigestButtonClick(digestUser.getValue(), digestPassword.getValue(), qop);
     }
 
     @UiHandler("customButton")
