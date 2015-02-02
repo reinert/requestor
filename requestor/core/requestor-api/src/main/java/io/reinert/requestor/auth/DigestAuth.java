@@ -15,16 +15,23 @@
  */
 package io.reinert.requestor.auth;
 
+import javax.annotation.Nullable;
+
 import com.google.gwt.core.client.Duration;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.i18n.client.NumberFormat;
 
 import io.reinert.requestor.Headers;
+import io.reinert.requestor.HttpConnection;
+import io.reinert.requestor.Payload;
+import io.reinert.requestor.RawResponse;
+import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestOrder;
-import io.reinert.requestor.Requestor;
-import io.reinert.requestor.SerializedRequestImpl;
+import io.reinert.requestor.RequestProgress;
+import io.reinert.requestor.Response;
 import io.reinert.requestor.UnsuccessfulResponseException;
-import io.reinert.requestor.deferred.Callback;
 import io.reinert.requestor.deferred.Promise;
+import io.reinert.requestor.uri.UriParser;
 
 /**
  * HTTP Digest Authentication implementation. <br/>
@@ -34,20 +41,41 @@ import io.reinert.requestor.deferred.Promise;
  */
 public class DigestAuth implements Authentication {
 
-    private static int NONCE_COUNT;
+    /**
+     * An array containing the codes which are considered expected for the first attempt to retrieve the nonce.
+     *
+     * The default expected code is unauthorized response 401.
+     * 404 is put here because some might prevent the browser from prompting the user for the credentials,
+     * which will commonly happen if the server returns with a 401 code.
+     */
+    public static int[] EXPECTED_CODES = new int[]{ 401, 404 };
+
+    /**
+     * The default number of max attempts for authenticating using one {@link DigestAuth} instance.
+     *
+     * It's normally two because the first attempt fails and returns the info for performing the authentication next.
+     */
+    public static int DEFAULT_MAX_CHALLENGE_CALLS = 2;
+
     private static NumberFormat NC_FORMAT = NumberFormat.getFormat("#00000000");
 
-    private final Requestor requestor;
     private final String user;
     private final String password;
     private final boolean withCredentials;
 
-    public DigestAuth(Requestor requestor, String user, String password) {
-        this(requestor, user, password, false);
+    private String uri;
+    private String httpMethod;
+
+    private int maxChallengeCalls = DEFAULT_MAX_CHALLENGE_CALLS;
+    private int challengeCalls = 1;
+    private int nonceCount;
+    private String lastNonce;
+
+    public DigestAuth(String user, String password) {
+        this(user, password, false);
     }
 
-    public DigestAuth(Requestor requestor, String user, String password, boolean withCredentials) {
-        this.requestor = requestor;
+    public DigestAuth(String user, String password, boolean withCredentials) {
         this.user = user;
         this.password = password;
         this.withCredentials = withCredentials;
@@ -55,115 +83,171 @@ public class DigestAuth implements Authentication {
 
     @Override
     public void authenticate(final RequestOrder request) {
-        final Promise<Void> promise = requestor.dispatch(new SerializedRequestImpl(request.getMethod(),
-                request.getUrl(), request.getPayload()), Void.class);
+        request.setWithCredentials(withCredentials);
+        attempt(request, null);
+    }
 
-        promise.then(new Callback<Void, Void>() {
+    /**
+     * Set the max number of attempts to authenticate.
+     * The default is 2.
+     *
+     * @param maxChallengeCalls  max number of attempt calls
+     */
+    public void setMaxChallengeCalls(int maxChallengeCalls) {
+        this.maxChallengeCalls = maxChallengeCalls;
+    }
+
+    private void attempt(RequestOrder originalRequest, @Nullable Response attemptResponse) {
+        if (challengeCalls < maxChallengeCalls) {
+            final RequestOrder attemptRequest = getAttemptRequest(originalRequest);
+            applyDigest(attemptRequest, attemptResponse);
+            attemptRequest.send();
+        } else {
+            applyDigest(originalRequest, attemptResponse);
+            originalRequest.send();
+        }
+        challengeCalls++;
+    }
+
+    private RequestOrder getAttemptRequest(final RequestOrder originalRequest) {
+        return originalRequest.copy(RawResponse.class, new Deferred<RawResponse>() {
             @Override
-            public Void call(Void result) {
-                request.send();
-                return null;
+            public void resolve(Response<RawResponse> response) {
+                // If the attempt succeeded, then abort the original request with the successful response
+                originalRequest.abort(response.getPayload());
             }
-        }, new Callback<Throwable, Void>() {
+
             @Override
-            public Void call(Throwable error) {
+            public void reject(RequestException error) {
                 if (error instanceof UnsuccessfulResponseException) {
                     UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
-                    if (e.getStatusCode() == 401) {
-                        digest(e.getResponse().getHeaders(), request);
+                    if (contains(EXPECTED_CODES, e.getStatusCode())) {
+                        // If the error response code is expected, then continue trying to authenticate
+                        attempt(originalRequest, e.getResponse());
+                        return;
                     }
                 }
+                // Otherwise, throw an AuthenticationException which will be caught by the RequestDispatcher who will
+                // reject the promise with it
                 throw new AuthenticationException("Some error occurred while trying to authenticate the request.",
                         error);
             }
         });
     }
 
-    private void digest(Headers result, RequestOrder request) {
-        final StringBuilder digestBuilder = new StringBuilder("Digest username=\"").append(user);
+    private void applyDigest(RequestOrder request, Response attemptResponse) {
+        if (attemptResponse == null)
+            return;
+
+        final Headers result = attemptResponse.getHeaders();
         final String authHeader = result.getValue("WWW-Authenticate");
+        final StringBuilder digestBuilder = new StringBuilder("Digest username=\"").append(user);
+
+        if (uri == null) {
+            uri = UriParser.newInstance().parse(request.getUrl()).getUri().getPath();
+            httpMethod = request.getMethod().getValue();
+        }
 
         final String realm = readRealm(authHeader);
         final String opaque = readOpaque(authHeader);
         final String nonce = readNonce(authHeader);
-        final String qop = readQop(authHeader);
+        final String[] qop = readQop(authHeader);
 
-        final String nc = getNextNonceCount();
+        final String nc = getNonceCount(nonce);
         final String cNonce = generateClientNonce(nonce, nc);
 
         digestBuilder.append("\", realm=\"").append(realm);
         digestBuilder.append("\", nonce=\"").append(nonce);
-        digestBuilder.append("\", uri=\"").append(request.getUrl());
-        digestBuilder.append("\", nc=\"").append(nc);
-        digestBuilder.append("\", cnonce=\"").append(cNonce);
+        digestBuilder.append("\", uri=\"").append(uri);
 
         // Calculate HA1
         String ha1 = generateHa1(realm);
 
         String response;
         if (qop != null) {
-            if (qop.contains("auth-int") && !qop.contains("auth")) {
+            if (contains(qop, "auth-int") && !contains(qop, "auth")) {
                 // "auth-int" method
-                response = generateResponseAuthIntMethod(request, ha1, nonce, nc, cNonce);
+                response = generateResponseAuthIntQop(httpMethod, uri, ha1, nonce, nc, cNonce, request.getPayload());
                 digestBuilder.append("\", qop=\"").append("auth-int");
             } else {
                 // "auth" method
-                response = generateResponseAuthMethod(request, ha1, nonce, nc, cNonce);
+                response = generateResponseAuthQop(httpMethod, uri, ha1, nonce, nc, cNonce);
                 digestBuilder.append("\", qop=\"").append("auth");
             }
+            digestBuilder.append("\", nc=\"").append(nc);
+            digestBuilder.append("\", cnonce=\"").append(cNonce);
         } else {
             // unspecified method
-            response = generateResponseUnspecifiedQop(request, nonce, ha1);
+            response = generateResponseUnspecifiedQop(httpMethod, uri, nonce, ha1);
         }
 
         digestBuilder.append("\", response=\"").append(response);
-        digestBuilder.append("\", opaque=\"").append(opaque).append("\"");
+        digestBuilder.append("\", opaque=\"").append(opaque);
+        digestBuilder.append('"');
 
         request.setHeader("Authorization", digestBuilder.toString());
-        request.setWithCredentials(withCredentials);
-        request.send();
     }
 
-    private String generateResponseAuthIntMethod(RequestOrder request, String ha1, String nonce, String nc,
-                                                 String cNonce) {
-        final String body = request.getPayload() == null ? "" : request.getPayload().isString();
+    private String generateResponseAuthIntQop(String method, String url, String ha1, String nonce, String nc,
+                                              String cNonce, Payload payload) {
+        String body = payload == null || payload.isEmpty() ? "" : payload.isString();
         if (body == null) {
             // TODO: Try to convert the JavaScriptObject to String before throwing the exception
             throw new AuthenticationException("Cannot convert a JavaScriptObject payload to a String");
         }
-        final String ha2 = MD5.hash(request.getMethod().getValue() + ":" + request.getUrl() + ":" + MD5.hash(body));
+        final String hBody = MD5.hash(body);
+        final String ha2 = MD5.hash(method + ':' + url + ':' + hBody);
         // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
-        return MD5.hash(ha1 + ":" + nonce + ":" + nc + ":" + cNonce + ":auth-int:" + ha2);
+        // FIXME: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
+        return MD5.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth-int" + ':' + ha2);
     }
 
-    private String generateResponseAuthMethod(RequestOrder request, String ha1, String nonce, String nc,
-                                                 String cNonce) {
-        final String ha2 = MD5.hash(request.getMethod().getValue() + ":" + request.getUrl());
+    private String generateResponseAuthQop(String method, String url, String ha1, String nonce, String nc,
+                                           String cNonce) {
+        final String ha2 = MD5.hash(method + ':' + url);
         // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
-        return MD5.hash(ha1 + ":" + nonce + ":" + nc + ":" + cNonce + ":auth:" + ha2);
+        // FIXME: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
+        return MD5.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth" + ':' + ha2);
     }
 
-    private String generateResponseUnspecifiedQop(RequestOrder request, String nonce, String ha1) {
-        final String ha2 = MD5.hash(request.getMethod().getValue() + ":" + request.getUrl());
+    private String generateResponseUnspecifiedQop(String method, String url, String nonce, String ha1) {
+        final String ha2 = MD5.hash(method + ':' + url);
         // MD5(ha1:nonce:ha2)
-        return MD5.hash(ha1 + ":" + nonce + ":" + ha2);
+        return MD5.hash(ha1 + ':' + nonce + ':' + ha2);
     }
 
     private String generateHa1(String realm) {
-        return MD5.hash(user + ":" + realm + ":" + password);
+        final String a1 = user + ':' + realm + ':' + password;
+        GWT.log(" A1: " + a1);
+        final String ha1 = MD5.hash(a1);
+        GWT.log("HA1: " + ha1);
+        return ha1;
     }
 
-    private String getNextNonceCount() {
-        return NC_FORMAT.format(++NONCE_COUNT);
+    private String getNonceCount(String nonce) {
+        nonceCount = nonce.equals(lastNonce) ? nonceCount + 1 : 1;
+        lastNonce = nonce;
+        return NC_FORMAT.format(nonceCount);
     }
 
     private String generateClientNonce(String nonce, String nc) {
         return MD5.hash(nc + nonce + Duration.currentTimeMillis() + getRandom());
     }
 
-    private String readQop(String authHeader) {
-        int qopStartIdx = authHeader.indexOf("qop=\"") + 5;
-        return qopStartIdx != 6 ? authHeader.substring(qopStartIdx, authHeader.indexOf("\"", qopStartIdx)) : null;
+    private String[] readQop(String authHeader) {
+        int qopStartIdx = authHeader.indexOf("qop=") + 4;
+
+        if (qopStartIdx == 3)
+            return null;
+
+        int qopEndIndex = authHeader.indexOf(" ", qopStartIdx);
+        qopEndIndex = qopEndIndex == -1 ? authHeader.length() : qopEndIndex;
+
+        String qop = authHeader.substring(qopStartIdx, qopEndIndex);
+        if (qop.indexOf(0) == '"')
+            qop = qop.substring(1, qop.length() - 1); // Remove leading and trailing double quotes
+
+        return qop.split(",");
     }
 
     private String readNonce(String authHeader) {
@@ -186,5 +270,40 @@ public class DigestAuth implements Authentication {
 
     private static int getRandom() {
         return 10 + (int) (Math.random() * ((Integer.MAX_VALUE - 10) + 1));
+    }
+
+    private static boolean contains(String[] array, String value) {
+        for (String s: array) {
+            if (s.equals(value))
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean contains(int[] array, int value) {
+        for (int i: array) {
+            if (i == value)
+                return true;
+        }
+        return false;
+    }
+
+    private abstract static class Deferred<T> implements io.reinert.requestor.deferred.Deferred<T> {
+        @Override
+        public void notifyDownload(RequestProgress progress) {
+        }
+
+        @Override
+        public void notifyUpload(RequestProgress progress) {
+        }
+
+        @Override
+        public void setHttpConnection(HttpConnection connection) {
+        }
+
+        @Override
+        public Promise<T> getPromise() {
+            return null;
+        }
     }
 }
