@@ -41,6 +41,8 @@ public interface RequestOrder extends SerializedRequest {
 
     void abort(RawResponse response);
 
+    void abort(RequestException error);
+
     <D, C extends Collection> RequestOrder copy(Class<D> resultType, Class<C> containerType, Deferred<C> deferred);
 
     <D> RequestOrder copy(Class<D> resultType, Deferred<D> deferred);

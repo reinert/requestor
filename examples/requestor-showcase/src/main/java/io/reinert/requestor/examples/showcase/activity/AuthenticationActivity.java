@@ -15,10 +15,12 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.gdeferred.DoneCallback;
+import io.reinert.gdeferred.FailCallback;
 import io.reinert.requestor.RequestOrder;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.auth.BasicAuth;
@@ -65,6 +67,12 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
                     public void onDone(String result) {
                         view.setBasicText(result);
                     }
+                })
+                .fail(new FailCallback<Throwable>() {
+                    @Override
+                    public void onFail(Throwable result) {
+                        GWT.log("Authentication failed.", result);
+                    }
                 });
     }
 
@@ -77,6 +85,12 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
                     @Override
                     public void onDone(String result) {
                         view.setDigestText(result);
+                    }
+                })
+                .fail(new FailCallback<Throwable>() {
+                    @Override
+                    public void onFail(Throwable result) {
+                        GWT.log("Authentication failed.", result);
                     }
                 });
     }
