@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,8 +40,7 @@ public class ResponseProcessor {
     }
 
     @SuppressWarnings("unchecked")
-    public <T, R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
-    Response<T> process(Request request, R response, Class<T> deserializationType) {
+    public <T> Response<T> process(Request request, RawResponse response, Class<T> deserializationType) {
         // 1: FILTER
         filterEngine.filterResponse(request, response);
 
@@ -54,7 +53,8 @@ public class ResponseProcessor {
         if (Payload.class == deserializationType) {
             r = (Response<T>) new ResponseImpl<Payload>(response.getHeaders(),
                     response.getStatusCode(), response.getStatusText(), responseType, response.getPayload());
-        } else if (Response.class == deserializationType || SerializedResponse.class == deserializationType) {
+        } else if (Response.class == deserializationType || RawResponse.class == deserializationType
+                || SerializedResponse.class == deserializationType) {
             r = (Response<T>) new ResponseImpl<Response>(response.getHeaders(),
                     response.getStatusCode(), response.getStatusText(), response.getResponseType(), response);
         } else if (Headers.class == deserializationType) {
@@ -73,9 +73,8 @@ public class ResponseProcessor {
         return r;
     }
 
-    public <T, R extends SerializedResponse & ResponseInterceptorContext & ResponseFilterContext>
-    Response<Collection<T>> process(Request request, R response, Class<T> deserializationType,
-                                    Class<? extends Collection> containerType) {
+    public <T> Response<Collection<T>> process(Request request, RawResponse response, Class<T> deserializationType,
+                                               Class<? extends Collection> containerType) {
         // 1: FILTER
         filterEngine.filterResponse(request, response);
 
@@ -90,7 +89,8 @@ public class ResponseProcessor {
                     + "'. A null payload will be returned.");
             r = new ResponseImpl<Collection<T>>(response.getHeaders(), response.getStatusCode(),
                     response.getStatusText(), responseType, null);
-        } else if (Response.class == deserializationType || SerializedResponse.class == deserializationType) {
+        } else if (Response.class == deserializationType || RawResponse.class == deserializationType
+                || SerializedResponse.class == deserializationType) {
             logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Response.class.getName()
                     + "'. A null payload will be returned.");
             r = new ResponseImpl<Collection<T>>(response.getHeaders(), response.getStatusCode(),

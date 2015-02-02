@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import io.reinert.requestor.header.SimpleHeader;
  *
  * @author Danilo Reinert
  */
-public class SerializedResponseImpl implements SerializedResponse, ResponseFilterContext, ResponseInterceptorContext {
+public class SerializedResponseImpl implements RawResponse {
 
     private final String statusText;
     private final int statusCode;

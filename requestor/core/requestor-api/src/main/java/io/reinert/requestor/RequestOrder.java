@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 package io.reinert.requestor;
+
+import java.util.Collection;
+
+import io.reinert.requestor.deferred.Deferred;
 
 /**
  * The final form of a request.
@@ -34,5 +38,11 @@ public interface RequestOrder extends SerializedRequest {
     void setHeader(String name, String value);
 
     void send();
+
+    void abort(RawResponse response);
+
+    <D, C extends Collection> RequestOrder copy(Class<D> resultType, Class<C> containerType, Deferred<C> deferred);
+
+    <D> RequestOrder copy(Class<D> resultType, Deferred<D> deferred);
 
 }
