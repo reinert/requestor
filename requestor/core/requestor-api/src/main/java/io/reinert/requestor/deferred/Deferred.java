@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import io.reinert.requestor.Response;
  *
  * @author Danilo Reinert
  */
-public interface Deferred<T> extends Promise<T> {
+public interface Deferred<T> {
 
     void resolve(Response<T> response);
 
@@ -38,5 +38,7 @@ public interface Deferred<T> extends Promise<T> {
     void notifyUpload(RequestProgress progress);
 
     void setHttpConnection(HttpConnection connection);
+
+    Promise<T> getPromise();
 
 }
