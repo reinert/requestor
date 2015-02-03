@@ -4,7 +4,6 @@ A Modern HTTP Client API for GWT, Requestor offers all features needed for a cur
 It is pleasant to use and fully configurable and extensible.
 
 ## Preview
-
 Requesting is now simple and nice.
 
 ```java
@@ -49,7 +48,6 @@ Make a request is a trivial task and now you can do it healthily. :)
 Requesting will never be boring again!
 
 ## Features
-
 * Promises (integrate any promise library)
 * Fluent API
 * Full support to Form requests (urlencoded or multipart)
@@ -68,7 +66,7 @@ Requesting will never be boring again!
 * Integrated to TurboGWT
 * Handle multiple serialization of the same java type for different media types
 * Customizable request dispatching (support for caching and synchronization)
-* 
+
 ## Browser Support
 * Almost all features are working perfectly in all modern browsers 
 * Binary data manipulation is not supported by IE9- and Opera Mini
