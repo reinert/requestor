@@ -68,6 +68,10 @@ Requesting will never be boring again!
 * Integrated to TurboGWT
 * Handle multiple serialization of the same java type for different media types
 * Customizable request dispatching (support for caching and synchronization)
+* 
+## Browser Support
+* Almost all features are working perfectly in all modern browsers 
+* Binary data manipulation is not supported by IE9- and Opera Mini
 
 ## Examples
 * [Showcase](http://reinert.github.io/requestor/latest/examples/showcase)
