@@ -18,7 +18,7 @@ requestor.req("http://httpbin.org/ip").get(String.class).done(new DoneCallback<S
 With Java 8 support, it will be really cool!
 
 ```java
-requestor.req("http://httpbin.org/ip").get(String.class).done(r -> Window.alert(r));
+requestor.req("http://httpbin.org/ip").get(String.class).done(Window::alert);
 ```
 
 The low-level RequestBuilder way would be...
