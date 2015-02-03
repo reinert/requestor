@@ -33,7 +33,7 @@ public class UriParserTest extends GWTTestCase {
 
     @Test
     public void testRootPath() {
-        final UriParser parser = new UriParser();
+        final UriParser parser = UriParser.newInstance();
         final String expected = "/";
 
         parser.parse(expected);
@@ -52,7 +52,7 @@ public class UriParserTest extends GWTTestCase {
 
     @Test
     public void testPathOnly() {
-        final UriParser parser = new UriParser();
+        final UriParser parser = UriParser.newInstance();
         final String expected = "/server/resource";
 
         parser.parse(expected);
@@ -71,7 +71,7 @@ public class UriParserTest extends GWTTestCase {
 
     @Test
     public void testPathAndQuery() {
-        final UriParser parser = new UriParser();
+        final UriParser parser = UriParser.newInstance();
         final String expected = "/server/resource?age=12&name=Aa&name=Zz";
 
         parser.parse(expected);
@@ -91,7 +91,7 @@ public class UriParserTest extends GWTTestCase {
 
     @Test
     public void testSimple() {
-        final UriParser parser = new UriParser();
+        final UriParser parser = UriParser.newInstance();
         final String expected = "http://user:pwd@localhost:8888/server/resource#first";
 
         parser.parse(expected);
@@ -109,7 +109,7 @@ public class UriParserTest extends GWTTestCase {
 
     @Test
     public void testComplete() {
-        final UriParser parser = new UriParser();
+        final UriParser parser = UriParser.newInstance();
         final String expected = "http://user:pwd@localhost:8888/server/root/resource;class=2;class=5;class=6" +
                 "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#first";
 
