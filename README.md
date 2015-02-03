@@ -55,10 +55,11 @@ Requesting will never be boring again!
 * Full support to Form requests (urlencoded or multipart)
 * Full support to raw binary data (File, Blob, ArrayBuffer, Json, Document)
 * Progress monitoring of uploads and downloads
-* BASIC and CORS authentication
-* Support for implementing any custom authentication
-* Nice header manipulation
+* Uri Parsing
 * Uri Building
+* BASIC and DIGEST authentication (nicely supporting CORS)
+* Extremely easy to implement any custom authentication
+* Nice header manipulation
 * Filters (enhance requests and responses)
 * Interceptors (transform payloads)
 * Auto JSON serialization for POJOs, JavaBean Interfaces and Overlay types
