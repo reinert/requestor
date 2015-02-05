@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,25 @@
  */
 package io.reinert.requestor.header;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import io.reinert.requestor.header.SimpleHeaderWithParameter.Param;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Danilo Reinert
  */
-public class SimpleHeaderWithParameterTest extends GWTTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class SimpleHeaderWithParameterTest {
 
-    @Override
-    public String getModuleName() {
-        return "io.reinert.requestor.RequestorApiTest";
-    }
-
+    @Test
     public void testGetValue() {
         final String expected = "text/html; charset=ISO-8859-4";
         final SimpleHeaderWithParameter header = new SimpleHeaderWithParameter("Content-Type", "text/html",
-                SimpleHeaderWithParameter.Param.of("charset", "ISO-8859-4"));
+                Param.of("charset", "ISO-8859-4"));
         assertEquals(expected, header.getValue());
     }
 }

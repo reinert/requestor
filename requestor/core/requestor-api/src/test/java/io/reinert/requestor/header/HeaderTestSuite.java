@@ -15,22 +15,18 @@
  */
 package io.reinert.requestor.header;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.runners.Suite;
 
-import static org.junit.Assert.assertEquals;
+import junit.framework.TestSuite;
 
 /**
- * @author Danilo Reinert
+ * Test suite for header package.
  */
-@RunWith(MockitoJUnitRunner.class)
-public class MultipleHeaderTest {
-
-    @Test
-    public void testGetValue() {
-        final String expected = "a/b, x/y+z";
-        final MultivaluedHeader header = new MultivaluedHeader("ignored", "a/b", "x/y+z");
-        assertEquals(expected, header.getValue());
-    }
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        MultipleHeaderTest.class,
+        QualityFactorHeaderTest.class,
+        SimpleHeaderWithParameterTest.class})
+public class HeaderTestSuite extends TestSuite {
 }

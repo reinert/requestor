@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,19 @@
  */
 package io.reinert.requestor.header;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Danilo Reinert
  */
-public class QualityFactorHeaderTest extends GWTTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class QualityFactorHeaderTest {
 
-    @Override
-    public String getModuleName() {
-        return "io.reinert.requestor.RequestorApiTest";
-    }
-
+    @Test
     public void testGetValue() {
         final String expected = "a/b, x/y+z; 0.2, k/l, n/m; 0.6";
         final QualityFactorHeader header = new QualityFactorHeader("ign", "a/b", 1, "x/y+z", 0.2, "k/l", 1, "n/m", 0.6);
