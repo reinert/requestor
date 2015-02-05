@@ -62,7 +62,8 @@
       <div class="highlight">
         <pre ui:field="digest" class="java">
           <code>
-            requestor.req(&quot;http://httpbin.org/digest-auth/&quot; + qop + &quot;/&quot; + user + &quot;/&quot; + password)
+            /* The authentication service requires a cookie to be persisted, so we set withCredentials (third param) to true */
+            <br/>requestor.req(&quot;http://httpbin.org/digest-auth/&quot; + qop + &quot;/&quot; + user + &quot;/&quot; + password)
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new DigestAuth(user, password, true))
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
           </code>
