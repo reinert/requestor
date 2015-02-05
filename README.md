@@ -72,18 +72,20 @@ Requesting will never be boring again!
 * Binary data manipulation is not supported by IE9- and Opera Mini
 
 ## Examples
-* [Showcase](http://reinert.github.io/requestor/latest/examples/showcase)
+* [Showcase (Latest Release)](http://reinert.github.io/requestor/latest/examples/showcase)
+* [Showcase (0.2.0-SNAPSHOT)](http://reinert.github.io/requestor/0.2.0-SNAPSHOT/examples/showcase)
 
 ## Documentation
 * [Wiki](https://github.com/reinert/requestor/wiki)
 * [Javadoc](http://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
-* [Project Site](https://reinert.github.io/requestor/latest)
+* [Project Site (Latest Release)](https://reinert.github.io/requestor/latest)
+* [Project Site (0.2.0-SNAPSHOT)](https://reinert.github.io/requestor/0.2.0-SNAPSHOT)
 
 ## Community
 * [Discussion Group](https://groups.google.com/forum/#!forum/requestor)
 * [Chat](https://gitter.im/reinert/requestor)
 
-## Current Release
+## Latest Release
 0.1.0 (07 Jan 2015)
 
 ## Installation
