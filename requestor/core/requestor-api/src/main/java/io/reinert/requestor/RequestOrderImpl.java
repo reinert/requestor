@@ -61,19 +61,16 @@ class RequestOrderImpl<T> implements RequestOrder {
     @Override
     public <D, C extends Collection> RequestOrder copy(Class<D> resultType, Class<C> containerType,
                                                        Deferred<C> deferred) {
-        final SerializedRequest requestCopy = new SerializedRequestImpl(request.getMethod(), request.getUrl(),
-                new Headers(request.getHeaders()), request.getPayload(), request.getTimeout(),
-                request.getResponseType());
-        return new RequestOrderImpl<C>(dispatcher, requestCopy, deferred, containerType, resultType, withCredentials,
-                false);
+        final SerializedRequest srCopy = new SerializedRequestImpl(request.getMethod(), request.getUrl(),
+                request.getHeaders(), request.getPayload(), request.getTimeout(), request.getResponseType());
+        return new RequestOrderImpl<C>(dispatcher, srCopy, deferred, containerType, resultType, withCredentials, false);
     }
 
     @Override
     public <D> RequestOrder copy(Class<D> resultType, Deferred<D> deferred) {
-        final SerializedRequest requestCopy = new SerializedRequestImpl(request.getMethod(), request.getUrl(),
-                new Headers(request.getHeaders()), request.getPayload(), request.getTimeout(),
-                request.getResponseType());
-        return new RequestOrderImpl<D>(dispatcher, requestCopy, deferred, resultType, null, withCredentials, false);
+        final SerializedRequest srCopy = new SerializedRequestImpl(request.getMethod(), request.getUrl(),
+                request.getHeaders(), request.getPayload(), request.getTimeout(), request.getResponseType());
+        return new RequestOrderImpl<D>(dispatcher, srCopy, deferred, resultType, null, withCredentials, false);
     }
 
     @Override
