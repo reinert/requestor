@@ -15,9 +15,14 @@
  */
 package io.reinert.requestor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
+
+    private static Logger LOGGER = Logger.getLogger("io.reinert.requestor.XMLHttpRequest");
 
     public static class Upload extends JavaScriptObject {
 
@@ -79,10 +84,12 @@ class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         final Upload upload = getUpload();
         if (upload != null) {
             upload.setOnProgress(handler);
+        } else {
+            LOGGER.log(Level.SEVERE, "Set Upload Progress fail: XHR Upload not supported.");
         }
     }
 
     public final native Upload getUpload() /*-{
-        return this.upload;
+        return this.upload || null;
     }-*/;
 }
