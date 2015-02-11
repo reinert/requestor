@@ -36,28 +36,28 @@ public class SerializedRequestImpl implements SerializedRequest {
     private final Authentication auth;
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url) {
-        this(httpMethod, url, new Headers(), null, 0, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
+        this(httpMethod, url, new Headers(), null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Payload payload) {
-        this(httpMethod, url, new Headers(), payload, 0, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
+        this(httpMethod, url, new Headers(), payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers) {
-        this(httpMethod, url, headers, null, 0, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
+        this(httpMethod, url, headers, null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload) {
-        this(httpMethod, url, headers, payload, 0, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
+        this(httpMethod, url, headers, payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout) {
-        this(httpMethod, url, headers, payload, timeout, ResponseType.DEFAULT, PassThroughAuthentication.getInstance());
+        this(httpMethod, url, headers, payload, timeout, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
                           ResponseType responseType) {
-        this(httpMethod, url, headers, payload, timeout, responseType, PassThroughAuthentication.getInstance());
+        this(httpMethod, url, headers, payload, timeout, responseType, PassThroughAuth.getInstance());
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,

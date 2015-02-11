@@ -56,7 +56,7 @@ public class RequestDispatcherTest {
         Class<Object> type = Object.class;
         RequestOrder request = mock(RequestOrder.class);
         Deferred deferred = mock(Deferred.class);
-        when(request.getAuth()).thenReturn(PassThroughAuthentication.getInstance());
+        when(request.getAuth()).thenReturn(PassThroughAuth.getInstance());
         when(deferredFactory.getDeferred()).thenReturn(deferred);
 
         // When
@@ -73,7 +73,7 @@ public class RequestDispatcherTest {
         Class<Object> type = Object.class;
         SerializedRequest request = mock(SerializedRequest.class);
         Deferred deferred = mock(Deferred.class);
-        when(request.getAuth()).thenReturn(PassThroughAuthentication.getInstance());
+        when(request.getAuth()).thenReturn(PassThroughAuth.getInstance());
         when(deferredFactory.getDeferred()).thenReturn(deferred);
 
         // When
