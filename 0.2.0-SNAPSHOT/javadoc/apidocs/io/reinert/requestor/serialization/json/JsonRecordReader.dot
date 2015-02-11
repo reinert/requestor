@@ -11,15 +11,15 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.serialization.json.JsonRecordReader
-	c6100 [label=<<table title="io.reinert.requestor.serialization.json.JsonRecordReader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonRecordReader.html">
+	c6153 [label=<<table title="io.reinert.requestor.serialization.json.JsonRecordReader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonRecordReader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonRecordReader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonRecordReader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.serialization.json.JsonRecordReader extends com.google.gwt.core.client.JavaScriptObject
-	c6127:p -> c6100:p [dir=back,arrowtail=empty];
+	c6180:p -> c6153:p [dir=back,arrowtail=empty];
 	// com.google.gwt.core.client.JavaScriptObject
-	c6127 [label=<<table title="com.google.gwt.core.client.JavaScriptObject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c6180 [label=<<table title="com.google.gwt.core.client.JavaScriptObject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JavaScriptObject </td></tr>
 		</table></td></tr>

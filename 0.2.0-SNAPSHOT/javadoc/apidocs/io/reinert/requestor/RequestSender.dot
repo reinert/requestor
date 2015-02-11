@@ -11,29 +11,29 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.RequestSender
-	c10291 [label=<<table title="io.reinert.requestor.RequestSender" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestSender.html">
+	c10728 [label=<<table title="io.reinert.requestor.RequestSender" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestSender.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestSender </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestSender.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestBuilder
-	c10311 [label=<<table title="io.reinert.requestor.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
+	c10748 [label=<<table title="io.reinert.requestor.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.HasHttpSendMethods
-	c10322 [label=<<table title="io.reinert.requestor.HasHttpSendMethods" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasHttpSendMethods.html">
+	c10759 [label=<<table title="io.reinert.requestor.HasHttpSendMethods" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasHttpSendMethods.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasHttpSendMethods </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasHttpSendMethods.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RequestSender implements io.reinert.requestor.RequestBuilder
-	c10311:p -> c10291:p [dir=back,arrowtail=empty,style=dashed];
+	c10748:p -> c10728:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestSender implements io.reinert.requestor.HasHttpSendMethods
-	c10322:p -> c10291:p [dir=back,arrowtail=empty,style=dashed];
+	c10759:p -> c10728:p [dir=back,arrowtail=empty,style=dashed];
 }
 

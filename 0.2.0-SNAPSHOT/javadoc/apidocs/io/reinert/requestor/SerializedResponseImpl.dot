@@ -11,19 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.SerializedResponseImpl
-	c12809 [label=<<table title="io.reinert.requestor.SerializedResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedResponseImpl.html">
+	c13268 [label=<<table title="io.reinert.requestor.SerializedResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedResponseImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializedResponseImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponseImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RawResponse
-	c12844 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
+	c13303 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RawResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RawResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.RawResponse
-	c12844:p -> c12809:p [dir=back,arrowtail=empty,style=dashed];
+	c13303:p -> c13268:p [dir=back,arrowtail=empty,style=dashed];
 }
 

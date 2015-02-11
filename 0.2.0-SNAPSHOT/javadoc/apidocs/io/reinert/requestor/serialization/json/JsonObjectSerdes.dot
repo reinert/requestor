@@ -11,18 +11,18 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.serialization.json.JsonSerdes<T>
-	c5983 [label=<<table title="io.reinert.requestor.serialization.json.JsonSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSerdes.html">
+	c6035 [label=<<table title="io.reinert.requestor.serialization.json.JsonSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> JsonSerdes&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.json.JsonObjectSerdes<T>
-	c5986 [label=<<table title="io.reinert.requestor.serialization.json.JsonObjectSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonObjectSerdes.html">
+	c6038 [label=<<table title="io.reinert.requestor.serialization.json.JsonObjectSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonObjectSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> JsonObjectSerdes&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonObjectSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.serialization.json.JsonObjectSerdes<T> extends io.reinert.requestor.serialization.json.JsonSerdes<T>
-	c5983:p -> c5986:p [dir=back,arrowtail=empty];
+	c6035:p -> c6038:p [dir=back,arrowtail=empty];
 }
 

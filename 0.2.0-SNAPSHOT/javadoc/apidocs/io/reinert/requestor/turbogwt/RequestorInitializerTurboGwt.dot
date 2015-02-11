@@ -11,19 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.RequestorInitializer
-	c11102 [label=<<table title="io.reinert.requestor.RequestorInitializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../RequestorInitializer.html">
+	c11546 [label=<<table title="io.reinert.requestor.RequestorInitializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../RequestorInitializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestorInitializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../RequestorInitializer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt
-	c11195 [label=<<table title="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestorInitializerTurboGwt.html">
+	c11640 [label=<<table title="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestorInitializerTurboGwt.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorInitializerTurboGwt </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializerTurboGwt.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt implements io.reinert.requestor.RequestorInitializer
-	c11102:p -> c11195:p [dir=back,arrowtail=empty,style=dashed];
+	c11546:p -> c11640:p [dir=back,arrowtail=empty,style=dashed];
 }
 

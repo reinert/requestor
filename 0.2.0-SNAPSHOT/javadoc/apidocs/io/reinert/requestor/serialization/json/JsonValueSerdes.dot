@@ -11,42 +11,42 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.serialization.json.JsonValueSerdes<T>
-	c6558 [label=<<table title="io.reinert.requestor.serialization.json.JsonValueSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonValueSerdes.html">
+	c6615 [label=<<table title="io.reinert.requestor.serialization.json.JsonValueSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonValueSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> JsonValueSerdes&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonValueSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.json.JsonStringSerdes
-	c6559 [label=<<table title="io.reinert.requestor.serialization.json.JsonStringSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonStringSerdes.html">
+	c6616 [label=<<table title="io.reinert.requestor.serialization.json.JsonStringSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonStringSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonStringSerdes </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonStringSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.json.JsonSerdes<T>
-	c6560 [label=<<table title="io.reinert.requestor.serialization.json.JsonSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSerdes.html">
+	c6617 [label=<<table title="io.reinert.requestor.serialization.json.JsonSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> JsonSerdes&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.json.JsonNumberSerdes
-	c6564 [label=<<table title="io.reinert.requestor.serialization.json.JsonNumberSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonNumberSerdes.html">
+	c6621 [label=<<table title="io.reinert.requestor.serialization.json.JsonNumberSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonNumberSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonNumberSerdes </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonNumberSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.json.JsonBooleanSerdes
-	c6565 [label=<<table title="io.reinert.requestor.serialization.json.JsonBooleanSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonBooleanSerdes.html">
+	c6622 [label=<<table title="io.reinert.requestor.serialization.json.JsonBooleanSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonBooleanSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonBooleanSerdes </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonBooleanSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.serialization.json.JsonValueSerdes<T> extends io.reinert.requestor.serialization.json.JsonSerdes<T>
-	c6560:p -> c6558:p [dir=back,arrowtail=empty];
+	c6617:p -> c6615:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.serialization.json.JsonStringSerdes extends io.reinert.requestor.serialization.json.JsonValueSerdes<java.lang.String>
-	c6558:p -> c6559:p [dir=back,arrowtail=empty];
+	c6615:p -> c6616:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.serialization.json.JsonNumberSerdes extends io.reinert.requestor.serialization.json.JsonValueSerdes<java.lang.Number>
-	c6558:p -> c6564:p [dir=back,arrowtail=empty];
+	c6615:p -> c6621:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.serialization.json.JsonBooleanSerdes extends io.reinert.requestor.serialization.json.JsonValueSerdes<java.lang.Boolean>
-	c6558:p -> c6565:p [dir=back,arrowtail=empty];
+	c6615:p -> c6622:p [dir=back,arrowtail=empty];
 }
 

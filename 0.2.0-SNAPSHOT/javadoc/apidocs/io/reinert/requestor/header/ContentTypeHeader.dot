@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	rankdir=LR;
-	// io.reinert.requestor.header.SimpleHeaderWithParameter
-	c2499 [label=<<table title="io.reinert.requestor.header.SimpleHeaderWithParameter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleHeaderWithParameter.html">
+	// io.reinert.requestor.header.ParametrizedHeader
+	c2523 [label=<<table title="io.reinert.requestor.header.ParametrizedHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ParametrizedHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> SimpleHeaderWithParameter </td></tr>
+<tr><td align="center" balign="center"> ParametrizedHeader </td></tr>
 		</table></td></tr>
-		</table>>, URL="./SimpleHeaderWithParameter.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./ParametrizedHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.ContentTypeHeader
-	c2506 [label=<<table title="io.reinert.requestor.header.ContentTypeHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ContentTypeHeader.html">
+	c2528 [label=<<table title="io.reinert.requestor.header.ContentTypeHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ContentTypeHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ContentTypeHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ContentTypeHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.header.ContentTypeHeader extends io.reinert.requestor.header.SimpleHeaderWithParameter
-	c2499:p -> c2506:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.ContentTypeHeader extends io.reinert.requestor.header.ParametrizedHeader
+	c2523:p -> c2528:p [dir=back,arrowtail=empty];
 }
 

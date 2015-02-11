@@ -11,19 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.form.FormDataSerializerUrlEncoded
-	c4109 [label=<<table title="io.reinert.requestor.form.FormDataSerializerUrlEncoded" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FormDataSerializerUrlEncoded.html">
+	c4144 [label=<<table title="io.reinert.requestor.form.FormDataSerializerUrlEncoded" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FormDataSerializerUrlEncoded.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FormDataSerializerUrlEncoded </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FormDataSerializerUrlEncoded.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.form.FormDataSerializer
-	c4111 [label=<<table title="io.reinert.requestor.form.FormDataSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FormDataSerializer.html">
+	c4146 [label=<<table title="io.reinert.requestor.form.FormDataSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FormDataSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> FormDataSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FormDataSerializer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.form.FormDataSerializerUrlEncoded implements io.reinert.requestor.form.FormDataSerializer
-	c4111:p -> c4109:p [dir=back,arrowtail=empty,style=dashed];
+	c4146:p -> c4144:p [dir=back,arrowtail=empty,style=dashed];
 }
 
