@@ -70,6 +70,7 @@ Requesting will never be boring again!
 ## Browser Support
 * Almost all features are working perfectly in all modern browsers 
 * Binary data manipulation is not supported by IE9- and Opera Mini
+* CORS is poorly supported by IE9- and Opera Mini
 
 ## Examples
 * [Showcase (Latest Release)](http://reinert.github.io/requestor/latest/examples/showcase)
