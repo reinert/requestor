@@ -68,7 +68,7 @@ Requesting will never be boring again!
 * Customizable request dispatching (support for caching and synchronization)
 
 ## Browser Support
-* Almost all features are working perfectly in all modern browsers 
+Almost all features are working perfectly in all modern browsers, except:
 * Binary data manipulation is not supported by IE9- and Opera Mini
 * CORS is poorly supported by IE9- and Opera Mini
 
