@@ -154,6 +154,8 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     @Override
     public RequestBuilder auth(Authentication auth) {
+        if (auth == null)
+            throw new IllegalArgumentException("Auth cannot be null.");
         this.auth = auth;
         return this;
     }
