@@ -27,6 +27,6 @@ import junit.framework.TestSuite;
 @Suite.SuiteClasses({
         MultipleHeaderTest.class,
         QualityFactorHeaderTest.class,
-        SimpleHeaderWithParameterTest.class})
+        ParametrizedHeaderTest.class})
 public class HeaderTestSuite extends TestSuite {
 }

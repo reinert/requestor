@@ -20,7 +20,7 @@ package io.reinert.requestor.header;
  *
  * @author Danilo Reinert
  */
-public class ContentTypeHeader extends SimpleHeaderWithParameter {
+public class ContentTypeHeader extends ParametrizedHeader {
 
     public ContentTypeHeader(String value, Param... params) {
         super("Content-Type", value, params);
