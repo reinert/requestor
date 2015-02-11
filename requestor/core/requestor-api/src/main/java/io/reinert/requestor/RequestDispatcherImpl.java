@@ -54,6 +54,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
             RequestPermissionException requestPermissionException = new RequestPermissionException(url);
             requestPermissionException.initCause(new RequestException(e.getMessage()));
             deferred.reject(requestPermissionException);
+            return;
         }
 
         // Set withCredentials
@@ -63,7 +64,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         try {
             setHeaders(headers, xmlHttpRequest);
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestException(e.getMessage()));
+            deferred.reject(new RequestException("Could not manipulate the XHR headers: " + e.getMessage()));
+            return;
         }
 
         // Set responseType
@@ -119,7 +121,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                 xmlHttpRequest.send();
             }
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestDispatchException(e.getMessage()));
+            deferred.reject(new RequestDispatchException("Could not send the XHR: " + e.getMessage()));
         }
     }
 

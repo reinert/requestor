@@ -17,14 +17,14 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Authentication;
 
-class PassThroughAuthentication implements Authentication {
+class PassThroughAuth implements Authentication {
 
-    private static PassThroughAuthentication INSTANCE = new PassThroughAuthentication();
+    private static PassThroughAuth INSTANCE = new PassThroughAuth();
 
-    private PassThroughAuthentication() {
+    private PassThroughAuth() {
     }
 
-    public static PassThroughAuthentication getInstance() {
+    public static PassThroughAuth getInstance() {
         return INSTANCE;
     }
 

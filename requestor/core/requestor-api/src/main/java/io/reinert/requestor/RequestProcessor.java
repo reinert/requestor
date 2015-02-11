@@ -60,6 +60,7 @@ class RequestProcessor {
 
         // 3: INTERCEPT
         interceptorEngine.interceptRequest(serializedRequest);
+
         return serializedRequest;
     }
 }

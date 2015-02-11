@@ -34,7 +34,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     private int timeout;
     private Object payload;
     private ResponseType responseType = ResponseType.DEFAULT;
-    private Authentication auth = PassThroughAuthentication.getInstance();
+    private Authentication auth = PassThroughAuth.getInstance();
 
     public RequestBuilderImpl(String url) {
         this(url, new Headers());
