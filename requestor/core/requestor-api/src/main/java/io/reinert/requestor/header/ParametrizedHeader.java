@@ -26,26 +26,26 @@ package io.reinert.requestor.header;
  *
  * @author Danilo Reinert
  */
-public class SimpleHeaderWithParameter extends SimpleHeader {
+public class ParametrizedHeader extends SimpleHeader {
 
-    public SimpleHeaderWithParameter(String name, String value, String p1, String v1, String p2, String v2,
-                                     String p3, String v3) {
+    public ParametrizedHeader(String name, String value, String p1, String v1, String p2, String v2,
+                              String p3, String v3) {
         super(name, value + paramsToString(Param.of(p1, v1), Param.of(p2, v2), Param.of(p3, v3)));
     }
 
-    public SimpleHeaderWithParameter(String name, String value, String p1, String v1, String p2, String v2) {
+    public ParametrizedHeader(String name, String value, String p1, String v1, String p2, String v2) {
         super(name, value + paramsToString(Param.of(p1, v1), Param.of(p2, v2)));
     }
 
-    public SimpleHeaderWithParameter(String name, String value, String p1, String v1) {
+    public ParametrizedHeader(String name, String value, String p1, String v1) {
         super(name, value + paramsToString(Param.of(p1, v1)));
     }
 
-    public SimpleHeaderWithParameter(String name, String value, Param... params) {
+    public ParametrizedHeader(String name, String value, Param... params) {
         super(name, value + paramsToString(params));
     }
 
-    public SimpleHeaderWithParameter(String name, String value) {
+    public ParametrizedHeader(String name, String value) {
         super(name, value);
     }
 

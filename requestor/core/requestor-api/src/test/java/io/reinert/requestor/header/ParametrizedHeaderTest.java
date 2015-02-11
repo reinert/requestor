@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.header;
 
-import io.reinert.requestor.header.SimpleHeaderWithParameter.Param;
+import io.reinert.requestor.header.ParametrizedHeader.Param;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,12 +27,12 @@ import static org.junit.Assert.assertEquals;
  * @author Danilo Reinert
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SimpleHeaderWithParameterTest {
+public class ParametrizedHeaderTest {
 
     @Test
     public void testGetValue() {
         final String expected = "text/html; charset=ISO-8859-4";
-        final SimpleHeaderWithParameter header = new SimpleHeaderWithParameter("Content-Type", "text/html",
+        final ParametrizedHeader header = new ParametrizedHeader("Content-Type", "text/html",
                 Param.of("charset", "ISO-8859-4"));
         assertEquals(expected, header.getValue());
     }
