@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,30 +23,29 @@ package io.reinert.requestor.header;
 public class SimpleHeader extends Header {
 
     private final String name;
-    private final String value;
+    private final Value value;
 
-    public SimpleHeader(String name, String value) {
+    public SimpleHeader(String name, Value value) {
         this.name = name;
         this.value = value;
     }
 
-    /**
-     * Returns the name of the HTTP header.
-     *
-     * @return name of the HTTP header
-     */
+    public SimpleHeader(String name, String value) {
+        this.name = name;
+        this.value = Value.of(value);
+    }
+
+    public Value getRawValue() {
+        return value;
+    }
+
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * Returns the value of the HTTP header.
-     *
-     * @return value of the HTTP header
-     */
     @Override
     public String getValue() {
-        return value;
+        return value.toString();
     }
 }

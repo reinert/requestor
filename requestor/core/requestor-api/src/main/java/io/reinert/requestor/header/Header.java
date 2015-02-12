@@ -19,4 +19,16 @@ package io.reinert.requestor.header;
  * Represents a HTTP Header.
  */
 public abstract class Header extends com.google.gwt.http.client.Header {
+
+    public static class Parser {
+
+        public static Header parse(com.google.gwt.http.client.Header rawHeader) {
+            final String name = rawHeader.getName().toUpperCase();
+
+            if ("CONTENT-TYPE".equals(name))
+                return new ContentTypeHeader(rawHeader.getValue());
+
+            return null;
+        }
+    }
 }

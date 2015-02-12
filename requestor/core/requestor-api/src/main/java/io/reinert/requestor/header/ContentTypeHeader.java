@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ package io.reinert.requestor.header;
  *
  * @author Danilo Reinert
  */
-public class ContentTypeHeader extends ParametrizedHeader {
+public class ContentTypeHeader extends SimpleHeader {
 
-    public ContentTypeHeader(String value, Param... params) {
-        super("Content-Type", value, params);
+    public ContentTypeHeader(Value value) {
+        super("Content-Type", value);
     }
 
     public ContentTypeHeader(String value) {
