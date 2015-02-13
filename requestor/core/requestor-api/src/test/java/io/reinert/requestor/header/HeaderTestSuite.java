@@ -26,6 +26,7 @@ import junit.framework.TestSuite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         MultipleHeaderTest.class,
-        QualityFactorHeaderTest.class})
+        QualityFactorHeaderTest.class,
+        LinkHeaderTest.class})
 public class HeaderTestSuite extends TestSuite {
 }
