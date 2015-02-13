@@ -11,7 +11,7 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt
-	c1508 [label=<<table title="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerTurboGwt.html">
+	c1560 [label=<<table title="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerTurboGwt.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorInitializerTurboGwt </td></tr>
 		</table></td></tr>

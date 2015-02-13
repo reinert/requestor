@@ -11,18 +11,18 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.uri.MultivaluedParamComposition
-	c7562 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.html">
+	c8301 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MultivaluedParamComposition </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MultivaluedParamComposition.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy
-	c7563 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MultivaluedParamComposition.RepeatedParamStrategy.html">
+	c8302 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MultivaluedParamComposition.RepeatedParamStrategy.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RepeatedParamStrategy </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MultivaluedParamComposition.RepeatedParamStrategy.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy extends io.reinert.requestor.uri.MultivaluedParamComposition
-	c7562:p -> c7563:p [dir=back,arrowtail=empty];
+	c8301:p -> c8302:p [dir=back,arrowtail=empty];
 }
 

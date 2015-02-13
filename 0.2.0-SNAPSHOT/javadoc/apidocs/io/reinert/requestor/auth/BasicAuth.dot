@@ -11,19 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.auth.BasicAuth
-	c2277 [label=<<table title="io.reinert.requestor.auth.BasicAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BasicAuth.html">
+	c2352 [label=<<table title="io.reinert.requestor.auth.BasicAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BasicAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BasicAuth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BasicAuth.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.auth.Authentication
-	c2279 [label=<<table title="io.reinert.requestor.auth.Authentication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Authentication.html">
+	c2354 [label=<<table title="io.reinert.requestor.auth.Authentication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Authentication.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Authentication </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Authentication.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.auth.BasicAuth implements io.reinert.requestor.auth.Authentication
-	c2279:p -> c2277:p [dir=back,arrowtail=empty,style=dashed];
+	c2354:p -> c2352:p [dir=back,arrowtail=empty,style=dashed];
 }
 

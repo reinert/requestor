@@ -11,27 +11,27 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.serialization.HasImpl
-	c5913 [label=<<table title="io.reinert.requestor.serialization.HasImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../HasImpl.html">
+	c6476 [label=<<table title="io.reinert.requestor.serialization.HasImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../HasImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="../HasImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.json.JsonValueSerdes<T>
-	c5917 [label=<<table title="io.reinert.requestor.serialization.json.JsonValueSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonValueSerdes.html">
+	c6480 [label=<<table title="io.reinert.requestor.serialization.json.JsonValueSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonValueSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> JsonValueSerdes&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonValueSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.json.JsonNumberSerdes
-	c5923 [label=<<table title="io.reinert.requestor.serialization.json.JsonNumberSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonNumberSerdes.html">
+	c6486 [label=<<table title="io.reinert.requestor.serialization.json.JsonNumberSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonNumberSerdes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonNumberSerdes </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonNumberSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.serialization.json.JsonNumberSerdes extends io.reinert.requestor.serialization.json.JsonValueSerdes<java.lang.Number>
-	c5917:p -> c5923:p [dir=back,arrowtail=empty];
+	c6480:p -> c6486:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.serialization.json.JsonNumberSerdes implements io.reinert.requestor.serialization.HasImpl
-	c5913:p -> c5923:p [dir=back,arrowtail=empty,style=dashed];
+	c6476:p -> c6486:p [dir=back,arrowtail=empty,style=dashed];
 }
 

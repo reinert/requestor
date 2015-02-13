@@ -11,78 +11,110 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.header.SimpleHeader
-	c643 [label=<<table title="io.reinert.requestor.header.SimpleHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleHeader.html">
+	c663 [label=<<table title="io.reinert.requestor.header.SimpleHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.QualityFactorHeader
-	c644 [label=<<table title="io.reinert.requestor.header.QualityFactorHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./QualityFactorHeader.html">
+	c664 [label=<<table title="io.reinert.requestor.header.QualityFactorHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./QualityFactorHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> QualityFactorHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./QualityFactorHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.header.QualityFactorHeader.Value
-	c645 [label=<<table title="io.reinert.requestor.header.QualityFactorHeader.Value" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./QualityFactorHeader.Value.html">
+	// io.reinert.requestor.header.Param
+	c665 [label=<<table title="io.reinert.requestor.header.Param" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Param.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Value </td></tr>
+<tr><td align="center" balign="center"><font face="arial italic"> Param </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="./QualityFactorHeader.Value.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.header.ParametrizedHeader
-	c646 [label=<<table title="io.reinert.requestor.header.ParametrizedHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ParametrizedHeader.html">
+		</table>>, URL="./Param.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.header.Param.SimpleParam
+	c666 [label=<<table title="io.reinert.requestor.header.Param.SimpleParam" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Param.SimpleParam.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> ParametrizedHeader </td></tr>
+<tr><td align="center" balign="center"> SimpleParam </td></tr>
 		</table></td></tr>
-		</table>>, URL="./ParametrizedHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.header.ParametrizedHeader.Param
-	c647 [label=<<table title="io.reinert.requestor.header.ParametrizedHeader.Param" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ParametrizedHeader.Param.html">
+		</table>>, URL="./Param.SimpleParam.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.header.Param.KeyValueParam
+	c667 [label=<<table title="io.reinert.requestor.header.Param.KeyValueParam" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Param.KeyValueParam.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Param </td></tr>
+<tr><td align="center" balign="center"> KeyValueParam </td></tr>
 		</table></td></tr>
-		</table>>, URL="./ParametrizedHeader.Param.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Param.KeyValueParam.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.MultivaluedHeader
-	c648 [label=<<table title="io.reinert.requestor.header.MultivaluedHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedHeader.html">
+	c668 [label=<<table title="io.reinert.requestor.header.MultivaluedHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MultivaluedHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MultivaluedHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.LinkHeader
-	c649 [label=<<table title="io.reinert.requestor.header.LinkHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LinkHeader.html">
+	c669 [label=<<table title="io.reinert.requestor.header.LinkHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LinkHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LinkHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LinkHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.header.LinkHeader.Link
+	c670 [label=<<table title="io.reinert.requestor.header.LinkHeader.Link" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LinkHeader.Link.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Link </td></tr>
+		</table></td></tr>
+		</table>>, URL="./LinkHeader.Link.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.Header
-	c650 [label=<<table title="io.reinert.requestor.header.Header" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Header.html">
+	c671 [label=<<table title="io.reinert.requestor.header.Header" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Header.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Header </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Header.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.header.Element
+	c672 [label=<<table title="io.reinert.requestor.header.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Element.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="arial italic"> Element </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./Element.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.header.Element.SimpleElement
+	c673 [label=<<table title="io.reinert.requestor.header.Element.SimpleElement" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Element.SimpleElement.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SimpleElement </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Element.SimpleElement.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.header.Element.KeyValueElement
+	c674 [label=<<table title="io.reinert.requestor.header.Element.KeyValueElement" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Element.KeyValueElement.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> KeyValueElement </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Element.KeyValueElement.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.ContentTypeHeader
-	c651 [label=<<table title="io.reinert.requestor.header.ContentTypeHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ContentTypeHeader.html">
+	c675 [label=<<table title="io.reinert.requestor.header.ContentTypeHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ContentTypeHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ContentTypeHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ContentTypeHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.AcceptHeader
-	c652 [label=<<table title="io.reinert.requestor.header.AcceptHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AcceptHeader.html">
+	c676 [label=<<table title="io.reinert.requestor.header.AcceptHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AcceptHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AcceptHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AcceptHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.header.SimpleHeader extends io.reinert.requestor.header.Header
-	c650:p -> c643:p [dir=back,arrowtail=empty];
+	c671:p -> c663:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.header.QualityFactorHeader extends io.reinert.requestor.header.MultivaluedHeader
-	c648:p -> c644:p [dir=back,arrowtail=empty];
-	//io.reinert.requestor.header.ParametrizedHeader extends io.reinert.requestor.header.SimpleHeader
-	c643:p -> c646:p [dir=back,arrowtail=empty];
+	c668:p -> c664:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.Param.SimpleParam extends io.reinert.requestor.header.Param
+	c665:p -> c666:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.Param.KeyValueParam extends io.reinert.requestor.header.Param
+	c665:p -> c667:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.header.MultivaluedHeader extends io.reinert.requestor.header.Header
-	c650:p -> c648:p [dir=back,arrowtail=empty];
-	//io.reinert.requestor.header.LinkHeader extends io.reinert.requestor.header.Header
-	c650:p -> c649:p [dir=back,arrowtail=empty];
-	//io.reinert.requestor.header.ContentTypeHeader extends io.reinert.requestor.header.ParametrizedHeader
-	c646:p -> c651:p [dir=back,arrowtail=empty];
+	c671:p -> c668:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.LinkHeader extends io.reinert.requestor.header.MultivaluedHeader
+	c668:p -> c669:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.LinkHeader.Link extends io.reinert.requestor.header.Element.SimpleElement
+	c673:p -> c670:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.Element.SimpleElement extends io.reinert.requestor.header.Element
+	c672:p -> c673:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.Element.KeyValueElement extends io.reinert.requestor.header.Element
+	c672:p -> c674:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.ContentTypeHeader extends io.reinert.requestor.header.SimpleHeader
+	c663:p -> c675:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.header.AcceptHeader extends io.reinert.requestor.header.QualityFactorHeader
-	c644:p -> c652:p [dir=back,arrowtail=empty];
+	c664:p -> c676:p [dir=back,arrowtail=empty];
 }
 

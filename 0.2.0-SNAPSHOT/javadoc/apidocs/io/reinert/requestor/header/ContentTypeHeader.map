@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./ParametrizedHeader.html" title="io.reinert.requestor.header.ParametrizedHeader" alt="" coords="16,16,155,43"/>
-<area shape="rect" id="node1" href="./ParametrizedHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,5,165,53"/>
-<area shape="rect" id="node2_1" href="./ContentTypeHeader.html" title="io.reinert.requestor.header.ContentTypeHeader" alt="" coords="225,16,359,43"/>
-<area shape="rect" id="node2" href="./ContentTypeHeader.html" title="&lt;TABLE&gt;" alt="" coords="214,5,370,53"/>
+<area shape="rect" id="node1_0" href="./SimpleHeader.html" title="io.reinert.requestor.header.SimpleHeader" alt="" coords="16,16,117,43"/>
+<area shape="rect" id="node1" href="./SimpleHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,5,128,53"/>
+<area shape="rect" id="node2_1" href="./ContentTypeHeader.html" title="io.reinert.requestor.header.ContentTypeHeader" alt="" coords="187,16,322,43"/>
+<area shape="rect" id="node2" href="./ContentTypeHeader.html" title="&lt;TABLE&gt;" alt="" coords="177,5,333,53"/>
 </map>

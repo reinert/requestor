@@ -11,18 +11,18 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.uri.UriBuilderImpl
-	c14526 [label=<<table title="io.reinert.requestor.uri.UriBuilderImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilderImpl.html">
+	c15503 [label=<<table title="io.reinert.requestor.uri.UriBuilderImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilderImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> UriBuilderImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./UriBuilderImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.uri.UriBuilder
-	c14528 [label=<<table title="io.reinert.requestor.uri.UriBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UriBuilder.html">
+	c15505 [label=<<table title="io.reinert.requestor.uri.UriBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UriBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> UriBuilder </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./UriBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.uri.UriBuilderImpl extends io.reinert.requestor.uri.UriBuilder
-	c14528:p -> c14526:p [dir=back,arrowtail=empty];
+	c15505:p -> c15503:p [dir=back,arrowtail=empty];
 }
 

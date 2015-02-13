@@ -11,19 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.deferred.Deferred<T>
-	c2745 [label=<<table title="io.reinert.requestor.deferred.Deferred" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Deferred.html">
+	c2836 [label=<<table title="io.reinert.requestor.deferred.Deferred" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Deferred.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Deferred&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Deferred.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.GDeferredRequest<T>
-	c2798 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gdeferred/GDeferredRequest.html">
+	c2893 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gdeferred/GDeferredRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GDeferredRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../gdeferred/GDeferredRequest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gdeferred.GDeferredRequest<T> implements io.reinert.requestor.deferred.Deferred<T>
-	c2745:p -> c2798:p [dir=back,arrowtail=empty,style=dashed];
+	c2836:p -> c2893:p [dir=back,arrowtail=empty,style=dashed];
 }
 

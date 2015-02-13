@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	rankdir=LR;
+	// io.reinert.requestor.header.MultivaluedHeader
+	c7422 [label=<<table title="io.reinert.requestor.header.MultivaluedHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedHeader.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MultivaluedHeader </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MultivaluedHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.LinkHeader
-	c6832 [label=<<table title="io.reinert.requestor.header.LinkHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LinkHeader.html">
+	c7423 [label=<<table title="io.reinert.requestor.header.LinkHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LinkHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LinkHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LinkHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.header.Header
-	c6833 [label=<<table title="io.reinert.requestor.header.Header" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Header.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> Header </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="./Header.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.header.LinkHeader extends io.reinert.requestor.header.Header
-	c6833:p -> c6832:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.LinkHeader extends io.reinert.requestor.header.MultivaluedHeader
+	c7422:p -> c7423:p [dir=back,arrowtail=empty];
 }
 
