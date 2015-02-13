@@ -22,8 +22,8 @@ package io.reinert.requestor.header;
  */
 public class ContentTypeHeader extends SimpleHeader {
 
-    public ContentTypeHeader(Value value) {
-        super("Content-Type", value);
+    public ContentTypeHeader(Element element) {
+        super("Content-Type", element);
     }
 
     public ContentTypeHeader(String value) {

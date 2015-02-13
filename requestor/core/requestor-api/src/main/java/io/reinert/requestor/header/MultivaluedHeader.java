@@ -23,19 +23,19 @@ package io.reinert.requestor.header;
 public class MultivaluedHeader extends Header {
 
     private final String name;
-    private final Value[] values;
+    private final Element[] elements;
     private String valueString;
 
-    public MultivaluedHeader(String name, Value... values) {
+    public MultivaluedHeader(String name, Element... elements) {
         this.name = name;
-        this.values = values;
+        this.elements = elements;
     }
 
     public MultivaluedHeader(String name, String... values) {
         this.name = name;
-        this.values = new Value[values.length];
+        this.elements = new Element[values.length];
         for (int i = 0; i < values.length; i++) {
-            this.values[i] = Value.of(values[i]);
+            this.elements[i] = Element.of(values[i]);
         }
     }
 
@@ -46,11 +46,11 @@ public class MultivaluedHeader extends Header {
 
     @Override
     public String getValue() {
-        if (valueString == null) valueString = Value.toString(values);
+        if (valueString == null) valueString = Element.toString(elements);
         return valueString;
     }
 
-    public Value[] getRawValues() {
-        return values;
+    public Element[] getElements() {
+        return elements;
     }
 }

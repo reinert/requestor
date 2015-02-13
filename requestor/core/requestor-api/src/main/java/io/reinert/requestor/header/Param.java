@@ -15,14 +15,16 @@
  */
 package io.reinert.requestor.header;
 
-import com.google.gwt.http.client.URL;
-
 /**
  * Parameter of a header value.
  *
  * @author Danilo Reinert
  */
 public abstract class Param {
+
+    public static Param of(String key, String value, boolean quoted) {
+        return new KeyValueParam(key, value, quoted);
+    }
 
     public static Param of(String key, String value) {
         return new KeyValueParam(key, value);
@@ -44,7 +46,7 @@ public abstract class Param {
      *
      * @return A string with the params separated by semicolon
      */
-    public static String toString(Param... params) {
+    public static String toString(Iterable<Param> params) {
         String result = "";
         for (Param param : params) {
             result += "; " + param.toString();
@@ -82,7 +84,7 @@ public abstract class Param {
 
         @Override
         public String toString() {
-            return URL.encodeQueryString(param);
+            return param;
         }
 
         @Override
@@ -110,12 +112,18 @@ public abstract class Param {
 
         final String key;
         final String value;
+        final boolean quoted;
 
         private KeyValueParam(String key, String value) {
+            this(key, value, false);
+        }
+
+        private KeyValueParam(String key, String value, boolean quoted) {
             checkNotNull(key, "'key'");
             checkNotNull(value, "'value'");
             this.key = key;
             this.value = value;
+            this.quoted = quoted;
         }
 
         public String getKey() {
@@ -133,7 +141,7 @@ public abstract class Param {
 
         @Override
         public String toString() {
-            return URL.encodeQueryString(key) + '=' + URL.encodeQueryString(value);
+            return key + '=' + (quoted ? '"' + value + '"' : value);
         }
 
         @Override

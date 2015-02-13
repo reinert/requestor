@@ -15,6 +15,9 @@
  */
 package io.reinert.requestor.header;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * HTTP Header with relative quality factors.
  *
@@ -24,42 +27,54 @@ public class QualityFactorHeader extends MultivaluedHeader {
 
     public QualityFactorHeader(String name, String v1, double f1, String v2, double f2, String v3, double f3,
                                String v4, double f4, String v5, double f5) {
-        super(name, Value.of(v1, Param.of(String.valueOf(f1))), Value.of(v2, Param.of(String.valueOf(f2))),
-                Value.of(v3, Param.of(String.valueOf(f3))), Value.of(v4, Param.of(String.valueOf(f4))),
-                Value.of(v5, Param.of(String.valueOf(f5))));
+        super(name, Element.of(v1, getParams(f1)),
+                Element.of(v2, getParams(f2)),
+                Element.of(v3, getParams(f3)),
+                Element.of(v4, getParams(f4)),
+                Element.of(v5, getParams(f5)));
     }
 
     public QualityFactorHeader(String name, String v1, double f1, String v2, double f2, String v3, double f3,
                                String v4, double f4) {
-        super(name, Value.of(v1, Param.of(String.valueOf(f1))), Value.of(v2, Param.of(String.valueOf(f2))),
-                Value.of(v3, Param.of(String.valueOf(f3))), Value.of(v4, Param.of(String.valueOf(f4))));
+        super(name, Element.of(v1, getParams(f1)),
+                Element.of(v2, getParams(f2)),
+                Element.of(v3, getParams(f3)),
+                Element.of(v4, getParams(f4)));
     }
 
     public QualityFactorHeader(String name, String v1, double f1, String v2, double f2, String v3, double f3) {
-        super(name, Value.of(v1, Param.of(String.valueOf(f1))), Value.of(v2, Param.of(String.valueOf(f2))),
-                Value.of(v3, Param.of(String.valueOf(f3))));
+        super(name, Element.of(v1, getParams(f1)),
+                Element.of(v2, getParams(f2)),
+                Element.of(v3, getParams(f3)));
     }
 
     public QualityFactorHeader(String name, String v1, double f1, String v2, double f2) {
-        super(name, Value.of(v1, Param.of(String.valueOf(f1))), Value.of(v2, Param.of(String.valueOf(f2))));
+        super(name, Element.of(v1, getParams(f1)),
+                Element.of(v2, getParams(f2)));
     }
 
     public QualityFactorHeader(String name, String v1, double f1) {
-        super(name, Value.of(v1, Param.of(String.valueOf(f1))));
+        super(name, Element.of(v1, getParams(f1)));
     }
 
     public QualityFactorHeader(String name, String value) {
-        super(name, Value.of(value));
+        super(name, Element.of(value));
     }
 
     public QualityFactorHeader(String name, String... values) {
         super(name, toValues(values));
     }
 
-    private static Value[] toValues(String[] values) {
-        Value[] array = new Value[values.length];
+    private static List<Param> getParams(double factor) {
+        if (factor < 0 || factor > 1)
+            throw new IllegalArgumentException("Quality Factor must be between 0 and 1.");
+        return factor == 1 ? null : Arrays.asList(Param.of(String.valueOf(factor)));
+    }
+
+    private static Element[] toValues(String[] values) {
+        Element[] array = new Element[values.length];
         for (int i = 0; i < values.length; i++) {
-            array[i] = Value.of(values[i]);
+            array[i] = Element.of(values[i]);
         }
         return array;
     }
