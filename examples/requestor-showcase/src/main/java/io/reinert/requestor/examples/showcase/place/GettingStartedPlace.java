@@ -29,6 +29,6 @@ public class GettingStartedPlace extends ShowcasePlace {
 
     @Override
     public Activity getActivity() {
-        return new GettingStartedActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getGettingStarted());
+        return new GettingStartedActivity(getSection(), Showcase.CLIENT_FACTORY.getGettingStarted());
     }
 }

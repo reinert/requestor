@@ -29,7 +29,7 @@ public class InterceptorsPlace extends ShowcasePlace {
 
     @Override
     public Activity getActivity() {
-        return new InterceptorsActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getInterceptors(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+        return new InterceptorsActivity(getSection(), Showcase.CLIENT_FACTORY.getInterceptors(),
+                Showcase.CLIENT_FACTORY.getRequestor());
     }
 }
