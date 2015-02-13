@@ -23,20 +23,20 @@ package io.reinert.requestor.header;
 public class SimpleHeader extends Header {
 
     private final String name;
-    private final Value value;
+    private final Element element;
 
-    public SimpleHeader(String name, Value value) {
+    public SimpleHeader(String name, Element element) {
         this.name = name;
-        this.value = value;
+        this.element = element;
     }
 
     public SimpleHeader(String name, String value) {
         this.name = name;
-        this.value = Value.of(value);
+        this.element = Element.of(value);
     }
 
-    public Value getRawValue() {
-        return value;
+    public Element getElement() {
+        return element;
     }
 
     @Override
@@ -46,6 +46,6 @@ public class SimpleHeader extends Header {
 
     @Override
     public String getValue() {
-        return value.toString();
+        return element.toString();
     }
 }
