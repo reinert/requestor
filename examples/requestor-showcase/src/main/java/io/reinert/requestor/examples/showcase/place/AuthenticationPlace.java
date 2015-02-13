@@ -29,7 +29,7 @@ public class AuthenticationPlace extends ShowcasePlace {
 
     @Override
     public Activity getActivity() {
-        return new AuthenticationActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getAuthentication(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+        return new AuthenticationActivity(getSection(), Showcase.CLIENT_FACTORY.getAuthentication(),
+                Showcase.CLIENT_FACTORY.getRequestor());
     }
 }

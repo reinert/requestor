@@ -28,7 +28,7 @@ public class HomePlace extends Place implements HasActivity, HasToken {
 
     @Override
     public Activity getActivity() {
-        return new HomeActivity(Showcase.SHOWCASE_CLIENT_FACTORY.getHome());
+        return new HomeActivity(Showcase.CLIENT_FACTORY.getHome());
     }
 
     @Override

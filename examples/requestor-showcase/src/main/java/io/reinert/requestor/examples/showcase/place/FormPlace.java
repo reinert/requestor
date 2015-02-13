@@ -29,7 +29,7 @@ public class FormPlace extends ShowcasePlace {
 
     @Override
     public Activity getActivity() {
-        return new FormActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getForm(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+        return new FormActivity(getSection(), Showcase.CLIENT_FACTORY.getForm(),
+                Showcase.CLIENT_FACTORY.getRequestor());
     }
 }

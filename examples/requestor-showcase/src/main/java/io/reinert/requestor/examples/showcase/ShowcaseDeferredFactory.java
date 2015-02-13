@@ -18,10 +18,14 @@ package io.reinert.requestor.examples.showcase;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
+import io.reinert.gdeferred.AlwaysCallback;
 import io.reinert.gdeferred.FailCallback;
+import io.reinert.gdeferred.Promise;
 import io.reinert.requestor.DeferredFactory;
 import io.reinert.requestor.RequestPermissionException;
 import io.reinert.requestor.deferred.Deferred;
+import io.reinert.requestor.examples.showcase.ui.loading.event.HideLoadingEvent;
+import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
 import io.reinert.requestor.gdeferred.GDeferredRequest;
 
 /**
@@ -32,8 +36,11 @@ class ShowcaseDeferredFactory implements DeferredFactory {
     @Override
     public <T> Deferred<T> getDeferred() {
         final GDeferredRequest<T> deferred = new GDeferredRequest<T>();
+
+        // Show loading widget
+        Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferred);
+
         deferred.fail(new FailCallback<Throwable>() {
-            @Override
             public void onFail(Throwable result) {
                 GWT.log("The following exception occurred while requesting.", result);
                 if (result instanceof RequestPermissionException) {
@@ -44,6 +51,11 @@ class ShowcaseDeferredFactory implements DeferredFactory {
                     Window.alert("The request has failed with the following message: \"" + result.getMessage()
                             + "\". See browser's console log for more details.");
                 }
+            }
+        }).always(new AlwaysCallback<T, Throwable>() {
+            public void onAlways(Promise.State state, T resolved, Throwable rejected) {
+                // Hide loading widget
+                Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);
             }
         });
         return deferred;

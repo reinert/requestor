@@ -29,7 +29,7 @@ public class FiltersPlace extends ShowcasePlace {
 
     @Override
     public Activity getActivity() {
-        return new FiltersActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getFilters(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+        return new FiltersActivity(getSection(), Showcase.CLIENT_FACTORY.getFilters(),
+                Showcase.CLIENT_FACTORY.getRequestor());
     }
 }

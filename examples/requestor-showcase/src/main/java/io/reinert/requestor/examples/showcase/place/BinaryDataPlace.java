@@ -29,7 +29,7 @@ public class BinaryDataPlace extends ShowcasePlace {
 
     @Override
     public Activity getActivity() {
-        return new BinaryDataActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getBinaryData(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+        return new BinaryDataActivity(getSection(), Showcase.CLIENT_FACTORY.getBinaryData(),
+                Showcase.CLIENT_FACTORY.getRequestor());
     }
 }

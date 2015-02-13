@@ -34,18 +34,22 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.examples.showcase.place.HomePlace;
+import io.reinert.requestor.examples.showcase.ui.loading.Loading;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Showcase implements EntryPoint {
 
-    public static final ShowcaseClientFactory SHOWCASE_CLIENT_FACTORY = GWT.create(ShowcaseClientFactory.class);
+    public static final ShowcaseClientFactory CLIENT_FACTORY = GWT.create(ShowcaseClientFactory.class);
 
     private final Place defaultPlace = new HomePlace();
 
     @Override
     public void onModuleLoad() {
+
+
+
         // Populate the menu
         final Element menu = Document.get().getElementById("menu-list");
         for (MenuOption o : MenuOption.values()) {
@@ -93,7 +97,7 @@ public class Showcase implements EntryPoint {
         RootPanel.get().add(container);
 
         // Main Factory (Dependency Injector)
-        ShowcaseClientFactory clientFactory = SHOWCASE_CLIENT_FACTORY;
+        ShowcaseClientFactory clientFactory = CLIENT_FACTORY;
         EventBus eventBus = clientFactory.getEventBus();
         PlaceController placeController = clientFactory.getPlaceController();
 
@@ -106,6 +110,9 @@ public class Showcase implements EntryPoint {
         PlaceHistoryMapper historyMapper = new ShowcasePlaceHistoryMapper();
         PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
         historyHandler.register(placeController, eventBus, defaultPlace);
+
+        // Add Loading widget
+        RootPanel.get().add(new Loading(eventBus));
 
         // Goes to place represented on URL or default place
         historyHandler.handleCurrentHistory();

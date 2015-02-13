@@ -29,7 +29,7 @@ public class RequestingPlace extends ShowcasePlace {
 
     @Override
     public Activity getActivity() {
-        return new RequestingActivity(getSection(), Showcase.SHOWCASE_CLIENT_FACTORY.getRequesting(),
-                Showcase.SHOWCASE_CLIENT_FACTORY.getRequestor());
+        return new RequestingActivity(getSection(), Showcase.CLIENT_FACTORY.getRequesting(),
+                Showcase.CLIENT_FACTORY.getRequestor());
     }
 }
