@@ -172,16 +172,16 @@ public class DigestAuth implements Authentication {
         String ha1 = generateHa1(realm);
 
         String response;
-        if (qop != null) {
-            if (contains(qop, "auth-int") && !contains(qop, "auth")) {
-                // "auth-int" method
-                response = generateResponseAuthIntQop(httpMethod, uri, ha1, nonce, nc, cNonce, request.getPayload());
-                digestBuilder.append("\", qop=\"").append("auth-int");
-            } else {
-                // "auth" method
-                response = generateResponseAuthQop(httpMethod, uri, ha1, nonce, nc, cNonce);
-                digestBuilder.append("\", qop=\"").append("auth");
-            }
+        if (contains(qop, "auth")) {
+            // "auth" method
+            response = generateResponseAuthQop(httpMethod, uri, ha1, nonce, nc, cNonce);
+            digestBuilder.append("\", qop=\"").append("auth");
+            digestBuilder.append("\", nc=\"").append(nc);
+            digestBuilder.append("\", cnonce=\"").append(cNonce);
+        } else if (contains(qop, "auth-int")) {
+            // "auth-int" method
+            response = generateResponseAuthIntQop(httpMethod, uri, ha1, nonce, nc, cNonce, request.getPayload());
+            digestBuilder.append("\", qop=\"").append("auth-int");
             digestBuilder.append("\", nc=\"").append(nc);
             digestBuilder.append("\", cnonce=\"").append(cNonce);
         } else {
@@ -243,37 +243,37 @@ public class DigestAuth implements Authentication {
     }
 
     private String[] readQop(String authHeader) {
-        int qopStartIdx = authHeader.indexOf("qop=") + 4;
-
-        if (qopStartIdx == 3)
-            return null;
-
-        int qopEndIndex = authHeader.indexOf(" ", qopStartIdx);
-        qopEndIndex = qopEndIndex == -1 ? authHeader.length() : qopEndIndex;
-
-        String qop = authHeader.substring(qopStartIdx, qopEndIndex);
-        if (qop.indexOf(0) == '"')
-            qop = qop.substring(1, qop.length() - 1); // Remove leading and trailing double quotes
-
-        return qop.split(",");
+        final String qop = extractValue(authHeader, "qop");
+        return qop == null ? new String[0] : qop.split(",");
     }
 
     private String readNonce(String authHeader) {
-        int nonceStartIdx = authHeader.indexOf("nonce=\"") + 7;
-        int nonceEndIdx = authHeader.indexOf("\"", nonceStartIdx);
-        return authHeader.substring(nonceStartIdx, nonceEndIdx);
+        return extractValue(authHeader, "nonce");
     }
 
     private String readOpaque(String authHeader) {
-        int opaqueStartIdx = authHeader.indexOf("opaque=\"") + 8;
-        int opaqueEndIdx = authHeader.indexOf("\"", opaqueStartIdx);
-        return authHeader.substring(opaqueStartIdx, opaqueEndIdx);
+        return extractValue(authHeader, "opaque");
     }
 
     private String readRealm(String authHeader) {
-        int realmStartIdx = authHeader.indexOf("realm=\"") + 7;
-        int realmEndIdx = authHeader.indexOf("\"", realmStartIdx);
-        return authHeader.substring(realmStartIdx, realmEndIdx);
+        return extractValue(authHeader, "realm");
+    }
+
+    private static String extractValue(String header, String param) {
+        int startIdx = header.indexOf(param + '=') + param.length() + 1;
+
+        if (startIdx == param.length())
+            return null;
+
+        int endIdx;
+        if (header.charAt(startIdx) == '"') {
+            startIdx++;
+            endIdx = header.indexOf('"', startIdx);
+        } else {
+            endIdx = header.indexOf(',', startIdx);
+        }
+        if (endIdx == -1) endIdx = header.length();
+        return header.substring(startIdx, endIdx).trim();
     }
 
     private static int getRandom() {
