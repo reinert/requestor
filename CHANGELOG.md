@@ -1,7 +1,7 @@
 REQUESTOR CHANGELOG
 ==
 
-### 0.2.0 - 19 Feb 2015
+### 0.2.0 - 18 Feb 2015
 * Issue [#32](https://github.com/reinert/requestor/issues/32): Support for URI Parsing
 * Issue [#30](https://github.com/reinert/requestor/issues/30): Support for the Link header
 * Issue [#26](https://github.com/reinert/requestor/issues/26): Support for Digest authentication
