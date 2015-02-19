@@ -87,7 +87,7 @@ Almost all features are working perfectly in all modern browsers, except:
 * [Chat](https://gitter.im/reinert/requestor)
 
 ## Latest Release
-0.2.0 (19 Feb 2015)
+0.2.0 (18 Feb 2015)
 
 ## Installation
 
