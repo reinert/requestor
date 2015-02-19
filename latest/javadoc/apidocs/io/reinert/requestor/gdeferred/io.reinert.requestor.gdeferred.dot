@@ -11,87 +11,87 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.gdeferred.SetDoneCallback<T>
-	c1296 [label=<<table title="io.reinert.requestor.gdeferred.SetDoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SetDoneCallback.html">
+	c1428 [label=<<table title="io.reinert.requestor.gdeferred.SetDoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SetDoneCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> SetDoneCallback&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./SetDoneCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.RequestPromise<T>
-	c1297 [label=<<table title="io.reinert.requestor.gdeferred.RequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestPromise.html">
+	c1429 [label=<<table title="io.reinert.requestor.gdeferred.RequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestPromise.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestPromise&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestPromise.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.ProgressCallback
-	c1298 [label=<<table title="io.reinert.requestor.gdeferred.ProgressCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProgressCallback.html">
+	c1430 [label=<<table title="io.reinert.requestor.gdeferred.ProgressCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProgressCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProgressCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProgressCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.ListDoneCallback<T>
-	c1299 [label=<<table title="io.reinert.requestor.gdeferred.ListDoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ListDoneCallback.html">
+	c1431 [label=<<table title="io.reinert.requestor.gdeferred.ListDoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ListDoneCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> ListDoneCallback&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./ListDoneCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.GDeferredRequestPromise<T>
-	c1300 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GDeferredRequestPromise.html">
+	c1432 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GDeferredRequestPromise.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GDeferredRequestPromise&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GDeferredRequestPromise.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.GDeferredRequest<T>
-	c1301 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GDeferredRequest.html">
+	c1433 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GDeferredRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GDeferredRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GDeferredRequest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.FailCallback
-	c1302 [label=<<table title="io.reinert.requestor.gdeferred.FailCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FailCallback.html">
+	c1434 [label=<<table title="io.reinert.requestor.gdeferred.FailCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FailCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> FailCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FailCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.DoneCallback<T>
-	c1303 [label=<<table title="io.reinert.requestor.gdeferred.DoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DoneCallback.html">
+	c1435 [label=<<table title="io.reinert.requestor.gdeferred.DoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DoneCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> DoneCallback&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./DoneCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.DeferredFactoryImpl
-	c1304 [label=<<table title="io.reinert.requestor.gdeferred.DeferredFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredFactoryImpl.html">
+	c1436 [label=<<table title="io.reinert.requestor.gdeferred.DeferredFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredFactoryImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DeferredFactoryImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeferredFactoryImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.AlwaysCallback<T>
-	c1305 [label=<<table title="io.reinert.requestor.gdeferred.AlwaysCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AlwaysCallback.html">
+	c1437 [label=<<table title="io.reinert.requestor.gdeferred.AlwaysCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AlwaysCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> AlwaysCallback&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AlwaysCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gdeferred.SetDoneCallback<T> implements io.reinert.requestor.gdeferred.DoneCallbackForSet<T>
-	c1308:p -> c1296:p [dir=back,arrowtail=empty,style=dashed];
+	c1440:p -> c1428:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gdeferred.ListDoneCallback<T> implements io.reinert.requestor.gdeferred.DoneCallbackForList<T>
-	c1309:p -> c1299:p [dir=back,arrowtail=empty,style=dashed];
+	c1441:p -> c1431:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gdeferred.GDeferredRequestPromise<T> implements io.reinert.requestor.gdeferred.RequestPromise<T>
-	c1297:p -> c1300:p [dir=back,arrowtail=empty,style=dashed];
+	c1429:p -> c1432:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gdeferred.GDeferredRequest<T> implements io.reinert.requestor.gdeferred.GDeferredRequestPromise<T>
-	c1300:p -> c1301:p [dir=back,arrowtail=empty,style=dashed];
+	c1432:p -> c1433:p [dir=back,arrowtail=empty,style=dashed];
 	// io.reinert.requestor.gdeferred.DoneCallbackForSet<T>
-	c1308 [label=<<table title="io.reinert.requestor.gdeferred.DoneCallbackForSet" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c1440 [label=<<table title="io.reinert.requestor.gdeferred.DoneCallbackForSet" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DoneCallbackForSet&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="null", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.DoneCallbackForList<T>
-	c1309 [label=<<table title="io.reinert.requestor.gdeferred.DoneCallbackForList" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c1441 [label=<<table title="io.reinert.requestor.gdeferred.DoneCallbackForList" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DoneCallbackForList&lt;T&gt; </td></tr>

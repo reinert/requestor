@@ -246,86 +246,89 @@ digraph G {
 <tr><td align="center" balign="center"> Request </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Request.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.RawResponse
+	c36 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> RawResponse </td></tr>
+		</table></td></tr>
+		</table>>, URL="./RawResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Provider<T>
-	c36 [label=<<table title="io.reinert.requestor.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Provider.html">
+	c37 [label=<<table title="io.reinert.requestor.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Provider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Payload
-	c37 [label=<<table title="io.reinert.requestor.Payload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Payload.html">
+	c38 [label=<<table title="io.reinert.requestor.Payload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Payload.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Payload </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Payload.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.LightMap<T>
-	c38 [label=<<table title="io.reinert.requestor.LightMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LightMap.html">
+	c39 [label=<<table title="io.reinert.requestor.LightMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LightMap.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> LightMap&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LightMap.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.HttpSerializationContext
-	c39 [label=<<table title="io.reinert.requestor.HttpSerializationContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpSerializationContext.html">
+	c40 [label=<<table title="io.reinert.requestor.HttpSerializationContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpSerializationContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HttpSerializationContext </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpSerializationContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.HttpMethod
-	c40 [label=<<table title="io.reinert.requestor.HttpMethod" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpMethod.html">
+	c41 [label=<<table title="io.reinert.requestor.HttpMethod" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpMethod.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpMethod </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpMethod.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.HttpDeserializationContext
-	c41 [label=<<table title="io.reinert.requestor.HttpDeserializationContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpDeserializationContext.html">
+	c42 [label=<<table title="io.reinert.requestor.HttpDeserializationContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpDeserializationContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HttpDeserializationContext </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpDeserializationContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.HttpConnection
-	c42 [label=<<table title="io.reinert.requestor.HttpConnection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpConnection.html">
+	c43 [label=<<table title="io.reinert.requestor.HttpConnection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpConnection.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpConnection </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpConnection.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Headers
-	c43 [label=<<table title="io.reinert.requestor.Headers" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Headers.html">
+	c44 [label=<<table title="io.reinert.requestor.Headers" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Headers.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Headers </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Headers.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.HasHttpSendMethods
-	c44 [label=<<table title="io.reinert.requestor.HasHttpSendMethods" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasHttpSendMethods.html">
+	c45 [label=<<table title="io.reinert.requestor.HasHttpSendMethods" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasHttpSendMethods.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasHttpSendMethods </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasHttpSendMethods.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.DeferredFactory
-	c45 [label=<<table title="io.reinert.requestor.DeferredFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredFactory.html">
+	c46 [label=<<table title="io.reinert.requestor.DeferredFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeferredFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeferredFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Json
-	c46 [label=<<table title="io.reinert.requestor.Json" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Json.html">
+	c47 [label=<<table title="io.reinert.requestor.Json" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Json.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Json </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Json.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.UnsuccessfulResponseException extends io.reinert.requestor.RequestException
 	c28:p -> c0:p [dir=back,arrowtail=empty];
-	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.SerializedResponse
-	c2:p -> c1:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.ResponseFilterContext
-	c10:p -> c1:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.ResponseInterceptorContext
-	c7:p -> c1:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.RawResponse
+	c36:p -> c1:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.SerializedResponse implements io.reinert.requestor.Response<T>
 	c12:p -> c2:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.SerializedRequestImpl implements io.reinert.requestor.SerializedRequest
@@ -339,7 +342,7 @@ digraph G {
 	//io.reinert.requestor.RequestSender implements io.reinert.requestor.RequestBuilder
 	c34:p -> c14:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestSender implements io.reinert.requestor.HasHttpSendMethods
-	c44:p -> c14:p [dir=back,arrowtail=empty,style=dashed];
+	c45:p -> c14:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestProgressImpl implements io.reinert.requestor.RequestProgress
 	c16:p -> c15:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestPermissionException extends io.reinert.requestor.RequestException
@@ -360,5 +363,11 @@ digraph G {
 	c32:p -> c31:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestBuilder implements io.reinert.requestor.Request
 	c35:p -> c34:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.RawResponse implements io.reinert.requestor.SerializedResponse
+	c2:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.RawResponse implements io.reinert.requestor.ResponseFilterContext
+	c10:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.RawResponse implements io.reinert.requestor.ResponseInterceptorContext
+	c7:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
 }
 

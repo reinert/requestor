@@ -11,18 +11,18 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.RequestException
-	c7696 [label=<<table title="io.reinert.requestor.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
+	c9785 [label=<<table title="io.reinert.requestor.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestDispatchException
-	c7697 [label=<<table title="io.reinert.requestor.RequestDispatchException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestDispatchException.html">
+	c9786 [label=<<table title="io.reinert.requestor.RequestDispatchException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestDispatchException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestDispatchException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestDispatchException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RequestDispatchException extends io.reinert.requestor.RequestException
-	c7696:p -> c7697:p [dir=back,arrowtail=empty];
+	c9785:p -> c9786:p [dir=back,arrowtail=empty];
 }
 

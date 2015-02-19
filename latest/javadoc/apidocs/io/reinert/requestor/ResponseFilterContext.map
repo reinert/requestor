@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./SerializedResponseImpl.html" title="io.reinert.requestor.SerializedResponseImpl" alt="" coords="240,19,400,45"/>
-<area shape="rect" id="node1" href="./SerializedResponseImpl.html" title="&lt;TABLE&gt;" alt="" coords="229,8,411,56"/>
-<area shape="rect" id="node2_1" href="./ResponseFilterContext.html" title="io.reinert.requestor.ResponseFilterContext" alt="" coords="17,10,170,54"/>
-<area shape="rect" id="node2" href="./ResponseFilterContext.html" title="&lt;TABLE&gt;" alt="" coords="6,5,181,59"/>
+<area shape="rect" id="node1_0" href="./ResponseFilterContext.html" title="io.reinert.requestor.ResponseFilterContext" alt="" coords="17,10,170,54"/>
+<area shape="rect" id="node1" href="./ResponseFilterContext.html" title="&lt;TABLE&gt;" alt="" coords="6,5,181,59"/>
+<area shape="rect" id="node2_1" href="./RawResponse.html" title="io.reinert.requestor.RawResponse" alt="" coords="240,10,344,54"/>
+<area shape="rect" id="node2" href="./RawResponse.html" title="&lt;TABLE&gt;" alt="" coords="229,5,355,59"/>
 </map>

@@ -11,18 +11,18 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.serialization.UnableToDeserializeException
-	c12650 [label=<<table title="io.reinert.requestor.serialization.UnableToDeserializeException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UnableToDeserializeException.html">
+	c15002 [label=<<table title="io.reinert.requestor.serialization.UnableToDeserializeException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UnableToDeserializeException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> UnableToDeserializeException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./UnableToDeserializeException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.SerializationException
-	c12652 [label=<<table title="io.reinert.requestor.serialization.SerializationException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializationException.html">
+	c15004 [label=<<table title="io.reinert.requestor.serialization.SerializationException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializationException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializationException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializationException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.serialization.UnableToDeserializeException extends io.reinert.requestor.serialization.SerializationException
-	c12652:p -> c12650:p [dir=back,arrowtail=empty];
+	c15004:p -> c15002:p [dir=back,arrowtail=empty];
 }
 

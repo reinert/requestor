@@ -11,37 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.SerializedResponseImpl
-	c11706 [label=<<table title="io.reinert.requestor.SerializedResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedResponseImpl.html">
+	c14201 [label=<<table title="io.reinert.requestor.SerializedResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedResponseImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializedResponseImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponseImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.SerializedResponse
-	c11707 [label=<<table title="io.reinert.requestor.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
+	// io.reinert.requestor.RawResponse
+	c14236 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> SerializedResponse </td></tr>
+<tr><td align="center" balign="center"> RawResponse </td></tr>
 		</table></td></tr>
-		</table>>, URL="./SerializedResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.ResponseInterceptorContext
-	c11712 [label=<<table title="io.reinert.requestor.ResponseInterceptorContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInterceptorContext.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> ResponseInterceptorContext </td></tr>
-		</table></td></tr>
-		</table>>, URL="./ResponseInterceptorContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.ResponseFilterContext
-	c11715 [label=<<table title="io.reinert.requestor.ResponseFilterContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilterContext.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> ResponseFilterContext </td></tr>
-		</table></td></tr>
-		</table>>, URL="./ResponseFilterContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.SerializedResponse
-	c11707:p -> c11706:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.ResponseFilterContext
-	c11715:p -> c11706:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.ResponseInterceptorContext
-	c11712:p -> c11706:p [dir=back,arrowtail=empty,style=dashed];
+		</table>>, URL="./RawResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.RawResponse
+	c14236:p -> c14201:p [dir=back,arrowtail=empty,style=dashed];
 }
 
