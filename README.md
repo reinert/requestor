@@ -57,7 +57,7 @@ Requesting will never be boring again!
 * Uri Building
 * BASIC and DIGEST authentication (nicely supporting CORS)
 * Extremely easy to implement any custom authentication
-* Nice header manipulation
+* Headers API
 * Filters (enhance requests and responses)
 * Interceptors (transform payloads)
 * Auto JSON serialization for POJOs, JavaBean Interfaces and Overlay types
