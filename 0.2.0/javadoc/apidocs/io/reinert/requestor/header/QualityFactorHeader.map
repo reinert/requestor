@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./QualityFactorHeader.html" title="io.reinert.requestor.header.QualityFactorHeader" alt="" coords="211,16,351,43"/>
+<area shape="rect" id="node1" href="./QualityFactorHeader.html" title="&lt;TABLE&gt;" alt="" coords="201,5,362,53"/>
+<area shape="rect" id="node3_1" href="./AcceptHeader.html" title="io.reinert.requestor.header.AcceptHeader" alt="" coords="422,16,525,43"/>
+<area shape="rect" id="node3" href="./AcceptHeader.html" title="&lt;TABLE&gt;" alt="" coords="411,5,535,53"/>
+<area shape="rect" id="node2_2" href="./MultivaluedHeader.html" title="io.reinert.requestor.header.MultivaluedHeader" alt="" coords="16,16,141,43"/>
+<area shape="rect" id="node2" href="./MultivaluedHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,5,152,53"/>
+</map>
