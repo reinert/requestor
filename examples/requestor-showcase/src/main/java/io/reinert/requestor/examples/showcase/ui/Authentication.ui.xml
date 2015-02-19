@@ -21,7 +21,7 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="http-basic-authentication">HTTP Basic Authentication</h1>
       <p class="lead">
-        Basic auth is already provided by the API.
+        The most common method of authentication, Basic Auth is provided by default.
       </p>
       <div class="highlight">
         <pre ui:field="basic" class="java">
@@ -57,7 +57,7 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="http-digest-authentication">HTTP Digest Authentication</h1>
       <p class="lead">
-        Do Digest authentication as easily as Basic.
+        Safer than Basic, Digest Auth is supported out of the box too.
       </p>
       <div class="highlight">
         <pre ui:field="digest" class="java">
