@@ -45,7 +45,7 @@
               <br/>
               &#32;&#32;&lt;artifactId&gt;requestor-gdeferred&lt;/artifactId&gt;
               <br/>
-              &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+              &#32;&#32;&lt;version&gt;0.2.0&lt;/version&gt;
               <br/>
               &lt;/dependency&gt;
               <br/>
@@ -55,7 +55,7 @@
               <br/>
               &#32;&#32;&lt;artifactId&gt;requestor-api&lt;/artifactId&gt;
               <br/>
-              &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+              &#32;&#32;&lt;version&gt;0.2.0&lt;/version&gt;
               <br/>
               &lt;/dependency&gt;
               <br/>
@@ -65,7 +65,7 @@
               <br/>
               &#32;&#32;&lt;artifactId&gt;requestor-annotations&lt;/artifactId&gt;
               <br/>
-              &#32;&#32;&lt;version&gt;0.1.0&lt;/version&gt;
+              &#32;&#32;&lt;version&gt;0.2.0&lt;/version&gt;
               <br/>
               &lt;/dependency&gt;
             </code>
@@ -85,18 +85,18 @@
             </a>
           </li>
           <li>
-            <a href="https://repo1.maven.org/maven2/io/reinert/requestor/impl/requestor-gdeferred/0.1.0/requestor-gdeferred-0.1.0.jar">
-              GDeferred's Requestor Impl 0.1.0
+            <a href="https://repo1.maven.org/maven2/io/reinert/requestor/impl/requestor-gdeferred/0.2.0/requestor-gdeferred-0.2.0.jar">
+              GDeferred's Requestor Impl 0.2.0
             </a>
           </li>
           <li>
-            <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-api/0.1.0/requestor-api-0.1.0.jar">
-              Requestor API 0.1.0
+            <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-api/0.2.0/requestor-api-0.2.0.jar">
+              Requestor API 0.2.0
             </a>
           </li>
           <li>
-            <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-annotations/0.1.0/requestor-annotations-0.1.0.jar">
-              Requestor Annotations 0.1.0 (optional)
+            <a href="https://repo1.maven.org/maven2/io/reinert/requestor/core/requestor-annotations/0.2.0/requestor-annotations-0.2.0.jar">
+              Requestor Annotations 0.2.0 (optional)
             </a>
           </li>
         </ul>
