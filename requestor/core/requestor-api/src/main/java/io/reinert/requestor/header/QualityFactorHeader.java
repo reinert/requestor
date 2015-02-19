@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * HTTP Header with relative quality factors.
+ * Multivalued HTTP Header with relative quality factors.
  *
  * @author Danilo Reinert
  */

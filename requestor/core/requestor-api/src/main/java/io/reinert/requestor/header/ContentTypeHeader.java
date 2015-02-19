@@ -16,7 +16,9 @@
 package io.reinert.requestor.header;
 
 /**
- * HTTP Content-Type Header.
+ * The HTTP Content-Type header.
+ * </p>
+ * It's a simple header.
  *
  * @author Danilo Reinert
  */

@@ -16,7 +16,7 @@
 package io.reinert.requestor.header;
 
 /**
- * Parameter of a header value.
+ * Parameter of a header value (element).
  *
  * @author Danilo Reinert
  */

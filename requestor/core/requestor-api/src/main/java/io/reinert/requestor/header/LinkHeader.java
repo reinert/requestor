@@ -16,7 +16,9 @@
 package io.reinert.requestor.header;
 
 /**
- * Simple HTTP header with name and value.
+ * The HTTP Link header.
+ * <p/>
+ * It's a multivalued header that provides access to the attributes related by official spec.
  *
  * @author Danilo Reinert
  */
