@@ -16,7 +16,7 @@
 package io.reinert.requestor.header;
 
 /**
- * Simple HTTP header with name and value.
+ * Simple HTTP header with a single value (element).
  *
  * @author Danilo Reinert
  */

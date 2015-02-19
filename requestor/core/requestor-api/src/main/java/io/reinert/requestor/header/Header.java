@@ -23,6 +23,15 @@ import java.util.List;
  */
 public abstract class Header extends com.google.gwt.http.client.Header {
 
+    /**
+     * Factory method useful to create headers from original GWT {@link com.google.gwt.http.client.Response}.
+     * <p/>
+     * It should be used by {@link io.reinert.requestor.RequestDispatcher} impls when receiving responses.
+     *
+     * @param rawHeader  The original GWT header
+     *
+     * @return  The parsed header
+     */
     public static Header from(com.google.gwt.http.client.Header rawHeader) {
         final String name = rawHeader.getName().toUpperCase();
         final String value = rawHeader.getValue();

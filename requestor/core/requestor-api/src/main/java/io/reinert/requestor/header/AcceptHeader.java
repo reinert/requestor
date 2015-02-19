@@ -16,7 +16,9 @@
 package io.reinert.requestor.header;
 
 /**
- * The HTTP Accept Header.
+ * The HTTP Accept header.
+ * <p/>
+ * It's a relative quality factor header.
  *
  * @author Danilo Reinert
  */

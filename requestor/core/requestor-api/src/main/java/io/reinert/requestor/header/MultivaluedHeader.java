@@ -16,7 +16,7 @@
 package io.reinert.requestor.header;
 
 /**
- * HTTP Header with multiple values.
+ * HTTP Header with multiple values (elements).
  *
  * @author Danilo Reinert
  */
