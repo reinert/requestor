@@ -11,6 +11,7 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   git add .
   git commit -m "Release $1"
   # deploy
+  # errors are occurring during deployment; it's necessary to try many times
   mvn clean deploy -P!project,release
   # tag
   git tag -a requestor-$1 -m "Requestor v$1"

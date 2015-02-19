@@ -74,20 +74,20 @@ Almost all features are working perfectly in all modern browsers, except:
 
 ## Examples
 * [Showcase (Latest Release)](http://reinert.github.io/requestor/latest/examples/showcase)
-* [Showcase (0.2.0-SNAPSHOT)](http://reinert.github.io/requestor/0.2.0-SNAPSHOT/examples/showcase)
+* [Showcase (0.3.0-SNAPSHOT)](http://reinert.github.io/requestor/0.3.0-SNAPSHOT/examples/showcase)
 
 ## Documentation
 * [Wiki](https://github.com/reinert/requestor/wiki)
 * [Javadoc](http://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
 * [Project Site (Latest Release)](https://reinert.github.io/requestor/latest)
-* [Project Site (0.2.0-SNAPSHOT)](https://reinert.github.io/requestor/0.2.0-SNAPSHOT)
+* [Project Site (0.3.0-SNAPSHOT)](https://reinert.github.io/requestor/0.3.0-SNAPSHOT)
 
 ## Community
 * [Discussion Group](https://groups.google.com/forum/#!forum/requestor)
 * [Chat](https://gitter.im/reinert/requestor)
 
 ## Latest Release
-0.1.0 (07 Jan 2015)
+0.2.0 (19 Feb 2015)
 
 ## Installation
 
@@ -103,12 +103,12 @@ Currently, there's only one implementation available, requestor-gdeferred, which
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-gdeferred</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 <dependency>
     <groupId>io.reinert.requestor.core</groupId>
     <artifactId>requestor-api</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
