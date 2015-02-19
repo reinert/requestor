@@ -19,7 +19,7 @@ Carefully crafted, Requestor provides many features while allows the easy config
 * Uri Building
 * BASIC and DIGEST authentication (nicely supporting CORS)
 * Extremely easy to implement any custom authentication
-* Nice header manipulation
+* Headers API
 * Filters (enhance requests and responses)
 * Interceptors (transform payloads)
 * Auto JSON serialization for POJOs, JavaBean Interfaces and Overlay types
@@ -37,5 +37,4 @@ Carefully crafted, Requestor provides many features while allows the easy config
 
   ga('create', 'UA-59721128-1', 'auto');
   ga('send', 'pageview');
-
 </script>
