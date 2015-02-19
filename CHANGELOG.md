@@ -1,6 +1,15 @@
 REQUESTOR CHANGELOG
 ==
 
+### 0.2.0 - 19 Feb 2015
+* Issue [#32](https://github.com/reinert/requestor/issues/32): Support for URI Parsing
+* Issue [#30](https://github.com/reinert/requestor/issues/30): Support for the Link header
+* Issue [#26](https://github.com/reinert/requestor/issues/26): Support for Digest authentication
+* Support to abort a RequestOrder either with Response or Throwable
+* Support to copy a RequestOrder
+* Added RawResponse joining SerializedResponse and FilterResponseContext and InterceptorResponseContext
+* Improved error messages
+
 ### 0.1.0 - 07 Jan 2015 (Initial Release)
 * Requestor Core API
     * RequestBuilder
