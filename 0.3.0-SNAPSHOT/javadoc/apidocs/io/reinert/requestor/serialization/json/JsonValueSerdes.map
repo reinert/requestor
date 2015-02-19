@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./JsonValueSerdes.html" title="io.reinert.requestor.serialization.json.JsonValueSerdes" alt="" coords="200,88,347,115"/>
+<area shape="rect" id="node1" href="./JsonValueSerdes.html" title="&lt;TABLE&gt;" alt="" coords="189,77,357,125"/>
+<area shape="rect" id="node2_1" href="./JsonStringSerdes.html" title="io.reinert.requestor.serialization.json.JsonStringSerdes" alt="" coords="423,16,545,43"/>
+<area shape="rect" id="node2" href="./JsonStringSerdes.html" title="&lt;TABLE&gt;" alt="" coords="412,5,556,53"/>
+<area shape="rect" id="node4_2" href="./JsonNumberSerdes.html" title="io.reinert.requestor.serialization.json.JsonNumberSerdes" alt="" coords="417,88,551,115"/>
+<area shape="rect" id="node4" href="./JsonNumberSerdes.html" title="&lt;TABLE&gt;" alt="" coords="407,77,561,125"/>
+<area shape="rect" id="node5_3" href="./JsonBooleanSerdes.html" title="io.reinert.requestor.serialization.json.JsonBooleanSerdes" alt="" coords="416,160,552,187"/>
+<area shape="rect" id="node5" href="./JsonBooleanSerdes.html" title="&lt;TABLE&gt;" alt="" coords="405,149,563,197"/>
+<area shape="rect" id="node3_4" href="./JsonSerdes.html" title="io.reinert.requestor.serialization.json.JsonSerdes" alt="" coords="17,88,130,115"/>
+<area shape="rect" id="node3" href="./JsonSerdes.html" title="&lt;TABLE&gt;" alt="" coords="6,77,141,125"/>
+</map>
