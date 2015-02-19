@@ -128,10 +128,10 @@ public class DigestAuth implements Authentication {
                         }
                     }
                     // Otherwise, throw an AuthenticationException and reject the promise with it
-                    throw new AuthenticationException("Unable to authenticate using Digest: The server returned other "
-                            + "response than one from expected.", error);
+                    throw new AuthenticationException("The server returned a not expected status code.", error);
                 } catch (Exception e) {
-                    originalRequest.abort(new RequestException("Request could not be completed. See previous log.", e));
+                    originalRequest.abort(new RequestException("Unable to authenticate request using DigestAuth. "
+                            + "See previous log.", e));
                 }
             }
         });
@@ -143,10 +143,9 @@ public class DigestAuth implements Authentication {
 
         final String authHeader = attemptResponse.getHeader("WWW-Authenticate");
         if (authHeader == null) {
-            throw new AuthenticationException("Unable to authenticate using Digest: It was not possible to retrieve "
-                    + "the 'WWW-Authenticate' header from server response. If you're using CORS, make sure your "
-                    + "server allows the client to access this header by adding the header "
-                    + "\"Access-Control-Expose-Headers: WWW-Authenticate\" to the response.");
+            throw new AuthenticationException("It was not possible to retrieve the 'WWW-Authenticate' header from "
+                    + "server response. If you're using CORS, make sure your server allows the client to access this "
+                    + "header by adding \"Access-Control-Expose-Headers: WWW-Authenticate\" to the response headers.");
         }
 
         final StringBuilder digestBuilder = new StringBuilder("Digest username=\"").append(user);
