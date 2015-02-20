@@ -42,10 +42,7 @@ class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
     }
 
     /**
-     * Clears the {@link com.google.gwt.xhr.client.ReadyStateChangeHandler}.
-     * <p>
-     * See <a href="http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange"
-     * >http://www.w3.org/TR/XMLHttpRequest/#handler-xhr-onreadystatechange</a>.
+     * Clears the {@link ProgressHandler}.
      *
      * @see #clearOnReadyStateChange()
      */
@@ -72,12 +69,20 @@ class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         this.send(requestData);
     }-*/;
 
-    public final native void setOnProgress(ProgressHandler handler) /*-{
+    public final void setOnProgress(ProgressHandler handler) {
+        if (!setOnProgressNative(handler)) {
+            LOGGER.log(Level.SEVERE, "Set OnProgress failed: XHR onprogress handler not supported by the browser.");
+        }
+    }
+
+    public final native boolean setOnProgressNative(ProgressHandler handler) /*-{
         if ("onprogress" in this) {
             this.onprogress = $entry(function(e) {
                 handler.@io.reinert.requestor.ProgressHandler::onProgress(Lio/reinert/requestor/ProgressEvent;)(e);
             });
+            return true;
         }
+        return false;
     }-*/;
 
     public final void setUploadOnProgress(ProgressHandler handler) {
@@ -85,7 +90,7 @@ class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         if (upload != null) {
             upload.setOnProgress(handler);
         } else {
-            LOGGER.log(Level.SEVERE, "Set Upload Progress fail: XHR Upload not supported.");
+            LOGGER.log(Level.SEVERE, "Set UploadOnProgress failed: XHR upload property not supported by the browser.");
         }
     }
 
