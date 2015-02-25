@@ -158,6 +158,7 @@ public interface Requestor {
 
     /**
      * Quickly dispatch serialized requests.
+     * Use it if you want to skip the request processing steps and send a request as it is.
      *
      * @param request       The request to be sent
      * @param expectedType  The expected type class of the response
@@ -169,6 +170,7 @@ public interface Requestor {
 
     /**
      * Quickly dispatch serialized requests.
+     * Use it if you want to skip the request processing steps and send a request as it is.
      *
      * @param request       The request to be sent
      * @param expectedType  The expected type class of the response
@@ -179,5 +181,5 @@ public interface Requestor {
      * @return  Promise of the expected type
      */
     <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> expectedType,
-                                                  Class<C> containerType);
+                                                              Class<C> containerType);
 }

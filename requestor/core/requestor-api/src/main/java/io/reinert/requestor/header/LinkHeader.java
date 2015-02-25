@@ -15,6 +15,12 @@
  */
 package io.reinert.requestor.header;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * The HTTP Link header.
  * <p/>
@@ -22,102 +28,63 @@ package io.reinert.requestor.header;
  *
  * @author Danilo Reinert
  */
-public class LinkHeader extends MultivaluedHeader {
+public class LinkHeader extends MultivaluedHeader implements Iterable<Link> {
 
-    public static class Link extends Element.SimpleElement {
+    private final Map<String, ? super Link> linksMap;
+    private final Iterable<Element> elements;
+    private final Iterable<Link> links;
 
-        private final String uri;
-        private String rel;
-        private String title;
-        private String rev;
-        private String hrefLang;
-        private String anchor;
-        private String media;
-        private String type;
-
-        Link(Element element) {
-            super(element.getElement(), element.getParams());
-
-            final String rawUri = element.getElement();
-            if (rawUri.charAt(0) == '<') {
-                uri = rawUri.substring(1, rawUri.length() - 1);
-            } else {
-                uri = rawUri;
-            }
-
-            for (Param param : element.getParams()) {
-                if (param instanceof Param.KeyValueParam) {
-                    Param.KeyValueParam kvParam = (Param.KeyValueParam) param;
-                    final String key = kvParam.getKey().toLowerCase();
-                    final String value = kvParam.getValue();
-                    if ("rel".equals(key)) {
-                        rel = value;
-                    } else if ("title".equals(key) && title == null) {
-                        title = value;
-                    } else if ("title*".equals(key)) {
-                        title = value;
-                    } else if ("anchor".equals(key)) {
-                        anchor = value;
-                    } else if ("media".equals(key)) {
-                        media = value;
-                    } else if ("type".equals(key)) {
-                        type = value;
-                    } else if ("hrefLang".equals(key)) {
-                        hrefLang = value;
-                    } else if ("rev".equals(key)) {
-                        rev = value;
-                    }
-                }
-            }
+    @SuppressWarnings("unchecked")
+    public LinkHeader(Collection<Element> elements) {
+        super("Link", Collections.EMPTY_LIST);
+        linksMap = new HashMap<String, Link>(elements.size());
+        for (Element e : elements) {
+            final Link l = new Link(e);
+            linksMap.put(l.getRel(), l);
         }
-
-        public String getUri() {
-            return uri;
-        }
-
-        public String getRel() {
-            return rel;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getRev() {
-            return rev;
-        }
-
-        public String getHrefLang() {
-            return hrefLang;
-        }
-
-        public String getAnchor() {
-            return anchor;
-        }
-
-        public String getMedia() {
-            return media;
-        }
-
-        public String getType() {
-            return type;
-        }
+        links = (Iterable<Link>) linksMap.values();
+        this.elements = (Iterable<Element>) linksMap.values();
     }
 
-    public LinkHeader(Element... elements) {
-        super("Link", decorate(elements));
-    }
-
-    public Link[] getLinks() {
-        return (Link[]) getElements();
-    }
-
-    private static Element[] decorate(Element[] elements) {
-        Link[] links = new Link[elements.length];
-        for (int i = 0; i < elements.length; i++) {
-            links[i] = new Link(elements[i]);
-        }
+    public Iterable<Link> getLinks() {
         return links;
     }
 
+    public boolean hasLink(String relation) {
+        return linksMap.containsKey(relation);
+    }
+
+    public Link getLink(String relation) {
+        return (Link) linksMap.get(relation);
+    }
+
+    @Override
+    public Iterable<Element> getElements() {
+        return elements;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        final LinkHeader that = (LinkHeader) o;
+
+        if (!linksMap.equals(that.linksMap))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return linksMap.hashCode();
+    }
+
+    @Override
+    public Iterator<Link> iterator() {
+        return links.iterator();
+    }
 }

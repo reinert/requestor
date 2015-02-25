@@ -64,11 +64,28 @@ public abstract class Element {
     /**
      * Returns the elements separated by comma.
      *
-     * @element elements The elements
+     * @param elements The elements
      *
      * @return A string with the elements separated by semicolon
      */
     public static String toString(Element... elements) {
+        String result = "";
+        String separator = "";
+        for (Element element : elements) {
+            result += separator + element.toString();
+            separator = ", ";
+        }
+        return result;
+    }
+
+    /**
+     * Returns the elements separated by comma.
+     *
+     * @param elements The elements
+     *
+     * @return A string with the elements separated by semicolon
+     */
+    public static String toString(Iterable<Element> elements) {
         String result = "";
         String separator = "";
         for (Element element : elements) {

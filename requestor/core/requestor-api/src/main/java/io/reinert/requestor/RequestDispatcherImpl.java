@@ -149,8 +149,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                 final Payload payload = responseType.isEmpty() || responseType.equalsIgnoreCase("text") ?
                         new Payload(xhr.getResponseText()) : new Payload(xhr.getResponse());
 
-                final SerializedResponseImpl response = new SerializedResponseImpl(gwtResponse.getStatusText(),
-                        gwtResponse.getStatusCode(), new Headers(gwtResponse.getHeaders()),
+                final SerializedResponseImpl response = new SerializedResponseImpl(gwtResponse.getStatusCode(),
+                        gwtResponse.getStatusText(), new Headers(gwtResponse.getHeaders()),
                         ResponseType.of(responseType), payload);
 
                 evalResponse(request, deferred, resolveType, parametrizedType, response);
