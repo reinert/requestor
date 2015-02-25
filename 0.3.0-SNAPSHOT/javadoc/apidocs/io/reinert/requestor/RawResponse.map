@@ -1,12 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./SerializedResponseImpl.html" title="io.reinert.requestor.SerializedResponseImpl" alt="" coords="445,97,605,124"/>
-<area shape="rect" id="node1" href="./SerializedResponseImpl.html" title="&lt;TABLE&gt;" alt="" coords="435,87,616,135"/>
-<area shape="rect" id="node2_1" href="./SerializedResponse.html" title="io.reinert.requestor.SerializedResponse" alt="" coords="41,10,177,54"/>
-<area shape="rect" id="node2" href="./SerializedResponse.html" title="&lt;TABLE&gt;" alt="" coords="31,5,188,59"/>
-<area shape="rect" id="node5_2" href="./RawResponse.html" title="io.reinert.requestor.RawResponse" alt="" coords="272,89,376,133"/>
+<area shape="rect" id="node1_0" href="./SerializedResponse.html" title="io.reinert.requestor.SerializedResponse" alt="" coords="41,10,177,54"/>
+<area shape="rect" id="node1" href="./SerializedResponse.html" title="&lt;TABLE&gt;" alt="" coords="31,5,188,59"/>
+<area shape="rect" id="node5_1" href="./RawResponse.html" title="io.reinert.requestor.RawResponse" alt="" coords="272,89,376,133"/>
 <area shape="rect" id="node5" href="./RawResponse.html" title="&lt;TABLE&gt;" alt="" coords="261,83,387,138"/>
-<area shape="rect" id="node3_3" href="./ResponseInterceptorContext.html" title="io.reinert.requestor.ResponseInterceptorContext" alt="" coords="17,89,202,133"/>
-<area shape="rect" id="node3" href="./ResponseInterceptorContext.html" title="&lt;TABLE&gt;" alt="" coords="6,83,213,138"/>
-<area shape="rect" id="node4_4" href="./ResponseFilterContext.html" title="io.reinert.requestor.ResponseFilterContext" alt="" coords="33,167,186,211"/>
-<area shape="rect" id="node4" href="./ResponseFilterContext.html" title="&lt;TABLE&gt;" alt="" coords="22,162,197,217"/>
+<area shape="rect" id="node2_2" href="./ResponseInterceptorContext.html" title="io.reinert.requestor.ResponseInterceptorContext" alt="" coords="17,89,202,133"/>
+<area shape="rect" id="node2" href="./ResponseInterceptorContext.html" title="&lt;TABLE&gt;" alt="" coords="6,83,213,138"/>
+<area shape="rect" id="node3_3" href="./ResponseFilterContext.html" title="io.reinert.requestor.ResponseFilterContext" alt="" coords="33,167,186,211"/>
+<area shape="rect" id="node3" href="./ResponseFilterContext.html" title="&lt;TABLE&gt;" alt="" coords="22,162,197,217"/>
+<area shape="rect" id="node4_4" href="./RawResponseImpl.html" title="io.reinert.requestor.RawResponseImpl" alt="" coords="445,97,573,124"/>
+<area shape="rect" id="node4" href="./RawResponseImpl.html" title="&lt;TABLE&gt;" alt="" coords="435,87,584,135"/>
 </map>

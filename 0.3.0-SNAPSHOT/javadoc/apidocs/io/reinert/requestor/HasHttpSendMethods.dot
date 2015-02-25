@@ -11,7 +11,7 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.RequestSender
-	c4960 [label=<<table title="io.reinert.requestor.RequestSender" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSender.html">
+	c4959 [label=<<table title="io.reinert.requestor.RequestSender" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSender.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestSender </td></tr>
@@ -25,6 +25,6 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./HasHttpSendMethods.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RequestSender implements io.reinert.requestor.HasHttpSendMethods
-	c4991:p -> c4960:p [dir=back,arrowtail=empty,style=dashed];
+	c4991:p -> c4959:p [dir=back,arrowtail=empty,style=dashed];
 }
 

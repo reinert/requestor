@@ -52,12 +52,12 @@ digraph G {
 <tr><td align="center" balign="center"> LinkHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LinkHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.header.LinkHeader.Link
-	c670 [label=<<table title="io.reinert.requestor.header.LinkHeader.Link" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LinkHeader.Link.html">
+	// io.reinert.requestor.header.Link
+	c670 [label=<<table title="io.reinert.requestor.header.Link" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Link.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Link </td></tr>
 		</table></td></tr>
-		</table>>, URL="./LinkHeader.Link.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Link.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.Header
 	c671 [label=<<table title="io.reinert.requestor.header.Header" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Header.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
@@ -106,7 +106,7 @@ digraph G {
 	c671:p -> c668:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.header.LinkHeader extends io.reinert.requestor.header.MultivaluedHeader
 	c668:p -> c669:p [dir=back,arrowtail=empty];
-	//io.reinert.requestor.header.LinkHeader.Link extends io.reinert.requestor.header.Element.SimpleElement
+	//io.reinert.requestor.header.Link extends io.reinert.requestor.header.Element.SimpleElement
 	c673:p -> c670:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.header.Element.SimpleElement extends io.reinert.requestor.header.Element
 	c672:p -> c673:p [dir=back,arrowtail=empty];

@@ -11,7 +11,7 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.UnsuccessfulResponseException
-	c15162 [label=<<table title="io.reinert.requestor.UnsuccessfulResponseException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UnsuccessfulResponseException.html">
+	c15163 [label=<<table title="io.reinert.requestor.UnsuccessfulResponseException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UnsuccessfulResponseException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> UnsuccessfulResponseException </td></tr>
 		</table></td></tr>
@@ -23,6 +23,6 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./RequestException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.UnsuccessfulResponseException extends io.reinert.requestor.RequestException
-	c15190:p -> c15162:p [dir=back,arrowtail=empty];
+	c15190:p -> c15163:p [dir=back,arrowtail=empty];
 }
 

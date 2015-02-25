@@ -10,12 +10,12 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	rankdir=LR;
-	// io.reinert.requestor.header.LinkHeader.Link
-	c3933 [label=<<table title="io.reinert.requestor.header.LinkHeader.Link" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LinkHeader.Link.html">
+	// io.reinert.requestor.header.Link
+	c3933 [label=<<table title="io.reinert.requestor.header.Link" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Link.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Link </td></tr>
 		</table></td></tr>
-		</table>>, URL="./LinkHeader.Link.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Link.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.Element
 	c3935 [label=<<table title="io.reinert.requestor.header.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Element.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
@@ -28,7 +28,7 @@ digraph G {
 <tr><td align="center" balign="center"> SimpleElement </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Element.SimpleElement.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.header.LinkHeader.Link extends io.reinert.requestor.header.Element.SimpleElement
+	//io.reinert.requestor.header.Link extends io.reinert.requestor.header.Element.SimpleElement
 	c3936:p -> c3933:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.header.Element.SimpleElement extends io.reinert.requestor.header.Element
 	c3935:p -> c3936:p [dir=back,arrowtail=empty];

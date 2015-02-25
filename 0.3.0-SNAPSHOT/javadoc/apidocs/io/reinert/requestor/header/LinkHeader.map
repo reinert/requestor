@@ -1,6 +1,8 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./MultivaluedHeader.html" title="io.reinert.requestor.header.MultivaluedHeader" alt="" coords="16,16,141,43"/>
 <area shape="rect" id="node1" href="./MultivaluedHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,5,152,53"/>
-<area shape="rect" id="node2_1" href="./LinkHeader.html" title="io.reinert.requestor.header.LinkHeader" alt="" coords="211,16,296,43"/>
-<area shape="rect" id="node2" href="./LinkHeader.html" title="&lt;TABLE&gt;" alt="" coords="200,5,307,53"/>
+<area shape="rect" id="node2_1" href="./LinkHeader.html" title="io.reinert.requestor.header.LinkHeader" alt="" coords="211,55,296,81"/>
+<area shape="rect" id="node2" href="./LinkHeader.html" title="&lt;TABLE&gt;" alt="" coords="200,44,307,92"/>
+<area shape="rect" id="node3_2" href="http://download.oracle.com/javase/7/docs/api/java/lang/Iterable.html" title="java.lang.Iterable" alt="" coords="36,83,121,127"/>
+<area shape="rect" id="node3" href="http://download.oracle.com/javase/7/docs/api/java/lang/Iterable.html" title="&lt;TABLE&gt;" alt="" coords="25,78,132,133"/>
 </map>

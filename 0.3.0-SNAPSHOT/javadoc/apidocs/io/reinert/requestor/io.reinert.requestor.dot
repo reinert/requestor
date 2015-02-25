@@ -16,236 +16,236 @@ digraph G {
 <tr><td align="center" balign="center"> UnsuccessfulResponseException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./UnsuccessfulResponseException.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.SerializedResponseImpl
-	c1 [label=<<table title="io.reinert.requestor.SerializedResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponseImpl.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> SerializedResponseImpl </td></tr>
-		</table></td></tr>
-		</table>>, URL="./SerializedResponseImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.SerializedResponse
-	c2 [label=<<table title="io.reinert.requestor.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
+	c1 [label=<<table title="io.reinert.requestor.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.SerializedRequestImpl
-	c3 [label=<<table title="io.reinert.requestor.SerializedRequestImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequestImpl.html">
+	c2 [label=<<table title="io.reinert.requestor.SerializedRequestImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequestImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializedRequestImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequestImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.SerializedRequest
-	c4 [label=<<table title="io.reinert.requestor.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
+	c3 [label=<<table title="io.reinert.requestor.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.ResponseType
-	c5 [label=<<table title="io.reinert.requestor.ResponseType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseType.html">
+	c4 [label=<<table title="io.reinert.requestor.ResponseType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseType.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseType </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseType.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.ResponseProcessor
-	c6 [label=<<table title="io.reinert.requestor.ResponseProcessor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseProcessor.html">
+	c5 [label=<<table title="io.reinert.requestor.ResponseProcessor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseProcessor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ResponseProcessor </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseProcessor.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.ResponseInterceptorContext
-	c7 [label=<<table title="io.reinert.requestor.ResponseInterceptorContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInterceptorContext.html">
+	c6 [label=<<table title="io.reinert.requestor.ResponseInterceptorContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInterceptorContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseInterceptorContext </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseInterceptorContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.ResponseInterceptor
-	c8 [label=<<table title="io.reinert.requestor.ResponseInterceptor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInterceptor.html">
+	c7 [label=<<table title="io.reinert.requestor.ResponseInterceptor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInterceptor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseInterceptor </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseInterceptor.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.ResponseImpl<T>
-	c9 [label=<<table title="io.reinert.requestor.ResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseImpl.html">
+	c8 [label=<<table title="io.reinert.requestor.ResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ResponseImpl&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.ResponseFilterContext
-	c10 [label=<<table title="io.reinert.requestor.ResponseFilterContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilterContext.html">
+	c9 [label=<<table title="io.reinert.requestor.ResponseFilterContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilterContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseFilterContext </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseFilterContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.ResponseFilter
-	c11 [label=<<table title="io.reinert.requestor.ResponseFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilter.html">
+	c10 [label=<<table title="io.reinert.requestor.ResponseFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseFilter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseFilter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Response<T>
-	c12 [label=<<table title="io.reinert.requestor.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Response.html">
+	c11 [label=<<table title="io.reinert.requestor.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Response.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Response&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Response.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestTimeoutException
-	c13 [label=<<table title="io.reinert.requestor.RequestTimeoutException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestTimeoutException.html">
+	c12 [label=<<table title="io.reinert.requestor.RequestTimeoutException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestTimeoutException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestTimeoutException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestTimeoutException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestSender
-	c14 [label=<<table title="io.reinert.requestor.RequestSender" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSender.html">
+	c13 [label=<<table title="io.reinert.requestor.RequestSender" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSender.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestSender </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestSender.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestProgressImpl
-	c15 [label=<<table title="io.reinert.requestor.RequestProgressImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestProgressImpl.html">
+	c14 [label=<<table title="io.reinert.requestor.RequestProgressImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestProgressImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestProgressImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestProgressImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestProgress
-	c16 [label=<<table title="io.reinert.requestor.RequestProgress" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestProgress.html">
+	c15 [label=<<table title="io.reinert.requestor.RequestProgress" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestProgress.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestProgress </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestProgress.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestPermissionException
-	c17 [label=<<table title="io.reinert.requestor.RequestPermissionException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestPermissionException.html">
+	c16 [label=<<table title="io.reinert.requestor.RequestPermissionException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestPermissionException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestPermissionException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestPermissionException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestorInitializerForJson
-	c18 [label=<<table title="io.reinert.requestor.RequestorInitializerForJson" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerForJson.html">
+	c17 [label=<<table title="io.reinert.requestor.RequestorInitializerForJson" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerForJson.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorInitializerForJson </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializerForJson.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestorInitializerClean
-	c19 [label=<<table title="io.reinert.requestor.RequestorInitializerClean" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerClean.html">
+	c18 [label=<<table title="io.reinert.requestor.RequestorInitializerClean" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializerClean.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorInitializerClean </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializerClean.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestorInitializer
-	c20 [label=<<table title="io.reinert.requestor.RequestorInitializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializer.html">
+	c19 [label=<<table title="io.reinert.requestor.RequestorInitializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestorInitializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestorImpl
-	c21 [label=<<table title="io.reinert.requestor.RequestorImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorImpl.html">
+	c20 [label=<<table title="io.reinert.requestor.RequestorImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestOrder
-	c22 [label=<<table title="io.reinert.requestor.RequestOrder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestOrder.html">
+	c21 [label=<<table title="io.reinert.requestor.RequestOrder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestOrder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestOrder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestOrder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Requestor
-	c23 [label=<<table title="io.reinert.requestor.Requestor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Requestor.html">
+	c22 [label=<<table title="io.reinert.requestor.Requestor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Requestor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Requestor </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Requestor.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestInterceptorContext
-	c24 [label=<<table title="io.reinert.requestor.RequestInterceptorContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptorContext.html">
+	c23 [label=<<table title="io.reinert.requestor.RequestInterceptorContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptorContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInterceptorContext </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInterceptorContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestInterceptor
-	c25 [label=<<table title="io.reinert.requestor.RequestInterceptor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptor.html">
+	c24 [label=<<table title="io.reinert.requestor.RequestInterceptor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInterceptor </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInterceptor.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestFilterContext
-	c26 [label=<<table title="io.reinert.requestor.RequestFilterContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilterContext.html">
+	c25 [label=<<table title="io.reinert.requestor.RequestFilterContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilterContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestFilterContext </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestFilterContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestFilter
-	c27 [label=<<table title="io.reinert.requestor.RequestFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilter.html">
+	c26 [label=<<table title="io.reinert.requestor.RequestFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestFilter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestFilter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestException
-	c28 [label=<<table title="io.reinert.requestor.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
+	c27 [label=<<table title="io.reinert.requestor.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestDispatchException
-	c29 [label=<<table title="io.reinert.requestor.RequestDispatchException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatchException.html">
+	c28 [label=<<table title="io.reinert.requestor.RequestDispatchException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatchException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestDispatchException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestDispatchException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestDispatcherImpl
-	c30 [label=<<table title="io.reinert.requestor.RequestDispatcherImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcherImpl.html">
+	c29 [label=<<table title="io.reinert.requestor.RequestDispatcherImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcherImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestDispatcherImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestDispatcherImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestDispatcherFactoryImpl
-	c31 [label=<<table title="io.reinert.requestor.RequestDispatcherFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcherFactoryImpl.html">
+	c30 [label=<<table title="io.reinert.requestor.RequestDispatcherFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcherFactoryImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestDispatcherFactoryImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestDispatcherFactoryImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestDispatcherFactory
-	c32 [label=<<table title="io.reinert.requestor.RequestDispatcherFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcherFactory.html">
+	c31 [label=<<table title="io.reinert.requestor.RequestDispatcherFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcherFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestDispatcherFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestDispatcherFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestDispatcher
-	c33 [label=<<table title="io.reinert.requestor.RequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcher.html">
+	c32 [label=<<table title="io.reinert.requestor.RequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> RequestDispatcher </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestDispatcher.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestBuilder
-	c34 [label=<<table title="io.reinert.requestor.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
+	c33 [label=<<table title="io.reinert.requestor.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Request
-	c35 [label=<<table title="io.reinert.requestor.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Request.html">
+	c34 [label=<<table title="io.reinert.requestor.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Request.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Request </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Request.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.RawResponseImpl
+	c35 [label=<<table title="io.reinert.requestor.RawResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponseImpl.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> RawResponseImpl </td></tr>
+		</table></td></tr>
+		</table>>, URL="./RawResponseImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RawResponse
 	c36 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
@@ -326,48 +326,50 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./Json.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.UnsuccessfulResponseException extends io.reinert.requestor.RequestException
-	c28:p -> c0:p [dir=back,arrowtail=empty];
-	//io.reinert.requestor.SerializedResponseImpl implements io.reinert.requestor.RawResponse
-	c36:p -> c1:p [dir=back,arrowtail=empty,style=dashed];
+	c27:p -> c0:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.SerializedResponse implements io.reinert.requestor.Response<T>
-	c12:p -> c2:p [dir=back,arrowtail=empty,style=dashed];
+	c11:p -> c1:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.SerializedRequestImpl implements io.reinert.requestor.SerializedRequest
-	c4:p -> c3:p [dir=back,arrowtail=empty,style=dashed];
+	c3:p -> c2:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.SerializedRequest implements io.reinert.requestor.Request
-	c35:p -> c4:p [dir=back,arrowtail=empty,style=dashed];
+	c34:p -> c3:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.ResponseImpl<T> implements io.reinert.requestor.Response<T>
-	c12:p -> c9:p [dir=back,arrowtail=empty,style=dashed];
+	c11:p -> c8:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestTimeoutException extends io.reinert.requestor.RequestException
-	c28:p -> c13:p [dir=back,arrowtail=empty];
+	c27:p -> c12:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.RequestSender implements io.reinert.requestor.RequestBuilder
-	c34:p -> c14:p [dir=back,arrowtail=empty,style=dashed];
+	c33:p -> c13:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestSender implements io.reinert.requestor.HasHttpSendMethods
-	c45:p -> c14:p [dir=back,arrowtail=empty,style=dashed];
+	c45:p -> c13:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestProgressImpl implements io.reinert.requestor.RequestProgress
-	c16:p -> c15:p [dir=back,arrowtail=empty,style=dashed];
+	c15:p -> c14:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestPermissionException extends io.reinert.requestor.RequestException
-	c28:p -> c17:p [dir=back,arrowtail=empty];
+	c27:p -> c16:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.RequestorInitializerForJson implements io.reinert.requestor.RequestorInitializer
-	c20:p -> c18:p [dir=back,arrowtail=empty,style=dashed];
+	c19:p -> c17:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestorInitializerClean implements io.reinert.requestor.RequestorInitializer
-	c20:p -> c19:p [dir=back,arrowtail=empty,style=dashed];
+	c19:p -> c18:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestorImpl implements io.reinert.requestor.Requestor
-	c23:p -> c21:p [dir=back,arrowtail=empty,style=dashed];
+	c22:p -> c20:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestOrder implements io.reinert.requestor.SerializedRequest
-	c4:p -> c22:p [dir=back,arrowtail=empty,style=dashed];
+	c3:p -> c21:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestDispatchException extends io.reinert.requestor.RequestException
-	c28:p -> c29:p [dir=back,arrowtail=empty];
+	c27:p -> c28:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.RequestDispatcherImpl extends io.reinert.requestor.RequestDispatcher
-	c33:p -> c30:p [dir=back,arrowtail=empty];
+	c32:p -> c29:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.RequestDispatcherFactoryImpl implements io.reinert.requestor.RequestDispatcherFactory
-	c32:p -> c31:p [dir=back,arrowtail=empty,style=dashed];
+	c31:p -> c30:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RequestBuilder implements io.reinert.requestor.Request
-	c35:p -> c34:p [dir=back,arrowtail=empty,style=dashed];
+	c34:p -> c33:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.RawResponseImpl extends io.reinert.requestor.ResponseImpl<io.reinert.requestor.Payload>
+	c8:p -> c35:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.RawResponseImpl implements io.reinert.requestor.RawResponse
+	c36:p -> c35:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RawResponse implements io.reinert.requestor.SerializedResponse
-	c2:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
+	c1:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RawResponse implements io.reinert.requestor.ResponseFilterContext
-	c10:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
+	c9:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RawResponse implements io.reinert.requestor.ResponseInterceptorContext
-	c7:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
+	c6:p -> c36:p [dir=back,arrowtail=empty,style=dashed];
 }
 
