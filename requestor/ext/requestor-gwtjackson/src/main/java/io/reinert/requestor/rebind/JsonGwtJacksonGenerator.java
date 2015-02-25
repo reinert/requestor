@@ -66,17 +66,16 @@ public class JsonGwtJacksonGenerator extends Generator {
 
         JClassType intfType = typeOracle.findType(typeName);
         if (intfType == null) {
-            logger.log(TreeLogger.ERROR, "Unable to find metadata for type '"
-                    + typeName + "'", null);
+            logger.log(TreeLogger.ERROR, "Unable to find metadata for type '" + typeName + "'", null);
             throw new UnableToCompleteException();
         }
 
         if (intfType.isInterface() == null) {
-            logger.log(TreeLogger.ERROR, intfType.getQualifiedSourceName()
-                    + " is not an interface", null);
+            logger.log(TreeLogger.ERROR, intfType.getQualifiedSourceName() + " is not an interface", null);
             throw new UnableToCompleteException();
         }
 
+        // TODO: check if type was already generated and reuse it
         TreeLogger typeLogger = logger.branch(TreeLogger.ALL, "Generating Json SerDes powered by Gwt Jackson...", null);
         final SourceWriter sourceWriter = getSourceWriter(typeLogger, ctx, intfType);
 
