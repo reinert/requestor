@@ -350,7 +350,7 @@
     <p>
       Suppose you need to exchange the same object in different formats, XML and JSON.
       Requestor selects the right serializer/deserializer by matching both the class and the media type (extracted from Content-Type header).
-      So you can have multiple serializers and deserializers registered for the same class, as long as they handle different different media type patterns.
+      So you can have multiple serializers and deserializers registered for the same class, as long as they handle different media type patterns.
     </p>
 
     <p>
