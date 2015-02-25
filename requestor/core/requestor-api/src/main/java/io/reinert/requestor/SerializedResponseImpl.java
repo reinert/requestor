@@ -15,89 +15,42 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.header.SimpleHeader;
 
 /**
  * Represents a response with its payload raw.
  *
  * @author Danilo Reinert
  */
-public class SerializedResponseImpl implements RawResponse {
+public class SerializedResponseImpl extends ResponseImpl<Payload> implements RawResponse {
 
-    private final String statusText;
-    private final int statusCode;
-    private final Headers headers;
-    private ResponseType responseType;
-    private Payload payload;
-
-    public SerializedResponseImpl(String statusText, int statusCode, Headers headers, ResponseType responseType,
+    public SerializedResponseImpl(int statusCode, String statusText, Headers headers, ResponseType type,
                                   Payload payload) {
-        this.statusText = statusText;
-        this.statusCode = statusCode;
-        this.headers = headers;
-        this.responseType = responseType;
-        this.payload = payload;
+        super(statusCode, statusText, headers, type, payload);
     }
 
     @Override
     public void addHeader(Header header) {
-        headers.add(header);
+        super.addHeader(header);
     }
 
     @Override
-    public void setHeader(String name, String value) {
-        headers.add(new SimpleHeader(name, value));
-    }
-
-    @Override
-    public String getHeader(String header) {
-        return headers.getValue(header);
-    }
-
-    @Override
-    public String getContentType() {
-        return headers.getValue("Content-Type");
-    }
-
-    @Override
-    public Headers getHeaders() {
-        return new Headers(headers);
-    }
-
-    @Override
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    @Override
-    public String getStatusText() {
-        return statusText;
-    }
-
-    @Override
-    public Payload getPayload() {
-        return payload;
-    }
-
-    @Override
-    public ResponseType getResponseType() {
-        return responseType;
-    }
-
-    @Override
-    public void setContentType(String mediaType) {
-        headers.add(new ContentTypeHeader(mediaType));
+    public void setContentType(String contentType) {
+        super.setContentType(contentType);
     }
 
     @Override
     public void setPayload(Payload payload) {
-        this.payload = payload;
+        super.setPayload(payload);
     }
 
     @Override
     public void setResponseType(ResponseType responseType) {
-        this.responseType = responseType;
+        super.setResponseType(responseType);
+    }
+
+    @Override
+    public void setHeader(String name, String value) {
+        super.setHeader(name, value);
     }
 }

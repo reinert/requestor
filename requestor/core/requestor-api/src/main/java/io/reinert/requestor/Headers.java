@@ -57,7 +57,7 @@ public class Headers implements Iterable<Header> {
         if (headers.length > 0) {
             ensureHeaders();
             for (final com.google.gwt.http.client.Header header : headers) {
-                this.headers.put(formatKey(header.getName()), Header.from(header));
+                this.headers.put(formatKey(header.getName()), Header.fromRawHeader(header));
             }
         }
     }

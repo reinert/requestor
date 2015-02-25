@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.header.Link;
+
 /**
  * Represents a HTTP response.
  *
@@ -83,9 +85,35 @@ public interface Response<T> {
     String getContentType();
 
     /**
+     * Returns the links attached to the response as headers.
+     *
+     * @return links as an {@link Iterable}; does not return {@code null}
+     */
+    Iterable<Link> getLinks();
+
+    /**
+     * Check if link for relation exists.
+     *
+     * @param relation link relation
+     *
+     * @return {@code true} if the link for the relation is present in the {@link #getHeaders() response headers},
+     *         {@code false} otherwise.
+     */
+    boolean hasLink(String relation);
+
+    /**
+     * Returns the link for the relation.
+     *
+     * @param relation link relation
+     *
+     * @return the link for the relation, otherwise {@code null} if not present
+     */
+    Link getLink(String relation);
+
+    /**
      * Returns the HTTP headers associated with this response.
      *
-     * @return the Headers
+     * @return the headers
      */
     Headers getHeaders();
 

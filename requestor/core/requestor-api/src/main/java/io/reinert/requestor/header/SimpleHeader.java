@@ -26,11 +26,15 @@ public class SimpleHeader extends Header {
     private final Element element;
 
     public SimpleHeader(String name, Element element) {
+        checkNotNull(name, "Header name cannot be null.");
+        checkNotNull(element, "Header value element cannot be null.");
         this.name = name;
         this.element = element;
     }
 
     public SimpleHeader(String name, String value) {
+        checkNotNull(name, "Header name cannot be null.");
+        checkNotNull(value, "Header value cannot be null.");
         this.name = name;
         this.element = Element.of(value);
     }
@@ -47,5 +51,33 @@ public class SimpleHeader extends Header {
     @Override
     public String getValue() {
         return element.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        final SimpleHeader that = (SimpleHeader) o;
+
+        if (!element.equals(that.element))
+            return false;
+        if (!name.equals(that.name))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + element.hashCode();
+        return result;
+    }
+
+    private void checkNotNull(Object param, String msg) {
+        if (param == null) throw new IllegalArgumentException(msg);
     }
 }

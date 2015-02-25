@@ -127,7 +127,7 @@ class SerializationEngine {
     }
 
     private <T> Response<T> getDeserializedResponse(SerializedResponse response, T result) {
-        return new ResponseImpl<T>(response.getHeaders(), response.getStatusCode(), response.getStatusText(),
+        return new ResponseImpl<T>(response.getStatusCode(), response.getStatusText(), response.getHeaders(),
                 response.getResponseType(), result);
     }
 

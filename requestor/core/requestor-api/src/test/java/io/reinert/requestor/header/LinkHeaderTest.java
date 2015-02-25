@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.header;
 
+import java.util.Iterator;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -42,16 +44,24 @@ public class LinkHeaderTest {
             }
         };
 
-        LinkHeader output = (LinkHeader) Header.from(input);
+        final LinkHeader output = (LinkHeader) Header.fromRawHeader(input);
+        assertEquals("</TheBook/chapter2>; rel=\"previous\"; title*=UTF-8'de'letztes%20Kapitel, "
+                + "</TheBook/chapter4>; rel=\"next\"; title*=UTF-8'de'n%c3%a4chstes%20Kapitel", output.getValue());
 
-        final LinkHeader.Link[] links = output.getLinks();
+        final Iterable<Link> links = output.getLinks();
+        final Iterator<Link> itl = links.iterator();
+        final Link l0 = itl.next();
+        final Link l1 = itl.next();
+        assertEquals("/TheBook/chapter2", l0.getUri());
+        assertEquals("previous", l0.getRel());
+        assertEquals("UTF-8'de'letztes%20Kapitel", l0.getTitle());
+        assertEquals("/TheBook/chapter4", l1.getUri());
+        assertEquals("next", l1.getRel());
+        assertEquals("UTF-8'de'n%c3%a4chstes%20Kapitel", l1.getTitle());
 
-        assertEquals("/TheBook/chapter2", links[0].getUri());
-        assertEquals("previous", links[0].getRel());
-        assertEquals("UTF-8'de'letztes%20Kapitel", links[0].getTitle());
-
-        assertEquals("/TheBook/chapter4", links[1].getUri());
-        assertEquals("next", links[1].getRel());
-        assertEquals("UTF-8'de'n%c3%a4chstes%20Kapitel", links[1].getTitle());
+        final Iterable<Element> rawValues = output.getElements();
+        final Iterator<Element> it = rawValues.iterator();
+        assertEquals("</TheBook/chapter2>", it.next().getElement());
+        assertEquals("</TheBook/chapter4>", it.next().getElement());
     }
 }

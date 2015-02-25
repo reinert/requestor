@@ -15,6 +15,14 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collections;
+
+import io.reinert.requestor.header.ContentTypeHeader;
+import io.reinert.requestor.header.Header;
+import io.reinert.requestor.header.Link;
+import io.reinert.requestor.header.LinkHeader;
+import io.reinert.requestor.header.SimpleHeader;
+
 /**
  * Represents a response with payload already deserialized.
  *
@@ -25,18 +33,20 @@ package io.reinert.requestor;
 public class ResponseImpl<T> implements Response<T> {
 
     private final Headers headers;
+    private final LinkHeader linkHeader;
     private final int statusCode;
     private final String statusText;
-    private final T payload;
-    private final ResponseType type;
+    private T payload;
+    private ResponseType responseType;
 
-    public ResponseImpl(Headers headers, int statusCode, String statusText, ResponseType type, T payload) {
+    public ResponseImpl(int statusCode, String statusText, Headers headers, ResponseType responseType, T payload) {
         if (headers == null)
             throw new NullPointerException("Headers cannot be null");
         this.headers = headers;
+        this.linkHeader = (LinkHeader) headers.get("Link");
         this.statusCode = statusCode;
         this.statusText = statusText;
-        this.type = type;
+        this.responseType = responseType;
         this.payload = payload;
     }
 
@@ -48,6 +58,22 @@ public class ResponseImpl<T> implements Response<T> {
     @Override
     public String getContentType() {
         return headers.getValue("Content-Type");
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterable<Link> getLinks() {
+        return linkHeader != null ? linkHeader.getLinks() : (Iterable<Link>) Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public boolean hasLink(String relation) {
+        return linkHeader != null && linkHeader.hasLink(relation);
+    }
+
+    @Override
+    public Link getLink(String relation) {
+        return linkHeader != null ? linkHeader.getLink(relation) : null;
     }
 
     @Override
@@ -72,6 +98,26 @@ public class ResponseImpl<T> implements Response<T> {
 
     @Override
     public ResponseType getResponseType() {
-        return type;
+        return responseType;
+    }
+
+    protected void addHeader(Header header) {
+        headers.add(header);
+    }
+
+    protected void setHeader(String name, String value) {
+        headers.add(new SimpleHeader(name, value));
+    }
+
+    protected void setContentType(String contentType) {
+        headers.add(new ContentTypeHeader(contentType));
+    }
+
+    protected void setPayload(T payload) {
+        this.payload = payload;
+    }
+
+    protected void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
     }
 }

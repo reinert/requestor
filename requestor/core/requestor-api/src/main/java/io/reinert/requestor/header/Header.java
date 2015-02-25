@@ -32,7 +32,7 @@ public abstract class Header extends com.google.gwt.http.client.Header {
      *
      * @return  The parsed header
      */
-    public static Header from(com.google.gwt.http.client.Header rawHeader) {
+    public static Header fromRawHeader(com.google.gwt.http.client.Header rawHeader) {
         final String name = rawHeader.getName().toUpperCase();
         final String value = rawHeader.getValue();
 
@@ -45,7 +45,7 @@ public abstract class Header extends com.google.gwt.http.client.Header {
         return new SimpleHeader(name, value);
     }
 
-    private static Element[] parseHeaderValue(String headerValue) {
+    static List<Element> parseHeaderValue(String headerValue) {
         final List<Element> parsedElements = new ArrayList<Element>();
         final List<String> elements = splitEscapingQuotes(',', headerValue);
 
@@ -78,7 +78,7 @@ public abstract class Header extends com.google.gwt.http.client.Header {
 
             parsedElements.add(builder.build());
         }
-        return parsedElements.toArray(new Element[parsedElements.size()]);
+        return parsedElements;
     }
 
     private static List<String> splitEscapingQuotes(char sep, String value) {

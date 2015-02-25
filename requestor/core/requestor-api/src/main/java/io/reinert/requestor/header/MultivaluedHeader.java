@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.header;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * HTTP Header with multiple values (elements).
  *
@@ -23,19 +28,44 @@ package io.reinert.requestor.header;
 public class MultivaluedHeader extends Header {
 
     private final String name;
-    private final Element[] elements;
+    private final Iterable<Element> elements;
     private String valueString;
 
-    public MultivaluedHeader(String name, Element... elements) {
+    @SuppressWarnings("unchecked")
+    public MultivaluedHeader(String name, Collection<Element> elements) {
+        checkNotNull(name, "Header name cannot be null.");
+        checkNotNull(elements, "Header value elements cannot be null.");
         this.name = name;
-        this.elements = elements;
+        if (!elements.isEmpty()) {
+            this.elements = Collections.unmodifiableCollection(elements);
+        } else {
+            this.elements = Collections.EMPTY_LIST;
+        }
     }
 
-    public MultivaluedHeader(String name, String... values) {
+    @SuppressWarnings("unchecked")
+    public MultivaluedHeader(String name, Element... elements) {
+        checkNotNull(name, "Header name cannot be null.");
         this.name = name;
-        this.elements = new Element[values.length];
-        for (int i = 0; i < values.length; i++) {
-            this.elements[i] = Element.of(values[i]);
+        if (elements.length > 0) {
+            this.elements = Collections.unmodifiableCollection(Arrays.asList(elements));
+        } else {
+            this.elements = Collections.EMPTY_LIST;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public MultivaluedHeader(String name, String... values) {
+        checkNotNull(name, "Header name cannot be null.");
+        this.name = name;
+        if (values.length > 0) {
+            final ArrayList<Element> elBuilder = new ArrayList<Element>(values.length);
+            for (final String value : values) {
+                elBuilder.add(Element.of(value));
+            }
+            this.elements = Collections.unmodifiableCollection(elBuilder);
+        } else {
+            this.elements = Collections.EMPTY_LIST;
         }
     }
 
@@ -46,11 +76,44 @@ public class MultivaluedHeader extends Header {
 
     @Override
     public String getValue() {
-        if (valueString == null) valueString = Element.toString(elements);
+        ensureValueString();
         return valueString;
     }
 
-    public Element[] getElements() {
+    public Iterable<Element> getElements() {
         return elements;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        final MultivaluedHeader that = (MultivaluedHeader) o;
+
+        if (!name.equals(that.name))
+            return false;
+        ensureValueString();
+        if (!valueString.equals(that.valueString))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + valueString.hashCode();
+        return result;
+    }
+
+    private void ensureValueString() {
+        if (valueString == null) valueString = Element.toString(getElements());
+    }
+
+    private void checkNotNull(Object param, String msg) {
+        if (param == null) throw new IllegalArgumentException(msg);
     }
 }
