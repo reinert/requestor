@@ -45,7 +45,7 @@ public class Serialization extends Composite {
     private static SerializationUiBinder uiBinder = GWT.create(SerializationUiBinder.class);
 
     @UiField PreElement overlaysSetup, autobeansSetup, gwtjacksonSetup, mySerializer, mySerializerReg, myDeserializer,
-            myDeserializerReg, mySerdesReg, myJsonSerdes, singleXmlGet, collectionXmlGet, singleXmlPost,
+            myDeserializerReg, mySerdesReg, myJsonSerdes, testReg, singleXmlGet, collectionXmlGet, singleXmlPost,
             collectionXmlPost, singleJsonGet, collectionJsonGet, singleJsonPost, collectionJsonPost;
     @UiField TextAreaElement singleXmlGetTextArea, collectionXmlGetTextArea, singleXmlPostTextArea,
             collectionXmlPostTextArea, singleJsonGetTextArea, collectionJsonGetTextArea, singleJsonPostTextArea,
@@ -56,8 +56,9 @@ public class Serialization extends Composite {
     public Serialization() {
         initWidget(uiBinder.createAndBindUi(this));
         HighlightJs.highlightBlock(overlaysSetup, autobeansSetup, gwtjacksonSetup, mySerializer, mySerializerReg,
-                myDeserializer, myDeserializerReg, mySerdesReg, myJsonSerdes, singleXmlGet, collectionXmlGet,
-                singleXmlPost,  collectionXmlPost);
+                myDeserializer, myDeserializerReg, mySerdesReg, testReg, myJsonSerdes, singleXmlGet, collectionXmlGet,
+                singleXmlPost,  collectionXmlPost, singleJsonGet, collectionJsonGet, singleJsonPost,
+                collectionJsonPost);
     }
 
     @UiHandler("singleXmlGetButton")
