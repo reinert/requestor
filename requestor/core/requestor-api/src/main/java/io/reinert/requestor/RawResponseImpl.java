@@ -22,10 +22,10 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public class SerializedResponseImpl extends ResponseImpl<Payload> implements RawResponse {
+public class RawResponseImpl extends ResponseImpl<Payload> implements RawResponse {
 
-    public SerializedResponseImpl(int statusCode, String statusText, Headers headers, ResponseType type,
-                                  Payload payload) {
+    public RawResponseImpl(int statusCode, String statusText, Headers headers, ResponseType type,
+                           Payload payload) {
         super(statusCode, statusText, headers, type, payload);
     }
 
