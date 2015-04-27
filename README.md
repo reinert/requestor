@@ -34,13 +34,13 @@ rb.setCallback(new RequestCallback() {
 
     @Override
     public void onError(Request request, Throwable exception) {
-        // Please don't force me!
+        // ...
     }
 });
 try {
     rb.send();
 } catch (RequestException e) {
-    // Uhh!
+    // ...
 }
 ```
 
