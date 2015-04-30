@@ -148,13 +148,13 @@ public interface Requestor {
     //===================================================================
 
     /**
-     * Create a {@link RequestSender} with the given url.
+     * Create a {@link RequestInvoker} with the given url.
      *
      * @param url   The url of the request.
      *
      * @return  The request builder.
      */
-    RequestSender req(String url);
+    RequestInvoker req(String url);
 
     /**
      * Quickly dispatch serialized requests.

@@ -78,7 +78,7 @@ public class RequestorImpl implements Requestor {
     //===================================================================
 
     @Override
-    public RequestSender req(String url) {
+    public RequestInvoker req(String url) {
         return createRequest(url);
     }
 
@@ -175,8 +175,8 @@ public class RequestorImpl implements Requestor {
         return providerManager.bind(type, factory);
     }
 
-    private RequestSender createRequest(String uri) {
-        final RequestSender request = new RequestSenderImpl(uri, requestProcessor, requestDispatcher);
+    private RequestInvoker createRequest(String uri) {
+        final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
         if (defaultMediaType != null) {
             request.contentType(defaultMediaType);
             request.accept(defaultMediaType);
