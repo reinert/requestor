@@ -92,7 +92,7 @@ Almost all features are working perfectly in all modern browsers, except:
 ## Installation
 
 The minimal installation requires two dependencies, the core API and some implementation.
-Currently, there's only one implementation available, requestor-gdeferred, which exposes GDeferred's Promise API.
+The default implementation is requestor-gdeferred, which exposes GDeferred's Promise API.
 
 ```xml
 <dependency>
