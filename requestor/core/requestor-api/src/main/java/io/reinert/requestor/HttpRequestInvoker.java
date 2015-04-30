@@ -26,11 +26,11 @@ import io.reinert.requestor.deferred.Promise;
  * Implementers should provide an own implementation exposing a preferred Promises API.
  * Implementers must follow the pattern of this class in order to be officially integrated.
  *
- * @see RequestSender
+ * @see RequestInvoker
  *
  * @author Danilo Reinert
  */
-public interface HasHttpSendMethods {
+public interface HttpRequestInvoker {
 
     Promise<Void> get();
 

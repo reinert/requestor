@@ -22,18 +22,18 @@ import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.header.Header;
 
 /**
- * Abstract class for {@link RequestSender} interface.
+ * Abstract class for {@link RequestInvoker} interface.
  * It has ready {@link io.reinert.requestor.deferred.Promise} auto-casting dispatch methods.
  * Requestor API implementers should inherit this class to dispatch the requests.
  *
  * @author Danilo Reinert
  */
-abstract class AbstractRequestSender extends RequestBuilderImpl implements RequestSender {
+abstract class AbstractRequestInvoker extends RequestBuilderImpl implements RequestInvoker {
 
     protected final RequestDispatcher dispatcher;
     protected final RequestProcessor processor;
 
-    public AbstractRequestSender(String url, RequestDispatcher dispatcher, RequestProcessor processor) {
+    public AbstractRequestInvoker(String url, RequestDispatcher dispatcher, RequestProcessor processor) {
         super(url);
         this.dispatcher = dispatcher;
         this.processor = processor;
@@ -44,49 +44,49 @@ abstract class AbstractRequestSender extends RequestBuilderImpl implements Reque
     //===================================================================
 
     @Override
-    public RequestSender accept(String mediaType) {
+    public RequestInvoker accept(String mediaType) {
         super.accept(mediaType);
         return this;
     }
 
     @Override
-    public RequestSender contentType(String mediaType) {
+    public RequestInvoker contentType(String mediaType) {
         super.contentType(mediaType);
         return this;
     }
 
     @Override
-    public RequestSender header(String header, String value) {
+    public RequestInvoker header(String header, String value) {
         super.header(header, value);
         return this;
     }
 
     @Override
-    public RequestSender header(Header header) {
+    public RequestInvoker header(Header header) {
         super.header(header);
         return this;
     }
 
     @Override
-    public RequestSender auth(Authentication auth) {
+    public RequestInvoker auth(Authentication auth) {
         super.auth(auth);
         return this;
     }
 
     @Override
-    public RequestSender payload(Object object) throws IllegalArgumentException {
+    public RequestInvoker payload(Object object) throws IllegalArgumentException {
         super.payload(object);
         return this;
     }
 
     @Override
-    public RequestSender timeout(int timeoutMillis) {
+    public RequestInvoker timeout(int timeoutMillis) {
         super.timeout(timeoutMillis);
         return this;
     }
 
     @Override
-    public RequestSender responseType(ResponseType responseType) {
+    public RequestInvoker responseType(ResponseType responseType) {
         super.responseType(responseType);
         return this;
     }

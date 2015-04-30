@@ -21,34 +21,34 @@ import io.reinert.requestor.header.Header;
 /**
  * A {@link RequestBuilder} capable of sending itself.
  *
- * @see RequestSenderImpl
+ * @see RequestInvokerImpl
  *
  * @author Danilo Reinert
  */
-public interface RequestSender extends RequestBuilder, HasHttpSendMethods {
+public interface RequestInvoker extends RequestBuilder, HttpRequestInvoker {
 
     @Override
-    RequestSender contentType(String mediaType);
+    RequestInvoker contentType(String mediaType);
 
     @Override
-    RequestSender accept(String mediaType);
+    RequestInvoker accept(String mediaType);
 
     @Override
-    RequestSender header(String header, String value);
+    RequestInvoker header(String header, String value);
 
     @Override
-    RequestSender header(Header header);
+    RequestInvoker header(Header header);
 
     @Override
-    RequestSender auth(Authentication auth);
+    RequestInvoker auth(Authentication auth);
 
     @Override
-    RequestSender timeout(int timeoutMillis);
+    RequestInvoker timeout(int timeoutMillis);
 
     @Override
-    RequestSender payload(Object object) throws IllegalArgumentException;
+    RequestInvoker payload(Object object) throws IllegalArgumentException;
 
     @Override
-    RequestSender responseType(ResponseType responseType);
+    RequestInvoker responseType(ResponseType responseType);
 
 }

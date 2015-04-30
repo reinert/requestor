@@ -20,19 +20,19 @@ import java.util.Collection;
 import io.reinert.requestor.deferred.Promise;
 
 /**
- * Default implementation for {@link RequestSender}.
+ * Default implementation for {@link RequestInvoker}.
  * <p/>
  *
  * NOTE: This class is removed from classpath when assembling the jar.
- * Implementers should provide an own implementation of its own {@link RequestSender}.
+ * Implementers should provide an own implementation of its own {@link RequestInvoker}.
  *
- * @see RequestSender
+ * @see RequestInvoker
  *
  * @author Danilo Reinert
  */
-class RequestSenderImpl extends AbstractRequestSender {
+class RequestInvokerImpl extends AbstractRequestInvoker {
 
-    public RequestSenderImpl(String url, RequestProcessor processor, RequestDispatcher dispatcher) {
+    public RequestInvokerImpl(String url, RequestProcessor processor, RequestDispatcher dispatcher) {
         super(url, dispatcher, processor);
     }
 
