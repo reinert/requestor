@@ -39,15 +39,15 @@ public class UriParser {
     private Buckets queryParams;
     private String fragment;
 
-    public static UriParser newInstance() {
-        return new UriParser();
-    }
-
     private UriParser() {
     }
 
     public Uri getUri() {
         return new Uri(scheme, user, password, host, port, segments, matrixParams, queryParams, fragment);
+    }
+
+    public static UriParser newInstance() {
+        return new UriParser();
     }
 
     public UriParser parse(String uri) {

@@ -250,15 +250,16 @@ public abstract class Element {
         }
 
         public Element build() {
-            if (key != null && value != null)
+            if (key != null && value != null) {
                 return of(key, value, quoted, params);
-            else if (key != null)
-                return of (key, params);
-            else if (value != null)
-                return of (value, params);
-            else
+            } else if (key != null) {
+                return of(key, params);
+            } else if (value != null) {
+                return of(value, params);
+            } else {
                 throw new IllegalStateException("Cannot build the header value Element because there's no key neither"
                         + " value set.");
+            }
         }
     }
 }
