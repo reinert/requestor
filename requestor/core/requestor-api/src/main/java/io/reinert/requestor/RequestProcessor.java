@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.form.FormDataSerializer;
+import io.reinert.requestor.form.FormDataSerializerNative;
 import io.reinert.requestor.header.ContentTypeHeader;
 
 /**
@@ -52,7 +53,8 @@ class RequestProcessor {
         } else if (payload instanceof FormData) {
             // FormData serialization
             final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
-            request.addHeader(new ContentTypeHeader(formDataSerializer.mediaType()));
+            if (!(formDataSerializer instanceof FormDataSerializerNative)) // Let the browser handle the content-type
+                request.addHeader(new ContentTypeHeader(formDataSerializer.mediaType()));
             serializedRequest = new SerializedRequestDelegate(request, serializedPayload);
         } else {
             serializedRequest = serializationEngine.serializeRequest(request);
