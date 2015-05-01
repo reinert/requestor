@@ -11,25 +11,25 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.gdeferred.RequestPromise<T>
-	c11668 [label=<<table title="io.reinert.requestor.gdeferred.RequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestPromise.html">
+	c12571 [label=<<table title="io.reinert.requestor.gdeferred.RequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestPromise.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestPromise&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestPromise.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.GDeferredRequestPromise<T>
-	c11671 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GDeferredRequestPromise.html">
+	c12574 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GDeferredRequestPromise.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GDeferredRequestPromise&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GDeferredRequestPromise.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gdeferred.RequestPromise<T> implements io.reinert.gdeferred.Promise<D, F, P>
-	c11679:p -> c11668:p [dir=back,arrowtail=empty,style=dashed];
+	c12585:p -> c12571:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gdeferred.GDeferredRequestPromise<T> implements io.reinert.requestor.gdeferred.RequestPromise<T>
-	c11668:p -> c11671:p [dir=back,arrowtail=empty,style=dashed];
+	c12571:p -> c12574:p [dir=back,arrowtail=empty,style=dashed];
 	// io.reinert.gdeferred.Promise<D, F, P>
-	c11679 [label=<<table title="io.reinert.gdeferred.Promise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c12585 [label=<<table title="io.reinert.gdeferred.Promise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Promise&lt;D, F, P&gt; </td></tr>

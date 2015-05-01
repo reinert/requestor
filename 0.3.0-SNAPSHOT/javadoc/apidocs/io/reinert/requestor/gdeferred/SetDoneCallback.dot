@@ -11,24 +11,24 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.gdeferred.SetDoneCallback<T>
-	c14549 [label=<<table title="io.reinert.requestor.gdeferred.SetDoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SetDoneCallback.html">
+	c15401 [label=<<table title="io.reinert.requestor.gdeferred.SetDoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SetDoneCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> SetDoneCallback&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./SetDoneCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gdeferred.SetDoneCallback<T> implements io.reinert.gdeferred.DoneCallback<D>
-	c14561:p -> c14549:p [dir=back,arrowtail=empty,style=dashed];
+	c15416:p -> c15401:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gdeferred.SetDoneCallback<T> implements io.reinert.requestor.gdeferred.DoneCallbackForSet<T>
-	c14562:p -> c14549:p [dir=back,arrowtail=empty,style=dashed];
+	c15417:p -> c15401:p [dir=back,arrowtail=empty,style=dashed];
 	// io.reinert.requestor.gdeferred.DoneCallbackForSet<T>
-	c14562 [label=<<table title="io.reinert.requestor.gdeferred.DoneCallbackForSet" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c15417 [label=<<table title="io.reinert.requestor.gdeferred.DoneCallbackForSet" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DoneCallbackForSet&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="null", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.gdeferred.DoneCallback<D>
-	c14561 [label=<<table title="io.reinert.gdeferred.DoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c15416 [label=<<table title="io.reinert.gdeferred.DoneCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DoneCallback&lt;D&gt; </td></tr>

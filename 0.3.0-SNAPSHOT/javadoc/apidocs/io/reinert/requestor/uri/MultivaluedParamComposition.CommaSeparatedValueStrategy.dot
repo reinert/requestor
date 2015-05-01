@@ -11,18 +11,18 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.uri.MultivaluedParamComposition
-	c8182 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.html">
+	c8506 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MultivaluedParamComposition </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MultivaluedParamComposition.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy
-	c8184 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html">
+	c8508 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CommaSeparatedValueStrategy </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy extends io.reinert.requestor.uri.MultivaluedParamComposition
-	c8182:p -> c8184:p [dir=back,arrowtail=empty];
+	c8506:p -> c8508:p [dir=back,arrowtail=empty];
 }
 

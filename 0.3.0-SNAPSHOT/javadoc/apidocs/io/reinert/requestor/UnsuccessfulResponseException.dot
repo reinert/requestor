@@ -11,18 +11,18 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.UnsuccessfulResponseException
-	c15163 [label=<<table title="io.reinert.requestor.UnsuccessfulResponseException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UnsuccessfulResponseException.html">
+	c16033 [label=<<table title="io.reinert.requestor.UnsuccessfulResponseException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UnsuccessfulResponseException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> UnsuccessfulResponseException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./UnsuccessfulResponseException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestException
-	c15190 [label=<<table title="io.reinert.requestor.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
+	c16060 [label=<<table title="io.reinert.requestor.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.UnsuccessfulResponseException extends io.reinert.requestor.RequestException
-	c15190:p -> c15163:p [dir=back,arrowtail=empty];
+	c16060:p -> c16033:p [dir=back,arrowtail=empty];
 }
 

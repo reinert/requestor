@@ -11,28 +11,28 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.SerializedResponse
-	c12641 [label=<<table title="io.reinert.requestor.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
+	c13448 [label=<<table title="io.reinert.requestor.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.ResponseImpl<T>
-	c12648 [label=<<table title="io.reinert.requestor.ResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseImpl.html">
+	c13455 [label=<<table title="io.reinert.requestor.ResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ResponseImpl&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Response<T>
-	c12651 [label=<<table title="io.reinert.requestor.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Response.html">
+	c13458 [label=<<table title="io.reinert.requestor.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Response.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Response&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Response.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.SerializedResponse implements io.reinert.requestor.Response<T>
-	c12651:p -> c12641:p [dir=back,arrowtail=empty,style=dashed];
+	c13458:p -> c13448:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.ResponseImpl<T> implements io.reinert.requestor.Response<T>
-	c12651:p -> c12648:p [dir=back,arrowtail=empty,style=dashed];
+	c13458:p -> c13455:p [dir=back,arrowtail=empty,style=dashed];
 }
 

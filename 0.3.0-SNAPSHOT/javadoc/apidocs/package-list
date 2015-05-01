@@ -1,6 +1,7 @@
 com.google.gwt.http.client
 io.reinert.requestor
 io.reinert.requestor.auth
+io.reinert.requestor.auth.oauth2
 io.reinert.requestor.deferred
 io.reinert.requestor.form
 io.reinert.requestor.gdeferred

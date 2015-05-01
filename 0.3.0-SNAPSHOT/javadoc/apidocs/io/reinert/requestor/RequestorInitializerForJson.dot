@@ -11,19 +11,19 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.RequestorInitializerForJson
-	c12417 [label=<<table title="io.reinert.requestor.RequestorInitializerForJson" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestorInitializerForJson.html">
+	c13217 [label=<<table title="io.reinert.requestor.RequestorInitializerForJson" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestorInitializerForJson.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorInitializerForJson </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializerForJson.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestorInitializer
-	c12419 [label=<<table title="io.reinert.requestor.RequestorInitializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializer.html">
+	c13219 [label=<<table title="io.reinert.requestor.RequestorInitializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorInitializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestorInitializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorInitializer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RequestorInitializerForJson implements io.reinert.requestor.RequestorInitializer
-	c12419:p -> c12417:p [dir=back,arrowtail=empty,style=dashed];
+	c13219:p -> c13217:p [dir=back,arrowtail=empty,style=dashed];
 }
 

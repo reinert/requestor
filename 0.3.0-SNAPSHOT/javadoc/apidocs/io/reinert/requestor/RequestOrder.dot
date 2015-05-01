@@ -11,20 +11,20 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.SerializedRequest
-	c11082 [label=<<table title="io.reinert.requestor.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
+	c11973 [label=<<table title="io.reinert.requestor.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestOrder
-	c11100 [label=<<table title="io.reinert.requestor.RequestOrder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestOrder.html">
+	c11990 [label=<<table title="io.reinert.requestor.RequestOrder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestOrder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestOrder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestOrder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RequestOrder implements io.reinert.requestor.SerializedRequest
-	c11082:p -> c11100:p [dir=back,arrowtail=empty,style=dashed];
+	c11973:p -> c11990:p [dir=back,arrowtail=empty,style=dashed];
 }
 

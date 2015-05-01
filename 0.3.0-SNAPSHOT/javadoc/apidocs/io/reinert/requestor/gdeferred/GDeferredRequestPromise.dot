@@ -11,39 +11,39 @@ digraph G {
 	ranksep=0.5;
 	rankdir=LR;
 	// io.reinert.requestor.deferred.Promise<F>
-	c4881 [label=<<table title="io.reinert.requestor.deferred.Promise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../deferred/Promise.html">
+	c5124 [label=<<table title="io.reinert.requestor.deferred.Promise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../deferred/Promise.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Promise&lt;F&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../deferred/Promise.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.RequestPromise<T>
-	c4935 [label=<<table title="io.reinert.requestor.gdeferred.RequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestPromise.html">
+	c5178 [label=<<table title="io.reinert.requestor.gdeferred.RequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestPromise.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestPromise&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestPromise.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.GDeferredRequestPromise<T>
-	c4938 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GDeferredRequestPromise.html">
+	c5181 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequestPromise" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GDeferredRequestPromise.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GDeferredRequestPromise&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GDeferredRequestPromise.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gdeferred.GDeferredRequest<T>
-	c4939 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GDeferredRequest.html">
+	c5182 [label=<<table title="io.reinert.requestor.gdeferred.GDeferredRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GDeferredRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GDeferredRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GDeferredRequest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gdeferred.GDeferredRequestPromise<T> implements io.reinert.requestor.gdeferred.RequestPromise<T>
-	c4935:p -> c4938:p [dir=back,arrowtail=empty,style=dashed];
+	c5178:p -> c5181:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gdeferred.GDeferredRequestPromise<T> implements io.reinert.requestor.deferred.Promise<F>
-	c4881:p -> c4938:p [dir=back,arrowtail=empty,style=dashed];
+	c5124:p -> c5181:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gdeferred.GDeferredRequest<T> implements io.reinert.requestor.gdeferred.GDeferredRequestPromise<T>
-	c4938:p -> c4939:p [dir=back,arrowtail=empty,style=dashed];
+	c5181:p -> c5182:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gdeferred.GDeferredRequest<T> implements io.reinert.requestor.deferred.Promise<F>
-	c4881:p -> c4939:p [dir=back,arrowtail=empty,style=dashed];
+	c5124:p -> c5182:p [dir=back,arrowtail=empty,style=dashed];
 }
 
