@@ -109,7 +109,7 @@
 
     <!-- OAUTH2 SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="http-oauth2">OAuth2</h1>
+      <h1 class="page-header" id="oauth2">OAuth2</h1>
       <p class="lead">
         Authenticating api requests with OAuth2 was never so easy!
       </p>
