@@ -123,7 +123,7 @@ Read the [Getting Started](https://github.com/reinert/requestor/wiki/Getting-Sta
 
 #### Using SNAPSHOT versions
 
-If you want to use the latest snapshot, you need to add the oss sonatype spanshot repository to your POM.
+If you want to use the latest snapshot, you need to add the sonatype snapshot repository to your POM.
 
 ```xml
 <repositories>
