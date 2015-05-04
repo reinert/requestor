@@ -94,6 +94,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         xmlHttpRequest.setOnProgress(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
+                // TODO(reinert): should we check if the promise is pending before notifying to avoid exceptions?
                 deferred.notifyDownload(new RequestProgressImpl(progress));
             }
         });
@@ -102,6 +103,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         xmlHttpRequest.setUploadOnProgress(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
+                // TODO(reinert): should we check if the promise is pending before notifying to avoid exceptions?
                 deferred.notifyUpload(new RequestProgressImpl(progress));
             }
         });

@@ -37,6 +37,7 @@ class RequestOrderImpl<T> implements RequestOrder {
     private final Class<T> resolveType;
     private final Class<?> parametrizedType;
 
+    private String url;
     private boolean withCredentials;
     private boolean sent;
 
@@ -56,6 +57,7 @@ class RequestOrderImpl<T> implements RequestOrder {
         this.parametrizedType = parametrizedType;
         this.withCredentials = withCredentials;
         this.sent = sent;
+        this.url = request.getUrl();
     }
 
     @Override
@@ -145,17 +147,12 @@ class RequestOrderImpl<T> implements RequestOrder {
 
     @Override
     public String getUrl() {
-        return request.getUrl();
+        return url;
     }
 
     @Override
     public ResponseType getResponseType() {
         return request.getResponseType();
-    }
-
-    @Override
-    public void setHeader(String name, String value) {
-        headers.add(new SimpleHeader(name, value));
     }
 
     @Override
@@ -166,6 +163,28 @@ class RequestOrderImpl<T> implements RequestOrder {
     @Override
     public boolean isWithCredentials() {
         return withCredentials;
+    }
+
+    @Override
+    public void setHeader(String name, String value) {
+        headers.add(new SimpleHeader(name, value));
+    }
+
+    @Override
+    public void setQueryParam(String name, String... values) {
+        // TODO(reinert): Workaround to enable setting query params in RequestOrder. Should the process be re-designed?
+        int queryStart = url.lastIndexOf('?');
+        String and;
+        if (queryStart == -1) {
+            url += '?';
+            and = "";
+        } else {
+            and = url.charAt(url.length() - 1) == '&' ? "" : "&";
+        }
+        for (String value : values) {
+            url += and + name + '=' + value;
+            and = "&";
+        }
     }
 
     @Override
