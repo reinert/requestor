@@ -37,6 +37,8 @@ public interface RequestOrder extends SerializedRequest {
 
     void setHeader(String name, String value);
 
+    void setQueryParam(String name, String... values);
+
     void send();
 
     void abort(RawResponse response);
