@@ -70,6 +70,15 @@
         </pre>
       </div>
 
+      <div class="requestor-callout requestor-callout-danger">
+        <h4>Example broken</h4>
+        <p>
+          The following example isn't working due to a CORS issue that can only be solved by the service provider.
+          This bug was already reported <a target="_blank" href="https://github.com/Runscope/httpbin/issues/205">here</a> and a hotfix is waiting to be merged.
+          Still, don't worry, requestor digest authentication is working just fine with the three QOP methods (none, auth and auth-int) supported.
+        </p>
+      </div>
+
       <p>
         Fill user and password inputs an try the code above.
       </p>
