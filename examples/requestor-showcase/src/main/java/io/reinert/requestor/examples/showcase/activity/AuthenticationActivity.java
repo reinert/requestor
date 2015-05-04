@@ -203,7 +203,6 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
                         final String userId = Overlays.getObject(result, "id");
                         final String imageUrl = "https://apis.live.net/v5.0/" + userId + "/picture";
                         view.addImage(imageUrl);
-                        view.addImage("https://apis.live.net/v5.0/me/picture");
                     }
                 });
     }
