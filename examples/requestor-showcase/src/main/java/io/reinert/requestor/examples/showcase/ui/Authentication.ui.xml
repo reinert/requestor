@@ -57,13 +57,13 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="http-digest-authentication">HTTP Digest Authentication</h1>
       <p class="lead">
-        Safer than Basic, Digest Auth is supported out of the box too.
+        Safer than Basic, Digest Auth is supported out of the box.
       </p>
       <div class="highlight">
         <pre ui:field="digest" class="java">
           <code>
-            /* The authentication service requires a cookie to be persisted, so we set withCredentials (third param) to true */
-            <br/>requestor.req(&quot;http://httpbin.org/digest-auth/&quot; + qop + &quot;/&quot; + user + &quot;/&quot; + password)
+            /* The authentication service requires a cookie to be persisted, so we set withCredentials (third param) to true */<br/>
+            requestor.req(&quot;http://httpbin.org/digest-auth/&quot; + qop + &quot;/&quot; + user + &quot;/&quot; + password)
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new DigestAuth(user, password, true))
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
           </code>
@@ -95,6 +95,42 @@
         <em>Note: Alternatively, DigestAuth constructor accepts a third boolean param: withCredentials.
           Set it to true if you're using CORS and need to persist cookies.</em>
       </p>
+    </g:HTMLPanel>
+
+
+    <!-- OAUTH2 SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="http-oauth2">OAuth2</h1>
+      <p class="lead">
+        Authenticating api requests with OAuth2 was never so easy!
+      </p>
+      <div class="highlight">
+        <pre ui:field="oauth2" class="java">
+          <code>
+            requestor.req(apiEndpoint)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new OAuth2ByHeader(authUrl, appClientId, scope1, scope2, ...))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        You can either use <code>OAuth2ByHeader</code> which authenticates via the bearer header method,
+        or <code>OAuth2ByQueryParam</code> which passes the access token in the url query.
+      </p>
+
+      <p>
+        Click in the provider to authenticate and show your profile picture.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <g:Button ui:field="windowsButton" styleName="btn zocial icon windows"/>
+          <g:Button ui:field="googleButton" styleName="btn zocial icon googleplus"/>
+          <g:Button ui:field="facebookButton" styleName="btn zocial icon facebook"/>
+        </form>
+        <g:HTMLPanel ui:field="faces"/>
+      </g:HTMLPanel>
     </g:HTMLPanel>
 
 
