@@ -17,7 +17,8 @@ Carefully crafted, Requestor provides many features while allows the easy config
 * Progress monitoring of uploads and downloads
 * Uri Parsing
 * Uri Building
-* BASIC and DIGEST authentication (nicely supporting CORS)
+* Basic and Digest authentication (nicely supporting CORS)
+* OAuth2
 * Extremely easy to implement any custom authentication
 * Headers API
 * Filters (enhance requests and responses)
