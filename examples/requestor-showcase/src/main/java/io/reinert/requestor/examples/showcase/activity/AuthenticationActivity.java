@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -25,8 +26,12 @@ import io.reinert.requestor.RequestOrder;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
+import io.reinert.requestor.auth.oauth2.OAuth2ByHeader;
+import io.reinert.requestor.auth.oauth2.OAuth2ByQueryParam;
 import io.reinert.requestor.examples.showcase.ui.Authentication;
 import io.reinert.requestor.examples.showcase.util.Page;
+
+import org.turbogwt.core.util.Overlays;
 
 public class AuthenticationActivity extends ShowcaseActivity implements Authentication.Handler {
 
@@ -104,6 +109,101 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
                     @Override
                     public void onDone(String result) {
                         view.setCustomText(result);
+                    }
+                });
+    }
+
+    @Override
+    public void onGoogleButtonClick() {
+        final String profilePictureEndpoint = "https://www.googleapis.com/plus/v1/people/me";
+        final String authUrl = "https://accounts.google.com/o/oauth2/auth";
+        final String appClientId = "60734886159-99bmoevf41sott6sa2cijltc85orhc18.apps.googleusercontent.com";
+        final String scope = "https://www.googleapis.com/auth/plus.login";
+        requestor.req(profilePictureEndpoint)
+                .auth(new OAuth2ByHeader(authUrl, appClientId, scope))
+                .get(JavaScriptObject.class)
+                .done(new DoneCallback<JavaScriptObject>() {
+                    @Override
+                    public void onDone(JavaScriptObject result) {
+                        final JavaScriptObject image = Overlays.getObject(result, "image");
+                        final String imageUrl = Overlays.getString(image, "url");
+                        view.addImage(imageUrl);
+                    }
+                });
+    }
+
+    @Override
+    public void onFacebookButtonClick() {
+        final String profilePictureEndpoint = "https://graph.facebook.com/v2.3/me/picture?redirect=false";
+        final String authUrl = "https://www.facebook.com/dialog/oauth";
+        final String appClientId = "366496696889929";
+        final String scope = "public_profile";
+        requestor.req(profilePictureEndpoint)
+                .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
+                .get(JavaScriptObject.class)
+                .done(new DoneCallback<JavaScriptObject>() {
+                    @Override
+                    public void onDone(JavaScriptObject result) {
+                        final JavaScriptObject data = Overlays.getObject(result, "data");
+                        final String imageUrl = Overlays.getString(data, "url");
+                        view.addImage(imageUrl);
+                    }
+                });
+    }
+
+    @Override
+    public void onTwitterButtonClick() {
+        // NOTE: Twitter still doesn't fully support oauth2
+//        final String profilePictureEndpoint = "https://www.googleapis.com/plus/v1/people/me";
+//        final String authUrl = "https://api.twitter.com/oauth2/token";
+//        final String appClientId = "7UGV7vd7x7M8CCpEl8FU1n1Yn";
+//        requestor.req(profilePictureEndpoint)
+//                .auth(new OAuth2ByHeader(authUrl, appClientId))
+//                .get(JavaScriptObject.class)
+//                .done(new DoneCallback<JavaScriptObject>() {
+//                    @Override
+//                    public void onDone(JavaScriptObject result) {
+//                        final JavaScriptObject image = Overlays.getObject(result, "image");
+//                        final String imageUrl = Overlays.getString(image, "url");
+//                        view.addImage(imageUrl);
+//                    }
+//                });
+    }
+
+    @Override
+    public void onGithubButtonClick() {
+        // NOTE: GitHub has a custom oauth flow which is not supported by gwt-oauth2
+//        final String profilePictureEndpoint = "https://api.github.com/user";
+//        final String authUrl = "https://github.com/login/oauth/authorize";
+//        final String appClientId = "7a4e6f5872687125546a";
+//        requestor.req(profilePictureEndpoint)
+//                .auth(new OAuth2ByHeader(authUrl, appClientId).withTokenType("token"))
+//                .get(JavaScriptObject.class)
+//                .done(new DoneCallback<JavaScriptObject>() {
+//                    @Override
+//                    public void onDone(JavaScriptObject result) {
+//                        final String imageUrl = Overlays.getString(result, "avatar_url");
+//                        view.addImage(imageUrl);
+//                    }
+//                });
+    }
+
+    @Override
+    public void onWindowsButtonClick() {
+        final String profilePictureEndpoint = "https://apis.live.net/v5.0/me";
+        final String authUrl = "https://login.live.com/oauth20_authorize.srf";
+        final String appClientId = "000000004015498F";
+        final String scope = "wl.basic";
+        requestor.req(profilePictureEndpoint)
+                .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
+                .get(JavaScriptObject.class)
+                .done(new DoneCallback<JavaScriptObject>() {
+                    @Override
+                    public void onDone(JavaScriptObject result) {
+                        final String userId = Overlays.getObject(result, "id");
+                        final String imageUrl = "https://apis.live.net/v5.0/" + userId + "/picture";
+                        view.addImage(imageUrl);
+                        view.addImage("https://apis.live.net/v5.0/me/picture");
                     }
                 });
     }
