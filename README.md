@@ -120,6 +120,24 @@ To make requestor available to your GWT project, import the implementation's mod
 
 Read the [Getting Started](https://github.com/reinert/requestor/wiki/Getting-Started) wiki page for more information.
 
+#### Using SNAPSHOT versions
+
+If you want to use the latest snapshot, you need to add the oss sonatype spanshot repository to your POM.
+
+```xml
+<repositories>
+  ...
+  <repository>
+    <id>oss-sonatype</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+  ...
+</repositories>
+```
+
 ## License
 Requestor is freely distributable under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html)
 
