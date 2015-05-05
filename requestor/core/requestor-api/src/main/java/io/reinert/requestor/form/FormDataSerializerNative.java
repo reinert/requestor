@@ -28,7 +28,7 @@ public class FormDataSerializerNative implements FormDataSerializer {
 
     @Override
     public String mediaType() {
-        return "multipart/form-data";
+        return null;
     }
 
     @Override
