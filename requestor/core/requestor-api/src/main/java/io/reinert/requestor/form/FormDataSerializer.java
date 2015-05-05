@@ -15,15 +15,31 @@
  */
 package io.reinert.requestor.form;
 
+import javax.annotation.Nullable;
+
 import io.reinert.requestor.Payload;
 
 /**
- * Serializes FormData.
+ * Serializes {@link FormData} objects.
  */
 public interface FormDataSerializer {
 
+    /**
+     * The media type which should be placed as the Content-Type header of the request.
+     * <p>
+     * Return either a valid media type or null if the Content-Type header shouldn't be set.
+     *
+     * @return the media type of the payload or {@code null} the the Content-Type header shouldn't be set.
+     */
+    @Nullable
     String mediaType();
 
+    /**
+     * Receives a {@link FormData} and serializes it into a {@link Payload}.
+     *
+     * @param formData the FormData to be serialized
+     *
+     * @return the serialized Payload
+     */
     Payload serialize(FormData formData);
-
 }
