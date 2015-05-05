@@ -53,8 +53,12 @@ class RequestProcessor {
         } else if (payload instanceof FormData) {
             // FormData serialization
             final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
-            if (!(formDataSerializer instanceof FormDataSerializerNative)) // Let the browser handle the content-type
+            if (formDataSerializer instanceof FormDataSerializerNative) {
+                // Let the browser handle the content-type
+                request.removeHeader("Content-Type");
+            } else {
                 request.addHeader(new ContentTypeHeader(formDataSerializer.mediaType()));
+            }
             serializedRequest = new SerializedRequestDelegate(request, serializedPayload);
         } else {
             serializedRequest = serializationEngine.serializeRequest(request);
