@@ -16,12 +16,11 @@
 package io.reinert.requestor.uri;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.shared.GWT;
-
-import io.reinert.requestor.LightMap;
 
 /**
  * Default implementation of {@link io.reinert.requestor.uri.UriBuilder}.
@@ -108,7 +107,7 @@ public class UriBuilderImpl extends UriBuilder {
         assertNotNull(values, "Parameter values cannot be null.");
 
         if (matrixParams == null) {
-            matrixParams = GWT.create(LightMap.class);
+            matrixParams = new HashMap<String, Buckets>();
         }
 
         // At least one segment must exist
