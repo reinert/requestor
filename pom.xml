@@ -64,7 +64,6 @@
     <turbogwt.version>0.4.0</turbogwt.version>
     <gdeferred.version>0.9.0</gdeferred.version>
     <gwtjackson.version>0.7.0</gwtjackson.version>
-    <gwtoauth2.version>0.2</gwtoauth2.version>
 
     <!-- Java -->
     <checkstyle.version>6.0</checkstyle.version>
@@ -150,12 +149,6 @@
         <groupId>com.github.nmorel.gwtjackson</groupId>
         <artifactId>gwt-jackson</artifactId>
         <version>${gwtjackson.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.api</groupId>
-        <artifactId>gwt-oauth2</artifactId>
-        <version>${gwtoauth2.version}</version>
         <scope>provided</scope>
       </dependency>
 

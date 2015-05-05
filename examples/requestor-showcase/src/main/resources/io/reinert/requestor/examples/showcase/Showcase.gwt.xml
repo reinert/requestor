@@ -28,7 +28,6 @@
     <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
 
     <inherits name="io.reinert.requestor.RequestorByGDeferred"/>
-    <inherits name="io.reinert.requestor.RequestorOAuth2"/>
     <inherits name="org.turbogwt.core.util.Util"/>
 
     <source path=""/>

@@ -15,12 +15,12 @@
  */
 package io.reinert.requestor.auth.oauth2;
 
-import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestOrder;
 import io.reinert.requestor.auth.Auth;
+import io.reinert.requestor.oauth2.AuthRequest;
 
 /**
  * OAuth2 authentication.
@@ -29,7 +29,7 @@ import io.reinert.requestor.auth.Auth;
  */
 public abstract class OAuth2 implements Auth {
 
-    private static final com.google.api.gwt.oauth2.client.Auth AUTH = com.google.api.gwt.oauth2.client.Auth.get();
+    private static final io.reinert.requestor.oauth2.Auth AUTH = io.reinert.requestor.oauth2.Auth.get();
 
     private final AuthRequest authRequest;
 
