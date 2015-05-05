@@ -118,7 +118,7 @@ public enum MenuOption implements HasToken, HasPlace {
         public static final String SERIALIZATION_TOKEN = "serialization";
         public static final String FORM_TOKEN = "form-data";
         public static final String BINARY_DATA_TOKEN = "binary-data";
-        public static final String AUTH_TOKEN = "authentication";
+        public static final String AUTH_TOKEN = "auth";
         public static final String FILTERS_TOKEN = "filters";
         public static final String INTERCEPTORS_TOKEN = "interceptors";
     }
