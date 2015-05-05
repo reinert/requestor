@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2014 Danilo Reinert
+  ~ Copyright 2015 Danilo Reinert
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,10 +20,6 @@
   <inherits name="org.turbogwt.core.Core"/>
 
   <source path="" excludes="rebind/**/*"/>
-
-  <replace-with class="org.turbogwt.core.collections.LightMap">
-    <when-type-is class="io.reinert.requestor.LightMap"/>
-  </replace-with>
 
   <replace-with class="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt">
     <when-type-is class="io.reinert.requestor.RequestorInitializer"/>

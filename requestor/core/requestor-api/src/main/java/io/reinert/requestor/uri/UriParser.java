@@ -16,13 +16,12 @@
 package io.reinert.requestor.uri;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
-
-import io.reinert.requestor.LightMap;
 
 /**
  * Parses a URI.
@@ -107,7 +106,7 @@ public class UriParser {
                 parsedSegments.add(parsedSegment);
                 if (matrixParts.length > 1) {
                     if (matrixParams == null) {
-                        matrixParams = GWT.create(LightMap.class);
+                        matrixParams = new HashMap<String, Buckets>();
                     }
                     final Buckets buckets = GWT.create(Buckets.class);
                     matrixParams.put(parsedSegment, buckets);

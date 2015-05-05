@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,9 @@
 package io.reinert.requestor;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.header.Header;
 
@@ -114,7 +113,7 @@ public class Headers implements Iterable<Header> {
 
     private Map<String, Header> ensureHeaders() {
         if (headers == null)
-            headers = GWT.create(LightMap.class);
+            headers = new HashMap<String, Header>();
         return headers;
     }
 
