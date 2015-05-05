@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 
 /**
  * Represents a request with its payload already serialized.
@@ -61,7 +61,7 @@ class SerializedRequestDelegate implements SerializedRequest, RequestInterceptor
     }
 
     @Override
-    public Authentication getAuth() {
+    public Auth getAuth() {
         return request.getAuth();
     }
 

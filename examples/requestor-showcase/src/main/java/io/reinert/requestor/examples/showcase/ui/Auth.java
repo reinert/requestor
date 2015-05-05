@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Image;
 
 import io.reinert.requestor.examples.showcase.util.HighlightJs;
 
-public class Authentication extends Composite {
+public class Auth extends Composite {
 
     public interface Handler {
         void onBasicButtonClick(String user, String password);
@@ -38,12 +38,10 @@ public class Authentication extends Composite {
         void onCustomButtonClick(String key);
         void onGoogleButtonClick();
         void onFacebookButtonClick();
-        void onTwitterButtonClick();
-        void onGithubButtonClick();
         void onWindowsButtonClick();
     }
 
-    interface AuthenticationUiBinder extends UiBinder<HTMLPanel, Authentication> {}
+    interface AuthenticationUiBinder extends UiBinder<HTMLPanel, Auth> {}
 
     private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
 
@@ -54,7 +52,7 @@ public class Authentication extends Composite {
 
     private Handler handler;
 
-    public Authentication() {
+    public Auth() {
         initWidget(uiBinder.createAndBindUi(this));
         HighlightJs.highlightBlock(basic, digest, myAuth, custom, oauth2);
     }
@@ -86,16 +84,6 @@ public class Authentication extends Composite {
     public void onFacebookButtonClick(ClickEvent e) {
         handler.onFacebookButtonClick();
     }
-
-//    @UiHandler("twitterButton")
-//    public void onTwitterButtonClick(ClickEvent e) {
-//        handler.onTwitterButtonClick();
-//    }
-
-//    @UiHandler("githubButton")
-//    public void onGithubButtonClick(ClickEvent e) {
-//        handler.onGithubButtonClick();
-//    }
 
     @UiHandler("windowsButton")
     public void onWindowsButtonClick(ClickEvent e) {

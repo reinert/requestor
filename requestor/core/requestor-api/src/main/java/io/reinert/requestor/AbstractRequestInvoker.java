@@ -17,7 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.header.Header;
 
@@ -68,7 +68,7 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     }
 
     @Override
-    public RequestInvoker auth(Authentication auth) {
+    public RequestInvoker auth(Auth auth) {
         super.auth(auth);
         return this;
     }

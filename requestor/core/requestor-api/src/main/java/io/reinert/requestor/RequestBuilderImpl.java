@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
@@ -34,7 +34,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     private int timeout;
     private Object payload;
     private ResponseType responseType = ResponseType.DEFAULT;
-    private Authentication auth = PassThroughAuth.getInstance();
+    private Auth auth = PassThroughAuth.getInstance();
 
     public RequestBuilderImpl(String url) {
         this(url, new Headers());
@@ -101,7 +101,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public Authentication getAuth() {
+    public Auth getAuth() {
         return auth;
     }
 
@@ -153,7 +153,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public RequestBuilder auth(Authentication auth) {
+    public RequestBuilder auth(Auth auth) {
         if (auth == null)
             throw new IllegalArgumentException("Auth cannot be null.");
         this.auth = auth;
@@ -190,7 +190,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public void setAuth(Authentication auth) {
+    public void setAuth(Auth auth) {
         this.auth = auth;
     }
 

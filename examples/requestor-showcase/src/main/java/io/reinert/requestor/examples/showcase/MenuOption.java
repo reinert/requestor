@@ -17,7 +17,7 @@ package io.reinert.requestor.examples.showcase;
 
 import com.google.gwt.place.shared.Place;
 
-import io.reinert.requestor.examples.showcase.place.AuthenticationPlace;
+import io.reinert.requestor.examples.showcase.place.AuthPlace;
 import io.reinert.requestor.examples.showcase.place.BinaryDataPlace;
 import io.reinert.requestor.examples.showcase.place.BuildingRequestsPlace;
 import io.reinert.requestor.examples.showcase.place.FiltersPlace;
@@ -101,10 +101,10 @@ public enum MenuOption implements HasToken, HasPlace {
             return new BinaryDataPlace(section);
         }
     }, FEATURES),
-    AUTHENTICATION("Authentication", Tokens.AUTHENTICATION_TOKEN, new HasPlace() {
+    AUTHENTICATION("Authentication & Authorization", Tokens.AUTH_TOKEN, new HasPlace() {
         @Override
         public Place getPlace(String section) {
-            return new AuthenticationPlace(section);
+            return new AuthPlace(section);
         }
     }, FEATURES)
     ;
@@ -118,7 +118,7 @@ public enum MenuOption implements HasToken, HasPlace {
         public static final String SERIALIZATION_TOKEN = "serialization";
         public static final String FORM_TOKEN = "form-data";
         public static final String BINARY_DATA_TOKEN = "binary-data";
-        public static final String AUTHENTICATION_TOKEN = "authentication";
+        public static final String AUTH_TOKEN = "authentication";
         public static final String FILTERS_TOKEN = "filters";
         public static final String INTERCEPTORS_TOKEN = "interceptors";
     }
@@ -138,7 +138,7 @@ public enum MenuOption implements HasToken, HasPlace {
             return FORM;
         } else if (token.equals(Tokens.BINARY_DATA_TOKEN)) {
             return BINARY_DATA;
-        } else if (token.equals(Tokens.AUTHENTICATION_TOKEN)) {
+        } else if (token.equals(Tokens.AUTH_TOKEN)) {
             return AUTHENTICATION;
         } else if (token.equals(Tokens.FILTERS_TOKEN)) {
             return FILTERS;

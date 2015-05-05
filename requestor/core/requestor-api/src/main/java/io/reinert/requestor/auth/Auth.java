@@ -18,21 +18,21 @@ package io.reinert.requestor.auth;
 import io.reinert.requestor.RequestOrder;
 
 /**
- * Abstraction for HTTP Authentication methods.
+ * Abstraction for HTTP Authentication/Authorization methods.
  *
  * @author Danilo Reinert
  */
-public interface Authentication {
+public interface Auth {
 
     /**
      * Performs the logic for making the request authenticated, then dispatch the request.
      * <p/>
      *
-     * IMPORTANT: You must call requestOrder#send() after the authentication has finished in order to dispatch the
+     * IMPORTANT: You must call requestOrder#send() after the auth has finished in order to dispatch the
      * request, otherwise the request will never be sent. <br>
      * The request can be sent only once.
      *
      * @param requestOrder  The request about to be sent
      */
-    void authenticate(RequestOrder requestOrder);
+    void auth(RequestOrder requestOrder);
 }

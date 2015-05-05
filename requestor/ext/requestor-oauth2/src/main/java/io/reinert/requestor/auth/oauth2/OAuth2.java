@@ -15,22 +15,21 @@
  */
 package io.reinert.requestor.auth.oauth2;
 
-import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestOrder;
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 
 /**
  * OAuth2 authentication.
  *
  * @author Danilo Reinert
  */
-public abstract class OAuth2 implements Authentication {
+public abstract class OAuth2 implements Auth {
 
-    private static final Auth AUTH = Auth.get();
+    private static final com.google.api.gwt.oauth2.client.Auth AUTH = com.google.api.gwt.oauth2.client.Auth.get();
 
     private final AuthRequest authRequest;
 
@@ -46,12 +45,12 @@ public abstract class OAuth2 implements Authentication {
     }
 
     @Override
-    public void authenticate(final RequestOrder requestOrder) {
+    public void auth(final RequestOrder requestOrder) {
         AUTH.login(authRequest, new Callback<String, Throwable>() {
             @Override
             public void onFailure(Throwable reason) {
                 // FIXME(reinert): If user closes auth popup, onFailure isn't getting called.
-                requestOrder.abort(new RequestException("Unable to authenticate request using OAuth2. "
+                requestOrder.abort(new RequestException("Unable to authorize the request using OAuth2. "
                         + "See previous log.", reason));
             }
 

@@ -19,7 +19,7 @@ import java.util.Collection;
 
 import javax.annotation.Nullable;
 
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.deferred.Deferred;
 import io.reinert.requestor.header.SimpleHeader;
 
@@ -156,7 +156,7 @@ class RequestOrderImpl<T> implements RequestOrder {
     }
 
     @Override
-    public Authentication getAuth() {
+    public Auth getAuth() {
         return request.getAuth();
     }
 

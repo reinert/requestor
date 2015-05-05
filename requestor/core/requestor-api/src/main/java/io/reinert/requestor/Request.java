@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 
 /**
  * Represents a HTTP Request.
@@ -42,6 +42,6 @@ public interface Request {
 
     ResponseType getResponseType();
 
-    Authentication getAuth();
+    Auth getAuth();
 
 }

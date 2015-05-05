@@ -19,17 +19,17 @@ import com.google.gwt.activity.shared.Activity;
 
 import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
-import io.reinert.requestor.examples.showcase.activity.AuthenticationActivity;
+import io.reinert.requestor.examples.showcase.activity.AuthActivity;
 
-public class AuthenticationPlace extends ShowcasePlace {
+public class AuthPlace extends ShowcasePlace {
 
-    public AuthenticationPlace(String section) {
-        super(MenuOption.Tokens.AUTHENTICATION_TOKEN, section);
+    public AuthPlace(String section) {
+        super(MenuOption.Tokens.AUTH_TOKEN, section);
     }
 
     @Override
     public Activity getActivity() {
-        return new AuthenticationActivity(getSection(), Showcase.CLIENT_FACTORY.getAuthentication(),
+        return new AuthActivity(getSection(), Showcase.CLIENT_FACTORY.getAuth(),
                 Showcase.CLIENT_FACTORY.getRequestor());
     }
 }
