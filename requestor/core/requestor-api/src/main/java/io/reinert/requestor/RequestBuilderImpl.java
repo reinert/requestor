@@ -180,6 +180,11 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
+    public void removeHeader(String name) {
+        headers.remove(name);
+    }
+
+    @Override
     public void setMethod(HttpMethod httpMethod) {
         this.httpMethod = httpMethod;
     }

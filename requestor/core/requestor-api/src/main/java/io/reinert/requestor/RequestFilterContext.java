@@ -31,6 +31,8 @@ public interface RequestFilterContext {
 
     void addHeader(Header header);
 
+    void removeHeader(String name);
+
     HttpMethod getMethod();
 
     void setMethod(HttpMethod httpMethod);
