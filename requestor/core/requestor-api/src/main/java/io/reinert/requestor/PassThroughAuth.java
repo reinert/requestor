@@ -15,9 +15,9 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 
-class PassThroughAuth implements Authentication {
+class PassThroughAuth implements Auth {
 
     private static PassThroughAuth INSTANCE = new PassThroughAuth();
 
@@ -29,7 +29,7 @@ class PassThroughAuth implements Authentication {
     }
 
     @Override
-    public void authenticate(RequestOrder requestOrder) {
+    public void auth(RequestOrder requestOrder) {
         requestOrder.send();
     }
 }

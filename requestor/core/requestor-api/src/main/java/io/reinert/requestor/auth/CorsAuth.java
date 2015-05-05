@@ -22,10 +22,10 @@ import io.reinert.requestor.RequestOrder;
  *
  * @author Danilo Reinert
  */
-public class CorsAuth implements Authentication {
+public class CorsAuth implements Auth {
 
     @Override
-    public void authenticate(RequestOrder requestOrder) {
+    public void auth(RequestOrder requestOrder) {
         requestOrder.setWithCredentials(true);
         requestOrder.send();
     }

@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 
 /**
@@ -40,7 +40,7 @@ public interface RequestInvoker extends RequestBuilder, HttpRequestInvoker {
     RequestInvoker header(Header header);
 
     @Override
-    RequestInvoker auth(Authentication auth);
+    RequestInvoker auth(Auth auth);
 
     @Override
     RequestInvoker timeout(int timeoutMillis);

@@ -21,7 +21,7 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.Requestor;
-import io.reinert.requestor.examples.showcase.ui.Authentication;
+import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.ui.Filters;
@@ -45,7 +45,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private SendingRequests sendingRequests;
     private Form form;
     private BinaryData binaryData;
-    private Authentication authentication;
+    private Auth auth;
     private Filters filters;
     private Interceptors interceptors;
     private Serialization serialization;
@@ -112,10 +112,10 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     }
 
     @Override
-    public Authentication getAuthentication() {
-        if (authentication == null)
-            authentication = new Authentication();
-        return authentication;
+    public Auth getAuth() {
+        if (auth == null)
+            auth = new Auth();
+        return auth;
     }
 
     @Override

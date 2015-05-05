@@ -18,21 +18,21 @@ package io.reinert.requestor.auth;
 /**
  * Exception for authentication issues.
  */
-public class AuthenticationException extends RuntimeException {
+public class AuthException extends RuntimeException {
 
-    public AuthenticationException() {
+    public AuthException() {
         super();
     }
 
-    public AuthenticationException(String message) {
+    public AuthException(String message) {
         super(message);
     }
 
-    public AuthenticationException(Throwable cause) {
+    public AuthException(Throwable cause) {
         super(cause);
     }
 
-    public AuthenticationException(String message, Throwable cause) {
+    public AuthException(String message, Throwable cause) {
         super(message, cause);
     }
 }

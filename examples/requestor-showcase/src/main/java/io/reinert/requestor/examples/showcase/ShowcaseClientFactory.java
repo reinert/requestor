@@ -19,7 +19,7 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.Requestor;
-import io.reinert.requestor.examples.showcase.ui.Authentication;
+import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.ui.Filters;
@@ -41,7 +41,7 @@ public interface ShowcaseClientFactory {
     Form getForm();
     BuildingRequests getBuildingRequests();
     SendingRequests getSendingRequests();
-    Authentication getAuthentication();
+    Auth getAuth();
     BinaryData getBinaryData();
     Filters getFilters();
     Interceptors getInterceptors();

@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Authentication;
+import io.reinert.requestor.auth.Auth;
 
 /**
  * Represents a request with its payload already serialized.
@@ -33,7 +33,7 @@ public class SerializedRequestImpl implements SerializedRequest {
     private final Payload payload;
     private final int timeout;
     private final ResponseType responseType;
-    private final Authentication auth;
+    private final Auth auth;
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url) {
         this(httpMethod, url, new Headers(), null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
@@ -61,7 +61,7 @@ public class SerializedRequestImpl implements SerializedRequest {
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
-                          ResponseType responseType, Authentication auth) {
+                          ResponseType responseType, Auth auth) {
         checkNotNull(httpMethod, "HTTP Method cannot be null.");
         checkNotNullOrEmpty(url, "URL cannot be null neither empty.");
         checkNotNull(headers, "Headers cannot be null.");
@@ -112,7 +112,7 @@ public class SerializedRequestImpl implements SerializedRequest {
     }
 
     @Override
-    public Authentication getAuth() {
+    public Auth getAuth() {
         return auth;
     }
 

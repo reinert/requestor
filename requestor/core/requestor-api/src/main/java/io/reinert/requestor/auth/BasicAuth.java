@@ -25,7 +25,7 @@ import io.reinert.requestor.RequestOrder;
  *
  * @author Danilo Reinert
  */
-public class BasicAuth implements Authentication {
+public class BasicAuth implements Auth {
 
     private final String user;
     private final String password;
@@ -42,12 +42,12 @@ public class BasicAuth implements Authentication {
     }
 
     @Override
-    public void authenticate(RequestOrder requestOrder) {
+    public void auth(RequestOrder requestOrder) {
         try {
             requestOrder.setHeader("Authorization", "Basic " + btoa(user + ":" + password));
         } catch (JavaScriptException e) {
             throw new UnsupportedOperationException("It was not possible to encode credentials using browser's " +
-                    "native btoa. Probably the browser does not support this operation.", e);
+                    "native btoa. The browser does not support this operation.", e);
         }
         requestOrder.setWithCredentials(withCredentials);
         requestOrder.send();

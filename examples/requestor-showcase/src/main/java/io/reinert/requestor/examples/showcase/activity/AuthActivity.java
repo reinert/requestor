@@ -28,14 +28,14 @@ import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
 import io.reinert.requestor.auth.oauth2.OAuth2ByHeader;
 import io.reinert.requestor.auth.oauth2.OAuth2ByQueryParam;
-import io.reinert.requestor.examples.showcase.ui.Authentication;
+import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
 
 import org.turbogwt.core.util.Overlays;
 
-public class AuthenticationActivity extends ShowcaseActivity implements Authentication.Handler {
+public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
-    private static class MyAuth implements io.reinert.requestor.auth.Authentication {
+    private static class MyAuth implements io.reinert.requestor.auth.Auth {
 
         private final String key;
 
@@ -44,8 +44,8 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
         }
 
         @Override
-        public void authenticate(RequestOrder requestOrder) {
-            requestOrder.setHeader("Authentication", "MyAuth " + key);
+        public void auth(RequestOrder requestOrder) {
+            requestOrder.setHeader("Authorization", "MyAuth " + key);
 
             // Mandatory to have the request actually sent.
             // Call it after putting all necessary auth info in the request.
@@ -53,10 +53,10 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
         }
     }
 
-    private final Authentication view;
+    private final Auth view;
     private final Requestor requestor;
 
-    public AuthenticationActivity(String section, Authentication view, Requestor requestor) {
+    public AuthActivity(String section, Auth view, Requestor requestor) {
         super(section);
         this.view = view;
         this.requestor = requestor;
@@ -152,43 +152,6 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
     }
 
     @Override
-    public void onTwitterButtonClick() {
-        // NOTE: Twitter still doesn't fully support oauth2
-//        final String profilePictureEndpoint = "https://www.googleapis.com/plus/v1/people/me";
-//        final String authUrl = "https://api.twitter.com/oauth2/token";
-//        final String appClientId = "7UGV7vd7x7M8CCpEl8FU1n1Yn";
-//        requestor.req(profilePictureEndpoint)
-//                .auth(new OAuth2ByHeader(authUrl, appClientId))
-//                .get(JavaScriptObject.class)
-//                .done(new DoneCallback<JavaScriptObject>() {
-//                    @Override
-//                    public void onDone(JavaScriptObject result) {
-//                        final JavaScriptObject image = Overlays.getObject(result, "image");
-//                        final String imageUrl = Overlays.getString(image, "url");
-//                        view.addImage(imageUrl);
-//                    }
-//                });
-    }
-
-    @Override
-    public void onGithubButtonClick() {
-        // NOTE: GitHub has a custom oauth flow which is not supported by gwt-oauth2
-//        final String profilePictureEndpoint = "https://api.github.com/user";
-//        final String authUrl = "https://github.com/login/oauth/authorize";
-//        final String appClientId = "7a4e6f5872687125546a";
-//        requestor.req(profilePictureEndpoint)
-//                .auth(new OAuth2ByHeader(authUrl, appClientId).withTokenType("token"))
-//                .get(JavaScriptObject.class)
-//                .done(new DoneCallback<JavaScriptObject>() {
-//                    @Override
-//                    public void onDone(JavaScriptObject result) {
-//                        final String imageUrl = Overlays.getString(result, "avatar_url");
-//                        view.addImage(imageUrl);
-//                    }
-//                });
-    }
-
-    @Override
     public void onWindowsButtonClick() {
         final String profilePictureEndpoint = "https://apis.live.net/v5.0/me";
         final String authUrl = "https://login.live.com/oauth20_authorize.srf";
@@ -210,8 +173,8 @@ public class AuthenticationActivity extends ShowcaseActivity implements Authenti
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         view.setHandler(this);
-        Page.setTitle("Authentication");
-        Page.setDescription("See how to authenticate requests in practice.");
+        Page.setTitle("Authentication & Authorization");
+        Page.setDescription("See how to authenticate/authorize requests in practice.");
         panel.setWidget(view);
         scrollToSection();
     }

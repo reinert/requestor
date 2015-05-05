@@ -38,7 +38,7 @@ import io.reinert.requestor.uri.UriParser;
  *
  * @author Danilo Reinert
  */
-public class DigestAuth implements Authentication {
+public class DigestAuth implements Auth {
 
     /**
      * An array containing the codes which are considered expected for the first attempt to retrieve the nonce.
@@ -81,13 +81,13 @@ public class DigestAuth implements Authentication {
     }
 
     @Override
-    public void authenticate(final RequestOrder request) {
+    public void auth(final RequestOrder request) {
         request.setWithCredentials(withCredentials);
         attempt(request, null);
     }
 
     /**
-     * Set the max number of attempts to authenticate.
+     * Set the max number of attempts to auth.
      * The default is 2.
      *
      * @param maxChallengeCalls  max number of attempt calls
@@ -122,13 +122,13 @@ public class DigestAuth implements Authentication {
                     if (error instanceof UnsuccessfulResponseException) {
                         UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
                         if (contains(EXPECTED_CODES, e.getStatusCode())) {
-                            // If the error response code is expected, then continue trying to authenticate
+                            // If the error response code is expected, then continue trying to auth
                             attempt(originalRequest, e.getResponse());
                             return;
                         }
                     }
                     // Otherwise, throw an AuthenticationException and reject the promise with it
-                    throw new AuthenticationException("The server returned a not expected status code.", error);
+                    throw new AuthException("The server returned a not expected status code.", error);
                 } catch (Exception e) {
                     originalRequest.abort(new RequestException("Unable to authenticate request using DigestAuth. "
                             + "See previous log.", e));
@@ -143,7 +143,7 @@ public class DigestAuth implements Authentication {
 
         final String authHeader = attemptResponse.getHeader("WWW-Authenticate");
         if (authHeader == null) {
-            throw new AuthenticationException("It was not possible to retrieve the 'WWW-Authenticate' header from "
+            throw new AuthException("It was not possible to retrieve the 'WWW-Authenticate' header from "
                     + "server response. If you're using CORS, make sure your server allows the client to access this "
                     + "header by adding \"Access-Control-Expose-Headers: WWW-Authenticate\" to the response headers.");
         }
@@ -200,7 +200,7 @@ public class DigestAuth implements Authentication {
         String body = payload == null || payload.isEmpty() ? "" : payload.isString();
         if (body == null) {
             // TODO: Try to convert the JavaScriptObject to String before throwing the exception
-            throw new AuthenticationException("Cannot convert a JavaScriptObject payload to a String");
+            throw new AuthException("Cannot convert a JavaScriptObject payload to a String");
         }
         final String hBody = MD5.hash(body);
         final String ha2 = MD5.hash(method + ':' + url + ':' + hBody);

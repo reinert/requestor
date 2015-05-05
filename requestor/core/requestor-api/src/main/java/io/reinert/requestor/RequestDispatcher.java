@@ -71,7 +71,7 @@ public abstract class RequestDispatcher {
     @SuppressWarnings("unchecked")
     public <T> Promise<T> dispatch(final SerializedRequest request, final Class<T> resultType) {
         final Deferred<T> deferred = deferredFactory.getDeferred();
-        request.getAuth().authenticate(new RequestOrderImpl(this, request, deferred, resultType, null));
+        request.getAuth().auth(new RequestOrderImpl(this, request, deferred, resultType, null));
         return deferred.getPromise();
     }
 
@@ -91,7 +91,7 @@ public abstract class RequestDispatcher {
                                                                      final Class<T> resultType,
                                                                      final Class<C> containerType) {
         final Deferred<Collection<T>> deferred = deferredFactory.getDeferred();
-        request.getAuth().authenticate(new RequestOrderImpl(this, request, deferred, containerType, resultType));
+        request.getAuth().auth(new RequestOrderImpl(this, request, deferred, containerType, resultType));
         return deferred.getPromise();
     }
 
