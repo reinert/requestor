@@ -21,6 +21,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Timer;
 
 /**
  * Real implementation of {@link Auth}, used in real GWT applications.
@@ -68,7 +69,7 @@ class AuthImpl extends Auth {
      * popup to the user.
      */
     @Override
-    void doLogin(String authUrl, Callback<String, Throwable> callback) {
+    void doLogin(String authUrl, final Callback<String, Throwable> callback) {
         if (window != null && window.isOpen()) {
             callback.onFailure(new IllegalStateException("Authentication in progress"));
         } else {
@@ -77,14 +78,30 @@ class AuthImpl extends Auth {
                 callback.onFailure(new RuntimeException(
                         "The authentication popup window appears to have been blocked"));
             }
+            // Workaround to check if the user has closed the auth window,
+            // since neither the onclose and onunload events work the expected way in this scenario
+            window.setFinished(false);
+            new Timer() {
+                @Override
+                public void run() {
+                    if (window.hasFinished())
+                        cancel();
+                    if (!window.isOpen()) {
+                        window.setFinished(true);
+                        callback.onFailure(new RuntimeException("User has closed the authentication window."));
+                        cancel();
+                    }
+                }
+            }.scheduleRepeating(300);
         }
     }
 
     @Override
     void finish(String hash) {
         // Clean up the popup
-        if (window != null && window.isOpen()) {
-            window.close();
+        if (window != null) {
+            window.setFinished(true);
+            if (window.isOpen()) window.close();
         }
         super.finish(hash);
     }
@@ -106,6 +123,14 @@ class AuthImpl extends Auth {
 
         native void close() /*-{
             this.close();
+        }-*/;
+
+        native void setFinished(boolean f) /*-{
+            this.finished = f;
+        }-*/;
+
+        native boolean hasFinished() /*-{
+            return this.finished;
         }-*/;
     }
 
