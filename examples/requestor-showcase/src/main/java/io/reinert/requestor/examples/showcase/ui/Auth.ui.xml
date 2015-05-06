@@ -167,7 +167,7 @@
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
             <br/>&#32;&#32;&#32;&#32;public void auth(RequestOrder requestOrder) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Apply the header &quot;Auth = MyAuth {key}&quot; */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Apply the header &quot;Authorization: MyAuth {key}&quot; */
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;requestOrder.setHeader(&quot;Authorization&quot;, &quot;MyAuth &quot; + key);
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Mandatory to have the request actually sent. */

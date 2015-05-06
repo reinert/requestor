@@ -16,8 +16,6 @@
 package io.reinert.requestor.oauth2;
 
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
@@ -54,7 +52,7 @@ public abstract class Auth {
     }
 
     private AuthRequest lastRequest;
-    private Callback<String, Throwable> lastCallback;
+    private Callback<TokenInfo, Throwable> lastCallback;
 
     private static final double TEN_MINUTES = 10 * 60 * 1000;
 
@@ -72,7 +70,7 @@ public abstract class Auth {
      * @param req      Request for authentication.
      * @param callback Callback to pass the token to when access has been granted.
      */
-    public void login(AuthRequest req, final Callback<String, Throwable> callback) {
+    public void login(AuthRequest req, final Callback<TokenInfo, Throwable> callback) {
         lastRequest = req;
         lastCallback = callback;
 
@@ -80,7 +78,7 @@ public abstract class Auth {
 
         // Try to look up the token we have stored.
         final TokenInfo info = getToken(req);
-        if (info == null || info.expires == null || expiringSoon(info)) {
+        if (info == null || info.getExpires() == null || expiringSoon(info)) {
             // Token wasn't found, or doesn't have an expiration, or is expired or
             // expiring soon. Requesting access will refresh the token.
             doLogin(authUrl, callback);
@@ -91,7 +89,7 @@ public abstract class Auth {
             scheduler.scheduleDeferred(new ScheduledCommand() {
                 @Override
                 public void execute() {
-                    callback.onSuccess(info.accessToken);
+                    callback.onSuccess(info);
                 }
             });
         }
@@ -104,14 +102,14 @@ public abstract class Auth {
         // TODO(jasonhall): Consider varying the definition of "soon" based on the
         // original expires_in value (e.g., "soon" = 1/10th of the total time before
         // it's expired).
-        return Double.valueOf(info.expires) < (clock.now() + TEN_MINUTES);
+        return Double.valueOf(info.getExpires()) < (clock.now() + TEN_MINUTES);
     }
 
     /**
      * Get the OAuth 2.0 token for which this application may not have already been granted access, by displaying a
      * popup to the user.
      */
-    abstract void doLogin(String authUrl, Callback<String, Throwable> callback);
+    abstract void doLogin(String authUrl, Callback<TokenInfo, Throwable> callback);
 
     /**
      * Set the oauth window URL to use to authenticate.
@@ -168,11 +166,13 @@ public abstract class Auth {
 
             // Store relevant values to be used later.
             if (key.equals("access_token")) {
-                info.accessToken = val;
+                info.setAccessToken(val);
+            } else if (key.equals("token_type")) {
+                info.setTokenType(val);
             } else if (key.equals("expires_in")) {
                 // expires_in is seconds, convert to milliseconds and add to now
                 Double expiresIn = Double.valueOf(val) * 1000;
-                info.expires = String.valueOf(clock.now() + expiresIn);
+                info.setExpires(String.valueOf(clock.now() + expiresIn));
             } else if (key.equals("error")) {
                 error = val;
             } else if (key.equals("error_description")) {
@@ -185,11 +185,11 @@ public abstract class Auth {
         if (error != null) {
             lastCallback.onFailure(
                     new RuntimeException("Error from provider: " + error + errorDesc + errorUri));
-        } else if (info.accessToken == null) {
+        } else if (info.getAccessToken() == null) {
             lastCallback.onFailure(new RuntimeException("Could not find access_token in hash " + hash));
         } else {
             setToken(lastRequest, info);
-            lastCallback.onSuccess(info.accessToken);
+            lastCallback.onSuccess(info);
         }
     }
 
@@ -235,26 +235,6 @@ public abstract class Auth {
         tokenStore.clear();
     }
 
-    /**
-     * Encapsulates information an access token and when it will expire.
-     */
-    static class TokenInfo {
-        String accessToken;
-        String expires;
-
-        String asString() {
-            return accessToken + "-----" + (expires == null ? "" : expires);
-        }
-
-        static TokenInfo fromString(String val) {
-            String[] parts = val.split("-----");
-            TokenInfo info = new TokenInfo();
-            info.accessToken = parts[0];
-            info.expires = parts.length > 1 ? parts[1] : null;
-            return info;
-        }
-    }
-
     /*
      * @param req The authentication request of which to request the expiration
      *        status.
@@ -264,116 +244,6 @@ public abstract class Auth {
     public double expiresIn(AuthRequest req) {
         String val = tokenStore.get(req.asString());
         return val == null ? Double.NEGATIVE_INFINITY :
-                Double.valueOf(TokenInfo.fromString(val).expires) - clock.now();
-    }
-
-    /**
-     * Exports a function to the page's global scope that can be called from regular JavaScript.
-     * <p/>
-     * <p>Usage (in JavaScript):</p> <code> oauth2.login({ "authUrl": "..." // the auth URL to use "clientId": "..." //
-     * the client ID for this app "scopes": ["...", "..."], // (optional) the scopes to request access to
-     * "scopeDelimiter": "..." // (optional) the scope delimiter to use }, function(token) { // (optional) called on
-     * success, with the token }, function(error) { // (optional) called on error, with the error message }); </code>
-     */
-    public static native void export() /*-{
-        if (!$wnd.oauth2) {
-            $wnd.oauth2 = {};
-        }
-        $wnd.oauth2.login = $entry(function (req, success, failure) {
-            @Auth::nativeLogin(*)(req, success, failure);
-        });
-
-        $wnd.oauth2.expiresIn = $entry(function (req) {
-            return @Auth::nativeExpiresIn(*)(req);
-        });
-
-        $wnd.oauth2.clearAllTokens = $entry(function () {
-            @Auth::nativeClearAllTokens()();
-        });
-    }-*/;
-
-    private static void nativeLogin(AuthRequestJso req, JsFunction success, JsFunction failure) {
-        AuthImpl.INSTANCE.login(fromJso(req), CallbackWrapper.create(success, failure));
-    }
-
-    private static double nativeExpiresIn(AuthRequestJso req) {
-        return AuthImpl.INSTANCE.expiresIn(fromJso(req));
-    }
-
-    private static void nativeClearAllTokens() {
-        AuthImpl.INSTANCE.clearAllTokens();
-    }
-
-    private static AuthRequest fromJso(AuthRequestJso jso) {
-        return new AuthRequest(jso.getAuthUrl(), jso.getClientId())
-                .withScopes(jso.getScopes())
-                .withScopeDelimiter(jso.getScopeDelimiter());
-    }
-
-    private static final class AuthRequestJso extends JavaScriptObject {
-        protected AuthRequestJso() {
-        }
-
-        private final native String getAuthUrl() /*-{
-            return this.authUrl;
-        }-*/;
-
-        private final native String getClientId() /*-{
-            return this.clientId;
-        }-*/;
-
-        private final native JsArrayString getScopesNative() /*-{
-            return this.scopes || [];
-        }-*/;
-
-        private final String[] getScopes() {
-            JsArrayString jsa = getScopesNative();
-            String[] arr = new String[jsa.length()];
-            for (int i = 0; i < jsa.length(); i++) {
-                arr[i] = jsa.get(i);
-            }
-            return arr;
-        }
-
-        private final native String getScopeDelimiter() /*-{
-            return this.scopeDelimiter || " ";
-        }-*/;
-    }
-
-    private static final class JsFunction extends JavaScriptObject {
-        protected JsFunction() {
-        }
-
-        private final native void execute(String input) /*-{
-            this(input);
-        }-*/;
-    }
-
-    private static final class CallbackWrapper implements com.google.gwt.core.client.Callback<String, Throwable> {
-        private final JsFunction success;
-        private final JsFunction failure;
-
-        private CallbackWrapper(JsFunction success, JsFunction failure) {
-            this.success = success;
-            this.failure = failure;
-        }
-
-        private static CallbackWrapper create(JsFunction success, JsFunction failure) {
-            return new CallbackWrapper(success, failure);
-        }
-
-        @Override
-        public void onSuccess(String result) {
-            if (success != null) {
-                success.execute(result);
-            }
-        }
-
-        @Override
-        public void onFailure(Throwable reason) {
-            if (failure != null) {
-                failure.execute(reason.getMessage());
-            }
-        }
+                Double.valueOf(TokenInfo.fromString(val).getExpires()) - clock.now();
     }
 }

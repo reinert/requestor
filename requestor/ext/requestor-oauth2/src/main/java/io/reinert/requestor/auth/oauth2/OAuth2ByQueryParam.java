@@ -16,6 +16,7 @@
 package io.reinert.requestor.auth.oauth2;
 
 import io.reinert.requestor.RequestOrder;
+import io.reinert.requestor.oauth2.TokenInfo;
 
 /**
  * OAuth2 authentication through the
@@ -30,7 +31,7 @@ public class OAuth2ByQueryParam extends OAuth2 {
     }
 
     @Override
-    protected void setAccessToken(RequestOrder requestOrder, String accessToken) {
-        requestOrder.setQueryParam("access_token", accessToken);
+    protected void doAuth(RequestOrder requestOrder, TokenInfo tokenInfo) {
+        requestOrder.setQueryParam("access_token", tokenInfo.getAccessToken());
     }
 }

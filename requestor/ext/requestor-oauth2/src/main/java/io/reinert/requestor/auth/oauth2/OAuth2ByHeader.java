@@ -16,6 +16,7 @@
 package io.reinert.requestor.auth.oauth2;
 
 import io.reinert.requestor.RequestOrder;
+import io.reinert.requestor.oauth2.TokenInfo;
 
 /**
  * OAuth2 authentication through the
@@ -25,19 +26,12 @@ import io.reinert.requestor.RequestOrder;
  */
 public class OAuth2ByHeader extends OAuth2 {
 
-    private String tokenType = "Bearer ";
-
     public OAuth2ByHeader(String authUrl, String clientId, String... scopes) {
         super(authUrl, clientId, scopes);
     }
 
-    public OAuth2ByHeader withTokenType(String tokenType) {
-        this.tokenType = tokenType + ' ';
-        return this;
-    }
-
     @Override
-    protected void setAccessToken(RequestOrder requestOrder, String accessToken) {
-        requestOrder.setHeader("Authorization", tokenType + accessToken);
+    protected void doAuth(RequestOrder requestOrder, TokenInfo tokenInfo) {
+        requestOrder.setHeader("Authorization", tokenInfo.getTokenType() + ' ' + tokenInfo.getAccessToken());
     }
 }
