@@ -21,6 +21,7 @@ import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestOrder;
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.oauth2.AuthRequest;
+import io.reinert.requestor.oauth2.TokenInfo;
 
 /**
  * OAuth2 authentication.
@@ -37,7 +38,13 @@ public abstract class OAuth2 implements Auth {
         this.authRequest = new AuthRequest(authUrl, clientId).withScopes(scopes);
     }
 
-    protected abstract void setAccessToken(RequestOrder requestOrder, String accessToken);
+    /**
+     * Use token to perform the request authorization. Implementers must not call requestOrder#send().
+     *
+     * @param requestOrder  request to be authorized
+     * @param tokenInfo     token information retrieved from OAuth login
+     */
+    protected abstract void doAuth(RequestOrder requestOrder, TokenInfo tokenInfo);
 
     public OAuth2 withScopeDelimiter(String delimiter) {
         authRequest.withScopeDelimiter(delimiter);
@@ -46,17 +53,15 @@ public abstract class OAuth2 implements Auth {
 
     @Override
     public void auth(final RequestOrder requestOrder) {
-        AUTH.login(authRequest, new Callback<String, Throwable>() {
+        AUTH.login(authRequest, new Callback<TokenInfo, Throwable>() {
             @Override
             public void onFailure(Throwable reason) {
-                // FIXME(reinert): If user closes auth popup, onFailure isn't getting called.
-                requestOrder.abort(new RequestException("Unable to authorize the request using OAuth2. "
-                        + "See previous log.", reason));
+                requestOrder.abort(new RequestException("Unable to authorize the request using OAuth2.", reason));
             }
 
             @Override
-            public void onSuccess(String accessToken) {
-                setAccessToken(requestOrder, accessToken);
+            public void onSuccess(TokenInfo tokenInfo) {
+                doAuth(requestOrder, tokenInfo);
                 requestOrder.send();
             }
         });

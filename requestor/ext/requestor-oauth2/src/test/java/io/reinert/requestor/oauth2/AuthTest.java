@@ -23,8 +23,6 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.core.client.testing.StubScheduler;
 
-import io.reinert.requestor.oauth2.Auth.TokenInfo;
-
 import junit.framework.TestCase;
 
 /**
@@ -66,8 +64,9 @@ public class AuthTest extends TestCase {
 
     // Storing a token that expires soon (in just under 10 minutes)
     TokenInfo info = new TokenInfo();
-    info.accessToken = "expired";
-    info.expires = String.valueOf(MockClock.now + 10 * 60 * 1000 - 1);
+    info.setTokenType("type");
+    info.setAccessToken("expired");
+    info.setExpires(String.valueOf(MockClock.now + 10 * 60 * 1000 - 1));
     auth.setToken(req, info);
 
     MockCallback callback = new MockCallback();
@@ -89,8 +88,9 @@ public class AuthTest extends TestCase {
 
     // Storing a token that does not expire soon (in exactly 10 minutes)
     TokenInfo info = new TokenInfo();
-    info.accessToken = "notExpiringSoon";
-    info.expires = String.valueOf(MockClock.now + 10 * 60 * 1000);
+    info.setTokenType("type");
+    info.setAccessToken("notExpiringSoon");
+    info.setExpires(String.valueOf(MockClock.now + 10 * 60 * 1000));
     auth.setToken(req, info);
 
     MockCallback callback = new MockCallback();
@@ -105,7 +105,7 @@ public class AuthTest extends TestCase {
     assertFalse(auth.loggedInViaPopup);
 
     // onSuccess() was called and onFailure() wasn't.
-    assertEquals("notExpiringSoon", callback.token);
+    assertEquals("notExpiringSoon", callback.token.getAccessToken());
     assertNull(callback.failure);
   }
 
@@ -118,8 +118,9 @@ public class AuthTest extends TestCase {
 
     // Storing a token with a null expires time
     TokenInfo info = new TokenInfo();
-    info.accessToken = "longToken";
-    info.expires = null;
+    info.setTokenType("type");
+    info.setAccessToken("longToken");
+    info.setExpires(null);
     auth.setToken(req, info);
 
     MockCallback callback = new MockCallback();
@@ -142,10 +143,11 @@ public class AuthTest extends TestCase {
     auth.login(req, callback);
 
     // Simulates the auth provider's response
-    auth.finish("#access_token=foo&expires_in=10000");
+    auth.finish("#access_token=foo&expires_in=10000&token_type=bar");
 
     // onSuccess() was called and onFailure() wasn't
-    assertEquals("foo", callback.token);
+    assertEquals("foo", callback.token.getAccessToken());
+    assertEquals("bar", callback.token.getTokenType());
     assertNull(callback.failure);
 
     // A token was stored as a result
@@ -154,8 +156,9 @@ public class AuthTest extends TestCase {
 
     // That token is clientId+scope -> foo+expires
     TokenInfo info = TokenInfo.fromString(ts.store.get("clientId-----scope"));
-    assertEquals("foo", info.accessToken);
-    assertEquals(MockClock.now + 10000 * 1000, Double.valueOf(info.expires));
+    assertEquals("foo", info.getAccessToken());
+    assertEquals("bar", info.getTokenType());
+    assertEquals(MockClock.now + 10000 * 1000, Double.valueOf(info.getExpires()));
   }
 
   /**
@@ -191,10 +194,11 @@ public class AuthTest extends TestCase {
     auth.login(req, callback);
 
     // Simulates the auth provider's response
-    auth.finish("#access_token=foo");
+    auth.finish("#access_token=foo&token_type=bar");
 
     // onSuccess() was called and onFailure() wasn't
-    assertEquals("foo", callback.token);
+    assertEquals("foo", callback.token.getAccessToken());
+    assertEquals("bar", callback.token.getTokenType());
     assertNull(callback.failure);
 
     // A token was stored as a result
@@ -203,8 +207,9 @@ public class AuthTest extends TestCase {
 
     // That token is clientId+scope -> foo+expires
     TokenInfo info = TokenInfo.fromString(ts.store.get("clientId-----scope"));
-    assertEquals("foo", info.accessToken);
-    assertNull(info.expires);
+    assertEquals("foo", info.getAccessToken());
+    assertEquals("bar", info.getTokenType());
+    assertNull(info.getExpires());
   }
 
   /**
@@ -284,7 +289,7 @@ public class AuthTest extends TestCase {
     }
 
     @Override
-    void doLogin(String authUrl, Callback<String, Throwable> callback) {
+    void doLogin(String authUrl, Callback<TokenInfo, Throwable> callback) {
       loggedInViaPopup = true;
       lastUrl = authUrl;
     }
@@ -330,12 +335,12 @@ public class AuthTest extends TestCase {
     }
   }
 
-  private static class MockCallback implements Callback<String, Throwable> {
-    private String token;
+  private static class MockCallback implements Callback<TokenInfo, Throwable> {
+    private TokenInfo token;
     private Throwable failure;
 
     @Override
-    public void onSuccess(String token) {
+    public void onSuccess(TokenInfo token) {
       this.token = token;
     }
 
