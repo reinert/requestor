@@ -59,4 +59,27 @@ public class FilterManagerTest {
         assertSame(responseFilter, manager.getResponseFilters().get(0));
         filters.add(mock(ResponseFilter.class)); // throw UnsupportedOperationException
     }
+
+    @Test
+    public void wrappedManagerShouldNotBeAffected() {
+        // Given
+        RequestFilter requestFilter = mock(RequestFilter.class);
+        ResponseFilter responseFilter = mock(ResponseFilter.class);
+        manager.addRequestFilter(requestFilter);
+        manager.addResponseFilter(responseFilter);
+
+        FilterManager wrappingManager = new FilterManager(manager);
+        RequestFilter requestFilter2 = mock(RequestFilter.class);
+        ResponseFilter responseFilter2 = mock(ResponseFilter.class);
+
+        // When
+        wrappingManager.addRequestFilter(requestFilter2);
+        wrappingManager.addResponseFilter(responseFilter2);
+
+        // Then
+        assertEquals(manager.getRequestFilters().size(), 1);
+        assertEquals(manager.getResponseFilters().size(), 1);
+        assertEquals(wrappingManager.getRequestFilters().size(), 2);
+        assertEquals(wrappingManager.getResponseFilters().size(), 2);
+    }
 }
