@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.uri;
 
+import java.util.Map;
+
 import com.google.gwt.core.shared.GWT;
 
 /**
@@ -227,4 +229,25 @@ public abstract class UriBuilder {
      */
     public abstract Uri build(Object... values)
             throws IllegalArgumentException, UriBuilderException;
+
+    /**
+     * Build a URI, any URI template parameters will be replaced by the value
+     * in the supplied map. Values are converted to <code>String</code> using
+     * their <code>toString</code> method and are then encoded to match the
+     * rules of the URI component to which they pertain. All '%' characters
+     * in the stringified values will be encoded.
+     * The state of the builder is unaffected; this method may be called
+     * multiple times on the same builder instance.
+     *
+     * @param values a map of URI template parameter names and values
+     *
+     * @return the URI built from the UriBuilder
+     *
+     * @throws IllegalArgumentException if there are any URI template parameters
+     * without a supplied value, or if a value is null.
+     *
+     * @throws UriBuilderException if a URI cannot be constructed based on the
+     * current state of the builder.
+     */
+    public abstract Uri build(Map<String, ?> values);
 }

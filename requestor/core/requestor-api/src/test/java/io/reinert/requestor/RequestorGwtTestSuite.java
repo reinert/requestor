@@ -19,6 +19,7 @@ import com.google.gwt.junit.tools.GWTTestSuite;
 
 import io.reinert.requestor.serialization.OverlaySerdesTest;
 import io.reinert.requestor.uri.UriBuilderTest;
+import io.reinert.requestor.uri.UriParserTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -30,6 +31,7 @@ public class RequestorGwtTestSuite extends GWTTestSuite {
 
         // Uri
         suite.addTestSuite(UriBuilderTest.class);
+        suite.addTestSuite(UriParserTest.class);
 
         // Serialization
         suite.addTestSuite(OverlaySerdesTest.class);
