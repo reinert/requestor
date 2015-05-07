@@ -15,6 +15,9 @@
  */
 package io.reinert.requestor.uri;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gwt.junit.client.GWTTestCase;
 
 import org.junit.Test;
@@ -105,6 +108,55 @@ public class UriBuilderTest extends GWTTestCase {
                     .segment("{c}")
                     .fragment("{d}{a}")
                     .build("server", "root", "any").toString());
+        } catch (IllegalArgumentException e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    public void testTemplateParamsByMap() {
+        String expected = "http://user:pwd@localhost:8888/server/1/any;class=2;class=5;class=6" +
+                "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#firstserver";
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("a", "server");
+        params.put("b", 1);
+        params.put("c", "any");
+        params.put("d", "first");
+
+        String uri = UriBuilder.newInstance()
+                .scheme("http")
+                .user("user")
+                .password("pwd")
+                .host("localhost")
+                .port(8888)
+                .path("/{a}/{b}")
+                .segment("{c}")
+                .matrixParam("class", 2, 5, 6)
+                .segment("child")
+                .matrixParam("group", "A")
+                .matrixParam("subGroup", "A.1", "A.2")
+                .queryParam("age", 12)
+                .queryParam("name", "Aa", "Zz")
+                .fragment("{d}{a}")
+                .build(params).toString();
+
+        assertEquals(expected, uri);
+    }
+
+    @Test
+    public void testInsufficientTemplateParamsByMap() {
+        try {
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("a", "server");
+            params.put("b", 1);
+            params.put("c", "any");
+
+            assertNull(UriBuilder.newInstance()
+                    .path("{a}/{b}")
+                    .segment("{c}")
+                    .fragment("{d}{a}")
+                    .build(params).toString());
         } catch (IllegalArgumentException e) {
             assertNotNull(e);
         }

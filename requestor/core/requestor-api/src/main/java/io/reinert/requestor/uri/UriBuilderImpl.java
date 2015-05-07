@@ -171,6 +171,29 @@ public class UriBuilderImpl extends UriBuilder {
         return new Uri(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
     }
 
+    @Override
+    public Uri build(Map<String, ?> values) {
+        if (segments != null) {
+            for (int i = 0; i < segments.size(); i++) {
+                final String segment = segments.get(i);
+                final String parsed = parsePart(values, segment);
+
+                // Replace the template segment for the parsed one if necessary
+                if (matrixParams != null && matrixParams.containsKey(segment) && segment.contains("{")) {
+                    final Buckets segmentMatrixParams = matrixParams.remove(segment);
+                    matrixParams.put(parsed, segmentMatrixParams);
+                }
+
+                segments.set(i, parsed);
+            }
+        }
+
+        final String parsedFrag = parsePart(values, fragment);
+
+        final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
+        return new Uri(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
+    }
+
     private String parsePart(Object[] values, List<String> templateParams, String segment) {
         int cursor = segment.indexOf("{");
         while (cursor > -1) {
@@ -192,6 +215,27 @@ public class UriBuilderImpl extends UriBuilder {
                     throw new IllegalArgumentException("Uri could not be built: Null values are not allowed.");
                 final String value = o.toString();
                 segment = segment.substring(0, cursor) + value + segment.substring(closingBracket + 1);
+                cursor = segment.indexOf("{", closingBracket + 1);
+            } else {
+                cursor = -1;
+            }
+        }
+        return segment;
+    }
+
+    private String parsePart(Map<String, ?> templateValues, String segment) {
+        int cursor = segment.indexOf("{");
+        while (cursor > -1) {
+            int closingBracket = segment.indexOf("}", cursor);
+            if (closingBracket > -1) {
+                final String param = segment.substring(cursor + 1, closingBracket);
+                final Object value = templateValues.get(param);
+
+                if (value == null)
+                    throw new IllegalArgumentException("Uri could no be built: The template param '" + param + "' " +
+                            "could not be resolved.");
+
+                segment = segment.substring(0, cursor) + value.toString() + segment.substring(closingBracket + 1);
                 cursor = segment.indexOf("{", closingBracket + 1);
             } else {
                 cursor = -1;
