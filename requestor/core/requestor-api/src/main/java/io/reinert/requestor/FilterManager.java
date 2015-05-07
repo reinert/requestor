@@ -26,7 +26,7 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
  *
  * @author Danilo Reinert
  */
-class FilterManager {
+class FilterManager implements HasFilters {
 
     private final List<RequestFilter> requestFilters = new ArrayList<RequestFilter>();
     private final List<ResponseFilter> responseFilters = new ArrayList<ResponseFilter>();
@@ -36,14 +36,19 @@ class FilterManager {
     @SuppressWarnings("unchecked")
     private List<ResponseFilter> responseFiltersCopy = Collections.EMPTY_LIST;
 
-    /**
-     * Register a request filter.
-     *
-     * @param requestFilter The request filter to be registered.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration
-     *          to the {@link FilterManager}.
-     */
+    public FilterManager() {
+    }
+
+    public FilterManager(FilterManager manager) {
+        final List<RequestFilter> managerRequestFilters = manager.getRequestFilters();
+        this.requestFilters.addAll(managerRequestFilters);
+        this.requestFiltersCopy = managerRequestFilters; // It's an immutable list
+        final List<ResponseFilter> managerResponseFilters = manager.getResponseFilters();
+        this.responseFilters.addAll(managerResponseFilters);
+        this.responseFiltersCopy = managerResponseFilters; // It's an immutable list
+    }
+
+    @Override
     public HandlerRegistration addRequestFilter(final RequestFilter requestFilter) {
         requestFilters.add(requestFilter);
         updateRequestFiltersCopy(); // getRequestFilters returns this immutable copy
@@ -56,14 +61,7 @@ class FilterManager {
         };
     }
 
-    /**
-     * Register a response filter.
-     *
-     * @param responseFilter The response filter to be registered.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration
-     *          to the {@link FilterManager}.
-     */
+    @Override
     public HandlerRegistration addResponseFilter(final ResponseFilter responseFilter) {
         responseFilters.add(responseFilter);
         updateResponseFiltersCopy(); // getResponseFilters returns this immutable copy

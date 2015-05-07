@@ -52,7 +52,7 @@ import io.reinert.requestor.serialization.Serializer;
  *
  * @author Danilo Reinert
  */
-public interface Requestor {
+public interface Requestor extends HasFilters, HasInterceptors {
 
     //===================================================================
     // Requestor configuration
@@ -88,42 +88,6 @@ public interface Requestor {
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
     <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer);
-
-    /**
-     * Register a request filter.
-     *
-     * @param requestFilter The request filter to be registered.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
-     */
-    HandlerRegistration addRequestFilter(RequestFilter requestFilter);
-
-    /**
-     * Register a response filter.
-     *
-     * @param responseFilter The response filter to be registered.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
-     */
-    HandlerRegistration addResponseFilter(ResponseFilter responseFilter);
-
-    /**
-     * Register a request interceptor.
-     *
-     * @param requestInterceptor The request interceptor to be registered.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
-     */
-    HandlerRegistration addRequestInterceptor(RequestInterceptor requestInterceptor);
-
-    /**
-     * Register a response interceptor.
-     *
-     * @param responseInterceptor The response interceptor to be registered.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
-     */
-    HandlerRegistration addResponseInterceptor(ResponseInterceptor responseInterceptor);
 
     /**
      * Register a serializer/deserializer of the given type.

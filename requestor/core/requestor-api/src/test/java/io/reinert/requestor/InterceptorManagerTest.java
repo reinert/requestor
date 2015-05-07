@@ -59,4 +59,27 @@ public class InterceptorManagerTest {
         assertSame(responseInterceptor, manager.getResponseInterceptors().get(0));
         interceptors.add(mock(ResponseInterceptor.class)); // throw UnsupportedOperationException
     }
+
+    @Test
+    public void wrappedManagerShouldNotBeAffected() {
+        // Given
+        RequestInterceptor requestInterceptor = mock(RequestInterceptor.class);
+        ResponseInterceptor responseInterceptor = mock(ResponseInterceptor.class);
+        manager.addRequestInterceptor(requestInterceptor);
+        manager.addResponseInterceptor(responseInterceptor);
+
+        InterceptorManager wrappingManager = new InterceptorManager(manager);
+        RequestInterceptor requestInterceptor2 = mock(RequestInterceptor.class);
+        ResponseInterceptor responseInterceptor2 = mock(ResponseInterceptor.class);
+
+        // When
+        wrappingManager.addRequestInterceptor(requestInterceptor2);
+        wrappingManager.addResponseInterceptor(responseInterceptor2);
+
+        // Then
+        assertEquals(manager.getRequestInterceptors().size(), 1);
+        assertEquals(manager.getResponseInterceptors().size(), 1);
+        assertEquals(wrappingManager.getRequestInterceptors().size(), 2);
+        assertEquals(wrappingManager.getResponseInterceptors().size(), 2);
+    }
 }

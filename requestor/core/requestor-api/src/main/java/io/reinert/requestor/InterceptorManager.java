@@ -26,7 +26,7 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
  *
  * @author Danilo Reinert
  */
-class InterceptorManager {
+class InterceptorManager implements HasInterceptors {
 
     private final List<RequestInterceptor> requestInterceptors = new ArrayList<RequestInterceptor>();
     private final List<ResponseInterceptor> responseInterceptors = new ArrayList<ResponseInterceptor>();
@@ -36,14 +36,19 @@ class InterceptorManager {
     @SuppressWarnings("unchecked")
     private List<ResponseInterceptor> responseInterceptorsCopy = Collections.EMPTY_LIST;
 
-    /**
-     * Register a request interceptor.
-     *
-     * @param requestInterceptor The request interceptor to be registered.
-     *
-     * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object, capable of cancelling this
-     *          registration to the {@link io.reinert.requestor.InterceptorManager}.
-     */
+    public InterceptorManager() {
+    }
+
+    public InterceptorManager(InterceptorManager manager) {
+        final List<RequestInterceptor> managerRequestInterceptors = manager.getRequestInterceptors();
+        this.requestInterceptors.addAll(managerRequestInterceptors);
+        this.requestInterceptorsCopy = managerRequestInterceptors; // It's an immutable list
+        final List<ResponseInterceptor> managerResponseInterceptors = manager.getResponseInterceptors();
+        this.responseInterceptors.addAll(managerResponseInterceptors);
+        this.responseInterceptorsCopy = managerResponseInterceptors; // It's an immutable list
+    }
+
+    @Override
     public HandlerRegistration addRequestInterceptor(final RequestInterceptor requestInterceptor) {
         requestInterceptors.add(requestInterceptor);
         updateRequestInterceptorsCopy(); // getRequestInterceptors returns this immutable copy
@@ -56,14 +61,7 @@ class InterceptorManager {
         };
     }
 
-    /**
-     * Register a response interceptor.
-     *
-     * @param responseInterceptor The response interceptor to be registered.
-     *
-     * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object, capable of cancelling this
-     *          registration to the {@link io.reinert.requestor.InterceptorManager}.
-     */
+    @Override
     public HandlerRegistration addResponseInterceptor(final ResponseInterceptor responseInterceptor) {
         responseInterceptors.add(responseInterceptor);
         updateResponseInterceptorsCopy(); // getResponseInterceptors returns this immutable copy
@@ -79,7 +77,7 @@ class InterceptorManager {
     /**
      * Returns an immutable copy of the interceptors.
      *
-     * @return The request interceptors.
+     * @return the request interceptors
      */
     public List<RequestInterceptor> getRequestInterceptors() {
         return requestInterceptorsCopy;
@@ -88,7 +86,7 @@ class InterceptorManager {
     /**
      * Returns an immutable copy of the interceptors.
      *
-     * @return The response interceptors.
+     * @return the response interceptors
      */
     public List<ResponseInterceptor> getResponseInterceptors() {
         return responseInterceptorsCopy;
