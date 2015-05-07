@@ -39,6 +39,12 @@ class FilterManager implements HasFilters {
     public FilterManager() {
     }
 
+    /**
+     * Wraps a {@link FilterManager} absorbing its filters.
+     * It doesn't affect neither is affected by the wrapping manager.
+     *
+     * @param manager  a manager to wrap
+     */
     public FilterManager(FilterManager manager) {
         final List<RequestFilter> managerRequestFilters = manager.getRequestFilters();
         this.requestFilters.addAll(managerRequestFilters);
