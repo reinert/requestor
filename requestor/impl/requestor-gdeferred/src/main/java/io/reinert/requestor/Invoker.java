@@ -29,7 +29,7 @@ import io.reinert.requestor.gdeferred.RequestPromise;
  *
  * @author Danilo Reinert
  */
-public interface HttpRequestInvoker {
+public interface Invoker {
 
     RequestPromise<Void> get();
 

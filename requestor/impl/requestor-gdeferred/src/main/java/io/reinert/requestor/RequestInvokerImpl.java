@@ -31,7 +31,7 @@ public class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     //===================================================================
-    // RequestSender methods
+    // RequestInvoker methods
     //===================================================================
 
     @Override
