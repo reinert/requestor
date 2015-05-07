@@ -39,6 +39,12 @@ class InterceptorManager implements HasInterceptors {
     public InterceptorManager() {
     }
 
+    /**
+     * Wraps a {@link InterceptorManager} absorbing its interceptors.
+     * It doesn't affect neither is affected by the wrapping manager.
+     *
+     * @param manager  a manager to wrap
+     */
     public InterceptorManager(InterceptorManager manager) {
         final List<RequestInterceptor> managerRequestInterceptors = manager.getRequestInterceptors();
         this.requestInterceptors.addAll(managerRequestInterceptors);
