@@ -20,7 +20,7 @@ import java.util.Collection;
 import io.reinert.requestor.gdeferred.RequestPromise;
 
 /**
- * HasHttpSendMethods custom interface exposing only GDeferred Promise API.
+ * Invoker custom interface exposing only GDeferred Promise API.
  * <p/>
  *
  * Notice that the dispatch methods are returning {@link io.reinert.requestor.gdeferred.RequestPromise}
