@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,45 +25,6 @@ import io.reinert.requestor.header.Link;
  * @author Danilo Reinert
  */
 public interface Response<T> {
-
-    int ACCEPTED = 202;
-    int BAD_GATEWAY = 502;
-    int BAD_REQUEST = 400;
-    int CONFLICT = 409;
-    int CONTINUE = 100;
-    int CREATED = 201;
-    int EXPECTATION_FAILED = 417;
-    int FORBIDDEN = 403;
-    int GATEWAY_TIMEOUT = 504;
-    int GONE = 410;
-    int HTTP_VERSION_NOT_SUPPORTED = 505;
-    int INTERNAL_SERVER_ERROR = 500;
-    int LENGTH_REQUIRED = 411;
-    int METHOD_NOT_ALLOWED = 405;
-    int MOVED_PERMANENTLY = 301;
-    int MOVED_TEMPORARILY = 302;
-    int MULTIPLE_CHOICES = 300;
-    int NO_CONTENT = 204;
-    int NON_AUTHORITATIVE_INFORMATION = 203;
-    int NOT_ACCEPTABLE = 406;
-    int NOT_FOUND = 404;
-    int NOT_IMPLEMENTED = 501;
-    int NOT_MODIFIED = 304;
-    int OK = 200;
-    int PARTIAL_CONTENT = 206;
-    int PAYMENT_REQUIRED = 402;
-    int PRECONDITION_FAILED = 412;
-    int PROXY_AUTHENTICATION_REQUIRED = 407;
-    int REQUEST_ENTITY_TOO_LARGE = 413;
-    int REQUESTED_RANGE_NOT_SATISFIABLE = 416;
-    int RESET_CONTENT = 205;
-    int SEE_OTHER = 303;
-    int SERVICE_UNAVAILABLE = 503;
-    int SWITCHING_PROTOCOLS = 101;
-    int TEMPORARY_REDIRECT = 307;
-    int UNAUTHORIZED = 401;
-    int UNSUPPORTED_MEDIA_TYPE = 415;
-    int USE_PROXY = 305;
 
     /**
      * Returns the value of the requested header or null if the header was not
@@ -144,4 +105,196 @@ public interface Response<T> {
      * @return the response type
      */
     ResponseType getResponseType();
+
+    /**
+     * Base interface for statuses used in responses.
+     */
+    public interface StatusType {
+
+        /**
+         * Get the associated status code.
+         *
+         * @return the status code.
+         */
+        public int getStatusCode();
+
+        /**
+         * Get the class of status code.
+         *
+         * @return the class of status code.
+         */
+        public Status.Family getFamily();
+
+        /**
+         * Get the reason phrase.
+         *
+         * @return the reason phrase.
+         */
+        public String getReasonPhrase();
+    }
+
+    /**
+     * Commonly used status codes defined by HTTP, see
+     * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">HTTP/1.1 documentation</a>}
+     * for the complete list. Additional status codes can be added by applications
+     * by creating an implementation of {@link StatusType}.
+     */
+    public enum Status implements StatusType {
+
+        OK(200, "OK"),
+        CREATED(201, "Created"),
+        ACCEPTED(202, "Accepted"),
+        NO_CONTENT(204, "No Content"),
+        RESET_CONTENT(205, "Reset Content"),
+        PARTIAL_CONTENT(206, "Partial Content"),
+        MOVED_PERMANENTLY(301, "Moved Permanently"),
+        FOUND(302, "Found"),
+        SEE_OTHER(303, "See Other"),
+        NOT_MODIFIED(304, "Not Modified"),
+        USE_PROXY(305, "Use Proxy"),
+        TEMPORARY_REDIRECT(307, "Temporary Redirect"),
+        BAD_REQUEST(400, "Bad Request"),
+        UNAUTHORIZED(401, "Unauthorized"),
+        PAYMENT_REQUIRED(402, "Payment Required"),
+        FORBIDDEN(403, "Forbidden"),
+        NOT_FOUND(404, "Not Found"),
+        METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+        NOT_ACCEPTABLE(406, "Not Acceptable"),
+        PROXY_AUTHENTICATION_REQUIRED(407, "Proxy Authentication Required"),
+        REQUEST_TIMEOUT(408, "Request Timeout"),
+        CONFLICT(409, "Conflict"),
+        GONE(410, "Gone"),
+        LENGTH_REQUIRED(411, "Length Required"),
+        PRECONDITION_FAILED(412, "Precondition Failed"),
+        REQUEST_ENTITY_TOO_LARGE(413, "Request Entity Too Large"),
+        REQUEST_URI_TOO_LONG(414, "Request-URI Too Long"),
+        UNSUPPORTED_MEDIA_TYPE(415, "Unsupported Media Type"),
+        REQUESTED_RANGE_NOT_SATISFIABLE(416, "Requested Range Not Satisfiable"),
+        EXPECTATION_FAILED(417, "Expectation Failed"),
+        INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+        NOT_IMPLEMENTED(501, "Not Implemented"),
+        BAD_GATEWAY(502, "Bad Gateway"),
+        SERVICE_UNAVAILABLE(503, "Service Unavailable"),
+        GATEWAY_TIMEOUT(504, "Gateway Timeout"),
+        HTTP_VERSION_NOT_SUPPORTED(505, "HTTP Version Not Supported");
+
+        private final int code;
+        private final String reason;
+        private final Family family;
+
+        /**
+         * An enumeration representing the class of status code.
+         */
+        public enum Family {
+
+            /**
+             * {@code 1xx} HTTP status codes.
+             */
+            INFORMATIONAL,
+            /**
+             * {@code 2xx} HTTP status codes.
+             */
+            SUCCESSFUL,
+            /**
+             * {@code 3xx} HTTP status codes.
+             */
+            REDIRECTION,
+            /**
+             * {@code 4xx} HTTP status codes.
+             */
+            CLIENT_ERROR,
+            /**
+             * {@code 5xx} HTTP status codes.
+             */
+            SERVER_ERROR,
+            /**
+             * Other, unrecognized HTTP status codes.
+             */
+            OTHER;
+
+            /**
+             * Get the response status family for the status code.
+             *
+             * @param statusCode response status code to get the family for.
+             * @return family of the response status code.
+             */
+            public static Family of(final int statusCode) {
+                switch (statusCode / 100) {
+                    case 1:
+                        return Family.INFORMATIONAL;
+                    case 2:
+                        return Family.SUCCESSFUL;
+                    case 3:
+                        return Family.REDIRECTION;
+                    case 4:
+                        return Family.CLIENT_ERROR;
+                    case 5:
+                        return Family.SERVER_ERROR;
+                    default:
+                        return Family.OTHER;
+                }
+            }
+        }
+
+        Status(final int statusCode, final String reasonPhrase) {
+            this.code = statusCode;
+            this.reason = reasonPhrase;
+            this.family = Family.of(statusCode);
+        }
+
+        /**
+         * Get the class of status code.
+         *
+         * @return the class of status code.
+         */
+        @Override
+        public Family getFamily() {
+            return family;
+        }
+
+        /**
+         * Get the associated status code.
+         *
+         * @return the status code.
+         */
+        @Override
+        public int getStatusCode() {
+            return code;
+        }
+
+        /**
+         * Get the reason phrase.
+         *
+         * @return the reason phrase.
+         */
+        @Override
+        public String getReasonPhrase() {
+            return toString();
+        }
+
+        /**
+         * Get the reason phrase.
+         *
+         * @return the reason phrase.
+         */
+        @Override
+        public String toString() {
+            return reason;
+        }
+
+        /**
+         * Convert a numerical status code into the corresponding Status.
+         *
+         * @param statusCode the numerical status code.
+         * @return the matching Status or null is no matching Status is defined.
+         */
+        public static Status fromStatusCode(final int statusCode) {
+            for (Status s : Status.values()) {
+                if (s.code == statusCode) {
+                    return s;
+                }
+            }
+            return null;
+        }
+    }
 }

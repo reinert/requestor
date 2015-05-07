@@ -115,5 +115,4 @@ public interface ResponseFilterContext {
      * @return the response type
      */
     ResponseType getResponseType();
-
 }
