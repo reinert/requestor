@@ -30,7 +30,7 @@ import io.reinert.requestor.deferred.Promise;
  *
  * @author Danilo Reinert
  */
-public interface HttpRequestInvoker {
+public interface Invoker {
 
     Promise<Void> get();
 
