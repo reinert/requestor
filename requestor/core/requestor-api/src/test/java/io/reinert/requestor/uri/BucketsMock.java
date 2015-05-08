@@ -69,6 +69,18 @@ class BucketsMock implements Buckets {
         return values;
     }
 
+    @Override
+    public Buckets clone() {
+        BucketsMock copy = new BucketsMock();
+        for (String key : bucketsMap.keySet()) {
+            final String[] values = get(key);
+            for (String value : values) {
+                copy.add(key, value);
+            }
+        }
+        return copy;
+    }
+
     private List<String> getBuckets(String key) {
         List<String> buckets = bucketsMap.get(key);
         if (buckets == null) {

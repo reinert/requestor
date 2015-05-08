@@ -32,4 +32,6 @@ interface Buckets {
     boolean isEmpty();
 
     String[] remove(String key);
+
+    Buckets clone();
 }

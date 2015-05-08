@@ -87,6 +87,16 @@ public abstract class UriBuilder {
     }
 
     /**
+     * Create a copy of the UriBuilder preserving its state.
+     *
+     * This is a more efficient means of creating a copy than constructing a new UriBuilder from a URI returned by the
+     * build(Object...) method.
+     *
+     * @return  a copy of the UriBuilder.
+     */
+    public abstract UriBuilder clone();
+
+    /**
      * Set the URI user of user-info part.
      *
      * @param user the URI user. A null value will unset userInfo (both user and password) component of the URI.

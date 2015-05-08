@@ -47,6 +47,26 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     @Override
+    public UriBuilder clone() {
+        final UriBuilderImpl uriBuilder = new UriBuilderImpl();
+        uriBuilder.scheme = scheme;
+        uriBuilder.user = user;
+        uriBuilder.password = password;
+        uriBuilder.host = host;
+        uriBuilder.port = port;
+        if (segments != null) uriBuilder.segments = new ArrayList<String>(segments);
+        uriBuilder.fragment = fragment;
+        if (queryParams != null) uriBuilder.queryParams = queryParams.clone();
+        if (matrixParams != null) {
+            uriBuilder.matrixParams = new HashMap<String, Buckets>();
+            for (String key : matrixParams.keySet()) {
+                uriBuilder.matrixParams.put(key, matrixParams.get(key).clone());
+            }
+        }
+        return uriBuilder;
+    }
+
+    @Override
     public UriBuilder user(String user) {
         if (user == null) {
             this.user = null;
@@ -165,7 +185,7 @@ public class UriBuilderImpl extends UriBuilder {
             }
         }
 
-        final String parsedFrag = parsePart(templateValues, templateParams, fragment);
+        final String parsedFrag = fragment != null ? parsePart(templateValues, templateParams, fragment) : null;
 
         final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
         return new Uri(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);

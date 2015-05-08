@@ -18,22 +18,32 @@ package io.reinert.requestor.uri;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwtmockito.GwtMockitoTestRunner;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Danilo Reinert
  */
-public class UriBuilderTest extends GWTTestCase {
+@RunWith(GwtMockitoTestRunner.class)
+public class UriBuilderTest extends UriTestBase {
 
-    @Override
-    public String getModuleName() {
-        return "io.reinert.requestor.RequestorApiTest";
+    @Test
+    public void build_PathOnly_ShouldBuildSuccessfully() {
+        String expected = "/server";
+
+        String uri = UriBuilder.newInstance()
+                .path("server")
+                .build().toString();
+
+        assertEquals(expected, uri);
     }
 
     @Test
-    public void testSimple() {
+    public void build_AllMethodsExcludingWithParamsProperlyUsed_ShouldBuildSuccessfully() {
         String expected = "http://user:pwd@localhost:8888/server/resource#first";
 
         String uri = UriBuilder.newInstance()
@@ -51,7 +61,7 @@ public class UriBuilderTest extends GWTTestCase {
     }
 
     @Test
-    public void testComplete() {
+    public void build_AllMethodsProperlyUsed_ShouldBuildSuccessfully() {
         String expected = "http://user:pwd@localhost:8888/server/root/resource;class=2;class=5;class=6" +
                 "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#first";
 
@@ -76,7 +86,7 @@ public class UriBuilderTest extends GWTTestCase {
     }
 
     @Test
-    public void testTemplateParams() {
+    public void build_ProperTemplateValues_ShouldBuildSuccessfully() {
         String expected = "http://user:pwd@localhost:8888/server/root/any;class=2;class=5;class=6" +
                 "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#firstserver";
 
@@ -100,21 +110,17 @@ public class UriBuilderTest extends GWTTestCase {
         assertEquals(expected, uri);
     }
 
-    @Test
-    public void testInsufficientTemplateParams() {
-        try {
-            assertNull(UriBuilder.newInstance()
-                    .path("{a}/{b}")
-                    .segment("{c}")
-                    .fragment("{d}{a}")
-                    .build("server", "root", "any").toString());
-        } catch (IllegalArgumentException e) {
-            assertNotNull(e);
-        }
+    @Test(expected = IllegalArgumentException.class)
+    public void build_InsufficientTemplateValues_ShouldThrowIllegalArgumentException() {
+        UriBuilder.newInstance()
+                .path("{a}/{b}")
+                .segment("{c}")
+                .fragment("{d}{a}")
+                .build("server", "root", "any");
     }
 
     @Test
-    public void testTemplateParamsByMap() {
+    public void build_ProperTemplateValuesMap_ShouldBuildSuccessfully() {
         String expected = "http://user:pwd@localhost:8888/server/1/any;class=2;class=5;class=6" +
                 "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#firstserver";
 
@@ -144,21 +150,51 @@ public class UriBuilderTest extends GWTTestCase {
         assertEquals(expected, uri);
     }
 
-    @Test
-    public void testInsufficientTemplateParamsByMap() {
-        try {
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("a", "server");
-            params.put("b", 1);
-            params.put("c", "any");
+    @Test(expected = IllegalArgumentException.class)
+    public void build_InsufficientTemplateValuesMap_ShouldThrowIllegalArgumentException() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("a", "server");
+        params.put("b", 1);
+        params.put("c", "any");
 
-            assertNull(UriBuilder.newInstance()
-                    .path("{a}/{b}")
-                    .segment("{c}")
-                    .fragment("{d}{a}")
-                    .build(params).toString());
-        } catch (IllegalArgumentException e) {
-            assertNotNull(e);
-        }
+        UriBuilder.newInstance()
+                .path("{a}/{b}")
+                .segment("{c}")
+                .fragment("{d}{a}")
+                .build(params);
+    }
+
+    @Test
+    public void clone_ShouldReturnDetachedInstance() {
+        String expectedOriginal = "http://user:pwd@localhost:8888/server/root/resource;class=2;class=5;class=6" +
+                "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#first";
+        String expectedClone = "http://user:pwd@localhost:8888/server?foo=bar";
+
+        // Given
+        UriBuilder original = UriBuilder.newInstance()
+                .scheme("http")
+                .user("user")
+                .password("pwd")
+                .host("localhost")
+                .port(8888)
+                .path("/server/");
+
+        UriBuilder clone = original.clone();
+
+        // When
+        original.segment("root", "resource")
+                .matrixParam("class", 2, 5, 6)
+                .segment("child")
+                .matrixParam("group", "A")
+                .matrixParam("subGroup", "A.1", "A.2")
+                .queryParam("age", 12)
+                .queryParam("name", "Aa", "Zz")
+                .fragment("first");
+
+        clone.queryParam("foo", "bar");
+
+        // Then
+        assertEquals(original.build().toString(), expectedOriginal);
+        assertEquals(clone.build().toString(), expectedClone);
     }
 }

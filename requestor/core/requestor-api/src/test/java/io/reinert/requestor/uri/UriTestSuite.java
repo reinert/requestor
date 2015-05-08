@@ -13,26 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.uri;
 
-import com.google.gwt.junit.tools.GWTTestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import io.reinert.requestor.serialization.OverlaySerdesTest;
-
-import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class RequestorGwtTestSuite extends GWTTestSuite {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Requestor GWT Test Suite");
-
-        // Serialization
-        suite.addTestSuite(OverlaySerdesTest.class);
-
-        // Requestor
-        suite.addTestSuite(JsonAutoBeanGeneratorTest.class);
-
-        return suite;
-    }
+/**
+ * Test suite for header package.
+ */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        UriBuilderTest.class,
+        UriParserTest.class})
+public class UriTestSuite extends TestSuite {
 }
