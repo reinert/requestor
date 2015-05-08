@@ -23,6 +23,7 @@ import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.uri.UriBuilder;
 
 /**
  * This interface is a configurable {@link Request} Provider.
@@ -112,13 +113,31 @@ public interface Requestor extends HasFilters, HasInterceptors {
     //===================================================================
 
     /**
-     * Create a {@link RequestInvoker} with the given url.
+     * Start building a request with the given url.
      *
      * @param url   The url of the request.
      *
      * @return  The request builder.
      */
     RequestInvoker req(String url);
+
+    /**
+     * Build a new web resource target.
+     *
+     * @param uri  Stringified URI of the target resource. May contain URI template parameters.
+     *
+     * @return  Web resource target bound to the provided URI.
+     */
+    WebTarget target(String uri);
+
+    /**
+     * Build a new web resource target.
+     *
+     * @param uriBuilder  Web resource URI represented as URI builder. Must not be {@code null}.
+     *
+     * @return  Web resource target bound to the provided URI.
+     */
+    WebTarget target(UriBuilder uriBuilder);
 
     /**
      * Quickly dispatch serialized requests.
