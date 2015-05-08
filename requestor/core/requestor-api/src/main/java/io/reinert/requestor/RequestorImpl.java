@@ -25,6 +25,7 @@ import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.uri.UriBuilder;
 
 /**
  * Default implementation for {@link Requestor}.
@@ -34,12 +35,15 @@ import io.reinert.requestor.serialization.Serializer;
 public class RequestorImpl implements Requestor {
 
     private final SerdesManager serdesManager = new SerdesManager();
+    private final ProviderManager providerManager = new ProviderManager();
     private final FilterManager filterManager = new FilterManager();
     private final InterceptorManager interceptorManager = new InterceptorManager();
-    private final ProviderManager providerManager = new ProviderManager();
+    private final SerializationEngine serializationEngine;
+    private final FormDataSerializer formDataSerializer;
+    private final RequestDispatcherFactory requestDispatcherFactory;
+    private final DeferredFactory deferredFactory;
     private final RequestDispatcher requestDispatcher;
     private final RequestProcessor requestProcessor;
-    private final ResponseProcessor responseProcessor;
 
     private String defaultMediaType;
 
@@ -55,15 +59,20 @@ public class RequestorImpl implements Requestor {
 
     public RequestorImpl(FormDataSerializer formDataSerializer, RequestDispatcherFactory requestDispatcherFactory,
                          DeferredFactory deferredFactory) {
-        // init processors
+        this.formDataSerializer = formDataSerializer;
+        this.requestDispatcherFactory = requestDispatcherFactory;
+        this.deferredFactory = deferredFactory;
+
+        // init processor
+        serializationEngine = new SerializationEngine(serdesManager, providerManager);
         final FilterEngine filterEngine = new FilterEngine(filterManager);
-        final SerializationEngine serializationEngine = new SerializationEngine(serdesManager, providerManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
         requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine,
                 formDataSerializer);
-        responseProcessor = new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine);
 
         // init dispatcher
+        final ResponseProcessor responseProcessor = new ResponseProcessor(serializationEngine, filterEngine,
+                interceptorEngine);
         requestDispatcher = requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory);
 
         // bind generated serdes to the requestor
@@ -80,6 +89,18 @@ public class RequestorImpl implements Requestor {
     @Override
     public RequestInvoker req(String url) {
         return createRequest(url);
+    }
+
+    @Override
+    public WebTarget target(String uri) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
+                requestDispatcherFactory, deferredFactory, UriBuilder.fromUri(uri));
+    }
+
+    @Override
+    public WebTarget target(UriBuilder uriBuilder) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
+                requestDispatcherFactory, deferredFactory, uriBuilder);
     }
 
     @Override
