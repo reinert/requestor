@@ -17,13 +17,12 @@ package io.reinert.requestor.uri;
 
 import java.util.Map;
 
-import com.google.gwt.http.client.URL;
-
 /**
  * Represents a URI.
  */
 public class Uri {
 
+    private UrlCodec urlCodec;
     private String scheme;
     private String user;
     private String password;
@@ -39,6 +38,7 @@ public class Uri {
 
     Uri(String scheme, String user, String password, String host, int port, String[] pathSegments,
         Map<String, Buckets> matrixParams, Buckets queryParams, String fragment) {
+        this.urlCodec = UrlCodec.getInstance();
         // TODO: validate?
         this.scheme = scheme;
         this.user = user;
@@ -128,9 +128,9 @@ public class Uri {
                 uri.append(scheme).append("://");
             }
             if (user != null) {
-                uri.append(URL.encode(user));
+                uri.append(urlCodec.encode(user));
                 if (password != null) {
-                    uri.append(':').append(URL.encode(password));
+                    uri.append(':').append(urlCodec.encode(password));
                 }
                 uri.append('@');
             }
@@ -152,7 +152,7 @@ public class Uri {
             }
 
             if (fragment != null) {
-                uri.append('#').append(URL.encode(fragment));
+                uri.append('#').append(urlCodec.encode(fragment));
             }
 
             uriString = uri.toString();
@@ -207,7 +207,7 @@ public class Uri {
         StringBuilder pathBuilder = new StringBuilder("/");
         if (pathSegments != null && pathSegments.length > 0) {
             for (final String segment : pathSegments) {
-                pathBuilder.append(URL.encodePathSegment(segment));
+                pathBuilder.append(urlCodec.encodePathSegment(segment));
 
                 // Check if there are matrix params for this segment
                 if (matrixParams != null) {
@@ -219,13 +219,13 @@ public class Uri {
                             // Check if the param has values
                             if (values.length == 0) {
                                 // Append only the param name without any value
-                                pathBuilder.append(';').append(URL.encodePathSegment(param));
+                                pathBuilder.append(';').append(urlCodec.encodePathSegment(param));
                             } else {
                                 // Append the param and its values
                                 for (String value : values) {
-                                    pathBuilder.append(';').append(URL.encodePathSegment(param));
+                                    pathBuilder.append(';').append(urlCodec.encodePathSegment(param));
                                     if (value != null) {
-                                        pathBuilder.append('=').append(URL.encodePathSegment(value));
+                                        pathBuilder.append('=').append(urlCodec.encodePathSegment(value));
                                     }
                                 }
                             }
@@ -248,13 +248,13 @@ public class Uri {
                 // Check if the param has values
                 if (values.length == 0) {
                     // Append only the param name without any value
-                    queryBuilder.append(URL.encodeQueryString(param)).append('&');
+                    queryBuilder.append(urlCodec.encodeQueryString(param)).append('&');
                 } else {
                     // Append the param and its values
                     for (String value : values) {
-                        queryBuilder.append(URL.encodeQueryString(param));
+                        queryBuilder.append(urlCodec.encodeQueryString(param));
                         if (value != null) {
-                            queryBuilder.append('=').append(URL.encodeQueryString(value));
+                            queryBuilder.append('=').append(urlCodec.encodeQueryString(value));
                         }
                         queryBuilder.append('&');
                     }

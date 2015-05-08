@@ -53,6 +53,11 @@ final class BucketsImpl implements Buckets {
     }
 
     @Override
+    public Buckets clone() {
+        return delegate.clone();
+    }
+
+    @Override
     public String[] getKeys() {
         return delegate.getKeys();
     }
@@ -100,13 +105,25 @@ final class BucketsImpl implements Buckets {
             return bucket;
         }-*/;
 
-        private native JsArrayString getNative(String key) /*-{
-            return this[key];
+        @Override
+        public native Buckets clone() /*-{
+            var copy, key, i;
+            copy = {};
+            for (key in this) {
+                copy[key] = [];
+                i = this[key].length;
+                while (i--) copy[key][i] = this[key][i];
+            }
+            return copy;
         }-*/;
 
         @Override
         public native String[] getKeys() /*-{
             return Object.keys(this);
+        }-*/;
+
+        private native JsArrayString getNative(String key) /*-{
+            return this[key];
         }-*/;
 
         private native JsArrayString getKeysNative() /*-{

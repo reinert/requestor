@@ -17,19 +17,20 @@ package io.reinert.requestor.uri;
 
 import java.util.Arrays;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwtmockito.GwtMockitoTestRunner;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Danilo Reinert
  */
-public class UriParserTest extends GWTTestCase {
-
-    @Override
-    public String getModuleName() {
-        return "io.reinert.requestor.RequestorApiTest";
-    }
+@RunWith(GwtMockitoTestRunner.class)
+public class UriParserTest extends UriTestBase {
 
     @Test
     public void testRootPath() {
