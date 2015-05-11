@@ -79,7 +79,7 @@ public class JsonAutoBeanGenerator extends Generator {
         }
 
         // TODO: check if type was already generated and reuse it
-        TreeLogger typeLogger = logger.branch(TreeLogger.ALL, "Generating Json SerDes powered by AutoBeans...", null);
+        TreeLogger typeLogger = logger.branch(TreeLogger.INFO, "Generating Json SerDes powered by AutoBeans...", null);
         final SourceWriter sourceWriter = getSourceWriter(typeLogger, ctx, intfType);
 
         if (sourceWriter != null) {
@@ -184,8 +184,7 @@ public class JsonAutoBeanGenerator extends Generator {
     private void generateFields(SourceWriter srcWriter) {
         // Initialize a field with binary name of the remote service interface
         srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
-        srcWriter.println("private final ArrayList<GeneratedProvider<?>> providersList = " +
-                "new ArrayList<GeneratedProvider<?>>();");
+        srcWriter.println("private final ArrayList<Provider<?>> providersList = new ArrayList<Provider<?>>();");
         srcWriter.println();
     }
 
@@ -202,12 +201,12 @@ public class JsonAutoBeanGenerator extends Generator {
 
     private void generateMethods(SourceWriter srcWriter) {
         srcWriter.println("@Override");
-        srcWriter.println("public List<Serdes<?>> getGeneratedSerdes() {");
+        srcWriter.println("public List<Serdes<?>> getSerdes() {");
         srcWriter.println("    return serdesList;");
         srcWriter.println("}");
         srcWriter.println();
         srcWriter.println("@Override");
-        srcWriter.println("public List<GeneratedProvider<?>> getGeneratedProviders() {");
+        srcWriter.println("public List<Provider<?>> getProviders() {");
         srcWriter.println("    return providersList;");
         srcWriter.println("}");
         srcWriter.println();
@@ -218,7 +217,7 @@ public class JsonAutoBeanGenerator extends Generator {
         final String autoBeanFactoryMethodName = factoryFieldName + "." + fieldName;
         final String providerFieldName = fieldName + "Provider";
 
-        w.println("private final GeneratedProvider %s = new GeneratedProvider<%s>() {", providerFieldName,
+        w.println("private final Provider %s = new Provider<%s>() {", providerFieldName,
                 type.getQualifiedSourceName());
         w.println("    @Override");
         w.println("    public Class<%s> getType() {", type.getQualifiedSourceName());

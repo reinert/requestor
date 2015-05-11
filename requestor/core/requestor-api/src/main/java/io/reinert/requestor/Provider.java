@@ -23,6 +23,13 @@ package io.reinert.requestor;
 public interface Provider<T> {
 
     /**
+     * Get type of T.
+     *
+     * @return the class instance of T
+     */
+    Class<T> getType();
+
+    /**
      * Instantiate T.
      *
      * @return an instance of T

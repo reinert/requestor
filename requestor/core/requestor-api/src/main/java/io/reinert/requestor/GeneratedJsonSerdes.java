@@ -26,8 +26,8 @@ import io.reinert.requestor.serialization.Serdes;
  */
 interface GeneratedJsonSerdes {
 
-    List<Serdes<?>> getGeneratedSerdes();
+    List<Serdes<?>> getSerdes();
 
-    List<GeneratedProvider<?>> getGeneratedProviders();
+    List<Provider<?>> getProviders();
 
 }

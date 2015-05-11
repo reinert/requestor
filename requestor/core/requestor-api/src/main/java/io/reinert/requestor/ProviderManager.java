@@ -40,6 +40,12 @@ class ProviderManager {
 
     public ProviderManager() {
         final Provider<ArrayList> arrayListProvider = new Provider<ArrayList>() {
+
+            @Override
+            public Class<ArrayList> getType() {
+                return ArrayList.class;
+            }
+
             @Override
             public ArrayList get() {
                 return new ArrayList();
@@ -49,12 +55,24 @@ class ProviderManager {
         providers.put(List.class.getName(), arrayListProvider);
         providers.put(ArrayList.class.getName(), arrayListProvider);
         providers.put(LinkedList.class.getName(), new Provider<LinkedList>() {
+
+            @Override
+            public Class<LinkedList> getType() {
+                return LinkedList.class;
+            }
+
             @Override
             public LinkedList get() {
                 return new LinkedList();
             }
         });
         final Provider<HashSet> hashSetProvider = new Provider<HashSet>() {
+
+            @Override
+            public Class<HashSet> getType() {
+                return HashSet.class;
+            }
+
             @Override
             public HashSet get() {
                 return new HashSet();
@@ -63,6 +81,12 @@ class ProviderManager {
         providers.put(Set.class.getName(), hashSetProvider);
         providers.put(HashSet.class.getName(), hashSetProvider);
         providers.put(TreeSet.class.getName(), new Provider<TreeSet>() {
+
+            @Override
+            public Class<TreeSet> getType() {
+                return TreeSet.class;
+            }
+
             @Override
             public TreeSet get() {
                 return new TreeSet();
