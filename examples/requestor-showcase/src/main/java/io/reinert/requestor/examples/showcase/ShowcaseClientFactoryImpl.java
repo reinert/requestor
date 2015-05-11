@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
@@ -147,7 +146,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     }
 
     private void initRequestor() {
-        requestor = GWT.create(Requestor.class);
+        requestor = Requestor.newInstance();
         requestor.setDefaultMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
     }
 }

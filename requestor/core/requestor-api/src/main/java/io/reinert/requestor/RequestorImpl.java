@@ -32,7 +32,7 @@ import io.reinert.requestor.uri.UriBuilder;
  *
  * @author Danilo Reinert
  */
-public class RequestorImpl implements Requestor {
+public class RequestorImpl extends Requestor {
 
     private final SerdesManager serdesManager = new SerdesManager();
     private final ProviderManager providerManager = new ProviderManager();
