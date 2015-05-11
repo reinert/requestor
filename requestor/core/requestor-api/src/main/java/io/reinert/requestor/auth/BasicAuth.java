@@ -17,7 +17,7 @@ package io.reinert.requestor.auth;
 
 import com.google.gwt.core.client.JavaScriptException;
 
-import io.reinert.requestor.RequestOrder;
+import io.reinert.requestor.PreparedRequest;
 
 /**
  * HTTP Basic Authentication implementation. <br/>
@@ -42,15 +42,15 @@ public class BasicAuth implements Auth {
     }
 
     @Override
-    public void auth(RequestOrder requestOrder) {
+    public void auth(PreparedRequest preparedRequest) {
         try {
-            requestOrder.setHeader("Authorization", "Basic " + btoa(user + ":" + password));
+            preparedRequest.setHeader("Authorization", "Basic " + btoa(user + ":" + password));
         } catch (JavaScriptException e) {
             throw new UnsupportedOperationException("It was not possible to encode credentials using browser's " +
                     "native btoa. The browser does not support this operation.", e);
         }
-        requestOrder.setWithCredentials(withCredentials);
-        requestOrder.send();
+        preparedRequest.setWithCredentials(withCredentials);
+        preparedRequest.send();
     }
 
     private static native String btoa(String str) /*-{

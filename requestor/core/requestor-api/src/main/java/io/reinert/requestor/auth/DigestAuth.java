@@ -23,9 +23,9 @@ import com.google.gwt.i18n.client.NumberFormat;
 
 import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.Payload;
+import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RawResponse;
 import io.reinert.requestor.RequestException;
-import io.reinert.requestor.RequestOrder;
 import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.UnsuccessfulResponseException;
@@ -81,7 +81,7 @@ public class DigestAuth implements Auth {
     }
 
     @Override
-    public void auth(final RequestOrder request) {
+    public void auth(final PreparedRequest request) {
         request.setWithCredentials(withCredentials);
         attempt(request, null);
     }
@@ -96,9 +96,9 @@ public class DigestAuth implements Auth {
         this.maxChallengeCalls = maxChallengeCalls;
     }
 
-    private void attempt(RequestOrder originalRequest, @Nullable Response attemptResponse) {
+    private void attempt(PreparedRequest originalRequest, @Nullable Response attemptResponse) {
         if (challengeCalls < maxChallengeCalls) {
-            final RequestOrder attemptRequest = getAttemptRequest(originalRequest);
+            final PreparedRequest attemptRequest = getAttemptRequest(originalRequest);
             applyDigest(attemptRequest, attemptResponse);
             attemptRequest.send();
         } else {
@@ -108,7 +108,7 @@ public class DigestAuth implements Auth {
         challengeCalls++;
     }
 
-    private RequestOrder getAttemptRequest(final RequestOrder originalRequest) {
+    private PreparedRequest getAttemptRequest(final PreparedRequest originalRequest) {
         return originalRequest.copy(RawResponse.class, new Deferred<RawResponse>() {
             @Override
             public void resolve(Response<RawResponse> response) {
@@ -137,7 +137,7 @@ public class DigestAuth implements Auth {
         });
     }
 
-    private void applyDigest(RequestOrder request, Response attemptResponse) {
+    private void applyDigest(PreparedRequest request, Response attemptResponse) {
         if (attemptResponse == null)
             return;
 

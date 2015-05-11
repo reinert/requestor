@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.gdeferred.DoneCallback;
 import io.reinert.gdeferred.FailCallback;
-import io.reinert.requestor.RequestOrder;
+import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
@@ -44,12 +44,12 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         }
 
         @Override
-        public void auth(RequestOrder requestOrder) {
-            requestOrder.setHeader("Authorization", "MyAuth " + key);
+        public void auth(PreparedRequest preparedRequest) {
+            preparedRequest.setHeader("Authorization", "MyAuth " + key);
 
             // Mandatory to have the request actually sent.
             // Call it after putting all necessary auth info in the request.
-            requestOrder.send();
+            preparedRequest.send();
         }
     }
 
