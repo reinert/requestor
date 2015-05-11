@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.deferred.Promise;
@@ -42,10 +43,10 @@ import io.reinert.requestor.uri.UriBuilder;
  * response.
  * <p/>
  *
- * You can register custom {@link io.reinert.requestor.serialization.Serializer} with #registerSerializer.
+ * You can register custom {@link io.reinert.requestor.serialization.Serializer} with #addSerializer.
  * The same for {@link Deserializer}.
  * If you want to support both serialization and deserialization for your custom object,
- * register a {@link Serdes} with #registerSerdes.
+ * register a {@link Serdes} with #addSerdes.
  * <p/>
  *
  * SerDes for {@link String}, {@link Number}, {@link Boolean}
@@ -53,23 +54,27 @@ import io.reinert.requestor.uri.UriBuilder;
  *
  * @author Danilo Reinert
  */
-public interface Requestor extends HasFilters, HasInterceptors {
+public abstract class Requestor implements HasFilters, HasInterceptors {
+
+    public static Requestor newInstance() {
+        return GWT.create(Requestor.class);
+    }
 
     //===================================================================
     // Requestor configuration
     //===================================================================
 
-    void setDefaultMediaType(String contentType);
+    public abstract void setDefaultMediaType(String contentType);
 
-    String getDefaultMediaType();
+    public abstract String getDefaultMediaType();
 
-    <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType);
+    public abstract <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType);
 
-    <T> Serializer<T> getSerializer(Class<T> type, String mediaType);
+    public abstract <T> Serializer<T> getSerializer(Class<T> type, String mediaType);
 
-    <T> Provider<T> getProvider(Class<T> type);
+    public abstract <T> Provider<T> getProvider(Class<T> type);
 
-    <T> T getInstance(Class<T> type);
+    public abstract <T> T getInstance(Class<T> type);
 
     /**
      * Register a collection Provider.
@@ -79,7 +84,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <T> HandlerRegistration bindProvider(Class<T> type, Provider<? extends T> provider);
+    public abstract <T> HandlerRegistration bindProvider(Class<T> type, Provider<? extends T> provider);
 
     /**
      * Register a deserializer of the given type.
@@ -88,7 +93,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer);
+    public abstract <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer);
 
     /**
      * Register a serializer/deserializer of the given type.
@@ -97,7 +102,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <T> HandlerRegistration addSerdes(Serdes<T> serdes);
+    public abstract <T> HandlerRegistration addSerdes(Serdes<T> serdes);
 
     /**
      * Register a serializer of the given type.
@@ -106,7 +111,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
      */
-    <T> HandlerRegistration addSerializer(Serializer<T> serializer);
+    public abstract <T> HandlerRegistration addSerializer(Serializer<T> serializer);
 
     //===================================================================
     // Request factory methods
@@ -119,7 +124,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  The request builder.
      */
-    RequestInvoker req(String url);
+    public abstract RequestInvoker req(String url);
 
     /**
      * Build a new web resource target.
@@ -128,7 +133,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  Web resource target bound to the provided URI.
      */
-    WebTarget target(String uri);
+    public abstract WebTarget target(String uri);
 
     /**
      * Build a new web resource target.
@@ -137,7 +142,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  Web resource target bound to the provided URI.
      */
-    WebTarget target(UriBuilder uriBuilder);
+    public abstract WebTarget target(UriBuilder uriBuilder);
 
     /**
      * Quickly dispatch serialized requests.
@@ -149,7 +154,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  Promise of the expected type
      */
-    <T> Promise<T> dispatch(SerializedRequest request, Class<T> expectedType);
+    public abstract <T> Promise<T> dispatch(SerializedRequest request, Class<T> expectedType);
 
     /**
      * Quickly dispatch serialized requests.
@@ -163,6 +168,7 @@ public interface Requestor extends HasFilters, HasInterceptors {
      *
      * @return  Promise of the expected type
      */
-    <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> expectedType,
-                                                              Class<C> containerType);
+    public abstract <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request,
+                                                                              Class<T> expectedType,
+                                                                              Class<C> containerType);
 }
