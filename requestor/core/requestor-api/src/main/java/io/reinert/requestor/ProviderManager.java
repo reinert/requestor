@@ -47,7 +47,7 @@ class ProviderManager {
             }
 
             @Override
-            public ArrayList get() {
+            public ArrayList getInstance() {
                 return new ArrayList();
             }
         };
@@ -62,7 +62,7 @@ class ProviderManager {
             }
 
             @Override
-            public LinkedList get() {
+            public LinkedList getInstance() {
                 return new LinkedList();
             }
         });
@@ -74,7 +74,7 @@ class ProviderManager {
             }
 
             @Override
-            public HashSet get() {
+            public HashSet getInstance() {
                 return new HashSet();
             }
         };
@@ -88,7 +88,7 @@ class ProviderManager {
             }
 
             @Override
-            public TreeSet get() {
+            public TreeSet getInstance() {
                 return new TreeSet();
             }
         });

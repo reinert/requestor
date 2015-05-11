@@ -225,7 +225,7 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println("    }");
         w.println();
         w.println("    @Override");
-        w.println("    public %s get() {", type.getQualifiedSourceName());
+        w.println("    public %s getInstance() {", type.getQualifiedSourceName());
         w.println("        return %s().as();", autoBeanFactoryMethodName);
         w.println("    }");
         w.println("};");

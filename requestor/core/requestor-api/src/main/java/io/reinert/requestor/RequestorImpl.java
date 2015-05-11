@@ -148,7 +148,7 @@ public class RequestorImpl extends Requestor {
         Provider<T> provider = providerManager.get(type);
         if (provider == null)
             throw new RuntimeException("There's no Provider registered for this class.");
-        return provider.get();
+        return provider.getInstance();
     }
 
     @Override
