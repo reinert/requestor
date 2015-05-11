@@ -29,7 +29,7 @@ class PassThroughAuth implements Auth {
     }
 
     @Override
-    public void auth(RequestOrder requestOrder) {
-        requestOrder.send();
+    public void auth(PreparedRequest preparedRequest) {
+        preparedRequest.send();
     }
 }

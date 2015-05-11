@@ -17,8 +17,8 @@ package io.reinert.requestor.auth.oauth2;
 
 import com.google.gwt.core.client.Callback;
 
+import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RequestException;
-import io.reinert.requestor.RequestOrder;
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.oauth2.AuthRequest;
 import io.reinert.requestor.oauth2.TokenInfo;
@@ -41,10 +41,10 @@ public abstract class OAuth2 implements Auth {
     /**
      * Use token to perform the request authorization. Implementers must not call requestOrder#send().
      *
-     * @param requestOrder  request to be authorized
+     * @param preparedRequest  request to be authorized
      * @param tokenInfo     token information retrieved from OAuth login
      */
-    protected abstract void doAuth(RequestOrder requestOrder, TokenInfo tokenInfo);
+    protected abstract void doAuth(PreparedRequest preparedRequest, TokenInfo tokenInfo);
 
     public OAuth2 withScopeDelimiter(String delimiter) {
         authRequest.withScopeDelimiter(delimiter);
@@ -52,17 +52,17 @@ public abstract class OAuth2 implements Auth {
     }
 
     @Override
-    public void auth(final RequestOrder requestOrder) {
+    public void auth(final PreparedRequest preparedRequest) {
         AUTH.login(authRequest, new Callback<TokenInfo, Throwable>() {
             @Override
             public void onFailure(Throwable reason) {
-                requestOrder.abort(new RequestException("Unable to authorize the request using OAuth2.", reason));
+                preparedRequest.abort(new RequestException("Unable to authorize the request using OAuth2.", reason));
             }
 
             @Override
             public void onSuccess(TokenInfo tokenInfo) {
-                doAuth(requestOrder, tokenInfo);
-                requestOrder.send();
+                doAuth(preparedRequest, tokenInfo);
+                preparedRequest.send();
             }
         });
     }

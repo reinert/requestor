@@ -28,7 +28,7 @@ import io.reinert.requestor.header.SimpleHeader;
  *
  * @author Danilo Reinert
  */
-class RequestOrderImpl<T> implements RequestOrder {
+class PreparedRequestImpl<T> implements PreparedRequest {
 
     private final RequestDispatcher dispatcher;
     private final SerializedRequest request;
@@ -41,14 +41,14 @@ class RequestOrderImpl<T> implements RequestOrder {
     private boolean withCredentials;
     private boolean sent;
 
-    public RequestOrderImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
-                            Class<T> resolveType, @Nullable Class<?> parametrizedType) {
+    public PreparedRequestImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
+                               Class<T> resolveType, @Nullable Class<?> parametrizedType) {
         this(dispatcher, request, deferred, resolveType, parametrizedType, false, false);
     }
 
-    private RequestOrderImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
-                             Class<T> resolveType, @Nullable Class<?> parametrizedType, boolean withCredentials,
-                             boolean sent) {
+    private PreparedRequestImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
+                                Class<T> resolveType, @Nullable Class<?> parametrizedType, boolean withCredentials,
+                                boolean sent) {
         this.dispatcher = dispatcher;
         this.request = request;
         this.headers = request.getHeaders();
@@ -61,24 +61,25 @@ class RequestOrderImpl<T> implements RequestOrder {
     }
 
     @Override
-    public <D, C extends Collection> RequestOrder copy(Class<D> resultType, Class<C> containerType,
-                                                       Deferred<C> deferred) {
+    public <D, C extends Collection> PreparedRequest copy(Class<D> resultType, Class<C> containerType,
+                                                          Deferred<C> deferred) {
         final SerializedRequest srCopy = new SerializedRequestImpl(request.getMethod(), request.getUrl(),
                 request.getHeaders(), request.getPayload(), request.getTimeout(), request.getResponseType());
-        return new RequestOrderImpl<C>(dispatcher, srCopy, deferred, containerType, resultType, withCredentials, false);
+        return new PreparedRequestImpl<C>(dispatcher, srCopy, deferred, containerType, resultType, withCredentials,
+                false);
     }
 
     @Override
-    public <D> RequestOrder copy(Class<D> resultType, Deferred<D> deferred) {
+    public <D> PreparedRequest copy(Class<D> resultType, Deferred<D> deferred) {
         final SerializedRequest srCopy = new SerializedRequestImpl(request.getMethod(), request.getUrl(),
                 request.getHeaders(), request.getPayload(), request.getTimeout(), request.getResponseType());
-        return new RequestOrderImpl<D>(dispatcher, srCopy, deferred, resultType, null, withCredentials, false);
+        return new PreparedRequestImpl<D>(dispatcher, srCopy, deferred, resultType, null, withCredentials, false);
     }
 
     @Override
     public void abort(RawResponse response) {
         if (sent)
-            throw new IllegalStateException("RequestOrder couldn't be aborted: RequestOrder has already been sent.");
+            throw new IllegalStateException("PreparedRequest couldn't be aborted: Request has already been sent.");
 
         dispatcher.evalResponse(request, deferred, resolveType, parametrizedType, response);
 
@@ -88,7 +89,7 @@ class RequestOrderImpl<T> implements RequestOrder {
     @Override
     public void abort(RequestException error) {
         if (sent)
-            throw new IllegalStateException("RequestOrder couldn't be aborted: RequestOrder has already been sent.");
+            throw new IllegalStateException("PreparedRequest couldn't be aborted: Request has already been sent.");
 
         deferred.reject(error);
 
@@ -98,7 +99,7 @@ class RequestOrderImpl<T> implements RequestOrder {
     @Override
     public void send() {
         if (sent)
-            throw new IllegalStateException("RequestOrder has already been sent.");
+            throw new IllegalStateException("PreparedRequest has already been sent.");
 
         try {
             dispatcher.send(this, deferred, resolveType, parametrizedType);
@@ -172,7 +173,7 @@ class RequestOrderImpl<T> implements RequestOrder {
 
     @Override
     public void setQueryParam(String name, String... values) {
-        // TODO(reinert): Workaround to enable setting query params in RequestOrder. Should the process be re-designed?
+        // TODO(reinert): Workaround to enable setting query params in PrepRequest. Should the process be re-designed?
         int queryStart = url.lastIndexOf('?');
         String and;
         if (queryStart == -1) {

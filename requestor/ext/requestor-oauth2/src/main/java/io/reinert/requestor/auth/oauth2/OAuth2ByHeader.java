@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.auth.oauth2;
 
-import io.reinert.requestor.RequestOrder;
+import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.oauth2.TokenInfo;
 
 /**
@@ -31,7 +31,7 @@ public class OAuth2ByHeader extends OAuth2 {
     }
 
     @Override
-    protected void doAuth(RequestOrder requestOrder, TokenInfo tokenInfo) {
-        requestOrder.setHeader("Authorization", tokenInfo.getTokenType() + ' ' + tokenInfo.getAccessToken());
+    protected void doAuth(PreparedRequest preparedRequest, TokenInfo tokenInfo) {
+        preparedRequest.setHeader("Authorization", tokenInfo.getTokenType() + ' ' + tokenInfo.getAccessToken());
     }
 }

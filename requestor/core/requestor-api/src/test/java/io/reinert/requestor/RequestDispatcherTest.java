@@ -54,7 +54,7 @@ public class RequestDispatcherTest {
     public void dispatch_OneClass_ShouldCallSend() {
         // Given
         Class<Object> type = Object.class;
-        RequestOrder request = mock(RequestOrder.class);
+        PreparedRequest request = mock(PreparedRequest.class);
         Deferred deferred = mock(Deferred.class);
         when(request.getAuth()).thenReturn(PassThroughAuth.getInstance());
         when(deferredFactory.getDeferred()).thenReturn(deferred);
@@ -63,7 +63,7 @@ public class RequestDispatcherTest {
         dispatcher.dispatch(request, type);
 
         // Then
-        verify(dispatcher).send(any(RequestOrder.class), eq(deferred), eq(type), isNull(Class.class));
+        verify(dispatcher).send(any(PreparedRequest.class), eq(deferred), eq(type), isNull(Class.class));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class RequestDispatcherTest {
         dispatcher.dispatch(request, type, collectionType);
 
         // Then
-        verify(dispatcher).send(any(RequestOrder.class), eq(deferred), eq(collectionType), eq(type));
+        verify(dispatcher).send(any(PreparedRequest.class), eq(deferred), eq(collectionType), eq(type));
     }
 
     private static class RequestDispatcherDummy extends RequestDispatcher {
@@ -90,7 +90,7 @@ public class RequestDispatcherTest {
         }
 
         @Override
-        protected <D> void send(RequestOrder request, Deferred<D> deferred, Class<D> resolveType,
+        protected <D> void send(PreparedRequest request, Deferred<D> deferred, Class<D> resolveType,
                                 @Nullable Class<?> parametrizedType) {
         }
     }

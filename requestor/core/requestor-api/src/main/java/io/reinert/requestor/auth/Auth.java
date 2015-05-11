@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.auth;
 
-import io.reinert.requestor.RequestOrder;
+import io.reinert.requestor.PreparedRequest;
 
 /**
  * Abstraction for HTTP Authentication/Authorization methods.
@@ -32,7 +32,7 @@ public interface Auth {
      * request, otherwise the request will never be sent. <br>
      * The request can be sent only once.
      *
-     * @param requestOrder  The request about to be sent
+     * @param preparedRequest  The request about to be sent
      */
-    void auth(RequestOrder requestOrder);
+    void auth(PreparedRequest preparedRequest);
 }

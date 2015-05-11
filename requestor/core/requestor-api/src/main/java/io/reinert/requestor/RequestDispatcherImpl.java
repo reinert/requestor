@@ -36,7 +36,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
     }
 
     @Override
-    protected <D> void send(RequestOrder request, final Deferred<D> deferred, Class<D> resolveType,
+    protected <D> void send(PreparedRequest request, final Deferred<D> deferred, Class<D> resolveType,
                             @Nullable Class<?> parametrizedType) {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUrl();

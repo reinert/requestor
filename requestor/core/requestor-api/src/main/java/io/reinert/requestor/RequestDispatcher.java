@@ -56,7 +56,7 @@ public abstract class RequestDispatcher {
      * @param parametrizedType  The class of the parametrized type if a collection is expected as result
      * @param <D>               The expected type of the promise
      */
-    protected abstract <D> void send(RequestOrder request, final Deferred<D> deferred, Class<D> resolveType,
+    protected abstract <D> void send(PreparedRequest request, final Deferred<D> deferred, Class<D> resolveType,
                                      @Nullable Class<?> parametrizedType);
 
     /**
@@ -71,7 +71,7 @@ public abstract class RequestDispatcher {
     @SuppressWarnings("unchecked")
     public <T> Promise<T> dispatch(final SerializedRequest request, final Class<T> resultType) {
         final Deferred<T> deferred = deferredFactory.getDeferred();
-        request.getAuth().auth(new RequestOrderImpl(this, request, deferred, resultType, null));
+        request.getAuth().auth(new PreparedRequestImpl(this, request, deferred, resultType, null));
         return deferred.getPromise();
     }
 
@@ -91,7 +91,7 @@ public abstract class RequestDispatcher {
                                                                      final Class<T> resultType,
                                                                      final Class<C> containerType) {
         final Deferred<Collection<T>> deferred = deferredFactory.getDeferred();
-        request.getAuth().auth(new RequestOrderImpl(this, request, deferred, containerType, resultType));
+        request.getAuth().auth(new PreparedRequestImpl(this, request, deferred, containerType, resultType));
         return deferred.getPromise();
     }
 
