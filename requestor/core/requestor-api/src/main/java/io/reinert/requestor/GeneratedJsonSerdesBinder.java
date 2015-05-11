@@ -27,10 +27,10 @@ class GeneratedJsonSerdesBinder {
         if (generatedJsonSerdes == null) {
             generatedJsonSerdes = GWT.create(GeneratedJsonSerdes.class);
         }
-        for (Serdes<?> serdes : generatedJsonSerdes.getGeneratedSerdes()) {
+        for (Serdes<?> serdes : generatedJsonSerdes.getSerdes()) {
             serdesManager.addSerdes(serdes);
         }
-        for (GeneratedProvider provider : generatedJsonSerdes.getGeneratedProviders()) {
+        for (Provider provider : generatedJsonSerdes.getProviders()) {
             providerManager.bind(provider.getType(), provider);
         }
     }

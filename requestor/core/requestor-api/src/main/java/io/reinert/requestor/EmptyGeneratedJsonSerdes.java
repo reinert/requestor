@@ -24,12 +24,12 @@ import io.reinert.requestor.serialization.Serdes;
 class EmptyGeneratedJsonSerdes implements GeneratedJsonSerdes {
 
     @Override
-    public List<Serdes<?>> getGeneratedSerdes() {
+    public List<Serdes<?>> getSerdes() {
         return Collections.EMPTY_LIST;
     }
 
     @Override
-    public List<GeneratedProvider<?>> getGeneratedProviders() {
+    public List<Provider<?>> getProviders() {
         return Collections.EMPTY_LIST;
     }
 }

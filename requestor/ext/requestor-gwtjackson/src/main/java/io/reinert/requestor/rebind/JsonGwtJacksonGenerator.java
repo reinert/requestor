@@ -111,19 +111,18 @@ public class JsonGwtJacksonGenerator extends Generator {
 
     private void generateFields(SourceWriter srcWriter) {
         srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
-        srcWriter.println("private final ArrayList<GeneratedProvider<?>> providersList = " +
-                "new ArrayList<GeneratedProvider<?>>();");
+        srcWriter.println("private final ArrayList<Provider<?>> providersList = new ArrayList<Provider<?>>();");
         srcWriter.println();
     }
 
     private void generateMethods(SourceWriter srcWriter) {
         srcWriter.println("@Override");
-        srcWriter.println("public List<Serdes<?>> getGeneratedSerdes() {");
+        srcWriter.println("public List<Serdes<?>> getSerdes() {");
         srcWriter.println("    return serdesList;");
         srcWriter.println("}");
         srcWriter.println();
         srcWriter.println("@Override");
-        srcWriter.println("public List<GeneratedProvider<?>> getGeneratedProviders() {");
+        srcWriter.println("public List<Provider<?>> getProviders() {");
         srcWriter.println("    return providersList;");
         srcWriter.println("}");
         srcWriter.println();
