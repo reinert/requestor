@@ -51,7 +51,7 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
         final Provider<Animal> animalProvider = providerManager.get(Animal.class);
         assertNotNull(animalProvider);
 
-        Animal animal = animalProvider.get();
+        Animal animal = animalProvider.getInstance();
         assertNotNull(animal);
 
         animal.setAge(2);
@@ -96,7 +96,7 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
         // We test if runtime class name contains generated class name, since in runtime '$1' is appended to the end of
         // the class name. SerdesManager already handle this issue for matching.
-        final Animal autoBeanInstance = providerManager.get(Animal.class).get();
+        final Animal autoBeanInstance = providerManager.get(Animal.class).getInstance();
         final String autoBeanRunTimeClassName = autoBeanInstance.getClass().getName();
         final String autoBeanGeneratedClassName = ((HasImpl) serializer).implTypes()[0].getName();
         assertTrue(autoBeanRunTimeClassName.contains(autoBeanGeneratedClassName));
@@ -106,7 +106,7 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
     public void testSingleDeserialization() {
         // Given
         final Deserializer<Animal> deserializer = serdesManager.getDeserializer(Animal.class, "application/json");
-        final Animal expected = providerManager.get(Animal.class).get();
+        final Animal expected = providerManager.get(Animal.class).getInstance();
         expected.setName("Stuart");
         expected.setAge(3);
 
@@ -125,10 +125,10 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
         final Deserializer<Animal> deserializer = serdesManager.getDeserializer(Animal.class, "application/json");
         final Provider<Animal> animalProvider = providerManager.get(Animal.class);
 
-        final Animal a0 = animalProvider.get();
+        final Animal a0 = animalProvider.getInstance();
         a0.setName("Stuart");
         a0.setAge(3);
-        final Animal a1 = animalProvider.get();
+        final Animal a1 = animalProvider.getInstance();
         a1.setName("March");
         a1.setAge(5);
 
@@ -149,7 +149,7 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
         final String expected = "{\"name\":\"Stuart\",\"age\":3}";
 
-        final Animal input = providerManager.get(Animal.class).get();
+        final Animal input = providerManager.get(Animal.class).getInstance();
         input.setName("Stuart");
         input.setAge(3);
 
@@ -168,10 +168,10 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
         final String expected = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
 
-        final Animal a0 = animalProvider.get();
+        final Animal a0 = animalProvider.getInstance();
         a0.setName("Stuart");
         a0.setAge(3);
-        final Animal a1 = animalProvider.get();
+        final Animal a1 = animalProvider.getInstance();
         a1.setName("March");
         a1.setAge(5);
         List<Animal> input = Arrays.asList(a0, a1);

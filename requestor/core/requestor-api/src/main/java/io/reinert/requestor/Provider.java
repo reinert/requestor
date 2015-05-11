@@ -34,5 +34,5 @@ public interface Provider<T> {
      *
      * @return an instance of T
      */
-    T get();
+    T getInstance();
 }

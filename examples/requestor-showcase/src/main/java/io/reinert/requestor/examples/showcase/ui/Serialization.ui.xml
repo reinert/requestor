@@ -105,7 +105,7 @@
           <p>
             Requestor automatically generates factories for the annotated interfaces.
             So if you need to obtain new instances of these types you can resort to <code>Requestor#getInstance(Class&lt;T&gt;)</code>.
-            Alternatively you can get the Provider&lt;T&gt; with <code>Requestor#getProvider(Class&lt;T&gt;)</code> and later get an instance with <code>Provider#get()</code>.
+            Alternatively you can get the Provider&lt;T&gt; with <code>Requestor#getProvider(Class&lt;T&gt;)</code> and later get an instance with <code>Provider#getInstance()</code>.
           </p>
         </div>
       </div>

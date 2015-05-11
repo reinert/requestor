@@ -42,7 +42,7 @@ public class HttpDeserializationContext extends DeserializationContext {
         if (factory == null)
             throw new UnableToDeserializeException("Could not get instance because there is no provider " +
                     "for the type " + type.getName() + " registered in the Requestor.");
-        return factory.get();
+        return factory.getInstance();
     }
 
     public Request getRequest() {

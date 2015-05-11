@@ -51,7 +51,7 @@ public class RequestorInitializerTurboGwt implements RequestorInitializer {
             }
 
             @Override
-            public JsArrayList get() {
+            public JsArrayList getInstance() {
                 return new JsArrayList();
             }
         });
