@@ -35,7 +35,7 @@ public class FilterEngineTest {
 
     @Mock private ResponseFilter responseFilter;
     @Mock private RequestFilter requestFilter;
-    @Mock private FilterManager manager;
+    @Mock private FilterManagerImpl manager;
 
     private FilterEngine engine;
 

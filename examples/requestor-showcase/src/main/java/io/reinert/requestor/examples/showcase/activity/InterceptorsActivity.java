@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,12 +63,12 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
     @Override
     public void onRequestInterceptorButtonClick() {
         // Add the interceptor and hold the registration
-        final HandlerRegistration registration = requestor.addRequestInterceptor(new RequestInterceptor() {
+        final HandlerRegistration registration = requestor.register(new RequestInterceptor() {
             @Override
             public void intercept(RequestInterceptorContext context) {
                 final String json = context.getPayload().isString();
                 if (json != null) {
-                    context.setPayload(new Payload(")]}',\\n" + json));  // add )]}',\n to the beginning of json payloads
+                    context.setPayload(new Payload(")]}',\\n" + json));  // add )]}',\n to the beginning of JSONs
                 }
             }
         });
@@ -93,7 +93,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
     @Override
     public void onResponseInterceptorButtonClick() {
         // Add the interceptor and hold the registration
-        final HandlerRegistration registration = requestor.addResponseInterceptor(new ResponseInterceptor() {
+        final HandlerRegistration registration = requestor.register(new ResponseInterceptor() {
             @Override
             public void intercept(Request request, ResponseInterceptorContext context) {
                 final String json = context.getPayload().isString();

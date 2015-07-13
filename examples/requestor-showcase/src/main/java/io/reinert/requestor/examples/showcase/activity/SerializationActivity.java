@@ -56,9 +56,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         view.setHandler(this);
 
-        deserializerRegistration = requestor.addDeserializer(new MyDeserializer());
-        serializerRegistration = requestor.addSerializer(new MySerializer());
-        serdesRegistration = requestor.addSerdes(new MyJsonSerdes());
+        deserializerRegistration = requestor.register(new MyDeserializer());
+        serializerRegistration = requestor.register(new MySerializer());
+        serdesRegistration = requestor.register(new MyJsonSerdes());
 
         Page.setTitle("Serialization");
         Page.setDescription("Exchange any media type with a powerful serialization mechanism.");

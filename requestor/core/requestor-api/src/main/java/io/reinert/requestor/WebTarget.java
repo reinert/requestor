@@ -31,28 +31,28 @@ import io.reinert.requestor.uri.UriBuilder;
  *
  * @author Danilo Reinert
  */
-public class WebTarget implements HasFilters, HasInterceptors {
+public class WebTarget implements FilterManager, InterceptorManager {
 
     private final SerializationEngine serializationEngine;
     private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
-    private final FilterManager filterManager;
-    private final InterceptorManager interceptorManager;
+    private final FilterManagerImpl filterManager;
+    private final InterceptorManagerImpl interceptorManager;
     private final RequestProcessor requestProcessor;
     private final RequestDispatcher requestDispatcher;
     private final UriBuilder uriBuilder;
     private Uri uri;
     private String uriString;
 
-    WebTarget(FilterManager filterManager, InterceptorManager interceptorManager,
+    WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
               RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, UriBuilder builder) {
         this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
                 deferredFactory, builder, null);
     }
 
-    private WebTarget(FilterManager filterManager, InterceptorManager interceptorManager,
+    private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
                       RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory,
                       UriBuilder uriBuilder, Uri uri) {
@@ -60,8 +60,8 @@ public class WebTarget implements HasFilters, HasInterceptors {
         this.formDataSerializer = formDataSerializer;
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
-        this.filterManager = new FilterManager(filterManager);
-        this.interceptorManager = new InterceptorManager(interceptorManager);
+        this.filterManager = new FilterManagerImpl(filterManager);
+        this.interceptorManager = new InterceptorManagerImpl(interceptorManager);
 
         final FilterEngine filterEngine = new FilterEngine(this.filterManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(this.interceptorManager);
@@ -76,23 +76,23 @@ public class WebTarget implements HasFilters, HasInterceptors {
     }
 
     @Override
-    public HandlerRegistration addRequestFilter(RequestFilter requestFilter) {
-        return filterManager.addRequestFilter(requestFilter);
+    public HandlerRegistration register(RequestFilter requestFilter) {
+        return filterManager.register(requestFilter);
     }
 
     @Override
-    public HandlerRegistration addResponseFilter(ResponseFilter responseFilter) {
-        return filterManager.addResponseFilter(responseFilter);
+    public HandlerRegistration register(ResponseFilter responseFilter) {
+        return filterManager.register(responseFilter);
     }
 
     @Override
-    public HandlerRegistration addRequestInterceptor(RequestInterceptor requestInterceptor) {
-        return interceptorManager.addRequestInterceptor(requestInterceptor);
+    public HandlerRegistration register(RequestInterceptor requestInterceptor) {
+        return interceptorManager.register(requestInterceptor);
     }
 
     @Override
-    public HandlerRegistration addResponseInterceptor(ResponseInterceptor responseInterceptor) {
-        return interceptorManager.addResponseInterceptor(responseInterceptor);
+    public HandlerRegistration register(ResponseInterceptor responseInterceptor) {
+        return interceptorManager.register(responseInterceptor);
     }
 
     /**

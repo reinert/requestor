@@ -22,9 +22,9 @@ package io.reinert.requestor;
  */
 class FilterEngine {
 
-    private final FilterManager filterManager;
+    private final FilterManagerImpl filterManager;
 
-    public FilterEngine(FilterManager filterManager) {
+    public FilterEngine(FilterManagerImpl filterManager) {
         this.filterManager = filterManager;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
     @Override
     public void onRequestFilterButtonClick() {
         // Add the filter and hold the registration
-        final HandlerRegistration requestFilterRegistration = requestor.addRequestFilter(new RequestFilter() {
+        final HandlerRegistration requestFilterRegistration = requestor.register(new RequestFilter() {
             @Override
             public void filter(RequestFilterContext request) {
                 request.setHeader("A-Request-Filter-Header", "It Works!");
@@ -87,7 +87,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
     @Override
     public void onResponseFilterButtonClick() {
         // Add the filter and hold the registration
-        final HandlerRegistration responseFilterRegistration = requestor.addResponseFilter(new ResponseFilter() {
+        final HandlerRegistration responseFilterRegistration = requestor.register(new ResponseFilter() {
             @Override
             public void filter(Request request, ResponseFilterContext response) {
                 response.setHeader("A-Response-Filter-Header", "It Works!");

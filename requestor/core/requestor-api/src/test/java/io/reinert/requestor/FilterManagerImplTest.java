@@ -24,17 +24,17 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
 /**
- * Unit tests of {@link FilterManager}.
+ * Unit tests of {@link FilterManagerImpl}.
  */
-public class FilterManagerTest {
+public class FilterManagerImplTest {
 
-    private FilterManager manager = new FilterManager();
+    private FilterManagerImpl manager = new FilterManagerImpl();
 
     @Test(expected = UnsupportedOperationException.class)
     public void getRequestFilters_ShouldReturnAnImmutableList() {
         // Given
         RequestFilter requestFilter = mock(RequestFilter.class);
-        manager.addRequestFilter(requestFilter);
+        manager.register(requestFilter);
 
         // When
         List<RequestFilter> filters = manager.getRequestFilters();
@@ -49,7 +49,7 @@ public class FilterManagerTest {
     public void getResponseFilters_ShouldReturnAnImmutableList() {
         // Given
         ResponseFilter responseFilter = mock(ResponseFilter.class);
-        manager.addResponseFilter(responseFilter);
+        manager.register(responseFilter);
 
         // When
         List<ResponseFilter> filters = manager.getResponseFilters();
@@ -65,16 +65,16 @@ public class FilterManagerTest {
         // Given
         RequestFilter requestFilter = mock(RequestFilter.class);
         ResponseFilter responseFilter = mock(ResponseFilter.class);
-        manager.addRequestFilter(requestFilter);
-        manager.addResponseFilter(responseFilter);
+        manager.register(requestFilter);
+        manager.register(responseFilter);
 
-        FilterManager wrappingManager = new FilterManager(manager);
+        FilterManagerImpl wrappingManager = new FilterManagerImpl(manager);
         RequestFilter requestFilter2 = mock(RequestFilter.class);
         ResponseFilter responseFilter2 = mock(ResponseFilter.class);
 
         // When
-        wrappingManager.addRequestFilter(requestFilter2);
-        wrappingManager.addResponseFilter(responseFilter2);
+        wrappingManager.register(requestFilter2);
+        wrappingManager.register(responseFilter2);
 
         // Then
         assertEquals(manager.getRequestFilters().size(), 1);

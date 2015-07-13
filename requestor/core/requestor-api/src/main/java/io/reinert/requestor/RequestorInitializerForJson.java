@@ -31,14 +31,14 @@ public class RequestorInitializerForJson implements RequestorInitializer {
 
     @Override
     public void configure(Requestor requestor) {
-        requestor.addSerdes(VoidSerdes.getInstance());
-        requestor.addSerdes(TextSerdes.getInstance());
+        requestor.register(VoidSerdes.getInstance());
+        requestor.register(TextSerdes.getInstance());
 
-        requestor.addSerdes(JsonStringSerdes.getInstance());
-        requestor.addSerdes(JsonNumberSerdes.getInstance());
-        requestor.addSerdes(JsonBooleanSerdes.getInstance());
+        requestor.register(JsonStringSerdes.getInstance());
+        requestor.register(JsonNumberSerdes.getInstance());
+        requestor.register(JsonBooleanSerdes.getInstance());
 
-        requestor.addSerdes(OverlaySerdes.getInstance());
+        requestor.register(OverlaySerdes.getInstance());
 
         requestor.setDefaultMediaType("application/json");
     }

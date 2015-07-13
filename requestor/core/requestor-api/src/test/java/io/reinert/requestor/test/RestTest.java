@@ -31,7 +31,7 @@ public class RestTest extends GWTTestCase {
 //        ServerStub.clearStub();
 //
 //        final Requestor requestor = new RequestorImpl();
-//        requestor.addSerdes(BookJsonSerdes.getInstance());
+//        requestor.register(BookJsonSerdes.getInstance());
 //
 //        final String uri = "/server/books";
 //
@@ -74,7 +74,7 @@ public class RestTest extends GWTTestCase {
 //        ServerStub.clearStub();
 //
 //        final Requestor requestor = new RequestorImpl();
-//        requestor.addSerdes(BookJsonSerdes.getInstance());
+//        requestor.register(BookJsonSerdes.getInstance());
 //
 //        final String uri = "/server/books";
 //
@@ -108,7 +108,7 @@ public class RestTest extends GWTTestCase {
 //        ServerStub.clearStub();
 //
 //        final Requestor requestor = new RequestorImpl();
-//        requestor.addSerdes(BookJsonSerdes.getInstance());
+//        requestor.register(BookJsonSerdes.getInstance());
 //
 //        final String uri = "/server/books/1";
 //
@@ -137,7 +137,7 @@ public class RestTest extends GWTTestCase {
 //        ServerStub.clearStub();
 //
 //        final Requestor requestor = new RequestorImpl();
-//        requestor.addSerdes(BookJsonSerdes.getInstance());
+//        requestor.register(BookJsonSerdes.getInstance());
 //
 //        final String uri = "/server/books/1";
 //

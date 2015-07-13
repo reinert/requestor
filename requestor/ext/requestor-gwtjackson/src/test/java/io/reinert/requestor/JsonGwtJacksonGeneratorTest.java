@@ -32,7 +32,7 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
     public static final String APP_JSON = "app*/json*";
     public static final String JAVASCRIPT = "*/javascript*";
 
-    private SerdesManager serdesManager;
+    private SerdesManagerImpl serdesManager;
 
     @Override
     public String getModuleName() {
@@ -41,8 +41,8 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
 
     @Override
     public void gwtSetUp() throws Exception {
-        serdesManager = new SerdesManager();
-        GeneratedJsonSerdesBinder.bind(serdesManager, new ProviderManager());
+        serdesManager = new SerdesManagerImpl();
+        GeneratedJsonSerdesBinder.bind(serdesManager, new ProviderManagerImpl());
     }
 
     public void testSerializerShouldBeAvailableBySerdesManager() {

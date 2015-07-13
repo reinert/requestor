@@ -34,10 +34,10 @@ class SerializationEngine {
 
     private static Logger logger = Logger.getLogger(SerializationEngine.class.getName());
 
-    private final SerdesManager serdesManager;
-    private final ProviderManager providerManager;
+    private final SerdesManagerImpl serdesManager;
+    private final ProviderManagerImpl providerManager;
 
-    public SerializationEngine(SerdesManager serdesManager, ProviderManager providerManager) {
+    public SerializationEngine(SerdesManagerImpl serdesManager, ProviderManagerImpl providerManager) {
         this.serdesManager = serdesManager;
         this.providerManager = providerManager;
     }

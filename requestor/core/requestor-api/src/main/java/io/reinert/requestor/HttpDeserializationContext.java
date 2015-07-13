@@ -27,10 +27,10 @@ public class HttpDeserializationContext extends DeserializationContext {
 
     private final Request request;
     private final SerializedResponse response;
-    private final ProviderManager providerManager;
+    private final ProviderManagerImpl providerManager;
 
     protected HttpDeserializationContext(Request request, SerializedResponse response, Class<?> requestedType,
-                                         ProviderManager providerManager) {
+                                         ProviderManagerImpl providerManager) {
         super(requestedType);
         this.request = request;
         this.response = response;
