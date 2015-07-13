@@ -47,10 +47,36 @@ public class Showcase implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
+        populateMenu();
 
+        // Create view container
+        final SimplePanel container = new SimplePanel();
+        container.setStyleName("container requestor-showcase-container");
+        RootPanel.get().add(container);
 
+        // Main Factory (Dependency Injector)
+        ShowcaseClientFactory clientFactory = CLIENT_FACTORY;
+        EventBus eventBus = clientFactory.getEventBus();
+        PlaceController placeController = clientFactory.getPlaceController();
 
-        // Populate the menu
+        // Activity-Place binding
+        ActivityMapper activityMapper = new ShowcaseActivityMapper();
+        ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
+        activityManager.setDisplay(container);
+
+        // Place-History binding
+        PlaceHistoryMapper historyMapper = new ShowcasePlaceHistoryMapper();
+        PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
+        historyHandler.register(placeController, eventBus, defaultPlace);
+
+        // Add Loading widget
+        RootPanel.get().add(new Loading(eventBus));
+
+        // Goes to place represented on URL or default place
+        historyHandler.handleCurrentHistory();
+    }
+
+    private void populateMenu() {
         final Element menu = Document.get().getElementById("menu-list");
         for (MenuOption o : MenuOption.values()) {
             if (o != MenuOption.HOME) {
@@ -91,31 +117,6 @@ public class Showcase implements EntryPoint {
                 }
             }
         }
-
-        final SimplePanel container = new SimplePanel();
-        container.setStyleName("container requestor-showcase-container");
-        RootPanel.get().add(container);
-
-        // Main Factory (Dependency Injector)
-        ShowcaseClientFactory clientFactory = CLIENT_FACTORY;
-        EventBus eventBus = clientFactory.getEventBus();
-        PlaceController placeController = clientFactory.getPlaceController();
-
-        // Activity-Place binding
-        ActivityMapper activityMapper = new ShowcaseActivityMapper();
-        ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
-        activityManager.setDisplay(container);
-
-        // Place-History binding
-        PlaceHistoryMapper historyMapper = new ShowcasePlaceHistoryMapper();
-        PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
-        historyHandler.register(placeController, eventBus, defaultPlace);
-
-        // Add Loading widget
-        RootPanel.get().add(new Loading(eventBus));
-
-        // Goes to place represented on URL or default place
-        historyHandler.handleCurrentHistory();
     }
 
     private String getMenuGroupId(MenuOption o) {

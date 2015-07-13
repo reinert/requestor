@@ -15,19 +15,24 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.serialization.misc.TextSerdes;
-import io.reinert.requestor.serialization.misc.VoidSerdes;
+import java.util.Collection;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Initializer that configures the Requestor for handling only text plain.
- *
- * @author Danilo Reinert
+ * Unit tests of {@link ProviderManagerImpl}.
  */
-public class RequestorInitializerClean implements RequestorInitializer {
+public class ProviderManagerImplTest {
 
-    @Override
-    public void configure(Requestor requestor) {
-        requestor.register(VoidSerdes.getInstance());
-        requestor.register(TextSerdes.getInstance());
+    private ProviderManagerImpl manager = new ProviderManagerImpl();
+
+    @Test
+    public void wrappedManagerShouldNotBeAffected() {
+        final Provider<Collection> collectionProvider = manager.get(Collection.class);
+        assert collectionProvider != null;
+        final Collection c = collectionProvider.getInstance();
+        Assert.assertEquals(c.size(), 0);
+        Assert.assertEquals(Collection.class, collectionProvider.getType());
     }
 }

@@ -34,10 +34,10 @@ import io.reinert.requestor.uri.UriBuilder;
  */
 public class RequestorImpl extends Requestor {
 
-    private final SerdesManager serdesManager = new SerdesManager();
-    private final ProviderManager providerManager = new ProviderManager();
-    private final FilterManager filterManager = new FilterManager();
-    private final InterceptorManager interceptorManager = new InterceptorManager();
+    private final SerdesManagerImpl serdesManager = new SerdesManagerImpl();
+    private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
+    private final FilterManagerImpl filterManager = new FilterManagerImpl();
+    private final InterceptorManagerImpl interceptorManager = new InterceptorManagerImpl();
     private final SerializationEngine serializationEngine;
     private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
@@ -75,7 +75,7 @@ public class RequestorImpl extends Requestor {
                 interceptorEngine);
         requestDispatcher = requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory);
 
-        // bind generated serdes to the requestor
+        // register generated serdes to the requestor
         GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
 
         // perform initial set-up by user
@@ -157,43 +157,43 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer) {
-        return serdesManager.addDeserializer(deserializer);
+    public <T> HandlerRegistration register(Deserializer<T> deserializer) {
+        return serdesManager.register(deserializer);
     }
 
     @Override
-    public <T> HandlerRegistration addSerializer(Serializer<T> serializer) {
-        return serdesManager.addSerializer(serializer);
+    public <T> HandlerRegistration register(Serializer<T> serializer) {
+        return serdesManager.register(serializer);
     }
 
     @Override
-    public <T> HandlerRegistration addSerdes(Serdes<T> serdes) {
-        return serdesManager.addSerdes(serdes);
+    public <T> HandlerRegistration register(Serdes<T> serdes) {
+        return serdesManager.register(serdes);
     }
 
     @Override
-    public HandlerRegistration addRequestFilter(RequestFilter requestFilter) {
-        return filterManager.addRequestFilter(requestFilter);
+    public HandlerRegistration register(RequestFilter requestFilter) {
+        return filterManager.register(requestFilter);
     }
 
     @Override
-    public HandlerRegistration addResponseFilter(ResponseFilter responseFilter) {
-        return filterManager.addResponseFilter(responseFilter);
+    public HandlerRegistration register(ResponseFilter responseFilter) {
+        return filterManager.register(responseFilter);
     }
 
     @Override
-    public HandlerRegistration addRequestInterceptor(RequestInterceptor requestInterceptor) {
-        return interceptorManager.addRequestInterceptor(requestInterceptor);
+    public HandlerRegistration register(RequestInterceptor requestInterceptor) {
+        return interceptorManager.register(requestInterceptor);
     }
 
     @Override
-    public HandlerRegistration addResponseInterceptor(ResponseInterceptor responseInterceptor) {
-        return interceptorManager.addResponseInterceptor(responseInterceptor);
+    public HandlerRegistration register(ResponseInterceptor responseInterceptor) {
+        return interceptorManager.register(responseInterceptor);
     }
 
     @Override
-    public <T> HandlerRegistration bindProvider(Class<T> type, Provider<? extends T> factory) {
-        return providerManager.bind(type, factory);
+    public HandlerRegistration register(Provider<?> provider) {
+        return providerManager.register(provider);
     }
 
     private RequestInvoker createRequest(String uri) {

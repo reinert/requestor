@@ -35,7 +35,7 @@ public class InterceptorEngineTest {
 
     @Mock private ResponseInterceptor responseInterceptor;
     @Mock private RequestInterceptor requestInterceptor;
-    @Mock private InterceptorManager manager;
+    @Mock private InterceptorManagerImpl manager;
 
     private InterceptorEngine engine;
 

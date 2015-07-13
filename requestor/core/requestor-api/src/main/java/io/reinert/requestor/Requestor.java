@@ -18,7 +18,6 @@ package io.reinert.requestor;
 import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.serialization.Deserializer;
@@ -27,34 +26,26 @@ import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.uri.UriBuilder;
 
 /**
- * This interface is a configurable {@link Request} Provider.
- * Usually, you will use it as a singleton along your project.
+ * This interface is a configurable container responsible for building requests.
+ * Usually, you will use it as a singleton.
  * <p/>
  *
  * It provides a convenience API for managing/creating HTTP Requests.
  * <p/>
  *
- * You can register {@link RequestFilter}s with #addRequestFilter, so they are executed over all your requests.
- * The same for {@link ResponseFilter}.
+ * You can register {@link RequestFilter} or {@link ResponseFilter}, to manipulate all your requests.
  * <p/>
  *
- * You can register {@link RequestInterceptor}s with #addRequestInterceptor to intercept every ongoing request.
- * As well you can register {@link ResponseInterceptor}s with #addResponseInterceptor to intercept every incoming
- * response.
+ * You can register {@link RequestInterceptor} or {@link ResponseInterceptor} to intercept every request/response and
+ * modify their payloads.
  * <p/>
  *
- * You can register custom {@link io.reinert.requestor.serialization.Serializer} with #addSerializer.
- * The same for {@link Deserializer}.
- * If you want to support both serialization and deserialization for your custom object,
- * register a {@link Serdes} with #addSerdes.
- * <p/>
- *
- * SerDes for {@link String}, {@link Number}, {@link Boolean}
- * and {@link com.google.gwt.core.client.JavaScriptObject} are already provided.
+ * You can register {@link Serializer}, {@link Deserializer} or {@link Serdes} to provide serialization/deserialization
+ * of objects according to media-types.
  *
  * @author Danilo Reinert
  */
-public abstract class Requestor implements HasFilters, HasInterceptors {
+public abstract class Requestor implements SerdesManager, FilterManager, InterceptorManager, ProviderManager {
 
     public static Requestor newInstance() {
         return GWT.create(Requestor.class);
@@ -75,43 +66,6 @@ public abstract class Requestor implements HasFilters, HasInterceptors {
     public abstract <T> Provider<T> getProvider(Class<T> type);
 
     public abstract <T> T getInstance(Class<T> type);
-
-    /**
-     * Register a collection Provider.
-     *
-     * @param type      The class of T
-     * @param provider  The Provider of T
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
-     */
-    public abstract <T> HandlerRegistration bindProvider(Class<T> type, Provider<? extends T> provider);
-
-    /**
-     * Register a deserializer of the given type.
-     *
-     * @param deserializer  The deserializer of T.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
-     */
-    public abstract <T> HandlerRegistration addDeserializer(Deserializer<T> deserializer);
-
-    /**
-     * Register a serializer/deserializer of the given type.
-     *
-     * @param serdes    The serializer/deserializer of T.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
-     */
-    public abstract <T> HandlerRegistration addSerdes(Serdes<T> serdes);
-
-    /**
-     * Register a serializer of the given type.
-     *
-     * @param serializer  The serializer of T.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this registration.
-     */
-    public abstract <T> HandlerRegistration addSerializer(Serializer<T> serializer);
 
     //===================================================================
     // Request factory methods

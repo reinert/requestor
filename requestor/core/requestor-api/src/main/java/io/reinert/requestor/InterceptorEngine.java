@@ -22,9 +22,9 @@ package io.reinert.requestor;
  */
 class InterceptorEngine {
 
-    private final InterceptorManager interceptorManager;
+    private final InterceptorManagerImpl interceptorManager;
 
-    public InterceptorEngine(InterceptorManager interceptorManager) {
+    public InterceptorEngine(InterceptorManagerImpl interceptorManager) {
         this.interceptorManager = interceptorManager;
     }
 

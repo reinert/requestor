@@ -24,17 +24,17 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
 /**
- * Unit tests of {@link io.reinert.requestor.InterceptorManager}.
+ * Unit tests of {@link InterceptorManagerImpl}.
  */
-public class InterceptorManagerTest {
+public class InterceptorManagerImplTest {
 
-    private InterceptorManager manager = new InterceptorManager();
+    private InterceptorManagerImpl manager = new InterceptorManagerImpl();
 
     @Test(expected = UnsupportedOperationException.class)
     public void getRequestInterceptors_ShouldReturnAnImmutableList() {
         // Given
         RequestInterceptor requestInterceptor = mock(RequestInterceptor.class);
-        manager.addRequestInterceptor(requestInterceptor);
+        manager.register(requestInterceptor);
 
         // When
         List<RequestInterceptor> interceptors = manager.getRequestInterceptors();
@@ -49,7 +49,7 @@ public class InterceptorManagerTest {
     public void getResponseInterceptors_ShouldReturnAnImmutableList() {
         // Given
         ResponseInterceptor responseInterceptor = mock(ResponseInterceptor.class);
-        manager.addResponseInterceptor(responseInterceptor);
+        manager.register(responseInterceptor);
 
         // When
         List<ResponseInterceptor> interceptors = manager.getResponseInterceptors();
@@ -65,16 +65,16 @@ public class InterceptorManagerTest {
         // Given
         RequestInterceptor requestInterceptor = mock(RequestInterceptor.class);
         ResponseInterceptor responseInterceptor = mock(ResponseInterceptor.class);
-        manager.addRequestInterceptor(requestInterceptor);
-        manager.addResponseInterceptor(responseInterceptor);
+        manager.register(requestInterceptor);
+        manager.register(responseInterceptor);
 
-        InterceptorManager wrappingManager = new InterceptorManager(manager);
+        InterceptorManagerImpl wrappingManager = new InterceptorManagerImpl(manager);
         RequestInterceptor requestInterceptor2 = mock(RequestInterceptor.class);
         ResponseInterceptor responseInterceptor2 = mock(ResponseInterceptor.class);
 
         // When
-        wrappingManager.addRequestInterceptor(requestInterceptor2);
-        wrappingManager.addResponseInterceptor(responseInterceptor2);
+        wrappingManager.register(requestInterceptor2);
+        wrappingManager.register(responseInterceptor2);
 
         // Then
         assertEquals(manager.getRequestInterceptors().size(), 1);

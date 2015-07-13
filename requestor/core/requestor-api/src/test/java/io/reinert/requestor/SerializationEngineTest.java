@@ -45,16 +45,16 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SerializationEngineTest {
 
-    @Mock private SerdesManager serdesManager;
-    @Mock private ProviderManager providerManager;
+    @Mock private SerdesManagerImpl serdesManager;
+    @Mock private ProviderManagerImpl providerManager;
 
     private SerializationEngine engine;
 
     @Before
     public void setUp() {
-//        when(providerManager.get(ArrayList.class)).thenReturn(new Provider<ArrayList>() {
+//        when(providerManager.getInstance(ArrayList.class)).thenReturn(new Provider<ArrayList>() {
 //            @Override
-//            public ArrayList get() {
+//            public ArrayList getInstance() {
 //                return new ArrayList();
 //            }
 //        });

@@ -23,15 +23,15 @@ class GeneratedJsonSerdesBinder {
 
     private static GeneratedJsonSerdes generatedJsonSerdes;
 
-    public static void bind(SerdesManager serdesManager, ProviderManager providerManager) {
+    public static void bind(SerdesManagerImpl serdesManager, ProviderManagerImpl providerManager) {
         if (generatedJsonSerdes == null) {
             generatedJsonSerdes = GWT.create(GeneratedJsonSerdes.class);
         }
         for (Serdes<?> serdes : generatedJsonSerdes.getSerdes()) {
-            serdesManager.addSerdes(serdes);
+            serdesManager.register(serdes);
         }
         for (Provider provider : generatedJsonSerdes.getProviders()) {
-            providerManager.bind(provider.getType(), provider);
+            providerManager.register(provider);
         }
     }
 }

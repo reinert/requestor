@@ -32,8 +32,8 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
     public static final String APP_JSON = "app*/json*";
     public static final String JAVASCRIPT = "*/javascript*";
 
-    private SerdesManager serdesManager;
-    private ProviderManager providerManager;
+    private SerdesManagerImpl serdesManager;
+    private ProviderManagerImpl providerManager;
 
     @Override
     public String getModuleName() {
@@ -42,8 +42,8 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
     @Override
     public void gwtSetUp() throws Exception {
-        serdesManager = new SerdesManager();
-        providerManager = new ProviderManager();
+        serdesManager = new SerdesManagerImpl();
+        providerManager = new ProviderManagerImpl();
         GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
     }
 
@@ -95,7 +95,7 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
         assertTrue(serializer instanceof HasImpl);
 
         // We test if runtime class name contains generated class name, since in runtime '$1' is appended to the end of
-        // the class name. SerdesManager already handle this issue for matching.
+        // the class name. SerdesManagerImpl already handle this issue for matching.
         final Animal autoBeanInstance = providerManager.get(Animal.class).getInstance();
         final String autoBeanRunTimeClassName = autoBeanInstance.getClass().getName();
         final String autoBeanGeneratedClassName = ((HasImpl) serializer).implTypes()[0].getName();

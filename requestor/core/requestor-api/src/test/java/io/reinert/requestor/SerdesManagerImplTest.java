@@ -27,11 +27,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests of {@link SerdesManager}.
+ * Unit tests of {@link SerdesManagerImpl}.
  */
-public class SerdesManagerTest {
+public class SerdesManagerImplTest {
 
-    private final SerdesManager manager = new SerdesManager();
+    private final SerdesManagerImpl manager = new SerdesManagerImpl();
 
     @Test
     public void getDeserializer_RegisteredClassAndMediaType_ShouldReturnRegisteredDeserializer() {
@@ -39,7 +39,7 @@ public class SerdesManagerTest {
         Deserializer expected = mock(Deserializer.class);
         when(expected.handledType()).thenReturn(Object.class);
         when(expected.mediaType()).thenReturn(new String[]{"custom/type"});
-        manager.addDeserializer(expected);
+        manager.register(expected);
 
         // When
         Deserializer output = manager.getDeserializer(Object.class, "custom/type");
@@ -54,7 +54,7 @@ public class SerdesManagerTest {
         Serializer expected = mock(Serializer.class);
         when(expected.handledType()).thenReturn(Object.class);
         when(expected.mediaType()).thenReturn(new String[]{"custom/type"});
-        manager.addSerializer(expected);
+        manager.register(expected);
 
         // When
         Serializer output = manager.getSerializer(Object.class, "custom/type");
@@ -69,12 +69,12 @@ public class SerdesManagerTest {
         Deserializer expected = mock(Deserializer.class);
         when(expected.handledType()).thenReturn(Object.class);
         when(expected.mediaType()).thenReturn(new String[]{"custom/type"});
-        manager.addDeserializer(expected);
+        manager.register(expected);
 
         Deserializer noise = mock(Deserializer.class);
         when(noise.handledType()).thenReturn(Object.class);
         when(noise.mediaType()).thenReturn(new String[]{"different/type"});
-        manager.addDeserializer(noise);
+        manager.register(noise);
 
         // When
         Deserializer output = manager.getDeserializer(Object.class, "custom/type");
@@ -90,12 +90,12 @@ public class SerdesManagerTest {
         Serializer expected = mock(Serializer.class);
         when(expected.handledType()).thenReturn(Object.class);
         when(expected.mediaType()).thenReturn(new String[]{"custom/type"});
-        manager.addSerializer(expected);
+        manager.register(expected);
 
         Serializer noise = mock(Serializer.class);
         when(noise.handledType()).thenReturn(Object.class);
         when(noise.mediaType()).thenReturn(new String[]{"different/type"});
-        manager.addSerializer(noise);
+        manager.register(noise);
 
         // When
         Serializer output = manager.getSerializer(Object.class, "custom/type");
@@ -111,22 +111,22 @@ public class SerdesManagerTest {
         Deserializer expected = mock(Deserializer.class);
         when(expected.handledType()).thenReturn(Object.class);
         when(expected.mediaType()).thenReturn(new String[]{"custom/type"});
-        manager.addDeserializer(expected);
+        manager.register(expected);
 
         Deserializer expected2 = mock(Deserializer.class);
         when(expected2.handledType()).thenReturn(Object.class);
         when(expected2.mediaType()).thenReturn(new String[]{"*/type"});
-        manager.addDeserializer(expected2);
+        manager.register(expected2);
 
         Deserializer expected3 = mock(Deserializer.class);
         when(expected3.handledType()).thenReturn(Object.class);
         when(expected3.mediaType()).thenReturn(new String[]{"custom/*"});
-        manager.addDeserializer(expected3);
+        manager.register(expected3);
 
         Deserializer expected4 = mock(Deserializer.class);
         when(expected4.handledType()).thenReturn(Object.class);
         when(expected4.mediaType()).thenReturn(new String[]{"*/*"});
-        manager.addDeserializer(expected4);
+        manager.register(expected4);
 
         // When
         Deserializer output = manager.getDeserializer(Object.class, "custom/type");
@@ -147,22 +147,22 @@ public class SerdesManagerTest {
         Serializer expected = mock(Serializer.class);
         when(expected.handledType()).thenReturn(Object.class);
         when(expected.mediaType()).thenReturn(new String[]{"custom/type"});
-        manager.addSerializer(expected);
+        manager.register(expected);
 
         Serializer expected2 = mock(Serializer.class);
         when(expected2.handledType()).thenReturn(Object.class);
         when(expected2.mediaType()).thenReturn(new String[]{"*/type"});
-        manager.addSerializer(expected2);
+        manager.register(expected2);
 
         Serializer expected3 = mock(Serializer.class);
         when(expected3.handledType()).thenReturn(Object.class);
         when(expected3.mediaType()).thenReturn(new String[]{"custom/*"});
-        manager.addSerializer(expected3);
+        manager.register(expected3);
 
         Serializer expected4 = mock(Serializer.class);
         when(expected4.handledType()).thenReturn(Object.class);
         when(expected4.mediaType()).thenReturn(new String[]{"*/*"});
-        manager.addSerializer(expected4);
+        manager.register(expected4);
 
         // When
         Serializer output = manager.getSerializer(Object.class, "custom/type");
