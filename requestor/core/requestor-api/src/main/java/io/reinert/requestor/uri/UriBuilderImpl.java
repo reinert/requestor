@@ -167,6 +167,48 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     @Override
+    public UriBuilder uri(Uri uri) throws IllegalArgumentException {
+        if (uri == null)
+            throw new IllegalArgumentException("Uri cannot be null.");
+
+        final String mScheme = uri.getScheme();
+        if (mScheme != null) scheme(mScheme);
+        final String mUser = uri.getUser();
+        if (mUser != null) user(mUser);
+        final String mPassword = uri.getPassword();
+        if (mPassword != null) password(mPassword);
+        final String mHost = uri.getHost();
+        if (mHost != null) host(mHost);
+        final String[] mSegments = uri.getSegments();
+        if (mSegments != null) {
+            this.segments = null;
+            this.matrixParams = null;
+            for (String segment : mSegments) {
+                segment(segment);
+                // Check matrix params for this segment
+                final String[] mMatrixParams = uri.getMatrixParams(segment);
+                if (mMatrixParams != null) {
+                    for (String param : mMatrixParams) {
+                        matrixParam(param, uri.getMatrixValues(segment, param));
+                    }
+                }
+            }
+        }
+        final int mPort = uri.getPort();
+        port(mPort);
+        final String[] mQueryParams = uri.getQueryParams();
+        if (mQueryParams != null) {
+            this.queryParams = null;
+            for (String param : mQueryParams) {
+                queryParam(param, uri.getQueryValues(param));
+            }
+        }
+        final String mFragment = uri.getFragment();
+        if (mFragment != null) fragment(mFragment);
+        return this;
+    }
+
+    @Override
     public Uri build(Object... templateValues) {
         List<String> templateParams = new ArrayList<String>();
 

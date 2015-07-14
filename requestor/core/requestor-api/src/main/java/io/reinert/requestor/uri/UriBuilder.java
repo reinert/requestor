@@ -27,63 +27,62 @@ import com.google.gwt.core.shared.GWT;
  */
 public abstract class UriBuilder {
 
-    private static UriParser PARSER;
-
+    /**
+     * Create a new instance representing a relative URI initialized from a URI path.
+     *
+     * @param path a URI path that will be used to initialize the UriBuilder, may contain URI template parameters.
+     *
+     * @return a new UriBuilder
+     *
+     * @throws IllegalArgumentException if path is null
+     */
     public static UriBuilder fromPath(String path) {
+        if (path == null)
+            throw new IllegalArgumentException("Path cannot be null");
+
         final UriBuilder builder = newInstance();
-        final UriParser parser = getParser();
-        parser.parse(path);
-        Uri parsed = parser.getUri();
-        builder.path(parsed.getPath());
+        builder.path(path);
         return builder;
     }
 
+    /**
+     * Create a new instance initialized from an existing URI.
+     *
+     * @param uri a URI that will be used to initialize the UriBuilder.
+     *
+     * @return a new UriBuilder
+     *
+     * @throws IllegalArgumentException if uri is null
+     */
+    public static UriBuilder fromUri(Uri uri) throws IllegalArgumentException {
+        if (uri == null)
+            throw new IllegalArgumentException("Uri cannot be null");
+
+        UriBuilder b = newInstance();
+        b.uri(uri);
+        return b;
+    }
+
+    /**
+     * Create a new instance initialized from an existing URI.
+     *
+     * @param uri a URI that will be used to initialize the UriBuilder, URI template parameters are ignored.
+     *
+     * @return a new UriBuilder
+     *
+     * @throws IllegalArgumentException if uri is null
+     */
     public static UriBuilder fromUri(String uri) {
+        if (uri == null)
+            throw new IllegalArgumentException("Uri cannot be null");
+
         final UriBuilder builder = newInstance();
-        final UriParser parser = getParser();
-        parser.parse(uri);
-        Uri parsed = parser.getUri();
-        final String scheme = parsed.getScheme();
-        if (scheme != null) builder.scheme(scheme);
-        final String user = parsed.getUser();
-        if (user != null) builder.user(user);
-        final String password = parsed.getPassword();
-        if (password != null) builder.password(password);
-        final String host = parsed.getHost();
-        if (host != null) builder.host(host);
-        final String[] segments = parsed.getSegments();
-        if (segments != null) {
-            for (String segment : segments) {
-                builder.segment(segment);
-                // Check matrix params for this segment
-                final String[] matrixParams = parsed.getMatrixParams(segment);
-                if (matrixParams != null) {
-                    for (String param : matrixParams) {
-                        builder.matrixParam(param, parsed.getMatrixValues(segment, param));
-                    }
-                }
-            }
-        }
-        final int port = parsed.getPort();
-        builder.port(port);
-        final String[] queryParams = parsed.getQueryParams();
-        if (queryParams != null) {
-            for (String param : queryParams) {
-                builder.queryParam(param, parsed.getQueryValues(param));
-            }
-        }
-        final String fragment = parsed.getFragment();
-        if (fragment != null) builder.fragment(fragment);
+        builder.uri(Uri.create(uri));
         return builder;
     }
 
     public static UriBuilder newInstance() {
         return GWT.create(UriBuilder.class);
-    }
-
-    private static UriParser getParser() {
-        if (PARSER == null) PARSER = UriParser.newInstance();
-        return PARSER;
     }
 
     /**
@@ -210,6 +209,18 @@ public abstract class UriBuilder {
      * @return the updated UriBuilder
      */
     public abstract UriBuilder fragment(String fragment);
+
+    /**
+     * Copies the non-null components of the supplied URI to the UriBuilder replacing any existing values for those
+     * components.
+     *
+     * @param uri the URI to copy components from
+     *
+     * @return the updated UriBuilder
+     *
+     * @throws IllegalArgumentException if uri is null
+     */
+    public abstract UriBuilder uri(Uri uri) throws IllegalArgumentException;
 
     /**
      * Build a URI, using the supplied values in order to replace any URI
