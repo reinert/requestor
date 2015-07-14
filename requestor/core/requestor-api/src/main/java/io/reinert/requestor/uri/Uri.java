@@ -22,6 +22,8 @@ import java.util.Map;
  */
 public class Uri {
 
+    private static UriParser PARSER;
+
     private UrlCodec urlCodec;
     private String scheme;
     private String user;
@@ -53,6 +55,20 @@ public class Uri {
         this.queryParams = queryParams;
         buildQuery();
         this.fragment = fragment;
+    }
+
+    public static Uri create(String uri) {
+        if (uri == null)
+            throw new IllegalArgumentException("Uri cannot be null.");
+
+        final UriParser parser = getParser();
+        parser.parse(uri);
+        return parser.getUri();
+    }
+
+    private static UriParser getParser() {
+        if (PARSER == null) PARSER = UriParser.newInstance();
+        return PARSER;
     }
 
     public String getScheme() {
