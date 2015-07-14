@@ -15,35 +15,63 @@
  */
 package io.reinert.requestor.uri;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 class UrlCodecMock extends UrlCodec {
 
     @Override
     public String decode(String encodedURL) {
-        return encodedURL;
+        try {
+            return URLDecoder.decode(encodedURL, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public String decodePathSegment(String encodedURLComponent) {
-        return encodedURLComponent;
+        try {
+            return URLDecoder.decode(encodedURLComponent, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public String decodeQueryString(String encodedURLComponent) {
-        return encodedURLComponent;
+        try {
+            return URLDecoder.decode(encodedURLComponent, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public String encode(String decodedURL) {
-        return decodedURL;
+        try {
+            return URLEncoder.encode(decodedURL, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public String encodePathSegment(String decodedURLComponent) {
-        return decodedURLComponent;
+        try {
+            return URLEncoder.encode(decodedURLComponent, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public String encodeQueryString(String decodedURLComponent) {
-        return decodedURLComponent;
+        try {
+            return URLEncoder.encode(decodedURLComponent, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
