@@ -29,9 +29,11 @@ public class Uri {
     private String host;
     private int port = -1;
     private String path;
+    private String pathEncoded;
     private String[] pathSegments;
     private Map<String, Buckets> matrixParams;
     private String query;
+    private String queryEncoded;
     private Buckets queryParams;
     private String fragment;
     private String uriString;
@@ -144,11 +146,11 @@ public class Uri {
             }
 
             if (path != null) {
-                uri.append(path);
+                uri.append(pathEncoded);
             }
 
             if (query != null && !query.isEmpty()) {
-                uri.append('?').append(query);
+                uri.append('?').append(queryEncoded);
             }
 
             if (fragment != null) {
@@ -204,10 +206,12 @@ public class Uri {
     }
 
     private void buildPath() {
-        StringBuilder pathBuilder = new StringBuilder("/");
+        final StringBuilder pathBuilder = new StringBuilder("/");
+        final StringBuilder pathEncodedBuilder = new StringBuilder("/");
         if (pathSegments != null && pathSegments.length > 0) {
             for (final String segment : pathSegments) {
-                pathBuilder.append(urlCodec.encodePathSegment(segment));
+                pathBuilder.append(segment);
+                pathEncodedBuilder.append(urlCodec.encodePathSegment(segment));
 
                 // Check if there are matrix params for this segment
                 if (matrixParams != null) {
@@ -219,13 +223,16 @@ public class Uri {
                             // Check if the param has values
                             if (values.length == 0) {
                                 // Append only the param name without any value
-                                pathBuilder.append(';').append(urlCodec.encodePathSegment(param));
+                                pathBuilder.append(';').append(param);
+                                pathEncodedBuilder.append(';').append(urlCodec.encodePathSegment(param));
                             } else {
                                 // Append the param and its values
                                 for (String value : values) {
-                                    pathBuilder.append(';').append(urlCodec.encodePathSegment(param));
+                                    pathBuilder.append(';').append(param);
+                                    pathEncodedBuilder.append(';').append(urlCodec.encodePathSegment(param));
                                     if (value != null) {
-                                        pathBuilder.append('=').append(urlCodec.encodePathSegment(value));
+                                        pathBuilder.append('=').append(value);
+                                        pathEncodedBuilder.append('=').append(urlCodec.encodePathSegment(value));
                                     }
                                 }
                             }
@@ -233,14 +240,18 @@ public class Uri {
                     }
                 }
                 pathBuilder.append('/');
+                pathEncodedBuilder.append('/');
             }
             pathBuilder.deleteCharAt(pathBuilder.length() - 1);
+            pathEncodedBuilder.deleteCharAt(pathEncodedBuilder.length() - 1);
         }
         path = pathBuilder.toString();
+        pathEncoded = pathEncodedBuilder.toString();
     }
 
     private void buildQuery() {
-        StringBuilder queryBuilder = new StringBuilder();
+        final StringBuilder queryBuilder = new StringBuilder();
+        final StringBuilder queryEncodedBuilder = new StringBuilder();
         if (queryParams != null && !queryParams.isEmpty()) {
             String[] params = queryParams.getKeys();
             for (String param : params) {
@@ -248,20 +259,26 @@ public class Uri {
                 // Check if the param has values
                 if (values.length == 0) {
                     // Append only the param name without any value
-                    queryBuilder.append(urlCodec.encodeQueryString(param)).append('&');
+                    queryBuilder.append(param).append('&');
+                    queryEncodedBuilder.append(urlCodec.encodeQueryString(param)).append('&');
                 } else {
                     // Append the param and its values
                     for (String value : values) {
-                        queryBuilder.append(urlCodec.encodeQueryString(param));
+                        queryBuilder.append(param);
+                        queryEncodedBuilder.append(urlCodec.encodeQueryString(param));
                         if (value != null) {
-                            queryBuilder.append('=').append(urlCodec.encodeQueryString(value));
+                            queryBuilder.append('=').append(value);
+                            queryEncodedBuilder.append('=').append(urlCodec.encodeQueryString(value));
                         }
                         queryBuilder.append('&');
+                        queryEncodedBuilder.append('&');
                     }
                 }
             }
             queryBuilder.deleteCharAt(queryBuilder.length() - 1);
+            queryEncodedBuilder.deleteCharAt(queryEncodedBuilder.length() - 1);
             query = queryBuilder.toString();
+            queryEncoded = queryEncodedBuilder.toString();
         }
     }
 }

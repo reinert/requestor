@@ -194,7 +194,16 @@ public class UriBuilderTest extends UriTestBase {
         clone.queryParam("foo", "bar");
 
         // Then
-        assertEquals(original.build().toString(), expectedOriginal);
-        assertEquals(clone.build().toString(), expectedClone);
+        assertEquals(expectedOriginal, original.build().toString());
+        assertEquals(expectedClone, clone.build().toString());
+    }
+
+    @Test
+    public void fromPath_WithTemplates_ShouldNotEscapeTemplates() {
+        final String expected = "/server/resource/1";
+
+        final Uri uri = UriBuilder.fromPath("server/{res}/{id}").build("resource", 1);
+
+        assertEquals(expected, uri.toString());
     }
 }
