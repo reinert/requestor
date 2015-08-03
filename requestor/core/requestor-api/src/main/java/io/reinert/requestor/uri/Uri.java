@@ -100,6 +100,7 @@ public class Uri {
     }
 
     public String[] getMatrixParams(String segment) {
+        if (matrixParams == null) return null;
         final Buckets buckets = matrixParams.get(segment);
         return buckets != null ? buckets.getKeys() : null;
     }
