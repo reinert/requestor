@@ -135,4 +135,19 @@ public class UriParserTest extends UriTestBase {
         assertEquals("first", uri.getFragment());
         assertEquals(expected, uri.toString());
     }
+
+    @Test
+    public void testIpHost() {
+        final UriParser parser = UriParser.newInstance();
+        final String expected = "http://127.0.0.1:8888/requestor";
+
+        parser.parse(expected);
+        final Uri uri = parser.getUri();
+
+        assertEquals("http", uri.getScheme());
+        assertEquals("127.0.0.1", uri.getHost());
+        assertEquals(8888, uri.getPort());
+        assertEquals("/requestor", uri.getPath());
+        assertEquals(expected, uri.toString());
+    }
 }

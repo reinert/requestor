@@ -206,4 +206,22 @@ public class UriBuilderTest extends UriTestBase {
 
         assertEquals(expected, uri.toString());
     }
+
+    @Test
+    public void fromUri_WithoutMatrixAndQueryParams_ShouldBuildSuccessfully() {
+        final String expected = "http://user:pwd@localhost:8888/server/resource#first";
+
+        final Uri uri = UriBuilder.fromUri(Uri.create(expected)).build();
+
+        assertEquals(expected, uri.toString());
+    }
+
+    @Test
+    public void fromUri_WithIpHost_ShouldBuildSuccessfully() {
+        final String expected = "http://127.0.0.1:8888/requestor";
+
+        final Uri uri = UriBuilder.fromUri(Uri.create(expected)).build();
+
+        assertEquals(expected, uri.toString());
+    }
 }
