@@ -24,9 +24,8 @@ import io.reinert.requestor.header.Header;
  */
 public class RawResponseImpl extends ResponseImpl<Payload> implements RawResponse {
 
-    public RawResponseImpl(int statusCode, String statusText, Headers headers, ResponseType type,
-                           Payload payload) {
-        super(statusCode, statusText, headers, type, payload);
+    public RawResponseImpl(StatusType status, Headers headers, ResponseType type, Payload payload) {
+        super(status, headers, type, payload);
     }
 
     @Override

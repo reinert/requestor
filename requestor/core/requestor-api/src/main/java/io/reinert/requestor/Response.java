@@ -86,11 +86,11 @@ public interface Response<T> {
     int getStatusCode();
 
     /**
-     * Returns the HTTP status message text.
+     * Returns the HTTP status as a {@link StatusType} object.
      *
-     * @return the HTTP status message text
+     * @return the HTTP status
      */
-    String getStatusText();
+    StatusType getStatus();
 
     /**
      * Returns the payload deserialized.
@@ -177,6 +177,62 @@ public interface Response<T> {
         SERVICE_UNAVAILABLE(503, "Service Unavailable"),
         GATEWAY_TIMEOUT(504, "Gateway Timeout"),
         HTTP_VERSION_NOT_SUPPORTED(505, "HTTP Version Not Supported");
+
+        /**
+         * Convert a numerical status code into the corresponding Status.
+         *
+         * @param statusCode the numerical status code.
+         * @return the matching Status or null is no matching Status is defined.
+         */
+        public static Status of(int statusCode) {
+            for (Status s : Status.values()) {
+                if (s.code == statusCode) {
+                    return s;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * Creates a Status with the given parameters.
+         *
+         * @param statusCode   the numerical status code.
+         * @param reasonPhrase the reason phrase.
+         * @return the corresponding Status.
+         */
+        public static StatusType of(final int statusCode, final String reasonPhrase) {
+            return new StatusType() {
+                @Override
+                public int getStatusCode() {
+                    return statusCode;
+                }
+
+                @Override
+                public Family getFamily() {
+                    return Family.of(statusCode);
+                }
+
+                @Override
+                public String getReasonPhrase() {
+                    return reasonPhrase;
+                }
+
+                @Override
+                public String toString() {
+                    return reasonPhrase;
+                }
+
+                @Override
+                public int hashCode() {
+                    return statusCode;
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    return obj instanceof StatusType && ((StatusType) obj).getStatusCode() == statusCode;
+                }
+            };
+        }
 
         private final int code;
         private final String reason;
@@ -280,21 +336,6 @@ public interface Response<T> {
         @Override
         public String toString() {
             return reason;
-        }
-
-        /**
-         * Convert a numerical status code into the corresponding Status.
-         *
-         * @param statusCode the numerical status code.
-         * @return the matching Status or null is no matching Status is defined.
-         */
-        public static Status fromStatusCode(final int statusCode) {
-            for (Status s : Status.values()) {
-                if (s.code == statusCode) {
-                    return s;
-                }
-            }
-            return null;
         }
     }
 }

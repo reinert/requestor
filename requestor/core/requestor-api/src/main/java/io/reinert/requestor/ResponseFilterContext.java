@@ -96,11 +96,11 @@ public interface ResponseFilterContext {
     int getStatusCode();
 
     /**
-     * Returns the HTTP status message text.
+     * Returns the HTTP status as a {@link Response.StatusType} object.
      *
-     * @return the HTTP status message text
+     * @return the HTTP status
      */
-    String getStatusText();
+    Response.StatusType getStatus();
 
     /**
      * Returns the raw payload.
