@@ -34,18 +34,16 @@ public class ResponseImpl<T> implements Response<T> {
 
     private final Headers headers;
     private final LinkHeader linkHeader;
-    private final int statusCode;
-    private final String statusText;
+    private final StatusType status;
     private T payload;
     private ResponseType responseType;
 
-    public ResponseImpl(int statusCode, String statusText, Headers headers, ResponseType responseType, T payload) {
+    public ResponseImpl(StatusType status, Headers headers, ResponseType responseType, T payload) {
         if (headers == null)
             throw new NullPointerException("Headers cannot be null");
         this.headers = headers;
         this.linkHeader = (LinkHeader) headers.get("Link");
-        this.statusCode = statusCode;
-        this.statusText = statusText;
+        this.status = status;
         this.responseType = responseType;
         this.payload = payload;
     }
@@ -83,12 +81,12 @@ public class ResponseImpl<T> implements Response<T> {
 
     @Override
     public int getStatusCode() {
-        return statusCode;
+        return status.getStatusCode();
     }
 
     @Override
-    public String getStatusText() {
-        return statusText;
+    public StatusType getStatus() {
+        return status;
     }
 
     @Override

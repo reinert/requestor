@@ -28,7 +28,7 @@ public interface ResponseInterceptorContext {
 
     int getStatusCode();
 
-    String getStatusText();
+    Response.StatusType getStatus();
 
     Payload getPayload();
 
