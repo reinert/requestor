@@ -58,9 +58,7 @@ public interface Deserializer<T> {
      * Deserialize the plain text into a collection T.
      * <p/>
      * 
-     * The collection instance can be retrieved from its {@link io.reinert.requestor.Provider},
-     * obtained in {@link io.reinert.requestor.ProviderManager#get}.<br>
-     * The ContainerFactoryManager can be retrieved from {@link DeserializationContext#getInstance(Class)}.
+     * The collection instance can be retrieved from {@link DeserializationContext#getInstance(Class)}.
      *
      * @param collectionType    The class of the collection
      * @param response          Http response body content
@@ -68,6 +66,5 @@ public interface Deserializer<T> {
      *
      * @return The object deserialized
      */
-    <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
-                                            DeserializationContext context);
+    <C extends Collection<T>> C deserialize(Class<C> collectionType, String response, DeserializationContext context);
 }

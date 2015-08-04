@@ -42,16 +42,15 @@ class SerializationEngine {
         this.providerManager = providerManager;
     }
 
-    public <T, C extends Collection> Response<Collection<T>> deserializeResponse(Request request,
-                                                                                 SerializedResponse response,
-                                                                                 Class<T> type,
-                                                                                 Class<C> containerType) {
+    public <T, C extends Collection<T>> Response<C> deserializeResponse(Request request,
+                                                                        SerializedResponse response,
+                                                                        Class<T> type,
+                                                                        Class<C> containerType) {
         final String mediaType = getResponseMediaType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
-        @SuppressWarnings("unchecked")
-        Collection<T> result = deserializer.deserialize(containerType, response.getPayload().isString(), context);
+        C result = deserializer.deserialize(containerType, response.getPayload().isString(), context);
         return getDeserializedResponse(response, result);
     }
 
@@ -64,7 +63,6 @@ class SerializationEngine {
         return getDeserializedResponse(response, result);
     }
 
-    @SuppressWarnings("unchecked")
     public SerializedRequestDelegate serializeRequest(Request request) {
         Object payload = request.getPayload();
         String body = null;
@@ -89,6 +87,7 @@ class SerializationEngine {
                     body = serializer.serialize(c, new HttpSerializationContext(request));
                 }
             } else {
+                @SuppressWarnings("unchecked")
                 Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
                         mediaType);
                 checkSerializerNotNull(request, payload.getClass(), serializer);

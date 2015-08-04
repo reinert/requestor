@@ -19,6 +19,8 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reinert.requestor.deferred.Deferred;
+
 /**
  * This class performs all necessary processing steps to incoming responses.
  *
@@ -27,10 +29,9 @@ import java.util.logging.Logger;
 public class ResponseProcessor {
 
     private static Logger logger = Logger.getLogger(ResponseProcessor.class.getName());
-
-    private final SerializationEngine serializationEngine;
     private final FilterEngine filterEngine;
     private final InterceptorEngine interceptorEngine;
+    private final SerializationEngine serializationEngine;
 
     public ResponseProcessor(SerializationEngine serializationEngine, FilterEngine filterEngine,
                              InterceptorEngine interceptorEngine) {
@@ -39,15 +40,81 @@ public class ResponseProcessor {
         this.interceptorEngine = interceptorEngine;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> Response<T> process(Request request, RawResponse response, Class<T> deserializationType) {
+    public <T> void process(Request request, RawResponse response, Class<T> deserializationType, Deferred<T> deferred) {
         // 1: FILTER
-        filterEngine.filterResponse(request, response);
+        filter(request, response);
 
         // 2: INTERCEPT
-        interceptorEngine.interceptResponse(request, response);
+        intercept(request, response);
 
-        // 3: DESERIALIZE
+        if (isSuccessful(response)) {
+            // 3: DESERIALIZE
+            Response<T> r = deserializeSingleResponse(request, response, deserializationType);
+
+            // 4: RESOLVE
+            resolve(deferred, r);
+        } else {
+            // 3: REJECT
+            reject(request, response, deferred);
+        }
+    }
+
+    public <T, C extends Collection> void process(Request request, RawResponse response, Class<T> deserializationType,
+                                                  Class<C> containerType, Deferred<C> deferred) {
+        // 1: FILTER
+        filter(request, response);
+
+        // 2: INTERCEPT
+        intercept(request, response);
+
+        if (isSuccessful(response)) {
+            // 3: DESERIALIZE
+            Response<C> r = deserializeCollectionResponse(request, response, deserializationType, containerType);
+
+            // 4: RESOLVE
+            resolve(deferred, r);
+        } else {
+            // 3: REJECT
+            reject(request, response, deferred);
+        }
+    }
+
+    private <T, C extends Collection> Response<C> deserializeCollectionResponse(Request request, RawResponse response,
+                                                                                Class<T> deserializationType,
+                                                                                Class<C> containerType) {
+        // TODO: return a list of one element instead of null, logging the occurrence
+        final ResponseType responseType = response.getResponseType();
+        Response<C> r;
+        if (Payload.class == deserializationType) {
+            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Payload.class.getName()
+                    + "'. A null payload will be returned.");
+            r = new ResponseImpl<C>(response.getStatusCode(), response.getStatusText(),
+                    response.getHeaders(), responseType, null);
+        } else if (Response.class == deserializationType || RawResponse.class == deserializationType
+                || SerializedResponse.class == deserializationType) {
+            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Response.class.getName()
+                    + "'. A null payload will be returned.");
+            r = new ResponseImpl<C>(response.getStatusCode(), response.getStatusText(),
+                    response.getHeaders(), responseType, null);
+        } else if (Headers.class == deserializationType) {
+            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Headers.class.getName()
+                    + "'. A null payload will be returned.");
+            r = new ResponseImpl<C>(response.getStatusCode(), response.getStatusText(),
+                    response.getHeaders(), responseType, null);
+        } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
+            r = serializationEngine.deserializeResponse(request, response, deserializationType, containerType);
+        } else {
+            logger.log(Level.SEVERE, "Could not process response of type '" + responseType + "' to class '"
+                    + deserializationType.getName() + "'. A null payload will be returned.");
+            r = new ResponseImpl<C>(response.getStatusCode(), response.getStatusText(),
+                    response.getHeaders(), responseType, null);
+        }
+        return r;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Response<T> deserializeSingleResponse(Request request, RawResponse response,
+                                                      Class<T> deserializationType) {
         final ResponseType responseType = response.getResponseType();
         Response<T> r;
         if (Payload.class == deserializationType) {
@@ -68,47 +135,26 @@ public class ResponseProcessor {
             r = new ResponseImpl<T>(response.getStatusCode(), response.getStatusText(), response.getHeaders(),
                     responseType, null);
         }
-
         return r;
     }
 
-    public <T> Response<Collection<T>> process(Request request, RawResponse response, Class<T> deserializationType,
-                                               Class<? extends Collection> containerType) {
-        // 1: FILTER
+    private void filter(Request request, RawResponse response) {
         filterEngine.filterResponse(request, response);
+    }
 
-        // 2: INTERCEPT
+    private void intercept(Request request, RawResponse response) {
         interceptorEngine.interceptResponse(request, response);
+    }
 
-        // TODO: return a list of one element instead of null, logging the occurrence
-        // 3: DESERIALIZE
-        final ResponseType responseType = response.getResponseType();
-        Response<Collection<T>> r;
-        if (Payload.class == deserializationType) {
-            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Payload.class.getName()
-                    + "'. A null payload will be returned.");
-            r = new ResponseImpl<Collection<T>>(response.getStatusCode(), response.getStatusText(),
-                    response.getHeaders(), responseType, null);
-        } else if (Response.class == deserializationType || RawResponse.class == deserializationType
-                || SerializedResponse.class == deserializationType) {
-            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Response.class.getName()
-                    + "'. A null payload will be returned.");
-            r = new ResponseImpl<Collection<T>>(response.getStatusCode(), response.getStatusText(),
-                    response.getHeaders(), responseType, null);
-        } else if (Headers.class == deserializationType) {
-            logger.log(Level.SEVERE, "It's not allowed to ask a collection of '" + Headers.class.getName()
-                    + "'. A null payload will be returned.");
-            r = new ResponseImpl<Collection<T>>(response.getStatusCode(), response.getStatusText(),
-                    response.getHeaders(), responseType, null);
-        } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
-            r = serializationEngine.deserializeResponse(request, response, deserializationType, containerType);
-        } else {
-            logger.log(Level.SEVERE, "Could not process response of type '" + responseType + "' to class '"
-                    + deserializationType.getName() + "'. A null payload will be returned.");
-            r = new ResponseImpl<Collection<T>>(response.getStatusCode(), response.getStatusText(),
-                    response.getHeaders(), responseType, null);
-        }
+    private boolean isSuccessful(RawResponse response) {
+        return response.getStatusCode() / 100 == 2;
+    }
 
-        return r;
+    private <D> void reject(Request request, RawResponse response, Deferred<D> deferred) {
+        deferred.reject(new UnsuccessfulResponseException(request, response));
+    }
+
+    private <D> void resolve(Deferred<D> deferred, Response<D> r) {
+        deferred.resolve(r);
     }
 }

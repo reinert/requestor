@@ -106,19 +106,14 @@ public abstract class RequestDispatcher {
      * @param response          The response received from the request
      * @param <D>               Type of the deferred
      */
+    @SuppressWarnings("unchecked")
     protected <D> void evalResponse(Request request, Deferred<D> deferred, Class<D> resolveType,
                                     Class<?> parametrizedType, RawResponse response) {
-        if (response.getStatusCode() / 100 == 2) {
-            // Resolve if response is 2xx
-            @SuppressWarnings("unchecked")  // Ok, this is ugly
-            final Response<D> r = parametrizedType != null ?
-                    (Response<D>) processor.process(request, response, parametrizedType,
-                            (Class<Collection>) resolveType) :
-                    processor.process(request, response, resolveType);
-            deferred.resolve(r);
+        if (parametrizedType != null) {
+            processor.process(request, response, parametrizedType, (Class<Collection>) resolveType,
+                    (Deferred<Collection>) deferred);
         } else {
-            // reject as unsuccessful response if response isn't 2xx
-            deferred.reject(new UnsuccessfulResponseException(request, response));
+            processor.process(request, response, resolveType, deferred);
         }
     }
 }
