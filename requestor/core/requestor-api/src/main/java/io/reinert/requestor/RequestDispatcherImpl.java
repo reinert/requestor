@@ -76,8 +76,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                 parametrizedType);
 
         // Create the underlying request from gwt.http module
-        final com.google.gwt.http.client.Request gwtRequest = new com.google.gwt.http.client.Request(xmlHttpRequest,
-                request.getTimeout(), callback);
+        final com.google.gwt.http.client.RequestorRequest gwtRequest = new com.google.gwt.http.client.RequestorRequest(
+                xmlHttpRequest, request.getTimeout(), callback);
 
         // Properly configure XMLHttpRequest's onreadystatechange
         xmlHttpRequest.setOnReadyStateChange(new ReadyStateChangeHandler() {
