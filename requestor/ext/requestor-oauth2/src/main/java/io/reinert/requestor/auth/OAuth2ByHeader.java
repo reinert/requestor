@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.auth.oauth2;
+package io.reinert.requestor.auth;
 
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.oauth2.TokenInfo;
 
 /**
  * OAuth2 authentication through the
- * <a hfref="https://tools.ietf.org/html/rfc6750#section-2.3">URI Query Parameter</a> method.
+ * <a hfref="https://tools.ietf.org/html/rfc6750#section-2.1">Authorization Request Header Field</a> method.
  *
  * @author Danilo Reinert
  */
-public class OAuth2ByQueryParam extends OAuth2 {
+public class OAuth2ByHeader extends OAuth2Base {
 
-    public OAuth2ByQueryParam(String authUrl, String clientId, String... scopes) {
+    public OAuth2ByHeader(String authUrl, String clientId, String... scopes) {
         super(authUrl, clientId, scopes);
     }
 
     @Override
     protected void doAuth(PreparedRequest preparedRequest, TokenInfo tokenInfo) {
-        preparedRequest.setQueryParam("access_token", tokenInfo.getAccessToken());
+        preparedRequest.setHeader("Authorization", tokenInfo.getTokenType() + ' ' + tokenInfo.getAccessToken());
     }
 }

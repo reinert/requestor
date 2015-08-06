@@ -26,8 +26,8 @@ import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
-import io.reinert.requestor.auth.oauth2.OAuth2ByHeader;
-import io.reinert.requestor.auth.oauth2.OAuth2ByQueryParam;
+import io.reinert.requestor.auth.OAuth2ByHeader;
+import io.reinert.requestor.auth.OAuth2ByQueryParam;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
 

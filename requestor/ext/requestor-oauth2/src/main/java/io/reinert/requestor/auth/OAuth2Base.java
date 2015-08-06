@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.auth.oauth2;
+package io.reinert.requestor.auth;
 
 import com.google.gwt.core.client.Callback;
 
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RequestException;
-import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.oauth2.AuthRequest;
 import io.reinert.requestor.oauth2.TokenInfo;
 
@@ -28,25 +27,26 @@ import io.reinert.requestor.oauth2.TokenInfo;
  *
  * @author Danilo Reinert
  */
-public abstract class OAuth2 implements Auth {
+public abstract class OAuth2Base implements Auth {
 
     private static final io.reinert.requestor.oauth2.Auth AUTH = io.reinert.requestor.oauth2.Auth.get();
 
     private final AuthRequest authRequest;
 
-    public OAuth2(String authUrl, String clientId, String... scopes) {
+    public OAuth2Base(String authUrl, String clientId, String... scopes) {
         this.authRequest = new AuthRequest(authUrl, clientId).withScopes(scopes);
     }
 
     /**
-     * Use token to perform the request authorization. Implementers must not call requestOrder#send().
+     * Use token to perform the request authorization.
+     * Implementers must not call preparedRequest#send().
      *
      * @param preparedRequest  request to be authorized
      * @param tokenInfo     token information retrieved from OAuth login
      */
     protected abstract void doAuth(PreparedRequest preparedRequest, TokenInfo tokenInfo);
 
-    public OAuth2 withScopeDelimiter(String delimiter) {
+    public OAuth2Base withScopeDelimiter(String delimiter) {
         authRequest.withScopeDelimiter(delimiter);
         return this;
     }
