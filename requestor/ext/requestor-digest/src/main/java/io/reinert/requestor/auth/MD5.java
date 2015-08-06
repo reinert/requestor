@@ -24,7 +24,7 @@ import com.google.gwt.core.client.ScriptInjector;
  * It's based on a fast MD5 implementation specific for client-side javascript and compiled with the closure compiler.
  * This implementation is injected as script and a global function called 'md5hash' is exposed.
  */
-public class MD5 {
+class MD5 {
 
     private static boolean injectionPending = true;
 

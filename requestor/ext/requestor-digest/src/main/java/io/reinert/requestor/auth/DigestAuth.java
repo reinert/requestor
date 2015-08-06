@@ -18,7 +18,6 @@ package io.reinert.requestor.auth;
 import javax.annotation.Nullable;
 
 import com.google.gwt.core.client.Duration;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.i18n.client.NumberFormat;
 
 import io.reinert.requestor.HttpConnection;
@@ -45,7 +44,7 @@ public class DigestAuth implements Auth {
      *
      * The default expected code is unauthorized response 401.
      * 404 is put here because some might prevent the browser from prompting the user for the credentials,
-     * which will commonly happen if the server returns with a 401 code.
+     * which will commonly happen if the server returns a 401 response.
      */
     public static int[] EXPECTED_CODES = new int[]{ 401, 404 };
 
@@ -88,7 +87,7 @@ public class DigestAuth implements Auth {
 
     /**
      * Set the max number of attempts to auth.
-     * The default is 2.
+     * The default is the value of the constant #DEFAULT_MAX_CHALLENGE_CALLS (which is 2 at first).
      *
      * @param maxChallengeCalls  max number of attempt calls
      */
@@ -122,7 +121,7 @@ public class DigestAuth implements Auth {
                     if (error instanceof UnsuccessfulResponseException) {
                         UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
                         if (contains(EXPECTED_CODES, e.getStatusCode())) {
-                            // If the error response code is expected, then continue trying to auth
+                            // If the error response code is expected, then continue trying to authenticate
                             attempt(originalRequest, e.getResponse());
                             return;
                         }
@@ -205,7 +204,7 @@ public class DigestAuth implements Auth {
         final String hBody = MD5.hash(body);
         final String ha2 = MD5.hash(method + ':' + url + ':' + hBody);
         // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
-        // FIXME: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
+        // TODO: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
         return MD5.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth-int" + ':' + ha2);
     }
 
@@ -213,7 +212,7 @@ public class DigestAuth implements Auth {
                                            String cNonce) {
         final String ha2 = MD5.hash(method + ':' + url);
         // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
-        // FIXME: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
+        // TODO: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
         return MD5.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth" + ':' + ha2);
     }
 
@@ -224,11 +223,7 @@ public class DigestAuth implements Auth {
     }
 
     private String generateHa1(String realm) {
-        final String a1 = user + ':' + realm + ':' + password;
-        GWT.log(" A1: " + a1);
-        final String ha1 = MD5.hash(a1);
-        GWT.log("HA1: " + ha1);
-        return ha1;
+        return MD5.hash(user + ':' + realm + ':' + password);
     }
 
     private String getNonceCount(String nonce) {
