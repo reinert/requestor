@@ -46,6 +46,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>io.reinert.requestor.ext</groupId>
+      <artifactId>requestor-digest</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>io.reinert.requestor.impl</groupId>
       <artifactId>requestor-gdeferred</artifactId>
       <version>${project.version}</version>
