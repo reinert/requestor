@@ -94,20 +94,34 @@ public class RequestorImpl extends Requestor {
 
     @Override
     public WebTarget target(String uri) {
+        if (uri == null)
+            throw new NullPointerException("Uri string cannot be null.");
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
                 requestDispatcherFactory, deferredFactory, UriBuilder.fromUri(uri));
     }
 
     @Override
     public WebTarget target(Uri uri) {
+        if (uri == null)
+            throw new NullPointerException("Uri cannot be null.");
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
                 requestDispatcherFactory, deferredFactory, uri);
     }
 
     @Override
     public WebTarget target(UriBuilder uriBuilder) {
+        if (uriBuilder == null)
+            throw new NullPointerException("UriBuilder cannot be null.");
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
                 requestDispatcherFactory, deferredFactory, uriBuilder);
+    }
+
+    @Override
+    public WebTarget target(Link link) {
+        if (link == null)
+            throw new NullPointerException("Link cannot be null.");
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
+                requestDispatcherFactory, deferredFactory, link.getUri());
     }
 
     @Override
