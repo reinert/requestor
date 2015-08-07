@@ -17,6 +17,8 @@ package io.reinert.requestor.header;
 
 import java.util.Iterator;
 
+import io.reinert.requestor.Link;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

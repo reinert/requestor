@@ -19,7 +19,6 @@ import java.util.Collections;
 
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.header.Link;
 import io.reinert.requestor.header.LinkHeader;
 import io.reinert.requestor.header.SimpleHeader;
 
