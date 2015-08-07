@@ -17,19 +17,22 @@ package io.reinert.requestor.header;
 
 import java.util.Iterator;
 
+import com.google.gwtmockito.GwtMockitoTestRunner;
+
 import io.reinert.requestor.Link;
+import io.reinert.requestor.uri.Uri;
+import io.reinert.requestor.uri.UriTestBase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author Danilo Reinert
  */
-@RunWith(MockitoJUnitRunner.class)
-public class LinkHeaderTest {
+@RunWith(GwtMockitoTestRunner.class)
+public class LinkHeaderTest extends UriTestBase {
 
     @Test
     public void testMultipleValue() {
@@ -54,10 +57,12 @@ public class LinkHeaderTest {
         final Iterator<Link> itl = links.iterator();
         final Link l0 = itl.next();
         final Link l1 = itl.next();
-        assertEquals("/TheBook/chapter2", l0.getUri());
+        assertEquals(Uri.create("/TheBook/chapter2"), l0.getUri());
+        assertEquals("/TheBook/chapter2", l0.getUri().toString());
         assertEquals("previous", l0.getRel());
         assertEquals("UTF-8'de'letztes%20Kapitel", l0.getTitle());
-        assertEquals("/TheBook/chapter4", l1.getUri());
+        assertEquals(Uri.create("/TheBook/chapter4"), l1.getUri());
+        assertEquals("/TheBook/chapter4", l1.getUri().toString());
         assertEquals("next", l1.getRel());
         assertEquals("UTF-8'de'n%c3%a4chstes%20Kapitel", l1.getTitle());
 

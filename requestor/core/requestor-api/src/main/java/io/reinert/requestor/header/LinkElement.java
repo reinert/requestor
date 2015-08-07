@@ -16,6 +16,7 @@
 package io.reinert.requestor.header;
 
 import io.reinert.requestor.Link;
+import io.reinert.requestor.uri.Uri;
 
 /**
  * Link header element.
@@ -34,7 +35,7 @@ public class LinkElement extends Element.SimpleElement implements Link {
     protected static final String HREF_LANG = "hrefLang";
     protected static final String REV = "rev";
 
-    private final String uri;
+    private final Uri uri;
     private String rel;
     private String title;
     private String rev;
@@ -48,9 +49,9 @@ public class LinkElement extends Element.SimpleElement implements Link {
 
         final String rawUri = element.getElement();
         if (rawUri.charAt(0) == '<') {
-            uri = rawUri.substring(1, rawUri.length() - 1);
+            uri = Uri.create(rawUri.substring(1, rawUri.length() - 1));
         } else {
-            uri = rawUri;
+            uri = Uri.create(rawUri);
         }
 
         for (Param param : element.getParams()) {
@@ -85,7 +86,7 @@ public class LinkElement extends Element.SimpleElement implements Link {
      * @return  underlying URI as string
      */
     @Override
-    public String getUri() {
+    public Uri getUri() {
         return uri;
     }
 
