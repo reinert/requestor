@@ -47,6 +47,13 @@ public class WebTarget implements FilterManager, InterceptorManager {
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
+              RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, Uri uri) {
+        this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
+                deferredFactory, UriBuilder.fromUri(uri), uri);
+    }
+
+    WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
+              SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
               RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, UriBuilder builder) {
         this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
                 deferredFactory, builder, null);
