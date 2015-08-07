@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.header.Link;
-
 /**
  * Represents a HTTP response.
  *

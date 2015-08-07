@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import io.reinert.requestor.Link;
+
 /**
  * The HTTP Link header.
  * <p/>
@@ -30,24 +32,21 @@ import java.util.Map;
  */
 public class LinkHeader extends MultivaluedHeader implements Iterable<Link> {
 
-    private final Map<String, ? super Link> linksMap;
-    private final Iterable<Element> elements;
-    private final Iterable<Link> links;
+    private final Map<String, ? super LinkElement> linksMap;
 
     @SuppressWarnings("unchecked")
     public LinkHeader(Collection<Element> elements) {
         super("Link", Collections.EMPTY_LIST);
-        linksMap = new HashMap<String, Link>(elements.size());
+        this.linksMap = new HashMap<String, LinkElement>(elements.size());
         for (Element e : elements) {
-            final Link l = new Link(e);
+            final LinkElement l = new LinkElement(e);
             linksMap.put(l.getRel(), l);
         }
-        links = (Iterable<Link>) linksMap.values();
-        this.elements = (Iterable<Element>) linksMap.values();
     }
 
+    @SuppressWarnings("unchecked")
     public Iterable<Link> getLinks() {
-        return links;
+        return (Iterable<Link>) linksMap.values();
     }
 
     public boolean hasLink(String relation) {
@@ -59,8 +58,9 @@ public class LinkHeader extends MultivaluedHeader implements Iterable<Link> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Iterable<Element> getElements() {
-        return elements;
+        return (Iterable<Element>) linksMap.values();
     }
 
     @Override
@@ -84,7 +84,8 @@ public class LinkHeader extends MultivaluedHeader implements Iterable<Link> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Iterator<Link> iterator() {
-        return links.iterator();
+        return (Iterator<Link>) linksMap.values().iterator();
     }
 }

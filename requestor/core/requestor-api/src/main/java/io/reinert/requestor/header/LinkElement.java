@@ -15,20 +15,24 @@
  */
 package io.reinert.requestor.header;
 
+import io.reinert.requestor.Link;
+
 /**
- * Represents a hypermedia link according to <a href="https://tools.ietf.org/html/rfc5988">RFC 5988</a>.
+ * Link header element.
+ * <p>
+ * It parses a single link value from a link header and fills the {@link Link} properties accordingly.
  *
  * @author Danilo Reinert
  */
-public class Link extends Element.SimpleElement {
+public class LinkElement extends Element.SimpleElement implements Link {
 
-    public static final String REL = "rel";
-    public static final String TITLE = "title";
-    public static final String ANCHOR = "anchor";
-    public static final String MEDIA = "media";
-    public static final String TYPE = "type";
-    public static final String HREF_LANG = "hrefLang";
-    public static final String REV = "rev";
+    protected static final String REL = "rel";
+    protected static final String TITLE = "title";
+    protected static final String ANCHOR = "anchor";
+    protected static final String MEDIA = "media";
+    protected static final String TYPE = "type";
+    protected static final String HREF_LANG = "hrefLang";
+    protected static final String REV = "rev";
 
     private final String uri;
     private String rel;
@@ -39,7 +43,7 @@ public class Link extends Element.SimpleElement {
     private String media;
     private String type;
 
-    Link(Element element) {
+    protected LinkElement(Element element) {
         super(element.getElement(), element.getParams());
 
         final String rawUri = element.getElement();
@@ -80,6 +84,7 @@ public class Link extends Element.SimpleElement {
      *
      * @return  underlying URI as string
      */
+    @Override
     public String getUri() {
         return uri;
     }
@@ -89,6 +94,7 @@ public class Link extends Element.SimpleElement {
      *
      * @return  relation types as string or null
      */
+    @Override
     public String getRel() {
         return rel;
     }
@@ -98,6 +104,7 @@ public class Link extends Element.SimpleElement {
      *
      * @return  value of title parameter or null
      */
+    @Override
     public String getTitle() {
         return title;
     }
@@ -107,6 +114,7 @@ public class Link extends Element.SimpleElement {
      *
      * @return  value of rev parameter or null
      */
+    @Override
     public String getRev() {
         return rev;
     }
@@ -116,6 +124,7 @@ public class Link extends Element.SimpleElement {
      *
      * @return  value of hreflang parameter or null
      */
+    @Override
     public String getHrefLang() {
         return hrefLang;
     }
@@ -125,6 +134,7 @@ public class Link extends Element.SimpleElement {
      *
      * @return  value of anchor parameter or null
      */
+    @Override
     public String getAnchor() {
         return anchor;
     }
@@ -134,6 +144,7 @@ public class Link extends Element.SimpleElement {
      *
      * @return  value of media parameter or null
      */
+    @Override
     public String getMedia() {
         return media;
     }
@@ -143,6 +154,7 @@ public class Link extends Element.SimpleElement {
      *
      * @return  value of type parameter or null
      */
+    @Override
     public String getType() {
         return type;
     }

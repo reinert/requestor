@@ -16,7 +16,6 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.header.Link;
 
 /**
  * Allows one to modify HTTP Response Headers.
