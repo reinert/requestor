@@ -27,6 +27,7 @@ import com.google.gwt.core.client.GWT;
  */
 public class UriParser {
 
+    private Uri uri;
     private UrlCodec urlCodec;
     private String scheme;
     private String user;
@@ -37,13 +38,16 @@ public class UriParser {
     private Map<String, Buckets> matrixParams;
     private Buckets queryParams;
     private String fragment;
+    private String uriString;
 
     private UriParser() {
         this.urlCodec = UrlCodec.getInstance();
     }
 
     public Uri getUri() {
-        return new Uri(scheme, user, password, host, port, segments, matrixParams, queryParams, fragment);
+        if (uri == null)
+            uri = new Uri(scheme, user, password, host, port, segments, matrixParams, queryParams, fragment, uriString);
+        return uri;
     }
 
     public static UriParser newInstance() {
@@ -55,6 +59,8 @@ public class UriParser {
             throw new UriParseException("The uri argument cannot be null or empty");
 
         resetParser();
+
+        uriString = uri;
 
         String parsedUri = uri;
         String query;
@@ -184,6 +190,7 @@ public class UriParser {
     }
 
     private void resetParser() {
+        uri = null;
         scheme = null;
         user = null;
         password = null;
@@ -193,5 +200,6 @@ public class UriParser {
         matrixParams = null;
         queryParams = null;
         fragment = null;
+        uriString = null;
     }
 }
