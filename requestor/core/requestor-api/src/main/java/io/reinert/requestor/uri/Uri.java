@@ -42,6 +42,12 @@ public class Uri {
 
     Uri(String scheme, String user, String password, String host, int port, String[] pathSegments,
         Map<String, Buckets> matrixParams, Buckets queryParams, String fragment) {
+        this(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, fragment, null);
+    }
+
+    // Used only by UriParser which already has the uri stringified.
+    Uri(String scheme, String user, String password, String host, int port, String[] pathSegments,
+        Map<String, Buckets> matrixParams, Buckets queryParams, String fragment, String uriString) {
         this.urlCodec = UrlCodec.getInstance();
         // TODO: validate?
         this.scheme = scheme;
@@ -55,6 +61,7 @@ public class Uri {
         this.queryParams = queryParams;
         buildQuery();
         this.fragment = fragment;
+        this.uriString = uriString;
     }
 
     public static Uri create(String uri) {
