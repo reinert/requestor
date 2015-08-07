@@ -25,6 +25,7 @@ import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
 /**
@@ -95,6 +96,12 @@ public class RequestorImpl extends Requestor {
     public WebTarget target(String uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
                 requestDispatcherFactory, deferredFactory, UriBuilder.fromUri(uri));
+    }
+
+    @Override
+    public WebTarget target(Uri uri) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
+                requestDispatcherFactory, deferredFactory, uri);
     }
 
     @Override

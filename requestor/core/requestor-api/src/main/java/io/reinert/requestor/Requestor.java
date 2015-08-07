@@ -23,6 +23,7 @@ import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
 /**
@@ -88,6 +89,15 @@ public abstract class Requestor implements SerdesManager, FilterManager, Interce
      * @return  Web resource target bound to the provided URI.
      */
     public abstract WebTarget target(String uri);
+
+    /**
+     * Build a new web resource target.
+     *
+     * @param uri  Web resource URI represented. Must not be {@code null}.
+     *
+     * @return  Web resource target bound to the provided URI.
+     */
+    public abstract WebTarget target(Uri uri);
 
     /**
      * Build a new web resource target.
