@@ -85,6 +85,7 @@ public abstract class Requestor implements SerdesManager, FilterManager, Interce
      * Build a new web resource target.
      *
      * @param uri  Stringified URI of the target resource. May contain URI template parameters.
+     *             Must not be {@code null}.
      *
      * @return  Web resource target bound to the provided URI.
      */
@@ -107,6 +108,15 @@ public abstract class Requestor implements SerdesManager, FilterManager, Interce
      * @return  Web resource target bound to the provided URI.
      */
     public abstract WebTarget target(UriBuilder uriBuilder);
+
+    /**
+     * Build a new web resource target.
+     *
+     * @param link  Link to a web resource. Must not be {@code null}.
+     *
+     * @return  Web resource target bound to the link web resource.
+     */
+    public abstract WebTarget target(Link link);
 
     /**
      * Quickly dispatch serialized requests.
