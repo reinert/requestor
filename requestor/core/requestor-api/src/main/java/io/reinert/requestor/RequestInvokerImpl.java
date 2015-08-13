@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,9 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.deferred.Promise;
-
 /**
  * Default implementation for {@link RequestInvoker}.
  * <p/>
- *
- * NOTE: This class is removed from classpath when assembling the jar.
- * Implementers should provide an own implementation of its own {@link RequestInvoker}.
  *
  * @see RequestInvoker
  *

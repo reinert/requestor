@@ -19,9 +19,6 @@ import java.util.Collection;
 
 import javax.annotation.Nullable;
 
-import io.reinert.requestor.deferred.Deferred;
-import io.reinert.requestor.deferred.Promise;
-
 /**
  * This class dispatches the requests and return promises.
  *

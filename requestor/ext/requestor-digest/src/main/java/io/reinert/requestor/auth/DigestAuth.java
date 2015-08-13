@@ -20,15 +20,12 @@ import javax.annotation.Nullable;
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.i18n.client.NumberFormat;
 
-import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RawResponse;
 import io.reinert.requestor.RequestException;
-import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.UnsuccessfulResponseException;
-import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.uri.UriParser;
 
 /**
@@ -108,7 +105,7 @@ public class DigestAuth implements Auth {
     }
 
     private PreparedRequest getAttemptRequest(final PreparedRequest originalRequest) {
-        return originalRequest.copy(RawResponse.class, new Deferred<RawResponse>() {
+        return originalRequest.copy(RawResponse.class, new NullDeferred<RawResponse>() {
             @Override
             public void resolve(Response<RawResponse> response) {
                 // If the attempt succeeded, then abort the original request with the successful response
@@ -288,24 +285,5 @@ public class DigestAuth implements Auth {
                 return true;
         }
         return false;
-    }
-
-    private abstract static class Deferred<T> implements io.reinert.requestor.deferred.Deferred<T> {
-        @Override
-        public void notifyDownload(RequestProgress progress) {
-        }
-
-        @Override
-        public void notifyUpload(RequestProgress progress) {
-        }
-
-        @Override
-        public void setHttpConnection(HttpConnection connection) {
-        }
-
-        @Override
-        public Promise<T> getPromise() {
-            return null;
-        }
     }
 }

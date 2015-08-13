@@ -31,7 +31,7 @@ import io.reinert.requestor.ResponseInterceptor;
 import io.reinert.requestor.ResponseInterceptorContext;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.gdeferred.DoneCallback;
+import io.reinert.requestor.impl.gdeferred.DoneCallback;
 
 import org.turbogwt.core.util.Overlays;
 

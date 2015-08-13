@@ -13,12 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.gdeferred;
+package io.reinert.requestor.impl.gdeferred;
+
+import io.reinert.requestor.Response;
 
 /**
- * AlwaysCallback for request promises.
+ * DoneCallback with optional access to the response.
  *
  * @param <T> Type of the response payload
  */
-public interface AlwaysCallback<T> extends io.reinert.gdeferred.AlwaysCallback<T, Throwable> {
+public abstract class DoneCallback<T> implements io.reinert.gdeferred.DoneCallback<T> {
+
+    @Override
+    public void onDone(T result) {
+    }
+
+    public void onDone(Response<T> response) {
+        onDone(response.getPayload());
+    }
 }

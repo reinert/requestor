@@ -38,9 +38,9 @@ public class UnsuccessfulResponseException extends RequestException {
     }
 
     /**
-     * Returns the {@link Request} instance which timed out.
+     * Returns the {@link Request} instance which was sent.
      *
-     * @return the {@link Request} instance which timed out
+     * @return the {@link Request} instance which was sent
      */
     public Request getRequest() {
         return request;

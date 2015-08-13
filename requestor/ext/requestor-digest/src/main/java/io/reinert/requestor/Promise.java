@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.gdeferred;
+package io.reinert.requestor;
 
-import io.reinert.requestor.Response;
+import io.reinert.requestor.auth.DigestAuth;
 
 /**
- * DoneCallback with optional access to the response.
+ * Just to satisfy compiler.
  *
- * @param <T> Type of the response payload
+ * Since this class is removed from classpath in Requestor API packaging, and we reference it in {@link DigestAuth}
+ * we need to redeclare it here so the compiler actually find this class in the classpath and succeeds while compiling.
+ * This interface is removed from classpath when assembling the jar of this extension.
  */
-public abstract class DoneCallback<T> implements io.reinert.gdeferred.DoneCallback<T> {
-
-    @Override
-    public void onDone(T result) {
-    }
-
-    public void onDone(Response<T> response) {
-        onDone(response.getPayload());
-    }
+public interface Promise<F> {
 }

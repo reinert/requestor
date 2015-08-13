@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.gdeferred;
+package io.reinert.requestor.impl.gdeferred;
 
-import io.reinert.requestor.deferred.Promise;
+import java.util.Set;
 
 /**
- * A Promise for requests.
+ * A hack interface for enabling {@link SetDoneCallback#onDone(java.util.Set)} to compile.
  *
- * @param <T> The type of successful result
+ * @param <T> The type of Set objects
+ *
+ * @author Danilo Reinert
  */
-public interface GDeferredRequestPromise<T> extends RequestPromise<T>, Promise<T> {
+interface DoneCallbackForSet<T> {
+    void onDone(Set<T> result);
 }

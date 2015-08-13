@@ -26,7 +26,7 @@ import io.reinert.requestor.SerializedResponse;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.form.FormData;
-import io.reinert.requestor.gdeferred.DoneCallback;
+import io.reinert.requestor.impl.gdeferred.DoneCallback;
 
 public class FormActivity extends ShowcaseActivity implements Form.Handler {
 

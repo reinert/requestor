@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.reinert.requestor.deferred.Deferred;
-
 /**
  * This class performs all necessary processing steps to incoming responses.
  *

@@ -21,12 +21,12 @@ import com.google.gwt.user.client.Window;
 import io.reinert.gdeferred.AlwaysCallback;
 import io.reinert.gdeferred.FailCallback;
 import io.reinert.gdeferred.Promise;
+import io.reinert.requestor.Deferred;
 import io.reinert.requestor.DeferredFactory;
 import io.reinert.requestor.RequestPermissionException;
-import io.reinert.requestor.deferred.Deferred;
 import io.reinert.requestor.examples.showcase.ui.loading.event.HideLoadingEvent;
 import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
-import io.reinert.requestor.gdeferred.GDeferredRequest;
+import io.reinert.requestor.impl.gdeferred.GDeferredRequest;
 
 /**
  * Factory that creates a deferred with a preset fail callback.
@@ -58,6 +58,7 @@ class ShowcaseDeferredFactory implements DeferredFactory {
                 Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);
             }
         });
+
         return deferred;
     }
 }
