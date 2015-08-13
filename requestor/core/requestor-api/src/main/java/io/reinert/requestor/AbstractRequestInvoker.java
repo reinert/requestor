@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,11 @@ package io.reinert.requestor;
 import java.util.Collection;
 
 import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.header.Header;
 
 /**
  * Abstract class for {@link RequestInvoker} interface.
- * It has ready {@link io.reinert.requestor.deferred.Promise} auto-casting dispatch methods.
+ * It has ready {@link Promise} auto-casting dispatch methods.
  * Requestor API implementers should inherit this class to dispatch the requests.
  *
  * @author Danilo Reinert

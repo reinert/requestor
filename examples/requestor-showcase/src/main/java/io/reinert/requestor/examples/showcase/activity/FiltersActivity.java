@@ -31,7 +31,7 @@ import io.reinert.requestor.ResponseFilterContext;
 import io.reinert.requestor.examples.showcase.ui.Filters;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
-import io.reinert.requestor.gdeferred.DoneCallback;
+import io.reinert.requestor.impl.gdeferred.DoneCallback;
 
 public class FiltersActivity extends ShowcaseActivity implements Filters.Handler {
 

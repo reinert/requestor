@@ -13,32 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.deferred;
+package io.reinert.requestor.auth;
 
+import io.reinert.requestor.Deferred;
 import io.reinert.requestor.HttpConnection;
-import io.reinert.requestor.RequestException;
+import io.reinert.requestor.Promise;
 import io.reinert.requestor.RequestProgress;
-import io.reinert.requestor.Response;
 
 /**
- * A Promise with resolving capabilities.
+ * Use it in the case you want to create a special deferred without exposing Promise type in external projects.
  *
- * @param <T> The type of the promise value
+ * @param <T> Type of the resolved object
  *
  * @author Danilo Reinert
  */
-public interface Deferred<T> {
+abstract class NullDeferred<T> implements Deferred<T> {
+    @Override
+    public void notifyDownload(RequestProgress progress) {
+    }
 
-    void resolve(Response<T> response);
+    @Override
+    public void notifyUpload(RequestProgress progress) {
+    }
 
-    void reject(RequestException error);
+    @Override
+    public void setHttpConnection(HttpConnection connection) {
+    }
 
-    void notifyDownload(RequestProgress progress);
-
-    void notifyUpload(RequestProgress progress);
-
-    void setHttpConnection(HttpConnection connection);
-
-    Promise<T> getPromise();
-
+    @Override
+    public Promise<T> getPromise() {
+        return null;
+    }
 }

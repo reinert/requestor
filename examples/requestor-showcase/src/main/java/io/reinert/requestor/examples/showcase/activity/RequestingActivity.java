@@ -19,12 +19,12 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.Headers;
+import io.reinert.requestor.Promise;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
-import io.reinert.requestor.gdeferred.DoneCallback;
-import io.reinert.requestor.gdeferred.RequestPromise;
+import io.reinert.requestor.impl.gdeferred.DoneCallback;
 
 public class RequestingActivity extends ShowcaseActivity implements Requesting.Handler {
 
@@ -39,7 +39,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onGetIpButtonClick() {
-        RequestPromise<String> promise = requestor.req("http://httpbin.org/ip").get(String.class);
+        Promise<String> promise = requestor.req("http://httpbin.org/ip").get(String.class);
         promise.done(new DoneCallback<String>() {
             @Override
             public void onDone(String result) {

@@ -13,12 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.gdeferred;
+package io.reinert.requestor.impl.gdeferred;
 
-import io.reinert.requestor.RequestProgress;
+import java.util.List;
 
 /**
- * ProgressCallback for request promises.
+ * A hack interface for enabling {@link ListDoneCallback#onDone(java.util.List)} to compile.
+ *
+ * @param <T> The type of list objects
+ *
+ * @author Danilo Reinert
  */
-public interface ProgressCallback extends io.reinert.gdeferred.ProgressCallback<RequestProgress> {
+interface DoneCallbackForList<T> {
+    void onDone(List<T> result);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.gdeferred;
+package io.reinert.requestor;
 
 /**
- * FailCallback for request promises.
+ * A deferred object capable of resolving/rejecting promises.
+ *
+ * @param <T> The type of the promise value
+ *
+ * @author Danilo Reinert
  */
-public interface FailCallback extends io.reinert.gdeferred.FailCallback<Throwable> {
+public interface Deferred<T> {
+
+    void resolve(Response<T> response);
+
+    void reject(RequestException error);
+
+    void notifyDownload(RequestProgress progress);
+
+    void notifyUpload(RequestProgress progress);
+
+    void setHttpConnection(HttpConnection connection);
+
+    Promise<T> getPromise();
+
 }

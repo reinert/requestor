@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.gdeferred;
+package io.reinert.requestor.impl.gdeferred;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reinert.gdeferred.DoneCallback;
 
 /**
- * DoneCallback<Collection<T>> that casts Collection<T> to Set<T>.
+ * DoneCallback<Collection<T>> that casts Collection<T> to List<T>.
  *
- * @param <T> Type of Set's values
+ * @param <T> Type of List's values
  *
  * @author Danilo Reinert
  */
-public abstract class SetDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackForSet<T> {
+public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>>, DoneCallbackForList<T> {
 
-    private static Logger logger = Logger.getLogger(SetDoneCallback.class.getName());
+    private static Logger logger = Logger.getLogger(ListDoneCallback.class.getName());
 
     @Override
     public void onDone(Collection<T> result) {
         try {
-            onDone((Set<T>) result);
+            onDone((List<T>) result);
         } catch (ClassCastException e) {
             logger.log(Level.SEVERE, "Could not cast the result of type " + (result == null ? "null"
-                    : result.getClass().getName()) + " to java.util.Set");
+                    : result.getClass().getName()) + " to java.util.List");
             throw e;
         }
     }

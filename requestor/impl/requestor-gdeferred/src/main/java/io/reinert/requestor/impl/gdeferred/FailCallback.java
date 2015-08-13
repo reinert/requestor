@@ -13,16 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.deferred;
+package io.reinert.requestor.impl.gdeferred;
 
 /**
- * Callback executed when a promise is resolved.
- *
- * @param <T> Type of result received on callback.
- * @param <R> Type of the return of the callback.
- *
- * @author Danilo Reinert
+ * FailCallback for request promises.
  */
-public interface Callback<T, R> {
-    R call(T result);
+public interface FailCallback extends io.reinert.gdeferred.FailCallback<Throwable> {
 }

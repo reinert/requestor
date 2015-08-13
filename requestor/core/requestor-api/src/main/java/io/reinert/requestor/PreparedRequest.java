@@ -17,8 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.deferred.Deferred;
-
 /**
  * The final form of a request.
  * <p/>

@@ -20,7 +20,6 @@ import java.util.Collection;
 import javax.annotation.Nullable;
 
 import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.deferred.Deferred;
 import io.reinert.requestor.header.SimpleHeader;
 
 /**

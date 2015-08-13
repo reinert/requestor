@@ -17,8 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.deferred.Deferred;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

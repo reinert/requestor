@@ -82,8 +82,7 @@
             </goals>
             <configuration>
               <excludes>
-                <exclude>io/reinert/requestor/Invoker.*</exclude>
-                <exclude>io/reinert/requestor/RequestInvokerImpl.*</exclude>
+                <exclude>io/reinert/requestor/Promise.*</exclude>
               </excludes>
             </configuration>
           </execution>

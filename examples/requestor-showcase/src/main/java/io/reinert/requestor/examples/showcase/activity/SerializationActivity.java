@@ -28,7 +28,7 @@ import io.reinert.gdeferred.DoneCallback;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.gdeferred.ListDoneCallback;
+import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.SerializationContext;

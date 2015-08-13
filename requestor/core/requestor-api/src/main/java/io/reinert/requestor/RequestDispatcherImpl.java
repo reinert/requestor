@@ -21,7 +21,6 @@ import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
-import io.reinert.requestor.deferred.Deferred;
 import io.reinert.requestor.header.Header;
 
 /**

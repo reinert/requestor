@@ -13,17 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.gdeferred;
+package io.reinert.requestor.impl.gdeferred;
 
-import java.util.Set;
+import io.reinert.requestor.RequestProgress;
 
 /**
- * A hack interface for enabling {@link SetDoneCallback#onDone(java.util.Set)} to compile.
- *
- * @param <T> The type of Set objects
- *
- * @author Danilo Reinert
+ * ProgressCallback for request promises.
  */
-interface DoneCallbackForSet<T> {
-    void onDone(Set<T> result);
+public interface ProgressCallback extends io.reinert.gdeferred.ProgressCallback<RequestProgress> {
 }
