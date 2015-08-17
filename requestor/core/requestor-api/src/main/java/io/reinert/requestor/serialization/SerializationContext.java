@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,33 @@
 
 package io.reinert.requestor.serialization;
 
+import javax.annotation.Nullable;
+
 /**
  * Context of serialization.
  *
  * @author Danilo Reinert
  */
 public abstract class SerializationContext {
+
+    private final Class<?> requestedType;
+    private final Class<?> parametrizedType;
+
+    protected SerializationContext(Class<?> requestedType) {
+        this(requestedType, null);
+    }
+
+    protected SerializationContext(Class<?> requestedType, Class<?> parametrizedType) {
+        this.requestedType = requestedType;
+        this.parametrizedType = parametrizedType;
+    }
+
+    public Class<?> getRequestedType() {
+        return requestedType;
+    }
+
+    @Nullable
+    public Class<?> getParametrizedType() {
+        return parametrizedType;
+    }
 }

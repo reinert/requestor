@@ -66,6 +66,8 @@
     <gwtjackson.version>0.7.0</gwtjackson.version>
 
     <!-- Java -->
+    <autoservice.version>1.0-rc2</autoservice.version>
+    <javapoet.version>1.2.0</javapoet.version>
     <checkstyle.version>6.0</checkstyle.version>
     <annotation.version>1.2</annotation.version>
 
@@ -150,6 +152,19 @@
         <artifactId>gwt-jackson</artifactId>
         <version>${gwtjackson.version}</version>
         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.squareup</groupId>
+        <artifactId>javapoet</artifactId>
+        <version>${javapoet.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.auto.service</groupId>
+        <artifactId>auto-service</artifactId>
+        <version>${autoservice.version}</version>
+        <scope>provided</scope>
+        <optional>true</optional>
       </dependency>
 
       <!-- GWT dependencies -->
