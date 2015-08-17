@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,13 @@ public class HttpSerializationContext extends SerializationContext {
 
     private final Request request;
 
-    protected HttpSerializationContext(Request request) {
+    protected HttpSerializationContext(Request request, Class<?> requestedType) {
+        super(requestedType);
+        this.request = request;
+    }
+
+    protected HttpSerializationContext(Request request, Class<?> requestedType, Class<?> parametrizedType) {
+        super(requestedType, parametrizedType);
         this.request = request;
     }
 

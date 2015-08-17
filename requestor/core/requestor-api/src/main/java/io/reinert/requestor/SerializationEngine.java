@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ class SerializationEngine {
         final String mediaType = getResponseMediaType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
-        final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
+        final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
         C result = deserializer.deserialize(containerType, response.getPayload().isString(), context);
         return getDeserializedResponse(response, result);
     }
@@ -58,7 +58,7 @@ class SerializationEngine {
         final String mediaType = getResponseMediaType(request, response);
         final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
-        final DeserializationContext context = new HttpDeserializationContext(request, response, type, providerManager);
+        final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
         T result = deserializer.deserialize(response.getPayload().isString(), context);
         return getDeserializedResponse(response, result);
     }
@@ -82,16 +82,19 @@ class SerializationEngine {
                     // TODO: provide some way of configuring this behavior
                     body = isJsonMediaType(mediaType) ? "[]" : "";
                 } else {
-                    Serializer<?> serializer = serdesManager.getSerializer(item.getClass(), mediaType);
-                    checkSerializerNotNull(request, item.getClass(), serializer);
-                    body = serializer.serialize(c, new HttpSerializationContext(request));
+                    final Class<?> type = item.getClass();
+                    final Class<? extends Collection> collectionType = c.getClass();
+
+                    Serializer<?> serializer = serdesManager.getSerializer(type, mediaType);
+                    checkSerializerNotNull(request, type, serializer);
+                    body = serializer.serialize(c, new HttpSerializationContext(request, collectionType, type));
                 }
             } else {
+                final Class<?> type = payload.getClass();
                 @SuppressWarnings("unchecked")
-                Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(payload.getClass(),
-                        mediaType);
+                Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(type, mediaType);
                 checkSerializerNotNull(request, payload.getClass(), serializer);
-                body = serializer.serialize(payload, new HttpSerializationContext(request));
+                body = serializer.serialize(payload, new HttpSerializationContext(request, type));
             }
         }
         return new SerializedRequestDelegate(request, new Payload(body));
