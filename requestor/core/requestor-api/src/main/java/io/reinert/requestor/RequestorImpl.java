@@ -217,6 +217,27 @@ public class RequestorImpl extends Requestor {
         return providerManager.register(provider);
     }
 
+    @Override
+    public HandlerRegistration register(SerializationModule serializationModule) {
+        final int length = serializationModule.getSerdes().size() + serializationModule.getProviders().size();
+        final HandlerRegistration[] registrations = new HandlerRegistration[length];
+        int i = -1;
+        for (Serdes<?> serdes : serializationModule.getSerdes()) {
+            registrations[++i] = register(serdes);
+        }
+        for (Provider<?> provider : serializationModule.getProviders()) {
+            registrations[++i] = register(provider);
+        }
+        return new HandlerRegistration() {
+            @Override
+            public void removeHandler() {
+                for (HandlerRegistration registration : registrations) {
+                    registration.removeHandler();
+                }
+            }
+        };
+    }
+
     private RequestInvoker createRequest(String uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
         if (defaultMediaType != null) {

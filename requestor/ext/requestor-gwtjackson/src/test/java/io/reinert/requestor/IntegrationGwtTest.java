@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,25 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.serialization.Deserializer;
+import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
 
 /**
+ * Integration tests for Requestor gwt-jackson processor.
+ *
  * @author Danilo Reinert
  */
-public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
+public class IntegrationGwtTest extends GWTTestCase {
 
-    public static final String APP_JSON = "app*/json*";
-    public static final String JAVASCRIPT = "*/javascript*";
+//    public static final String APP_JSON = "app*/json*";
+//    public static final String JAVASCRIPT = "*/javascript*";
 
-    private SerdesManagerImpl serdesManager;
+    private SerdesManagerImpl serdesManager = new SerdesManagerImpl();
+    private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
 
     @Override
     public String getModuleName() {
@@ -41,8 +46,7 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
 
     @Override
     public void gwtSetUp() throws Exception {
-        serdesManager = new SerdesManagerImpl();
-        GeneratedJsonSerdesBinder.bind(serdesManager, new ProviderManagerImpl());
+        bind(GWT.<TestSerializationModule>create(TestSerializationModule.class));
     }
 
     public void testSerializerShouldBeAvailableBySerdesManager() {
@@ -63,10 +67,10 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
         assertSame(serializer, deserializer);
     }
 
-    public void testSerializerShouldSupportMediaTypeValuesFromJsonAnnotation() {
-        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
-        assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
-    }
+//    public void testSerializerShouldSupportMediaTypeValuesFromJsonAnnotation() {
+//        final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
+//        assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
+//    }
 
     public void testSerializerShouldHandleAnnotatedType() {
         final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
@@ -95,7 +99,7 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
         final String input = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
 
         // When
-        List<Animal> output = deserializer.deserialize(List.class, input, null);
+        List<Animal> output = (List<Animal>) deserializer.deserialize(List.class, input, null);
 
         // Then
         assertEquals(expected, output);
@@ -109,7 +113,7 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
         final String input = "[]";
 
         // When
-        List<Animal> output = deserializer.deserialize(List.class, input, null);
+        List<Animal> output = (List<Animal>) deserializer.deserialize(List.class, input, null);
 
         // Then
         assertEquals(expected, output);
@@ -143,8 +147,16 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
         assertEquals(expected, output);
     }
 
-    @Json({"app*/json*", "*/javascript*" })
-    static class Animal {
+    private void bind(SerializationModule module) {
+        for (Serdes<?> serdes : module.getSerdes()) {
+            serdesManager.register(serdes);
+        }
+        for (Provider<?> provider : module.getProviders()) {
+            providerManager.register(provider);
+        }
+    }
+
+    public static class Animal {
 
         private String name;
         private Integer age;
@@ -201,4 +213,7 @@ public class JsonGwtJacksonGeneratorTest extends GWTTestCase {
             return result;
         }
     }
+
+    @JsonSerializationModule(Animal.class)
+    interface TestSerializationModule extends SerializationModule {}
 }

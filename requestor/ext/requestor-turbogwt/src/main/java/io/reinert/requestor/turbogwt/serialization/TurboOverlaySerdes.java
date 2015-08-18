@@ -45,7 +45,8 @@ public class TurboOverlaySerdes extends OverlaySerdes {
     public <C extends Collection<JavaScriptObject>> C deserialize(Class<C> collectionType, String response,
                                                                   DeserializationContext context) {
         JsArray<JavaScriptObject> jsArray = eval(response);
-        if (collectionType.equals(List.class) || collectionType.equals(Collection.class)
+        if (collectionType.equals(List.class)
+                || collectionType.equals(Collection.class)
                 || collectionType.equals(JsArrayList.class)) {
             return (C) new JsArrayList(jsArray);
         } else {

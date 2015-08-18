@@ -18,6 +18,7 @@ package io.reinert.requestor;
 import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.deferred.Promise;
 import io.reinert.requestor.serialization.Deserializer;
@@ -145,4 +146,17 @@ public abstract class Requestor implements SerdesManager, FilterManager, Interce
     public abstract <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request,
                                                                               Class<T> expectedType,
                                                                               Class<C> containerType);
+
+    //===================================================================
+    // Registrations
+    //===================================================================
+
+    /**
+     * Register a {@link SerializationModule}.
+     *
+     * @param serializationModule  The module containing one or many generated serdes
+     *
+     * @return the {@link HandlerRegistration} object, capable of cancelling this registration
+     */
+    public abstract HandlerRegistration register(SerializationModule serializationModule);
 }
