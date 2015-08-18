@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2014 Danilo Reinert
+  ~ Copyright 2015 Danilo Reinert
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -19,13 +19,11 @@
 
   <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
 
-  <source path="" excludes="rebind/**/*"/>
-
-  <generate-with class="io.reinert.requestor.rebind.JsonGwtJacksonGenerator">
-    <when-type-is class="io.reinert.requestor.GeneratedJsonSerdes"/>
-  </generate-with>
-
   <replace-with class="io.reinert.requestor.RequestorInitializerForJson">
     <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
   </replace-with>
+
+  <generate-with class="io.reinert.requestor.rebind.SerializationModuleGenerator">
+    <when-type-assignable class="io.reinert.requestor.SerializationModule"/>
+  </generate-with>
 </module>

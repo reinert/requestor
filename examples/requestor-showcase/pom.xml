@@ -32,6 +32,16 @@
   </properties>
 
   <dependencies>
+    <!--<dependency>-->
+      <!--<groupId>com.github.nmorel.gwtjackson</groupId>-->
+      <!--<artifactId>gwt-jackson</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>io.reinert.requestor.ext</groupId>-->
+      <!--<artifactId>requestor-gwtjackson</artifactId>-->
+      <!--<version>${project.version}</version>-->
+      <!--<optional>true</optional>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>org.turbogwt.core</groupId>
       <artifactId>turbogwt-core</artifactId>
@@ -68,6 +78,7 @@
   </dependencies>
 
   <build>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -78,6 +89,29 @@
           <skip>true</skip>
         </configuration>
       </plugin>
+
+      <!-- USE IT TO ENABLE ANNOTATION PROCESSING IN MAVEN WITHOUT CONFLICTING WITH GWT COMPILATION -->
+      <!--
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.9.1</version>
+        <executions>
+          <execution>
+            <id>add-annotation-processing-sources</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/annotations</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      -->
 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

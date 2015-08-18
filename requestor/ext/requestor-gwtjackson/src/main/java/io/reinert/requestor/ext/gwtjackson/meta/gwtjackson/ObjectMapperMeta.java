@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.ext.gwtjackson.meta.gwtjackson;
 
-import com.google.gwt.junit.tools.GWTTestSuite;
+/**
+ * Metadata for {@link com.github.nmorel.gwtjackson.client.ObjectMapper}.
+ */
+public interface ObjectMapperMeta extends ObjectReaderMeta, ObjectWriterMeta {
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-public class RequestorGwtTestSuite extends GWTTestSuite {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Requestor GWT Test Suite");
-
-        suite.addTestSuite(JsonGwtJacksonGeneratorTest.class);
-
-        return suite;
+    interface Method extends ObjectReaderMeta.Method, ObjectWriterMeta.Method {
     }
 }
