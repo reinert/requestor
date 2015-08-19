@@ -80,81 +80,41 @@ public class LinkElement extends Element.SimpleElement implements Link {
         }
     }
 
-    /**
-     * Returns the underlying URI associated with this link.
-     *
-     * @return  underlying URI as string
-     */
     @Override
     public Uri getUri() {
         return uri;
     }
 
-    /**
-     * Returns the value associated with the link rel param, or null if this param is not specified.
-     *
-     * @return  relation types as string or null
-     */
     @Override
     public String getRel() {
         return rel;
     }
 
-    /**
-     * Returns the value associated with the link title param, or null if this param is not specified.
-     *
-     * @return  value of title parameter or null
-     */
     @Override
     public String getTitle() {
         return title;
     }
 
-    /**
-     * Returns the value associated with the link rev param, or null if this param is not specified.
-     *
-     * @return  value of rev parameter or null
-     */
     @Override
     public String getRev() {
         return rev;
     }
 
-    /**
-     * Returns the value associated with the link hreflang param, or null if this param is not specified.
-     *
-     * @return  value of hreflang parameter or null
-     */
     @Override
     public String getHrefLang() {
         return hrefLang;
     }
 
-    /**
-     * Returns the value associated with the link anchor param, or null if this param is not specified.
-     *
-     * @return  value of anchor parameter or null
-     */
     @Override
     public String getAnchor() {
         return anchor;
     }
 
-    /**
-     * Returns the value associated with the link media param, or null if this param is not specified.
-     *
-     * @return  value of media parameter or null
-     */
     @Override
     public String getMedia() {
         return media;
     }
 
-    /**
-     * Returns the value associated with the link type param, or null if this param is not specified.
-     *
-     * @return  value of type parameter or null
-     */
     @Override
     public String getType() {
         return type;
