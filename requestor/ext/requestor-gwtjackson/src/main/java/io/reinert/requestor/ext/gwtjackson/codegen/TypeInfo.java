@@ -59,6 +59,7 @@ public class TypeInfo {
         this.simpleName = simpleName;
         this.qualifiedName = pack.getName() + '.' + simpleName;
         this.className = ClassName.get(pack.getName(), simpleName);
+        names.add(simpleName);
     }
 
     public ClassName getClassName() {
