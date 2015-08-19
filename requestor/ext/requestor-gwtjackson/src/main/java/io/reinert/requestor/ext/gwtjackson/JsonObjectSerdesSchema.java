@@ -70,6 +70,10 @@ class JsonObjectSerdesSchema {
     final DeserializeCollectionMethod deserializeCollectionMethod;
     final SerializeMethod serializeMethod;
     final SerializeCollectionMethod serializeCollectionMethod;
+    final GetLinkedListReaderMethod getLinkedListReaderMethod = new GetLinkedListReaderMethod();
+    final GetHashSetReaderMethod getHashSetReaderMethod = new GetHashSetReaderMethod();
+    final GetLinkedHashSetReaderMethod getLinkedHashSetReaderMethod = new GetLinkedHashSetReaderMethod();
+    final GetTreeSetReaderMethod getTreeSetReaderMethod = new GetTreeSetReaderMethod();
 
     JsonObjectSerdesSchema(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
@@ -165,28 +169,28 @@ class JsonObjectSerdesSchema {
     class LinkedListReaderField extends FieldAssembler {
         protected FieldSpec.Builder getDeclaration() {
             return FieldSpec.builder(linkedListReaderInterface.className(), "linkedListReader")
-                    .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
+                    .addModifiers(Modifier.PRIVATE);
         }
     }
 
     class HashSetReaderField extends FieldAssembler {
         protected FieldSpec.Builder getDeclaration() {
             return FieldSpec.builder(hashSetReaderInterface.className(), "hashSetReader")
-                    .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
+                    .addModifiers(Modifier.PRIVATE);
         }
     }
 
     class LinkedHashSetReaderField extends FieldAssembler {
         protected FieldSpec.Builder getDeclaration() {
             return FieldSpec.builder(linkedHashSetReaderInterface.className(), "linkedHashSetReader")
-                    .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
+                    .addModifiers(Modifier.PRIVATE);
         }
     }
 
     class TreeSetReaderField extends FieldAssembler {
         protected FieldSpec.Builder getDeclaration() {
             return FieldSpec.builder(treeSetReaderInterface.className(), "treeSetReader")
-                    .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
+                    .addModifiers(Modifier.PRIVATE);
         }
     }
 
@@ -194,6 +198,38 @@ class JsonObjectSerdesSchema {
         protected MethodSpec.Builder getSignature() {
             return MethodSpec.constructorBuilder()
                     .addModifiers(Modifier.PUBLIC);
+        }
+    }
+
+    class GetLinkedListReaderMethod extends MethodAssembler {
+        protected MethodSpec.Builder getSignature() {
+            return MethodSpec.methodBuilder("getLinkedListReader")
+                    .returns(linkedListReaderInterface.className())
+                    .addModifiers(Modifier.PRIVATE);
+        }
+    }
+
+    class GetHashSetReaderMethod extends MethodAssembler {
+        protected MethodSpec.Builder getSignature() {
+            return MethodSpec.methodBuilder("getHashSetReader")
+                    .returns(hashSetReaderInterface.className())
+                    .addModifiers(Modifier.PRIVATE);
+        }
+    }
+
+    class GetLinkedHashSetReaderMethod extends MethodAssembler {
+        protected MethodSpec.Builder getSignature() {
+            return MethodSpec.methodBuilder("getLinkedHashSetReader")
+                    .returns(linkedHashSetReaderInterface.className())
+                    .addModifiers(Modifier.PRIVATE);
+        }
+    }
+
+    class GetTreeSetReaderMethod extends MethodAssembler {
+        protected MethodSpec.Builder getSignature() {
+            return MethodSpec.methodBuilder("getTreeSetReader")
+                    .returns(treeSetReaderInterface.className())
+                    .addModifiers(Modifier.PRIVATE);
         }
     }
 

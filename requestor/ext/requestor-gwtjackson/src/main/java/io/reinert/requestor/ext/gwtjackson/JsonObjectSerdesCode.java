@@ -28,6 +28,7 @@ import com.github.nmorel.gwtjackson.client.exception.JsonSerializationException;
 import com.google.gwt.core.client.GWT;
 import com.squareup.javapoet.CodeBlock;
 
+import io.reinert.requestor.ext.gwtjackson.codegen.FieldAssembler;
 import io.reinert.requestor.ext.gwtjackson.codegen.InnerTypeAssembler;
 import io.reinert.requestor.ext.gwtjackson.meta.gwtjackson.ObjectMapperMeta;
 import io.reinert.requestor.ext.gwtjackson.meta.gwtjackson.ObjectReaderMeta;
@@ -55,6 +56,20 @@ class JsonObjectSerdesCode {
     CodeBlock constructor() {
         return CodeBlock.builder()
                 .addStatement("super($T.class)", schema.typeInfo.getClassName()).build();
+    }
+
+    CodeBlock lazyGetter(FieldAssembler field) {
+        return CodeBlock.builder()
+                .beginControlFlow("if ($N == null)",
+                        field.spec())
+                .addStatement("$N = $T.create($T.class)",
+                        field.spec(),
+                        GWT.class,
+                        field.spec().type)
+                .endControlFlow()
+                .addStatement("return $N",
+                        field.spec())
+                .build();
     }
 
     CodeBlock readJson() {
@@ -111,9 +126,9 @@ class JsonObjectSerdesCode {
                 .nextControlFlow("else if ($N.equals($T.class))",
                         currentScope.collectionClass,
                         LinkedList.class)
-                .addStatement("return ($T) $N.$L($N)",
+                .addStatement("return ($T) $N().$L($N)",
                         currentScope.collectionTypeVar,
-                        schema.linkedListReaderField.spec(),
+                        schema.getLinkedListReaderMethod.spec(),
                         ObjectReaderMeta.Method.READ,
                         currentScope.rawJson)
                 .nextControlFlow("else if ($N.equals($T.class) || $N.equals($T.class))",
@@ -121,25 +136,25 @@ class JsonObjectSerdesCode {
                         Set.class,
                         currentScope.collectionClass,
                         HashSet.class)
-                .addStatement("return ($T) $N.$L($N)",
+                .addStatement("return ($T) $N().$L($N)",
                         currentScope.collectionTypeVar,
-                        schema.hashSetReaderField.spec(),
+                        schema.getHashSetReaderMethod.spec(),
                         ObjectReaderMeta.Method.READ,
                         currentScope.rawJson)
                 .nextControlFlow("else if ($N.equals($T.class))",
                         currentScope.collectionClass,
                         LinkedHashSet.class)
-                .addStatement("return ($T) $N.$L($N)",
+                .addStatement("return ($T) $N().$L($N)",
                         currentScope.collectionTypeVar,
-                        schema.linkedHashSetReaderField.spec(),
+                        schema.getLinkedHashSetReaderMethod.spec(),
                         ObjectReaderMeta.Method.READ,
                         currentScope.rawJson)
                 .nextControlFlow("else if ($N.equals($T.class))",
                         currentScope.collectionClass,
                         LinkedList.class)
-                .addStatement("return ($T) $N.$L($N)",
+                .addStatement("return ($T) $N().$L($N)",
                         currentScope.collectionTypeVar,
-                        schema.treeSetReaderField.spec(),
+                        schema.getTreeSetReaderMethod.spec(),
                         ObjectMapperMeta.Method.READ,
                         currentScope.rawJson)
                 .nextControlFlow("else")

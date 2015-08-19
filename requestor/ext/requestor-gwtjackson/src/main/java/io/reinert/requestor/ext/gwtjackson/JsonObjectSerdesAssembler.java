@@ -56,15 +56,19 @@ public class JsonObjectSerdesAssembler extends TypeAssembler {
                         code.gwtCreateInitializer(schema.collectionWriterInterface)))
                 .addField(schema.arrayListReaderField.assemble(
                         code.gwtCreateInitializer(schema.arrayListReaderInterface)))
-                .addField(schema.linkedListReaderField.assemble(
-                        code.gwtCreateInitializer(schema.linkedListReaderInterface)))
-                .addField(schema.hashSetReaderField.assemble(
-                        code.gwtCreateInitializer(schema.hashSetReaderInterface)))
-                .addField(schema.linkedHashSetReaderField.assemble(
-                        code.gwtCreateInitializer(schema.linkedHashSetReaderInterface)))
-                .addField(schema.treeSetReaderField.assemble(
-                        code.gwtCreateInitializer(schema.treeSetReaderInterface)))
+                .addField(schema.linkedListReaderField.assemble(null))
+                .addField(schema.hashSetReaderField.assemble(null))
+                .addField(schema.linkedHashSetReaderField.assemble(null))
+                .addField(schema.treeSetReaderField.assemble(null))
                 .addMethod(schema.constructor.assemble(code.constructor()))
+                .addMethod(schema.getLinkedListReaderMethod.assemble(
+                        code.lazyGetter(schema.linkedListReaderField)))
+                .addMethod(schema.getHashSetReaderMethod.assemble(
+                        code.lazyGetter(schema.hashSetReaderField)))
+                .addMethod(schema.getLinkedHashSetReaderMethod.assemble(
+                        code.lazyGetter(schema.linkedHashSetReaderField)))
+                .addMethod(schema.getTreeSetReaderMethod.assemble(
+                        code.lazyGetter(schema.treeSetReaderField)))
                 .addMethod(schema.readJsonMethod.assemble(code.readJson()))
                 .addMethod(schema.writeJsonMethod.assemble(code.writeJson()))
                 .addMethod(schema.deserializeMethod.assemble(code.deserialize()))
@@ -88,7 +92,6 @@ public class JsonObjectSerdesAssembler extends TypeAssembler {
         final JsonObjectSerdesAssembler that = (JsonObjectSerdesAssembler) o;
 
         return typeInfo.equals(that.typeInfo);
-
     }
 
     @Override
