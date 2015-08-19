@@ -19,7 +19,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.serialization.Deserializer;
@@ -46,7 +45,7 @@ public class IntegrationGwtTest extends GWTTestCase {
 
     @Override
     public void gwtSetUp() throws Exception {
-        bind(GWT.<TestSerializationModule>create(TestSerializationModule.class));
+        bind(new TestSerializationModuleImpl());
     }
 
     public void testSerializerShouldBeAvailableBySerdesManager() {
