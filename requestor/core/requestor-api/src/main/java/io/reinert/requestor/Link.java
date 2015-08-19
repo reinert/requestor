@@ -24,19 +24,59 @@ import io.reinert.requestor.uri.Uri;
  */
 public interface Link {
 
+    /**
+     * Returns the value associated with the link anchor param, or null if this param is not specified.
+     *
+     * @return  value of anchor parameter or null
+     */
     String getAnchor();
 
+    /**
+     * Returns the value associated with the link hreflang param, or null if this param is not specified.
+     *
+     * @return  value of hreflang parameter or null
+     */
     String getHrefLang();
 
+    /**
+     * Returns the value associated with the link media param, or null if this param is not specified.
+     *
+     * @return  value of media parameter or null
+     */
     String getMedia();
 
+    /**
+     * Returns the value associated with the link rel param, or null if this param is not specified.
+     *
+     * @return  relation types as string or null
+     */
     String getRel();
 
+    /**
+     * Returns the value associated with the link rev param, or null if this param is not specified.
+     *
+     * @return  value of rev parameter or null
+     */
     String getRev();
 
+    /**
+     * Returns the value associated with the link title param, or null if this param is not specified.
+     *
+     * @return  value of title parameter or null
+     */
     String getTitle();
 
+    /**
+     * Returns the value associated with the link type param, or null if this param is not specified.
+     *
+     * @return  value of type parameter or null
+     */
     String getType();
 
+    /**
+     * Returns the underlying URI associated with this link.
+     *
+     * @return  underlying URI as string
+     */
     Uri getUri();
 }
