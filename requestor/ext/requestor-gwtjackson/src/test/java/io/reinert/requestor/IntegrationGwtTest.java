@@ -40,7 +40,7 @@ public class IntegrationGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorWithGwtJacksonTest";
+        return "io.reinert.requestor.GwtJacksonTest";
     }
 
     @Override

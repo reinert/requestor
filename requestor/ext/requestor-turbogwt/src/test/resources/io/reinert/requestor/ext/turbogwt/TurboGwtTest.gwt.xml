@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2015 Danilo Reinert
+  ~ Copyright 2014 Danilo Reinert
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,13 +15,5 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.RequestorApi"/>
-
-  <inherits name="org.turbogwt.core.Core"/>
-
-  <source path="" excludes="rebind/**/*"/>
-
-  <replace-with class="io.reinert.requestor.turbogwt.RequestorInitializerTurboGwt">
-    <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
-  </replace-with>
+  <inherits name="io.reinert.requestor.ext.turbogwt.TurboGwt"/>
 </module>

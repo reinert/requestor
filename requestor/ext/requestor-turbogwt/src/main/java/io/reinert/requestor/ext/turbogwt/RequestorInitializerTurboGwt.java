@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.turbogwt;
+package io.reinert.requestor.ext.turbogwt;
 
 import io.reinert.requestor.Provider;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.RequestorInitializer;
+import io.reinert.requestor.ext.turbogwt.serialization.TurboOverlaySerdes;
 import io.reinert.requestor.serialization.json.JsonBooleanSerdes;
 import io.reinert.requestor.serialization.json.JsonNumberSerdes;
 import io.reinert.requestor.serialization.json.JsonStringSerdes;
 import io.reinert.requestor.serialization.misc.TextSerdes;
 import io.reinert.requestor.serialization.misc.VoidSerdes;
-import io.reinert.requestor.turbogwt.serialization.TurboOverlaySerdes;
 
 import org.turbogwt.core.collections.JsArrayList;
 
