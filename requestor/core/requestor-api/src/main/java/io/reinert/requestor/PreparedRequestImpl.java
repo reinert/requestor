@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
+import io.reinert.requestor.uri.UrlCodec;
 
 /**
  * Abstract implementation of RequestOrder which ensures the request to be dispatched only once.
@@ -164,13 +165,13 @@ class PreparedRequestImpl<T> implements PreparedRequest {
         int queryStart = url.lastIndexOf('?');
         String and;
         if (queryStart == -1) {
-            url += '?';
-            and = "";
+            and = "?";
         } else {
             and = url.charAt(url.length() - 1) == '&' ? "" : "&";
         }
+        final UrlCodec urlCodec = UrlCodec.getInstance();
         for (String value : values) {
-            url += and + name + '=' + value;
+            url += and + urlCodec.encodeQueryString(name) + '=' + urlCodec.encodeQueryString(value);
             and = "&";
         }
     }
