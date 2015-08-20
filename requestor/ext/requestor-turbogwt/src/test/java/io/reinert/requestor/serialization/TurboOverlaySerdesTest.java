@@ -18,13 +18,13 @@ package io.reinert.requestor.serialization;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.turbogwt.serialization.TurboOverlaySerdes;
+import io.reinert.requestor.ext.turbogwt.serialization.TurboOverlaySerdes;
 
 import org.turbogwt.core.collections.JsArrayList;
 import org.turbogwt.core.util.Overlays;
 
 /**
- * Unit tests of {@link io.reinert.requestor.turbogwt.serialization.OverlaySerdes}.
+ * Unit tests of {@link io.reinert.requestor.ext.turbogwt.serialization.TurboOverlaySerdes}.
  */
 public class TurboOverlaySerdesTest extends GWTTestCase {
 
@@ -32,7 +32,7 @@ public class TurboOverlaySerdesTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorWithTurboGwtTest";
+        return "io.reinert.requestor.ext.turbogwt.TurboGwtTest";
     }
 
     public void testDeserializeCollection() throws Exception {
