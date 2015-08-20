@@ -27,7 +27,7 @@ import com.google.gwt.core.client.GWT;
  */
 public class UriParser {
 
-    private Uri uri;
+    private UriImpl uri;
     private UrlCodec urlCodec;
     private String scheme;
     private String user;
@@ -44,9 +44,10 @@ public class UriParser {
         this.urlCodec = UrlCodec.getInstance();
     }
 
-    public Uri getUri() {
+    public UriImpl getUri() {
         if (uri == null)
-            uri = new Uri(scheme, user, password, host, port, segments, matrixParams, queryParams, fragment, uriString);
+            uri = new UriImpl(scheme, user, password, host, port, segments, matrixParams, queryParams, fragment,
+                    uriString);
         return uri;
     }
 

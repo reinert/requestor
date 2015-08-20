@@ -77,7 +77,7 @@ public abstract class UriBuilder {
             throw new IllegalArgumentException("Uri cannot be null");
 
         final UriBuilder builder = newInstance();
-        builder.uri(Uri.create(uri));
+        builder.uri(UriImpl.create(uri));
         return builder;
     }
 
@@ -248,7 +248,7 @@ public abstract class UriBuilder {
      * @throws UriBuilderException if a URI cannot be constructed based on the
      * current state of the builder.
      */
-    public abstract Uri build(Object... values)
+    public abstract UriImpl build(Object... values)
             throws IllegalArgumentException, UriBuilderException;
 
     /**
@@ -270,5 +270,5 @@ public abstract class UriBuilder {
      * @throws UriBuilderException if a URI cannot be constructed based on the
      * current state of the builder.
      */
-    public abstract Uri build(Map<String, ?> values);
+    public abstract UriImpl build(Map<String, ?> values);
 }
