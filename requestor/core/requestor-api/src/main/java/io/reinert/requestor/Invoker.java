@@ -20,10 +20,6 @@ import java.util.Collection;
 /**
  * Defines HTTP request invocation methods.
  *
- * NOTE: This class is removed from classpath when assembling the jar.
- * Implementers should provide an own implementation exposing a preferred Promises API.
- * Implementers must follow the pattern of this class in order to be officially integrated.
- *
  * @see RequestInvoker
  *
  * @author Danilo Reinert
@@ -60,15 +56,11 @@ public interface Invoker {
 
     <T, C extends Collection> Promise<Collection<T>> patch(Class<T> resultType, Class<C> containerType);
 
-    Promise<Void> head();
-
-    <T> Promise<T> head(Class<T> resultType);
-
-    <T, C extends Collection> Promise<Collection<T>> head(Class<T> resultType, Class<C> containerType);
-
     Promise<Void> options();
 
     <T> Promise<T> options(Class<T> resultType);
 
     <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType, Class<C> containerType);
+
+    Promise<Headers> head();
 }

@@ -80,7 +80,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onHeadButtonClick() {
-        requestor.req("http://httpbin.org/headers").head(Headers.class).done(new DoneCallback<Headers>() {
+        requestor.req("http://httpbin.org/headers").head().done(new DoneCallback<Headers>() {
             @Override
             public void onDone(Headers result) {
                 view.setHeadText(Util.formatHeaders(result));
