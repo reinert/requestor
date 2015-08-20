@@ -209,7 +209,7 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     @Override
-    public Uri build(Object... templateValues) {
+    public UriImpl build(Object... templateValues) {
         List<String> templateParams = new ArrayList<String>();
 
         if (segments != null) {
@@ -230,11 +230,11 @@ public class UriBuilderImpl extends UriBuilder {
         final String parsedFrag = fragment != null ? parsePart(templateValues, templateParams, fragment) : null;
 
         final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
-        return new Uri(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
+        return new UriImpl(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
     }
 
     @Override
-    public Uri build(Map<String, ?> values) {
+    public UriImpl build(Map<String, ?> values) {
         if (segments != null) {
             for (int i = 0; i < segments.size(); i++) {
                 final String segment = segments.get(i);
@@ -253,7 +253,7 @@ public class UriBuilderImpl extends UriBuilder {
         final String parsedFrag = parsePart(values, fragment);
 
         final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
-        return new Uri(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
+        return new UriImpl(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
     }
 
     private String parsePart(Object[] values, List<String> templateParams, String segment) {
