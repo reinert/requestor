@@ -106,11 +106,17 @@ public abstract class RequestDispatcher {
     @SuppressWarnings("unchecked")
     protected <D> void evalResponse(Request request, Deferred<D> deferred, Class<D> resolveType,
                                     Class<?> parametrizedType, RawResponse response) {
+        if (resolveType == RawResponse.class) {
+            deferred.resolve((Response<D>) ResponseImpl.fromRawResponse(response));
+            return;
+        }
+
         if (parametrizedType != null) {
             processor.process(request, response, parametrizedType, (Class<Collection>) resolveType,
                     (Deferred<Collection>) deferred);
-        } else {
-            processor.process(request, response, resolveType, deferred);
+            return;
         }
+
+        processor.process(request, response, resolveType, deferred);
     }
 }
