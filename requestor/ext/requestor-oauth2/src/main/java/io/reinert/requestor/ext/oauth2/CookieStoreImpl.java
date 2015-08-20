@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package io.reinert.requestor.oauth2;
+package io.reinert.requestor.ext.oauth2;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -29,28 +29,28 @@ class CookieStoreImpl extends TokenStoreImpl {
     @SuppressWarnings("deprecation")
     @Override
     public native void set(String key, String value) /*-{
-        $doc.cookie = @io.reinert.requestor.oauth2.CookieStoreImpl::COOKIE_PREFIX +
+        $doc.cookie = @io.reinert.requestor.ext.oauth2.CookieStoreImpl::COOKIE_PREFIX +
         encodeURIComponent(name) + '=' + encodeURIComponent(value);
     }-*/;
 
     @Override
     public native String get(String key) /*-{
-        var m = @io.reinert.requestor.oauth2.CookieStoreImpl::ensureCookies();
-        return m[@io.reinert.requestor.oauth2.CookieStoreImpl::COOKIE_PREFIX + key];
+        var m = @io.reinert.requestor.ext.oauth2.CookieStoreImpl::ensureCookies();
+        return m[@io.reinert.requestor.ext.oauth2.CookieStoreImpl::COOKIE_PREFIX + key];
     }-*/;
 
     @Override
     public native void clear() /*-{
-        var allCookies = @io.reinert.requestor.oauth2.CookieStoreImpl::ensureCookies()();
-        var prefix = @io.reinert.requestor.oauth2.CookieStoreImpl::COOKIE_PREFIX;
+        var allCookies = @io.reinert.requestor.ext.oauth2.CookieStoreImpl::ensureCookies()();
+        var prefix = @io.reinert.requestor.ext.oauth2.CookieStoreImpl::COOKIE_PREFIX;
 
         for (var key in allCookies) {
             if (key.indexOf(prefix) == 0) {
-                this.@io.reinert.requestor.oauth2.CookieStoreImpl::set(*)(
+                this.@io.reinert.requestor.ext.oauth2.CookieStoreImpl::set(*)(
                     key.substring(prefix.length), '');
             }
         }
-        @io.reinert.requestor.oauth2.CookieStoreImpl::cachedCookies = null;
+        @io.reinert.requestor.ext.oauth2.CookieStoreImpl::cachedCookies = null;
     }-*/;
 
     private static JavaScriptObject cachedCookies = null;
@@ -59,7 +59,7 @@ class CookieStoreImpl extends TokenStoreImpl {
     private static String rawCookies;
 
     private static native void loadCookies() /*-{
-        @io.reinert.requestor.oauth2.CookieStoreImpl::cachedCookies = {};
+        @io.reinert.requestor.ext.oauth2.CookieStoreImpl::cachedCookies = {};
         var docCookie = $doc.cookie;
         if (docCookie && docCookie != '') {
             var crumbs = docCookie.split('; ');
@@ -83,7 +83,7 @@ class CookieStoreImpl extends TokenStoreImpl {
                 } catch (e) {
                     // ignore error, keep undecoded value
                 }
-                @io.reinert.requestor.oauth2.CookieStoreImpl::cachedCookies[name] = value;
+                @io.reinert.requestor.ext.oauth2.CookieStoreImpl::cachedCookies[name] = value;
             }
         }
     }-*/;

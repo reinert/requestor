@@ -14,7 +14,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package io.reinert.requestor.oauth2;
+package io.reinert.requestor.ext.oauth2;
 
 /**
  * Encapsulates information of an access token, its token type and when it will expire.

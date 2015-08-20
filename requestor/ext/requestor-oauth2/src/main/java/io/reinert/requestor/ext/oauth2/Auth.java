@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package io.reinert.requestor.oauth2;
+package io.reinert.requestor.ext.oauth2;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Scheduler;
