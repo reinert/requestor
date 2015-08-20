@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Auth;
+import io.reinert.requestor.uri.Uri;
 
 /**
  * Represents a request with its payload already serialized.
@@ -28,47 +29,47 @@ import io.reinert.requestor.auth.Auth;
 public class SerializedRequestImpl implements SerializedRequest {
 
     private final HttpMethod httpMethod;
-    private final String url;
+    private final Uri uri;
     private final Headers headers;
     private final Payload payload;
     private final int timeout;
     private final ResponseType responseType;
     private final Auth auth;
 
-    public SerializedRequestImpl(HttpMethod httpMethod, String url) {
-        this(httpMethod, url, new Headers(), null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri) {
+        this(httpMethod, uri, new Headers(), null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, String url, Payload payload) {
-        this(httpMethod, url, new Headers(), payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Payload payload) {
+        this(httpMethod, uri, new Headers(), payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers) {
-        this(httpMethod, url, headers, null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers) {
+        this(httpMethod, uri, headers, null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload) {
-        this(httpMethod, url, headers, payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers, Payload payload) {
+        this(httpMethod, uri, headers, payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout) {
-        this(httpMethod, url, headers, payload, timeout, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers, Payload payload, int timeout) {
+        this(httpMethod, uri, headers, payload, timeout, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers, Payload payload, int timeout,
                                  ResponseType responseType) {
-        this(httpMethod, url, headers, payload, timeout, responseType, PassThroughAuth.getInstance());
+        this(httpMethod, uri, headers, payload, timeout, responseType, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers, Payload payload, int timeout,
                                  ResponseType responseType, Auth auth) {
         checkNotNull(httpMethod, "HTTP Method cannot be null.");
-        checkNotNullOrEmpty(url, "URL cannot be null neither empty.");
+        checkNotNull(uri, "URI cannot be null.");
         checkNotNull(headers, "Headers cannot be null.");
         checkNotNull(responseType, "ResponseType cannot be null.");
         checkNotNull(auth, "Auth cannot be null.");
         this.httpMethod = httpMethod;
-        this.url = url;
+        this.uri = uri;
         this.headers = headers;
         this.payload = payload;
         this.timeout = timeout > 0 ? timeout : 0;
@@ -82,8 +83,8 @@ public class SerializedRequestImpl implements SerializedRequest {
     }
 
     @Override
-    public String getUrl() {
-        return url;
+    public Uri getUri() {
+        return uri;
     }
 
     @Override
@@ -128,9 +129,5 @@ public class SerializedRequestImpl implements SerializedRequest {
 
     private void checkNotNull(Object o, String message) {
         if (o == null) throw new IllegalArgumentException(message);
-    }
-
-    private void checkNotNullOrEmpty(String s, String message) {
-        if (s == null || s.isEmpty()) throw new IllegalArgumentException(message);
     }
 }

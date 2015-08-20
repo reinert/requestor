@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Auth;
+import io.reinert.requestor.uri.Uri;
 
 /**
  * Represents a HTTP Request.
@@ -38,7 +39,7 @@ public interface Request {
 
     int getTimeout();
 
-    String getUrl();
+    Uri getUri();
 
     ResponseType getResponseType();
 

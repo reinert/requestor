@@ -38,7 +38,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
     protected <D> void send(PreparedRequest request, final Deferred<D> deferred, Class<D> resolveType,
                             @Nullable Class<?> parametrizedType) {
         final HttpMethod httpMethod = request.getMethod();
-        final String url = request.getUrl();
+        final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();
         final Payload payload = request.getPayload();
         final ResponseType responseType = request.getResponseType();

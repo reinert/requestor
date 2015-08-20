@@ -20,6 +20,7 @@ import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
+import io.reinert.requestor.uri.Uri;
 
 /**
  * Default implementation for {@link RequestBuilder}.
@@ -28,7 +29,7 @@ import io.reinert.requestor.header.SimpleHeader;
  */
 class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
-    private final String url;
+    private final Uri uri;
     private HttpMethod httpMethod;
     private Headers headers;
     private int timeout;
@@ -36,17 +37,17 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     private ResponseType responseType = ResponseType.DEFAULT;
     private Auth auth = PassThroughAuth.getInstance();
 
-    public RequestBuilderImpl(String url) {
-        this(url, new Headers());
+    public RequestBuilderImpl(Uri uri) {
+        this(uri, new Headers());
     }
 
-    public RequestBuilderImpl(String url, Headers headers) {
-        this.url = url;
+    public RequestBuilderImpl(Uri uri, Headers headers) {
+        this.uri = uri;
         this.headers = headers;
     }
 
     public static RequestBuilderImpl copyOf(RequestBuilder request) {
-        RequestBuilderImpl copy = new RequestBuilderImpl(request.getUrl(), request.getHeaders());
+        RequestBuilderImpl copy = new RequestBuilderImpl(request.getUri(), request.getHeaders());
         copy.httpMethod = request.getMethod();
         copy.auth = request.getAuth();
         copy.timeout = request.getTimeout();
@@ -91,8 +92,8 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public String getUrl() {
-        return url;
+    public Uri getUri() {
+        return uri;
     }
 
     @Override
@@ -211,5 +212,4 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     protected RequestBuilderImpl build() {
         return RequestBuilderImpl.copyOf(this);
     }
-
 }

@@ -36,7 +36,7 @@ import io.reinert.requestor.SerializedRequestImpl;
 import io.reinert.requestor.UnsuccessfulResponseException;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
-import io.reinert.requestor.uri.UriParser;
+import io.reinert.requestor.uri.Uri;
 
 /**
  * HTTP Digest Authentication implementation. <br/>
@@ -68,7 +68,7 @@ public class DigestAuth extends AbstractAuth {
     private final String password;
     private final boolean withCredentials;
 
-    private String uri;
+    private String uriPath;
     private String httpMethod;
 
     private int maxChallengeCalls = DEFAULT_MAX_CHALLENGE_CALLS;
@@ -105,18 +105,18 @@ public class DigestAuth extends AbstractAuth {
     private void attempt(final PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
         if (challengeCalls < maxChallengeCalls) {
             HttpMethod method = originalRequest.getMethod();
-            String url = originalRequest.getUrl();
+            Uri uri = originalRequest.getUri();
             Payload payload = originalRequest.getPayload();
             int timeout = originalRequest.getTimeout();
             ResponseType responseType = originalRequest.getResponseType();
-            Headers headers = getAttemptHeaders(method, url, payload, originalRequest.getHeaders(), attemptResponse);
+            Headers headers = getAttemptHeaders(method, uri, payload, originalRequest.getHeaders(), attemptResponse);
 
             SerializedRequest attemptRequest =
-                    new SerializedRequestImpl(method, url, headers, payload, timeout, responseType);
+                    new SerializedRequestImpl(method, uri, headers, payload, timeout, responseType);
 
             sendAttemptRequest(originalRequest, attemptRequest);
         } else {
-            Header authHeader = getAuthorizationHeader(originalRequest.getUrl(), originalRequest.getMethod(),
+            Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
                     originalRequest.getPayload(), attemptResponse);
             if (authHeader != null) originalRequest.addHeader(authHeader);
             originalRequest.send();
@@ -153,7 +153,7 @@ public class DigestAuth extends AbstractAuth {
         });
     }
 
-    private Headers getAttemptHeaders(HttpMethod method, String url, Payload payload, Headers originalHeaders,
+    private Headers getAttemptHeaders(HttpMethod method, Uri url, Payload payload, Headers originalHeaders,
                                       @Nullable Response<?> attemptResponse) {
         final ArrayList<Header> headerList = new ArrayList<Header>(originalHeaders.getAll());
         final Header authHeader = getAuthorizationHeader(url, method, payload, attemptResponse);
@@ -161,7 +161,7 @@ public class DigestAuth extends AbstractAuth {
         return new Headers(headerList);
     }
 
-    private Header getAuthorizationHeader(String url, HttpMethod method, Payload payload, Response<?> attemptResp) {
+    private Header getAuthorizationHeader(Uri uri, HttpMethod method, Payload payload, Response<?> attemptResp) {
         if (attemptResp == null)
             return null;
 
@@ -174,8 +174,8 @@ public class DigestAuth extends AbstractAuth {
 
         final StringBuilder digestBuilder = new StringBuilder("Digest username=\"").append(user);
 
-        if (uri == null) {
-            uri = UriParser.newInstance().parse(url).getUri().getPath();
+        if (uriPath == null) {
+            uriPath = uri.getPath();
             httpMethod = method.getValue();
         }
 
@@ -189,7 +189,7 @@ public class DigestAuth extends AbstractAuth {
 
         digestBuilder.append("\", realm=\"").append(realm);
         digestBuilder.append("\", nonce=\"").append(nonce);
-        digestBuilder.append("\", uri=\"").append(uri);
+        digestBuilder.append("\", uri=\"").append(uriPath);
 
         // Calculate HA1
         String ha1 = generateHa1(realm);
@@ -197,19 +197,19 @@ public class DigestAuth extends AbstractAuth {
         String response;
         if (contains(qop, "auth")) {
             // "auth" method
-            response = generateResponseAuthQop(httpMethod, uri, ha1, nonce, nc, cNonce);
+            response = generateResponseAuthQop(httpMethod, uriPath, ha1, nonce, nc, cNonce);
             digestBuilder.append("\", qop=\"").append("auth");
             digestBuilder.append("\", nc=\"").append(nc);
             digestBuilder.append("\", cnonce=\"").append(cNonce);
         } else if (contains(qop, "auth-int")) {
             // "auth-int" method
-            response = generateResponseAuthIntQop(httpMethod, uri, ha1, nonce, nc, cNonce, payload);
+            response = generateResponseAuthIntQop(httpMethod, uriPath, ha1, nonce, nc, cNonce, payload);
             digestBuilder.append("\", qop=\"").append("auth-int");
             digestBuilder.append("\", nc=\"").append(nc);
             digestBuilder.append("\", cnonce=\"").append(cNonce);
         } else {
             // unspecified method
-            response = generateResponseUnspecifiedQop(httpMethod, uri, nonce, ha1);
+            response = generateResponseUnspecifiedQop(httpMethod, uriPath, nonce, ha1);
         }
 
         digestBuilder.append("\", response=\"").append(response);

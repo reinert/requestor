@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.uri.Uri;
 
 /**
  * Abstract class for {@link RequestInvoker} interface.
@@ -32,8 +33,8 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     protected final RequestDispatcher dispatcher;
     protected final RequestProcessor processor;
 
-    public AbstractRequestInvoker(String url, RequestDispatcher dispatcher, RequestProcessor processor) {
-        super(url);
+    public AbstractRequestInvoker(Uri uri, RequestDispatcher dispatcher, RequestProcessor processor) {
+        super(uri);
         this.dispatcher = dispatcher;
         this.processor = processor;
     }

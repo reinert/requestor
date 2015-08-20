@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.uri.Uri;
+
 /**
  *  Allows on to modify the serialized payload of an ongoing request.
  *
@@ -28,7 +30,7 @@ public interface RequestInterceptorContext {
 
     int getTimeout();
 
-    String getUrl();
+    Uri getUri();
 
     Payload getPayload();
 
