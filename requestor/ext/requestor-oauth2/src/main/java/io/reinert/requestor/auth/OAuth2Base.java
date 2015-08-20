@@ -27,7 +27,7 @@ import io.reinert.requestor.oauth2.TokenInfo;
  *
  * @author Danilo Reinert
  */
-public abstract class OAuth2Base implements Auth {
+public abstract class OAuth2Base extends AbstractAuth {
 
     private static final io.reinert.requestor.oauth2.Auth AUTH = io.reinert.requestor.oauth2.Auth.get();
 

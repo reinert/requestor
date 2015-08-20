@@ -56,12 +56,12 @@ public class SerializedRequestImpl implements SerializedRequest {
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
-                          ResponseType responseType) {
+                                 ResponseType responseType) {
         this(httpMethod, url, headers, payload, timeout, responseType, PassThroughAuth.getInstance());
     }
 
     public SerializedRequestImpl(HttpMethod httpMethod, String url, Headers headers, Payload payload, int timeout,
-                          ResponseType responseType, Auth auth) {
+                                 ResponseType responseType, Auth auth) {
         checkNotNull(httpMethod, "HTTP Method cannot be null.");
         checkNotNullOrEmpty(url, "URL cannot be null neither empty.");
         checkNotNull(headers, "Headers cannot be null.");

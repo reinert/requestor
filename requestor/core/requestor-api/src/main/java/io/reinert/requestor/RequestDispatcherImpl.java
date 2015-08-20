@@ -174,7 +174,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
     private void setHeaders(Headers headers, XMLHttpRequest xmlHttpRequest) throws JavaScriptException {
         if (headers != null && headers.size() > 0) {
             for (Header header : headers) {
-                xmlHttpRequest.setRequestHeader(header.getName(), header.getValue());
+                if (header != null) xmlHttpRequest.setRequestHeader(header.getName(), header.getValue());
             }
         }
     }

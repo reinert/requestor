@@ -24,6 +24,7 @@ import io.reinert.gdeferred.DoneCallback;
 import io.reinert.gdeferred.FailCallback;
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.auth.AbstractAuth;
 import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
 import io.reinert.requestor.auth.OAuth2ByHeader;
@@ -35,7 +36,7 @@ import org.turbogwt.core.util.Overlays;
 
 public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
-    private static class MyAuth implements io.reinert.requestor.auth.Auth {
+    private static class MyAuth extends AbstractAuth {
 
         private final String key;
 

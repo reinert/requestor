@@ -15,11 +15,10 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-
 import javax.annotation.Nullable;
 
 import io.reinert.requestor.auth.Auth;
+import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
 
 /**
@@ -57,22 +56,6 @@ class PreparedRequestImpl<T> implements PreparedRequest {
         this.withCredentials = withCredentials;
         this.sent = sent;
         this.url = request.getUrl();
-    }
-
-    @Override
-    public <D, C extends Collection> PreparedRequest copy(Class<D> resultType, Class<C> containerType,
-                                                          Deferred<C> deferred) {
-        final SerializedRequest srCopy = new SerializedRequestImpl(request.getMethod(), request.getUrl(),
-                request.getHeaders(), request.getPayload(), request.getTimeout(), request.getResponseType());
-        return new PreparedRequestImpl<C>(dispatcher, srCopy, deferred, containerType, resultType, withCredentials,
-                false);
-    }
-
-    @Override
-    public <D> PreparedRequest copy(Class<D> resultType, Deferred<D> deferred) {
-        final SerializedRequest srCopy = new SerializedRequestImpl(request.getMethod(), request.getUrl(),
-                request.getHeaders(), request.getPayload(), request.getTimeout(), request.getResponseType());
-        return new PreparedRequestImpl<D>(dispatcher, srCopy, deferred, resultType, null, withCredentials, false);
     }
 
     @Override
@@ -166,6 +149,11 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     }
 
     @Override
+    public void addHeader(Header header) {
+        headers.add(header);
+    }
+
+    @Override
     public void setHeader(String name, String value) {
         headers.add(new SimpleHeader(name, value));
     }
@@ -190,5 +178,15 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     @Override
     public void setWithCredentials(boolean withCredentials) {
         this.withCredentials = withCredentials;
+    }
+
+    @Override
+    public Class<T> getResolveType() {
+        return resolveType;
+    }
+
+    @Override
+    public Class<?> getParametrizedType() {
+        return parametrizedType;
     }
 }

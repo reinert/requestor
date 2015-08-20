@@ -19,6 +19,10 @@ import java.util.Collection;
 
 import javax.annotation.Nullable;
 
+import com.google.gwt.core.client.Callback;
+
+import io.reinert.requestor.auth.Auth;
+
 /**
  * This class dispatches the requests and return promises.
  *
@@ -66,9 +70,11 @@ public abstract class RequestDispatcher {
      * @return              The promise for the dispatched request
      */
     @SuppressWarnings("unchecked")
-    public <T> Promise<T> dispatch(final SerializedRequest request, final Class<T> resultType) {
+    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> resultType) {
         final Deferred<T> deferred = deferredFactory.getDeferred();
-        request.getAuth().auth(new PreparedRequestImpl(this, request, deferred, resultType, null));
+        final Auth auth = request.getAuth();
+        auth.setDispatcher(this);
+        auth.auth(new PreparedRequestImpl(this, request, deferred, resultType, null));
         return deferred.getPromise();
     }
 
@@ -84,12 +90,49 @@ public abstract class RequestDispatcher {
      * @return              The promise for the dispatched request
      */
     @SuppressWarnings("unchecked")
-    public <T, C extends Collection> Promise<Collection<T>> dispatch(final SerializedRequest request,
-                                                                     final Class<T> resultType,
-                                                                     final Class<C> containerType) {
+    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> resultType,
+                                                                     Class<C> containerType) {
         final Deferred<Collection<T>> deferred = deferredFactory.getDeferred();
-        request.getAuth().auth(new PreparedRequestImpl(this, request, deferred, containerType, resultType));
+        final Auth auth = request.getAuth();
+        auth.setDispatcher(this);
+        auth.auth(new PreparedRequestImpl(this, request, deferred, containerType, resultType));
         return deferred.getPromise();
+    }
+
+    /**
+     * Sends the request with the respective callback.
+     *
+     * @param request       The built request
+     * @param resultType    The class instance of the expected type in response payload
+     * @param callback      The callback to be executed when done
+     * @param <T>           The expected type in response payload
+     */
+    @SuppressWarnings("unchecked")
+    public <T> void dispatch(SerializedRequest request, Class<T> resultType, Callback<T, Throwable> callback) {
+        final Deferred<T> deferred = new CallbackDeferred<T>(callback);
+        final Auth auth = request.getAuth();
+        auth.setDispatcher(this);
+        auth.auth(new PreparedRequestImpl(this, request, deferred, resultType, null));
+    }
+
+    /**
+     * Sends the request and return an instance of {@link Promise} expecting a collection result.
+     *
+     * @param request       The built request
+     * @param resultType    The class instance of the expected type in response payload
+     * @param containerType The class instance of the container type which will hold the values
+     * @param callback      The callback to be executed when done
+     * @param <T>           The expected type in response payload
+     * @param <C>           The collection type to hold the values
+     */
+    @SuppressWarnings("unchecked")
+    public <T, C extends Collection> void dispatch(SerializedRequest request, Class<T> resultType,
+                                                   Class<C> containerType,
+                                                   Callback<Collection<T>, Throwable> callback) {
+        final Deferred<Collection<T>> deferred = new CallbackDeferred<Collection<T>>(callback);
+        final Auth auth = request.getAuth();
+        auth.setDispatcher(this);
+        auth.auth(new PreparedRequestImpl(this, request, deferred, containerType, resultType));
     }
 
     /**

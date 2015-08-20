@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,21 +23,17 @@ import io.reinert.requestor.RequestDispatcher;
  *
  * @author Danilo Reinert
  */
-public interface Auth {
+public abstract class AbstractAuth implements Auth {
 
-    RequestDispatcher getDispatcher();
+    private RequestDispatcher dispatcher;
 
-    void setDispatcher(RequestDispatcher dispatcher);
+    public abstract void auth(PreparedRequest preparedRequest);
 
-    /**
-     * Performs the logic for making the request authenticated, then dispatch the request.
-     * <p/>
-     *
-     * IMPORTANT: You must call requestOrder#send() after the auth has finished in order to dispatch the
-     * request, otherwise the request will never be sent. <br>
-     * The request can be sent only once.
-     *
-     * @param preparedRequest  The request about to be sent
-     */
-    void auth(PreparedRequest preparedRequest);
+    public RequestDispatcher getDispatcher() {
+        return dispatcher;
+    }
+
+    public void setDispatcher(RequestDispatcher dispatcher) {
+        this.dispatcher = dispatcher;
+    }
 }
