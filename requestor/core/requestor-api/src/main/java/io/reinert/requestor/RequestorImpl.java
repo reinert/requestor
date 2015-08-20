@@ -87,40 +87,41 @@ public class RequestorImpl extends Requestor {
     //===================================================================
 
     @Override
-    public RequestInvoker req(String url) {
-        return createRequest(url);
+    public RequestInvoker req(String uri) {
+        return createRequest(Uri.create(uri));
+    }
+
+    @Override
+    public RequestInvoker req(Uri uri) {
+        return createRequest(uri);
     }
 
     @Override
     public WebTarget target(String uri) {
         if (uri == null)
             throw new NullPointerException("Uri string cannot be null.");
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, UriBuilder.fromUri(uri));
+        return createWebTarget(UriBuilder.fromUri(uri));
     }
 
     @Override
     public WebTarget target(Uri uri) {
         if (uri == null)
             throw new NullPointerException("Uri cannot be null.");
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, uri);
+        return createWebTarget(uri);
     }
 
     @Override
     public WebTarget target(UriBuilder uriBuilder) {
         if (uriBuilder == null)
             throw new NullPointerException("UriBuilder cannot be null.");
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, uriBuilder);
+        return createWebTarget(uriBuilder);
     }
 
     @Override
     public WebTarget target(Link link) {
         if (link == null)
             throw new NullPointerException("Link cannot be null.");
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, link.getUri());
+        return createWebTarget(link.getUri());
     }
 
     @Override
@@ -237,12 +238,22 @@ public class RequestorImpl extends Requestor {
         };
     }
 
-    private RequestInvoker createRequest(String uri) {
+    private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
         if (defaultMediaType != null) {
             request.contentType(defaultMediaType);
             request.accept(defaultMediaType);
         }
         return request;
+    }
+
+    private WebTarget createWebTarget(Uri uri) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
+                requestDispatcherFactory, deferredFactory, uri);
+    }
+
+    private WebTarget createWebTarget(UriBuilder uriBuilder) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
+                requestDispatcherFactory, deferredFactory, uriBuilder);
     }
 }

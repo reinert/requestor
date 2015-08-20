@@ -39,7 +39,6 @@ class ProviderManagerImpl implements ProviderManager {
     private final Map<String, Provider<?>> providers = new HashMap<String, Provider<?>>();
 
     public ProviderManagerImpl() {
-        // TODO: Providers errados! Typecast!
         final Provider<ArrayList> arrayListProvider = new Provider<ArrayList>() {
 
             @Override

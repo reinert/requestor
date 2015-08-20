@@ -17,6 +17,8 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import io.reinert.requestor.uri.Uri;
+
 /**
  * Default implementation for {@link RequestInvoker}.
  * <p/>
@@ -27,8 +29,8 @@ import java.util.Collection;
  */
 class RequestInvokerImpl extends AbstractRequestInvoker {
 
-    public RequestInvokerImpl(String url, RequestProcessor processor, RequestDispatcher dispatcher) {
-        super(url, dispatcher, processor);
+    public RequestInvokerImpl(Uri uri, RequestProcessor processor, RequestDispatcher dispatcher) {
+        super(uri, dispatcher, processor);
     }
 
     //===================================================================

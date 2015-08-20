@@ -104,7 +104,7 @@ class SerializationEngine {
         String mediaType = request.getContentType();
         if (mediaType == null || mediaType.isEmpty()) {
             mediaType = "*/*";
-            logger.log(Level.INFO, "Request with no 'Content-Type' header being dispatched to '" + request.getUrl()
+            logger.log(Level.INFO, "Request with no 'Content-Type' header being dispatched to '" + request.getUri()
                     + "'. The content-type value has been automatically set to '*/*' to match serializers.");
         } else {
             mediaType = extractMediaTypeFromContentType(mediaType);
@@ -116,7 +116,7 @@ class SerializationEngine {
         String medaType = response.getContentType();
         if (medaType == null || medaType.isEmpty()) {
             medaType = "*/*";
-            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUrl()
+            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUri()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         } else {
             medaType = extractMediaTypeFromContentType(medaType);

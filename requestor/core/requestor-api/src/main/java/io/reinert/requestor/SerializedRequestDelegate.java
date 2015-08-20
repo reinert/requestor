@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Auth;
+import io.reinert.requestor.uri.Uri;
 
 /**
  * Represents a request with its payload already serialized.
@@ -76,8 +77,8 @@ class SerializedRequestDelegate implements SerializedRequest, RequestInterceptor
     }
 
     @Override
-    public String getUrl() {
-        return request.getUrl();
+    public Uri getUri() {
+        return request.getUri();
     }
 
     @Override

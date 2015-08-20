@@ -15,11 +15,17 @@
  */
 package io.reinert.requestor;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Nullable;
 
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
+import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UrlCodec;
 
 /**
@@ -36,7 +42,8 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     private final Class<T> resolveType;
     private final Class<?> parametrizedType;
 
-    private String url;
+    private Uri uri;
+    private Map<String, ArrayList<String>> queryParams;
     private boolean withCredentials;
     private boolean sent;
 
@@ -56,7 +63,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
         this.parametrizedType = parametrizedType;
         this.withCredentials = withCredentials;
         this.sent = sent;
-        this.url = request.getUrl();
+        this.uri = request.getUri();
     }
 
     @Override
@@ -130,8 +137,9 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     }
 
     @Override
-    public String getUrl() {
-        return url;
+    public Uri getUri() {
+        ensureUriUpdated();
+        return uri;
     }
 
     @Override
@@ -161,19 +169,19 @@ class PreparedRequestImpl<T> implements PreparedRequest {
 
     @Override
     public void setQueryParam(String name, String... values) {
-        // TODO(reinert): Workaround to enable setting query params in PrepRequest. Should the process be re-designed?
-        int queryStart = url.lastIndexOf('?');
-        String and;
-        if (queryStart == -1) {
-            and = "?";
-        } else {
-            and = url.charAt(url.length() - 1) == '&' ? "" : "&";
+        if (name == null)
+            throw new IllegalArgumentException("Query param name cannot be null.");
+
+        if (queryParams == null)
+            queryParams = new HashMap<String, ArrayList<String>>();
+
+        ArrayList<String> valuesList = queryParams.get(name);
+        if (valuesList == null) {
+            valuesList = new ArrayList<String>();
+            queryParams.put(name, valuesList);
         }
-        final UrlCodec urlCodec = UrlCodec.getInstance();
-        for (String value : values) {
-            url += and + urlCodec.encodeQueryString(name) + '=' + urlCodec.encodeQueryString(value);
-            and = "&";
-        }
+
+        Collections.addAll(valuesList, values);
     }
 
     @Override
@@ -189,5 +197,23 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     @Override
     public Class<?> getParametrizedType() {
         return parametrizedType;
+    }
+
+    private void ensureUriUpdated() {
+        if (queryParams != null && !queryParams.isEmpty()) {
+            final UrlCodec codec = UrlCodec.getInstance();
+            String addQuery = "";
+            String and = "";
+            for (String paramName : queryParams.keySet()) {
+                for (String paramValue : queryParams.get(paramName)) {
+                    addQuery = and + codec.encodeQueryString(paramName) + '=' + codec.encodeQueryString(paramValue);
+                    and = "&";
+                }
+            }
+            String newUri = uri.toString();
+            newUri += (newUri.contains("?") ? (newUri.endsWith("&") ? "" : "&") : "?") + addQuery;
+            uri = Uri.create(newUri);
+            queryParams.clear();
+        }
     }
 }

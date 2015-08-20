@@ -43,7 +43,6 @@ public class WebTarget implements FilterManager, InterceptorManager {
     private final RequestDispatcher requestDispatcher;
     private final UriBuilder uriBuilder;
     private Uri uri;
-    private String uriString;
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
@@ -204,10 +203,7 @@ public class WebTarget implements FilterManager, InterceptorManager {
      * @throws IllegalStateException  if the URI could not be built from the current state of the resource target.
      */
     public RequestInvoker resolve() {
-        if (uriString == null) {
-            uriString = getUri().toString();
-        }
-        return createRequest(uriString);
+        return createRequest(getUri());
     }
 
     /**
@@ -225,7 +221,7 @@ public class WebTarget implements FilterManager, InterceptorManager {
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not build the URI with the supplied template values.", e);
         }
-        return createRequest(resolvedUri.toString());
+        return createRequest(resolvedUri);
     }
 
     /**
@@ -344,7 +340,7 @@ public class WebTarget implements FilterManager, InterceptorManager {
         return uriBuilder.clone();
     }
 
-    private RequestInvoker createRequest(String uri) {
+    private RequestInvoker createRequest(Uri uri) {
         return new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
     }
 }

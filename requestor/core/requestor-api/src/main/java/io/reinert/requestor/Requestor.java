@@ -73,13 +73,22 @@ public abstract class Requestor implements SerdesManager, FilterManager, Interce
     //===================================================================
 
     /**
-     * Start building a request with the given url.
+     * Start building a request with the given uri string.
      *
-     * @param url   The url of the request.
+     * @param uri   The uri of the request.
      *
      * @return  The request builder.
      */
-    public abstract RequestInvoker req(String url);
+    public abstract RequestInvoker req(String uri);
+
+    /**
+     * Start building a request with the given Uri.
+     *
+     * @param uri   The uri of the request.
+     *
+     * @return  The request builder.
+     */
+    public abstract RequestInvoker req(Uri uri);
 
     /**
      * Build a new web resource target.
