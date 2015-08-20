@@ -47,6 +47,11 @@ public class ResponseImpl<T> implements Response<T> {
         this.payload = payload;
     }
 
+    public static ResponseImpl<RawResponse> fromRawResponse(RawResponse rawResponse) {
+        return new ResponseImpl<RawResponse>(rawResponse.getStatus(), rawResponse.getHeaders(),
+                rawResponse.getResponseType(), rawResponse);
+    }
+
     @Override
     public String getHeader(String header) {
         return headers.getValue(header);
