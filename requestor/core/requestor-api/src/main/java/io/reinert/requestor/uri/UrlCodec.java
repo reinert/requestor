@@ -20,7 +20,7 @@ import com.google.gwt.core.client.GWT;
 /**
  *  Utility class for encoding and decoding URL parts.
  */
-abstract class UrlCodec {
+public abstract class UrlCodec {
 
     private static UrlCodec INSTANCE;
 
