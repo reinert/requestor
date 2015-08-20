@@ -113,21 +113,6 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public Promise<Void> head() {
-        return send(HttpMethod.HEAD, Void.class);
-    }
-
-    @Override
-    public <T> Promise<T> head(Class<T> resultType) {
-        return send(HttpMethod.HEAD, resultType);
-    }
-
-    @Override
-    public <T, C extends Collection> Promise<Collection<T>> head(Class<T> resultType, Class<C> containerType) {
-        return send(HttpMethod.HEAD, resultType, containerType);
-    }
-
-    @Override
     public Promise<Void> options() {
         return send(HttpMethod.OPTIONS, Void.class);
     }
@@ -141,5 +126,10 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     public <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType,
                                                                     Class<C> containerType) {
         return send(HttpMethod.OPTIONS, resultType, containerType);
+    }
+
+    @Override
+    public Promise<Headers> head() {
+        return send(HttpMethod.HEAD, Headers.class);
     }
 }

@@ -149,7 +149,7 @@
         <div class="highlight">
           <pre ui:field="headSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/headers&quot;).head(Headers.class).done(new DoneCallback&lt;Headers&gt;() {
+              requestor.req(&quot;http://httpbin.org/headers&quot;).head().done(new DoneCallback&lt;Headers&gt;() {
               <br/>
               &#32;&#32;&#32;&#32;public void onDone(Headers result) {
               <br/>
