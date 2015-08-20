@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
+import io.reinert.requestor.header.Header;
 
 /**
  * The final form of a request.
@@ -29,9 +29,15 @@ import java.util.Collection;
  */
 public interface PreparedRequest extends SerializedRequest {
 
+    Class<?> getResolveType();
+
+    Class<?> getParametrizedType();
+
     boolean isWithCredentials();
 
     void setWithCredentials(boolean withCredentials);
+
+    void addHeader(Header header);
 
     void setHeader(String name, String value);
 
@@ -42,9 +48,5 @@ public interface PreparedRequest extends SerializedRequest {
     void abort(RawResponse response);
 
     void abort(RequestException error);
-
-    <D, C extends Collection> PreparedRequest copy(Class<D> resultType, Class<C> containerType, Deferred<C> deferred);
-
-    <D> PreparedRequest copy(Class<D> resultType, Deferred<D> deferred);
 
 }

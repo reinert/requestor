@@ -25,7 +25,7 @@ import io.reinert.requestor.PreparedRequest;
  *
  * @author Danilo Reinert
  */
-public class BasicAuth implements Auth {
+public class BasicAuth extends AbstractAuth {
 
     private final String user;
     private final String password;

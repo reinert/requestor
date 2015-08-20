@@ -15,17 +15,27 @@
  */
 package io.reinert.requestor.auth;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nullable;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.i18n.client.NumberFormat;
 
+import io.reinert.requestor.Headers;
+import io.reinert.requestor.HttpMethod;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RawResponse;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
+import io.reinert.requestor.ResponseType;
+import io.reinert.requestor.SerializedRequest;
+import io.reinert.requestor.SerializedRequestImpl;
 import io.reinert.requestor.UnsuccessfulResponseException;
+import io.reinert.requestor.header.Header;
+import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.uri.UriParser;
 
 /**
@@ -34,7 +44,7 @@ import io.reinert.requestor.uri.UriParser;
  *
  * @author Danilo Reinert
  */
-public class DigestAuth implements Auth {
+public class DigestAuth extends AbstractAuth {
 
     /**
      * An array containing the codes which are considered expected for the first attempt to retrieve the nonce.
@@ -92,28 +102,32 @@ public class DigestAuth implements Auth {
         this.maxChallengeCalls = maxChallengeCalls;
     }
 
-    private void attempt(PreparedRequest originalRequest, @Nullable Response attemptResponse) {
+    private void attempt(final PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
         if (challengeCalls < maxChallengeCalls) {
-            final PreparedRequest attemptRequest = getAttemptRequest(originalRequest);
-            applyDigest(attemptRequest, attemptResponse);
-            attemptRequest.send();
+            HttpMethod method = originalRequest.getMethod();
+            String url = originalRequest.getUrl();
+            Payload payload = originalRequest.getPayload();
+            int timeout = originalRequest.getTimeout();
+            ResponseType responseType = originalRequest.getResponseType();
+            Headers headers = getAttemptHeaders(method, url, payload, originalRequest.getHeaders(), attemptResponse);
+
+            SerializedRequest attemptRequest =
+                    new SerializedRequestImpl(method, url, headers, payload, timeout, responseType);
+
+            sendAttemptRequest(originalRequest, attemptRequest);
         } else {
-            applyDigest(originalRequest, attemptResponse);
+            Header authHeader = getAuthorizationHeader(originalRequest.getUrl(), originalRequest.getMethod(),
+                    originalRequest.getPayload(), attemptResponse);
+            if (authHeader != null) originalRequest.addHeader(authHeader);
             originalRequest.send();
         }
         challengeCalls++;
     }
 
-    private PreparedRequest getAttemptRequest(final PreparedRequest originalRequest) {
-        return originalRequest.copy(RawResponse.class, new NullDeferred<RawResponse>() {
+    private void sendAttemptRequest(final PreparedRequest originalRequest, SerializedRequest attemptRequest) {
+        getDispatcher().dispatch(attemptRequest, RawResponse.class, new Callback<RawResponse, Throwable>() {
             @Override
-            public void resolve(Response<RawResponse> response) {
-                // If the attempt succeeded, then abort the original request with the successful response
-                originalRequest.abort(response.getPayload());
-            }
-
-            @Override
-            public void reject(RequestException error) {
+            public void onFailure(Throwable error) {
                 try {
                     if (error instanceof UnsuccessfulResponseException) {
                         UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
@@ -130,14 +144,28 @@ public class DigestAuth implements Auth {
                             + "See previous log.", e));
                 }
             }
+
+            @Override
+            public void onSuccess(RawResponse response) {
+                // If the attempt succeeded, then abort the original request with the successful response
+                originalRequest.abort(response);
+            }
         });
     }
 
-    private void applyDigest(PreparedRequest request, Response attemptResponse) {
-        if (attemptResponse == null)
-            return;
+    private Headers getAttemptHeaders(HttpMethod method, String url, Payload payload, Headers originalHeaders,
+                                      @Nullable Response<?> attemptResponse) {
+        final ArrayList<Header> headerList = new ArrayList<Header>(originalHeaders.getAll());
+        final Header authHeader = getAuthorizationHeader(url, method, payload, attemptResponse);
+        if (authHeader != null) headerList.add(authHeader);
+        return new Headers(headerList);
+    }
 
-        final String authHeader = attemptResponse.getHeader("WWW-Authenticate");
+    private Header getAuthorizationHeader(String url, HttpMethod method, Payload payload, Response<?> attemptResp) {
+        if (attemptResp == null)
+            return null;
+
+        final String authHeader = attemptResp.getHeader("WWW-Authenticate");
         if (authHeader == null) {
             throw new AuthException("It was not possible to retrieve the 'WWW-Authenticate' header from "
                     + "server response. If you're using CORS, make sure your server allows the client to access this "
@@ -147,8 +175,8 @@ public class DigestAuth implements Auth {
         final StringBuilder digestBuilder = new StringBuilder("Digest username=\"").append(user);
 
         if (uri == null) {
-            uri = UriParser.newInstance().parse(request.getUrl()).getUri().getPath();
-            httpMethod = request.getMethod().getValue();
+            uri = UriParser.newInstance().parse(url).getUri().getPath();
+            httpMethod = method.getValue();
         }
 
         final String realm = readRealm(authHeader);
@@ -175,7 +203,7 @@ public class DigestAuth implements Auth {
             digestBuilder.append("\", cnonce=\"").append(cNonce);
         } else if (contains(qop, "auth-int")) {
             // "auth-int" method
-            response = generateResponseAuthIntQop(httpMethod, uri, ha1, nonce, nc, cNonce, request.getPayload());
+            response = generateResponseAuthIntQop(httpMethod, uri, ha1, nonce, nc, cNonce, payload);
             digestBuilder.append("\", qop=\"").append("auth-int");
             digestBuilder.append("\", nc=\"").append(nc);
             digestBuilder.append("\", cnonce=\"").append(cNonce);
@@ -188,7 +216,7 @@ public class DigestAuth implements Auth {
         digestBuilder.append("\", opaque=\"").append(opaque);
         digestBuilder.append('"');
 
-        request.setHeader("Authorization", digestBuilder.toString());
+        return new SimpleHeader("Authorization", digestBuilder.toString());
     }
 
     private String generateResponseAuthIntQop(String method, String url, String ha1, String nonce, String nc,

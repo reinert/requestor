@@ -22,7 +22,7 @@ import io.reinert.requestor.PreparedRequest;
  *
  * @author Danilo Reinert
  */
-public class CorsAuth implements Auth {
+public class CorsAuth extends AbstractAuth {
 
     @Override
     public void auth(PreparedRequest preparedRequest) {

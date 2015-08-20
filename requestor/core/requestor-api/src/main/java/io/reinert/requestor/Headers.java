@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -67,6 +68,10 @@ public class Headers implements Iterable<Header> {
 
     public boolean contains(String header) {
         return !isEmpty() && headers.containsKey(formatKey(header));
+    }
+
+    public Collection<Header> getAll() {
+        return ensureHeaders().values();
     }
 
     public Header get(String header) {

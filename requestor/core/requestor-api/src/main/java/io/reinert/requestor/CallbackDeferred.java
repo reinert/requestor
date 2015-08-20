@@ -13,21 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.auth;
 
-import io.reinert.requestor.Deferred;
-import io.reinert.requestor.HttpConnection;
-import io.reinert.requestor.Promise;
-import io.reinert.requestor.RequestProgress;
+package io.reinert.requestor;
+
+import com.google.gwt.core.client.Callback;
 
 /**
- * Use it in the case you want to create a special deferred without exposing Promise type in external projects.
+ * Use it in the case you want to create a special deferred executing a single callback.
  *
  * @param <T> Type of the resolved object
  *
  * @author Danilo Reinert
  */
-abstract class NullDeferred<T> implements Deferred<T> {
+class CallbackDeferred<T> implements Deferred<T> {
+
+    private final Callback<T, Throwable> callback;
+
+    protected CallbackDeferred(Callback<T, Throwable> callback) {
+        this.callback = callback;
+    }
+
+    @Override
+    public void resolve(Response<T> response) {
+        callback.onSuccess(response.getPayload());
+    }
+
+    @Override
+    public void reject(RequestException error) {
+        callback.onFailure(error);
+    }
+
     @Override
     public void notifyDownload(RequestProgress progress) {
     }
