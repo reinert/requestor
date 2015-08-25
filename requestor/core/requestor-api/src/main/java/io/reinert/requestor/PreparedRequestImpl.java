@@ -15,18 +15,12 @@
  */
 package io.reinert.requestor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Nullable;
 
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.uri.Uri;
-import io.reinert.requestor.uri.UrlCodec;
 
 /**
  * Abstract implementation of RequestOrder which ensures the request to be dispatched only once.
@@ -41,9 +35,8 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     private final Deferred<T> deferred;
     private final Class<T> resolveType;
     private final Class<?> parametrizedType;
+    private final UriQueryBuilder uri;
 
-    private Uri uri;
-    private Map<String, ArrayList<String>> queryParams;
     private boolean withCredentials;
     private boolean sent;
 
@@ -63,7 +56,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
         this.parametrizedType = parametrizedType;
         this.withCredentials = withCredentials;
         this.sent = sent;
-        this.uri = request.getUri();
+        this.uri = new UriQueryBuilder(request.getUri());
     }
 
     @Override
@@ -138,8 +131,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
 
     @Override
     public Uri getUri() {
-        ensureUriUpdated();
-        return uri;
+        return uri.getUri();
     }
 
     @Override
@@ -169,19 +161,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
 
     @Override
     public void setQueryParam(String name, String... values) {
-        if (name == null)
-            throw new IllegalArgumentException("Query param name cannot be null.");
-
-        if (queryParams == null)
-            queryParams = new HashMap<String, ArrayList<String>>();
-
-        ArrayList<String> valuesList = queryParams.get(name);
-        if (valuesList == null) {
-            valuesList = new ArrayList<String>();
-            queryParams.put(name, valuesList);
-        }
-
-        Collections.addAll(valuesList, values);
+        uri.setQueryParam(name, values);
     }
 
     @Override
@@ -197,23 +177,5 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     @Override
     public Class<?> getParametrizedType() {
         return parametrizedType;
-    }
-
-    private void ensureUriUpdated() {
-        if (queryParams != null && !queryParams.isEmpty()) {
-            final UrlCodec codec = UrlCodec.getInstance();
-            String addQuery = "";
-            String and = "";
-            for (String paramName : queryParams.keySet()) {
-                for (String paramValue : queryParams.get(paramName)) {
-                    addQuery = and + codec.encodeQueryString(paramName) + '=' + codec.encodeQueryString(paramValue);
-                    and = "&";
-                }
-            }
-            String newUri = uri.toString();
-            newUri += (newUri.contains("?") ? (newUri.endsWith("&") ? "" : "&") : "?") + addQuery;
-            uri = Uri.create(newUri);
-            queryParams.clear();
-        }
     }
 }
