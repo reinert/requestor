@@ -30,12 +30,12 @@ import io.reinert.requestor.uri.UrlCodec;
  *
  * @author Danilo Reinert
  */
-class UriQueryBuilder {
+class UriWithQueryBuilder {
 
     private Uri uri;
     private Map<String, ArrayList<String>> queryParams;
 
-    public UriQueryBuilder(Uri uri) {
+    public UriWithQueryBuilder(Uri uri) {
         this.uri = uri;
     }
 
