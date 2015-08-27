@@ -23,6 +23,7 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
+import io.reinert.requestor.uri.UriBuilderException;
 
 /**
  * A resource target identified by the resource URI.
@@ -112,7 +113,9 @@ public class WebTarget implements FilterManager, InterceptorManager {
         if (uri == null) {
             try {
                 uri = uriBuilder.build();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
+                throw new IllegalStateException("Could not build the URI.", e);
+            } catch (UriBuilderException e) {
                 throw new IllegalStateException("Could not build the URI.", e);
             }
         }
