@@ -41,9 +41,26 @@ class RequestProcessor {
 
     public <R extends RequestBuilder & RequestFilterContext> SerializedRequest process(R request) {
         // 1: FILTER
-        filterEngine.filterRequest(request);
+        filter(request);
 
         // 2: SERIALIZE
+        SerializedRequestDelegate serializedRequest = serialize(request);
+
+        // 3: INTERCEPT
+        intercept(serializedRequest);
+
+        return serializedRequest;
+    }
+
+    private <R extends RequestBuilder & RequestFilterContext> void filter(R request) {
+        filterEngine.filterRequest(request);
+    }
+
+    private void intercept(SerializedRequestDelegate serializedRequest) {
+        interceptorEngine.interceptRequest(serializedRequest);
+    }
+
+    private <R extends RequestBuilder & RequestFilterContext> SerializedRequestDelegate serialize(R request) {
         SerializedRequestDelegate serializedRequest;
         Object payload = request.getPayload();
         if (payload instanceof Payload) {
@@ -63,10 +80,6 @@ class RequestProcessor {
         } else {
             serializedRequest = serializationEngine.serializeRequest(request);
         }
-
-        // 3: INTERCEPT
-        interceptorEngine.interceptRequest(serializedRequest);
-
         return serializedRequest;
     }
 }
