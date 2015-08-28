@@ -23,8 +23,7 @@ import io.reinert.requestor.uri.Uri;
 
 /**
  * Abstract class for {@link RequestInvoker} interface.
- * It has ready {@link Promise} auto-casting dispatch methods.
- * Requestor API implementers should inherit this class to dispatch the requests.
+ * It has reusable dispatch methods.
  *
  * @author Danilo Reinert
  */
@@ -35,6 +34,7 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
 
     public AbstractRequestInvoker(Uri uri, RequestDispatcher dispatcher, RequestProcessor processor) {
         super(uri);
+
         this.dispatcher = dispatcher;
         this.processor = processor;
     }
@@ -95,16 +95,14 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     // Internal methods
     //===================================================================
 
-    @SuppressWarnings("unchecked")
-    protected <T, P extends Promise<T>> P send(HttpMethod method, Class<T> resultType) {
+    protected <T> Promise<T> send(HttpMethod method, Class<T> resultType) {
         setMethod(method);
-        return (P) dispatcher.dispatch(processor.process(build()), resultType);
+        return dispatcher.dispatch(processor.process(build()), resultType);
     }
 
-    @SuppressWarnings("unchecked")
-    protected <T, C extends Collection, P extends Promise<Collection<T>>> P send(HttpMethod method, Class<T> resultType,
-                                                                                 Class<C> containerType) {
+    protected <T, C extends Collection> Promise<Collection<T>> send(HttpMethod method, Class<T> resultType,
+                                                                    Class<C> containerType) {
         setMethod(method);
-        return (P) dispatcher.dispatch(processor.process(build()), resultType, containerType);
+        return dispatcher.dispatch(processor.process(build()), resultType, containerType);
     }
 }
