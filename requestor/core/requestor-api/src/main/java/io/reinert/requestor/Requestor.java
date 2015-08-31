@@ -56,7 +56,14 @@ public abstract class Requestor implements SerdesManager, FilterManager, Interce
     // Requestor configuration
     //===================================================================
 
-    public abstract void setDefaultMediaType(String contentType);
+    /**
+     * Sets a default media-type to be applied in all requests as content-type and accept headers.
+     *
+     * @throws IllegalArgumentException If media-type string is malformed
+     *
+     * @param mediaType The media-type to be set by default in all requests
+     */
+    public abstract void setDefaultMediaType(String mediaType);
 
     public abstract String getDefaultMediaType();
 
@@ -164,7 +171,7 @@ public abstract class Requestor implements SerdesManager, FilterManager, Interce
      *
      * @param serializationModule  The module containing one or many generated serdes
      *
-     * @return the {@link HandlerRegistration} object, capable of cancelling this registration
+     * @return The {@link HandlerRegistration} object, capable of cancelling this registration
      */
     public abstract HandlerRegistration register(SerializationModule serializationModule);
 }

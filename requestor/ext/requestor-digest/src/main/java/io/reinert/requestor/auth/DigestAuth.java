@@ -104,24 +104,31 @@ public class DigestAuth extends AbstractAuth {
 
     private void attempt(final PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
         if (challengeCalls < maxChallengeCalls) {
-            HttpMethod method = originalRequest.getMethod();
-            Uri uri = originalRequest.getUri();
-            Payload payload = originalRequest.getPayload();
-            int timeout = originalRequest.getTimeout();
-            ResponseType responseType = originalRequest.getResponseType();
-            Headers headers = getAttemptHeaders(method, uri, payload, originalRequest.getHeaders(), attemptResponse);
-
-            SerializedRequest attemptRequest =
-                    new SerializedRequestImpl(method, uri, headers, payload, timeout, responseType);
+            final SerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
 
             sendAttemptRequest(originalRequest, attemptRequest);
         } else {
-            Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
+            final Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
                     originalRequest.getPayload(), attemptResponse);
-            if (authHeader != null) originalRequest.addHeader(authHeader);
+
+            if (authHeader != null) {
+                originalRequest.addHeader(authHeader);
+            }
+
             originalRequest.send();
         }
         challengeCalls++;
+    }
+
+    private SerializedRequest copyRequest(PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
+        HttpMethod method = originalRequest.getMethod();
+        Uri uri = originalRequest.getUri();
+        Payload payload = originalRequest.getPayload();
+        int timeout = originalRequest.getTimeout();
+        ResponseType responseType = originalRequest.getResponseType();
+        Headers headers = getAttemptHeaders(method, uri, payload, originalRequest.getHeaders(), attemptResponse);
+
+        return new SerializedRequestImpl(method, uri, headers, payload, timeout, responseType);
     }
 
     private void sendAttemptRequest(final PreparedRequest originalRequest, SerializedRequest attemptRequest) {
@@ -157,13 +164,18 @@ public class DigestAuth extends AbstractAuth {
                                       @Nullable Response<?> attemptResponse) {
         final ArrayList<Header> headerList = new ArrayList<Header>(originalHeaders.getAll());
         final Header authHeader = getAuthorizationHeader(url, method, payload, attemptResponse);
-        if (authHeader != null) headerList.add(authHeader);
+
+        if (authHeader != null) {
+            headerList.add(authHeader);
+        }
+
         return new Headers(headerList);
     }
 
     private Header getAuthorizationHeader(Uri uri, HttpMethod method, Payload payload, Response<?> attemptResp) {
-        if (attemptResp == null)
+        if (attemptResp == null) {
             return null;
+        }
 
         final String authHeader = attemptResp.getHeader("WWW-Authenticate");
         if (authHeader == null) {

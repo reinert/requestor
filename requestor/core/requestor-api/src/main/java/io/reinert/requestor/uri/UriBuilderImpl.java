@@ -43,6 +43,7 @@ public class UriBuilderImpl extends UriBuilder {
     public UriBuilder scheme(String scheme) throws IllegalArgumentException {
         // TODO: check scheme validity
         this.scheme = scheme;
+
         return this;
     }
 
@@ -54,15 +55,20 @@ public class UriBuilderImpl extends UriBuilder {
         uriBuilder.password = password;
         uriBuilder.host = host;
         uriBuilder.port = port;
-        if (segments != null) uriBuilder.segments = new ArrayList<String>(segments);
+        if (segments != null) {
+            uriBuilder.segments = new ArrayList<String>(segments);
+        }
         uriBuilder.fragment = fragment;
-        if (queryParams != null) uriBuilder.queryParams = queryParams.clone();
+        if (queryParams != null) {
+            uriBuilder.queryParams = queryParams.clone();
+        }
         if (matrixParams != null) {
             uriBuilder.matrixParams = new HashMap<String, Buckets>();
             for (String key : matrixParams.keySet()) {
                 uriBuilder.matrixParams.put(key, matrixParams.get(key).clone());
             }
         }
+
         return uriBuilder;
     }
 
@@ -74,12 +80,14 @@ public class UriBuilderImpl extends UriBuilder {
         } else {
             this.user = user;
         }
+
         return this;
     }
 
     @Override
     public UriBuilder password(String password) {
         this.password = password;
+
         return this;
     }
 
@@ -87,37 +95,44 @@ public class UriBuilderImpl extends UriBuilder {
     public UriBuilder host(String host) {
         // TODO: check host validity
         this.host = host;
+
         return this;
     }
 
     @Override
     public UriBuilder port(int port) {
         this.port = port < 0 ? -1 : port;
+
         return this;
     }
 
     @Override
     public UriBuilder path(String path) {
         assertNotNull(path, "Path cannot be null.");
+
         if (!path.isEmpty()) {
-            String[] splitSegments = path.split("/");
             ensureSegments();
-            for (String segment : splitSegments) {
+
+            for (String segment : path.split("/")) {
                 if (!segment.isEmpty()) this.segments.add(segment);
             }
         }
+
         return this;
     }
 
     @Override
     public UriBuilder segment(Object... segments) throws IllegalArgumentException {
         assertNotNull(segments, "Segments cannot be null.");
+
         ensureSegments();
+
         for (Object o : segments) {
             String segment = o.toString();
             assertNotNullOrEmpty(segment, "Segment cannot be null or empty.", false);
             this.segments.add(segment);
         }
+
         return this;
     }
 
@@ -157,28 +172,35 @@ public class UriBuilderImpl extends UriBuilder {
         for (Object value : values) {
             queryParams.add(name, value != null ? value.toString() : null);
         }
+
         return this;
     }
 
     @Override
     public UriBuilder fragment(String fragment) {
         this.fragment = fragment;
+
         return this;
     }
 
     @Override
     public UriBuilder uri(Uri uri) throws IllegalArgumentException {
-        if (uri == null)
+        if (uri == null) {
             throw new IllegalArgumentException("Uri cannot be null.");
+        }
 
         final String mScheme = uri.getScheme();
         if (mScheme != null) scheme(mScheme);
+
         final String mUser = uri.getUser();
         if (mUser != null) user(mUser);
+
         final String mPassword = uri.getPassword();
         if (mPassword != null) password(mPassword);
+
         final String mHost = uri.getHost();
         if (mHost != null) host(mHost);
+
         final String[] mSegments = uri.getSegments();
         if (mSegments != null) {
             this.segments = null;
@@ -194,8 +216,10 @@ public class UriBuilderImpl extends UriBuilder {
                 }
             }
         }
+
         final int mPort = uri.getPort();
         port(mPort);
+
         final String[] mQueryParams = uri.getQueryParams();
         if (mQueryParams != null) {
             this.queryParams = null;
@@ -203,8 +227,10 @@ public class UriBuilderImpl extends UriBuilder {
                 queryParam(param, uri.getQueryValues(param));
             }
         }
+
         final String mFragment = uri.getFragment();
         if (mFragment != null) fragment(mFragment);
+
         return this;
     }
 
@@ -228,8 +254,8 @@ public class UriBuilderImpl extends UriBuilder {
         }
 
         final String parsedFrag = fragment != null ? parsePart(templateValues, templateParams, fragment) : null;
-
         final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
+
         return new UriImpl(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
     }
 
@@ -251,8 +277,8 @@ public class UriBuilderImpl extends UriBuilder {
         }
 
         final String parsedFrag = parsePart(values, fragment);
-
         final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
+
         return new UriImpl(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
     }
 
@@ -282,6 +308,7 @@ public class UriBuilderImpl extends UriBuilder {
                 cursor = -1;
             }
         }
+
         return segment;
     }
 
@@ -303,6 +330,7 @@ public class UriBuilderImpl extends UriBuilder {
                 cursor = -1;
             }
         }
+
         return segment;
     }
 
@@ -341,6 +369,8 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     private void ensureSegments() {
-        if (this.segments == null) this.segments = new ArrayList<String>();
+        if (this.segments == null) {
+            this.segments = new ArrayList<String>();
+        }
     }
 }

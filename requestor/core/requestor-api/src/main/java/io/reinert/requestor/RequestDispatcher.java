@@ -72,9 +72,11 @@ public abstract class RequestDispatcher {
     @SuppressWarnings("unchecked")
     public <T> Promise<T> dispatch(SerializedRequest request, Class<T> resultType) {
         final Deferred<T> deferred = deferredFactory.getDeferred();
+
         final Auth auth = request.getAuth();
         auth.setDispatcher(this);
         auth.auth(new PreparedRequestImpl(this, request, deferred, resultType, null));
+
         return deferred.getPromise();
     }
 
@@ -93,9 +95,11 @@ public abstract class RequestDispatcher {
     public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> resultType,
                                                                      Class<C> containerType) {
         final Deferred<Collection<T>> deferred = deferredFactory.getDeferred();
+
         final Auth auth = request.getAuth();
         auth.setDispatcher(this);
         auth.auth(new PreparedRequestImpl(this, request, deferred, containerType, resultType));
+
         return deferred.getPromise();
     }
 
@@ -110,6 +114,7 @@ public abstract class RequestDispatcher {
     @SuppressWarnings("unchecked")
     public <T> void dispatch(SerializedRequest request, Class<T> resultType, Callback<T, Throwable> callback) {
         final Deferred<T> deferred = new CallbackDeferred<T>(callback);
+
         final Auth auth = request.getAuth();
         auth.setDispatcher(this);
         auth.auth(new PreparedRequestImpl(this, request, deferred, resultType, null));
@@ -130,6 +135,7 @@ public abstract class RequestDispatcher {
                                                    Class<C> containerType,
                                                    Callback<Collection<T>, Throwable> callback) {
         final Deferred<Collection<T>> deferred = new CallbackDeferred<Collection<T>>(callback);
+
         final Auth auth = request.getAuth();
         auth.setDispatcher(this);
         auth.auth(new PreparedRequestImpl(this, request, deferred, containerType, resultType));

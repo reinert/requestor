@@ -25,14 +25,18 @@ public abstract class Uri {
     private static UriParser PARSER;
 
     public static Uri create(String uri) {
-        if (uri == null || uri.isEmpty())
+        if (uri == null || uri.isEmpty()) {
             throw new IllegalArgumentException("Uri cannot be null nor empty.");
+        }
 
         return new UriProxy(uri);
     }
 
     static UriParser getParser() {
-        if (PARSER == null) PARSER = UriParser.newInstance();
+        if (PARSER == null) {
+            PARSER = UriParser.newInstance();
+        }
+
         return PARSER;
     }
 

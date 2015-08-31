@@ -73,11 +73,13 @@ public abstract class UriBuilder {
      * @throws IllegalArgumentException if uri is null
      */
     public static UriBuilder fromUri(String uri) {
-        if (uri == null)
+        if (uri == null) {
             throw new IllegalArgumentException("Uri cannot be null");
+        }
 
         final UriBuilder builder = newInstance();
         builder.uri(UriImpl.create(uri));
+
         return builder;
     }
 

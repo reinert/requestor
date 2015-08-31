@@ -38,6 +38,7 @@ public class HttpDeserializationContext extends DeserializationContext {
                                          ProviderManagerImpl providerManager, Class<?> requestedType,
                                          Class<?> parametrizedType) {
         super(requestedType, parametrizedType);
+
         this.request = request;
         this.response = response;
         this.providerManager = providerManager;

@@ -66,9 +66,11 @@ class SerializationEngine {
     public SerializedRequestDelegate serializeRequest(Request request) {
         Object payload = request.getPayload();
         String body = null;
-        if (payload != null) {
+        if (payload != null) { // Checks whether there's a payload to serialized
             final String mediaType = getRequestMediaType(request);
             if (payload instanceof Collection) {
+                // Proceed to obtain the class instance of the first non-null element in this collection,
+                // in order to retrieve the corresponding serializer
                 Collection c = (Collection) payload;
                 final Iterator iterator = c.iterator();
                 Object item = null;
@@ -133,15 +135,17 @@ class SerializationEngine {
     }
 
     private void checkDeserializerNotNull(SerializedResponse response, Class<?> type, Deserializer<?> deserializer) {
-        if (deserializer == null)
+        if (deserializer == null) {
             throw new SerializationException("Could not find Deserializer for class '" + type.getName() + "' and " +
                     "media-type '" + response.getContentType() + "'.");
+        }
     }
 
     private void checkSerializerNotNull(Request request, Class<?> type, Serializer<?> serializer) {
-        if (serializer == null)
+        if (serializer == null) {
             throw new SerializationException("Could not find Serializer for class '" + type.getName() + "' and " +
                     "media-type '" + request.getContentType() + "'.");
+        }
     }
 
     private boolean isJsonMediaType(String mediaType) {

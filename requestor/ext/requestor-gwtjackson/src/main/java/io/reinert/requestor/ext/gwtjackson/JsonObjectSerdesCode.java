@@ -90,6 +90,7 @@ class JsonObjectSerdesCode {
 
     CodeBlock deserialize() {
         final JsonObjectSerdesSchema.DeserializeMethod currentScope = schema.deserializeMethod;
+
         return CodeBlock.builder()
                 .beginControlFlow("try")
                 .addStatement("return $N.$L($N)",
@@ -109,6 +110,7 @@ class JsonObjectSerdesCode {
 
     CodeBlock deserializeCollection() {
         final JsonObjectSerdesSchema.DeserializeCollectionMethod currentScope = schema.deserializeCollectionMethod;
+
         return CodeBlock.builder()
                 .beginControlFlow("try")
                 .beginControlFlow("if ($N.equals($T.class) || $N.equals($T.class) || $N.equals($T.class))",
@@ -178,6 +180,7 @@ class JsonObjectSerdesCode {
 
     CodeBlock serialize() {
         final JsonObjectSerdesSchema.SerializeMethod currentScope = schema.serializeMethod;
+
         return CodeBlock.builder()
                 .beginControlFlow("try")
                 .addStatement("return $N.$L($N)",
@@ -197,6 +200,7 @@ class JsonObjectSerdesCode {
 
     CodeBlock serializeCollection() {
         final JsonObjectSerdesSchema.SerializeCollectionMethod currentScope = schema.serializeCollectionMethod;
+
         return CodeBlock.builder()
                 .beginControlFlow("try")
                 .addStatement("return $N.$L($N)",

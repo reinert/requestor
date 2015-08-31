@@ -143,8 +143,9 @@ public class RequestorImpl extends Requestor {
     public void setDefaultMediaType(String mediaType) {
         if (mediaType != null) {
             int i = mediaType.indexOf('/');
-            if (i == -1 || i != mediaType.lastIndexOf('/'))
+            if (i == -1 || i != mediaType.lastIndexOf('/')) {
                 throw new IllegalArgumentException("Media-type must follow the pattern {type}/{subtype}");
+            }
         }
         this.defaultMediaType = mediaType;
     }
@@ -222,12 +223,15 @@ public class RequestorImpl extends Requestor {
         final int length = serializationModule.getSerdes().size() + serializationModule.getProviders().size();
         final HandlerRegistration[] registrations = new HandlerRegistration[length];
         int i = -1;
+
         for (Serdes<?> serdes : serializationModule.getSerdes()) {
             registrations[++i] = register(serdes);
         }
+
         for (Provider<?> provider : serializationModule.getProviders()) {
             registrations[++i] = register(provider);
         }
+
         return new HandlerRegistration() {
             @Override
             public void removeHandler() {
