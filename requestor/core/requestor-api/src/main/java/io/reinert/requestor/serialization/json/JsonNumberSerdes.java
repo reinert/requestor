@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.HasImpl;
+import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 
@@ -28,7 +28,7 @@ import io.reinert.requestor.serialization.UnableToDeserializeException;
  *
  * @author Danilo Reinert
  */
-public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HasImpl {
+public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HandlesSubTypes {
 
     public static boolean SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING;
 
@@ -95,7 +95,7 @@ public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HasImpl
     }
 
     @Override
-    public Class<?>[] implTypes() {
+    public Class<?>[] handledSubTypes() {
         return IMPL_CLASSES;
     }
 

@@ -42,7 +42,7 @@ import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 import io.reinert.requestor.Json;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.HasImpl;
+import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
@@ -250,8 +250,8 @@ public class JsonAutoBeanGenerator extends Generator {
         final String serdesTypeName = getTypeName(type) + "Serdes";
 
         // serializer field as anonymous class
-        w.println("private static class %s extends JsonObjectSerdes<%s> implements HasImpl {", serdesTypeName,
-                qualifiedSourceName);
+        w.println("private static class %s extends JsonObjectSerdes<%s> implements %s {", serdesTypeName,
+                qualifiedSourceName, HandlesSubTypes.class.getSimpleName());
 
         // static field for impl array
         final String autoBeanInstanceClass = factoryFieldName + "." + fieldName + "().getClass()";
@@ -269,7 +269,7 @@ public class JsonAutoBeanGenerator extends Generator {
 
         // mediaType
         w.println("    @Override");
-        w.println("    public Class[] implTypes() {");
+        w.println("    public Class[] handledSubTypes() {");
         w.println("        return IMPL;");
         w.println("    }");
         w.println();
@@ -435,7 +435,7 @@ public class JsonAutoBeanGenerator extends Generator {
                 // io.reinert.requestor.serialization
                 DeserializationContext.class.getCanonicalName(),
                 Deserializer.class.getCanonicalName(),
-                HasImpl.class.getCanonicalName(),
+                HandlesSubTypes.class.getCanonicalName(),
                 Serdes.class.getCanonicalName(),
                 Serializer.class.getCanonicalName(),
                 SerializationContext.class.getCanonicalName(),

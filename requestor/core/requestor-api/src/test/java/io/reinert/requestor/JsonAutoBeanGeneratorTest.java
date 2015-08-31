@@ -21,7 +21,7 @@ import java.util.List;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.HasImpl;
+import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.Serializer;
 
 /**
@@ -92,13 +92,13 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
     public void testSerializerShouldHandleAutoBeanProxyTypeAsImpl() {
         final Serializer<Animal> serializer = serdesManager.getSerializer(Animal.class, "application/json");
 
-        assertTrue(serializer instanceof HasImpl);
+        assertTrue(serializer instanceof HandlesSubTypes);
 
         // We test if runtime class name contains generated class name, since in runtime '$1' is appended to the end of
         // the class name. SerdesManagerImpl already handle this issue for matching.
         final Animal autoBeanInstance = providerManager.get(Animal.class).getInstance();
         final String autoBeanRunTimeClassName = autoBeanInstance.getClass().getName();
-        final String autoBeanGeneratedClassName = ((HasImpl) serializer).implTypes()[0].getName();
+        final String autoBeanGeneratedClassName = ((HandlesSubTypes) serializer).handledSubTypes()[0].getName();
         assertTrue(autoBeanRunTimeClassName.contains(autoBeanGeneratedClassName));
     }
 
