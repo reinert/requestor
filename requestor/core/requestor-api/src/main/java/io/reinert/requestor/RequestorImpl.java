@@ -88,39 +88,57 @@ public class RequestorImpl extends Requestor {
 
     @Override
     public RequestInvoker req(String uri) {
+        if (uri == null) {
+            throw new NullPointerException("Uri string cannot be null.");
+        }
         return createRequest(Uri.create(uri));
     }
 
     @Override
     public RequestInvoker req(Uri uri) {
+        if (uri == null) {
+            throw new NullPointerException("Uri cannot be null.");
+        }
         return createRequest(uri);
     }
 
     @Override
+    public RequestInvoker req(Link link) {
+        if (link == null) {
+            throw new NullPointerException("Link cannot be null.");
+        }
+        return createRequest(link.getUri());
+    }
+
+    @Override
     public WebTarget target(String uri) {
-        if (uri == null)
+        if (uri == null) {
             throw new NullPointerException("Uri string cannot be null.");
+        }
         return createWebTarget(UriBuilder.fromUri(uri));
     }
 
     @Override
     public WebTarget target(Uri uri) {
-        if (uri == null)
+        if (uri == null) {
             throw new NullPointerException("Uri cannot be null.");
+        }
         return createWebTarget(uri);
     }
 
     @Override
     public WebTarget target(UriBuilder uriBuilder) {
-        if (uriBuilder == null)
+        if (uriBuilder == null) {
             throw new NullPointerException("UriBuilder cannot be null.");
+        }
         return createWebTarget(uriBuilder);
     }
 
     @Override
     public WebTarget target(Link link) {
-        if (link == null)
+        if (link == null) {
             throw new NullPointerException("Link cannot be null.");
+        }
         return createWebTarget(link.getUri());
     }
 
