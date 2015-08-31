@@ -16,8 +16,10 @@
 package io.reinert.requestor.serialization;
 
 /**
- * It tells the {@link io.reinert.requestor.SerdesManager} to register an abstraction to one or more impls.
+ * It tells the {@link io.reinert.requestor.SerdesManager} to register an abstraction to handle one or more subtypes.
+ *
+ * @author Danilo Reinert
  */
-public interface HasImpl {
-    Class<?>[] implTypes();
+public interface HandlesSubTypes {
+    Class<?>[] handledSubTypes();
 }

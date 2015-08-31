@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.HasImpl;
+import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationException;
 import io.reinert.requestor.serialization.Serializer;
@@ -58,8 +58,8 @@ class SerdesManagerImpl implements SerdesManager {
     public <T> HandlerRegistration register(Deserializer<T> deserializer) {
         final HandlerRegistration reg = bindDeserializerToType(deserializer, deserializer.handledType());
 
-        if (deserializer instanceof HasImpl) {
-            Class[] impls = ((HasImpl) deserializer).implTypes();
+        if (deserializer instanceof HandlesSubTypes) {
+            Class[] impls = ((HandlesSubTypes) deserializer).handledSubTypes();
 
             final HandlerRegistration[] regs = new HandlerRegistration[impls.length + 1];
             regs[0] = reg;
@@ -94,8 +94,8 @@ class SerdesManagerImpl implements SerdesManager {
     public <T> HandlerRegistration register(Serializer<T> serializer) {
         final HandlerRegistration reg = bindSerializerToType(serializer, serializer.handledType());
 
-        if (serializer instanceof HasImpl) {
-            Class[] impls = ((HasImpl) serializer).implTypes();
+        if (serializer instanceof HandlesSubTypes) {
+            Class[] impls = ((HandlesSubTypes) serializer).handledSubTypes();
 
             final HandlerRegistration[] regs = new HandlerRegistration[impls.length + 1];
             regs[0] = reg;
