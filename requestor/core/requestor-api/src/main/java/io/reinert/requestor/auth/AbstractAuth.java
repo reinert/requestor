@@ -29,11 +29,11 @@ public abstract class AbstractAuth implements Auth {
 
     public abstract void auth(PreparedRequest preparedRequest);
 
-    public RequestDispatcher getDispatcher() {
+    public final RequestDispatcher getDispatcher() {
         return dispatcher;
     }
 
-    public void setDispatcher(RequestDispatcher dispatcher) {
+    public final void setDispatcher(RequestDispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
 }
