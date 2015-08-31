@@ -33,6 +33,7 @@ public class JsonObjectSerdesAssembler extends TypeAssembler {
 
     public JsonObjectSerdesAssembler(TypeInfo typeInfo) {
         super("io.reinert.requestor.gen." + typeInfo.getPackage().getName(), typeInfo.getSimpleName() + "Serdes");
+
         this.typeInfo = typeInfo;
         this.schema = new JsonObjectSerdesSchema(typeInfo);
         this.code = new JsonObjectSerdesCode(schema);
@@ -74,8 +75,7 @@ public class JsonObjectSerdesAssembler extends TypeAssembler {
                 .addMethod(schema.deserializeMethod.assemble(code.deserialize()))
                 .addMethod(schema.deserializeCollectionMethod.assemble(code.deserializeCollection()))
                 .addMethod(schema.serializeMethod.assemble(code.serialize()))
-                .addMethod(schema.serializeCollectionMethod.assemble(code.serializeCollection()))
-                ;
+                .addMethod(schema.serializeCollectionMethod.assemble(code.serializeCollection()));
     }
 
     public TypeInfo getTypeInfo() {

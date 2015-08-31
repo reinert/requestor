@@ -24,7 +24,7 @@ import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UrlCodec;
 
 /**
- * Uri with Query Builder.
+ * Wraps an already built Uri and provides a query builder to enhance the uri's query.
  *
  * To be used in case there's a built Uri but it's query may be optionally enhanced.
  *
@@ -45,11 +45,13 @@ class UriWithQueryBuilder {
     }
 
     public void setQueryParam(String name, String... values) {
-        if (name == null)
+        if (name == null) {
             throw new IllegalArgumentException("Query param name cannot be null.");
+        }
 
-        if (queryParams == null)
+        if (queryParams == null) {
             queryParams = new HashMap<String, ArrayList<String>>();
+        }
 
         ArrayList<String> valuesList = queryParams.get(name);
         if (valuesList == null) {

@@ -31,6 +31,7 @@ public class SerializationModuleAssembler extends TypeAssembler {
     public SerializationModuleAssembler(TypeInfo moduleTypeInfo,
                                         Iterable<JsonObjectSerdesAssembler> serdesAssemblers) {
         super(moduleTypeInfo.getPackage().getName(), moduleTypeInfo.getSimpleName() + "Impl");
+
         this.moduleTypeInfo = moduleTypeInfo;
         this.schema = new SerializationModuleSchema();
         this.code = new SerializationModuleCode(schema, serdesAssemblers);

@@ -235,37 +235,15 @@ class UriImpl extends Uri {
     private void buildPath() {
         final StringBuilder pathBuilder = new StringBuilder("/");
         final StringBuilder pathEncodedBuilder = new StringBuilder("/");
+
         if (pathSegments != null && pathSegments.length > 0) {
             for (final String segment : pathSegments) {
                 pathBuilder.append(segment);
                 pathEncodedBuilder.append(urlCodec.encodePathSegment(segment));
 
                 // Check if there are matrix params for this segment
-                if (matrixParams != null) {
-                    Buckets segmentParams = matrixParams.get(segment);
-                    if (segmentParams != null) {
-                        String[] params = segmentParams.getKeys();
-                        for (String param : params) {
-                            String[] values = segmentParams.get(param);
-                            // Check if the param has values
-                            if (values.length == 0) {
-                                // Append only the param name without any value
-                                pathBuilder.append(';').append(param);
-                                pathEncodedBuilder.append(';').append(urlCodec.encodePathSegment(param));
-                            } else {
-                                // Append the param and its values
-                                for (String value : values) {
-                                    pathBuilder.append(';').append(param);
-                                    pathEncodedBuilder.append(';').append(urlCodec.encodePathSegment(param));
-                                    if (value != null) {
-                                        pathBuilder.append('=').append(value);
-                                        pathEncodedBuilder.append('=').append(urlCodec.encodePathSegment(value));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                appendMatrixParams(pathBuilder, pathEncodedBuilder, segment);
+
                 pathBuilder.append('/');
                 pathEncodedBuilder.append('/');
             }
@@ -276,9 +254,38 @@ class UriImpl extends Uri {
         pathEncoded = pathEncodedBuilder.toString();
     }
 
+    private void appendMatrixParams(StringBuilder pathBuilder, StringBuilder pathEncodedBuilder, String segment) {
+        if (matrixParams != null) {
+            Buckets segmentParams = matrixParams.get(segment);
+            if (segmentParams != null) {
+                String[] params = segmentParams.getKeys();
+                for (String param : params) {
+                    String[] values = segmentParams.get(param);
+                    // Check if the param has values
+                    if (values.length == 0) {
+                        // Append only the param name without any value
+                        pathBuilder.append(';').append(param);
+                        pathEncodedBuilder.append(';').append(urlCodec.encodePathSegment(param));
+                    } else {
+                        // Append the param and its values
+                        for (String value : values) {
+                            pathBuilder.append(';').append(param);
+                            pathEncodedBuilder.append(';').append(urlCodec.encodePathSegment(param));
+                            if (value != null) {
+                                pathBuilder.append('=').append(value);
+                                pathEncodedBuilder.append('=').append(urlCodec.encodePathSegment(value));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private void buildQuery() {
         final StringBuilder queryBuilder = new StringBuilder();
         final StringBuilder queryEncodedBuilder = new StringBuilder();
+
         if (queryParams != null && !queryParams.isEmpty()) {
             String[] params = queryParams.getKeys();
             for (String param : params) {

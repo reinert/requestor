@@ -45,9 +45,11 @@ public class UriParser {
     }
 
     public UriImpl getUri() {
-        if (uri == null)
+        if (uri == null) {
             uri = new UriImpl(scheme, user, password, host, port, segments, matrixParams, queryParams, fragment,
                     uriString);
+        }
+
         return uri;
     }
 

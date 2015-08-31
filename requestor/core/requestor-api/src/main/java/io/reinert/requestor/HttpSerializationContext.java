@@ -28,11 +28,13 @@ public class HttpSerializationContext extends SerializationContext {
 
     protected HttpSerializationContext(Request request, Class<?> requestedType) {
         super(requestedType);
+
         this.request = request;
     }
 
     protected HttpSerializationContext(Request request, Class<?> requestedType, Class<?> parametrizedType) {
         super(requestedType, parametrizedType);
+
         this.request = request;
     }
 

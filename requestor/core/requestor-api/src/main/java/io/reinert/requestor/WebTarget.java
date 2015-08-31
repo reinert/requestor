@@ -34,6 +34,8 @@ import io.reinert.requestor.uri.UriBuilderException;
  */
 public class WebTarget implements FilterManager, InterceptorManager {
 
+    private static final String COULD_NOT_BUILD_THE_URI = "Could not build the URI.";
+
     private final SerializationEngine serializationEngine;
     private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
@@ -114,9 +116,9 @@ public class WebTarget implements FilterManager, InterceptorManager {
             try {
                 uri = uriBuilder.build();
             } catch (IllegalArgumentException e) {
-                throw new IllegalStateException("Could not build the URI.", e);
+                throw new IllegalStateException(COULD_NOT_BUILD_THE_URI, e);
             } catch (UriBuilderException e) {
-                throw new IllegalStateException("Could not build the URI.", e);
+                throw new IllegalStateException(COULD_NOT_BUILD_THE_URI, e);
             }
         }
         return uri;

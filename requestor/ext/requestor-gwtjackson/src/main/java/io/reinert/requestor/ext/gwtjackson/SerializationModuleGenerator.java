@@ -145,6 +145,7 @@ public class SerializationModuleGenerator {
         AnnotationMirror annMirror = MoreElements.getAnnotationMirror(typeElement, JsonSerializationModule.class).get();
         AnnotationValue annValue = AnnotationMirrors.getAnnotationValue(annMirror, "value");
         Object value = annValue.getValue();
+
         if (value instanceof List) {
             try {
                 @SuppressWarnings("unchecked")
