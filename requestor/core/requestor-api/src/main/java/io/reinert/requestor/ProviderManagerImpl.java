@@ -121,6 +121,7 @@ class ProviderManagerImpl implements ProviderManager {
     @SuppressWarnings("unchecked")
     @Nullable
     public <T> Provider<T> get(Class<T> type) {
+        // TODO: throw exception if not exists?
         return (Provider<T>) providers.get(type.getName());
     }
 }
