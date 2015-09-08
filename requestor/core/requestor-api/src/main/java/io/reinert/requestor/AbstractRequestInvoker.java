@@ -85,12 +85,6 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
         return this;
     }
 
-    @Override
-    public RequestInvoker responseType(ResponseType responseType) {
-        super.responseType(responseType);
-        return this;
-    }
-
     //===================================================================
     // Internal methods
     //===================================================================

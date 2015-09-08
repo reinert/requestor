@@ -37,11 +37,13 @@ public abstract class UriBuilder {
      * @throws IllegalArgumentException if path is null
      */
     public static UriBuilder fromPath(String path) {
-        if (path == null)
+        if (path == null) {
             throw new IllegalArgumentException("Path cannot be null");
+        }
 
         final UriBuilder builder = newInstance();
         builder.path(path);
+
         return builder;
     }
 
@@ -55,12 +57,14 @@ public abstract class UriBuilder {
      * @throws IllegalArgumentException if uri is null
      */
     public static UriBuilder fromUri(Uri uri) throws IllegalArgumentException {
-        if (uri == null)
+        if (uri == null) {
             throw new IllegalArgumentException("Uri cannot be null");
+        }
 
-        UriBuilder b = newInstance();
-        b.uri(uri);
-        return b;
+        UriBuilder builder = newInstance();
+        builder.uri(uri);
+
+        return builder;
     }
 
     /**
@@ -78,7 +82,7 @@ public abstract class UriBuilder {
         }
 
         final UriBuilder builder = newInstance();
-        builder.uri(UriImpl.create(uri));
+        builder.uri(Uri.create(uri));
 
         return builder;
     }

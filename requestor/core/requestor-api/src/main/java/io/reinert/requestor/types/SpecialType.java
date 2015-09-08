@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.header;
+package io.reinert.requestor.types;
 
-import java.util.Arrays;
+import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * The HTTP Content-Type header.
- * </p>
- * It's a simple header.
+ * Represents a javascript type that XMLHttpRequest handles without serialization.
+ * An SpecialType escapes the serialization when processing.
  *
  * @author Danilo Reinert
  */
-public class ContentTypeHeader extends SimpleHeader {
+public abstract class SpecialType {
 
-    public ContentTypeHeader(String value, Param... params) {
-        super("Content-Type", Element.of(value, Arrays.asList(params)));
+    private final JavaScriptObject jso;
+
+    protected SpecialType(JavaScriptObject jso) {
+        this.jso = jso;
     }
 
-    public ContentTypeHeader(String value) {
-        super("Content-Type", value);
+    @SuppressWarnings("unchecked")
+    public <T extends JavaScriptObject> T as() {
+        return (T) jso;
     }
 }

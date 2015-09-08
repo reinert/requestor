@@ -48,7 +48,4 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     @Override
     RequestInvoker payload(Object object) throws IllegalArgumentException;
 
-    @Override
-    RequestInvoker responseType(ResponseType responseType);
-
 }

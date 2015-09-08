@@ -95,6 +95,7 @@ public class MultivaluedHeader extends Header {
 
         if (!name.equals(that.name))
             return false;
+
         ensureValueString();
         if (!valueString.equals(that.valueString))
             return false;
@@ -105,7 +106,10 @@ public class MultivaluedHeader extends Header {
     @Override
     public int hashCode() {
         int result = name.hashCode();
+
+        ensureValueString();
         result = 31 * result + valueString.hashCode();
+
         return result;
     }
 

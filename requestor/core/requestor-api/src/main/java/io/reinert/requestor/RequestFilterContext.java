@@ -47,9 +47,4 @@ public interface RequestFilterContext {
     Uri getUri();
 
     Object getPayload();
-
-    ResponseType getResponseType();
-
-    void setResponseType(ResponseType responseType);
-
 }

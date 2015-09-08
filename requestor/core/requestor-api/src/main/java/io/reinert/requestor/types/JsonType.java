@@ -13,24 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.header;
+package io.reinert.requestor.types;
 
-import java.util.Arrays;
+import com.google.gwt.core.client.JavaScriptObject;
 
-/**
- * The HTTP Content-Type header.
- * </p>
- * It's a simple header.
- *
- * @author Danilo Reinert
- */
-public class ContentTypeHeader extends SimpleHeader {
+public class JsonType extends SpecialType {
 
-    public ContentTypeHeader(String value, Param... params) {
-        super("Content-Type", Element.of(value, Arrays.asList(params)));
-    }
-
-    public ContentTypeHeader(String value) {
-        super("Content-Type", value);
+    public JsonType(JavaScriptObject jso) {
+        super(jso);
     }
 }
