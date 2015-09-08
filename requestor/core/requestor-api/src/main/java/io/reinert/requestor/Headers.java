@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.header.SimpleHeader;
 
 /**
  * Stores the headers from a HTTP request/response.
@@ -102,7 +103,25 @@ public class Headers implements Iterable<Header> {
      * @param header The header to be added
      */
     protected void add(Header header) {
-        ensureHeaders().put(formatKey(header.getName()), header);
+        if (header.getValue() == null) {
+            ensureHeaders().remove(header.getName());
+        } else {
+            ensureHeaders().put(formatKey(header.getName()), header);
+        }
+    }
+
+    /**
+     * Adds a new header with the given name-value pair, or removes the header with the given name if the value is null.
+     *
+     * @param name  Name of the header
+     * @param value Value of the header
+     */
+    protected void set(String name, String value) {
+        if (value == null) {
+            ensureHeaders().remove(name);
+        } else {
+            ensureHeaders().put(formatKey(name), new SimpleHeader(name, value));
+        }
     }
 
     /**

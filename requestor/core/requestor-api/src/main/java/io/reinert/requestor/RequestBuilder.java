@@ -44,9 +44,13 @@ public interface RequestBuilder extends Request {
     RequestBuilder accept(String mediaType);
 
     /**
-     * Sets a request header with the given name and value. If a header with the
-     * specified name has already been set then the new value overwrites the
-     * current value. Null/empty values are ignored.
+     * Sets a request header with the given name and value.
+     *
+     * If a header with the specified name has already been set
+     * then the new value overwrites the current value.
+     *
+     * If a null value is given, then any existing header with
+     * the given name is removed.
      *
      * @param header The name of the header
      * @param value  The value of the header
@@ -56,8 +60,10 @@ public interface RequestBuilder extends Request {
     RequestBuilder header(String header, String value);
 
     /**
-     * Sets a request header. If a header with the specified name has already been set
-     * then the new value overwrites the current value. Null/empty values are ignored.
+     * Sets a request header.
+     *
+     * If a header with the specified name has already been set
+     * then the new value overwrites the current value.
      *
      * @param header The header instance
      *
@@ -104,14 +110,5 @@ public interface RequestBuilder extends Request {
      * @return This building request
      */
     RequestBuilder payload(Object object);
-
-    /**
-     * Sets the expected xhr response type of this Request.
-     *
-     * @param responseType The type of response
-     *
-     * @return This building request
-     */
-    RequestBuilder responseType(ResponseType responseType);
 
 }

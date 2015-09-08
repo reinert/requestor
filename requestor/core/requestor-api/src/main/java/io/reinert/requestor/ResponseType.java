@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.types.ArrayBufferType;
+import io.reinert.requestor.types.BlobType;
+import io.reinert.requestor.types.DocumentType;
+import io.reinert.requestor.types.JsonType;
+
 /**
  * The type of response expected from the XMLHttpRequest.
  */
@@ -33,21 +38,48 @@ public enum ResponseType {
         this.value = value;
     }
 
-    public static ResponseType of(String responseTypeString) {
-        final String value = responseTypeString.toLowerCase();
-        if (value.equals("arraybuffer")) {
+    public static ResponseType of(Class<?> type) {
+        if (type == ArrayBufferType.class) {
             return ARRAY_BUFFER;
-        } else if (value.equals("blob")) {
-            return BLOB;
-        } else if (value.equals("document")) {
-            return DOCUMENT;
-        } else if (value.equals("json")) {
-            return JSON;
-        } else if (value.equals("text")) {
-            return TEXT;
-        } else {
-            return DEFAULT;
         }
+
+        if (type == BlobType.class) {
+            return BLOB;
+        }
+
+        if (type == DocumentType.class) {
+            return DOCUMENT;
+        }
+
+        if (type == JsonType.class) {
+            return JSON;
+        }
+
+        return DEFAULT;
+    }
+
+    public static ResponseType of(String responseTypeString) {
+        if ("arraybuffer".equalsIgnoreCase(responseTypeString)) {
+            return ARRAY_BUFFER;
+        }
+
+        if ("blob".equalsIgnoreCase(responseTypeString)) {
+            return BLOB;
+        }
+
+        if ("document".equalsIgnoreCase(responseTypeString)) {
+            return DOCUMENT;
+        }
+
+        if ("json".equalsIgnoreCase(responseTypeString)) {
+            return JSON;
+        }
+
+        if ("text".equalsIgnoreCase(responseTypeString)) {
+            return TEXT;
+        }
+
+        return DEFAULT;
     }
 
     public String getValue() {

@@ -35,6 +35,8 @@ public interface PreparedRequest extends SerializedRequest {
 
     boolean isWithCredentials();
 
+    ResponseType getResponseType();
+
     void setWithCredentials(boolean withCredentials);
 
     void addHeader(Header header);

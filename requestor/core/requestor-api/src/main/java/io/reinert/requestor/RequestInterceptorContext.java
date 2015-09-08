@@ -35,7 +35,4 @@ public interface RequestInterceptorContext {
     Payload getPayload();
 
     void setPayload(Payload payload);
-
-    ResponseType getResponseType();
-
 }

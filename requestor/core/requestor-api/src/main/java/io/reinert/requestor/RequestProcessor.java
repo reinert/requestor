@@ -17,7 +17,7 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.form.FormDataSerializer;
-import io.reinert.requestor.header.ContentTypeHeader;
+import io.reinert.requestor.types.SpecialType;
 
 /**
  * This class performs all necessary processing steps to ongoing requests.
@@ -52,7 +52,7 @@ class RequestProcessor {
         return serializedRequest;
     }
 
-    private <R extends RequestBuilder & RequestFilterContext> void filter(R request) {
+    private void filter(RequestFilterContext request) {
         filterEngine.filterRequest(request);
     }
 
@@ -60,23 +60,22 @@ class RequestProcessor {
         interceptorEngine.interceptRequest(serializedRequest);
     }
 
-    private <R extends RequestBuilder & RequestFilterContext> SerializedRequestDelegate serialize(R request) {
+    private SerializedRequestDelegate serialize(RequestBuilder request) {
         SerializedRequestDelegate serializedRequest;
         Object payload = request.getPayload();
-        if (payload instanceof Payload) {
-            // Skip serialization (File, Blob, ArrayBuffer should be wrapped in a Payload to skip serialization)
-            serializedRequest = new SerializedRequestDelegate(request, (Payload) payload);
-        } else if (payload instanceof FormData) {
+        if (payload instanceof FormData) {
+            // TODO: extract to a FormDataSerializationEngine and support multiple serializers by content-type (or no?)
+            // maybe extract contentType matching from SerializationEngine
+
             // FormData serialization
             final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
-            final String mediaType = formDataSerializer.mediaType();
-            if (mediaType == null) {
-                // Let the browser handle the content-type
-                request.removeHeader("Content-Type");
-            } else {
-                request.addHeader(new ContentTypeHeader(mediaType));
-            }
+            // If mediaType is null then content-type header is removed and the browser handles it
+            request.header("Content-Type", formDataSerializer.mediaType());
             serializedRequest = new SerializedRequestDelegate(request, serializedPayload);
+        } else if (payload instanceof SpecialType) {
+            serializedRequest = new SerializedRequestDelegate(request, new Payload(((SpecialType) payload).as()));
+        } else if (payload instanceof Payload) {
+            serializedRequest = new SerializedRequestDelegate(request, (Payload) payload);
         } else {
             serializedRequest = serializationEngine.serializeRequest(request);
         }

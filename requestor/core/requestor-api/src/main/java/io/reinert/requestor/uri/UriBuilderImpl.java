@@ -110,6 +110,7 @@ public class UriBuilderImpl extends UriBuilder {
     public UriBuilder path(String path) {
         assertNotNull(path, "Path cannot be null.");
 
+        // FIXME: must overwrite existing path and associate matrix parameters
         if (!path.isEmpty()) {
             ensureSegments();
 

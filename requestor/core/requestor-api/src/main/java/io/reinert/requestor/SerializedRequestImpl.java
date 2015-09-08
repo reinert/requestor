@@ -122,11 +122,6 @@ public class SerializedRequestImpl implements SerializedRequest {
         return timeout;
     }
 
-    @Override
-    public ResponseType getResponseType() {
-        return responseType;
-    }
-
     private void checkNotNull(Object o, String message) {
         if (o == null) throw new IllegalArgumentException(message);
     }

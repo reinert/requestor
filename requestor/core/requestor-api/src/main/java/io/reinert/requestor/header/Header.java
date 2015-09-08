@@ -97,4 +97,9 @@ public abstract class Header extends com.google.gwt.http.client.Header {
         split.add(value.substring(startIndex, value.length()).trim());
         return split;
     }
+
+    @Override
+    public String toString() {
+        return getName() + ": " + getValue();
+    }
 }

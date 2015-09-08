@@ -82,11 +82,6 @@ class SerializedRequestDelegate implements SerializedRequest, RequestInterceptor
     }
 
     @Override
-    public ResponseType getResponseType() {
-        return request.getResponseType();
-    }
-
-    @Override
     public void setPayload(Payload payload) {
         this.serializedPayload = payload;
     }

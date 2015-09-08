@@ -34,7 +34,6 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     private Headers headers;
     private int timeout;
     private Object payload;
-    private ResponseType responseType = ResponseType.DEFAULT;
     private Auth auth = PassThroughAuth.getInstance();
 
     public RequestBuilderImpl(Uri uri) {
@@ -52,7 +51,6 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
         copy.auth = request.getAuth();
         copy.timeout = request.getTimeout();
         copy.payload = request.getPayload();
-        copy.responseType = request.getResponseType();
         return copy;
     }
 
@@ -97,11 +95,6 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public ResponseType getResponseType() {
-        return responseType;
-    }
-
-    @Override
     public Auth getAuth() {
         return auth;
     }
@@ -124,7 +117,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     @Override
     public RequestBuilder header(String header, String value) {
-        headers.add(new SimpleHeader(header, value));
+        headers.set(header, value);
         return this;
     }
 
@@ -137,12 +130,6 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     @Override
     public RequestBuilder payload(Object object) {
         payload = object;
-        return this;
-    }
-
-    @Override
-    public RequestBuilder responseType(ResponseType responseType) {
-        this.responseType = responseType;
         return this;
     }
 
@@ -198,11 +185,6 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     @Override
     public void setTimeout(int timeoutMillis) {
         this.timeout = timeoutMillis;
-    }
-
-    @Override
-    public void setResponseType(ResponseType responseType) {
-        this.responseType = responseType;
     }
 
     //===================================================================

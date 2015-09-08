@@ -58,8 +58,9 @@ public class UriParser {
     }
 
     public UriParser parse(String uri) {
-        if (uri == null || uri.isEmpty())
+        if (uri == null || uri.isEmpty()) {
             throw new UriParseException("The uri argument cannot be null or empty");
+        }
 
         resetParser();
 

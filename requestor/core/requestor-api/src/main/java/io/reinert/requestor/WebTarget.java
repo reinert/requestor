@@ -177,6 +177,7 @@ public class WebTarget implements FilterManager, InterceptorManager {
     public WebTarget path(String path) {
         if (path == null) throw new NullPointerException("The path argument of WebTarget cannot be null.");
         final UriBuilder copy = cloneUriBuilder();
+        // FIXME: must extract current path and append to the given, because UriBuilder#path overwrites existing path
         copy.path(path);
         return newWebTarget(copy);
     }

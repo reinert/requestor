@@ -41,8 +41,6 @@ public interface Request {
 
     Uri getUri();
 
-    ResponseType getResponseType();
-
     Auth getAuth();
 
 }

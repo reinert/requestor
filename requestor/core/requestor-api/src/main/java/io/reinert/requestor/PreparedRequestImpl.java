@@ -35,6 +35,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     private final Deferred<T> deferred;
     private final Class<T> resolveType;
     private final Class<?> parametrizedType;
+    private final ResponseType responseType;
     private final UriWithQueryBuilder uri;
 
     private boolean withCredentials;
@@ -54,6 +55,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
         this.deferred = deferred;
         this.resolveType = resolveType;
         this.parametrizedType = parametrizedType;
+        this.responseType = ResponseType.of(resolveType);
         this.withCredentials = withCredentials;
         this.sent = sent;
         this.uri = new UriWithQueryBuilder(request.getUri());
@@ -136,7 +138,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
 
     @Override
     public ResponseType getResponseType() {
-        return request.getResponseType();
+        return responseType;
     }
 
     @Override
