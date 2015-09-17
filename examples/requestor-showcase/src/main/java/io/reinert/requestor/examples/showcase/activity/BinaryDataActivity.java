@@ -30,6 +30,7 @@ import io.reinert.requestor.Requestor;
 import io.reinert.requestor.ResponseType;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
+import io.reinert.requestor.types.BlobType;
 
 public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.Handler {
 
@@ -73,8 +74,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
     @Override
     public void onRetrieveButtonClick(String url) {
         requestor.req(url)
-                .responseType(ResponseType.BLOB)
-                .get(Payload.class)
+                .get(BlobType.class)
                 .progress(new ProgressCallback<RequestProgress>() {
                     @Override
                     public void onProgress(RequestProgress progress) {
@@ -82,12 +82,12 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
                             view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
                     }
                 })
-                .done(new DoneCallback<Payload>() {
+                .done(new DoneCallback<BlobType>() {
                     @Override
-                    public void onDone(Payload result) {
+                    public void onDone(BlobType result) {
                         view.setRetrieveProgressStatus(100);
 
-                        final JavaScriptObject blob = result.isJavaScriptObject();
+                        final JavaScriptObject blob = result.as();
                         if (blob == null) {
                             Window.alert("No content received.");
                             view.setRetrieveProgressStatus(0);

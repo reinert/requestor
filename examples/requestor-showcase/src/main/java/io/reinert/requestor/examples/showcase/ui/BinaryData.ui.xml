@@ -72,21 +72,21 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="retrieving-data">Retrieving data</h1>
       <p class="lead">
-        Correctly set the ResponseType of the request and you can retrieve the payload as binary data.
+        Retrieve the payload as binary data by requesting <code>BlobType</code>, <code>ArrayBufferType</code>, <code>JsonType</code> or <code>DocumentType</code> (xml).
       </p>
       <div class="highlight">
         <pre ui:field="retrieve" class="java">
           <code>requestor.req(url)
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.responseType(ResponseType.BLOB)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(Payload.class)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(BlobType.class)
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.progress(new ProgressCallback&lt;RequestProgress&gt;() {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onProgress(RequestProgress progress) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* calculates (loaded/total)*100 */
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;})
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Payload&gt;() {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(Payload result) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;BlobType&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(BlobType result) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(100);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
