@@ -18,7 +18,8 @@
   <inherits name="com.google.gwt.http.HTTP"/>
   <inherits name="com.google.web.bindery.event.Event"/>
 
-  <source path="" excludes="rebind/**/*"/>
+  <super-source path="emul"/>
+  <source path="" excludes="rebind/**/*,emul/**/*"/>
 
   <replace-with class="io.reinert.requestor.RequestorImpl">
     <when-type-is class="io.reinert.requestor.Requestor"/>
