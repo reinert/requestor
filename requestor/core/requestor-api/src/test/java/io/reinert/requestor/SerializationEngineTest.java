@@ -52,12 +52,6 @@ public class SerializationEngineTest {
 
     @Before
     public void setUp() {
-//        when(providerManager.getInstance(ArrayList.class)).thenReturn(new Provider<ArrayList>() {
-//            @Override
-//            public ArrayList getInstance() {
-//                return new ArrayList();
-//            }
-//        });
         engine = new SerializationEngine(serdesManager, providerManager);
     }
 
@@ -67,7 +61,7 @@ public class SerializationEngineTest {
         // Given
         final Class<Object> clazz = Object.class;
         final String mediaType = "don't/matter";
-        final Payload payload = new Payload("any serialized payload");
+        final Payload payload = Payload.fromText("any serialized payload");
 
         SerializedResponse response = mock(SerializedResponse.class);
         when(response.getContentType()).thenReturn(mediaType);
@@ -95,7 +89,7 @@ public class SerializationEngineTest {
         final Class<List> collectionClazz = List.class;
         final Class<Object> clazz = Object.class;
         final String mediaType = "don't/matter";
-        final Payload payload = new Payload("any serialized payload");
+        final Payload payload = Payload.fromText("any serialized payload");
 
         SerializedResponse response = mock(SerializedResponse.class);
         when(response.getContentType()).thenReturn(mediaType);
@@ -120,7 +114,7 @@ public class SerializationEngineTest {
     @Test
     public void serializeRequest_RequestWithoutPayload_ShouldNeverAskSerializationEngine() {
         // Given
-        Request request = mock(Request.class);
+        MutableRequest request = mock(MutableRequest.class);
         when(request.getPayload()).thenReturn(null);
 
         // When
@@ -137,7 +131,7 @@ public class SerializationEngineTest {
         final Object singleInstance = new Object();
         final String mediaType = "don't/matter";
 
-        Request request = mock(Request.class);
+        MutableRequest request = mock(MutableRequest.class);
         when(request.getPayload()).thenReturn(singleInstance);
         when(request.getContentType()).thenReturn(mediaType);
 
@@ -160,7 +154,7 @@ public class SerializationEngineTest {
         final List<Object> collectionInstance = Arrays.asList(new Object(), new Object());
         final String mediaType = "don't/matter";
 
-        Request request = mock(Request.class);
+        MutableRequest request = mock(MutableRequest.class);
         when(request.getPayload()).thenReturn(collectionInstance);
         when(request.getContentType()).thenReturn(mediaType);
 

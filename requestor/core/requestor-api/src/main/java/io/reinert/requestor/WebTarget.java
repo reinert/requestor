@@ -75,9 +75,11 @@ public class WebTarget implements FilterManager, InterceptorManager {
         final FilterEngine filterEngine = new FilterEngine(this.filterManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(this.interceptorManager);
 
-        this.requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine,
+        this.requestProcessor = new RequestProcessor(serializationEngine, this.filterManager, this.interceptorManager,
                 formDataSerializer);
         this.requestDispatcher = requestDispatcherFactory.getRequestDispatcher(
+                new RequestProcessor(serializationEngine, this.filterManager, this.interceptorManager,
+                        formDataSerializer),
                 new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine), deferredFactory);
 
         this.uriBuilder = uriBuilder;
@@ -347,6 +349,6 @@ public class WebTarget implements FilterManager, InterceptorManager {
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        return new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
+        return new RequestInvokerImpl(uri, requestDispatcher);
     }
 }

@@ -76,7 +76,7 @@ public class FormDataSerializerUrlEncoded implements FormDataSerializer {
                 serialized.append(name).append('=').append(value).append('&'); // append 'name=value&'
             }
             serialized.setLength(serialized.length() - 1); // remove last '&' character
-            return new Payload(serialized.toString());
+            return Payload.fromText(serialized.toString());
         }
 
         for (FormData.Param param : formData) {
@@ -91,7 +91,7 @@ public class FormDataSerializerUrlEncoded implements FormDataSerializer {
             }
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
-        return new Payload(serialized.toString());
+        return Payload.fromText(serialized.toString());
     }
 
     private String encode(String value) {

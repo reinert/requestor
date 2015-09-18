@@ -29,8 +29,8 @@ import io.reinert.requestor.uri.Uri;
  */
 class RequestInvokerImpl extends AbstractRequestInvoker {
 
-    public RequestInvokerImpl(Uri uri, RequestProcessor processor, RequestDispatcher dispatcher) {
-        super(uri, dispatcher, processor);
+    public RequestInvokerImpl(Uri uri, RequestDispatcher dispatcher) {
+        super(uri, dispatcher);
     }
 
     //===================================================================

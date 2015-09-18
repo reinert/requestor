@@ -15,6 +15,9 @@
  */
 package io.reinert.requestor;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 import javax.annotation.Nullable;
 
 import com.google.gwt.core.client.JavaScriptException;
@@ -22,6 +25,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.io.ArrayBufferOutputStream;
 
 /**
  * Default implementation of {@link RequestDispatcher}.
@@ -30,17 +34,18 @@ import io.reinert.requestor.header.Header;
  */
 public class RequestDispatcherImpl extends RequestDispatcher {
 
-    public RequestDispatcherImpl(ResponseProcessor processor, DeferredFactory deferredFactory) {
-        super(processor, deferredFactory);
+    public RequestDispatcherImpl(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
+                                 DeferredFactory deferredFactory) {
+        super(requestProcessor, responseProcessor, deferredFactory);
     }
 
     @Override
-    protected <D> void send(PreparedRequest request, final Deferred<D> deferred, Class<D> resolveType,
-                            @Nullable Class<?> parametrizedType) {
+    protected <D> void send(PreparedRequest request, OutputStreamDelegator outputStreamDelegator,
+                            final Deferred<D> deferred, Class<D> resolveType, @Nullable Class<?> parametrizedType) {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();
-        final Payload payload = request.getPayload();
+        final Payload payload = (Payload) request.getPayload();
         final ResponseType responseType = request.getResponseType();
 
         // Create XMLHttpRequest
@@ -107,26 +112,38 @@ public class RequestDispatcherImpl extends RequestDispatcher {
             }
         });
 
+        // Create an in-memory output stream
+        ArrayBufferOutputStream inMemoryOutputStream = new ArrayBufferOutputStream();
+
         // Pass the connection to the deferred to enable it to cancel the request if necessary (RECOMMENDED)
-        deferred.setHttpConnection(getConnection(gwtRequest));
+        deferred.setHttpConnection(getConnection(gwtRequest, inMemoryOutputStream));
+
+        // Set the low-level output stream to be the delegatee
+        outputStreamDelegator.setDelegatee(inMemoryOutputStream);
 
         // Send the request
         try {
-            if (payload != null) {
-                if (payload.isString() != null) {
-                    xmlHttpRequest.send(payload.isString());
-                } else {
+            if (payload != null && !payload.isEmpty()) {
+                if (payload.isBytesAvailable()) {
+                    request.getOutputStream().write(payload.getBytes());
+                    xmlHttpRequest.send(inMemoryOutputStream.toArrayBuffer());
+                } else if (payload.isJavaScriptObject() != null) {
                     xmlHttpRequest.send(payload.isJavaScriptObject());
+                } else {
+                    xmlHttpRequest.send(payload.isString());
                 }
             } else {
                 xmlHttpRequest.send();
             }
         } catch (JavaScriptException e) {
             deferred.reject(new RequestDispatchException("Could not send the XHR: " + e.getMessage()));
+        } catch (IOException e) {
+            deferred.reject(new RequestDispatchException("Could not write to the output stream: " + e.getMessage()));
         }
     }
 
-    private HttpConnection getConnection(final com.google.gwt.http.client.Request gwtRequest) {
+    private HttpConnection getConnection(final com.google.gwt.http.client.Request gwtRequest,
+                                         final OutputStream outputStream) {
         return new HttpConnection() {
             public void cancel() {
                 gwtRequest.cancel();
@@ -134,6 +151,11 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
             public boolean isPending() {
                 return gwtRequest.isPending();
+            }
+
+            @Override
+            public OutputStream getOutputStream() {
+                return outputStream;
             }
         };
     }
@@ -147,8 +169,19 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                                            com.google.gwt.http.client.Response gwtResponse) {
                 final String responseType = xhr.getResponseType();
 
-                final Payload payload = responseType.isEmpty() || responseType.equalsIgnoreCase("text") ?
-                        new Payload(xhr.getResponseText()) : new Payload(xhr.getResponse());
+                Payload payload = null;
+
+                if (responseType.isEmpty() || responseType.equalsIgnoreCase("text")) {
+                    payload = Payload.fromText(xhr.getResponseText());
+                } else if (responseType.equalsIgnoreCase("arraybuffer")) {
+                    payload = Payload.fromArrayBuffer(xhr.getResponse());
+                } else if (responseType.equalsIgnoreCase("blob")) {
+                    payload = Payload.fromBlob(xhr.getResponse());
+                } else if (responseType.equalsIgnoreCase("document")) {
+                    payload = Payload.fromDocument(xhr.getResponse());
+                } else if (responseType.equalsIgnoreCase("json")) {
+                    payload = Payload.fromJson(xhr.getResponse());
+                }
 
                 final RawResponseImpl response = new RawResponseImpl(Response.Status.of(gwtResponse.getStatusCode(),
                         gwtResponse.getStatusText()), new Headers(gwtResponse.getHeaders()),

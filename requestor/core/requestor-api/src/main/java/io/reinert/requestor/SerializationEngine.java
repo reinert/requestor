@@ -63,7 +63,8 @@ class SerializationEngine {
         return getDeserializedResponse(response, result);
     }
 
-    public SerializedRequestDelegate serializeRequest(Request request) {
+    // FIXME
+    public void serializeRequest(MutableRequest request) {
         Object payload = request.getPayload();
         String body = null;
         if (payload != null) { // Checks whether there's a payload to serialized
@@ -99,7 +100,8 @@ class SerializationEngine {
                 body = serializer.serialize(payload, new HttpSerializationContext(request, type));
             }
         }
-        return new SerializedRequestDelegate(request, new Payload(body));
+        request.setPayload(Payload.fromText(body));
+//        return new SerializedRequestDelegate(request, new Payload(body));
     }
 
     private String getRequestMediaType(Request request) {

@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.io.OutputStream;
+
 import javax.annotation.Nullable;
 
 import io.reinert.requestor.auth.Auth;
@@ -29,8 +31,9 @@ import io.reinert.requestor.uri.Uri;
  */
 class PreparedRequestImpl<T> implements PreparedRequest {
 
+    private final OutputStreamDelegator outputStreamDelegator;
     private final RequestDispatcher dispatcher;
-    private final SerializedRequest request;
+    private final MutableRequest request;
     private final Headers headers;
     private final Deferred<T> deferred;
     private final Class<T> resolveType;
@@ -41,14 +44,16 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     private boolean withCredentials;
     private boolean sent;
 
-    public PreparedRequestImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
-                               Class<T> resolveType, @Nullable Class<?> parametrizedType) {
-        this(dispatcher, request, deferred, resolveType, parametrizedType, false, false);
+    public PreparedRequestImpl(RequestDispatcher dispatcher, OutputStreamDelegator outputStreamDelegator,
+                               MutableRequest request, Deferred<T> deferred, Class<T> resolveType,
+                               @Nullable Class<?> parametrizedType) {
+        this(dispatcher, outputStreamDelegator, request, deferred, resolveType, parametrizedType, false, false);
     }
 
-    private PreparedRequestImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
-                                Class<T> resolveType, @Nullable Class<?> parametrizedType, boolean withCredentials,
-                                boolean sent) {
+    private PreparedRequestImpl(RequestDispatcher dispatcher, OutputStreamDelegator outputStreamDelegator,
+                                MutableRequest request, Deferred<T> deferred, Class<T> resolveType,
+                                @Nullable Class<?> parametrizedType, boolean withCredentials, boolean sent) {
+        this.outputStreamDelegator = outputStreamDelegator;
         this.dispatcher = dispatcher;
         this.request = request;
         this.headers = request.getHeaders();
@@ -87,7 +92,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
             throw new IllegalStateException("PreparedRequest has already been sent.");
 
         try {
-            dispatcher.send(this, deferred, resolveType, parametrizedType);
+            dispatcher.send(this, outputStreamDelegator, deferred, resolveType, parametrizedType);
         } catch (Exception e) {
             deferred.reject(new RequestDispatchException(
                     "Some non-caught exception occurred while dispatching the request", e));
@@ -122,7 +127,7 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     }
 
     @Override
-    public Payload getPayload() {
+    public Object getPayload() {
         return request.getPayload();
     }
 
@@ -179,5 +184,15 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     @Override
     public Class<?> getParametrizedType() {
         return parametrizedType;
+    }
+
+    @Override
+    public OutputStream getOutputStream() {
+        return request.getOutputStream();
+    }
+
+    @Override
+    public void setOutputStream(OutputStream outputStream) {
+        request.setOutputStream(outputStream);
     }
 }

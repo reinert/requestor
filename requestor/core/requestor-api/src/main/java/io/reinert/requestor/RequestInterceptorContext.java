@@ -32,7 +32,7 @@ public interface RequestInterceptorContext {
 
     Uri getUri();
 
-    Payload getPayload();
+    Object getPayload();
 
-    void setPayload(Payload payload);
+    void setPayload(Object payload);
 }

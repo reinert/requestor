@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,17 @@
  */
 package io.reinert.requestor;
 
-/**
- * Factory for {@link RequestDispatcher}.
- *
- * It's implementation is set via deferred binding.
- *
- * @author Danilo Reinert
- */
-public interface RequestDispatcherFactory {
-    RequestDispatcher getRequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                                           DeferredFactory deferredFactory);
+public class FilterProcessingRequest extends AbstractProcessingRequest implements RequestFilterContext {
+
+    private final RequestFilter filter;
+
+    public FilterProcessingRequest(ProcessingRequest request, RequestFilter filter) {
+        super(request);
+        this.filter = filter;
+    }
+
+    @Override
+    protected void process() {
+        filter.filter(this);
+    }
 }

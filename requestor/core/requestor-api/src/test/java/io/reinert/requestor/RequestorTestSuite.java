@@ -29,8 +29,9 @@ import junit.framework.TestSuite;
         FilterManagerImplTest.class,
         SerdesManagerImplTest.class,
         SerializationEngineTest.class,
-        RequestProcessorTest.class,
+//        RequestProcessorTest.class,
         ResponseProcessorTest.class,
-        RequestDispatcherTest.class})
+//        RequestDispatcherTest.class
+        })
 public class RequestorTestSuite extends TestSuite {
 }

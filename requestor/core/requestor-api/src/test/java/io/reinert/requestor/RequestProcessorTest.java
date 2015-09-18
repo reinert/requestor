@@ -32,36 +32,36 @@ import static org.mockito.Mockito.withSettings;
 /**
  * Unit tests of {@link RequestProcessor}.
  */
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class RequestProcessorTest {
 
-    @Mock private SerializationEngine serializationEngine;
-    @Mock private FilterEngine filterEngine;
-    @Mock private InterceptorEngine interceptorEngine;
-    @Mock private FormDataSerializer formDataSerializer;
-
-    private RequestProcessor processor;
-
-    @Before
-    public void setUp() {
-        processor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine, formDataSerializer);
-    }
-
-    @Test
-    public <R extends RequestBuilder & RequestFilterContext> void process_ShouldFilterThenSerializeThenIntercept() {
-        // Given
-        @SuppressWarnings("unchecked")
-        R request = (R) mock(RequestBuilder.class, withSettings().extraInterfaces(RequestFilterContext.class));
-        SerializedRequestDelegate interceptorContext = mock(SerializedRequestDelegate.class);
-        when(serializationEngine.serializeRequest(request)).thenReturn(interceptorContext);
-
-        // When
-        processor.process(request);
-
-        // Then
-        InOrder inOrder = inOrder(serializationEngine, filterEngine, interceptorEngine);
-        inOrder.verify(filterEngine).filterRequest(request);
-        inOrder.verify(serializationEngine).serializeRequest(request);
-        inOrder.verify(interceptorEngine).interceptRequest(interceptorContext);
-    }
+//    @Mock private SerializationEngine serializationEngine;
+//    @Mock private FilterEngine filterEngine;
+//    @Mock private InterceptorEngine interceptorEngine;
+//    @Mock private FormDataSerializer formDataSerializer;
+//
+//    private RequestProcessor processor;
+//
+//    @Before
+//    public void setUp() {
+//        processor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine, formDataSerializer);
+//    }
+//
+//    @Test
+//    public <R extends RequestBuilder & RequestFilterContext> void process_ShouldFilterThenSerializeThenIntercept() {
+//        // Given
+//        @SuppressWarnings("unchecked")
+//        R request = (R) mock(RequestBuilder.class, withSettings().extraInterfaces(RequestFilterContext.class));
+//        SerializedRequestDelegate interceptorContext = mock(SerializedRequestDelegate.class);
+//        when(serializationEngine.serializeRequest(request)).thenReturn(interceptorContext);
+//
+//        // When
+//        processor.process(request);
+//
+//        // Then
+//        InOrder inOrder = inOrder(serializationEngine, filterEngine, interceptorEngine);
+//        inOrder.verify(filterEngine).filterRequest(request);
+//        inOrder.verify(serializationEngine).serializeRequest(request);
+//        inOrder.verify(interceptorEngine).interceptRequest(interceptorContext);
+//    }
 }

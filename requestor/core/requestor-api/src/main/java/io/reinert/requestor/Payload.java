@@ -15,7 +15,14 @@
  */
 package io.reinert.requestor;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.typedarrays.client.ArrayBufferNative;
+
+import io.reinert.requestor.io.ArrayBufferInputStream;
 
 /**
  * Represents an HTTP payload.
@@ -27,13 +34,57 @@ public class Payload {
 
     private String string;
     private JavaScriptObject javaScriptObject;
+    private byte[] bytes;
 
-    public Payload(String string) {
+    private Payload(String string) {
         this.string = string;
+        if (string != null) {
+            try {
+                this.bytes = string.getBytes("UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException("Could not convert string to utf8 bytes.");
+            }
+        }
     }
 
-    public Payload(JavaScriptObject javaScriptObject) {
+    private Payload(JavaScriptObject javaScriptObject) {
         this.javaScriptObject = javaScriptObject;
+    }
+
+    private Payload(JavaScriptObject javaScriptObject, byte[] bytes) {
+        this.javaScriptObject = javaScriptObject;
+        this.bytes = bytes;
+    }
+
+    public static Payload fromText(String text) {
+        return new Payload(text);
+    }
+
+    public static Payload fromArrayBuffer(JavaScriptObject arrayBuffer) {
+        byte[] bytes =  getBytesFromArrayBuffer((ArrayBufferNative) arrayBuffer);
+        return new Payload(arrayBuffer, bytes);
+    }
+
+    public static Payload fromBlob(JavaScriptObject blob) {
+        Payload payload = new Payload(blob);
+        return new Payload(blob);
+    }
+
+    public static void fromBlob(JavaScriptObject blob, Callback<Payload, Throwable> callback) {
+        Payload payload = new Payload(blob);
+        readBlobAsArrayBuffer(blob, payload, callback);
+    }
+
+    public static Payload fromDocument(JavaScriptObject document) {
+        return new Payload(document);
+    }
+
+    public static Payload fromJson(JavaScriptObject json) {
+        return new Payload(json);
+    }
+
+    public static Payload fromFormData(JavaScriptObject formData) {
+        return new Payload(formData);
     }
 
     /**
@@ -42,7 +93,7 @@ public class Payload {
      * @return true if this payload is empty
      */
     public boolean isEmpty() {
-        return string == null && javaScriptObject == null;
+        return (string == null || string.isEmpty()) && javaScriptObject == null;
     }
 
     /**
@@ -68,7 +119,45 @@ public class Payload {
         return javaScriptObject != null ? stringify(javaScriptObject) : string;
     }
 
+    public byte[] getBytes() {
+        if (bytes == null) {
+            throw new RuntimeException("bytes are not available yet.");
+        }
+
+        return bytes;
+    }
+
+    public boolean isBytesAvailable() {
+        return bytes != null;
+    }
+
+    private static byte[] getBytesFromArrayBuffer(ArrayBufferNative arrayBuffer) {
+        final byte[] bytes;
+        try {
+            ArrayBufferInputStream is = new ArrayBufferInputStream(arrayBuffer);
+            bytes = new byte[is.available()];
+            is.read(bytes);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not convert array buffer to utf8 bytes.", e);
+        }
+        return bytes;
+    }
+
     private static native String stringify(JavaScriptObject jso) /*-{
         return JSON.stringify(jso);
+    }-*/;
+
+    private static native void readBlobAsArrayBuffer(JavaScriptObject blob, Payload payload,
+                                                     Callback<Payload, Throwable> callback) /*-{
+        var reader = new FileReader();
+        reader.addEventListener("load", function() {
+            payload.@Payload::bytes = @Payload::getBytesFromArrayBuffer(*)(reader.result);
+            callback.@com.google.gwt.core.client.Callback::onSuccess(*)(payload);
+        });
+        reader.addEventListener("error", function() {
+            callback.@com.google.gwt.core.client.Callback::onFailure(*)(
+                new RuntimeException("Error while reading blob as array buffer."));
+        });
+        reader.readAsArrayBuffer(blob);
     }-*/;
 }

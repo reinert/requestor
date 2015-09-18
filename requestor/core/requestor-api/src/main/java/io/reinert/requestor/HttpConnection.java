@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.io.OutputStream;
+
 /**
  * Represents a connection with server-side.
  *
@@ -25,5 +27,7 @@ public interface HttpConnection {
     void cancel();
 
     boolean isPending();
+
+    OutputStream getOutputStream();
 
 }

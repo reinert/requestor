@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 201 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,14 @@
  */
 package io.reinert.requestor;
 
+import java.io.OutputStream;
+
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
+import io.reinert.requestor.io.ArrayBufferOutputStream;
 import io.reinert.requestor.uri.Uri;
 
 /**
@@ -27,7 +30,7 @@ import io.reinert.requestor.uri.Uri;
  *
  * @author Danilo Reinert
  */
-class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
+class RequestBuilderImpl implements RequestBuilder, MutableRequest {
 
     private final Uri uri;
     private HttpMethod httpMethod;
@@ -35,6 +38,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     private int timeout;
     private Object payload;
     private Auth auth = PassThroughAuth.getInstance();
+    private OutputStream outputStream;
 
     public RequestBuilderImpl(Uri uri) {
         this(uri, new Headers());
@@ -51,6 +55,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
         copy.auth = request.getAuth();
         copy.timeout = request.getTimeout();
         copy.payload = request.getPayload();
+        // outputStream is not copied since it will be filled by the time of dispatching
         return copy;
     }
 
@@ -149,7 +154,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     //===================================================================
-    // RequestFilterContext methods
+    // MutableRequest methods
     //===================================================================
 
     @Override
@@ -159,7 +164,17 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     @Override
     public void setHeader(String name, String value) {
-        headers.add(new SimpleHeader(name, value));
+        headers.set(name, value);
+    }
+
+    @Override
+    public void setContentType(String mediaType) {
+        headers.add(new ContentTypeHeader(mediaType));
+    }
+
+    @Override
+    public void setAccept(String mediaType) {
+        headers.add(new AcceptHeader(mediaType));
     }
 
     @Override
@@ -185,6 +200,21 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     @Override
     public void setTimeout(int timeoutMillis) {
         this.timeout = timeoutMillis;
+    }
+
+    @Override
+    public void setPayload(Object payload) {
+        this.payload = payload;
+    }
+
+    @Override
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    @Override
+    public void setOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 
     //===================================================================

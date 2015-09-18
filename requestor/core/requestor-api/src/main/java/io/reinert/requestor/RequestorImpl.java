@@ -43,7 +43,6 @@ public class RequestorImpl extends Requestor {
     private final RequestDispatcherFactory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
     private final RequestDispatcher requestDispatcher;
-    private final RequestProcessor requestProcessor;
 
     private String defaultMediaType;
 
@@ -67,13 +66,15 @@ public class RequestorImpl extends Requestor {
         serializationEngine = new SerializationEngine(serdesManager, providerManager);
         final FilterEngine filterEngine = new FilterEngine(filterManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
-        requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine,
+        final RequestProcessor requestProcessor = new RequestProcessor(serializationEngine, filterManager,
+                interceptorManager,
                 formDataSerializer);
 
         // init dispatcher
         final ResponseProcessor responseProcessor = new ResponseProcessor(serializationEngine, filterEngine,
                 interceptorEngine);
-        requestDispatcher = requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory);
+        requestDispatcher = requestDispatcherFactory.getRequestDispatcher(requestProcessor, responseProcessor,
+                deferredFactory);
 
         // register generated serdes to the requestor
         GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
@@ -142,16 +143,16 @@ public class RequestorImpl extends Requestor {
         return createWebTarget(link.getUri());
     }
 
-    @Override
-    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> returnType) {
-        return requestDispatcher.dispatch(request, returnType);
-    }
-
-    @Override
-    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> returnType,
-                                                                     Class<C> containerType) {
-        return requestDispatcher.dispatch(request, returnType, containerType);
-    }
+//    @Override
+//    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> returnType) {
+//        return requestDispatcher.dispatch(request, returnType);
+//    }
+//
+//    @Override
+//    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> returnType,
+//                                                                     Class<C> containerType) {
+//        return requestDispatcher.dispatch(request, returnType, containerType);
+//    }
 
     //===================================================================
     // Requestor configuration
@@ -261,7 +262,7 @@ public class RequestorImpl extends Requestor {
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
+        final RequestInvoker request = new RequestInvokerImpl(uri, requestDispatcher);
         if (defaultMediaType != null) {
             request.contentType(defaultMediaType);
             request.accept(defaultMediaType);

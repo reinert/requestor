@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,16 @@
 package io.reinert.requestor;
 
 /**
- * Represents a serialized HTTP request.
+ * A request that can be aborted or proceed to be sent.
  *
- * @author Danilo Reienrt
+ * @author Danilo Reinert
  */
-public interface SerializedRequest extends Request {
-    @Override
-    Payload getPayload();
+public interface RequestOrder {
+
+    void proceed();
+
+    void abort(RawResponse response);
+
+    void abort(RequestException error);
+
 }

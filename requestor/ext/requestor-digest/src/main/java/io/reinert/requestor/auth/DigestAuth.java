@@ -31,8 +31,6 @@ import io.reinert.requestor.RawResponse;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseType;
-import io.reinert.requestor.SerializedRequest;
-import io.reinert.requestor.SerializedRequestImpl;
 import io.reinert.requestor.UnsuccessfulResponseException;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
@@ -89,7 +87,7 @@ public class DigestAuth extends AbstractAuth {
     @Override
     public void auth(final PreparedRequest request) {
         request.setWithCredentials(withCredentials);
-        attempt(request, null);
+//        attempt(request, null);
     }
 
     /**
@@ -102,63 +100,63 @@ public class DigestAuth extends AbstractAuth {
         this.maxChallengeCalls = maxChallengeCalls;
     }
 
-    private void attempt(final PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
-        if (challengeCalls < maxChallengeCalls) {
-            final SerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
-
-            sendAttemptRequest(originalRequest, attemptRequest);
-        } else {
-            final Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
-                    originalRequest.getPayload(), attemptResponse);
-
-            if (authHeader != null) {
-                originalRequest.addHeader(authHeader);
-            }
-
-            originalRequest.send();
-        }
-        challengeCalls++;
-    }
-
-    private SerializedRequest copyRequest(PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
-        HttpMethod method = originalRequest.getMethod();
-        Uri uri = originalRequest.getUri();
-        Payload payload = originalRequest.getPayload();
-        int timeout = originalRequest.getTimeout();
-        ResponseType responseType = originalRequest.getResponseType();
-        Headers headers = getAttemptHeaders(method, uri, payload, originalRequest.getHeaders(), attemptResponse);
-
-        return new SerializedRequestImpl(method, uri, headers, payload, timeout, responseType);
-    }
-
-    private void sendAttemptRequest(final PreparedRequest originalRequest, SerializedRequest attemptRequest) {
-        getDispatcher().dispatch(attemptRequest, RawResponse.class, new Callback<RawResponse, Throwable>() {
-            @Override
-            public void onFailure(Throwable error) {
-                try {
-                    if (error instanceof UnsuccessfulResponseException) {
-                        UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
-                        if (contains(EXPECTED_CODES, e.getStatusCode())) {
-                            // If the error response code is expected, then continue trying to authenticate
-                            attempt(originalRequest, e.getResponse());
-                            return;
-                        }
-                    }
-                    // Otherwise, throw an AuthenticationException and reject the promise with it
-                    throw new AuthException("The server returned a not expected status code.", error);
-                } catch (Exception e) {
-                    originalRequest.abort(new RequestException("Unable to authenticate request using DigestAuth. "
-                            + "See previous log.", e));
-                }
-            }
-
-            @Override
-            public void onSuccess(RawResponse response) {
-                // If the attempt succeeded, then abort the original request with the successful response
-                originalRequest.abort(response);
-            }
-        });
-    }
+//    private void attempt(final PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
+//        if (challengeCalls < maxChallengeCalls) {
+//            final SerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
+//
+//            sendAttemptRequest(originalRequest, attemptRequest);
+//        } else {
+//            final Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
+//                    originalRequest.getPayload(), attemptResponse);
+//
+//            if (authHeader != null) {
+//                originalRequest.addHeader(authHeader);
+//            }
+//
+//            originalRequest.send();
+//        }
+//        challengeCalls++;
+//    }
+//
+//    private SerializedRequest copyRequest(PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
+//        HttpMethod method = originalRequest.getMethod();
+//        Uri uri = originalRequest.getUri();
+//        Payload payload = originalRequest.getPayload();
+//        int timeout = originalRequest.getTimeout();
+//        ResponseType responseType = originalRequest.getResponseType();
+//        Headers headers = getAttemptHeaders(method, uri, payload, originalRequest.getHeaders(), attemptResponse);
+//
+//        return new SerializedRequestImpl(method, uri, headers, payload, timeout, responseType);
+//    }
+//
+//    private void sendAttemptRequest(final PreparedRequest originalRequest, SerializedRequest attemptRequest) {
+//        getDispatcher().dispatch(attemptRequest, RawResponse.class, new Callback<RawResponse, Throwable>() {
+//            @Override
+//            public void onFailure(Throwable error) {
+//                try {
+//                    if (error instanceof UnsuccessfulResponseException) {
+//                        UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
+//                        if (contains(EXPECTED_CODES, e.getStatusCode())) {
+//                            // If the error response code is expected, then continue trying to authenticate
+//                            attempt(originalRequest, e.getResponse());
+//                            return;
+//                        }
+//                    }
+//                    // Otherwise, throw an AuthenticationException and reject the promise with it
+//                    throw new AuthException("The server returned a not expected status code.", error);
+//                } catch (Exception e) {
+//                    originalRequest.abort(new RequestException("Unable to authenticate request using DigestAuth. "
+//                            + "See previous log.", e));
+//                }
+//            }
+//
+//            @Override
+//            public void onSuccess(RawResponse response) {
+//                // If the attempt succeeded, then abort the original request with the successful response
+//                originalRequest.abort(response);
+//            }
+//        });
+//    }
 
     private Headers getAttemptHeaders(HttpMethod method, Uri url, Payload payload, Headers originalHeaders,
                                       @Nullable Response<?> attemptResponse) {

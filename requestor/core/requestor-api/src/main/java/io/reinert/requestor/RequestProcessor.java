@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,40 +28,41 @@ class RequestProcessor {
 
     private final FormDataSerializer formDataSerializer;
     private final SerializationEngine serializationEngine;
-    private final FilterEngine filterEngine;
-    private final InterceptorEngine interceptorEngine;
+    private final FilterManagerImpl filterManager;
+    private final InterceptorManagerImpl interceptorManager;
 
-    public RequestProcessor(SerializationEngine serializationEngine, FilterEngine filterEngine,
-                            InterceptorEngine interceptorEngine, FormDataSerializer formDataSerializer) {
+    public RequestProcessor(SerializationEngine serializationEngine, FilterManagerImpl filterManager,
+                            InterceptorManagerImpl interceptorManager, FormDataSerializer formDataSerializer) {
         this.serializationEngine = serializationEngine;
-        this.filterEngine = filterEngine;
-        this.interceptorEngine = interceptorEngine;
+        this.filterManager = filterManager;
+        this.interceptorManager = interceptorManager;
         this.formDataSerializer = formDataSerializer;
     }
 
-    public <R extends RequestBuilder & RequestFilterContext> SerializedRequest process(R request) {
+    public ProcessingRequest process(ProcessingRequest request) {
         // 1: FILTER
-        filter(request);
-
         // 2: SERIALIZE
-        SerializedRequestDelegate serializedRequest = serialize(request);
-
         // 3: INTERCEPT
-        intercept(serializedRequest);
-
-        return serializedRequest;
+        return intercept(serialize(filter(request)));
     }
 
-    private void filter(RequestFilterContext request) {
-        filterEngine.filterRequest(request);
+    private ProcessingRequest filter(ProcessingRequest request) {
+        for (RequestFilter filter : filterManager.getRequestFilters()) {
+            request = new FilterProcessingRequest(request, filter);
+        }
+
+        return request;
     }
 
-    private void intercept(SerializedRequestDelegate serializedRequest) {
-        interceptorEngine.interceptRequest(serializedRequest);
+    private ProcessingRequest intercept(ProcessingRequest request) {
+        for (RequestInterceptor interceptor : interceptorManager.getRequestInterceptors()) {
+            request = new InterceptProcessingRequest(request, interceptor);
+        }
+
+        return request;
     }
 
-    private SerializedRequestDelegate serialize(RequestBuilder request) {
-        SerializedRequestDelegate serializedRequest;
+    private ProcessingRequest serialize(ProcessingRequest request) {
         Object payload = request.getPayload();
         if (payload instanceof FormData) {
             // TODO: extract to a FormDataSerializationEngine and support multiple serializers by content-type (or no?)
@@ -70,15 +71,13 @@ class RequestProcessor {
             // FormData serialization
             final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
             // If mediaType is null then content-type header is removed and the browser handles it
-            request.header("Content-Type", formDataSerializer.mediaType());
-            serializedRequest = new SerializedRequestDelegate(request, serializedPayload);
+            request.setHeader("Content-Type", formDataSerializer.mediaType());
+            request.setPayload(serializedPayload);
         } else if (payload instanceof SpecialType) {
-            serializedRequest = new SerializedRequestDelegate(request, new Payload(((SpecialType) payload).as()));
-        } else if (payload instanceof Payload) {
-            serializedRequest = new SerializedRequestDelegate(request, (Payload) payload);
-        } else {
-            serializedRequest = serializationEngine.serializeRequest(request);
+            request.setPayload(((SpecialType) payload).as());
+        } else if (!(payload instanceof Payload)) {
+            serializationEngine.serializeRequest(request);
         }
-        return serializedRequest;
+        return request;
     }
 }

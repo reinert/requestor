@@ -19,6 +19,12 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reinert.requestor.types.ArrayBufferType;
+import io.reinert.requestor.types.BlobType;
+import io.reinert.requestor.types.DocumentType;
+import io.reinert.requestor.types.JsonType;
+import io.reinert.requestor.types.SpecialType;
+
 /**
  * This class performs all necessary processing steps to incoming responses.
  *
@@ -121,6 +127,21 @@ public class ResponseProcessor {
         } else if (Headers.class == deserializationType) {
             r = (Response<T>) new ResponseImpl<Headers>(response.getStatus(), response.getHeaders(), responseType,
                     response.getHeaders());
+        } else if (ArrayBufferType.class == deserializationType) {
+            r = (Response<T>) new ResponseImpl<ArrayBufferType>(response.getStatus(), response.getHeaders(),
+                    responseType, new ArrayBufferType(response.getPayload().isJavaScriptObject()));
+        } else if (BlobType.class == deserializationType) {
+            r = (Response<T>) new ResponseImpl<BlobType>(response.getStatus(), response.getHeaders(), responseType,
+                    new BlobType(response.getPayload().isJavaScriptObject()));
+        } else if (DocumentType.class == deserializationType) {
+            r = (Response<T>) new ResponseImpl<DocumentType>(response.getStatus(), response.getHeaders(), responseType,
+                    new DocumentType(response.getPayload().isJavaScriptObject()));
+        } else if (JsonType.class == deserializationType) {
+            r = (Response<T>) new ResponseImpl<JsonType>(response.getStatus(), response.getHeaders(), responseType,
+                    new JsonType(response.getPayload().isJavaScriptObject()));
+        } else if (SpecialType.class == deserializationType) {
+            r = (Response<T>) new ResponseImpl<SpecialType>(response.getStatus(), response.getHeaders(), responseType,
+                    new ArrayBufferType(response.getPayload().isJavaScriptObject()));
         } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
             r = serializationEngine.deserializeResponse(request, response, deserializationType);
         } else {

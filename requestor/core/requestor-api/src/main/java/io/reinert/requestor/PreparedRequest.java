@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.io.OutputStream;
+
 import io.reinert.requestor.header.Header;
 
 /**
@@ -27,7 +29,7 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface PreparedRequest extends SerializedRequest {
+public interface PreparedRequest extends Request {
 
     Class<?> getResolveType();
 
@@ -38,6 +40,10 @@ public interface PreparedRequest extends SerializedRequest {
     ResponseType getResponseType();
 
     void setWithCredentials(boolean withCredentials);
+
+    OutputStream getOutputStream();
+
+    void setOutputStream(OutputStream outputStream);
 
     void addHeader(Header header);
 
