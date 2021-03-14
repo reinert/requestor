@@ -26,7 +26,6 @@ Carefully crafted, Requestor provides many features while allows the easy config
 * Auto JSON serialization for POJOs, JavaBean Interfaces and Overlay types
 * Integrated to the AutoBean Framework
 * Integrated to gwt-jackson
-* Integrated to TurboGWT
 * Handle multiple serialization of the same java type for different media types
 * Customizable request dispatching (support for caching and synchronization)
 

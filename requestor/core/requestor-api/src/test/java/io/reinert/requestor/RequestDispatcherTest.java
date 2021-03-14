@@ -17,8 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import javax.annotation.Nullable;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -89,7 +87,7 @@ public class RequestDispatcherTest {
 
         @Override
         protected <D> void send(PreparedRequest request, Deferred<D> deferred, Class<D> resolveType,
-                                @Nullable Class<?> parametrizedType) {
+                                Class<?> parametrizedType) {
         }
     }
 }

@@ -32,8 +32,6 @@ import io.reinert.requestor.auth.OAuth2ByQueryParam;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
 
-import org.turbogwt.core.util.Overlays;
-
 public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     private static class MyAuth extends AbstractAuth {
@@ -126,8 +124,8 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                 .done(new DoneCallback<JavaScriptObject>() {
                     @Override
                     public void onDone(JavaScriptObject result) {
-                        final JavaScriptObject image = Overlays.getObject(result, "image");
-                        final String imageUrl = Overlays.getString(image, "url");
+                        final JavaScriptObject image = getObject(result, "image");
+                        final String imageUrl = getString(image, "url");
                         view.addImage(imageUrl);
                     }
                 });
@@ -145,8 +143,8 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                 .done(new DoneCallback<JavaScriptObject>() {
                     @Override
                     public void onDone(JavaScriptObject result) {
-                        final JavaScriptObject data = Overlays.getObject(result, "data");
-                        final String imageUrl = Overlays.getString(data, "url");
+                        final JavaScriptObject data = getObject(result, "data");
+                        final String imageUrl = getString(data, "url");
                         view.addImage(imageUrl);
                     }
                 });
@@ -164,7 +162,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                 .done(new DoneCallback<JavaScriptObject>() {
                     @Override
                     public void onDone(JavaScriptObject result) {
-                        final String userId = Overlays.getObject(result, "id");
+                        final String userId = getObject(result, "id");
                         final String imageUrl = "https://apis.live.net/v5.0/" + userId + "/picture";
                         view.addImage(imageUrl);
                     }
@@ -184,4 +182,17 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
     public void onStop() {
         view.setHandler(null);
     }
+    
+    @SuppressWarnings("unchecked")
+    public static <T> T getObject(JavaScriptObject jso, String property) {
+        return (T) getObjectNative(jso, property);
+    }
+    
+    private static native Object getObjectNative(JavaScriptObject jso, String property) /*-{
+        return jso[property];
+    }-*/;
+    
+    private static native String getString(JavaScriptObject jso, String property) /*-{
+        return jso[property];
+    }-*/;
 }

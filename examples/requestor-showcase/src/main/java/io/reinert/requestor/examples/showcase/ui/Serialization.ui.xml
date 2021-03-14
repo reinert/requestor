@@ -53,16 +53,6 @@
           When you ask an overlay type in a request, the response payload will be deserialized using <code>JsonUtils#safeEval</code>.
           You can alternatively use <code>JsonUtils#unsafeEval</code> (faster but not secure) by setting the public flag <code>OverlaySerdes#USE_SAFE_EVAL</code> to false.
         </p>
-
-        <div class="requestor-callout requestor-callout-info">
-          <h4>Even faster deserialization</h4>
-          <p>
-            JSON deserialization to Overlay Types is faster than normal because it only requires the evaluation of the serialized content into a JavaScript object.
-            Nevertheless, the deserialization of json arrays is not so fast, because an iteration over all items is necessary to accumulate the result in a collection.
-            If you want even faster deserialization, you may consider using the Requestor-TurboGWT extension, which overcome this issue when possible.
-            Read more at the <a href="https://github.com/reinert/requestor/wiki/Overlay-Types-Serialization" target="_blank">docs</a>.
-          </p>
-        </div>
       </div>
 
       <div class="requestor-showcase-innersection">

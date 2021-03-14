@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import javax.annotation.Nullable;
-
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
@@ -36,7 +34,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
     @Override
     protected <D> void send(PreparedRequest request, final Deferred<D> deferred, Class<D> resolveType,
-                            @Nullable Class<?> parametrizedType) {
+                            Class<?> parametrizedType) {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();

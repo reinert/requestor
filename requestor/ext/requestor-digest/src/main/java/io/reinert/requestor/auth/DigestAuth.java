@@ -17,8 +17,6 @@ package io.reinert.requestor.auth;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nullable;
-
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -102,7 +100,7 @@ public class DigestAuth extends AbstractAuth {
         this.maxChallengeCalls = maxChallengeCalls;
     }
 
-    private void attempt(final PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
+    private void attempt(final PreparedRequest originalRequest, Response<?> attemptResponse) {
         if (challengeCalls < maxChallengeCalls) {
             final SerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
 
@@ -120,7 +118,7 @@ public class DigestAuth extends AbstractAuth {
         challengeCalls++;
     }
 
-    private SerializedRequest copyRequest(PreparedRequest originalRequest, @Nullable Response<?> attemptResponse) {
+    private SerializedRequest copyRequest(PreparedRequest originalRequest, Response<?> attemptResponse) {
         HttpMethod method = originalRequest.getMethod();
         Uri uri = originalRequest.getUri();
         Payload payload = originalRequest.getPayload();
@@ -161,7 +159,7 @@ public class DigestAuth extends AbstractAuth {
     }
 
     private Headers getAttemptHeaders(HttpMethod method, Uri url, Payload payload, Headers originalHeaders,
-                                      @Nullable Response<?> attemptResponse) {
+                                      Response<?> attemptResponse) {
         final ArrayList<Header> headerList = new ArrayList<Header>(originalHeaders.getAll());
         final Header authHeader = getAuthorizationHeader(url, method, payload, attemptResponse);
 

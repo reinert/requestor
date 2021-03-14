@@ -16,8 +16,6 @@
 
 package io.reinert.requestor.serialization;
 
-import javax.annotation.Nullable;
-
 /**
  * Context of serialization.
  *
@@ -41,7 +39,6 @@ public abstract class SerializationContext {
         return requestedType;
     }
 
-    @Nullable
     public Class<?> getParametrizedType() {
         return parametrizedType;
     }

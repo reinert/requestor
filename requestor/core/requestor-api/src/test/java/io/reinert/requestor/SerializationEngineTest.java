@@ -31,7 +31,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollection;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -66,7 +65,7 @@ public class SerializationEngineTest {
     public void deserializeResponse_OneClass_ShouldDeserializeAsSingleInstance() {
         // Given
         final Class<Object> clazz = Object.class;
-        final String mediaType = "don't/matter";
+        final String mediaType = "any/type";
         final Payload payload = Payload.fromText("any serialized payload");
 
         SerializedResponse response = mock(SerializedResponse.class);
@@ -94,7 +93,7 @@ public class SerializationEngineTest {
         // Given
         final Class<List> collectionClazz = List.class;
         final Class<Object> clazz = Object.class;
-        final String mediaType = "don't/matter";
+        final String mediaType = "any/type";
         final Payload payload = Payload.fromText("any serialized payload");
 
         SerializedResponse response = mock(SerializedResponse.class);
@@ -135,7 +134,7 @@ public class SerializationEngineTest {
     public void serializeRequest_RequestWithSinglePayload_ShouldCallSerializeSingleInstance() {
         // Given
         final Object singleInstance = new Object();
-        final String mediaType = "don't/matter";
+        final String mediaType = "any/type";
 
         Request request = mock(Request.class);
         when(request.getPayload()).thenReturn(singleInstance);
@@ -158,7 +157,7 @@ public class SerializationEngineTest {
     public void serializeRequest_RequestWithCollectionPayload_ShouldCallSerializeCollectionInstance() {
         // Given
         final List<Object> collectionInstance = Arrays.asList(new Object(), new Object());
-        final String mediaType = "don't/matter";
+        final String mediaType = "any/type";
 
         Request request = mock(Request.class);
         when(request.getPayload()).thenReturn(collectionInstance);
@@ -172,7 +171,7 @@ public class SerializationEngineTest {
 
         // Then
         verify(serdesManager).getSerializer(collectionInstance.get(0).getClass(), mediaType);
-        verify(serializer, never()).serialize(anyObject(), any(SerializationContext.class));
+        verify(serializer, never()).serialize(any(Object.class), any(SerializationContext.class));
         verify(serializer).serialize(eq(collectionInstance), any(SerializationContext.class));
     }
 }

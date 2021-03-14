@@ -31,7 +31,6 @@
 
   <modules>
     <module>requestor-gwtjackson</module>
-    <module>requestor-turbogwt</module>
     <module>requestor-oauth2</module>
     <module>requestor-digest</module>
   </modules>
