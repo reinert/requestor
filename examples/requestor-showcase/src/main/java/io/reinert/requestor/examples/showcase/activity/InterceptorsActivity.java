@@ -33,8 +33,6 @@ import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.impl.gdeferred.DoneCallback;
 
-import org.turbogwt.core.util.Overlays;
-
 public class InterceptorsActivity extends ShowcaseActivity implements Interceptors.Handler {
 
     private final Interceptors view;
@@ -121,7 +119,11 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
 
     private JavaScriptObject getMessageJson(String message) {
         JavaScriptObject json = JavaScriptObject.createObject();
-        Overlays.setString(json, "message", message);
+        setString(json, "message", message);
         return json;
     }
+    
+    private static native void setString(JavaScriptObject jso, String property, String value) /*-{
+        jso[property] = value;
+    }-*/;
 }

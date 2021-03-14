@@ -43,10 +43,6 @@
       <!--<optional>true</optional>-->
     <!--</dependency>-->
     <dependency>
-      <groupId>org.turbogwt.core</groupId>
-      <artifactId>turbogwt-core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.reinert.gdeferred</groupId>
       <artifactId>gdeferred</artifactId>
     </dependency>

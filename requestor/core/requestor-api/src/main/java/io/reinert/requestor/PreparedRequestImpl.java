@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import javax.annotation.Nullable;
-
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
@@ -42,12 +40,12 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     private boolean sent;
 
     public PreparedRequestImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
-                               Class<T> resolveType, @Nullable Class<?> parametrizedType) {
+                               Class<T> resolveType, Class<?> parametrizedType) {
         this(dispatcher, request, deferred, resolveType, parametrizedType, false, false);
     }
 
     private PreparedRequestImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
-                                Class<T> resolveType, @Nullable Class<?> parametrizedType, boolean withCredentials,
+                                Class<T> resolveType, Class<?> parametrizedType, boolean withCredentials,
                                 boolean sent) {
         this.dispatcher = dispatcher;
         this.request = request;

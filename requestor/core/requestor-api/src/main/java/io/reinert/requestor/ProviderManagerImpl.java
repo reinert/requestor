@@ -25,8 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.Nullable;
-
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 /**
@@ -119,7 +117,6 @@ class ProviderManagerImpl implements ProviderManager {
      * @param <T> the class of T
      */
     @SuppressWarnings("unchecked")
-    @Nullable
     public <T> Provider<T> get(Class<T> type) {
         // TODO: throw exception if not exists?
         return (Provider<T>) providers.get(type.getName());

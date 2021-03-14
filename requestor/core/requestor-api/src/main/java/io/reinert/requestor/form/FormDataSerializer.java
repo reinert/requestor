@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.form;
 
-import javax.annotation.Nullable;
-
 import io.reinert.requestor.Payload;
 
 /**
@@ -31,7 +29,6 @@ public interface FormDataSerializer {
      *
      * @return the media type of the payload or {@code null} the the Content-Type header shouldn't be set.
      */
-    @Nullable
     String mediaType();
 
     /**

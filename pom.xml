@@ -39,7 +39,7 @@
   </modules>
 
   <properties>
-    <target.jdk>1.6</target.jdk>
+    <target.jdk>1.8</target.jdk>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -60,10 +60,9 @@
     <github.version>0.10</github.version>
 
     <!-- GWT -->
-    <gwt.version>2.7.0</gwt.version>
-    <turbogwt.version>0.4.0</turbogwt.version>
+    <gwt.version>2.9.0</gwt.version>
     <gdeferred.version>0.9.0</gdeferred.version>
-    <gwtjackson.version>0.7.0</gwtjackson.version>
+    <gwtjackson.version>0.15.4</gwtjackson.version>
 
     <!-- Java -->
     <autocommon.version>0.4</autocommon.version>
@@ -73,7 +72,7 @@
     <annotation.version>1.2</annotation.version>
 
     <!-- Testing -->
-    <gwtmockito.version>1.1.4</gwtmockito.version>
+    <gwtmockito.version>1.1.9</gwtmockito.version>
     <junit.version>4.11</junit.version>
     <compile-testing.version>0.7</compile-testing.version>
     <mockito.version>1.9.5</mockito.version>
@@ -124,9 +123,7 @@
     <developer>
       <id>reinert</id>
       <name>Danilo Reinert</name>
-      <email>daniloreinert@growbit.com</email>
-      <organization>Grow bit</organization>
-      <organizationUrl>http://growbit.com</organizationUrl>
+      <email>daniloreinert@gmail.com</email>
       <roles>
         <role>architect</role>
         <role>lead developer</role>
@@ -142,12 +139,6 @@
         <groupId>io.reinert.gdeferred</groupId>
         <artifactId>gdeferred</artifactId>
         <version>${gdeferred.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.turbogwt.core</groupId>
-        <artifactId>turbogwt-core</artifactId>
-        <version>${turbogwt.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>

@@ -3,8 +3,8 @@
 ## First time only
 
 1. sh setup-dev.sh
-2. docker image build -t requestor-jdk7 .
-3. docker container run -d -t -v /usr/reinert/requestor/:/usr/reinert/requestor --name requestor-dev requestor-jdk7
+2. docker image build -t requestor-jdk8 .
+3. docker container run -d -t -v /usr/reinert/requestor/:/usr/reinert/requestor --name requestor-dev requestor-jdk8
 
 ## Whenever you need to run or access the dev container
 

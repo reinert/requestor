@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.serialization;
 
-import javax.annotation.Nullable;
-
 /**
  * Context of deserialization.
  *
@@ -42,7 +40,6 @@ public abstract class DeserializationContext {
         return requestedType;
     }
 
-    @Nullable
     public Class<?> getParametrizedType() {
         return parametrizedType;
     }

@@ -17,8 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import javax.annotation.Nullable;
-
 import com.google.gwt.core.client.Callback;
 
 import io.reinert.requestor.auth.Auth;
@@ -58,7 +56,7 @@ public abstract class RequestDispatcher {
      * @param <D>               The expected type of the promise
      */
     protected abstract <D> void send(PreparedRequest request, final Deferred<D> deferred, Class<D> resolveType,
-                                     @Nullable Class<?> parametrizedType);
+                                     Class<?> parametrizedType);
 
     /**
      * Sends the request and return an instance of {@link Promise} expecting a sole result.
