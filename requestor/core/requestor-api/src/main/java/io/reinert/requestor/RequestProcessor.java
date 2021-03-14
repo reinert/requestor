@@ -73,7 +73,7 @@ class RequestProcessor {
             request.header("Content-Type", formDataSerializer.mediaType());
             serializedRequest = new SerializedRequestDelegate(request, serializedPayload);
         } else if (payload instanceof SpecialType) {
-            serializedRequest = new SerializedRequestDelegate(request, new Payload(((SpecialType) payload).as()));
+            serializedRequest = new SerializedRequestDelegate(request, Payload.fromJson(((SpecialType) payload).as()));
         } else if (payload instanceof Payload) {
             serializedRequest = new SerializedRequestDelegate(request, (Payload) payload);
         } else {

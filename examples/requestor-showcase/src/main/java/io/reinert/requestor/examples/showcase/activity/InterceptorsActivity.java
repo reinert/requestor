@@ -68,7 +68,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
             public void intercept(RequestInterceptorContext context) {
                 final String json = context.getPayload().isString();
                 if (json != null) {
-                    context.setPayload(new Payload(")]}',\\n" + json));  // add )]}',\n to the beginning of JSONs
+                    context.setPayload(Payload.fromText(")]}',\\n" + json));  // add )]}',\n to the beginning of JSONs
                 }
             }
         });
@@ -98,7 +98,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
             public void intercept(Request request, ResponseInterceptorContext context) {
                 final String json = context.getPayload().isString();
                 if (json != null) {
-                    context.setPayload(new Payload(json.substring(6))); // remove first 6 chars )]}',\n
+                    context.setPayload(Payload.fromText(json.substring(6))); // remove first 6 chars )]}',\n
                 }
             }
         });

@@ -114,21 +114,21 @@ public interface Response<T> {
          *
          * @return the status code.
          */
-        public int getStatusCode();
+        int getStatusCode();
 
         /**
          * Get the class of status code.
          *
          * @return the class of status code.
          */
-        public Status.Family getFamily();
+        Status.Family getFamily();
 
         /**
          * Get the reason phrase.
          *
          * @return the reason phrase.
          */
-        public String getReasonPhrase();
+        String getReasonPhrase();
     }
 
     /**

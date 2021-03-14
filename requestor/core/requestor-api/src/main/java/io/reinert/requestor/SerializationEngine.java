@@ -99,7 +99,7 @@ class SerializationEngine {
                 body = serializer.serialize(payload, new HttpSerializationContext(request, type));
             }
         }
-        return new SerializedRequestDelegate(request, new Payload(body));
+        return new SerializedRequestDelegate(request, Payload.fromText(body));
     }
 
     private String getRequestMediaType(Request request) {

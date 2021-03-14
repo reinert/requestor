@@ -147,8 +147,17 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                                            com.google.gwt.http.client.Response gwtResponse) {
                 final String responseType = xhr.getResponseType();
 
-                final Payload payload = responseType.isEmpty() || responseType.equalsIgnoreCase("text") ?
-                        new Payload(xhr.getResponseText()) : new Payload(xhr.getResponse());
+                Payload payload = null;
+
+                if (responseType.isEmpty() || responseType.equalsIgnoreCase("text")) {
+                    payload = Payload.fromText(xhr.getResponseText());
+                } else if (responseType.equalsIgnoreCase("blob")) {
+                    payload = Payload.fromBlob(xhr.getResponse());
+                } else if (responseType.equalsIgnoreCase("document")) {
+                    payload = Payload.fromDocument(xhr.getResponse());
+                } else if (responseType.equalsIgnoreCase("json")) {
+                    payload = Payload.fromJson(xhr.getResponse());
+                }
 
                 final RawResponseImpl response = new RawResponseImpl(Response.Status.of(gwtResponse.getStatusCode(),
                         gwtResponse.getStatusText()), new Headers(gwtResponse.getHeaders()),
