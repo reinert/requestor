@@ -151,6 +151,11 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     }
 
     @Override
+    public HttpConnection getHttpConnection() {
+        return this.connection;
+    }
+
+    @Override
     public Promise<T> getPromise() {
         return this;
     }

@@ -34,6 +34,8 @@ public interface Deferred<T> {
 
     void setHttpConnection(HttpConnection connection);
 
+    HttpConnection getHttpConnection();
+
     Promise<T> getPromise();
 
 }

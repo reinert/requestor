@@ -56,6 +56,11 @@ class CallbackDeferred<T> implements Deferred<T> {
     }
 
     @Override
+    public HttpConnection getHttpConnection() {
+        return null;
+    }
+
+    @Override
     public Promise<T> getPromise() {
         return null;
     }
