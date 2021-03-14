@@ -28,7 +28,7 @@
         <div class="highlight">
           <pre ui:field="getIp" class="java">
             <code>
-              RequestPromise&lt;String&gt; promise = requestor.req(&quot;http://httpbin.org/ip&quot;).get(String.class);
+              Promise&lt;String&gt; promise = (Promise&lt;String&gt;) requestor.req(&quot;http://httpbin.org/ip&quot;).get(String.class);
             </code>
           </pre>
         </div>

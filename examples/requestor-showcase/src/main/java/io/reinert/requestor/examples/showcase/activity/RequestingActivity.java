@@ -39,7 +39,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onGetIpButtonClick() {
-        Promise<String> promise = requestor.req("http://httpbin.org/ip").get(String.class);
+        Promise<String> promise = (Promise<String>) requestor.req("http://httpbin.org/ip").get(String.class);
         promise.done(new DoneCallback<String>() {
             @Override
             public void onDone(String result) {
