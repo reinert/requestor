@@ -67,7 +67,7 @@ public class SerializationEngineTest {
         // Given
         final Class<Object> clazz = Object.class;
         final String mediaType = "don't/matter";
-        final Payload payload = new Payload("any serialized payload");
+        final Payload payload = Payload.fromText("any serialized payload");
 
         SerializedResponse response = mock(SerializedResponse.class);
         when(response.getContentType()).thenReturn(mediaType);
@@ -95,7 +95,7 @@ public class SerializationEngineTest {
         final Class<List> collectionClazz = List.class;
         final Class<Object> clazz = Object.class;
         final String mediaType = "don't/matter";
-        final Payload payload = new Payload("any serialized payload");
+        final Payload payload = Payload.fromText("any serialized payload");
 
         SerializedResponse response = mock(SerializedResponse.class);
         when(response.getContentType()).thenReturn(mediaType);

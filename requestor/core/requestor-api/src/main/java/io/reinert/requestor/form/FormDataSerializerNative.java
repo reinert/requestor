@@ -34,7 +34,7 @@ public class FormDataSerializerNative implements FormDataSerializer {
     @Override
     public Payload serialize(FormData formData) {
         if (formData.getFormElement() != null)
-            return new Payload(FormDataOverlay.create(formData.getFormElement()));
+            return Payload.fromFormData(FormDataOverlay.create(formData.getFormElement()));
 
         FormDataOverlay overlay = FormDataOverlay.create();
         for (FormData.Param param : formData) {
@@ -45,6 +45,6 @@ public class FormDataSerializerNative implements FormDataSerializer {
                 overlay.append(param.getName(), (JavaScriptObject) value, param.getFileName());
             }
         }
-        return new Payload(overlay);
+        return Payload.fromFormData(overlay);
     }
 }

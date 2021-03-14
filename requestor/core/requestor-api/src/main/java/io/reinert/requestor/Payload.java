@@ -28,12 +28,32 @@ public class Payload {
     private String string;
     private JavaScriptObject javaScriptObject;
 
-    public Payload(String string) {
+    private Payload(String string) {
         this.string = string;
     }
 
-    public Payload(JavaScriptObject javaScriptObject) {
+    private Payload(JavaScriptObject javaScriptObject) {
         this.javaScriptObject = javaScriptObject;
+    }
+
+    public static Payload fromText(String text) {
+        return new Payload(text);
+    }
+
+    public static Payload fromBlob(JavaScriptObject blob) {
+        return new Payload(blob);
+    }
+
+    public static Payload fromDocument(JavaScriptObject document) {
+        return new Payload(document);
+    }
+
+    public static Payload fromJson(JavaScriptObject json) {
+        return new Payload(json);
+    }
+
+    public static Payload fromFormData(JavaScriptObject formData) {
+        return new Payload(formData);
     }
 
     /**
@@ -42,7 +62,7 @@ public class Payload {
      * @return true if this payload is empty
      */
     public boolean isEmpty() {
-        return string == null && javaScriptObject == null;
+        return (string == null || string.isEmpty()) && javaScriptObject == null;
     }
 
     /**

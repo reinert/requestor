@@ -48,7 +48,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
         view.setSendProgressStatus(0);
         view.setSendText(null);
         requestor.req("http://httpbin.org/post")
-                .payload(new Payload(file))
+                .payload(Payload.fromBlob(file))
                 .post(String.class)
                 .done(new DoneCallback<String>() {
                     @Override
