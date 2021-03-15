@@ -1,12 +1,12 @@
 #!/bin/bash
-# usage: sh release.sh 0.1.0 0.2.0-SNAPSHOT
+# usage: bash release.sh 0.1.0 0.2.0-SNAPSHOT
 
 if [ -n "$1" ] && [ -n "$2" ]; then
   # update version to release version
   mvn versions:set -DnewVersion=$1
   mvn versions:commit
   # update tag to release version
-  sh ./tag.sh $1
+  bash ./tag.sh $1
   # commit
   git add .
   git commit -m "Release $1"
@@ -24,13 +24,13 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   mvn versions:set -DnewVersion=$2
   mvn versions:commit
   # update tag to next snapshot
-  sh ./tag.sh HEAD
+  bash ./tag.sh HEAD
   # commit
   git add .
   git commit -m "Start $2 development"
   git push origin master
 elif [ "snapshot" == "$1" ] || [ "current" == "$1" ]; then
-  sh ./generate-site.sh
+  bash ./generate-site.sh
   mvn clean deploy -P!project
 else
   echo "USAGE"
