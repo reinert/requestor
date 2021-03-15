@@ -26,6 +26,8 @@ import javax.lang.model.element.Element;
  */
 public class ProcessingException extends Exception {
 
+    private static final long serialVersionUID = 1L;
+
     private final Element element;
     private final AnnotationMirror annotationMirror;
     private final AnnotationValue annotationValue;
