@@ -152,9 +152,9 @@ public class ResponseProcessorTest {
         return mock(Deferred.class);
     }
 
-    private Headers mockHeaders() {
-        return mock(Headers.class);
-    }
+    // private Headers mockHeaders() {
+    //     return mock(Headers.class);
+    // }
 
     private RawResponse mockRawResponse() {
         return mock(RawResponse.class);
@@ -171,7 +171,8 @@ public class ResponseProcessorTest {
 
     private void setupRawResponse(RawResponse response, Response.Status responseStatus) {
         when(response.getResponseType()).thenReturn(ResponseType.DEFAULT);
-        when(response.getHeaders()).thenReturn(mockHeaders());
+        // This stub is unnecessary according to mockito
+        // when(response.getHeaders()).thenReturn(mockHeaders());
         when(response.getStatusCode()).thenReturn(responseStatus.getStatusCode());
     }
 
