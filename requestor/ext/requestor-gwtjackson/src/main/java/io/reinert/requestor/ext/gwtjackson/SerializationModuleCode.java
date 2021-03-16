@@ -25,21 +25,21 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.WildcardTypeName;
 
 import io.reinert.requestor.ext.gwtjackson.codegen.TypeAssembler;
-import io.reinert.requestor.serialization.Serdes;
+import io.reinert.requestor.serialization.Serializer;
 
 class SerializationModuleCode {
 
     private final SerializationModuleSchema schema;
-    private final Iterable<JsonObjectSerdesAssembler> generatedSerdes;
+    private final Iterable<JsonObjectSerializerAssembler> generatedSerializer;
 
-    SerializationModuleCode(SerializationModuleSchema schema, Iterable<JsonObjectSerdesAssembler> generatedSerdes) {
+    SerializationModuleCode(SerializationModuleSchema schema, Iterable<JsonObjectSerializerAssembler> generatedSerializer) {
         this.schema = schema;
-        this.generatedSerdes = generatedSerdes;
+        this.generatedSerializer = generatedSerializer;
     }
 
-    CodeBlock serdesListField() {
+    CodeBlock serializerListField() {
         final TypeName arrayListTypeName = ParameterizedTypeName.get(ClassName.get(ArrayList.class),
-                ParameterizedTypeName.get(ClassName.get(Serdes.class),
+                ParameterizedTypeName.get(ClassName.get(Serializer.class),
                         WildcardTypeName.subtypeOf(ClassName.OBJECT)));
         return CodeBlock.builder().add("new $T()", arrayListTypeName).build();
     }
@@ -50,14 +50,14 @@ class SerializationModuleCode {
 
     CodeBlock constructor() {
         final CodeBlock.Builder builder = CodeBlock.builder();
-        for (TypeAssembler type : generatedSerdes) {
-            builder.addStatement("$N.add(new $T())", schema.serdesListField.spec(), type.className());
+        for (TypeAssembler type : generatedSerializer) {
+            builder.addStatement("$N.add(new $T())", schema.serializerListField.spec(), type.className());
         }
         return builder.build();
     }
 
-    CodeBlock getSerdesListMethod() {
-        return CodeBlock.builder().addStatement("return $N", schema.serdesListField.spec()).build();
+    CodeBlock getSerializersListMethod() {
+        return CodeBlock.builder().addStatement("return $N", schema.serializerListField.spec()).build();
     }
 
     CodeBlock getProvidersListMethod() {

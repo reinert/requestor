@@ -15,8 +15,8 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.serialization.misc.TextSerdes;
-import io.reinert.requestor.serialization.misc.VoidSerdes;
+import io.reinert.requestor.serialization.misc.TextSerializer;
+import io.reinert.requestor.serialization.misc.VoidSerializer;
 
 /**
  * Initializer that configures the Requestor for handling only text plain.
@@ -27,7 +27,7 @@ public class RequestorInitializerClean implements RequestorInitializer {
 
     @Override
     public void configure(Requestor requestor) {
-        requestor.register(VoidSerdes.getInstance());
-        requestor.register(TextSerdes.getInstance());
+        requestor.register(VoidSerializer.getInstance());
+        requestor.register(TextSerializer.getInstance());
     }
 }

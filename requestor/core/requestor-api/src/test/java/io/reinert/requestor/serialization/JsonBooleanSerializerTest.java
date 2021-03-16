@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import io.reinert.requestor.serialization.json.JsonStringSerdes;
+import io.reinert.requestor.serialization.json.JsonBooleanSerializer;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -28,11 +28,11 @@ import org.mockito.Mockito;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit tests of {@link JsonStringSerdes}.
+ * Unit tests of {@link JsonBooleanSerializer}.
  */
-public class JsonStringSerdesTest {
+public class JsonBooleanSerializerTest {
 
-    private final JsonStringSerdes serdes = JsonStringSerdes.getInstance();
+    private final JsonBooleanSerializer serializer = JsonBooleanSerializer.getInstance();
 
     @Test
     public void deserializeCollection() throws Exception {
@@ -40,32 +40,34 @@ public class JsonStringSerdesTest {
         DeserializationContext context = Mockito.mock(DeserializationContext.class);
         Mockito.when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
-        String input = "[\"some\",\"any\"]";
-        Collection<String> expected = Arrays.asList("some", "any");
+        String input = "[true,false,false,true,false]";
+        Collection<Boolean> expected = Arrays.asList(true, false, false, true, false);
 
         @SuppressWarnings("unchecked")
-        Collection<String> output = serdes.deserialize(List.class, input, context);
+        Collection<Boolean> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void deserializeValue() throws Exception {
-        assertEquals("some", serdes.deserialize("\"some\"", null));
+        assertEquals(true, serializer.deserialize("true", null));
+        assertEquals(false, serializer.deserialize("false", null));
     }
 
     @Test
     public void serializeCollection() throws Exception {
-        Collection<String> input = Arrays.asList("some", "any");
-        String expected = "[\"some\",\"any\"]";
+        Collection<Boolean> input = Arrays.asList(true, false, false, true, false);
+        String expected = "[true,false,false,true,false]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeValue() throws Exception {
-        assertEquals("\"some\"", serdes.serialize("some", null));
+        assertEquals("true", serializer.serialize(true, null));
+        assertEquals("false", serializer.serialize(false, null));
     }
 }

@@ -40,13 +40,13 @@ import io.reinert.requestor.ext.gwtjackson.codegen.FieldAssembler;
 import io.reinert.requestor.ext.gwtjackson.codegen.InnerTypeAssembler;
 import io.reinert.requestor.ext.gwtjackson.codegen.MethodAssembler;
 import io.reinert.requestor.ext.gwtjackson.codegen.TypeInfo;
-import io.reinert.requestor.ext.gwtjackson.meta.requestor.JsonObjectSerdesMeta;
+import io.reinert.requestor.ext.gwtjackson.meta.requestor.JsonObjectSerializerMeta;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
-class JsonObjectSerdesSchema {
+class JsonObjectSerializerSchema {
 
     final TypeInfo typeInfo;
     final MapperInterface mapperInterface = new MapperInterface();
@@ -75,7 +75,7 @@ class JsonObjectSerdesSchema {
     final GetLinkedHashSetReaderMethod getLinkedHashSetReaderMethod = new GetLinkedHashSetReaderMethod();
     final GetTreeSetReaderMethod getTreeSetReaderMethod = new GetTreeSetReaderMethod();
 
-    JsonObjectSerdesSchema(TypeInfo typeInfo) {
+    JsonObjectSerializerSchema(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
         this.deserializeCollectionMethod = new DeserializeCollectionMethod(typeInfo);
         this.serializeMethod = new SerializeMethod(typeInfo);
@@ -238,8 +238,8 @@ class JsonObjectSerdesSchema {
         final ParameterSpec context = ParameterSpec.builder(DeserializationContext.class, "ctx").build();
 
         protected MethodSpec.Builder getSignature() {
-            // #readJson - used when none of deserialize alternatives succeeded (see JsonObjectSerdes)
-            return MethodSpec.methodBuilder(JsonObjectSerdesMeta.Method.READ_JSON)
+            // #readJson - used when none of deserialize alternatives succeeded (see JsonObjectSerializer)
+            return MethodSpec.methodBuilder(JsonObjectSerializerMeta.Method.READ_JSON)
                     .returns(typeInfo.getClassName())
                     .addParameter(reader)
                     .addParameter(context)
@@ -251,7 +251,7 @@ class JsonObjectSerdesSchema {
     class WriteJsonMethod extends MethodAssembler {
         // #writeJson - not used
         protected MethodSpec.Builder getSignature() {
-            return MethodSpec.methodBuilder(JsonObjectSerdesMeta.Method.WRITE_JSON)
+            return MethodSpec.methodBuilder(JsonObjectSerializerMeta.Method.WRITE_JSON)
                     .addParameter(typeInfo.getClassName(), "o")
                     .addParameter(JsonRecordWriter.class, "w")
                     .addParameter(SerializationContext.class, "ctx")
@@ -286,7 +286,7 @@ class JsonObjectSerdesSchema {
         }
 
         protected MethodSpec.Builder getSignature() {
-            return MethodSpec.methodBuilder(JsonObjectSerdesMeta.Method.DESERIALIZE)
+            return MethodSpec.methodBuilder(JsonObjectSerializerMeta.Method.DESERIALIZE)
                     .returns(collectionTypeVar)
                     .addTypeVariable(collectionTypeVar)
                     .addParameter(collectionClass)
@@ -309,7 +309,7 @@ class JsonObjectSerdesSchema {
         }
 
         protected MethodSpec.Builder getSignature() {
-            return MethodSpec.methodBuilder(JsonObjectSerdesMeta.Method.SERIALIZE)
+            return MethodSpec.methodBuilder(JsonObjectSerializerMeta.Method.SERIALIZE)
                     .returns(String.class)
                     .addParameter(object)
                     .addParameter(context)
@@ -328,7 +328,7 @@ class JsonObjectSerdesSchema {
         }
 
         protected MethodSpec.Builder getSignature() {
-            return MethodSpec.methodBuilder(JsonObjectSerdesMeta.Method.SERIALIZE)
+            return MethodSpec.methodBuilder(JsonObjectSerializerMeta.Method.SERIALIZE)
                     .returns(String.class)
                     .addParameter(collection)
                     .addParameter(context)

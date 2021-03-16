@@ -22,21 +22,21 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsonUtils;
 
 import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Serializer/Deserializer of Overlay types.
+ * Serializer of Overlay types.
  *
  * @author Danilo Reinert
  */
-public class OverlaySerdes implements Serdes<JavaScriptObject> {
+public class OverlaySerializer implements Serializer<JavaScriptObject> {
 
     public static boolean USE_SAFE_EVAL = true;
 
-    private static OverlaySerdes INSTANCE = new OverlaySerdes();
+    private static OverlaySerializer INSTANCE = new OverlaySerializer();
 
-    public static OverlaySerdes getInstance() {
+    public static OverlaySerializer getInstance() {
         return INSTANCE;
     }
 
@@ -47,7 +47,7 @@ public class OverlaySerdes implements Serdes<JavaScriptObject> {
 
     @Override
     public String[] mediaType() {
-        return JsonSerdes.MEDIA_TYPE_PATTERNS;
+        return JsonSerializer.MEDIA_TYPE_PATTERNS;
     }
 
     @Override

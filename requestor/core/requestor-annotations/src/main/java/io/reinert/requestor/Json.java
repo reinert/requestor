@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines that the type must have an auto-generated json serdes. <br/>
+ * Defines that the type must have an auto-generated json serializer. <br/>
  * The implementation of the serializer is let to third-part projects.
  */
 @Inherited

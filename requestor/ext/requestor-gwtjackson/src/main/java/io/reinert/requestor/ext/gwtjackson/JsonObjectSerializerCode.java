@@ -37,13 +37,13 @@ import io.reinert.requestor.ext.gwtjackson.meta.requestor.DeserializationContext
 import io.reinert.requestor.ext.gwtjackson.meta.requestor.SerializationContextMeta;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 import io.reinert.requestor.serialization.UnableToSerializeException;
-import io.reinert.requestor.serialization.json.JsonObjectSerdes;
+import io.reinert.requestor.serialization.json.JsonObjectSerializer;
 
-class JsonObjectSerdesCode {
+class JsonObjectSerializerCode {
 
-    private final JsonObjectSerdesSchema schema;
+    private final JsonObjectSerializerSchema schema;
 
-    JsonObjectSerdesCode(JsonObjectSerdesSchema schema) {
+    JsonObjectSerializerCode(JsonObjectSerializerSchema schema) {
         this.schema = schema;
     }
 
@@ -76,7 +76,7 @@ class JsonObjectSerdesCode {
         return CodeBlock.builder()
                 .addStatement("return $N.$L($T.$L($N))",
                         schema.mapperField.spec(), ObjectMapperMeta.Method.READ,
-                        JsonObjectSerdes.class, "stringify",
+                        JsonObjectSerializer.class, "stringify",
                         schema.readJsonMethod.reader).build();
     }
 
@@ -84,12 +84,12 @@ class JsonObjectSerdesCode {
         return CodeBlock.builder()
                 .addStatement("throw new $T($S)",
                         UnsupportedOperationException.class,
-                        "writeJson method should not be used in generated serdes")
+                        "writeJson method should not be used in generated serializer")
                 .build();
     }
 
     CodeBlock deserialize() {
-        final JsonObjectSerdesSchema.DeserializeMethod currentScope = schema.deserializeMethod;
+        final JsonObjectSerializerSchema.DeserializeMethod currentScope = schema.deserializeMethod;
 
         return CodeBlock.builder()
                 .beginControlFlow("try")
@@ -109,7 +109,7 @@ class JsonObjectSerdesCode {
     }
 
     CodeBlock deserializeCollection() {
-        final JsonObjectSerdesSchema.DeserializeCollectionMethod currentScope = schema.deserializeCollectionMethod;
+        final JsonObjectSerializerSchema.DeserializeCollectionMethod currentScope = schema.deserializeCollectionMethod;
 
         return CodeBlock.builder()
                 .beginControlFlow("try")
@@ -179,7 +179,7 @@ class JsonObjectSerdesCode {
     }
 
     CodeBlock serialize() {
-        final JsonObjectSerdesSchema.SerializeMethod currentScope = schema.serializeMethod;
+        final JsonObjectSerializerSchema.SerializeMethod currentScope = schema.serializeMethod;
 
         return CodeBlock.builder()
                 .beginControlFlow("try")
@@ -199,7 +199,7 @@ class JsonObjectSerdesCode {
     }
 
     CodeBlock serializeCollection() {
-        final JsonObjectSerdesSchema.SerializeCollectionMethod currentScope = schema.serializeCollectionMethod;
+        final JsonObjectSerializerSchema.SerializeCollectionMethod currentScope = schema.serializeCollectionMethod;
 
         return CodeBlock.builder()
                 .beginControlFlow("try")

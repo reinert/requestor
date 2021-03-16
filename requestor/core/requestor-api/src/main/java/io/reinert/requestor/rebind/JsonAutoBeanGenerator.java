@@ -43,12 +43,11 @@ import io.reinert.requestor.Json;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 import io.reinert.requestor.serialization.UnableToSerializeException;
-import io.reinert.requestor.serialization.json.JsonObjectSerdes;
+import io.reinert.requestor.serialization.json.JsonObjectSerializer;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
@@ -79,7 +78,8 @@ public class JsonAutoBeanGenerator extends Generator {
         }
 
         // TODO: check if type was already generated and reuse it
-        TreeLogger typeLogger = logger.branch(TreeLogger.INFO, "Generating Json SerDes powered by AutoBeans...", null);
+        TreeLogger typeLogger = logger.branch(TreeLogger.INFO, "Generating Json Serializer powered by AutoBeans...",
+                null);
         final SourceWriter sourceWriter = getSourceWriter(typeLogger, ctx, intfType);
 
         if (sourceWriter != null) {
@@ -109,7 +109,7 @@ public class JsonAutoBeanGenerator extends Generator {
                 }
             }
 
-            final ArrayDeque<String> serdesFields = new ArrayDeque<String>();
+            final ArrayDeque<String> serializerFields = new ArrayDeque<String>();
             final ArrayDeque<String> providerFields = new ArrayDeque<String>();
 
             if (!allTypesAndWrappers.isEmpty()) {
@@ -124,14 +124,14 @@ public class JsonAutoBeanGenerator extends Generator {
                     final String providerFieldName = generateProviderField(sourceWriter, annotatedType);
                     providerFields.add(providerFieldName);
 
-                    final String serdesFieldName = generateSerdesClassAndField(logger, typeOracle, sourceWriter,
+                    final String serializerFieldName = generateSerializerClassAndField(logger, typeOracle, sourceWriter,
                             annotatedType, jsonAnnotations.get(i++));
-                    serdesFields.add(serdesFieldName);
+                    serializerFields.add(serializerFieldName);
                 }
             }
 
             generateFields(sourceWriter);
-            generateConstructor(sourceWriter, serdesFields, providerFields);
+            generateConstructor(sourceWriter, serializerFields, providerFields);
             generateMethods(sourceWriter);
 
             sourceWriter.commit(typeLogger);
@@ -157,10 +157,10 @@ public class JsonAutoBeanGenerator extends Generator {
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 
-    private void generateConstructor(SourceWriter srcWriter, Iterable<String> serdes, Iterable<String> providers) {
-        srcWriter.println("public GeneratedJsonSerdesImpl() {");
-        for (String s : serdes) {
-            srcWriter.println("    serdesList.add(%s);", s);
+    private void generateConstructor(SourceWriter srcWriter, Iterable<String> serializer, Iterable<String> providers) {
+        srcWriter.println("public GeneratedJsonSerializerImpl() {");
+        for (String s : serializer) {
+            srcWriter.println("    serializerList.add(%s);", s);
         }
         for (String s : providers) {
             srcWriter.println("    providersList.add(%s);", s);
@@ -183,7 +183,7 @@ public class JsonAutoBeanGenerator extends Generator {
 
     private void generateFields(SourceWriter srcWriter) {
         // Initialize a field with binary name of the remote service interface
-        srcWriter.println("private final ArrayList<Serdes<?>> serdesList = new ArrayList<Serdes<?>>();");
+        srcWriter.println("private final ArrayList<Serializer<?>> serializerList = new ArrayList<Serializer<?>>();");
         srcWriter.println("private final ArrayList<Provider<?>> providersList = new ArrayList<Provider<?>>();");
         srcWriter.println();
     }
@@ -201,8 +201,8 @@ public class JsonAutoBeanGenerator extends Generator {
 
     private void generateMethods(SourceWriter srcWriter) {
         srcWriter.println("@Override");
-        srcWriter.println("public List<Serdes<?>> getSerdes() {");
-        srcWriter.println("    return serdesList;");
+        srcWriter.println("public List<Serializer<?>> getSerializers() {");
+        srcWriter.println("    return serializerList;");
         srcWriter.println("}");
         srcWriter.println();
         srcWriter.println("@Override");
@@ -235,9 +235,9 @@ public class JsonAutoBeanGenerator extends Generator {
     }
 
     /**
-     * Create the serdes and return the field name.
+     * Create the serializer and return the field name.
      */
-    private String generateSerdesClassAndField(TreeLogger logger, TypeOracle oracle, SourceWriter w,
+    private String generateSerializerClassAndField(TreeLogger logger, TypeOracle oracle, SourceWriter w,
                                                JClassType type, Json annotation) {
         final String qualifiedSourceName = type.getQualifiedSourceName();
         final String fieldName = getFieldName(type);
@@ -246,11 +246,11 @@ public class JsonAutoBeanGenerator extends Generator {
         final String listWrapperFactoryMethodName = factoryFieldName + "." + firstCharToLowerCase(listWrapperTypeName);
         final String setWrapperFactoryMethodName = factoryFieldName + "." + firstCharToLowerCase(setWrapperTypeName);
 
-        final String serdesFieldName = fieldName + "Serdes";
-        final String serdesTypeName = getTypeName(type) + "Serdes";
+        final String serializerFieldName = fieldName + "Serializer";
+        final String serializerTypeName = getTypeName(type) + "Serializer";
 
         // serializer field as anonymous class
-        w.println("private static class %s extends JsonObjectSerdes<%s> implements %s {", serdesTypeName,
+        w.println("private static class %s extends JsonObjectSerializer<%s> implements %s {", serializerTypeName,
                 qualifiedSourceName, HandlesSubTypes.class.getSimpleName());
 
         // static field for impl array
@@ -262,7 +262,7 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println();
 
         // constructor
-        w.println("    public %s() {", serdesTypeName);
+        w.println("    public %s() {", serializerTypeName);
         w.println("        super(%s.class);", qualifiedSourceName);
         w.println("    }");
         w.println();
@@ -281,13 +281,13 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println("    }");
         w.println();
 
-        // readJson - used when any of deserialize alternatives succeeded (see JsonObjectSerdes)
+        // readJson - used when any of deserialize alternatives succeeded (see JsonObjectSerializer)
         // TODO: improve this by not requiring parsing the json to an js array and latter stringifying it (see below)
         // Here would be no-op
         w.println("    @Override");
         w.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
                 qualifiedSourceName);
-        w.println("        return AutoBeanCodex.decode(%s, %s.class, JsonObjectSerdes.stringify(r)).as();",
+        w.println("        return AutoBeanCodex.decode(%s, %s.class, JsonObjectSerializer.stringify(r)).as();",
                 factoryFieldName, qualifiedSourceName);
         w.println("    }");
         w.println();
@@ -378,10 +378,10 @@ public class JsonAutoBeanGenerator extends Generator {
         w.println();
 
         // serializer field as anonymous class
-        w.println("private final %s %s = new %s();", serdesTypeName, serdesFieldName, serdesTypeName);
+        w.println("private final %s %s = new %s();", serializerTypeName, serializerFieldName, serializerTypeName);
         w.println();
 
-        return serdesFieldName;
+        return serializerFieldName;
     }
 
     private String generateSetWrapperInterface(SourceWriter w, JClassType type) {
@@ -436,13 +436,12 @@ public class JsonAutoBeanGenerator extends Generator {
                 DeserializationContext.class.getCanonicalName(),
                 Deserializer.class.getCanonicalName(),
                 HandlesSubTypes.class.getCanonicalName(),
-                Serdes.class.getCanonicalName(),
                 Serializer.class.getCanonicalName(),
                 SerializationContext.class.getCanonicalName(),
                 UnableToDeserializeException.class.getName(),
                 UnableToSerializeException.class.getName(),
                 // io.reinert.requestor.serialization.json
-                JsonObjectSerdes.class.getCanonicalName(),
+                JsonObjectSerializer.class.getCanonicalName(),
                 JsonRecordReader.class.getCanonicalName(),
                 JsonRecordWriter.class.getCanonicalName(),
         };
@@ -462,7 +461,7 @@ public class JsonAutoBeanGenerator extends Generator {
     }
 
     private String getTypeSimpleName() {
-        return "GeneratedJsonSerdesImpl";
+        return "GeneratedJsonSerializerImpl";
     }
 
     private String replaceDotByUpperCase(String s) {

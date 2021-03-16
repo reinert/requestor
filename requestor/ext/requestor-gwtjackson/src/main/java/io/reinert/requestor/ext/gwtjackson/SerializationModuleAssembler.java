@@ -29,12 +29,12 @@ public class SerializationModuleAssembler extends TypeAssembler {
     private final SerializationModuleCode code;
 
     public SerializationModuleAssembler(TypeInfo moduleTypeInfo,
-                                        Iterable<JsonObjectSerdesAssembler> serdesAssemblers) {
+                                        Iterable<JsonObjectSerializerAssembler> serializerAssemblers) {
         super(moduleTypeInfo.getPackage().getName(), moduleTypeInfo.getSimpleName() + "Impl");
 
         this.moduleTypeInfo = moduleTypeInfo;
         this.schema = new SerializationModuleSchema();
-        this.code = new SerializationModuleCode(schema, serdesAssemblers);
+        this.code = new SerializationModuleCode(schema, serializerAssemblers);
     }
 
     @Override
@@ -42,10 +42,10 @@ public class SerializationModuleAssembler extends TypeAssembler {
         return TypeSpec.classBuilder(simpleName())
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(moduleTypeInfo.getClassName())
-                .addField(schema.serdesListField.assemble(code.serdesListField()))
+                .addField(schema.serializerListField.assemble(code.serializerListField()))
                 .addField(schema.providersListField.assemble(code.providersListField()))
                 .addMethod(schema.constructor.assemble(code.constructor()))
-                .addMethod(schema.getSerdesMethod.assemble(code.getSerdesListMethod()))
+                .addMethod(schema.getSerializersMethod.assemble(code.getSerializersListMethod()))
                 .addMethod(schema.getProvidersMethod.assemble(code.getProvidersListMethod()));
     }
 }

@@ -34,11 +34,11 @@ class SerializationEngine {
 
     private static Logger logger = Logger.getLogger(SerializationEngine.class.getName());
 
-    private final SerdesManagerImpl serdesManager;
+    private final SerializerManagerImpl serializerManager;
     private final ProviderManagerImpl providerManager;
 
-    public SerializationEngine(SerdesManagerImpl serdesManager, ProviderManagerImpl providerManager) {
-        this.serdesManager = serdesManager;
+    public SerializationEngine(SerializerManagerImpl serializerManager, ProviderManagerImpl providerManager) {
+        this.serializerManager = serializerManager;
         this.providerManager = providerManager;
     }
 
@@ -47,7 +47,7 @@ class SerializationEngine {
                                                                         Class<T> type,
                                                                         Class<C> containerType) {
         final String mediaType = getResponseMediaType(request, response);
-        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
+        final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
         C result = deserializer.deserialize(containerType, response.getPayload().isString(), context);
@@ -56,7 +56,7 @@ class SerializationEngine {
 
     public <T> Response<T> deserializeResponse(Request request, SerializedResponse response, Class<T> type) {
         final String mediaType = getResponseMediaType(request, response);
-        final Deserializer<T> deserializer = serdesManager.getDeserializer(type, mediaType);
+        final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
         T result = deserializer.deserialize(response.getPayload().isString(), context);
@@ -87,14 +87,14 @@ class SerializationEngine {
                     final Class<?> type = item.getClass();
                     final Class<? extends Collection> collectionType = c.getClass();
 
-                    Serializer<?> serializer = serdesManager.getSerializer(type, mediaType);
+                    Serializer<?> serializer = serializerManager.getSerializer(type, mediaType);
                     checkSerializerNotNull(request, type, serializer);
                     body = serializer.serialize(c, new HttpSerializationContext(request, collectionType, type));
                 }
             } else {
                 final Class<?> type = payload.getClass();
                 @SuppressWarnings("unchecked")
-                Serializer<Object> serializer = (Serializer<Object>) serdesManager.getSerializer(type, mediaType);
+                Serializer<Object> serializer = (Serializer<Object>) serializerManager.getSerializer(type, mediaType);
                 checkSerializerNotNull(request, payload.getClass(), serializer);
                 body = serializer.serialize(payload, new HttpSerializationContext(request, type));
             }

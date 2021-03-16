@@ -21,6 +21,6 @@
     <when-type-is class="io.reinert.requestor.uri.Buckets"/>
   </replace-with>
 
-  <!-- required by BookXmlSerdes -->
+  <!-- required by BookXmlSerializer -->
   <inherits name="com.google.gwt.xml.XML"/>
 </module>

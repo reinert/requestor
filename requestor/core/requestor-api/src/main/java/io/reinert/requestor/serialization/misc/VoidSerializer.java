@@ -18,22 +18,22 @@ package io.reinert.requestor.serialization.misc;
 import java.util.Collection;
 
 import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.serialization.Serializer;
 
 /**
- * De/Serializer for Void type.
+ * Serializer for Void type.
  * Returns null for every method.
  *
  * @author Danilo Reinert
  */
-public class VoidSerdes implements Serdes<Void> {
+public class VoidSerializer implements Serializer<Void> {
 
     public static final String[] MEDIA_TYPE_PATTERNS = new String[] {"*/*"};
 
-    private static VoidSerdes INSTANCE = new VoidSerdes();
+    private static VoidSerializer INSTANCE = new VoidSerializer();
 
-    public static VoidSerdes getInstance() {
+    public static VoidSerializer getInstance() {
         return INSTANCE;
     }
 

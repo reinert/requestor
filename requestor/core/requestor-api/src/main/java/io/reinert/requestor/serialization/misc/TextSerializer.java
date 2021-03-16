@@ -18,23 +18,23 @@ package io.reinert.requestor.serialization.misc;
 import java.util.Collection;
 
 import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Pass-through serdes for plain text and generic media types.
+ * Pass-through serializer for plain text and generic media types.
  *
  * @author Danilo Reinert
  */
-public class TextSerdes implements Serdes<String> {
+public class TextSerializer implements Serializer<String> {
 
     public static String SEPARATOR = "\n";
 
     public static String[] MEDIA_TYPE_PATTERNS = new String[]{"text/plain", "*/*"};
 
-    private static final TextSerdes INSTANCE = new TextSerdes();
+    private static final TextSerializer INSTANCE = new TextSerializer();
 
-    public static TextSerdes getInstance() {
+    public static TextSerializer getInstance() {
         return INSTANCE;
     }
 

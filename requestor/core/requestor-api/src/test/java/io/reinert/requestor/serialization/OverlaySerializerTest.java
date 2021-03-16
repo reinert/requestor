@@ -23,15 +23,15 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.serialization.json.JsonSerdes;
-import io.reinert.requestor.serialization.json.OverlaySerdes;
+import io.reinert.requestor.serialization.json.JsonSerializer;
+import io.reinert.requestor.serialization.json.OverlaySerializer;
 
 /**
- * Unit tests of {@link OverlaySerdes}.
+ * Unit tests of {@link OverlaySerializer}.
  */
-public class OverlaySerdesTest extends GWTTestCase {
+public class OverlaySerializerTest extends GWTTestCase {
 
-    private final OverlaySerdes serdes = OverlaySerdes.getInstance();
+    private final OverlaySerializer serializer = OverlaySerializer.getInstance();
 
     @Override
     public String getModuleName() {
@@ -53,28 +53,28 @@ public class OverlaySerdesTest extends GWTTestCase {
         expected.push(create("John Doe", 31));
         expected.push(create("Alice", 27));
 
-        List<JavaScriptObject> output = serdes.deserialize(List.class, input, ctx);
+        List<JavaScriptObject> output = serializer.deserialize(List.class, input, ctx);
         JsArray<JavaScriptObject> outputArray = (JsArray<JavaScriptObject>) JavaScriptObject.createArray();
         outputArray.push(output.get(0));
         outputArray.push(output.get(1));
 
-        assertEquals(JsonSerdes.stringify(expected), JsonSerdes.stringify(outputArray));
+        assertEquals(JsonSerializer.stringify(expected), JsonSerializer.stringify(outputArray));
     }
 
     public void testDeserializeValue() throws Exception {
         final String input = "{\"name\":\"John Doe\",\"age\":31}";
         final JavaScriptObject expected = create("John Doe", 31);
 
-        final JavaScriptObject output = serdes.deserialize(input, null);
+        final JavaScriptObject output = serializer.deserialize(input, null);
 
-        assertEquals(JsonSerdes.stringify(expected), JsonSerdes.stringify(output));
+        assertEquals(JsonSerializer.stringify(expected), JsonSerializer.stringify(output));
     }
 
     public void testSerializeCollection() throws Exception {
         List<JavaScriptObject> input = Arrays.asList(create("John Doe", 31), create("Alice", 27));
         String expected = "[{\"name\":\"John Doe\",\"age\":31},{\"name\":\"Alice\",\"age\":27}]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
@@ -83,7 +83,7 @@ public class OverlaySerdesTest extends GWTTestCase {
         final JavaScriptObject input = create("John Doe", 31);
         final String expected = "{\"name\":\"John Doe\",\"age\":31}";
 
-        final String output = serdes.serialize(input, null);
+        final String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }

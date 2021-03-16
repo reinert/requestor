@@ -30,10 +30,9 @@ import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
 import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
-import io.reinert.requestor.serialization.json.JsonObjectSerdes;
+import io.reinert.requestor.serialization.json.JsonObjectSerializer;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
@@ -42,9 +41,8 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     private final Serialization view;
     private final Requestor requestor;
 
-    private HandlerRegistration deserializerRegistration;
-    private HandlerRegistration serializerRegistration;
-    private HandlerRegistration serdesRegistration;
+    private HandlerRegistration xmlSerializerRegistration;
+    private HandlerRegistration jsonSerializerRegistration;
 
     public SerializationActivity(String section, Serialization view, Requestor requestor) {
         super(section);
@@ -56,9 +54,8 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         view.setHandler(this);
 
-        deserializerRegistration = requestor.register(new MyDeserializer());
-        serializerRegistration = requestor.register(new MySerializer());
-        serdesRegistration = requestor.register(new MyJsonSerdes());
+        xmlSerializerRegistration = requestor.register(new MySerializer());
+        jsonSerializerRegistration = requestor.register(new MyJsonSerializer());
 
         Page.setTitle("Serialization");
         Page.setDescription("Exchange any media type with a powerful serialization mechanism.");
@@ -69,9 +66,8 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     @Override
     public void onStop() {
         view.setHandler(null);
-        deserializerRegistration.removeHandler();
-        serializerRegistration.removeHandler();
-        serdesRegistration.removeHandler();
+        xmlSerializerRegistration.removeHandler();
+        jsonSerializerRegistration.removeHandler();
     }
 
     @Override
@@ -229,35 +225,6 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         }
 
         @Override
-        public String serialize(MyObject myObject, SerializationContext context) {
-            return "<my><stringField>" + myObject.getStringField() + "</stringField>"
-                    + "<intField>" + myObject.getIntField() + "</intField>"
-                    + "<dateField>" + myObject.getDateField().getTime() + "</dateField></my>";
-        }
-
-        @Override
-        public String serialize(Collection<MyObject> myObjectCollection, SerializationContext context) {
-            StringBuilder sb = new StringBuilder("<myList>");
-            for (MyObject myObject : myObjectCollection) {
-                sb.append(serialize(myObject, context));
-            }
-            return sb.append("</myList>").toString();
-        }
-    }
-
-    private static class MyDeserializer implements Deserializer<MyObject> {
-
-        @Override
-        public Class<MyObject> handledType() {
-            return MyObject.class;
-        }
-
-        @Override
-        public String[] mediaType() {
-            return new String[]{"*/xml"};
-        }
-
-        @Override
         public MyObject deserialize(String response, DeserializationContext context) {
             int stringFieldStart = response.indexOf("<stringField>") + 13;
             int stringFieldEnd = response.indexOf("</stringField>", stringFieldStart);
@@ -287,11 +254,27 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
             return collection;
         }
+
+        @Override
+        public String serialize(MyObject myObject, SerializationContext context) {
+            return "<my><stringField>" + myObject.getStringField() + "</stringField>"
+                    + "<intField>" + myObject.getIntField() + "</intField>"
+                    + "<dateField>" + myObject.getDateField().getTime() + "</dateField></my>";
+        }
+
+        @Override
+        public String serialize(Collection<MyObject> myObjectCollection, SerializationContext context) {
+            StringBuilder sb = new StringBuilder("<myList>");
+            for (MyObject myObject : myObjectCollection) {
+                sb.append(serialize(myObject, context));
+            }
+            return sb.append("</myList>").toString();
+        }
     }
 
-    private static class MyJsonSerdes extends JsonObjectSerdes<MyObject> {
+    private static class MyJsonSerializer extends JsonObjectSerializer<MyObject> {
 
-        public MyJsonSerdes() {
+        public MyJsonSerializer() {
             super(MyObject.class);
         }
 

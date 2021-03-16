@@ -17,20 +17,20 @@ package io.reinert.requestor;
 
 import com.google.gwt.core.client.GWT;
 
-import io.reinert.requestor.serialization.Serdes;
+import io.reinert.requestor.serialization.Serializer;
 
-class GeneratedJsonSerdesBinder {
+class GeneratedJsonSerializerBinder {
 
-    private static GeneratedJsonSerdes generatedJsonSerdes;
+    private static GeneratedJsonSerializer generatedJsonSerializer;
 
-    public static void bind(SerdesManagerImpl serdesManager, ProviderManagerImpl providerManager) {
-        if (generatedJsonSerdes == null) {
-            generatedJsonSerdes = GWT.create(GeneratedJsonSerdes.class);
+    public static void bind(SerializerManagerImpl serializerManager, ProviderManagerImpl providerManager) {
+        if (generatedJsonSerializer == null) {
+            generatedJsonSerializer = GWT.create(GeneratedJsonSerializer.class);
         }
-        for (Serdes<?> serdes : generatedJsonSerdes.getSerdes()) {
-            serdesManager.register(serdes);
+        for (Serializer<?> serializer : generatedJsonSerializer.getSerializers()) {
+            serializerManager.register(serializer);
         }
-        for (Provider provider : generatedJsonSerdes.getProviders()) {
+        for (Provider<?> provider : generatedJsonSerializer.getProviders()) {
             providerManager.register(provider);
         }
     }

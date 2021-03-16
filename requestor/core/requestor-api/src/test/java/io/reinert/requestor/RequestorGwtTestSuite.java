@@ -17,7 +17,7 @@ package io.reinert.requestor;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
-import io.reinert.requestor.serialization.OverlaySerdesTest;
+import io.reinert.requestor.serialization.OverlaySerializerTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -28,7 +28,7 @@ public class RequestorGwtTestSuite extends GWTTestSuite {
         TestSuite suite = new TestSuite("Requestor GWT Test Suite");
 
         // Serialization
-        suite.addTestSuite(OverlaySerdesTest.class);
+        suite.addTestSuite(OverlaySerializerTest.class);
 
         // Requestor
         suite.addTestSuite(JsonAutoBeanGeneratorTest.class);

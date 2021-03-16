@@ -21,7 +21,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
@@ -41,12 +40,12 @@ import io.reinert.requestor.uri.UriBuilder;
  * modify their payloads.
  * <p/>
  *
- * You can register {@link Serializer}, {@link Deserializer} or {@link Serdes} to provide serialization/deserialization
+ * You can register {@link Serializer} or a {@link Deserializer} to provide both serialization and/or deserialization
  * of objects according to media-types.
  *
  * @author Danilo Reinert
  */
-public abstract class Requestor implements SerdesManager, FilterManager, InterceptorManager, ProviderManager {
+public abstract class Requestor implements SerializerManager, FilterManager, InterceptorManager, ProviderManager {
 
     public static Requestor newInstance() {
         return GWT.create(Requestor.class);
@@ -178,7 +177,7 @@ public abstract class Requestor implements SerdesManager, FilterManager, Interce
     /**
      * Register a {@link SerializationModule}.
      *
-     * @param serializationModule  The module containing one or many generated serdes
+     * @param serializationModule  The module containing one or many generated serializer
      *
      * @return The {@link HandlerRegistration} object, capable of cancelling this registration
      */

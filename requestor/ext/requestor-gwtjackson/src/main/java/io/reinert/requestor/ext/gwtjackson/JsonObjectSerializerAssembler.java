@@ -23,26 +23,26 @@ import com.squareup.javapoet.TypeSpec;
 
 import io.reinert.requestor.ext.gwtjackson.codegen.TypeAssembler;
 import io.reinert.requestor.ext.gwtjackson.codegen.TypeInfo;
-import io.reinert.requestor.serialization.json.JsonObjectSerdes;
+import io.reinert.requestor.serialization.json.JsonObjectSerializer;
 
-public class JsonObjectSerdesAssembler extends TypeAssembler {
+public class JsonObjectSerializerAssembler extends TypeAssembler {
 
     private final TypeInfo typeInfo;
-    private final JsonObjectSerdesSchema schema;
-    private final JsonObjectSerdesCode code;
+    private final JsonObjectSerializerSchema schema;
+    private final JsonObjectSerializerCode code;
 
-    public JsonObjectSerdesAssembler(TypeInfo typeInfo) {
-        super("io.reinert.requestor.gen." + typeInfo.getPackage().getName(), typeInfo.getSimpleName() + "Serdes");
+    public JsonObjectSerializerAssembler(TypeInfo typeInfo) {
+        super("io.reinert.requestor.gen." + typeInfo.getPackage().getName(), typeInfo.getSimpleName() + "Serializer");
 
         this.typeInfo = typeInfo;
-        this.schema = new JsonObjectSerdesSchema(typeInfo);
-        this.code = new JsonObjectSerdesCode(schema);
+        this.schema = new JsonObjectSerializerSchema(typeInfo);
+        this.code = new JsonObjectSerializerCode(schema);
     }
 
     @Override
     protected TypeSpec.Builder getSpec() {
         return TypeSpec.classBuilder(simpleName())
-                .superclass(ParameterizedTypeName.get(ClassName.get(JsonObjectSerdes.class), typeInfo.getClassName()))
+                .superclass(ParameterizedTypeName.get(ClassName.get(JsonObjectSerializer.class), typeInfo.getClassName()))
                 .addModifiers(Modifier.PUBLIC)
                 .addType(schema.mapperInterface.assemble())
                 .addType(schema.collectionWriterInterface.assemble())
@@ -86,10 +86,10 @@ public class JsonObjectSerdesAssembler extends TypeAssembler {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof JsonObjectSerdesAssembler))
+        if (!(o instanceof JsonObjectSerializerAssembler))
             return false;
 
-        final JsonObjectSerdesAssembler that = (JsonObjectSerdesAssembler) o;
+        final JsonObjectSerializerAssembler that = (JsonObjectSerializerAssembler) o;
 
         return typeInfo.equals(that.typeInfo);
     }

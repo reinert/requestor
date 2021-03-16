@@ -19,19 +19,19 @@ import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
 
 /**
- * De/Serializer of JSON strings.
+ * Serializer of JSON strings.
  *
  * @author Danilo Reinert
  */
-public class JsonStringSerdes extends JsonValueSerdes<String> {
+public class JsonStringSerializer extends JsonValueSerializer<String> {
 
-    private static JsonStringSerdes INSTANCE = new JsonStringSerdes();
+    private static JsonStringSerializer INSTANCE = new JsonStringSerializer();
 
-    public JsonStringSerdes() {
+    public JsonStringSerializer() {
         super(String.class);
     }
 
-    public static JsonStringSerdes getInstance() {
+    public static JsonStringSerializer getInstance() {
         return INSTANCE;
     }
 

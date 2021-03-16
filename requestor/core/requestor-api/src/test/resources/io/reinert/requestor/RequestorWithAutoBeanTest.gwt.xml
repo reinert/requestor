@@ -20,6 +20,6 @@
   <inherits name="com.google.web.bindery.autobean.AutoBean"/>
 
   <generate-with class="io.reinert.requestor.rebind.JsonAutoBeanGenerator">
-    <when-type-is class="io.reinert.requestor.GeneratedJsonSerdes"/>
+    <when-type-is class="io.reinert.requestor.GeneratedJsonSerializer"/>
   </generate-with>
 </module>

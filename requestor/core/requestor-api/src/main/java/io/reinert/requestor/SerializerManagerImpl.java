@@ -27,7 +27,6 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationException;
 import io.reinert.requestor.serialization.Serializer;
 
@@ -36,9 +35,9 @@ import io.reinert.requestor.serialization.Serializer;
  *
  * @author Danilo Reinert
  */
-class SerdesManagerImpl implements SerdesManager {
+class SerializerManagerImpl implements SerializerManager {
 
-    private static Logger logger = Logger.getLogger(SerdesManagerImpl.class.getName());
+    private static Logger logger = Logger.getLogger(SerializerManagerImpl.class.getName());
 
     private final Map<String, ArrayList<DeserializerHolder>> deserializers = new HashMap<String,
             ArrayList<DeserializerHolder>>();
@@ -52,86 +51,28 @@ class SerdesManagerImpl implements SerdesManager {
      * @param <T>           The type of the object to be deserialized.
      *
      * @return  The {@link com.google.web.bindery.event.shared.HandlerRegistration} object,
-     *          capable of cancelling this HandlerRegistration to the {@link SerdesManagerImpl}.
+     *          capable of cancelling this HandlerRegistration to the {@link SerializerManagerImpl}.
      */
-    @SuppressWarnings("unchecked")
     public <T> HandlerRegistration register(Deserializer<T> deserializer) {
-        final HandlerRegistration reg = bindDeserializerToType(deserializer, deserializer.handledType());
-
-        if (deserializer instanceof HandlesSubTypes) {
-            Class[] impls = ((HandlesSubTypes) deserializer).handledSubTypes();
-
-            final HandlerRegistration[] regs = new HandlerRegistration[impls.length + 1];
-            regs[0] = reg;
-
-            for (int i = 0; i < impls.length; i++) {
-                Class impl = impls[i];
-                regs[i + 1] = bindDeserializerToType(deserializer, impl);
-            }
-
-            return new HandlerRegistration() {
-                public void removeHandler() {
-                    for (HandlerRegistration reg : regs) {
-                        reg.removeHandler();
-                    }
-                }
-            };
-        }
-
-        return reg;
+        // Register deserializer only
+        return registerDeserializer(deserializer);
     }
 
     /**
      * Register a serializer of the given type.
      *
      * @param serializer  The serializer of T.
-     * @param <T>           The type of the object to be serialized.
+     * @param <T>         The type of the object to be serialized.
      *
      * @return  The {@link HandlerRegistration} object, capable of cancelling this HandlerRegistration
-     *          to the {@link SerdesManagerImpl}.
+     *          to the {@link SerializerManagerImpl}.
      */
-    @SuppressWarnings("unchecked")
     public <T> HandlerRegistration register(Serializer<T> serializer) {
-        final HandlerRegistration reg = bindSerializerToType(serializer, serializer.handledType());
-
-        if (serializer instanceof HandlesSubTypes) {
-            Class[] impls = ((HandlesSubTypes) serializer).handledSubTypes();
-
-            final HandlerRegistration[] regs = new HandlerRegistration[impls.length + 1];
-            regs[0] = reg;
-
-            for (int i = 0; i < impls.length; i++) {
-                Class impl = impls[i];
-                regs[i + 1] = bindSerializerToType(serializer, impl);
-            }
-
-            return new HandlerRegistration() {
-                public void removeHandler() {
-                    for (HandlerRegistration reg : regs) {
-                        reg.removeHandler();
-                    }
-                }
-            };
-        }
-
-        return reg;
-    }
-
-    /**
-     * Register a serializer/deserializer of the given type.
-     *
-     * @param serdes    The serializer/deserializer of T.
-     * @param <T>       The type of the object to be serialized/deserialized.
-     *
-     * @return  The {@link HandlerRegistration} object, capable of cancelling this HandlerRegistration
-     *          to the {@link SerdesManagerImpl}.
-     */
-    public <T> HandlerRegistration register(Serdes<T> serdes) {
-        final HandlerRegistration desReg = register((Deserializer<T>) serdes);
-        final HandlerRegistration serReg = register((Serializer<T>) serdes);
+        // Register both serializer and deserializer
+        final HandlerRegistration desReg = registerDeserializer(serializer);
+        final HandlerRegistration serReg = registerSerializer(serializer);
 
         return new HandlerRegistration() {
-            @Override
             public void removeHandler() {
                 desReg.removeHandler();
                 serReg.removeHandler();
@@ -292,6 +233,60 @@ class SerdesManagerImpl implements SerdesManager {
 
     private void checkNotNull(Object o, String message) {
         if (o == null) throw new NullPointerException(message);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> HandlerRegistration registerDeserializer(Deserializer<T> deserializer) {
+        final HandlerRegistration reg = bindDeserializerToType(deserializer, deserializer.handledType());
+
+        if (deserializer instanceof HandlesSubTypes) {
+            Class[] impls = ((HandlesSubTypes) deserializer).handledSubTypes();
+
+            final HandlerRegistration[] regs = new HandlerRegistration[impls.length + 1];
+            regs[0] = reg;
+
+            for (int i = 0; i < impls.length; i++) {
+                Class impl = impls[i];
+                regs[i + 1] = bindDeserializerToType(deserializer, impl);
+            }
+
+            return new HandlerRegistration() {
+                public void removeHandler() {
+                    for (HandlerRegistration reg : regs) {
+                        reg.removeHandler();
+                    }
+                }
+            };
+        }
+
+        return reg;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> HandlerRegistration registerSerializer(Serializer<T> serializer) {
+        final HandlerRegistration reg = bindSerializerToType(serializer, serializer.handledType());
+
+        if (serializer instanceof HandlesSubTypes) {
+            Class[] impls = ((HandlesSubTypes) serializer).handledSubTypes();
+
+            final HandlerRegistration[] regs = new HandlerRegistration[impls.length + 1];
+            regs[0] = reg;
+
+            for (int i = 0; i < impls.length; i++) {
+                Class impl = impls[i];
+                regs[i + 1] = bindSerializerToType(serializer, impl);
+            }
+
+            return new HandlerRegistration() {
+                public void removeHandler() {
+                    for (HandlerRegistration reg : regs) {
+                        reg.removeHandler();
+                    }
+                }
+            };
+        }
+
+        return reg;
     }
 
     private static class DeserializerHolder implements Comparable<DeserializerHolder> {

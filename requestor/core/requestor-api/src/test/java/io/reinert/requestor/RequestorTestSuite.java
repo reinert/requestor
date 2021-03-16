@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 @Suite.SuiteClasses({
         FilterEngineTest.class,
         FilterManagerImplTest.class,
-        SerdesManagerImplTest.class,
+        SerializerManagerImplTest.class,
         SerializationEngineTest.class,
         RequestProcessorTest.class,
         ResponseProcessorTest.class,

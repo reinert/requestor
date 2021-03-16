@@ -16,7 +16,7 @@
 package io.reinert.requestor.serialization;
 
 /**
- * It tells the {@link io.reinert.requestor.SerdesManager} to register an abstraction to handle one or more subtypes.
+ * It tells the {@link io.reinert.requestor.SerializerManager} to register an abstraction to handle one or more subtypes
  *
  * @author Danilo Reinert
  */
