@@ -26,16 +26,16 @@ import com.google.gwt.xml.client.XMLParser;
 import com.google.gwt.xml.client.impl.DOMParseException;
 
 import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 
 /**
- * Custom XML SerDes for {@link Book}.
+ * Custom XML Serializer for {@link Book}.
  *
  * @author Danilo Reinert
  */
-public class BookXmlSerdes implements Serdes<Book> {
+public class BookXmlSerializer implements Serializer<Book> {
 
     public static final String[] CONTENT_TYPE_PATTERNS = new String[]{"*/xml", "*/*+xml", "*/xml+*"};
 

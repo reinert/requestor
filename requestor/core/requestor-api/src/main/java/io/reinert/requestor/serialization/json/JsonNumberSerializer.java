@@ -24,24 +24,24 @@ import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 
 /**
- * De/Serializer of JSON numbers.
+ * Serializer of JSON numbers.
  *
  * @author Danilo Reinert
  */
-public class JsonNumberSerdes extends JsonValueSerdes<Number> implements HandlesSubTypes {
+public class JsonNumberSerializer extends JsonValueSerializer<Number> implements HandlesSubTypes {
 
     public static boolean SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING;
 
     private static final Class<?>[] IMPL_CLASSES = new Class<?>[]{Byte.class, Short.class, Integer.class,
             Double.class, Long.class, BigInteger.class, BigDecimal.class};
 
-    private static JsonNumberSerdes INSTANCE = new JsonNumberSerdes();
+    private static JsonNumberSerializer INSTANCE = new JsonNumberSerializer();
 
-    public JsonNumberSerdes() {
+    public JsonNumberSerializer() {
         super(Number.class);
     }
 
-    public static JsonNumberSerdes getInstance() {
+    public static JsonNumberSerializer getInstance() {
         return INSTANCE;
     }
 

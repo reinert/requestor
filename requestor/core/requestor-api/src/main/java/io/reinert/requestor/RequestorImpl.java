@@ -22,7 +22,6 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
@@ -34,7 +33,7 @@ import io.reinert.requestor.uri.UriBuilder;
  */
 public class RequestorImpl extends Requestor {
 
-    private final SerdesManagerImpl serdesManager = new SerdesManagerImpl();
+    private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
     private final InterceptorManagerImpl interceptorManager = new InterceptorManagerImpl();
@@ -64,7 +63,7 @@ public class RequestorImpl extends Requestor {
         this.deferredFactory = deferredFactory;
 
         // init processor
-        serializationEngine = new SerializationEngine(serdesManager, providerManager);
+        serializationEngine = new SerializationEngine(serializerManager, providerManager);
         final FilterEngine filterEngine = new FilterEngine(filterManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
         requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine,
@@ -75,8 +74,8 @@ public class RequestorImpl extends Requestor {
                 interceptorEngine);
         requestDispatcher = requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory);
 
-        // register generated serdes to the requestor
-        GeneratedJsonSerdesBinder.bind(serdesManager, providerManager);
+        // register generated serializer to the requestor
+        GeneratedJsonSerializerBinder.bind(serializerManager, providerManager);
 
         // perform initial set-up by user
         GWT.<RequestorInitializer>create(RequestorInitializer.class).configure(this);
@@ -175,7 +174,7 @@ public class RequestorImpl extends Requestor {
 
     @Override
     public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) {
-        return serdesManager.getDeserializer(type, mediaType);
+        return serializerManager.getDeserializer(type, mediaType);
     }
 
     @Override
@@ -193,22 +192,17 @@ public class RequestorImpl extends Requestor {
 
     @Override
     public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) {
-        return serdesManager.getSerializer(type, mediaType);
+        return serializerManager.getSerializer(type, mediaType);
     }
 
     @Override
     public <T> HandlerRegistration register(Deserializer<T> deserializer) {
-        return serdesManager.register(deserializer);
+        return serializerManager.register(deserializer);
     }
 
     @Override
     public <T> HandlerRegistration register(Serializer<T> serializer) {
-        return serdesManager.register(serializer);
-    }
-
-    @Override
-    public <T> HandlerRegistration register(Serdes<T> serdes) {
-        return serdesManager.register(serdes);
+        return serializerManager.register(serializer);
     }
 
     @Override
@@ -238,12 +232,12 @@ public class RequestorImpl extends Requestor {
 
     @Override
     public HandlerRegistration register(SerializationModule serializationModule) {
-        final int length = serializationModule.getSerdes().size() + serializationModule.getProviders().size();
+        final int length = serializationModule.getSerializers().size() + serializationModule.getProviders().size();
         final HandlerRegistration[] registrations = new HandlerRegistration[length];
         int i = -1;
 
-        for (Serdes<?> serdes : serializationModule.getSerdes()) {
-            registrations[++i] = register(serdes);
+        for (Serializer<?> serializer : serializationModule.getSerializers()) {
+            registrations[++i] = register(serializer);
         }
 
         for (Provider<?> provider : serializationModule.getProviders()) {

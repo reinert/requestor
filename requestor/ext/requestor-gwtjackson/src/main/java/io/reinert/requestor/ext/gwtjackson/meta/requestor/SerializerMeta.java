@@ -15,10 +15,12 @@
  */
 package io.reinert.requestor.ext.gwtjackson.meta.requestor;
 
+import io.reinert.requestor.serialization.Serializer;
+
 /**
- * Metadata for {@link io.reinert.requestor.serialization.Serdes}.
+ * Metadata for {@link Serializer}.
  */
-public interface SerdesMeta {
+public interface SerializerMeta {
 
     interface Method {
         String DESERIALIZE = "deserialize";

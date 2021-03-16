@@ -17,7 +17,7 @@ package io.reinert.requestor;
 
 /**
  * This interface is responsible for performing the default configuration of every {@link Requestor} created.
- * Its implementation could do things like registering Serdes, Filters, Providers, etc.
+ * Its implementation could do things like registering Serializers, Filters, Providers, etc.
  *
  * @author Danilo Reinert
  */

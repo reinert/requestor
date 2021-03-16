@@ -29,26 +29,26 @@ import com.squareup.javapoet.WildcardTypeName;
 import io.reinert.requestor.Provider;
 import io.reinert.requestor.ext.gwtjackson.codegen.FieldAssembler;
 import io.reinert.requestor.ext.gwtjackson.codegen.MethodAssembler;
-import io.reinert.requestor.serialization.Serdes;
+import io.reinert.requestor.serialization.Serializer;
 
 class SerializationModuleSchema {
 
     final Constructor constructor = new Constructor();
-    final GetSerdesMethod getSerdesMethod = new GetSerdesMethod();
+    final GetSerializersMethod getSerializersMethod = new GetSerializersMethod();
     final GetProvidersMethod getProvidersMethod = new GetProvidersMethod();
-    final SerdesListField serdesListField = new SerdesListField();
+    final SerializerListField serializerListField = new SerializerListField();
     final ProvidersListField providersListField = new ProvidersListField();
 
-    private final TypeName serdesListTypeName = ParameterizedTypeName.get(ClassName.get(List.class),
-            ParameterizedTypeName.get(ClassName.get(Serdes.class),
+    private final TypeName serializerListTypeName = ParameterizedTypeName.get(ClassName.get(List.class),
+            ParameterizedTypeName.get(ClassName.get(Serializer.class),
             WildcardTypeName.subtypeOf(ClassName.OBJECT)));
     private final TypeName providersListTypeName = ParameterizedTypeName.get(ClassName.get(List.class),
             ParameterizedTypeName.get(ClassName.get(Provider.class),
                     WildcardTypeName.subtypeOf(ClassName.OBJECT)));
 
-    class SerdesListField extends FieldAssembler {
+    class SerializerListField extends FieldAssembler {
         protected FieldSpec.Builder getDeclaration() {
-            return FieldSpec.builder(serdesListTypeName, "serdesList", Modifier.PRIVATE, Modifier.FINAL);
+            return FieldSpec.builder(serializerListTypeName, "serializerList", Modifier.PRIVATE, Modifier.FINAL);
         }
     }
 
@@ -65,10 +65,10 @@ class SerializationModuleSchema {
         }
     }
 
-    class GetSerdesMethod extends MethodAssembler {
+    class GetSerializersMethod extends MethodAssembler {
         protected MethodSpec.Builder getSignature() {
-            return MethodSpec.methodBuilder("getSerdes")
-                    .returns(serdesListTypeName)
+            return MethodSpec.methodBuilder("getSerializers")
+                    .returns(serializerListTypeName)
                     .addModifiers(Modifier.PUBLIC);
         }
     }

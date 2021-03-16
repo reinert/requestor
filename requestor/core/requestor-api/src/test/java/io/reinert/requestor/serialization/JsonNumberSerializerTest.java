@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import io.reinert.requestor.serialization.json.JsonNumberSerdes;
+import io.reinert.requestor.serialization.json.JsonNumberSerializer;
 
 import org.junit.Test;
 
@@ -31,11 +31,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests of {@link JsonNumberSerdes}.
+ * Unit tests of {@link JsonNumberSerializer}.
  */
-public class JsonNumberSerdesTest {
+public class JsonNumberSerializerTest {
 
-    private final JsonNumberSerdes serdes = JsonNumberSerdes.getInstance();
+    private final JsonNumberSerializer serializer = JsonNumberSerializer.getInstance();
 
     @Test
     public void serialize_Number_ShouldReturnNumberAsString() throws Exception {
@@ -44,10 +44,10 @@ public class JsonNumberSerdesTest {
         BigInteger bi = BigInteger.ONE;
         BigDecimal bd = BigDecimal.ONE;
 
-        assertEquals(i.toString(), serdes.serialize(i, null));
-        assertEquals(d.toString(), serdes.serialize(d, null));
-        assertEquals(bi.toString(), serdes.serialize(bi, null));
-        assertEquals(bd.toString(), serdes.serialize(bd, null));
+        assertEquals(i.toString(), serializer.serialize(i, null));
+        assertEquals(d.toString(), serializer.serialize(d, null));
+        assertEquals(bi.toString(), serializer.serialize(bi, null));
+        assertEquals(bd.toString(), serializer.serialize(bd, null));
     }
 
     @Test(expected = UnableToDeserializeException.class)
@@ -57,7 +57,7 @@ public class JsonNumberSerdesTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Number.class);
 
-        serdes.deserialize("invalid number", context);
+        serializer.deserialize("invalid number", context);
     }
 
     @Test
@@ -70,8 +70,8 @@ public class JsonNumberSerdesTest {
         Double upperBound = Double.MAX_VALUE;
         Double lowerBound = Double.MIN_VALUE;
 
-        assertEquals(lowerBound, serdes.deserialize(lowerBound.toString(), context));
-        assertEquals(upperBound, serdes.deserialize(upperBound.toString(), context));
+        assertEquals(lowerBound, serializer.deserialize(lowerBound.toString(), context));
+        assertEquals(upperBound, serializer.deserialize(upperBound.toString(), context));
     }
 
     @Test
@@ -84,8 +84,8 @@ public class JsonNumberSerdesTest {
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
         BigDecimal lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound, serdes.deserialize(lowerBound.toString(), context));
-        assertEquals(upperBound, serdes.deserialize(upperBound.toString(), context));
+        assertEquals(lowerBound, serializer.deserialize(lowerBound.toString(), context));
+        assertEquals(upperBound, serializer.deserialize(upperBound.toString(), context));
     }
 
     @Test
@@ -98,8 +98,8 @@ public class JsonNumberSerdesTest {
         Integer upperBound = Integer.MAX_VALUE;
         Integer lowerBound = Integer.MIN_VALUE;
 
-        assertEquals(lowerBound, serdes.deserialize(lowerBound.toString(), context));
-        assertEquals(upperBound, serdes.deserialize(upperBound.toString(), context));
+        assertEquals(lowerBound, serializer.deserialize(lowerBound.toString(), context));
+        assertEquals(upperBound, serializer.deserialize(upperBound.toString(), context));
     }
 
     @Test
@@ -112,8 +112,8 @@ public class JsonNumberSerdesTest {
         Long upperBound = Long.MAX_VALUE;
         Long lowerBound = Long.MIN_VALUE;
 
-        assertEquals(lowerBound, serdes.deserialize(lowerBound.toString(), context));
-        assertEquals(upperBound, serdes.deserialize(upperBound.toString(), context));
+        assertEquals(lowerBound, serializer.deserialize(lowerBound.toString(), context));
+        assertEquals(upperBound, serializer.deserialize(upperBound.toString(), context));
     }
 
     @Test
@@ -126,8 +126,8 @@ public class JsonNumberSerdesTest {
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
         BigInteger lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound, serdes.deserialize(lowerBound.toString(), context));
-        assertEquals(upperBound, serdes.deserialize(upperBound.toString(), context));
+        assertEquals(lowerBound, serializer.deserialize(lowerBound.toString(), context));
+        assertEquals(upperBound, serializer.deserialize(upperBound.toString(), context));
     }
 
     @Test
@@ -146,7 +146,7 @@ public class JsonNumberSerdesTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, lowerBound, BigDecimal.ZERO, BigDecimal.ONE, upperBound);
 
-        Collection<Number> output = serdes.deserialize(List.class, input, context);
+        Collection<Number> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
@@ -161,8 +161,8 @@ public class JsonNumberSerdesTest {
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
         BigDecimal lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound, serdes.deserialize(lowerBound.toString(), context));
-        assertEquals(upperBound, serdes.deserialize(upperBound.toString(), context));
+        assertEquals(lowerBound, serializer.deserialize(lowerBound.toString(), context));
+        assertEquals(upperBound, serializer.deserialize(upperBound.toString(), context));
     }
 
     @Test
@@ -181,7 +181,7 @@ public class JsonNumberSerdesTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, lowerBound, BigInteger.ZERO, BigInteger.ONE, upperBound);
 
-        Collection<Number> output = serdes.deserialize(List.class, input, context);
+        Collection<Number> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
@@ -196,8 +196,8 @@ public class JsonNumberSerdesTest {
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
         BigInteger lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound, serdes.deserialize(lowerBound.toString(10), context));
-        assertEquals(upperBound, serdes.deserialize(upperBound.toString(10), context));
+        assertEquals(lowerBound, serializer.deserialize(lowerBound.toString(10), context));
+        assertEquals(upperBound, serializer.deserialize(upperBound.toString(10), context));
     }
 
     @Test
@@ -212,7 +212,7 @@ public class JsonNumberSerdesTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Byte.MIN_VALUE, Byte.MAX_VALUE);
 
-        Collection<Number> output = serdes.deserialize(List.class, input, context);
+        Collection<Number> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
@@ -224,8 +224,8 @@ public class JsonNumberSerdesTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Byte.class);
 
-        assertEquals(Byte.MIN_VALUE, serdes.deserialize(String.valueOf(Byte.MIN_VALUE), context));
-        assertEquals(Byte.MAX_VALUE, serdes.deserialize(String.valueOf(Byte.MAX_VALUE), context));
+        assertEquals(Byte.MIN_VALUE, serializer.deserialize(String.valueOf(Byte.MIN_VALUE), context));
+        assertEquals(Byte.MAX_VALUE, serializer.deserialize(String.valueOf(Byte.MAX_VALUE), context));
     }
 
     @Test
@@ -240,7 +240,7 @@ public class JsonNumberSerdesTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Double.MIN_VALUE, Double.MAX_VALUE);
 
-        Collection<Number> output = serdes.deserialize(List.class, input, context);
+        Collection<Number> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
@@ -252,8 +252,8 @@ public class JsonNumberSerdesTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Double.class);
 
-        assertEquals(Double.MIN_VALUE, serdes.deserialize(String.valueOf(Double.MIN_VALUE), context));
-        assertEquals(Double.MAX_VALUE, serdes.deserialize(String.valueOf(Double.MAX_VALUE), context));
+        assertEquals(Double.MIN_VALUE, serializer.deserialize(String.valueOf(Double.MIN_VALUE), context));
+        assertEquals(Double.MAX_VALUE, serializer.deserialize(String.valueOf(Double.MAX_VALUE), context));
     }
 
     @Test
@@ -268,7 +268,7 @@ public class JsonNumberSerdesTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
-        Collection<Number> output = serdes.deserialize(List.class, input, context);
+        Collection<Number> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
@@ -280,8 +280,8 @@ public class JsonNumberSerdesTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Integer.class);
 
-        assertEquals(Integer.MIN_VALUE, serdes.deserialize(String.valueOf(Integer.MIN_VALUE), context));
-        assertEquals(Integer.MAX_VALUE, serdes.deserialize(String.valueOf(Integer.MAX_VALUE), context));
+        assertEquals(Integer.MIN_VALUE, serializer.deserialize(String.valueOf(Integer.MIN_VALUE), context));
+        assertEquals(Integer.MAX_VALUE, serializer.deserialize(String.valueOf(Integer.MAX_VALUE), context));
     }
 
     @Test
@@ -296,7 +296,7 @@ public class JsonNumberSerdesTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Long.MIN_VALUE, Long.MAX_VALUE);
 
-        Collection<Number> output = serdes.deserialize(List.class, input, context);
+        Collection<Number> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
@@ -308,8 +308,8 @@ public class JsonNumberSerdesTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Long.class);
 
-        assertEquals(Long.MIN_VALUE, serdes.deserialize(String.valueOf(Long.MIN_VALUE), context));
-        assertEquals(Long.MAX_VALUE, serdes.deserialize(String.valueOf(Long.MAX_VALUE), context));
+        assertEquals(Long.MIN_VALUE, serializer.deserialize(String.valueOf(Long.MIN_VALUE), context));
+        assertEquals(Long.MAX_VALUE, serializer.deserialize(String.valueOf(Long.MAX_VALUE), context));
     }
 
     @Test
@@ -324,7 +324,7 @@ public class JsonNumberSerdesTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Short.MIN_VALUE, Short.MAX_VALUE);
 
-        Collection<Number> output = serdes.deserialize(List.class, input, context);
+        Collection<Number> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
@@ -336,8 +336,8 @@ public class JsonNumberSerdesTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Short.class);
 
-        assertEquals(Short.MIN_VALUE, serdes.deserialize(String.valueOf(Short.MIN_VALUE), context));
-        assertEquals(Short.MAX_VALUE, serdes.deserialize(String.valueOf(Short.MAX_VALUE), context));
+        assertEquals(Short.MIN_VALUE, serializer.deserialize(String.valueOf(Short.MIN_VALUE), context));
+        assertEquals(Short.MAX_VALUE, serializer.deserialize(String.valueOf(Short.MAX_VALUE), context));
     }
 
     @Test
@@ -350,7 +350,7 @@ public class JsonNumberSerdesTest {
         String expected = "[" + lowerBound.toString() + "," + BigDecimal.ZERO.toString() + ","
                 + BigDecimal.ONE.toString() + "," + upperBound.toString() + "]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
@@ -360,10 +360,10 @@ public class JsonNumberSerdesTest {
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
         BigDecimal lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound.toString(), serdes.serialize(lowerBound, null));
-        assertEquals(BigDecimal.ZERO.toString(), serdes.serialize(BigDecimal.ZERO, null));
-        assertEquals(BigDecimal.ONE.toString(), serdes.serialize(BigDecimal.ONE, null));
-        assertEquals(upperBound.toString(), serdes.serialize(upperBound, null));
+        assertEquals(lowerBound.toString(), serializer.serialize(lowerBound, null));
+        assertEquals(BigDecimal.ZERO.toString(), serializer.serialize(BigDecimal.ZERO, null));
+        assertEquals(BigDecimal.ONE.toString(), serializer.serialize(BigDecimal.ONE, null));
+        assertEquals(upperBound.toString(), serializer.serialize(upperBound, null));
     }
 
     @Test
@@ -376,7 +376,7 @@ public class JsonNumberSerdesTest {
         String expected = "[" + lowerBound.toString(10) + "," + BigInteger.ZERO.toString(10) + ","
                 + BigInteger.ONE.toString(10) + "," + upperBound.toString(10) + "]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
@@ -386,10 +386,10 @@ public class JsonNumberSerdesTest {
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
         BigInteger lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound.toString(10), serdes.serialize(lowerBound, null));
-        assertEquals(BigInteger.ZERO.toString(10), serdes.serialize(BigInteger.ZERO, null));
-        assertEquals(BigInteger.ONE.toString(10), serdes.serialize(BigInteger.ONE, null));
-        assertEquals(upperBound.toString(10), serdes.serialize(upperBound, null));
+        assertEquals(lowerBound.toString(10), serializer.serialize(lowerBound, null));
+        assertEquals(BigInteger.ZERO.toString(10), serializer.serialize(BigInteger.ZERO, null));
+        assertEquals(BigInteger.ONE.toString(10), serializer.serialize(BigInteger.ONE, null));
+        assertEquals(upperBound.toString(10), serializer.serialize(upperBound, null));
     }
 
     @Test
@@ -398,15 +398,15 @@ public class JsonNumberSerdesTest {
         Collections.addAll(input, Byte.MIN_VALUE, Byte.MAX_VALUE);
         String expected = "[" + String.valueOf(Byte.MIN_VALUE) + "," + String.valueOf(Byte.MAX_VALUE) + "]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeByteValue() throws Exception {
-        assertEquals(String.valueOf(Byte.MIN_VALUE), serdes.serialize(Byte.MIN_VALUE, null));
-        assertEquals(String.valueOf(Byte.MAX_VALUE), serdes.serialize(Byte.MAX_VALUE, null));
+        assertEquals(String.valueOf(Byte.MIN_VALUE), serializer.serialize(Byte.MIN_VALUE, null));
+        assertEquals(String.valueOf(Byte.MAX_VALUE), serializer.serialize(Byte.MAX_VALUE, null));
     }
 
     @Test
@@ -415,15 +415,15 @@ public class JsonNumberSerdesTest {
         Collections.addAll(input, Double.MIN_VALUE, Double.MAX_VALUE);
         String expected = "[" + String.valueOf(Double.MIN_VALUE) + "," + String.valueOf(Double.MAX_VALUE) + "]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeDoubleValue() throws Exception {
-        assertEquals(String.valueOf(Double.MIN_VALUE), serdes.serialize(Double.MIN_VALUE, null));
-        assertEquals(String.valueOf(Double.MAX_VALUE), serdes.serialize(Double.MAX_VALUE, null));
+        assertEquals(String.valueOf(Double.MIN_VALUE), serializer.serialize(Double.MIN_VALUE, null));
+        assertEquals(String.valueOf(Double.MAX_VALUE), serializer.serialize(Double.MAX_VALUE, null));
     }
 
     @Test
@@ -432,15 +432,15 @@ public class JsonNumberSerdesTest {
         Collections.addAll(input, Integer.MIN_VALUE, Integer.MAX_VALUE);
         String expected = "[" + String.valueOf(Integer.MIN_VALUE) + "," + String.valueOf(Integer.MAX_VALUE) + "]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeIntegerValue() throws Exception {
-        assertEquals(String.valueOf(Integer.MIN_VALUE), serdes.serialize(Integer.MIN_VALUE, null));
-        assertEquals(String.valueOf(Integer.MAX_VALUE), serdes.serialize(Integer.MAX_VALUE, null));
+        assertEquals(String.valueOf(Integer.MIN_VALUE), serializer.serialize(Integer.MIN_VALUE, null));
+        assertEquals(String.valueOf(Integer.MAX_VALUE), serializer.serialize(Integer.MAX_VALUE, null));
     }
 
     @Test
@@ -449,15 +449,15 @@ public class JsonNumberSerdesTest {
         Collections.addAll(input, Long.MIN_VALUE, Long.MAX_VALUE);
         String expected = "[" + String.valueOf(Long.MIN_VALUE) + "," + String.valueOf(Long.MAX_VALUE) + "]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeLongValue() throws Exception {
-        assertEquals(String.valueOf(Long.MIN_VALUE), serdes.serialize(Long.MIN_VALUE, null));
-        assertEquals(String.valueOf(Long.MAX_VALUE), serdes.serialize(Long.MAX_VALUE, null));
+        assertEquals(String.valueOf(Long.MIN_VALUE), serializer.serialize(Long.MIN_VALUE, null));
+        assertEquals(String.valueOf(Long.MAX_VALUE), serializer.serialize(Long.MAX_VALUE, null));
     }
 
     @Test
@@ -466,14 +466,14 @@ public class JsonNumberSerdesTest {
         Collections.addAll(input, Short.MIN_VALUE, Short.MAX_VALUE);
         String expected = "[" + String.valueOf(Short.MIN_VALUE) + "," + String.valueOf(Short.MAX_VALUE) + "]";
 
-        String output = serdes.serialize(input, null);
+        String output = serializer.serialize(input, null);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeShortValue() throws Exception {
-        assertEquals(String.valueOf(Short.MIN_VALUE), serdes.serialize(Short.MIN_VALUE, null));
-        assertEquals(String.valueOf(Short.MAX_VALUE), serdes.serialize(Short.MAX_VALUE, null));
+        assertEquals(String.valueOf(Short.MIN_VALUE), serializer.serialize(Short.MIN_VALUE, null));
+        assertEquals(String.valueOf(Short.MAX_VALUE), serializer.serialize(Short.MAX_VALUE, null));
     }
 }

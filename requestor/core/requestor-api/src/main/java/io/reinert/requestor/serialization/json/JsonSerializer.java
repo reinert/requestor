@@ -19,23 +19,23 @@ import java.util.Collection;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Base class for all SerDes that manipulates serialized JSON.
+ * Base class for all Serializers that manipulates serialized JSON.
  *
  * @param <T>   Type of the object to be serialized/deserialized
  *
  * @author Danilo Reinert
  */
-public abstract class JsonSerdes<T> implements Serdes<T> {
+public abstract class JsonSerializer<T> implements Serializer<T> {
 
     public static String[] MEDIA_TYPE_PATTERNS = new String[] { "application/json", "application/javascript" };
 
     private final Class<T> handledType;
 
-    protected JsonSerdes(Class<T> handledType) {
+    protected JsonSerializer(Class<T> handledType) {
         this.handledType = handledType;
     }
 

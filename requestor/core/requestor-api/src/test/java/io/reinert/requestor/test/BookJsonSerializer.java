@@ -19,24 +19,24 @@ import java.util.Date;
 
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.json.JsonObjectSerdes;
+import io.reinert.requestor.serialization.json.JsonObjectSerializer;
 import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
 /**
- * Custom JSON SerDes for {@link Book}.
+ * Custom JSON Serializer for {@link Book}.
  *
  * @author Danilo Reinert
  */
-public class BookJsonSerdes extends JsonObjectSerdes<Book> {
+public class BookJsonSerializer extends JsonObjectSerializer<Book> {
 
-    private static BookJsonSerdes INSTANCE = new BookJsonSerdes();
+    private static BookJsonSerializer INSTANCE = new BookJsonSerializer();
 
-    public BookJsonSerdes() {
+    public BookJsonSerializer() {
         super(Book.class);
     }
 
-    public static BookJsonSerdes getInstance() {
+    public static BookJsonSerializer getInstance() {
         return INSTANCE;
     }
 

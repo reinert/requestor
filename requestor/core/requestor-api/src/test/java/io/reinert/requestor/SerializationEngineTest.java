@@ -44,7 +44,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SerializationEngineTest {
 
-    @Mock private SerdesManagerImpl serdesManager;
+    @Mock private SerializerManagerImpl serializerManager;
     @Mock private ProviderManagerImpl providerManager;
 
     private SerializationEngine engine;
@@ -57,7 +57,7 @@ public class SerializationEngineTest {
 //                return new ArrayList();
 //            }
 //        });
-        engine = new SerializationEngine(serdesManager, providerManager);
+        engine = new SerializationEngine(serializerManager, providerManager);
     }
 
     @Test
@@ -76,13 +76,13 @@ public class SerializationEngineTest {
         Request request = mock(Request.class);
         Deserializer deserializer = mock(Deserializer.class);
 
-        when(serdesManager.getDeserializer(clazz, mediaType)).thenReturn(deserializer);
+        when(serializerManager.getDeserializer(clazz, mediaType)).thenReturn(deserializer);
 
         // When
         engine.deserializeResponse(request, response, clazz);
 
         // Then
-        verify(serdesManager).getDeserializer(clazz, mediaType);
+        verify(serializerManager).getDeserializer(clazz, mediaType);
         verify(deserializer, never()).deserialize(any(Class.class), anyString(), any(DeserializationContext.class));
         verify(deserializer).deserialize(eq(payload.isString()), any(DeserializationContext.class));
     }
@@ -104,13 +104,13 @@ public class SerializationEngineTest {
         Request request = mock(Request.class);
         Deserializer deserializer = mock(Deserializer.class);
 
-        when(serdesManager.getDeserializer(clazz, mediaType)).thenReturn(deserializer);
+        when(serializerManager.getDeserializer(clazz, mediaType)).thenReturn(deserializer);
 
         // When
         engine.deserializeResponse(request, response, clazz, collectionClazz);
 
         // Then
-        verify(serdesManager).getDeserializer(clazz, mediaType);
+        verify(serializerManager).getDeserializer(clazz, mediaType);
         verify(deserializer, never()).deserialize(anyString(), any(DeserializationContext.class));
         verify(deserializer).deserialize(eq(collectionClazz), eq(payload.isString()),
                 any(DeserializationContext.class));
@@ -126,7 +126,7 @@ public class SerializationEngineTest {
         engine.serializeRequest(request);
 
         // Then
-        verify(serdesManager, never()).getSerializer(any(Class.class), anyString());
+        verify(serializerManager, never()).getSerializer(any(Class.class), anyString());
     }
 
     @Test
@@ -141,13 +141,13 @@ public class SerializationEngineTest {
         when(request.getContentType()).thenReturn(mediaType);
 
         Serializer serializer = mock(Serializer.class);
-        when(serdesManager.getSerializer(singleInstance.getClass(), mediaType)).thenReturn(serializer);
+        when(serializerManager.getSerializer(singleInstance.getClass(), mediaType)).thenReturn(serializer);
 
         // When
         engine.serializeRequest(request);
 
         // Then
-        verify(serdesManager).getSerializer(singleInstance.getClass(), mediaType);
+        verify(serializerManager).getSerializer(singleInstance.getClass(), mediaType);
         verify(serializer, never()).serialize(anyCollection(), any(SerializationContext.class));
         verify(serializer).serialize(eq(singleInstance), any(SerializationContext.class));
     }
@@ -164,13 +164,13 @@ public class SerializationEngineTest {
         when(request.getContentType()).thenReturn(mediaType);
 
         Serializer serializer = mock(Serializer.class);
-        when(serdesManager.getSerializer(collectionInstance.get(0).getClass(), mediaType)).thenReturn(serializer);
+        when(serializerManager.getSerializer(collectionInstance.get(0).getClass(), mediaType)).thenReturn(serializer);
 
         // When
         engine.serializeRequest(request);
 
         // Then
-        verify(serdesManager).getSerializer(collectionInstance.get(0).getClass(), mediaType);
+        verify(serializerManager).getSerializer(collectionInstance.get(0).getClass(), mediaType);
         verify(serializer, never()).serialize(any(Object.class), any(SerializationContext.class));
         verify(serializer).serialize(eq(collectionInstance), any(SerializationContext.class));
     }

@@ -19,19 +19,19 @@ import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
 
 /**
- * De/Serializer of JSON booleans.
+ * Serializer of JSON booleans.
  *
  * @author Danilo Reinert
  */
-public class JsonBooleanSerdes extends JsonValueSerdes<Boolean> {
+public class JsonBooleanSerializer extends JsonValueSerializer<Boolean> {
 
-    private static JsonBooleanSerdes INSTANCE = new JsonBooleanSerdes();
+    private static JsonBooleanSerializer INSTANCE = new JsonBooleanSerializer();
 
-    public JsonBooleanSerdes() {
+    public JsonBooleanSerializer() {
         super(Boolean.class);
     }
 
-    public static JsonBooleanSerdes getInstance() {
+    public static JsonBooleanSerializer getInstance() {
         return INSTANCE;
     }
 

@@ -40,8 +40,8 @@ import io.reinert.requestor.ext.gwtjackson.processing.ProcessingLogger;
 @AutoService(Processor.class)
 public class GwtJacksonProcessor extends AbstractProcessor {
 
-    private final Map<TypeInfo, JsonObjectSerdesGenerator> serdesGenerators =
-            new HashMap<TypeInfo, JsonObjectSerdesGenerator>();
+    private final Map<TypeInfo, JsonObjectSerializerGenerator> serializerGenerators =
+            new HashMap<TypeInfo, JsonObjectSerializerGenerator>();
     private final Set<SerializationModuleGenerator> moduleGenerators =
             new LinkedHashSet<SerializationModuleGenerator>();
 
@@ -74,7 +74,7 @@ public class GwtJacksonProcessor extends AbstractProcessor {
 
             for (SerializationModuleGenerator generator : moduleGenerators) {
                 if (!generator.isGenerated()) {
-                    generator.generate(serdesGenerators, filer);
+                    generator.generate(serializerGenerators, filer);
                 }
             }
         } catch (ProcessingException e) {

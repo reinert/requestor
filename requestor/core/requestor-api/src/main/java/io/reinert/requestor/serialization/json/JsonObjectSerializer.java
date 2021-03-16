@@ -26,15 +26,15 @@ import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 
 /**
- * Base class for all SerDes that manipulates serialized JSON objects.
+ * Base class for all Serializers that manipulates serialized JSON objects.
  *
  * @param <T>   Type of the object to serialize/deserialize.
  *
  * @author Danilo Reinert
  */
-public abstract class JsonObjectSerdes<T> extends JsonSerdes<T> {
+public abstract class JsonObjectSerializer<T> extends JsonSerializer<T> {
 
-    public JsonObjectSerdes(Class<T> handledType) {
+    public JsonObjectSerializer(Class<T> handledType) {
         super(handledType);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.serialization;
+package io.reinert.requestor.ext.gwtjackson.meta.requestor;
+
+import io.reinert.requestor.serialization.json.JsonObjectSerializer;
 
 /**
- * Performs serialization and deserialization of a type to/from plain text.
- *
- * @param <T> Type of serialization
- *
- * @author Danilo Reinert
+ * Metadata for {@link JsonObjectSerializer}.
  */
-public interface Serdes<T> extends Deserializer<T>, Serializer<T> {
+public interface JsonObjectSerializerMeta extends SerializerMeta {
 
-    /**
-     * Method for accessing type of the Object this de/serializer can handle.
-     *
-     * @return The class which this de/serializer can de/serialize
-     */
-    @Override
-    Class<T> handledType();
+    interface Method extends SerializerMeta.Method {
+        String READ_JSON = "readJson";
+        String WRITE_JSON = "writeJson";
+    }
 }

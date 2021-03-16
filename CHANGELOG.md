@@ -52,7 +52,7 @@ REQUESTOR CHANGELOG
         * RequestorInitializer
             * Clean
             * Json
-        * GeneratedJsonSerdes
+        * GeneratedJsonSerializer
     * Filters
         * FilterManager
         * FilterEngine
@@ -72,7 +72,7 @@ REQUESTOR CHANGELOG
         * Json
             * Basic Types
             * Overlay Types
-            * Abstract Object Serdes
+            * Abstract Object Serializer
                 * JsonRecordReader
                 * JsonRecordWriter
         * Misc
@@ -84,7 +84,7 @@ REQUESTOR CHANGELOG
         * Deserializer
         * DeserializationContext
             * HttpDeserializationContext
-        * Serdes
+        * Serializer
     * Header
         * SimpleHeader
         * SimpleHeaderWithParameter
@@ -121,5 +121,5 @@ REQUESTOR CHANGELOG
 * Requestor Ext Gwt-Jackson
     * JsonGwtJacksonGenerator (@Json)
 * Requestor Ext TurboGWT
-    * TurboOverlaySerdes (uses JsArrayList)
+    * TurboOverlaySerializer (uses JsArrayList)
     * Switch LightMap implementation

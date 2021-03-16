@@ -18,15 +18,14 @@ package io.reinert.requestor;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.Serdes;
 import io.reinert.requestor.serialization.Serializer;
 
 /**
- * A container of {@link Serializer}, {@link Deserializer} and {@link Serdes}.
+ * A container of {@link Serializer} and {@link Deserializer}.
  *
  * @author Danilo Reinert
  */
-public interface SerdesManager {
+public interface SerializerManager {
 
     /**
      * Register a {@link Deserializer}.
@@ -45,13 +44,4 @@ public interface SerdesManager {
      * @return the {@link HandlerRegistration} object, capable of cancelling this registration
      */
     <T> HandlerRegistration register(Serializer<T> serializer);
-
-    /**
-     * Register a {@link Serdes}.
-     *
-     * @param serdes the serdes to register
-     *
-     * @return the {@link HandlerRegistration} object, capable of cancelling this registration
-     */
-    <T> HandlerRegistration register(Serdes<T> serdes);
 }

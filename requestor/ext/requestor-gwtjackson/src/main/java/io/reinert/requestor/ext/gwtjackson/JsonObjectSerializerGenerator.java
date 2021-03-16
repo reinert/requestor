@@ -25,13 +25,13 @@ import com.squareup.javapoet.JavaFile;
 import io.reinert.requestor.ext.gwtjackson.codegen.TypeInfo;
 import io.reinert.requestor.ext.gwtjackson.processing.ProcessingException;
 
-public class JsonObjectSerdesGenerator {
+public class JsonObjectSerializerGenerator {
 
     private final TypeInfo typeInfo;
-    private final JsonObjectSerdesAssembler assembler;
+    private final JsonObjectSerializerAssembler assembler;
     private boolean generated;
 
-    public JsonObjectSerdesGenerator(JsonObjectSerdesAssembler assembler) {
+    public JsonObjectSerializerGenerator(JsonObjectSerializerAssembler assembler) {
         this.typeInfo = assembler.getTypeInfo();
         this.assembler = assembler;
     }
@@ -46,7 +46,7 @@ public class JsonObjectSerdesGenerator {
             JavaFile.builder(assembler.packageName(), assembler.spec()).build().writeTo(filer);
         } catch (IOException e) {
             throw new ProcessingException(null, e,
-                    "Error while writing generated Serdes of %s: %s", typeInfo.getQualifiedName(), e.getMessage());
+                    "Error while writing generated Serializer of %s: %s", typeInfo.getQualifiedName(), e.getMessage());
         }
         generated = true;
     }
@@ -55,7 +55,7 @@ public class JsonObjectSerdesGenerator {
         return typeInfo;
     }
 
-    public JsonObjectSerdesAssembler getAssembler() {
+    public JsonObjectSerializerAssembler getAssembler() {
         return assembler;
     }
 
@@ -63,10 +63,10 @@ public class JsonObjectSerdesGenerator {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof JsonObjectSerdesGenerator))
+        if (!(o instanceof JsonObjectSerializerGenerator))
             return false;
 
-        final JsonObjectSerdesGenerator that = (JsonObjectSerdesGenerator) o;
+        final JsonObjectSerializerGenerator that = (JsonObjectSerializerGenerator) o;
 
         return typeInfo.equals(that.typeInfo);
 

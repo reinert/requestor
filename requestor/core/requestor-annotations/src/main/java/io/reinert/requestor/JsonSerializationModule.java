@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Declares types that must have auto-generated json serdes. <br/>
+ * Declares types that must have auto-generated json serializer. <br/>
  * The implementation is let to extension projects.
  */
 @Inherited
@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
 public @interface JsonSerializationModule {
 
     /**
-     * A list of types to generate to have json serdes (serializers and deserializers) generated.
+     * A list of types to generate to have json serializer generated.
      */
     Class[] value();
 }

@@ -18,13 +18,13 @@ package io.reinert.requestor.serialization;
 import java.util.Collection;
 
 /**
- * Performs serialization of types.
+ * Performs serialization and deserialization of a type to/from plain text.
  *
- * @param <T> The type it can serialize
+ * @param <T> Type of serialization
  *
  * @author Danilo Reinert
  */
-public interface Serializer<T> {
+public interface Serializer<T> extends Deserializer<T> {
 
     /**
      * Method for accessing type of the Object this serializer can handle.
@@ -36,7 +36,7 @@ public interface Serializer<T> {
     /**
      * Tells the media-type patterns which this serializer handles.
      * <p/>
-     * 
+     *
      * E.g., a serializer for JSON can return {"application/json", "application/javascript"}.<br>
      * If you want to create a serializer for any media-type just return "*&#47;*".
      *

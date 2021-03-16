@@ -15,12 +15,12 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.serialization.json.JsonBooleanSerdes;
-import io.reinert.requestor.serialization.json.JsonNumberSerdes;
-import io.reinert.requestor.serialization.json.JsonStringSerdes;
-import io.reinert.requestor.serialization.json.OverlaySerdes;
-import io.reinert.requestor.serialization.misc.TextSerdes;
-import io.reinert.requestor.serialization.misc.VoidSerdes;
+import io.reinert.requestor.serialization.json.JsonBooleanSerializer;
+import io.reinert.requestor.serialization.json.JsonNumberSerializer;
+import io.reinert.requestor.serialization.json.JsonStringSerializer;
+import io.reinert.requestor.serialization.json.OverlaySerializer;
+import io.reinert.requestor.serialization.misc.TextSerializer;
+import io.reinert.requestor.serialization.misc.VoidSerializer;
 
 /**
  * Initializer that configures the Requestor for handling JSON communication.
@@ -31,14 +31,14 @@ public class RequestorInitializerForJson implements RequestorInitializer {
 
     @Override
     public void configure(Requestor requestor) {
-        requestor.register(VoidSerdes.getInstance());
-        requestor.register(TextSerdes.getInstance());
+        requestor.register(VoidSerializer.getInstance());
+        requestor.register(TextSerializer.getInstance());
 
-        requestor.register(JsonStringSerdes.getInstance());
-        requestor.register(JsonNumberSerdes.getInstance());
-        requestor.register(JsonBooleanSerdes.getInstance());
+        requestor.register(JsonStringSerializer.getInstance());
+        requestor.register(JsonNumberSerializer.getInstance());
+        requestor.register(JsonBooleanSerializer.getInstance());
 
-        requestor.register(OverlaySerdes.getInstance());
+        requestor.register(OverlaySerializer.getInstance());
 
         requestor.setDefaultMediaType("application/json");
     }

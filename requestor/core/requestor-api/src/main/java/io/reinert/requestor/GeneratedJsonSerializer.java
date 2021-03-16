@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2014 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.ext.gwtjackson.meta.requestor;
+package io.reinert.requestor;
+
+import java.util.List;
+
+import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Metadata for {@link io.reinert.requestor.serialization.json.JsonObjectSerdes}.
+ * Generated Serializer from {@link Json}.
+ *
+ * @author Danilo Reinert
  */
-public interface JsonObjectSerdesMeta extends SerdesMeta {
+interface GeneratedJsonSerializer {
 
-    interface Method extends SerdesMeta.Method {
-        String READ_JSON = "readJson";
-        String WRITE_JSON = "writeJson";
-    }
+    List<Serializer<?>> getSerializers();
+
+    List<Provider<?>> getProviders();
+
 }

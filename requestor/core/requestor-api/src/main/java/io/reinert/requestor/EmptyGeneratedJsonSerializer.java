@@ -18,13 +18,13 @@ package io.reinert.requestor;
 import java.util.Collections;
 import java.util.List;
 
-import io.reinert.requestor.serialization.Serdes;
+import io.reinert.requestor.serialization.Serializer;
 
 @SuppressWarnings("unchecked")
-class EmptyGeneratedJsonSerdes implements GeneratedJsonSerdes {
+class EmptyGeneratedJsonSerializer implements GeneratedJsonSerializer {
 
     @Override
-    public List<Serdes<?>> getSerdes() {
+    public List<Serializer<?>> getSerializers() {
         return Collections.EMPTY_LIST;
     }
 

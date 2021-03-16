@@ -17,6 +17,6 @@
 <module>
   <inherits name="io.reinert.requestor.RequestorByGDeferred"/>
 
-  <!-- required by BookXmlSerdes -->
+  <!-- required by BookXmlSerializer -->
   <inherits name="com.google.gwt.xml.XML"/>
 </module>

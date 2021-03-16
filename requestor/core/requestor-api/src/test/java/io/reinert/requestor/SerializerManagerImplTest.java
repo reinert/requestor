@@ -27,11 +27,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests of {@link SerdesManagerImpl}.
+ * Unit tests of {@link SerializerManagerImpl}.
  */
-public class SerdesManagerImplTest {
+public class SerializerManagerImplTest {
 
-    private final SerdesManagerImpl manager = new SerdesManagerImpl();
+    private final SerializerManagerImpl manager = new SerializerManagerImpl();
 
     @Test
     public void getDeserializer_RegisteredClassAndMediaType_ShouldReturnRegisteredDeserializer() {

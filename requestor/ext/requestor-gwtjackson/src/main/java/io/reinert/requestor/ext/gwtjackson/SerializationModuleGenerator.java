@@ -44,7 +44,7 @@ public class SerializationModuleGenerator {
 
     private final TypeElement moduleTypeElement;
     private final TypeInfo moduleTypeInfo;
-    private final Set<JsonObjectSerdesAssembler> serdesAssemblers;
+    private final Set<JsonObjectSerializerAssembler> serializerAssemblers;
     private SerializationModuleAssembler serializationModuleAssembler;
     private boolean generated;
 
@@ -60,24 +60,24 @@ public class SerializationModuleGenerator {
 
         moduleTypeInfo = new TypeInfo(moduleTypeElement.getQualifiedName().toString());
 
-        serdesAssemblers = new LinkedHashSet<JsonObjectSerdesAssembler>();
+        serializerAssemblers = new LinkedHashSet<JsonObjectSerializerAssembler>();
 
         processAnnotationValues(moduleTypeElement);
 
-        serializationModuleAssembler = new SerializationModuleAssembler(moduleTypeInfo, serdesAssemblers);
+        serializationModuleAssembler = new SerializationModuleAssembler(moduleTypeInfo, serializerAssemblers);
     }
 
-    public Set<JsonObjectSerdesAssembler> getSerdesAssemblers() {
-        return serdesAssemblers;
+    public Set<JsonObjectSerializerAssembler> getSerializerAssemblers() {
+        return serializerAssemblers;
     }
 
     public boolean isGenerated() {
         return generated;
     }
 
-    public void generate(Map<TypeInfo, JsonObjectSerdesGenerator> serdesGenerators, Filer filer) throws ProcessingException {
+    public void generate(Map<TypeInfo, JsonObjectSerializerGenerator> serializerGenerators, Filer filer) throws ProcessingException {
         try {
-            mergeAndAssembleSerdes(serdesGenerators, filer);
+            mergeAndAssembleSerializer(serializerGenerators, filer);
             serializationModuleAssembler.assemble();
             JavaFile.builder(serializationModuleAssembler.packageName(), serializationModuleAssembler.spec())
                     .build().writeTo(filer);
@@ -124,19 +124,19 @@ public class SerializationModuleGenerator {
                 SerializationModule.class.getName());
     }
 
-    private void mergeAndAssembleSerdes(Map<TypeInfo, JsonObjectSerdesGenerator> externalGenerators, Filer filer)
+    private void mergeAndAssembleSerializer(Map<TypeInfo, JsonObjectSerializerGenerator> externalGenerators, Filer filer)
             throws ProcessingException {
-        for (JsonObjectSerdesAssembler assembler : new LinkedHashSet<JsonObjectSerdesAssembler>(serdesAssemblers)) {
-            JsonObjectSerdesGenerator serdesGenerator = externalGenerators.get(assembler.getTypeInfo());
-            if (serdesGenerator == null) {
-                serdesGenerator = new JsonObjectSerdesGenerator(assembler);
-                externalGenerators.put(assembler.getTypeInfo(), serdesGenerator);
+        for (JsonObjectSerializerAssembler assembler : new LinkedHashSet<JsonObjectSerializerAssembler>(serializerAssemblers)) {
+            JsonObjectSerializerGenerator serializerGenerator = externalGenerators.get(assembler.getTypeInfo());
+            if (serializerGenerator == null) {
+                serializerGenerator = new JsonObjectSerializerGenerator(assembler);
+                externalGenerators.put(assembler.getTypeInfo(), serializerGenerator);
             } else {
-                serdesAssemblers.remove(assembler);
-                serdesAssemblers.add(serdesGenerator.getAssembler());
+                serializerAssemblers.remove(assembler);
+                serializerAssemblers.add(serializerGenerator.getAssembler());
             }
-            if (!serdesGenerator.isGenerated()) {
-                serdesGenerator.generate(filer);
+            if (!serializerGenerator.isGenerated()) {
+                serializerGenerator.generate(filer);
             }
         }
     }
@@ -156,7 +156,7 @@ public class SerializationModuleGenerator {
                         TypeElement element = (TypeElement) declaredType.asElement();
                         TypeInfo typeInfo = new TypeInfo(element.getQualifiedName().toString());
                         if (!element.getModifiers().contains(Modifier.PUBLIC))
-                            throw new IllegalArgumentException(String.format("Error while generating Serdes for %s: "
+                            throw new IllegalArgumentException(String.format("Error while generating Serializer for %s: "
                                     + "class must be public.", typeInfo.getQualifiedName()));
                         aggregateAssembler(typeInfo);
                     } catch (ClassCastException e) {
@@ -164,7 +164,7 @@ public class SerializationModuleGenerator {
                         Class<?> type = (Class<?>) typeValue.getValue();
                         TypeInfo typeInfo = new TypeInfo(type.getCanonicalName());
                         if (!java.lang.reflect.Modifier.isPublic(type.getModifiers()))
-                            throw new IllegalArgumentException(String.format("Error while generating Serdes for %s: "
+                            throw new IllegalArgumentException(String.format("Error while generating Serializer for %s: "
                                     + "class must be public.", typeInfo.getQualifiedName()));
                         aggregateAssembler(typeInfo);
                     }
@@ -183,6 +183,6 @@ public class SerializationModuleGenerator {
     }
 
     private void aggregateAssembler(TypeInfo typeInfo) {
-        serdesAssemblers.add(new JsonObjectSerdesAssembler(typeInfo));
+        serializerAssemblers.add(new JsonObjectSerializerAssembler(typeInfo));
     }
 }

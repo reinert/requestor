@@ -17,20 +17,20 @@ package io.reinert.requestor;
 
 import java.util.List;
 
-import io.reinert.requestor.serialization.Serdes;
+import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Module that holds auto-generated Serdes.
+ * Module that holds auto-generated Serializer.
  * <p>
  *
  * To declare a serialization module you must inherit this class and annotate it with a supported annotation that
- * enables you to specify which classes should have auto-generated serdes.
+ * enables you to specify which classes should have auto-generated serializers.
  *
  * @author Danilo Reinert
  */
 public interface SerializationModule {
 
-    List<Serdes<?>> getSerdes();
+    List<Serializer<?>> getSerializers();
 
     List<Provider<?>> getProviders();
 
