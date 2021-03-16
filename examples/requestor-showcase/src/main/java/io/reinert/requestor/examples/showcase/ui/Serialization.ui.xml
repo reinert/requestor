@@ -407,7 +407,7 @@
     <div class="highlight">
       <pre ui:field="singleXmlPost" class="java">
         <code>requestor.req("http://httpbin.org/post")
-          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/xml") // It must match the serializer mediaType
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/xml") /* It must match the serializer mediaType */
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
       </pre>
@@ -425,7 +425,7 @@
     <div class="highlight">
       <pre ui:field="collectionXmlPost" class="java">
         <code>requestor.req("http://httpbin.org/post")
-          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/xml") // It must match the serializer mediaType
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/xml") /* It must match the serializer mediaType */
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(Arrays.asList(
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Lorem", 1900, new Date(1420416000000L)),
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Ipsum", 210, new Date(1420070400000L))))
@@ -479,7 +479,7 @@
     <div class="highlight">
       <pre ui:field="singleJsonPost" class="java">
         <code>requestor.req("http://httpbin.org/post")
-          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/json") // It must match the serializer mediaType
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/json") /* It must match the serializer mediaType */
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
       </pre>
@@ -497,7 +497,7 @@
     <div class="highlight">
       <pre ui:field="collectionJsonPost" class="java">
         <code>requestor.req("http://httpbin.org/post")
-          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/json") // It must match the serializer mediaType
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/json") /* It must match the serializer mediaType */
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(Arrays.asList(
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Lorem", 1900, new Date(1420416000000L)),
           <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Ipsum", 210, new Date(1420070400000L))))
