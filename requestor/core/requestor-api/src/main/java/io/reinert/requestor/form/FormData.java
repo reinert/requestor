@@ -56,7 +56,7 @@ public class FormData implements Iterable<FormData.Param> {
 
     @Override
     public Iterator<Param> iterator() {
-        return params == null ? Collections.<Param>emptyIterator() : params.iterator();
+        return params == null ? Collections.<Param>emptySet().iterator() : params.iterator();
     }
 
     public static class Builder {
