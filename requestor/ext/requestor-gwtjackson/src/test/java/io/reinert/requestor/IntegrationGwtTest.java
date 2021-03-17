@@ -213,5 +213,5 @@ public class IntegrationGwtTest extends GWTTestCase {
     }
 
     @JsonSerializationModule(Animal.class)
-    interface TestSerializationModule extends SerializationModule {}
+    interface TestSerializationModule extends SerializationModule { }
 }

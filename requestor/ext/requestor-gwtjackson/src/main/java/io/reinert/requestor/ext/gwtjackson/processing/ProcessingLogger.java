@@ -43,7 +43,6 @@ public class ProcessingLogger {
             return;
         }
 
-
         if (e.getElement() != null) {
             messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage(), e.getElement());
             return;

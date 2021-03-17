@@ -26,7 +26,7 @@ import io.reinert.requestor.examples.showcase.util.HighlightJs;
 
 public class SendingRequests extends Composite {
 
-    interface SendingRequestsUiBinder extends UiBinder<HTMLPanel, SendingRequests> {}
+    interface SendingRequestsUiBinder extends UiBinder<HTMLPanel, SendingRequests> { }
 
     private static SendingRequestsUiBinder uiBinder = GWT.create(SendingRequestsUiBinder.class);
 

@@ -40,7 +40,7 @@ public class Serialization extends Composite {
         void onJsonCollectionPost();
     }
 
-    interface SerializationUiBinder extends UiBinder<HTMLPanel, Serialization> {}
+    interface SerializationUiBinder extends UiBinder<HTMLPanel, Serialization> { }
 
     private static SerializationUiBinder uiBinder = GWT.create(SerializationUiBinder.class);
 

@@ -27,7 +27,6 @@ import io.reinert.gdeferred.ProgressCallback;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Requestor;
-import io.reinert.requestor.ResponseType;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.types.BlobType;
@@ -97,7 +96,6 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
                     }
                 });
     }
-
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {

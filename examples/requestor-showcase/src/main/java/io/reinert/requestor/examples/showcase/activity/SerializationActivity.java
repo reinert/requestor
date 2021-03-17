@@ -242,7 +242,8 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         }
 
         @Override
-        public <C extends Collection<MyObject>> C deserialize(Class<C> collectionType, String response, DeserializationContext ctx) {
+        public <C extends Collection<MyObject>> C deserialize(Class<C> collectionType, String response,
+                                                              DeserializationContext ctx) {
             C collection = ctx.getInstance(collectionType);
 
             int nextStart = response.indexOf("<my>");

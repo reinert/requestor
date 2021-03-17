@@ -32,7 +32,8 @@ class SerializationModuleCode {
     private final SerializationModuleSchema schema;
     private final Iterable<JsonObjectSerializerAssembler> generatedSerializer;
 
-    SerializationModuleCode(SerializationModuleSchema schema, Iterable<JsonObjectSerializerAssembler> generatedSerializer) {
+    SerializationModuleCode(SerializationModuleSchema schema,
+                            Iterable<JsonObjectSerializerAssembler> generatedSerializer) {
         this.schema = schema;
         this.generatedSerializer = generatedSerializer;
     }

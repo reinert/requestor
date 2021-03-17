@@ -26,7 +26,7 @@ import io.reinert.requestor.examples.showcase.util.HighlightJs;
 
 public class GettingStarted extends Composite {
 
-    interface GettingStartedUiBinder extends UiBinder<HTMLPanel, GettingStarted> {}
+    interface GettingStartedUiBinder extends UiBinder<HTMLPanel, GettingStarted> { }
 
     private static GettingStartedUiBinder uiBinder = GWT.create(GettingStartedUiBinder.class);
 

@@ -34,7 +34,7 @@ public class Interceptors extends Composite {
         void onResponseInterceptorButtonClick();
     }
 
-    interface InterceptorsUiBinder extends UiBinder<HTMLPanel, Interceptors> {}
+    interface InterceptorsUiBinder extends UiBinder<HTMLPanel, Interceptors> { }
 
     private static InterceptorsUiBinder uiBinder = GWT.create(InterceptorsUiBinder.class);
 
@@ -62,7 +62,7 @@ public class Interceptors extends Composite {
     public void setRequestInterceptorText(String content) {
         requestInterceptorTextArea.setInnerText(content);
     }
-    
+
     public void setResponseInterceptorText(String content) {
         responseInterceptorTextArea.setInnerText(content);
     }

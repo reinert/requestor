@@ -40,7 +40,7 @@ public class Form extends Composite {
                                        List<String> toppings, String time, String comments);
     }
 
-    interface FormUiBinder extends UiBinder<HTMLPanel, Form> {}
+    interface FormUiBinder extends UiBinder<HTMLPanel, Form> { }
 
     private static FormUiBinder uiBinder = GWT.create(FormUiBinder.class);
 
@@ -49,7 +49,6 @@ public class Form extends Composite {
     @UiField PreElement wrapping, building;
     @UiField InputElement custname, custtel, custemail, sizeSmall, sizeMedium, sizeLarge, topBacon, topCheese, topOnion,
             topMushroom, time;
-
 
     private Handler handler;
 
@@ -69,9 +68,9 @@ public class Form extends Composite {
 
     @UiHandler("buildingPostButton")
     public void onBuildingPostButtonClick(ClickEvent e) {
-        String custname = this.custname.getValue();
-        String custtel = this.custtel.getValue();
-        String custemail = this.custemail.getValue();
+        String custnameVal = this.custname.getValue();
+        String custtelVal = this.custtel.getValue();
+        String custemailVal = this.custemail.getValue();
 
         String size = sizeSmall.isChecked() ? sizeSmall.getValue() :
                 sizeMedium.isChecked() ? sizeMedium.getValue() :
@@ -83,10 +82,10 @@ public class Form extends Composite {
         if (topOnion.isChecked()) toppings.add(topOnion.getValue());
         if (topMushroom.isChecked()) toppings.add(topMushroom.getValue());
 
-        String time = this.time.getValue();
-        String comments = this.comments.getValue();
+        String timeVal = this.time.getValue();
+        String commentsVal = this.comments.getValue();
 
-        handler.onBuildingPostButtonClick(custname, custtel, custemail, size, toppings, time, comments);
+        handler.onBuildingPostButtonClick(custnameVal, custtelVal, custemailVal, size, toppings, timeVal, commentsVal);
     }
 
     public void setWrappingText(String content) {

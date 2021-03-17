@@ -69,7 +69,6 @@ public class JsonObjectSerializerGenerator {
         final JsonObjectSerializerGenerator that = (JsonObjectSerializerGenerator) o;
 
         return typeInfo.equals(that.typeInfo);
-
     }
 
     @Override

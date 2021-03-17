@@ -14,7 +14,7 @@ import io.reinert.requestor.examples.showcase.ui.loading.event.HideLoadingEvent;
 import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
 
 public class Loading extends Composite implements ShowLoadingEvent.Handler, HideLoadingEvent.Handler {
-    interface LoadingUiBinder extends UiBinder<HTMLPanel, Loading> {}
+    interface LoadingUiBinder extends UiBinder<HTMLPanel, Loading> { }
 
     private static LoadingUiBinder ourUiBinder = GWT.create(LoadingUiBinder.class);
 

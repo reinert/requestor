@@ -75,7 +75,8 @@ public class SerializationModuleGenerator {
         return generated;
     }
 
-    public void generate(Map<TypeInfo, JsonObjectSerializerGenerator> serializerGenerators, Filer filer) throws ProcessingException {
+    public void generate(Map<TypeInfo, JsonObjectSerializerGenerator> serializerGenerators, Filer filer)
+            throws ProcessingException {
         try {
             mergeAndAssembleSerializer(serializerGenerators, filer);
             serializationModuleAssembler.assemble();
@@ -124,9 +125,11 @@ public class SerializationModuleGenerator {
                 SerializationModule.class.getName());
     }
 
-    private void mergeAndAssembleSerializer(Map<TypeInfo, JsonObjectSerializerGenerator> externalGenerators, Filer filer)
+    private void mergeAndAssembleSerializer(Map<TypeInfo, JsonObjectSerializerGenerator> externalGenerators,
+                                            Filer filer)
             throws ProcessingException {
-        for (JsonObjectSerializerAssembler assembler : new LinkedHashSet<JsonObjectSerializerAssembler>(serializerAssemblers)) {
+        for (JsonObjectSerializerAssembler assembler :
+                new LinkedHashSet<JsonObjectSerializerAssembler>(serializerAssemblers)) {
             JsonObjectSerializerGenerator serializerGenerator = externalGenerators.get(assembler.getTypeInfo());
             if (serializerGenerator == null) {
                 serializerGenerator = new JsonObjectSerializerGenerator(assembler);
@@ -156,16 +159,20 @@ public class SerializationModuleGenerator {
                         TypeElement element = (TypeElement) declaredType.asElement();
                         TypeInfo typeInfo = new TypeInfo(element.getQualifiedName().toString());
                         if (!element.getModifiers().contains(Modifier.PUBLIC))
-                            throw new IllegalArgumentException(String.format("Error while generating Serializer for %s: "
-                                    + "class must be public.", typeInfo.getQualifiedName()));
+                            throw new IllegalArgumentException(String.format(
+                                    "Error while generating Serializer for %s: class must be public.",
+                                    typeInfo.getQualifiedName()
+                            ));
                         aggregateAssembler(typeInfo);
                     } catch (ClassCastException e) {
                         @SuppressWarnings("unchecked")
                         Class<?> type = (Class<?>) typeValue.getValue();
                         TypeInfo typeInfo = new TypeInfo(type.getCanonicalName());
                         if (!java.lang.reflect.Modifier.isPublic(type.getModifiers()))
-                            throw new IllegalArgumentException(String.format("Error while generating Serializer for %s: "
-                                    + "class must be public.", typeInfo.getQualifiedName()));
+                            throw new IllegalArgumentException(String.format(
+                                    "Error while generating Serializer for %s: class must be public.",
+                                    typeInfo.getQualifiedName()
+                            ));
                         aggregateAssembler(typeInfo);
                     }
                 }
