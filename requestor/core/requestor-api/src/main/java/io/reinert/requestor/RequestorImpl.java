@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -150,6 +150,159 @@ public class RequestorImpl extends Requestor {
     public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> returnType,
                                                                      Class<C> containerType) {
         return requestDispatcher.dispatch(request, returnType, containerType);
+    }
+
+    //===================================================================
+    // Direct invoke methods
+    //===================================================================
+
+    @Override
+    public Promise<Void> get(String uri) {
+        return this.req(uri).get();
+    }
+
+    @Override
+    public <T> Promise<T> get(String uri, Class<T> resultType) {
+        return this.req(uri).get(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<T> resultType,
+                                                                Class<C> containerType) {
+        return this.req(uri).get(resultType, containerType);
+    }
+
+    @Override
+    public Promise<Void> post(String uri) {
+        return this.req(uri).post();
+    }
+
+    @Override
+    public Promise<Void> post(String uri, Object payload) {
+        return this.req(uri).payload(payload).post();
+    }
+
+    @Override
+    public <T> Promise<T> post(String uri, Object payload, Class<T> resultType) {
+        return this.req(uri).payload(payload).post(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<T> resultType,
+                                                                 Class<C> containerType) {
+        return this.req(uri).payload(payload).post(resultType, containerType);
+    }
+
+    @Override
+    public <T> Promise<T> post(String uri, Class<T> resultType) {
+        return this.req(uri).post(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<T> resultType,
+                                                                 Class<C> containerType) {
+        return this.req(uri).post(resultType, containerType);
+    }
+
+    @Override
+    public Promise<Void> put(String uri) {
+        return this.req(uri).put();
+    }
+
+    @Override
+    public Promise<Void> put(String uri, Object payload) {
+        return this.req(uri).payload(payload).put();
+    }
+
+    @Override
+    public <T> Promise<T> put(String uri, Object payload, Class<T> resultType) {
+        return this.req(uri).payload(payload).put(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<T> resultType,
+                                                                Class<C> containerType) {
+        return this.req(uri).payload(payload).put(resultType, containerType);
+    }
+
+    @Override
+    public <T> Promise<T> put(String uri, Class<T> resultType) {
+        return this.req(uri).put(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<T> resultType,
+                                                                Class<C> containerType) {
+        return this.req(uri).put(resultType, containerType);
+    }
+
+    @Override
+    public Promise<Void> delete(String uri) {
+        return this.req(uri).delete();
+    }
+
+    @Override
+    public <T> Promise<T> delete(String uri, Class<T> resultType) {
+        return this.req(uri).delete(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<T> resultType,
+                                                                   Class<C> containerType) {
+        return this.req(uri).delete(resultType, containerType);
+    }
+
+    @Override
+    public Promise<Void> patch(String uri) {
+        return this.req(uri).patch();
+    }
+
+    @Override
+    public Promise<Void> patch(String uri, Object payload) {
+        return this.req(uri).payload(payload).patch();
+    }
+
+    @Override
+    public <T> Promise<T> patch(String uri, Object payload, Class<T> resultType) {
+        return this.req(uri).payload(payload).patch(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<T> resultType,
+                                                                  Class<C> containerType) {
+        return this.req(uri).payload(payload).patch(resultType, containerType);
+    }
+
+    @Override
+    public <T> Promise<T> patch(String uri, Class<T> resultType) {
+        return this.req(uri).patch(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<T> resultType,
+                                                                  Class<C> containerType) {
+        return this.req(uri).patch(resultType, containerType);
+    }
+
+    @Override
+    public Promise<Void> options(String uri) {
+        return this.req(uri).options();
+    }
+
+    @Override
+    public <T> Promise<T> options(String uri, Class<T> resultType) {
+        return this.req(uri).options(resultType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<T> resultType,
+                                                                    Class<C> containerType) {
+        return this.req(uri).options(resultType, containerType);
+    }
+
+    @Override
+    public Promise<Headers> head(String uri) {
+        return this.req(uri).head();
     }
 
     //===================================================================
