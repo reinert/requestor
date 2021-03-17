@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,9 +43,12 @@ import io.reinert.requestor.uri.UriBuilder;
  * You can register {@link Serializer} or a {@link Deserializer} to provide both serialization and/or deserialization
  * of objects according to media-types.
  *
+ * You can quickly send requests using the HTTP methods.
+ *
  * @author Danilo Reinert
  */
-public abstract class Requestor implements SerializerManager, FilterManager, InterceptorManager, ProviderManager {
+public abstract class Requestor
+        implements SerializerManager, FilterManager, InterceptorManager, ProviderManager, DirectInvoker {
 
     public static Requestor newInstance() {
         return GWT.create(Requestor.class);
