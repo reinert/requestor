@@ -122,7 +122,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         setString(json, "message", message);
         return json;
     }
-    
+
     private static native void setString(JavaScriptObject jso, String property, String value) /*-{
         jso[property] = value;
     }-*/;

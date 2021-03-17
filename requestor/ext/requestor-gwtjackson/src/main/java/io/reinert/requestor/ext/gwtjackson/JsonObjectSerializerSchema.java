@@ -144,7 +144,7 @@ class JsonObjectSerializerSchema {
                             ParameterizedTypeName.get(ClassName.get(TreeSet.class), typeInfo.getClassName())));
         }
     }
-    
+
     class MapperField extends FieldAssembler {
         protected FieldSpec.Builder getDeclaration() {
             return FieldSpec.builder(mapperInterface.className(), "mapper")
@@ -263,7 +263,7 @@ class JsonObjectSerializerSchema {
     class DeserializeMethod extends MethodAssembler {
         final ParameterSpec rawJson = ParameterSpec.builder(String.class, "rawJson").build();
         final ParameterSpec context = ParameterSpec.builder(DeserializationContext.class, "ctx").build();
-        
+
         protected MethodSpec.Builder getSignature() {
             return MethodSpec.methodBuilder("deserialize")
                     .returns(typeInfo.getClassName())

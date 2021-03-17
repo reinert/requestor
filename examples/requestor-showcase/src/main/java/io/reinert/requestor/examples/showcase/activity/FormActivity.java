@@ -68,7 +68,6 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                         view.setWrappingText(payload);
                     }
                 });
-
     }
 
     @Override

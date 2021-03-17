@@ -39,7 +39,7 @@ public class Requesting extends Composite {
         void onPatchButtonClick();
     }
 
-    interface RequestingUiBinder extends UiBinder<HTMLPanel, Requesting> {}
+    interface RequestingUiBinder extends UiBinder<HTMLPanel, Requesting> { }
 
     private static RequestingUiBinder uiBinder = GWT.create(RequestingUiBinder.class);
 

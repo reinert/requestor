@@ -34,7 +34,7 @@ public class Filters extends Composite {
         void onResponseFilterButtonClick();
     }
 
-    interface FiltersUiBinder extends UiBinder<HTMLPanel, Filters> {}
+    interface FiltersUiBinder extends UiBinder<HTMLPanel, Filters> { }
 
     private static FiltersUiBinder uiBinder = GWT.create(FiltersUiBinder.class);
 
@@ -61,7 +61,7 @@ public class Filters extends Composite {
     public void setRequestFilterText(String content) {
         requestFilterTextArea.setInnerText(content);
     }
-    
+
     public void setResponseFilterText(String headers, String content) {
         responseFilterTextArea.setInnerText(content);
         responseFilterTextArea2.setInnerText(headers);

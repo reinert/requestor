@@ -40,7 +40,7 @@ public class BinaryData extends Composite {
         void onRetrieveButtonClick(String url);
     }
 
-    interface AuthenticationUiBinder extends UiBinder<HTMLPanel, BinaryData> {}
+    interface AuthenticationUiBinder extends UiBinder<HTMLPanel, BinaryData> { }
 
     private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
 

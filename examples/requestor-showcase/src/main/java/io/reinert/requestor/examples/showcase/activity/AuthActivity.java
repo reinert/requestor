@@ -182,16 +182,16 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
     public void onStop() {
         view.setHandler(null);
     }
-    
+
     @SuppressWarnings("unchecked")
     public static <T> T getObject(JavaScriptObject jso, String property) {
         return (T) getObjectNative(jso, property);
     }
-    
+
     private static native Object getObjectNative(JavaScriptObject jso, String property) /*-{
         return jso[property];
     }-*/;
-    
+
     private static native String getString(JavaScriptObject jso, String property) /*-{
         return jso[property];
     }-*/;

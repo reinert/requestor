@@ -79,11 +79,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <!-- TODO: skip javadoc check only -->
-          <!--<suppressionsLocation>/checkstyle-suppressions.xml</suppressionsLocation>-->
-          <skip>true</skip>
-        </configuration>
       </plugin>
 
       <!-- USE IT TO ENABLE ANNOTATION PROCESSING IN MAVEN WITHOUT CONFLICTING WITH GWT COMPILATION -->

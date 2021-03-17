@@ -41,7 +41,7 @@ public class Auth extends Composite {
         void onWindowsButtonClick();
     }
 
-    interface AuthenticationUiBinder extends UiBinder<HTMLPanel, Auth> {}
+    interface AuthenticationUiBinder extends UiBinder<HTMLPanel, Auth> { }
 
     private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
 
@@ -79,7 +79,7 @@ public class Auth extends Composite {
     public void onGoogleButtonClick(ClickEvent e) {
         handler.onGoogleButtonClick();
     }
-    
+
     @UiHandler("facebookButton")
     public void onFacebookButtonClick(ClickEvent e) {
         handler.onFacebookButtonClick();

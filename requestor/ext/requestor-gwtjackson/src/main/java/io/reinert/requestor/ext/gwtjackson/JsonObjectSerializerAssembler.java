@@ -42,7 +42,8 @@ public class JsonObjectSerializerAssembler extends TypeAssembler {
     @Override
     protected TypeSpec.Builder getSpec() {
         return TypeSpec.classBuilder(simpleName())
-                .superclass(ParameterizedTypeName.get(ClassName.get(JsonObjectSerializer.class), typeInfo.getClassName()))
+                .superclass(ParameterizedTypeName.get(ClassName.get(JsonObjectSerializer.class),
+                        typeInfo.getClassName()))
                 .addModifiers(Modifier.PUBLIC)
                 .addType(schema.mapperInterface.assemble())
                 .addType(schema.collectionWriterInterface.assemble())

@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 
 public class Home extends Composite {
 
-    interface HomeUiBinder extends UiBinder<HTMLPanel, Home> {}
+    interface HomeUiBinder extends UiBinder<HTMLPanel, Home> { }
 
     private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);
 
