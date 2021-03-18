@@ -29,8 +29,16 @@ import io.reinert.requestor.serialization.Serializer;
  */
 public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
-    public static final String APP_JSON = "app*/json*";
-    public static final String JAVASCRIPT = "*/javascript*";
+    static final String APP_JSON = "app*/json*";
+    static final String JAVASCRIPT = "*/javascript*";
+
+    @Json({APP_JSON, JAVASCRIPT})
+    interface Animal {
+        Integer getAge();
+        String getName();
+        void setAge(Integer age);
+        void setName(String name);
+    }
 
     private SerializerManagerImpl serializerManager;
     private ProviderManagerImpl providerManager;
@@ -181,14 +189,6 @@ public class JsonAutoBeanGeneratorTest extends GWTTestCase {
 
         // Then
         assertEquals(expected, output);
-    }
-
-    @Json({APP_JSON, JAVASCRIPT})
-    interface Animal {
-        Integer getAge();
-        String getName();
-        void setAge(Integer age);
-        void setName(String name);
     }
 
     private boolean isEqual(Animal a, Animal b) {

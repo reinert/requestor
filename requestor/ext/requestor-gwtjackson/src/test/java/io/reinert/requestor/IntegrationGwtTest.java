@@ -31,14 +31,14 @@ import io.reinert.requestor.serialization.Serializer;
  */
 public class IntegrationGwtTest extends GWTTestCase {
 
-    private static final String APP_JSON = "app*/json*";
-    private static final String JAVASCRIPT = "*/javascript*";
+    @JsonSerializationModule(Animal.class)
+    interface TestSerializationModule extends SerializationModule { }
+
+    static final String APP_JSON = "app*/json*";
+    static final String JAVASCRIPT = "*/javascript*";
 
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
-
-    @JsonSerializationModule(Animal.class)
-    interface TestSerializationModule extends SerializationModule { }
 
     @Override
     public String getModuleName() {
