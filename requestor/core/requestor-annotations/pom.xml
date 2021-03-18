@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-~ Copyright 2015 Danilo Reinert
+~ Copyright 2021 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -32,10 +32,6 @@
       <!-- Bundle sources with the jar, so they are visible to GWT's compiler -->
       <resource>
         <directory>src/main/java</directory>
-      </resource>
-      <!-- Bundle module descriptor with the jar, so it is visible to GWT's compiler -->
-      <resource>
-        <directory>src/main/resources</directory>
       </resource>
     </resources>
   </build>
