@@ -31,11 +31,14 @@ import io.reinert.requestor.serialization.Serializer;
  */
 public class IntegrationGwtTest extends GWTTestCase {
 
-//    public static final String APP_JSON = "app*/json*";
-//    public static final String JAVASCRIPT = "*/javascript*";
+    private static final String APP_JSON = "app*/json*";
+    private static final String JAVASCRIPT = "*/javascript*";
 
-    private SerializerManagerImpl serializerManager = new SerializerManagerImpl();
+    private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
+
+    @JsonSerializationModule(Animal.class)
+    interface TestSerializationModule extends SerializationModule { }
 
     @Override
     public String getModuleName() {
@@ -65,10 +68,10 @@ public class IntegrationGwtTest extends GWTTestCase {
         assertSame(serializer, deserializer);
     }
 
-//    public void testSerializerShouldSupportMediaTypeValuesFromJsonAnnotation() {
-//        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
-//        assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
-//    }
+    public void testSerializerShouldSupportMediaTypeValuesFromJsonAnnotation() {
+        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
+    }
 
     public void testSerializerShouldHandleAnnotatedType() {
         final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
@@ -211,7 +214,4 @@ public class IntegrationGwtTest extends GWTTestCase {
             return result;
         }
     }
-
-    @JsonSerializationModule(Animal.class)
-    interface TestSerializationModule extends SerializationModule { }
 }
