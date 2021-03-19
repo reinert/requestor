@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public class JsonObjectSerializerAssembler extends TypeAssembler {
 
     @Override
     protected TypeSpec.Builder getSpec() {
-        return TypeSpec.classBuilder(simpleName())
+        TypeSpec.Builder builder = TypeSpec.classBuilder(simpleName())
                 .superclass(ParameterizedTypeName.get(ClassName.get(JsonObjectSerializer.class),
                         typeInfo.getClassName()))
                 .addModifiers(Modifier.PUBLIC)
@@ -77,6 +77,12 @@ public class JsonObjectSerializerAssembler extends TypeAssembler {
                 .addMethod(schema.deserializeCollectionMethod.assemble(code.deserializeCollection()))
                 .addMethod(schema.serializeMethod.assemble(code.serialize()))
                 .addMethod(schema.serializeCollectionMethod.assemble(code.serializeCollection()));
+
+        if (typeInfo.hasMediaTypes()) {
+            builder.addMethod(schema.mediaTypeMethod.assemble(code.mediaType(typeInfo.getMediaTypes())));
+        }
+
+        return builder;
     }
 
     public TypeInfo getTypeInfo() {
