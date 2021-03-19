@@ -128,8 +128,8 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     }
 
     @Override
-    public RequestBuilder payload(Object object) {
-        payload = object;
+    public RequestBuilder payload(Object payload) {
+        this.payload = payload;
         return this;
     }
 

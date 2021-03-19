@@ -46,6 +46,6 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     RequestInvoker timeout(int timeoutMillis);
 
     @Override
-    RequestInvoker payload(Object object) throws IllegalArgumentException;
+    RequestInvoker payload(Object payload) throws IllegalArgumentException;
 
 }
