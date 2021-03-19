@@ -36,21 +36,6 @@
   <build>
     <pluginManagement>
       <plugins>
-        <!-- Skip GWTTests during JUnit tests -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
-          <configuration>
-            <includes>
-              <include>**/*TestSuite.java</include>
-            </includes>
-            <excludes>
-              <exclude>**/*GwtTest*.java</exclude>
-            </excludes>
-          </configuration>
-        </plugin>
-
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
