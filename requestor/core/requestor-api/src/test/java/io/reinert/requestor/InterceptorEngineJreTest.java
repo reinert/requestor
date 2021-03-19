@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
  * Unit tests of {@link io.reinert.requestor.InterceptorEngine}.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class InterceptorEngineTest {
+public class InterceptorEngineJreTest {
 
     @Mock private ResponseInterceptor responseInterceptor;
     @Mock private RequestInterceptor requestInterceptor;

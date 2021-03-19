@@ -23,4 +23,12 @@
 
   <!-- required by BookXmlSerializer -->
   <inherits name="com.google.gwt.xml.XML"/>
+
+  <source path="">
+    <exclude name="rebind/**/*" />
+    <exclude name="uri/UrlCodecMock.java" />
+    <exclude name="**/*JreTest*" />
+    <include name="**/*GwtTest.java" />
+    <include name="**/*GwtTestSuite.java" />
+  </source>
 </module>

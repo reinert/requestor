@@ -29,7 +29,7 @@ import io.reinert.requestor.serialization.json.OverlaySerializer;
 /**
  * Unit tests of {@link OverlaySerializer}.
  */
-public class OverlaySerializerTest extends GWTTestCase {
+public class OverlaySerializerGwtTest extends GWTTestCase {
 
     private final OverlaySerializer serializer = OverlaySerializer.getInstance();
 

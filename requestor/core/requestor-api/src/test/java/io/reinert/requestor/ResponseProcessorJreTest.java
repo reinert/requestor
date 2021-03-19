@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
  * Unit tests of {@link ResponseProcessor}.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ResponseProcessorTest {
+public class ResponseProcessorJreTest {
 
     @Mock private FilterEngine filterEngine;
     @Mock private InterceptorEngine interceptorEngine;

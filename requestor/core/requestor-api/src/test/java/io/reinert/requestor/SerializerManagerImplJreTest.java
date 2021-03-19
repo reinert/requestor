@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 /**
  * Unit tests of {@link SerializerManagerImpl}.
  */
-public class SerializerManagerImplTest {
+public class SerializerManagerImplJreTest {
 
     private final SerializerManagerImpl manager = new SerializerManagerImpl();
 

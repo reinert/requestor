@@ -25,7 +25,7 @@ import junit.framework.TestSuite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        UriBuilderTest.class,
-        UriParserTest.class})
+        UriBuilderJreTest.class,
+        UriParserJreTest.class})
 public class UriTestSuite extends TestSuite {
 }

@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
  * Unit tests of {@link FilterEngine}.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class FilterEngineTest {
+public class FilterEngineJreTest {
 
     @Mock private ResponseFilter responseFilter;
     @Mock private RequestFilter requestFilter;

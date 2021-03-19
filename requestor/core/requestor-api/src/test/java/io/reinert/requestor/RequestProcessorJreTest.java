@@ -33,7 +33,7 @@ import static org.mockito.Mockito.withSettings;
  * Unit tests of {@link RequestProcessor}.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class RequestProcessorTest {
+public class RequestProcessorJreTest {
 
     @Mock private SerializationEngine serializationEngine;
     @Mock private FilterEngine filterEngine;

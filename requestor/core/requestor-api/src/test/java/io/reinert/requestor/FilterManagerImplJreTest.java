@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Unit tests of {@link FilterManagerImpl}.
  */
-public class FilterManagerImplTest {
+public class FilterManagerImplJreTest {
 
     private FilterManagerImpl manager = new FilterManagerImpl();
 

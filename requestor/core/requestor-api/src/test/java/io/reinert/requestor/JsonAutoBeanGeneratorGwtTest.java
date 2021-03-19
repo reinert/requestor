@@ -27,7 +27,7 @@ import io.reinert.requestor.serialization.Serializer;
 /**
  * Unit tests for {@link io.reinert.requestor.rebind.JsonAutoBeanGenerator}.
  */
-public class JsonAutoBeanGeneratorTest extends GWTTestCase {
+public class JsonAutoBeanGeneratorGwtTest extends GWTTestCase {
 
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";

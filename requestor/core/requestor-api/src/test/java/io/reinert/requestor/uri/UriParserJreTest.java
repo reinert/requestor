@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
  * @author Danilo Reinert
  */
 @RunWith(GwtMockitoTestRunner.class)
-public class UriParserTest extends UriTestBase {
+public class UriParserJreTest extends UriJreTestBase {
 
     @Test
     public void testRootPath() {

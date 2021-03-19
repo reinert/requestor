@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Unit tests of {@link InterceptorManagerImpl}.
  */
-public class InterceptorManagerImplTest {
+public class InterceptorManagerImplJreTest {
 
     private InterceptorManagerImpl manager = new InterceptorManagerImpl();
 

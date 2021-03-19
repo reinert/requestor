@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import io.reinert.requestor.serialization.json.JsonBooleanSerializer;
+import io.reinert.requestor.serialization.json.JsonStringSerializer;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -28,11 +28,11 @@ import org.mockito.Mockito;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Unit tests of {@link JsonBooleanSerializer}.
+ * Unit tests of {@link JsonStringSerializer}.
  */
-public class JsonBooleanSerializerTest {
+public class JsonStringSerializerJreTest {
 
-    private final JsonBooleanSerializer serializer = JsonBooleanSerializer.getInstance();
+    private final JsonStringSerializer serializer = JsonStringSerializer.getInstance();
 
     @Test
     public void deserializeCollection() throws Exception {
@@ -40,25 +40,24 @@ public class JsonBooleanSerializerTest {
         DeserializationContext context = Mockito.mock(DeserializationContext.class);
         Mockito.when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
-        String input = "[true,false,false,true,false]";
-        Collection<Boolean> expected = Arrays.asList(true, false, false, true, false);
+        String input = "[\"some\",\"any\"]";
+        Collection<String> expected = Arrays.asList("some", "any");
 
         @SuppressWarnings("unchecked")
-        Collection<Boolean> output = serializer.deserialize(List.class, input, context);
+        Collection<String> output = serializer.deserialize(List.class, input, context);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void deserializeValue() throws Exception {
-        assertEquals(true, serializer.deserialize("true", null));
-        assertEquals(false, serializer.deserialize("false", null));
+        assertEquals("some", serializer.deserialize("\"some\"", null));
     }
 
     @Test
     public void serializeCollection() throws Exception {
-        Collection<Boolean> input = Arrays.asList(true, false, false, true, false);
-        String expected = "[true,false,false,true,false]";
+        Collection<String> input = Arrays.asList("some", "any");
+        String expected = "[\"some\",\"any\"]";
 
         String output = serializer.serialize(input, null);
 
@@ -67,7 +66,6 @@ public class JsonBooleanSerializerTest {
 
     @Test
     public void serializeValue() throws Exception {
-        assertEquals("true", serializer.serialize(true, null));
-        assertEquals("false", serializer.serialize(false, null));
+        assertEquals("\"some\"", serializer.serialize("some", null));
     }
 }

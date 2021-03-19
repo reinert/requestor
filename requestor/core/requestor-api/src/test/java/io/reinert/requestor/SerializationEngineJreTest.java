@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
  * Unit tests of {@link SerializationEngine}.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SerializationEngineTest {
+public class SerializationEngineJreTest {
 
     @Mock private SerializerManagerImpl serializerManager;
     @Mock private ProviderManagerImpl providerManager;

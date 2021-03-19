@@ -83,9 +83,9 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <excludes>
-                <exclude>io/reinert/requestor/Promise.*</exclude>
-              </excludes>
+<!--              <excludes>-->
+<!--                <exclude>io/reinert/requestor/Promise.*</exclude>-->
+<!--              </excludes>-->
             </configuration>
           </execution>
         </executions>
@@ -94,6 +94,21 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>test-dev-mode</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <modules>
+                <module>io.reinert.requestor.RequestorApiTest</module>
+                <module>io.reinert.requestor.RequestorWithAutoBeanTest</module>
+              </modules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
