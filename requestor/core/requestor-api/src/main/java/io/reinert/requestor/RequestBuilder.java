@@ -103,12 +103,12 @@ public interface RequestBuilder extends Request {
      * <p/>
      *
      * This object will be serialized considering its class and the current content-type.<br/>
-     * If no serializer was found matching these two factors, the a exception is thrown.
+     * If no serializer was found by matching these two factors, then a exception is thrown.
      *
-     * @param object The payload of the request
+     * @param payload The payload of the request
      *
      * @return This building request
      */
-    RequestBuilder payload(Object object);
+    RequestBuilder payload(Object payload);
 
 }
