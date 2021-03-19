@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -217,6 +217,16 @@ class JsonObjectSerializerCode {
                         currentScope.context,
                         SerializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
                 .endControlFlow()
+                .build();
+    }
+
+    CodeBlock mediaType(String[] mediaTypes) {
+        StringBuilder arrayValues = new StringBuilder();
+        for (String value : mediaTypes) {
+            arrayValues.append("\"").append(value).append("\", ");
+        }
+        return CodeBlock.builder()
+                .addStatement("return new String[] { $L }", arrayValues.substring(0, arrayValues.lastIndexOf(",")))
                 .build();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,11 @@ import javax.lang.model.type.TypeMirror;
 
 import com.google.auto.common.AnnotationMirrors;
 import com.google.auto.common.MoreElements;
+import com.google.common.base.Optional;
 import com.squareup.javapoet.JavaFile;
 
 import io.reinert.requestor.JsonSerializationModule;
+import io.reinert.requestor.MediaType;
 import io.reinert.requestor.SerializationModule;
 import io.reinert.requestor.ext.gwtjackson.codegen.TypeInfo;
 import io.reinert.requestor.ext.gwtjackson.processing.ProcessingException;
@@ -149,6 +151,30 @@ public class SerializationModuleGenerator {
         AnnotationValue annValue = AnnotationMirrors.getAnnotationValue(annMirror, "value");
         Object value = annValue.getValue();
 
+        String[] mediaTypes = null;
+        Optional<AnnotationMirror> oMediaTypeAnnMirror = MoreElements.getAnnotationMirror(typeElement, MediaType.class);
+        if (oMediaTypeAnnMirror.isPresent()) {
+            AnnotationMirror mediaTypeAnnMirror = oMediaTypeAnnMirror.get();
+            AnnotationValue mediaTypeAnnValue = AnnotationMirrors.getAnnotationValue(mediaTypeAnnMirror, "value");
+            Object mediaTypeValue = mediaTypeAnnValue.getValue();
+            if (mediaTypeValue instanceof AnnotationValue) {
+                mediaTypes = new String[]{ (String) ((AnnotationValue) mediaTypeValue).getValue() };
+            } else if (mediaTypeValue instanceof List) {
+                @SuppressWarnings("unchecked")
+                List<AnnotationValue> mediaTypeValues = (List<AnnotationValue>) mediaTypeValue;
+                if (mediaTypeValues.isEmpty()) {
+                    throw new IllegalArgumentException(String.format(
+                            "Error while generating SerializationModule for %s: @MediaType annotation cannot be empty.",
+                            typeElement.getQualifiedName()
+                    ));
+                }
+                mediaTypes = new String[mediaTypeValues.size()];
+                for (int i = 0; i < mediaTypeValues.size(); i++) {
+                    mediaTypes[i] = (String) mediaTypeValues.get(i).getValue();
+                }
+            }
+        }
+
         if (value instanceof List) {
             try {
                 @SuppressWarnings("unchecked")
@@ -157,7 +183,7 @@ public class SerializationModuleGenerator {
                     try {
                         DeclaredType declaredType = (DeclaredType) typeValue.getValue();
                         TypeElement element = (TypeElement) declaredType.asElement();
-                        TypeInfo typeInfo = new TypeInfo(element.getQualifiedName().toString());
+                        TypeInfo typeInfo = new TypeInfo(element.getQualifiedName().toString(), mediaTypes);
                         if (!element.getModifiers().contains(Modifier.PUBLIC))
                             throw new IllegalArgumentException(String.format(
                                     "Error while generating Serializer for %s: class must be public.",
@@ -167,7 +193,7 @@ public class SerializationModuleGenerator {
                     } catch (ClassCastException e) {
                         @SuppressWarnings("unchecked")
                         Class<?> type = (Class<?>) typeValue.getValue();
-                        TypeInfo typeInfo = new TypeInfo(type.getCanonicalName());
+                        TypeInfo typeInfo = new TypeInfo(type.getCanonicalName(), mediaTypes);
                         if (!java.lang.reflect.Modifier.isPublic(type.getModifiers()))
                             throw new IllegalArgumentException(String.format(
                                     "Error while generating Serializer for %s: class must be public.",

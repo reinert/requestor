@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,11 +31,12 @@ import io.reinert.requestor.serialization.Serializer;
  */
 public class IntegrationGwtTest extends GWTTestCase {
 
-    @JsonSerializationModule(Animal.class)
-    interface TestSerializationModule extends SerializationModule { }
-
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";
+
+    @MediaType({APP_JSON, JAVASCRIPT})
+    @JsonSerializationModule(Animal.class)
+    interface TestSerializationModule extends SerializationModule { }
 
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
@@ -68,11 +69,10 @@ public class IntegrationGwtTest extends GWTTestCase {
         assertSame(serializer, deserializer);
     }
 
-    // TODO: implement mediaType method generation
-//    public void testSerializerShouldSupportMediaTypeValuesFromJsonAnnotation() {
-//        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
-//        assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
-//    }
+    public void testSerializerShouldSupportMediaTypeValuesFromMediaTypeAnnotation() {
+        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
+    }
 
     public void testSerializerShouldHandleAnnotatedType() {
         final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");

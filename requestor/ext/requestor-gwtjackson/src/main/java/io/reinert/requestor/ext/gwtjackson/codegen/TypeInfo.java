@@ -31,6 +31,7 @@ public class TypeInfo {
     private final String qualifiedName;
     private final ClassName className;
     private final ArrayList<String> names = new ArrayList<String>();
+    private String[] mediaTypes = null;
     private boolean innerType;
 
     public TypeInfo(String qualifiedName) {
@@ -62,6 +63,11 @@ public class TypeInfo {
         names.add(simpleName);
     }
 
+    public TypeInfo(String qualifiedName, String[] mediaTypes) {
+        this(qualifiedName);
+        this.mediaTypes = mediaTypes;
+    }
+
     public ClassName getClassName() {
         return className;
     }
@@ -84,6 +90,14 @@ public class TypeInfo {
 
     public boolean isInnerType() {
         return innerType;
+    }
+
+    public boolean hasMediaTypes() {
+        return mediaTypes != null;
+    }
+
+    public String[] getMediaTypes() {
+        return mediaTypes;
     }
 
     @Override

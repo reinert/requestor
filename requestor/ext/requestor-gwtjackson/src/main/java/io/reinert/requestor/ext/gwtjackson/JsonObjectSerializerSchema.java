@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,9 @@ import javax.lang.model.element.Modifier;
 import com.github.nmorel.gwtjackson.client.ObjectMapper;
 import com.github.nmorel.gwtjackson.client.ObjectReader;
 import com.github.nmorel.gwtjackson.client.ObjectWriter;
+
 import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.ArrayTypeName;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
@@ -74,6 +76,7 @@ class JsonObjectSerializerSchema {
     final GetHashSetReaderMethod getHashSetReaderMethod = new GetHashSetReaderMethod();
     final GetLinkedHashSetReaderMethod getLinkedHashSetReaderMethod = new GetLinkedHashSetReaderMethod();
     final GetTreeSetReaderMethod getTreeSetReaderMethod = new GetTreeSetReaderMethod();
+    final MediaTypeMethod mediaTypeMethod = new MediaTypeMethod();
 
     JsonObjectSerializerSchema(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
@@ -332,6 +335,15 @@ class JsonObjectSerializerSchema {
                     .returns(String.class)
                     .addParameter(collection)
                     .addParameter(context)
+                    .addModifiers(Modifier.PUBLIC)
+                    .addAnnotation(Override.class);
+        }
+    }
+
+    class MediaTypeMethod extends MethodAssembler {
+        protected MethodSpec.Builder getSignature() {
+            return MethodSpec.methodBuilder("mediaType")
+                    .returns(ArrayTypeName.of(String.class))
                     .addModifiers(Modifier.PUBLIC)
                     .addAnnotation(Override.class);
         }
