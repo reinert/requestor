@@ -22,4 +22,10 @@
   <generate-with class="io.reinert.requestor.rebind.JsonAutoBeanGenerator">
     <when-type-is class="io.reinert.requestor.GeneratedJsonSerializer"/>
   </generate-with>
+
+  <source path="">
+    <exclude name="rebind/**/*" />
+    <exclude name="uri/UrlCodecMock.java" />
+    <exclude name="**/*JreTest*" />
+  </source>
 </module>

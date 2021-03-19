@@ -25,8 +25,8 @@ import junit.framework.TestSuite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        JsonBooleanSerializerTest.class,
-        JsonNumberSerializerTest.class,
-        JsonStringSerializerTest.class})
+        JsonBooleanSerializerJreTest.class,
+        JsonNumberSerializerJreTest.class,
+        JsonStringSerializerJreTest.class})
 public class SerializationTestSuite extends TestSuite {
 }

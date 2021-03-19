@@ -26,4 +26,13 @@
   <replace-with class="io.reinert.requestor.RequestorInitializerForJson">
     <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
   </replace-with>
+
+  <source path="">
+    <exclude name="rebind/**/*" />
+    <exclude name="uri/UrlCodecMock.java" />
+    <exclude name="uri/UriTestBase.java" />
+    <exclude name="**/*Test.java" />
+    <include name="**/*GwtTest.java" />
+    <include name="**/*GwtTestSuite.java" />
+  </source>
 </module>

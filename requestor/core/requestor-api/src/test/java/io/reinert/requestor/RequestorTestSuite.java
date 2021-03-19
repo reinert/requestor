@@ -25,12 +25,12 @@ import junit.framework.TestSuite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        FilterEngineTest.class,
-        FilterManagerImplTest.class,
-        SerializerManagerImplTest.class,
-        SerializationEngineTest.class,
-        RequestProcessorTest.class,
-        ResponseProcessorTest.class,
-        RequestDispatcherTest.class})
+        FilterEngineJreTest.class,
+        FilterManagerImplJreTest.class,
+        SerializerManagerImplJreTest.class,
+        SerializationEngineJreTest.class,
+        RequestProcessorJreTest.class,
+        ResponseProcessorJreTest.class,
+        RequestDispatcherJreTest.class})
 public class RequestorTestSuite extends TestSuite {
 }

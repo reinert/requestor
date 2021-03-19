@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
  * @author Danilo Reinert
  */
 @RunWith(MockitoJUnitRunner.class)
-public class QualityFactorHeaderTest {
+public class QualityFactorHeaderJreTest {
 
     @Test
     public void testGetValue() {

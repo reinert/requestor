@@ -21,7 +21,7 @@ import com.google.gwtmockito.GwtMockitoTestRunner;
 
 import io.reinert.requestor.Link;
 import io.reinert.requestor.uri.Uri;
-import io.reinert.requestor.uri.UriTestBase;
+import io.reinert.requestor.uri.UriJreTestBase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
  * @author Danilo Reinert
  */
 @RunWith(GwtMockitoTestRunner.class)
-public class LinkHeaderTest extends UriTestBase {
+public class LinkHeaderJreTest extends UriJreTestBase {
 
     @Test
     public void testMultipleValue() {

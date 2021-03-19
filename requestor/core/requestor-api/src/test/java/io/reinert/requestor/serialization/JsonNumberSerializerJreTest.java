@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 /**
  * Unit tests of {@link JsonNumberSerializer}.
  */
-public class JsonNumberSerializerTest {
+public class JsonNumberSerializerJreTest {
 
     private final JsonNumberSerializer serializer = JsonNumberSerializer.getInstance();
 

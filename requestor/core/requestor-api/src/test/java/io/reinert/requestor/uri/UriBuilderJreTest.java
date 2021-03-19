@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
  * @author Danilo Reinert
  */
 @RunWith(GwtMockitoTestRunner.class)
-public class UriBuilderTest extends UriTestBase {
+public class UriBuilderJreTest extends UriJreTestBase {
 
     @Test
     public void build_PathOnly_ShouldBuildSuccessfully() {

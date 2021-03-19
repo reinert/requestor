@@ -23,7 +23,7 @@ import org.junit.Test;
 /**
  * Unit tests of {@link ProviderManagerImpl}.
  */
-public class ProviderManagerImplTest {
+public class ProviderManagerImplJreTest {
 
     private ProviderManagerImpl manager = new ProviderManagerImpl();
 

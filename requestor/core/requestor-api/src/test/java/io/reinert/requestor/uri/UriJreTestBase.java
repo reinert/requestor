@@ -25,7 +25,7 @@ import org.junit.Before;
  *
  * @author Danilo Reinert
  */
-public class UriTestBase {
+public class UriJreTestBase {
 
     @Before
     public void setUp() {

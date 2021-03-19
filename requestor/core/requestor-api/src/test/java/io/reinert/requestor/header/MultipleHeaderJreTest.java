@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
  * @author Danilo Reinert
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MultipleHeaderTest {
+public class MultipleHeaderJreTest {
 
     @Test
     public void testGetValue() {

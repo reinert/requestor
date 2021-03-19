@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
  * Unit tests of {@link RequestDispatcher}.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class RequestDispatcherTest {
+public class RequestDispatcherJreTest {
 
     @Mock private ResponseProcessor processor;
     @Mock private DeferredFactory deferredFactory;
