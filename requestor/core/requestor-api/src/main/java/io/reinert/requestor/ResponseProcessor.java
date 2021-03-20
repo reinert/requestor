@@ -81,6 +81,7 @@ public class ResponseProcessor {
         return serializationEngine;
     }
 
+    @SuppressWarnings("unchecked")
     private <T, C extends Collection> Response<C> deserializeCollectionResponse(Request request, RawResponse response,
                                                                                 Class<T> deserializationType,
                                                                                 Class<C> containerType) {
@@ -120,8 +121,7 @@ public class ResponseProcessor {
                     responseType, response.getPayload());
         } else if (Response.class == deserializationType || RawResponse.class == deserializationType
                 || SerializedResponse.class == deserializationType) {
-            r = (Response<T>) new ResponseImpl<SerializedResponse>(request, response.getStatus(), response.getHeaders(),
-                    responseType, response);
+            r = (Response<T>) response;
         } else if (Headers.class == deserializationType) {
             r = (Response<T>) new ResponseImpl<Headers>(request, response.getStatus(), response.getHeaders(),
                     responseType, response.getHeaders());
