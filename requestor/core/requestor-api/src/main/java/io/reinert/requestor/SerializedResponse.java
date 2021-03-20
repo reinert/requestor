@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
+
 /**
  * Represents a serialized HTTP response.
  *
@@ -23,4 +25,8 @@ package io.reinert.requestor;
 public interface SerializedResponse extends Response<Payload> {
     @Override
     Payload getPayload();
+
+    <T> T getPayloadAs(Class<T> type);
+
+    <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> containerType);
 }

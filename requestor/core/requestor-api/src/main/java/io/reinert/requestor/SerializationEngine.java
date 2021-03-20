@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,25 +42,34 @@ class SerializationEngine {
         this.providerManager = providerManager;
     }
 
-    public <T, C extends Collection<T>> Response<C> deserializeResponse(Request request,
-                                                                        SerializedResponse response,
-                                                                        Class<T> type,
-                                                                        Class<C> containerType) {
+    public <T, C extends Collection<T>> Response<C> deserializeResponse(Request request, SerializedResponse response,
+                                                                        Class<T> type, Class<C> containerType) {
+        C result = deserializePayload(request, response, type, containerType);
+        return getDeserializedResponse(request, response, result);
+    }
+
+    public <T> Response<T> deserializeResponse(Request request, SerializedResponse response, Class<T> type) {
+        T result = deserializePayload(request, response, type);
+        return getDeserializedResponse(request, response, result);
+    }
+
+    public <T, C extends Collection<T>> C deserializePayload(Request request, SerializedResponse response,
+                                                              Class<T> type, Class<C> containerType) {
         final String mediaType = getResponseMediaType(request, response);
         final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
         C result = deserializer.deserialize(containerType, response.getPayload().isString(), context);
-        return getDeserializedResponse(response, result);
+        return result;
     }
 
-    public <T> Response<T> deserializeResponse(Request request, SerializedResponse response, Class<T> type) {
+    public <T> T deserializePayload(Request request, SerializedResponse response, Class<T> type) {
         final String mediaType = getResponseMediaType(request, response);
         final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
         T result = deserializer.deserialize(response.getPayload().isString(), context);
-        return getDeserializedResponse(response, result);
+        return result;
     }
 
     public SerializedRequestDelegate serializeRequest(Request request) {
@@ -130,8 +139,9 @@ class SerializationEngine {
         return contentType.split(";")[0];
     }
 
-    private <T> Response<T> getDeserializedResponse(SerializedResponse response, T result) {
-        return new ResponseImpl<T>(response.getStatus(), response.getHeaders(), response.getResponseType(), result);
+    private <T> Response<T> getDeserializedResponse(Request request, SerializedResponse response, T result) {
+        return new ResponseImpl<T>(request, response.getStatus(), response.getHeaders(), response.getResponseType(),
+                result);
     }
 
     private void checkDeserializerNotNull(SerializedResponse response, Class<?> type, Deserializer<?> deserializer) {
