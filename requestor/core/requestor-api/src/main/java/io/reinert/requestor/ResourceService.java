@@ -29,7 +29,7 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
     private boolean asMatrixParam = false;
 
     protected ResourceService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
-                    Class<C> collectionType) {
+                              Class<C> collectionType) {
         this.requestor = requestor;
         this.resourceType = resourceType;
         this.idType = idType;
@@ -58,28 +58,28 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
     }
 
     @Override
-    public Promise<Void> post(R resource) {
+    public Promise<SerializedResponse> post(R resource) {
         final UriBuilder reqUriBuilder = uriBuilder.clone();
 
-        return requestor.req(reqUriBuilder.build()).payload(resource).post();
+        return requestor.req(reqUriBuilder.build()).payload(resource).post(SerializedResponse.class);
     }
 
     @Override
-    public Promise<Void> put(I id, R resource) {
+    public Promise<SerializedResponse> put(I id, R resource) {
         final UriBuilder reqUriBuilder = uriBuilder.clone();
 
         reqUriBuilder.segment(id);
 
-        return requestor.req(reqUriBuilder.build()).payload(resource).put();
+        return requestor.req(reqUriBuilder.build()).payload(resource).put(SerializedResponse.class);
     }
 
     @Override
-    public Promise<Void> delete(I id) {
+    public Promise<SerializedResponse> delete(I id) {
         final UriBuilder reqUriBuilder = uriBuilder.clone();
 
         reqUriBuilder.segment(id);
 
-        return requestor.req(reqUriBuilder.build()).delete();
+        return requestor.req(reqUriBuilder.build()).delete(SerializedResponse.class);
     }
 
     @Override
