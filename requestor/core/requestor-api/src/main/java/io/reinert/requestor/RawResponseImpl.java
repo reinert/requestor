@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
+
 import io.reinert.requestor.header.Header;
 
 /**
@@ -24,8 +26,12 @@ import io.reinert.requestor.header.Header;
  */
 public class RawResponseImpl extends ResponseImpl<Payload> implements RawResponse {
 
-    public RawResponseImpl(StatusType status, Headers headers, ResponseType type, Payload payload) {
-        super(status, headers, type, payload);
+    private final SerializationEngine serializationEngine;
+
+    public RawResponseImpl(Request request, StatusType status, Headers headers, ResponseType type, Payload payload,
+                           SerializationEngine serializationEngine) {
+        super(request, status, headers, type, payload);
+        this.serializationEngine = serializationEngine;
     }
 
     @Override
@@ -51,5 +57,16 @@ public class RawResponseImpl extends ResponseImpl<Payload> implements RawRespons
     @Override
     public void setHeader(String name, String value) {
         super.setHeader(name, value);
+    }
+
+    @Override
+    public <T> T getPayloadAs(Class<T> type) {
+        return serializationEngine.deserializePayload(request, this, type);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> containerType) {
+        return serializationEngine.deserializePayload(request, this, type, containerType);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -153,8 +153,9 @@ public abstract class RequestDispatcher {
     @SuppressWarnings("unchecked")
     protected <D> void evalResponse(Request request, Deferred<D> deferred, Class<D> resolveType,
                                     Class<?> parametrizedType, RawResponse response) {
+        // If the user requested RawResponse, then don't process it
         if (resolveType == RawResponse.class) {
-            deferred.resolve((Response<D>) ResponseImpl.fromRawResponse(response));
+            deferred.resolve((Response<D>) ResponseImpl.fromRawResponse(request, response));
             return;
         }
 
@@ -165,5 +166,9 @@ public abstract class RequestDispatcher {
         }
 
         processor.process(request, response, resolveType, deferred);
+    }
+
+    protected SerializationEngine getSerializationEngine() {
+        return processor.getSerializationEngine();
     }
 }

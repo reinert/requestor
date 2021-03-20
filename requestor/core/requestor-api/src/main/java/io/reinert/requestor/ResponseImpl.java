@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,10 @@ public class ResponseImpl<T> implements Response<T> {
     private final StatusType status;
     private T payload;
     private ResponseType responseType;
+    protected final Request request;
 
-    public ResponseImpl(StatusType status, Headers headers, ResponseType responseType, T payload) {
+    public ResponseImpl(Request request, StatusType status, Headers headers, ResponseType responseType, T payload) {
+        this.request = request;
         if (headers == null)
             throw new NullPointerException("Headers cannot be null");
         this.headers = headers;
@@ -47,8 +49,8 @@ public class ResponseImpl<T> implements Response<T> {
         this.payload = payload;
     }
 
-    public static ResponseImpl<RawResponse> fromRawResponse(RawResponse rawResponse) {
-        return new ResponseImpl<RawResponse>(rawResponse.getStatus(), rawResponse.getHeaders(),
+    public static ResponseImpl<RawResponse> fromRawResponse(Request request, RawResponse rawResponse) {
+        return new ResponseImpl<RawResponse>(request, rawResponse.getStatus(), rawResponse.getHeaders(),
                 rawResponse.getResponseType(), rawResponse);
     }
 

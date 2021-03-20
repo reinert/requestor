@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -157,9 +157,14 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                     payload = Payload.fromJson(xhr.getResponse());
                 }
 
-                final RawResponseImpl response = new RawResponseImpl(Response.Status.of(gwtResponse.getStatusCode(),
-                        gwtResponse.getStatusText()), new Headers(gwtResponse.getHeaders()),
-                        ResponseType.of(responseType), payload);
+                final RawResponseImpl response = new RawResponseImpl(
+                        request,
+                        Response.Status.of(gwtResponse.getStatusCode(), gwtResponse.getStatusText()),
+                        new Headers(gwtResponse.getHeaders()),
+                        ResponseType.of(responseType),
+                        payload,
+                        getSerializationEngine()
+                );
 
                 evalResponse(request, deferred, resolveType, parametrizedType, response);
             }
