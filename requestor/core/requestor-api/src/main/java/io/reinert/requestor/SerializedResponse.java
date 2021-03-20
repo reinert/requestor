@@ -23,10 +23,12 @@ import java.util.Collection;
  * @author Danilo Reinert
  */
 public interface SerializedResponse extends Response<Payload> {
+
     @Override
     Payload getPayload();
 
     <T> T getPayloadAs(Class<T> type);
 
     <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> containerType);
+
 }
