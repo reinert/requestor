@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.impl.gdeferred;
 
+import io.reinert.requestor.RawResponseImpl;
 import io.reinert.requestor.Response;
 
 /**
@@ -28,7 +29,18 @@ public abstract class DoneCallback<T> implements io.reinert.gdeferred.DoneCallba
     public void onDone(T result) {
     }
 
+    /**
+     * If you want to access the Response attributes, then override this method.
+     *
+     * @param response  the HTTP Response returned from the Request.
+     */
+    @SuppressWarnings("unchecked")
     public void onDone(Response<T> response) {
+        if (response instanceof RawResponseImpl) {
+            onDone((T) response);
+            return;
+        }
+
         onDone(response.getPayload());
     }
 }
