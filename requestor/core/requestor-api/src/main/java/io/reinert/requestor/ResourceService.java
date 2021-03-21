@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
 public class ResourceService<R, I, C extends Collection> implements ResourceInvoker<R, I> {
@@ -27,6 +28,7 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
     protected final Class<I> idType;
     protected final Class<C> collectionType;
     private boolean asMatrixParam = false;
+    private String mediaType;
 
     protected ResourceService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
                               Class<C> collectionType) {
@@ -43,7 +45,7 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
 
         appendParamsToUri(reqUriBuilder, params);
 
-        return requestor.req(reqUriBuilder.build()).get(resourceType, collectionType);
+        return request(reqUriBuilder.build()).get(resourceType, collectionType);
     }
 
     @Override
@@ -54,14 +56,14 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
 
         appendParamsToUri(reqUriBuilder, params);
 
-        return requestor.req(reqUriBuilder.build()).get(resourceType);
+        return request(reqUriBuilder.build()).get(resourceType);
     }
 
     @Override
     public Promise<SerializedResponse> post(R resource) {
         final UriBuilder reqUriBuilder = uriBuilder.clone();
 
-        return requestor.req(reqUriBuilder.build()).payload(resource).post(SerializedResponse.class);
+        return request(reqUriBuilder.build()).payload(resource).post(SerializedResponse.class);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
 
         reqUriBuilder.segment(id);
 
-        return requestor.req(reqUriBuilder.build()).payload(resource).put(SerializedResponse.class);
+        return request(reqUriBuilder.build()).payload(resource).put(SerializedResponse.class);
     }
 
     @Override
@@ -79,14 +81,14 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
 
         reqUriBuilder.segment(id);
 
-        return requestor.req(reqUriBuilder.build()).delete(SerializedResponse.class);
+        return request(reqUriBuilder.build()).delete(SerializedResponse.class);
     }
 
     @Override
     public RequestInvoker req() {
         final UriBuilder reqUriBuilder = uriBuilder.clone();
 
-        return requestor.req(reqUriBuilder.build());
+        return request(reqUriBuilder.build());
     }
 
     @Override
@@ -95,7 +97,7 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
 
         reqUriBuilder.segment(id);
 
-        return requestor.req(reqUriBuilder.build());
+        return request(reqUriBuilder.build());
     }
 
     public void setAsMatrixParam(boolean asMatrixParam) {
@@ -104,6 +106,24 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
 
     public boolean isAsMatrixParam() {
         return this.asMatrixParam;
+    }
+
+    /**
+     * Get default media type of this service.
+     *
+     * @return  media type
+     */
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    /**
+     * Set default media type to be added as Content-Type header in every request.
+     *
+     * @param mediaType HTTP media type
+     */
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
     }
 
     protected void appendParamsToUri(UriBuilder reqUriBuilder, String[] params) {
@@ -123,5 +143,11 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
                 }
             }
         }
+    }
+
+    private RequestInvoker request(Uri uri) {
+        if (mediaType != null)
+            return requestor.req(uri).contentType(mediaType);
+        return requestor.req(uri);
     }
 }
