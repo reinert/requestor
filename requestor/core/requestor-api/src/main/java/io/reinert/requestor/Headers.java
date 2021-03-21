@@ -97,6 +97,11 @@ public class Headers implements Iterable<Header> {
         return isEmpty() ? 0 : headers.size();
     }
 
+    @Override
+    public String toString() {
+        return headers.toString();
+    }
+
     /**
      * Adds a header to this container.
      *
