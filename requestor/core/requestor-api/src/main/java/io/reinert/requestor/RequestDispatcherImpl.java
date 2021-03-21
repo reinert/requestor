@@ -159,7 +159,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
                 final RawResponseImpl response = new RawResponseImpl(
                         request,
-                        Response.Status.of(gwtResponse.getStatusCode(), gwtResponse.getStatusText()),
+                        Response.Status.of(gwtResponse.getStatusCode()),
                         new Headers(gwtResponse.getHeaders()),
                         ResponseType.of(responseType),
                         payload,

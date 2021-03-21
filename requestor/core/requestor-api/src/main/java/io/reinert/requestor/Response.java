@@ -192,51 +192,6 @@ public interface Response<T> {
         }
 
         /**
-         * Creates a Status with the given parameters.
-         *
-         * @param statusCode   the numerical status code.
-         * @param reasonPhrase the reason phrase.
-         * @return the corresponding Status.
-         */
-        public static StatusType of(final int statusCode, final String reasonPhrase) {
-            return new StatusType() {
-                @Override
-                public int getStatusCode() {
-                    return statusCode;
-                }
-
-                @Override
-                public Family getFamily() {
-                    return Family.of(statusCode);
-                }
-
-                @Override
-                public String getReasonPhrase() {
-                    return reasonPhrase;
-                }
-
-                @Override
-                public String toString() {
-                    return reasonPhrase;
-                }
-
-                @Override
-                public int hashCode() {
-                    return statusCode;
-                }
-
-                @Override
-                public boolean equals(Object obj) {
-                    return obj instanceof StatusType && ((StatusType) obj).getStatusCode() == statusCode;
-                }
-            };
-        }
-
-        private final int code;
-        private final String reason;
-        private final Family family;
-
-        /**
          * An enumeration representing the class of status code.
          */
         public enum Family {
@@ -290,7 +245,11 @@ public interface Response<T> {
             }
         }
 
-        Status(final int statusCode, final String reasonPhrase) {
+        private final int code;
+        private final String reason;
+        private final Family family;
+
+        private Status(final int statusCode, final String reasonPhrase) {
             this.code = statusCode;
             this.reason = reasonPhrase;
             this.family = Family.of(statusCode);
@@ -326,14 +285,13 @@ public interface Response<T> {
             return toString();
         }
 
-        /**
-         * Get the reason phrase.
-         *
-         * @return the reason phrase.
-         */
         @Override
         public String toString() {
-            return reason;
+            return "Status{" +
+                    "code=" + code +
+                    ", reason='" + reason + '\'' +
+                    ", family=" + family +
+                    '}';
         }
     }
 }
