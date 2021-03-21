@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.uri;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
@@ -94,41 +95,24 @@ final class BucketsImpl implements Buckets {
         }-*/;
 
         @Override
-        public native String[] get(String key) /*-{
-            return this[key];
-        }-*/;
+        public String[] get(String key) {
+            return toStringArray(getNative(key));
+        }
 
         @Override
-        public native String[] remove(String key) /*-{
-            var bucket = this[key];
-            delete this[key];
-            return bucket;
-        }-*/;
+        public String[] remove(String key) {
+            return toStringArray(removeNative(key));
+        }
 
         @Override
-        public native Buckets clone() /*-{
-            var copy, key, i;
-            copy = {};
-            for (key in this) {
-                copy[key] = [];
-                i = this[key].length;
-                while (i--) copy[key][i] = this[key][i];
-            }
-            return copy;
-        }-*/;
+        public Buckets clone() {
+            return cloneNative();
+        }
 
         @Override
-        public native String[] getKeys() /*-{
-            return Object.keys(this);
-        }-*/;
-
-        private native JsArrayString getNative(String key) /*-{
-            return this[key];
-        }-*/;
-
-        private native JsArrayString getKeysNative() /*-{
-            return Object.keys(this);
-        }-*/;
+        public String[] getKeys() {
+            return toStringArray(getKeysNative());
+        };
 
         @Override
         public boolean isEmpty() {
@@ -152,6 +136,52 @@ final class BucketsImpl implements Buckets {
 
             return false;
         }
+
+        public native String stringify() /*-{
+            return JSON.stringify(this);
+        }-*/;
+
+        private native JsArrayString getNative(String key) /*-{
+            return this[key];
+        }-*/;
+
+        private native JsArrayString getKeysNative() /*-{
+            return Object.keys(this);
+        }-*/;
+
+        private native JsArrayString removeNative(String key) /*-{
+            var bucket = this[key];
+            delete this[key];
+            return bucket;
+        }-*/;
+
+        private native BucketsOverlay cloneNative() /*-{
+            var copy, key, i;
+            copy = {};
+            for (key in this) {
+                copy[key] = [];
+                i = this[key].length;
+                while (i--) copy[key][i] = this[key][i];
+            }
+            return copy;
+        }-*/;
+
+        private static String[] toStringArray(JsArrayString jsArray) {
+            if (GWT.isScript()) {
+                return reinterpretCast(jsArray);
+            } else {
+                int length = jsArray.length();
+                String[] ret = new String[length];
+                for (int i = 0; i < length; i++) {
+                    ret[i] = jsArray.get(i);
+                }
+                return ret;
+            }
+        }
+
+        private static native <T> T[] reinterpretCast(JsArrayString jsArray) /*-{
+            return jsArray;
+        }-*/;
 
         private static native boolean arraysEquals(JsArrayString a, JsArrayString b) /*-{
             if (a === b) return true;
