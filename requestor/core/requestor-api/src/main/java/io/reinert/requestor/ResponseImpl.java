@@ -105,6 +105,17 @@ public class ResponseImpl<T> implements Response<T> {
         return responseType;
     }
 
+    @Override
+    public String toString() {
+        return "ResponseImpl{" +
+                "headers=" + headers +
+                ", linkHeader=" + linkHeader +
+                ", status=" + status +
+                ", payload=" + payload +
+                ", responseType=" + responseType +
+                '}';
+    }
+
     protected void addHeader(Header header) {
         headers.add(header);
     }
