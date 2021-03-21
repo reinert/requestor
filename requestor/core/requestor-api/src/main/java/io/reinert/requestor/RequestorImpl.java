@@ -407,6 +407,18 @@ public class RequestorImpl extends Requestor {
         };
     }
 
+    @Override
+    public <R, I, C extends Collection> ResourceService<R, I, C> newResourceService(String resourceUri,
+                                                                                    Class<R> resourceType,
+                                                                                    Class<I> idType,
+                                                                                    Class<C> containerType) {
+        return new ResourceService<R, I, C>(this, resourceUri, resourceType, idType, containerType);
+    }
+
+    //===================================================================
+    // Internal methods
+    //===================================================================
+
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
         if (defaultMediaType != null) {

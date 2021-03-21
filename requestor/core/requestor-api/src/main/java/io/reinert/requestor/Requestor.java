@@ -174,7 +174,7 @@ public abstract class Requestor
                                                                               Class<C> containerType);
 
     //===================================================================
-    // Registrations
+    // Configuration
     //===================================================================
 
     /**
@@ -185,4 +185,21 @@ public abstract class Requestor
      * @return The {@link HandlerRegistration} object, capable of cancelling this registration
      */
     public abstract HandlerRegistration register(SerializationModule serializationModule);
+
+    /**
+     * A client service useful to communicate with REST like resources.
+     *
+     * @param resourceUri   Base URI of the resource
+     * @param resourceType  Class of the resource
+     * @param idType        Class of the resource's ID
+     * @param containerType Class in which you want to accumulate collection results
+     * @param <R>           Resource type
+     * @param <I>           Resource's ID type
+     * @param <C>           Container type
+     * @return              A ResourceService of the Resource Type
+     */
+    public abstract <R, I, C extends Collection> ResourceService<R, I, C> newResourceService(String resourceUri,
+                                                                                             Class<R> resourceType,
+                                                                                             Class<I> idType,
+                                                                                             Class<C> containerType);
 }
