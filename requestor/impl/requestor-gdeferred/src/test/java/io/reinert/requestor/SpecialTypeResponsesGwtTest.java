@@ -19,10 +19,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.impl.gdeferred.DoneCallback;
-import io.reinert.requestor.serialization.json.OverlaySerializer;
 
 /**
- * Unit tests of {@link OverlaySerializer}.
+ * Integration tests for deserializing special types like Headers, RawResponse, SerializedResponse and Response.
  */
 public class SpecialTypeResponsesGwtTest extends GWTTestCase {
 

@@ -28,6 +28,9 @@ public class RequestorGDeferredGwtTestSuite extends GWTTestSuite {
         // Serialization
         suite.addTestSuite(SpecialTypeResponsesGwtTest.class);
 
+        // ResourceService
+        suite.addTestSuite(RestResourceGwtTest.class);
+
         return suite;
     }
 }
