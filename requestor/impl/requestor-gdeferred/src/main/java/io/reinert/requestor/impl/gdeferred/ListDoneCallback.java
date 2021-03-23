@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reinert.gdeferred.DoneCallback;
+import io.reinert.requestor.RawResponseImpl;
+import io.reinert.requestor.Response;
 
 /**
  * DoneCallback<Collection<T>> that casts Collection<T> to List<T>.
@@ -34,6 +36,9 @@ public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>>
     private static Logger logger = Logger.getLogger(ListDoneCallback.class.getName());
 
     @Override
+    public void onDone(List<T> result) { }
+
+    @Override
     public void onDone(Collection<T> result) {
         try {
             onDone((List<T>) result);
@@ -42,5 +47,20 @@ public abstract class ListDoneCallback<T> implements DoneCallback<Collection<T>>
                     : result.getClass().getName()) + " to java.util.List");
             throw e;
         }
+    }
+
+    /**
+     * If you want to access the Response attributes, then override this method.
+     *
+     * @param response  the HTTP Response returned from the Request.
+     */
+    @SuppressWarnings("unchecked")
+    public void onDone(Response<List<T>> response) {
+        if ((Response<?>) response instanceof RawResponseImpl) {
+            onDone((List<T>) response);
+            return;
+        }
+
+        onDone(response.getPayload());
     }
 }
