@@ -160,7 +160,7 @@ public class DigestAuth extends AbstractAuth {
 
     private Headers getAttemptHeaders(HttpMethod method, Uri url, Payload payload, Headers originalHeaders,
                                       Response<?> attemptResponse) {
-        final ArrayList<Header> headerList = new ArrayList<Header>(originalHeaders.getAll());
+        final ArrayList<Header> headerList = new ArrayList<Header>(originalHeaders.values());
         final Header authHeader = getAuthorizationHeader(url, method, payload, attemptResponse);
 
         if (authHeader != null) {
