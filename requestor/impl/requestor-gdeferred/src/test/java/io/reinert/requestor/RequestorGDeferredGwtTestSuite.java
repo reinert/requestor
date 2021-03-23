@@ -25,6 +25,9 @@ public class RequestorGDeferredGwtTestSuite extends GWTTestSuite {
     public static Test suite() {
         TestSuite suite = new TestSuite("Requestor GDeferred GWT Test Suite");
 
+        // Callbacks
+        suite.addTestSuite(CallbackGwtTest.class);
+
         // Serialization
         suite.addTestSuite(SpecialTypeResponsesGwtTest.class);
 
