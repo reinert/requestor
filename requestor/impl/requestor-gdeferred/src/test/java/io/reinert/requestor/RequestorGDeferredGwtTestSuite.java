@@ -29,7 +29,7 @@ public class RequestorGDeferredGwtTestSuite extends GWTTestSuite {
         suite.addTestSuite(SpecialTypeResponsesGwtTest.class);
 
         // ResourceService
-        suite.addTestSuite(RestResourceGwtTest.class);
+        suite.addTestSuite(RestServiceGwtTest.class);
 
         return suite;
     }

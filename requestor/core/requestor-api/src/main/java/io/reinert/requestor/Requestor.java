@@ -203,8 +203,8 @@ public abstract class Requestor
      * @param <C>           Container type
      * @return              A ResourceService of the Resource Type
      */
-    public abstract <R, I, C extends Collection> ResourceService<R, I, C> newResourceService(String resourceUri,
-                                                                                             Class<R> resourceType,
-                                                                                             Class<I> idType,
-                                                                                             Class<C> containerType);
+    public abstract <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
+                                                                                     Class<R> resourceType,
+                                                                                     Class<I> idType,
+                                                                                     Class<C> containerType);
 }
