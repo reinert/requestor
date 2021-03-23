@@ -26,13 +26,13 @@ import io.reinert.requestor.impl.gdeferred.DoneCallback;
 import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
 
 /**
- * Integration tests of {@link ResourceService}.
+ * Integration tests of {@link RestService}.
  */
-public class RestResourceGwtTest extends GWTTestCase {
+public class RestServiceGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 1000;
 
-    private ResourceService<Book, Integer, List> bookService;
+    private RestService<Book, Integer, List> bookService;
 
     @Override
     public String getModuleName() {
@@ -47,7 +47,7 @@ public class RestResourceGwtTest extends GWTTestCase {
 
         requestor.register(BookJsonSerializer.getInstance());
 
-        bookService = requestor.newResourceService(
+        bookService = requestor.newRestService(
                 "https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books",
                 Book.class,
                 Integer.class,

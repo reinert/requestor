@@ -20,7 +20,7 @@ import java.util.Collection;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
-public class ResourceService<R, I, C extends Collection> implements ResourceInvoker<R, I> {
+public class RestService<R, I, C extends Collection> implements RestInvoker<R, I> {
 
     protected final Requestor requestor;
     protected final UriBuilder uriBuilder;
@@ -31,8 +31,8 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
     private boolean asMatrixParam = false;
     private String defaultMediaType;
 
-    protected ResourceService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
-                              Class<C> collectionType) {
+    protected RestService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
+                          Class<C> collectionType) {
         this.requestor = requestor;
         this.resourceType = resourceType;
         this.idType = idType;

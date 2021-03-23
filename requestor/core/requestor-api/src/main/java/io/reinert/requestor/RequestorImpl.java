@@ -406,11 +406,11 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <R, I, C extends Collection> ResourceService<R, I, C> newResourceService(String resourceUri,
-                                                                                    Class<R> resourceType,
-                                                                                    Class<I> idType,
-                                                                                    Class<C> containerType) {
-        return new ResourceService<R, I, C>(this, resourceUri, resourceType, idType, containerType);
+    public <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
+                                                                            Class<R> resourceType,
+                                                                            Class<I> idType,
+                                                                            Class<C> containerType) {
+        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, containerType);
     }
 
     //===================================================================

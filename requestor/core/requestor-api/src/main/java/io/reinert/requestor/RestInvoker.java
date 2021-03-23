@@ -22,7 +22,7 @@ import java.util.Collection;
  *
  * @author Danilo Reinert
  */
-public interface ResourceInvoker<R, I> {
+public interface RestInvoker<R, I> {
 
     Promise<Collection<R>> get(String... params);
 
