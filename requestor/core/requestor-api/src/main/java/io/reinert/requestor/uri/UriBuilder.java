@@ -254,7 +254,7 @@ public abstract class UriBuilder {
      * @throws UriBuilderException if a URI cannot be constructed based on the
      * current state of the builder.
      */
-    public abstract UriImpl build(Object... values)
+    public abstract Uri build(Object... values)
             throws IllegalArgumentException, UriBuilderException;
 
     /**
@@ -276,5 +276,5 @@ public abstract class UriBuilder {
      * @throws UriBuilderException if a URI cannot be constructed based on the
      * current state of the builder.
      */
-    public abstract UriImpl build(Map<String, ?> values);
+    public abstract Uri build(Map<String, ?> values);
 }
