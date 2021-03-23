@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,6 +103,13 @@ public interface Response<T> {
      * @return the response type
      */
     ResponseType getResponseType();
+
+    /**
+     * Returns the request that originated this response.
+     *
+     * @return  the original request
+     */
+    Request getRequest();
 
     /**
      * Base interface for statuses used in responses.

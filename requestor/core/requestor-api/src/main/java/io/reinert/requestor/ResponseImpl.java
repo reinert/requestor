@@ -34,9 +34,9 @@ public class ResponseImpl<T> implements Response<T> {
     private final Headers headers;
     private final LinkHeader linkHeader;
     private final StatusType status;
+    private final Request request;
     private T payload;
     private ResponseType responseType;
-    protected final Request request;
 
     public ResponseImpl(Request request, StatusType status, Headers headers, ResponseType responseType, T payload) {
         this.request = request;
@@ -103,6 +103,11 @@ public class ResponseImpl<T> implements Response<T> {
     @Override
     public ResponseType getResponseType() {
         return responseType;
+    }
+
+    @Override
+    public Request getRequest() {
+        return request;
     }
 
     @Override
