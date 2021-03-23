@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
@@ -29,7 +30,7 @@ import io.reinert.requestor.header.SimpleHeader;
  *
  * @author Danilo Reinert
  */
-public class Headers implements Iterable<Header> {
+public class Headers implements Iterable<Header>, Map<String, Header> {
 
     private Map<String, Header> headers;
 
@@ -67,18 +68,6 @@ public class Headers implements Iterable<Header> {
         return headerName.toLowerCase();
     }
 
-    public boolean contains(String header) {
-        return !isEmpty() && headers.containsKey(formatKey(header));
-    }
-
-    public Collection<Header> getAll() {
-        return ensureHeaders().values();
-    }
-
-    public Header get(String header) {
-        return isEmpty() ? null : headers.get(formatKey(header));
-    }
-
     public String getValue(String header, String defaultValue) {
         final Header h = isEmpty() ? null : headers.get(formatKey(header));
         return h != null ? h.getValue() : defaultValue;
@@ -90,9 +79,10 @@ public class Headers implements Iterable<Header> {
 
     @Override
     public Iterator<Header> iterator() {
-        return isEmpty() ? Collections.<Header>emptyIterator() : headers.values().iterator();
+        return isEmpty() ? Collections.<Header>emptySet().iterator() : headers.values().iterator();
     }
 
+    @Override
     public int size() {
         return isEmpty() ? 0 : headers.size();
     }
@@ -100,6 +90,65 @@ public class Headers implements Iterable<Header> {
     @Override
     public String toString() {
         return headers.toString();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return headers == null || headers.isEmpty();
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return !isEmpty() && headers.containsKey(formatKey(key.toString()));
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        return headers != null && headers.containsValue(value);
+    }
+
+    @Override
+    public Header get(Object key) {
+        return isEmpty() ? null : headers.get(formatKey(headers.toString()));
+    }
+
+    @Override
+    public Header put(String key, Header value) {
+        throw new UnsupportedOperationException("The Headers class is a read-only map." +
+                " You cannot update or remove values.");
+    }
+
+    @Override
+    public Header remove(Object key) {
+        throw new UnsupportedOperationException("The Headers class is a read-only map." +
+                " You cannot update or remove values.");
+    }
+
+    @Override
+    public void putAll(Map<? extends String, ? extends Header> m) {
+        throw new UnsupportedOperationException("The Headers class is a read-only map." +
+                " You cannot update or remove values.");
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("The Headers class is a read-only map." +
+                " You cannot update or remove values.");
+    }
+
+    @Override
+    public Set<String> keySet() {
+        return isEmpty() ? Collections.<String>emptySet() : headers.keySet();
+    }
+
+    @Override
+    public Collection<Header> values() {
+        return isEmpty() ? Collections.<Header>emptySet() : headers.values();
+    }
+
+    @Override
+    public Set<Entry<String, Header>> entrySet() {
+        return isEmpty() ? Collections.<Entry<String, Header>>emptySet() : headers.entrySet();
     }
 
     /**
@@ -141,12 +190,9 @@ public class Headers implements Iterable<Header> {
     }
 
     private Map<String, Header> ensureHeaders() {
-        if (headers == null)
+        if (headers == null) {
             headers = new HashMap<String, Header>();
+        }
         return headers;
-    }
-
-    private boolean isEmpty() {
-        return headers == null;
     }
 }
