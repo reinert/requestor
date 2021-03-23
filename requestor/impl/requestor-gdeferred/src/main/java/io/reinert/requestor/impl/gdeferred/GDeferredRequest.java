@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package io.reinert.requestor.impl.gdeferred;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import io.reinert.gdeferred.impl.DeferredObject;
@@ -170,6 +172,10 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
             try {
                 if (callback instanceof DoneCallback) {
                     ((DoneCallback) callback).onDone(resolved);
+                } else if (callback instanceof ListDoneCallback) {
+                    ((ListDoneCallback) callback).onDone((Response<List>) resolved);
+                }  else if (callback instanceof SetDoneCallback) {
+                    ((SetDoneCallback) callback).onDone((Response<Set>) resolved);
                 } else {
                     callback.onDone(resolved.getPayload());
                 }
