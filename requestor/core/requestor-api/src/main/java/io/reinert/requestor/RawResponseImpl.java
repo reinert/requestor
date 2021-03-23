@@ -61,12 +61,12 @@ public class RawResponseImpl extends ResponseImpl<Payload> implements RawRespons
 
     @Override
     public <T> T getPayloadAs(Class<T> type) {
-        return serializationEngine.deserializePayload(request, this, type);
+        return serializationEngine.deserializePayload(getRequest(), this, type);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> containerType) {
-        return serializationEngine.deserializePayload(request, this, type, containerType);
+        return serializationEngine.deserializePayload(getRequest(), this, type, containerType);
     }
 }
