@@ -67,6 +67,11 @@ public abstract class Requestor
      */
     public abstract void setDefaultMediaType(String mediaType);
 
+    /**
+     * Get the default media-type that is being applied in all requests as content-type and accept headers.
+     *
+     * @return  The default HTTP media-type
+     */
     public abstract String getDefaultMediaType();
 
     public abstract <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType);
@@ -158,7 +163,7 @@ public abstract class Requestor
     public abstract <T> Promise<T> dispatch(SerializedRequest request, Class<T> expectedType);
 
     /**
-     * Quickly dispatch serialized requests.
+     * Directly dispatch serialized requests.
      * Use it if you want to skip the request processing steps and send a request as it is.
      *
      * @param request       The request to be sent

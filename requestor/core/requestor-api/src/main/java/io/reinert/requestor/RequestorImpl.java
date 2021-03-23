@@ -312,10 +312,7 @@ public class RequestorImpl extends Requestor {
     @Override
     public void setDefaultMediaType(String mediaType) {
         if (mediaType != null) {
-            int i = mediaType.indexOf('/');
-            if (i == -1 || i != mediaType.lastIndexOf('/')) {
-                throw new IllegalArgumentException("Media-type must follow the pattern {type}/{subtype}");
-            }
+            validateMediaType(mediaType);
         }
         this.defaultMediaType = mediaType;
     }
@@ -338,8 +335,9 @@ public class RequestorImpl extends Requestor {
     @Override
     public <T> T getInstance(Class<T> type) {
         Provider<T> provider = providerManager.get(type);
-        if (provider == null)
+        if (provider == null) {
             throw new RuntimeException("There's no Provider registered for this class.");
+        }
         return provider.getInstance();
     }
 
@@ -418,6 +416,13 @@ public class RequestorImpl extends Requestor {
     //===================================================================
     // Internal methods
     //===================================================================
+
+    static void validateMediaType(String mediaType) {
+        int i = mediaType.indexOf('/');
+        if (i == -1 || i != mediaType.lastIndexOf('/')) {
+            throw new IllegalArgumentException("Media-type must follow the pattern {type}/{subtype}");
+        }
+    }
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);

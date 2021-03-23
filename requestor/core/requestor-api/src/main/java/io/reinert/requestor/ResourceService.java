@@ -27,8 +27,9 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
     protected final Class<R> resourceType;
     protected final Class<I> idType;
     protected final Class<C> collectionType;
+
     private boolean asMatrixParam = false;
-    private String mediaType;
+    private String defaultMediaType;
 
     protected ResourceService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
                               Class<C> collectionType) {
@@ -108,22 +109,15 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
         return this.asMatrixParam;
     }
 
-    /**
-     * Get default media type of this service.
-     *
-     * @return  media type
-     */
-    public String getMediaType() {
-        return mediaType;
+    public void setDefaultMediaType(String mediaType) {
+        if (mediaType != null) {
+            RequestorImpl.validateMediaType(mediaType);
+        }
+        this.defaultMediaType = mediaType;
     }
 
-    /**
-     * Set default media type to be added as Content-Type header in every request.
-     *
-     * @param mediaType HTTP media type
-     */
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
+    public String getDefaultMediaType() {
+        return defaultMediaType;
     }
 
     protected void appendParamsToUri(UriBuilder reqUriBuilder, String[] params) {
@@ -146,8 +140,11 @@ public class ResourceService<R, I, C extends Collection> implements ResourceInvo
     }
 
     private RequestInvoker request(Uri uri) {
-        if (mediaType != null)
-            return requestor.req(uri).contentType(mediaType);
-        return requestor.req(uri);
+        final RequestInvoker request = requestor.req(uri);
+        if (defaultMediaType != null) {
+            request.contentType(defaultMediaType);
+            request.accept(defaultMediaType);
+        }
+        return request;
     }
 }

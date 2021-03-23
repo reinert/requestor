@@ -52,7 +52,8 @@ public class RestResourceGwtTest extends GWTTestCase {
                 Book.class,
                 Integer.class,
                 List.class);
-        bookService.setMediaType("application/json");
+        // The mockapi service requires us to explicitly inform the content type header
+        bookService.setDefaultMediaType("application/json");
     }
 
     public void testPostBooks() {
