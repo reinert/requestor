@@ -36,8 +36,8 @@
     <when-type-is class="io.reinert.requestor.uri.UrlCodec"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.EmptyGeneratedJsonSerializer">
-    <when-type-is class="io.reinert.requestor.GeneratedJsonSerializer"/>
+  <replace-with class="io.reinert.requestor.EmptyGeneratedSerializers">
+    <when-type-is class="io.reinert.requestor.GeneratedSerializers"/>
   </replace-with>
 
   <replace-with class="io.reinert.requestor.RequestDispatcherFactoryImpl">

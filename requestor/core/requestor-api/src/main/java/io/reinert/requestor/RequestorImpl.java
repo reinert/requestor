@@ -75,7 +75,7 @@ public class RequestorImpl extends Requestor {
         requestDispatcher = requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory);
 
         // register generated serializer to the requestor
-        GeneratedJsonSerializerBinder.bind(serializerManager, providerManager);
+        GeneratedSerializersBinder.bind(serializerManager, providerManager);
 
         // perform initial set-up by user
         GWT.<RequestorInitializer>create(RequestorInitializer.class).configure(this);

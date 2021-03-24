@@ -60,6 +60,7 @@ import io.reinert.requestor.serialization.json.JsonRecordWriter;
  */
 public class JsonAutoBeanGenerator extends Generator {
 
+    public static String REBIND_INTERFACE = "GeneratedSerializers";
     public static String[] MEDIA_TYPE_PATTERNS = new String[] { "application/json" };
 
     private static final Logger LOGGER = Logger.getLogger(JsonAutoBeanGenerator.class.getName());
@@ -185,7 +186,7 @@ public class JsonAutoBeanGenerator extends Generator {
     }
 
     private void generateConstructor(SourceWriter w, Iterable<String> serializer, Iterable<String> providers) {
-        print(w, String.format("public GeneratedJsonSerializerImpl() {"));
+        print(w, String.format("public %sImpl() {", REBIND_INTERFACE));
         for (String s : serializer) {
             print(w, String.format("    serializerList.add(%s);", s));
         }
@@ -496,7 +497,7 @@ public class JsonAutoBeanGenerator extends Generator {
     }
 
     private String getTypeSimpleName() {
-        return "GeneratedJsonSerializerImpl";
+        return REBIND_INTERFACE + "Impl";
     }
 
     private String replaceDotByUpperCase(String s) {
