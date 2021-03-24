@@ -32,6 +32,7 @@ import io.reinert.requestor.ResponseType;
 import io.reinert.requestor.SerializedRequest;
 import io.reinert.requestor.SerializedRequestImpl;
 import io.reinert.requestor.UnsuccessfulResponseException;
+import io.reinert.requestor.VolatileStorage;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.uri.Uri;
@@ -121,12 +122,13 @@ public class DigestAuth extends AbstractAuth {
     private SerializedRequest copyRequest(PreparedRequest originalRequest, Response<?> attemptResponse) {
         HttpMethod method = originalRequest.getMethod();
         Uri uri = originalRequest.getUri();
+        VolatileStorage storage = (VolatileStorage) originalRequest.getStorage();
         Payload payload = originalRequest.getPayload();
         int timeout = originalRequest.getTimeout();
         ResponseType responseType = originalRequest.getResponseType();
         Headers headers = getAttemptHeaders(method, uri, payload, originalRequest.getHeaders(), attemptResponse);
 
-        return new SerializedRequestImpl(method, uri, headers, payload, timeout, responseType);
+        return new SerializedRequestImpl(method, uri, storage, headers, payload, timeout, responseType);
     }
 
     private void sendAttemptRequest(final PreparedRequest originalRequest, SerializedRequest attemptRequest) {

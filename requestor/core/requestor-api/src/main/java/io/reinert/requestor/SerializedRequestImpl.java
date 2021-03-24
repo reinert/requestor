@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,41 +35,46 @@ public class SerializedRequestImpl implements SerializedRequest {
     private final int timeout;
     private final ResponseType responseType;
     private final Auth auth;
+    private final VolatileStorage storage;
 
-    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri) {
-        this(httpMethod, uri, new Headers(), null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, VolatileStorage storage) {
+        this(httpMethod, uri, storage, new Headers(), null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Payload payload) {
-        this(httpMethod, uri, new Headers(), payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, VolatileStorage storage, Payload payload) {
+        this(httpMethod, uri, storage, new Headers(), payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers) {
-        this(httpMethod, uri, headers, null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, VolatileStorage storage, Headers headers) {
+        this(httpMethod, uri, storage, headers, null, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers, Payload payload) {
-        this(httpMethod, uri, headers, payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, VolatileStorage storage, Headers headers,
+                                 Payload payload) {
+        this(httpMethod, uri, storage, headers, payload, 0, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers, Payload payload, int timeout) {
-        this(httpMethod, uri, headers, payload, timeout, ResponseType.DEFAULT, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, VolatileStorage storage, Headers headers,
+                                 Payload payload, int timeout) {
+        this(httpMethod, uri, storage, headers, payload, timeout, ResponseType.DEFAULT, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers, Payload payload, int timeout,
-                                 ResponseType responseType) {
-        this(httpMethod, uri, headers, payload, timeout, responseType, PassThroughAuth.getInstance());
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, VolatileStorage storage, Headers headers,
+                                 Payload payload, int timeout, ResponseType responseType) {
+        this(httpMethod, uri, storage, headers, payload, timeout, responseType, PassThroughAuth.getInstance());
     }
 
-    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, Headers headers, Payload payload, int timeout,
-                                 ResponseType responseType, Auth auth) {
+    public SerializedRequestImpl(HttpMethod httpMethod, Uri uri, VolatileStorage storage, Headers headers,
+                                 Payload payload, int timeout, ResponseType responseType, Auth auth) {
         checkNotNull(httpMethod, "HTTP Method cannot be null.");
         checkNotNull(uri, "URI cannot be null.");
+        checkNotNull(storage, "Storage cannot be null.");
         checkNotNull(headers, "Headers cannot be null.");
         checkNotNull(responseType, "ResponseType cannot be null.");
         checkNotNull(auth, "Auth cannot be null.");
         this.httpMethod = httpMethod;
         this.uri = uri;
+        this.storage = storage;
         this.headers = headers;
         this.payload = payload;
         this.timeout = timeout > 0 ? timeout : 0;
@@ -115,6 +120,11 @@ public class SerializedRequestImpl implements SerializedRequest {
     @Override
     public Auth getAuth() {
         return auth;
+    }
+
+    @Override
+    public VolatileStorage getStorage() {
+        return storage;
     }
 
     @Override

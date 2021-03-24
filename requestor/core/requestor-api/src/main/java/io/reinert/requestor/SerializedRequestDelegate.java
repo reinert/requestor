@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,5 +84,10 @@ class SerializedRequestDelegate implements SerializedRequest, RequestInterceptor
     @Override
     public void setPayload(Payload payload) {
         this.serializedPayload = payload;
+    }
+
+    @Override
+    public Storage getStorage() {
+        return request.getStorage();
     }
 }

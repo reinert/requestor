@@ -15,31 +15,16 @@
  */
 package io.reinert.requestor;
 
-/**
- * Allows one to modify a HTTP Response Payload.
- *
- * @author Danilo Reinert
- */
-public interface ResponseInterceptorContext {
+public interface Storage {
 
-    String getHeader(String header);
+    <T> T get(String key);
 
-    String getContentType();
+    void set(String key, Object value);
 
-    int getStatusCode();
+    void set(String key, Object value, boolean sessionPersistent);
 
-    Response.StatusType getStatus();
+    boolean has(String key);
 
-    Payload getPayload();
-
-    ResponseType getResponseType();
-
-    void setContentType(String mediaType);
-
-    void setPayload(Payload payload);
-
-    void setResponseType(ResponseType responseType);
-
-    Storage getStorage();
+    <T> T pop(String key);
 
 }

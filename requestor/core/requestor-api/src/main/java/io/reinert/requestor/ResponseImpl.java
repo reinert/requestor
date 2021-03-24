@@ -111,6 +111,11 @@ public class ResponseImpl<T> implements Response<T> {
     }
 
     @Override
+    public Storage getStorage() {
+        return request.getStorage();
+    }
+
+    @Override
     public String toString() {
         return "ResponseImpl{" +
                 "headers=" + headers +

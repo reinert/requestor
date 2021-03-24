@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,6 +142,11 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     @Override
     public Auth getAuth() {
         return request.getAuth();
+    }
+
+    @Override
+    public Storage getStorage() {
+        return request.getStorage();
     }
 
     @Override
