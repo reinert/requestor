@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.ext.Generator;
@@ -39,7 +40,8 @@ import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 
-import io.reinert.requestor.Json;
+import io.reinert.requestor.JsonSerializationModule;
+import io.reinert.requestor.MediaType;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
@@ -58,8 +60,14 @@ import io.reinert.requestor.serialization.json.JsonRecordWriter;
  */
 public class JsonAutoBeanGenerator extends Generator {
 
+    public static String[] MEDIA_TYPE_PATTERNS = new String[] { "application/json" };
+
+    private static final Logger LOGGER = Logger.getLogger(JsonAutoBeanGenerator.class.getName());
+
     private static String factoryFieldName = "myFactory";
     private static String factoryTypeName = "MyFactory";
+
+    private final StringBuilder sourceLog = new StringBuilder();
 
     @Override
     public String generate(TreeLogger logger, GeneratorContext ctx, String typeName) throws UnableToCompleteException {
@@ -85,59 +93,78 @@ public class JsonAutoBeanGenerator extends Generator {
         if (sourceWriter != null) {
             sourceWriter.println();
 
-            ArrayDeque<JClassType> annotatedTypes = new ArrayDeque<JClassType>();
-            ArrayList<Json> jsonAnnotations = new ArrayList<Json>();
-
-            final ArrayDeque<String> allTypesAndWrappers = new ArrayDeque<String>();
-
             for (JClassType type : typeOracle.getTypes()) {
-                Json annotation = type.getAnnotation(Json.class);
-                if (annotation != null && type.isInterface() != null) {
-                    annotatedTypes.add(type);
-                    jsonAnnotations.add(annotation);
+                JsonSerializationModule serializationModuleAnn = type.getAnnotation(JsonSerializationModule.class);
+                if (serializationModuleAnn != null && serializationModuleAnn.value().length > 0) {
+                    final ArrayDeque<String> allTypesAndWrappers = new ArrayDeque<String>();
+                    final ArrayDeque<JClassType> autoBeanTypes = getJTypes(typeOracle, serializationModuleAnn);
+                    final String[] mediaTypes = getMediaTypePatterns(type.getAnnotation(MediaType.class));
 
-                    final String listWrapperTypeName = generateListWrapperInterface(sourceWriter, type);
-                    sourceWriter.println();
+                    for (JClassType autoBeanType : autoBeanTypes) {
+                        final String listWrapperTypeName = generateListWrapperInterface(sourceWriter, autoBeanType);
+                        sourceWriter.println();
 
-                    final String setWrapperTypeName = generateSetWrapperInterface(sourceWriter, type);
-                    sourceWriter.println();
+                        final String setWrapperTypeName = generateSetWrapperInterface(sourceWriter, autoBeanType);
+                        sourceWriter.println();
 
-                    // Add current type name for single de/serialization
-                    allTypesAndWrappers.add(type.getQualifiedSourceName());
-                    allTypesAndWrappers.add(listWrapperTypeName);
-                    allTypesAndWrappers.add(setWrapperTypeName);
+                        // Add current autoBeanType name for single de/serialization
+                        allTypesAndWrappers.add(autoBeanType.getQualifiedSourceName());
+                        allTypesAndWrappers.add(listWrapperTypeName);
+                        allTypesAndWrappers.add(setWrapperTypeName);
+                    }
+
+                    final ArrayDeque<String> serializerFields = new ArrayDeque<String>();
+                    final ArrayDeque<String> providerFields = new ArrayDeque<String>();
+
+                    if (!allTypesAndWrappers.isEmpty()) {
+                        generateFactoryInterface(sourceWriter, allTypesAndWrappers);
+                        sourceWriter.println();
+
+                        generateFactoryField(sourceWriter);
+                        sourceWriter.println();
+
+                        for (JClassType autoBeanType : autoBeanTypes) {
+                            final String providerFieldName = generateProviderField(sourceWriter, autoBeanType);
+                            providerFields.add(providerFieldName);
+
+                            final String serializerFieldName = generateSerializerClassAndField(logger, typeOracle,
+                                    sourceWriter, autoBeanType, mediaTypes);
+                            serializerFields.add(serializerFieldName);
+                        }
+                    }
+
+                    generateFields(sourceWriter);
+                    generateConstructor(sourceWriter, serializerFields, providerFields);
+                    generateMethods(sourceWriter);
+
+                    // TODO: uncomment the line below to log the generated source code
+//                    LOGGER.info(sourceLog.toString());
+
+                    sourceWriter.commit(typeLogger);
+
+                    // Early break for loop after finding the annotated SerializationModule (limits for only one module)
+                    break;
                 }
             }
-
-            final ArrayDeque<String> serializerFields = new ArrayDeque<String>();
-            final ArrayDeque<String> providerFields = new ArrayDeque<String>();
-
-            if (!allTypesAndWrappers.isEmpty()) {
-                generateFactoryInterface(sourceWriter, allTypesAndWrappers);
-                sourceWriter.println();
-
-                generateFactoryField(sourceWriter);
-                sourceWriter.println();
-
-                int i = 0;
-                for (JClassType annotatedType : annotatedTypes) {
-                    final String providerFieldName = generateProviderField(sourceWriter, annotatedType);
-                    providerFields.add(providerFieldName);
-
-                    final String serializerFieldName = generateSerializerClassAndField(logger, typeOracle, sourceWriter,
-                            annotatedType, jsonAnnotations.get(i++));
-                    serializerFields.add(serializerFieldName);
-                }
-            }
-
-            generateFields(sourceWriter);
-            generateConstructor(sourceWriter, serializerFields, providerFields);
-            generateMethods(sourceWriter);
-
-            sourceWriter.commit(typeLogger);
         }
 
         return typeName + "Impl";
+    }
+
+    private String[] getMediaTypePatterns(MediaType mediaTypeAnn) {
+        String[] mediaTypes = MEDIA_TYPE_PATTERNS;
+        if (mediaTypeAnn != null && mediaTypeAnn.value().length > 0) {
+            mediaTypes = mediaTypeAnn.value();
+        }
+        return mediaTypes;
+    }
+
+    private ArrayDeque<JClassType> getJTypes(TypeOracle oracle, JsonSerializationModule serializationModuleAnn) {
+        ArrayDeque<JClassType> types = new ArrayDeque<JClassType>();
+        for (Class<?> cls : serializationModuleAnn.value()) {
+            types.add(oracle.findType(cls.getCanonicalName()));
+        }
+        return types;
     }
 
     private String asStringCsv(String[] array) {
@@ -157,59 +184,62 @@ public class JsonAutoBeanGenerator extends Generator {
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 
-    private void generateConstructor(SourceWriter srcWriter, Iterable<String> serializer, Iterable<String> providers) {
-        srcWriter.println("public GeneratedJsonSerializerImpl() {");
+    private void generateConstructor(SourceWriter w, Iterable<String> serializer, Iterable<String> providers) {
+        print(w, String.format("public GeneratedJsonSerializerImpl() {"));
         for (String s : serializer) {
-            srcWriter.println("    serializerList.add(%s);", s);
+            print(w, String.format("    serializerList.add(%s);", s));
         }
         for (String s : providers) {
-            srcWriter.println("    providersList.add(%s);", s);
+            print(w, String.format("    providersList.add(%s);", s));
         }
-        srcWriter.println("}");
-        srcWriter.println();
+        print(w, String.format("}"));
+        print(w, String.format(""));
     }
 
     private void generateFactoryField(SourceWriter w) {
-        w.println("private static %s %s = GWT.create(%s.class);", factoryTypeName, factoryFieldName, factoryTypeName);
+        print(w, String.format("private static %s %s = GWT.create(%s.class);", factoryTypeName, factoryFieldName,
+                factoryTypeName));
     }
 
     private void generateFactoryInterface(SourceWriter w, Iterable<String> typeNames) {
-        w.println("interface %s extends AutoBeanFactory {", factoryTypeName);
+        print(w, String.format("interface %s extends AutoBeanFactory {", factoryTypeName));
         for (String typeName : typeNames) {
-            w.println("    AutoBean<%s> %s();", typeName, replaceDotByUpperCase(firstCharToLowerCase(typeName)));
+            print(w, String.format("    AutoBean<%s> %s();", typeName,
+                    replaceDotByUpperCase(firstCharToLowerCase(typeName))));
         }
-        w.println("}");
+        print(w, String.format("}"));
     }
 
-    private void generateFields(SourceWriter srcWriter) {
+    private void generateFields(SourceWriter w) {
         // Initialize a field with binary name of the remote service interface
-        srcWriter.println("private final ArrayList<Serializer<?>> serializerList = new ArrayList<Serializer<?>>();");
-        srcWriter.println("private final ArrayList<Provider<?>> providersList = new ArrayList<Provider<?>>();");
-        srcWriter.println();
+        print(w, String.format("private final ArrayList<Serializer<?>> serializerList =" +
+                " new ArrayList<Serializer<?>>();"));
+        print(w, String.format("private final ArrayList<Provider<?>> providersList = new ArrayList<Provider<?>>();"));
+        print(w, String.format(""));
     }
 
     private String generateListWrapperInterface(SourceWriter w, JClassType type) {
         String wrapperTypeName = getListWrapperTypeName(type);
 
-        w.println("interface %s {", wrapperTypeName);
-        w.println("    List<%s> getResult();", type.getQualifiedSourceName());
-        w.println("    void setResult(List<%s> result);", type.getQualifiedSourceName());
-        w.println("}");
+        print(w, String.format("interface %s {", wrapperTypeName));
+        print(w, String.format("    List<%s> getResult();", type.getQualifiedSourceName()));
+        print(w, String.format("    void setResult(List<%s> result);", type.getQualifiedSourceName()));
+        print(w, String.format("}"));
 
         return wrapperTypeName;
     }
 
-    private void generateMethods(SourceWriter srcWriter) {
-        srcWriter.println("@Override");
-        srcWriter.println("public List<Serializer<?>> getSerializers() {");
-        srcWriter.println("    return serializerList;");
-        srcWriter.println("}");
-        srcWriter.println();
-        srcWriter.println("@Override");
-        srcWriter.println("public List<Provider<?>> getProviders() {");
-        srcWriter.println("    return providersList;");
-        srcWriter.println("}");
-        srcWriter.println();
+    private void generateMethods(SourceWriter w) {
+        print(w, String.format("@Override"));
+        print(w, String.format("public List<Serializer<?>> getSerializers() {"));
+        print(w, String.format("    return serializerList;"));
+        print(w, String.format("}"));
+        print(w, String.format(""));
+        print(w, String.format("@Override"));
+        print(w, String.format("public List<Provider<?>> getProviders() {"));
+        print(w, String.format("    return providersList;"));
+        print(w, String.format("}"));
+        print(w, String.format(""));
     }
 
     private String generateProviderField(SourceWriter w, JClassType type) {
@@ -217,19 +247,19 @@ public class JsonAutoBeanGenerator extends Generator {
         final String autoBeanFactoryMethodName = factoryFieldName + "." + fieldName;
         final String providerFieldName = fieldName + "Provider";
 
-        w.println("private final Provider %s = new Provider<%s>() {", providerFieldName,
-                type.getQualifiedSourceName());
-        w.println("    @Override");
-        w.println("    public Class<%s> getType() {", type.getQualifiedSourceName());
-        w.println("        return %s.class;", type.getQualifiedSourceName());
-        w.println("    }");
-        w.println();
-        w.println("    @Override");
-        w.println("    public %s getInstance() {", type.getQualifiedSourceName());
-        w.println("        return %s().as();", autoBeanFactoryMethodName);
-        w.println("    }");
-        w.println("};");
-        w.println();
+        print(w, String.format("private final Provider %s = new Provider<%s>() {", providerFieldName,
+                type.getQualifiedSourceName()));
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public Class<%s> getType() {", type.getQualifiedSourceName()));
+        print(w, String.format("        return %s.class;", type.getQualifiedSourceName()));
+        print(w, String.format("    }"));
+        print(w, String.format(""));
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public %s getInstance() {", type.getQualifiedSourceName()));
+        print(w, String.format("        return %s().as();", autoBeanFactoryMethodName));
+        print(w, String.format("    }"));
+        print(w, String.format("};"));
+        print(w, String.format(""));
 
         return providerFieldName;
     }
@@ -238,7 +268,7 @@ public class JsonAutoBeanGenerator extends Generator {
      * Create the serializer and return the field name.
      */
     private String generateSerializerClassAndField(TreeLogger logger, TypeOracle oracle, SourceWriter w,
-                                               JClassType type, Json annotation) {
+                                                   JClassType type, String[] mediaTypes) {
         final String qualifiedSourceName = type.getQualifiedSourceName();
         final String fieldName = getFieldName(type);
         final String listWrapperTypeName = getListWrapperTypeName(type);
@@ -250,136 +280,141 @@ public class JsonAutoBeanGenerator extends Generator {
         final String serializerTypeName = getTypeName(type) + "Serializer";
 
         // serializer field as anonymous class
-        w.println("private static class %s extends JsonObjectSerializer<%s> implements %s {", serializerTypeName,
-                qualifiedSourceName, HandlesSubTypes.class.getSimpleName());
+        print(w, String.format("private static class %s extends JsonObjectSerializer<%s> implements %s {",
+                serializerTypeName,
+                qualifiedSourceName, HandlesSubTypes.class.getSimpleName()));
 
         // static field for impl array
         final String autoBeanInstanceClass = factoryFieldName + "." + fieldName + "().getClass()";
-        w.println("    private final Class[] IMPL = new Class[]{ %s };", autoBeanInstanceClass);
+        print(w, String.format("    private final Class[] IMPL = new Class[]{ %s };", autoBeanInstanceClass));
 
         // static field to content-types
-        w.println("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(annotation.value()));
-        w.println();
+        print(w, String.format("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(mediaTypes)));
+        print(w, String.format(""));
 
         // constructor
-        w.println("    public %s() {", serializerTypeName);
-        w.println("        super(%s.class);", qualifiedSourceName);
-        w.println("    }");
-        w.println();
+        print(w, String.format("    public %s() {", serializerTypeName));
+        print(w, String.format("        super(%s.class);", qualifiedSourceName));
+        print(w, String.format("    }"));
+        print(w, String.format(""));
 
         // mediaType
-        w.println("    @Override");
-        w.println("    public Class[] handledSubTypes() {");
-        w.println("        return IMPL;");
-        w.println("    }");
-        w.println();
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public Class[] handledSubTypes() {"));
+        print(w, String.format("        return IMPL;"));
+        print(w, String.format("    }"));
+        print(w, String.format(""));
 
         // mediaType
-        w.println("    @Override");
-        w.println("    public String[] mediaType() {");
-        w.println("        return PATTERNS;");
-        w.println("    }");
-        w.println();
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public String[] mediaType() {"));
+        print(w, String.format("        return PATTERNS;"));
+        print(w, String.format("    }"));
+        print(w, String.format(""));
 
         // readJson - used when any of deserialize alternatives succeeded (see JsonObjectSerializer)
         // TODO: improve this by not requiring parsing the json to an js array and latter stringifying it (see below)
         // Here would be no-op
-        w.println("    @Override");
-        w.println("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
-                qualifiedSourceName);
-        w.println("        return AutoBeanCodex.decode(%s, %s.class, JsonObjectSerializer.stringify(r)).as();",
-                factoryFieldName, qualifiedSourceName);
-        w.println("    }");
-        w.println();
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public %s readJson(JsonRecordReader r, DeserializationContext ctx) {",
+                qualifiedSourceName));
+        print(w, String.format("        return AutoBeanCodex.decode(%s, %s.class," +
+                        " JsonObjectSerializer.stringify(r)).as();",
+                factoryFieldName, qualifiedSourceName));
+        print(w, String.format("    }"));
+        print(w, String.format(""));
 
         // writeJson - not used
-        w.println("    @Override");
-        w.println("    public void writeJson(%s o, JsonRecordWriter w, SerializationContext ctx) {",
-                qualifiedSourceName);
-        w.println("        return;");
-        w.println("    }");
-        w.println();
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public void writeJson(%s o, JsonRecordWriter w, SerializationContext ctx) {",
+                qualifiedSourceName));
+        print(w, String.format("        return;"));
+        print(w, String.format("    }"));
+        print(w, String.format(""));
 
         // deserialize - deserialize single object using ObjectMapper
-        w.println("    @Override");
-        w.println("    public %s deserialize(String s, DeserializationContext ctx) {", qualifiedSourceName);
-        w.println("        try {");
-        w.println("            return AutoBeanCodex.decode(%s, %s.class, s).as();", factoryFieldName,
-                qualifiedSourceName);
-        w.println("        } catch (java.lang.Exception e) {");
-        w.println("            throw new UnableToDeserializeException(\"The auto-generated AutoBean deserializer" +
-                " failed to deserialize the response body to \" + ctx.getRequestedType().getName() + \".\", e);");
-        w.println("        }");
-        w.println("    }");
-        w.println();
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public %s deserialize(String s, DeserializationContext ctx) {",
+                qualifiedSourceName));
+        print(w, String.format("        try {"));
+        print(w, String.format("            return AutoBeanCodex.decode(%s, %s.class, s).as();", factoryFieldName,
+                qualifiedSourceName));
+        print(w, String.format("        } catch (java.lang.Exception e) {"));
+        print(w, String.format("            throw new UnableToDeserializeException(\"The auto-generated AutoBean" +
+                " deserializer failed to deserialize the response body to \" + ctx.getRequestedType().getName() +" +
+                " \".\", e);"));
+        print(w, String.format("        }"));
+        print(w, String.format("    }"));
+        print(w, String.format(""));
 
         // deserialize
-        w.println("    @Override");
-        w.println("    public <C extends Collection<%s>> C deserialize(Class<C> c, " +
-                "String s, DeserializationContext ctx) {", qualifiedSourceName);
-        w.println("        try {");
-        w.println("            if (c == List.class || c == Collection.class)");
-        w.println("                return (C) AutoBeanCodex.decode(%s, %s.class, " +
-                "\"{\\\"result\\\":\" + s + \"}\").as().getResult();", factoryFieldName, listWrapperTypeName);
-        w.println("            else if (c == Set.class)");
-        w.println("                return (C) AutoBeanCodex.decode(%s, %s.class, " +
-                "\"{\\\"result\\\":\" + s + \"}\").as().getResult();", factoryFieldName, setWrapperTypeName);
-        w.println("            else");
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public <C extends Collection<%s>> C deserialize(Class<C> c, " +
+                "String s, DeserializationContext ctx) {", qualifiedSourceName));
+        print(w, String.format("        try {"));
+        print(w, String.format("            if (c == List.class || c == Collection.class)"));
+        print(w, String.format("                return (C) AutoBeanCodex.decode(%s, %s.class, " +
+                "\"{\\\"result\\\":\" + s + \"}\").as().getResult();", factoryFieldName, listWrapperTypeName));
+        print(w, String.format("            else if (c == Set.class)"));
+        print(w, String.format("                return (C) AutoBeanCodex.decode(%s, %s.class, " +
+                "\"{\\\"result\\\":\" + s + \"}\").as().getResult();", factoryFieldName, setWrapperTypeName));
+        print(w, String.format("            else"));
         // TODO: improve this by not requiring parsing the json to an js array and latter stringifying it
         // An alternative would be manually traverse the json array and passing each json object to serialize method
-        w.println("                return super.deserialize(c, s, ctx);");
-        w.println("        } catch (java.lang.Exception e) {");
-        w.println("            throw new UnableToDeserializeException(\"The auto-generated AutoBean deserializer" +
-                " failed to deserialize the response body" +
-                " to \" + c.getName() + \"<\" + ctx.getRequestedType().getName() + \">.\", e);");
-        w.println("        }");
-        w.println("    }");
+        print(w, String.format("                return super.deserialize(c, s, ctx);"));
+        print(w, String.format("        } catch (java.lang.Exception e) {"));
+        print(w, String.format("            throw new UnableToDeserializeException(\"The auto-generated AutoBean" +
+                " deserializer failed to deserialize the response body  to \" + c.getName() + \"<\" +" +
+                " ctx.getRequestedType().getName() + \">.\", e);"));
+        print(w, String.format("        }"));
+        print(w, String.format("    }"));
 
         // serialize
-        w.println("    @Override");
-        w.println("    public String serialize(%s o, SerializationContext ctx) {", qualifiedSourceName);
-        w.println("        try {");
-        w.println("            return AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(o)).getPayload();");
-        w.println("        } catch (java.lang.Exception e) {");
-        w.println("            throw new UnableToSerializeException(\"The auto-generated AutoBean serializer" +
-                " failed to serialize the instance of \" + o.getClass().getName() + \" to JSON.\", e);");
-        w.println("        }");
-        w.println("    }");
-        w.println();
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public String serialize(%s o, SerializationContext ctx) {", qualifiedSourceName));
+        print(w, String.format("        try {"));
+        print(w, String.format("            return AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(o)).getPayload();"));
+        print(w, String.format("        } catch (java.lang.Exception e) {"));
+        print(w, String.format("            throw new UnableToSerializeException(\"The auto-generated AutoBean" +
+                " serializer failed to serialize the instance of \" + o.getClass().getName() + \" to JSON.\", e);"));
+        print(w, String.format("        }"));
+        print(w, String.format("    }"));
+        print(w, String.format(""));
 
         // serialize
-        w.println("    @Override");
-        w.println("    public String serialize(Collection<%s> c, SerializationContext ctx) {",
-                qualifiedSourceName);
-        w.println("        try {");
-        w.println("            if (c instanceof List) {");
-        w.println("                final AutoBean<%s> autoBean = %s();", listWrapperTypeName,
-                listWrapperFactoryMethodName);
-        w.println("                autoBean.as().setResult((List) c);");
-        w.println("                final String json = AutoBeanCodex.encode(autoBean).getPayload();");
-        w.println("                return json.substring(10, json.length() -1);");
-        w.println("            }");
-        w.println("            if (c instanceof Set) {");
-        w.println("                final AutoBean<%s> autoBean = %s();", setWrapperTypeName,
-                setWrapperFactoryMethodName);
-        w.println("                autoBean.as().setResult((Set) c);");
-        w.println("                final String json = AutoBeanCodex.encode(autoBean).getPayload();");
-        w.println("                return json.substring(10, json.length() -1);");
-        w.println("            }");
-        w.println("            return super.serialize(c, ctx);");
-        w.println("        } catch (java.lang.Exception e) {");
-        w.println("            throw new UnableToSerializeException(\"The auto-generated AutoBean serializer" +
-                " failed to serialize the instance of \" + c.getClass().getName() + \" to JSON.\", e);");
-        w.println("        }");
-        w.println("    }");
+        print(w, String.format("    @Override"));
+        print(w, String.format("    public String serialize(Collection<%s> c, SerializationContext ctx) {",
+                qualifiedSourceName));
+        print(w, String.format("        try {"));
+        print(w, String.format("            if (c instanceof List) {"));
+        print(w, String.format("                final AutoBean<%s> autoBean = %s();", listWrapperTypeName,
+                listWrapperFactoryMethodName));
+        print(w, String.format("                autoBean.as().setResult((List) c);"));
+        print(w, String.format("                final String json = AutoBeanCodex.encode(autoBean).getPayload();"));
+        print(w, String.format("                return json.substring(10, json.length() -1);"));
+        print(w, String.format("            }"));
+        print(w, String.format("            if (c instanceof Set) {"));
+        print(w, String.format("                final AutoBean<%s> autoBean = %s();", setWrapperTypeName,
+                setWrapperFactoryMethodName));
+        print(w, String.format("                autoBean.as().setResult((Set) c);"));
+        print(w, String.format("                final String json = AutoBeanCodex.encode(autoBean).getPayload();"));
+        print(w, String.format("                return json.substring(10, json.length() -1);"));
+        print(w, String.format("            }"));
+        print(w, String.format("            return super.serialize(c, ctx);"));
+        print(w, String.format("        } catch (java.lang.Exception e) {"));
+        print(w, String.format("            throw new UnableToSerializeException(\"The auto-generated AutoBean" +
+                " serializer failed to serialize the instance of \" + c.getClass().getName() + \" to JSON.\", e);"));
+        print(w, String.format("        }"));
+        print(w, String.format("    }"));
 
         // end anonymous class
-        w.println("};");
-        w.println();
+        print(w, String.format("};"));
+        print(w, String.format(""));
 
         // serializer field as anonymous class
-        w.println("private final %s %s = new %s();", serializerTypeName, serializerFieldName, serializerTypeName);
-        w.println();
+        print(w, String.format("private final %s %s = new %s();", serializerTypeName, serializerFieldName,
+                serializerTypeName));
+        print(w, String.format(""));
 
         return serializerFieldName;
     }
@@ -387,10 +422,10 @@ public class JsonAutoBeanGenerator extends Generator {
     private String generateSetWrapperInterface(SourceWriter w, JClassType type) {
         String wrapperTypeName = getSetWrapperTypeName(type);
 
-        w.println("interface %s {", wrapperTypeName);
-        w.println("    Set<%s> getResult();", type.getQualifiedSourceName());
-        w.println("    void setResult(Set<%s> result);", type.getQualifiedSourceName());
-        w.println("}");
+        print(w, String.format("interface %s {", wrapperTypeName));
+        print(w, String.format("    Set<%s> getResult();", type.getQualifiedSourceName()));
+        print(w, String.format("    void setResult(Set<%s> result);", type.getQualifiedSourceName()));
+        print(w, String.format("}"));
 
         return wrapperTypeName;
     }
@@ -477,5 +512,10 @@ public class JsonAutoBeanGenerator extends Generator {
         }
 
         return result.toString();
+    }
+
+    private void print(SourceWriter srcWriter, String s) {
+        srcWriter.println(s);
+        sourceLog.append('\n').append(s);
     }
 }

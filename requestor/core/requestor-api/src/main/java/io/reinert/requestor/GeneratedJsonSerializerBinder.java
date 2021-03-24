@@ -27,9 +27,11 @@ class GeneratedJsonSerializerBinder {
         if (generatedJsonSerializer == null) {
             generatedJsonSerializer = GWT.create(GeneratedJsonSerializer.class);
         }
+
         for (Serializer<?> serializer : generatedJsonSerializer.getSerializers()) {
             serializerManager.register(serializer);
         }
+
         for (Provider<?> provider : generatedJsonSerializer.getProviders()) {
             providerManager.register(provider);
         }
