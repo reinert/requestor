@@ -60,96 +60,99 @@ import io.reinert.requestor.serialization.json.JsonRecordWriter;
  */
 public class JsonAutoBeanGenerator extends Generator {
 
-    public static String REBIND_INTERFACE = "GeneratedSerializers";
     public static String[] MEDIA_TYPE_PATTERNS = new String[] { "application/json" };
 
     private static final Logger LOGGER = Logger.getLogger(JsonAutoBeanGenerator.class.getName());
 
-    private static String factoryFieldName = "myFactory";
-    private static String factoryTypeName = "MyFactory";
+    private static final String factoryFieldName = "myFactory";
+    private static final String factoryTypeName = "MyFactory";
 
     private final StringBuilder sourceLog = new StringBuilder();
 
     @Override
     public String generate(TreeLogger logger, GeneratorContext ctx, String typeName) throws UnableToCompleteException {
-        TypeOracle typeOracle = ctx.getTypeOracle();
+        final TypeOracle typeOracle = ctx.getTypeOracle();
         assert typeOracle != null;
 
-        JClassType intfType = typeOracle.findType(typeName);
-        if (intfType == null) {
+        final JClassType serializationModuleType = typeOracle.findType(typeName);
+        if (serializationModuleType == null) {
             logger.log(TreeLogger.ERROR, "Unable to find metadata for type '" + typeName + "'", null);
             throw new UnableToCompleteException();
         }
 
-        if (intfType.isInterface() == null) {
-            logger.log(TreeLogger.ERROR, intfType.getQualifiedSourceName() + " is not an interface", null);
+        if (serializationModuleType.isInterface() == null) {
+            logger.log(TreeLogger.ERROR, serializationModuleType.getQualifiedSourceName()
+                    + " is not an interface", null);
             throw new UnableToCompleteException();
         }
 
         // TODO: check if type was already generated and reuse it
-        TreeLogger typeLogger = logger.branch(TreeLogger.INFO, "Generating Json Serializer powered by AutoBeans...",
+        TreeLogger treeLogger = logger.branch(TreeLogger.INFO, "Generating Json Serializer powered by AutoBeans...",
                 null);
-        final SourceWriter sourceWriter = getSourceWriter(typeLogger, ctx, intfType);
 
-        if (sourceWriter != null) {
-            sourceWriter.println();
-
-            for (JClassType type : typeOracle.getTypes()) {
-                JsonSerializationModule serializationModuleAnn = type.getAnnotation(JsonSerializationModule.class);
-                if (serializationModuleAnn != null && serializationModuleAnn.value().length > 0) {
-                    final ArrayDeque<String> allTypesAndWrappers = new ArrayDeque<String>();
-                    final ArrayDeque<JClassType> autoBeanTypes = getJTypes(typeOracle, serializationModuleAnn);
-                    final String[] mediaTypes = getMediaTypePatterns(type.getAnnotation(MediaType.class));
-
-                    for (JClassType autoBeanType : autoBeanTypes) {
-                        final String listWrapperTypeName = generateListWrapperInterface(sourceWriter, autoBeanType);
-                        sourceWriter.println();
-
-                        final String setWrapperTypeName = generateSetWrapperInterface(sourceWriter, autoBeanType);
-                        sourceWriter.println();
-
-                        // Add current autoBeanType name for single de/serialization
-                        allTypesAndWrappers.add(autoBeanType.getQualifiedSourceName());
-                        allTypesAndWrappers.add(listWrapperTypeName);
-                        allTypesAndWrappers.add(setWrapperTypeName);
-                    }
-
-                    final ArrayDeque<String> serializerFields = new ArrayDeque<String>();
-                    final ArrayDeque<String> providerFields = new ArrayDeque<String>();
-
-                    if (!allTypesAndWrappers.isEmpty()) {
-                        generateFactoryInterface(sourceWriter, allTypesAndWrappers);
-                        sourceWriter.println();
-
-                        generateFactoryField(sourceWriter);
-                        sourceWriter.println();
-
-                        for (JClassType autoBeanType : autoBeanTypes) {
-                            final String providerFieldName = generateProviderField(sourceWriter, autoBeanType);
-                            providerFields.add(providerFieldName);
-
-                            final String serializerFieldName = generateSerializerClassAndField(logger, typeOracle,
-                                    sourceWriter, autoBeanType, mediaTypes);
-                            serializerFields.add(serializerFieldName);
-                        }
-                    }
-
-                    generateFields(sourceWriter);
-                    generateConstructor(sourceWriter, serializerFields, providerFields);
-                    generateMethods(sourceWriter);
-
-                    // TODO: uncomment the line below to log the generated source code
-//                    LOGGER.info(sourceLog.toString());
-
-                    sourceWriter.commit(typeLogger);
-
-                    // Early break for loop after finding the annotated SerializationModule (limits for only one module)
-                    break;
-                }
+        for (JClassType moduleType : serializationModuleType.getSubtypes()) {
+            final JsonSerializationModule serializationModuleAnn =
+                    moduleType.getAnnotation(JsonSerializationModule.class);
+            if (serializationModuleAnn != null && serializationModuleAnn.value().length > 0) {
+                generateModule(treeLogger, ctx, moduleType, serializationModuleAnn);
             }
         }
 
-        return typeName + "Impl";
+        return serializationModuleType.getPackage() + "." + getTypeName(serializationModuleType) + "Impl";
+    }
+
+    public void generateModule(TreeLogger treeLogger, GeneratorContext ctx,
+                               JClassType moduleType, JsonSerializationModule serializationModuleAnn) {
+        final TypeOracle typeOracle = ctx.getTypeOracle();
+
+        final SourceWriter sourceWriter = getSourceWriter(treeLogger, ctx, moduleType);
+        sourceWriter.println();
+
+        final ArrayDeque<String> allTypesAndWrappers = new ArrayDeque<String>();
+        final ArrayDeque<JClassType> autoBeanTypes = getJTypes(typeOracle, serializationModuleAnn);
+        final String[] mediaTypes = getMediaTypePatterns(moduleType.getAnnotation(MediaType.class));
+
+        for (JClassType autoBeanType : autoBeanTypes) {
+            final String listWrapperTypeName = generateListWrapperInterface(sourceWriter, autoBeanType);
+            sourceWriter.println();
+
+            final String setWrapperTypeName = generateSetWrapperInterface(sourceWriter, autoBeanType);
+            sourceWriter.println();
+
+            // Add current autoBeanType name for single de/serialization
+            allTypesAndWrappers.add(autoBeanType.getQualifiedSourceName());
+            allTypesAndWrappers.add(listWrapperTypeName);
+            allTypesAndWrappers.add(setWrapperTypeName);
+        }
+
+        final ArrayDeque<String> serializerFields = new ArrayDeque<String>();
+        final ArrayDeque<String> providerFields = new ArrayDeque<String>();
+
+        if (!allTypesAndWrappers.isEmpty()) {
+            generateFactoryInterface(sourceWriter, allTypesAndWrappers);
+            sourceWriter.println();
+
+            generateFactoryField(sourceWriter);
+            sourceWriter.println();
+
+            for (JClassType autoBeanType : autoBeanTypes) {
+                final String providerFieldName = generateProviderField(sourceWriter, autoBeanType);
+                providerFields.add(providerFieldName);
+
+                final String serializerFieldName = generateSerializerClassAndField(treeLogger, typeOracle,
+                        sourceWriter, autoBeanType, mediaTypes);
+                serializerFields.add(serializerFieldName);
+            }
+        }
+
+        generateFields(sourceWriter);
+        generateConstructor(sourceWriter, moduleType, serializerFields, providerFields);
+        generateMethods(sourceWriter);
+
+        // TODO: uncomment the line below to log the generated source code
+        // LOGGER.info(sourceLog.toString());
+
+        sourceWriter.commit(treeLogger);
     }
 
     private String[] getMediaTypePatterns(MediaType mediaTypeAnn) {
@@ -185,8 +188,9 @@ public class JsonAutoBeanGenerator extends Generator {
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 
-    private void generateConstructor(SourceWriter w, Iterable<String> serializer, Iterable<String> providers) {
-        print(w, String.format("public %sImpl() {", REBIND_INTERFACE));
+    private void generateConstructor(SourceWriter w, JClassType moduleType, Iterable<String> serializer,
+                                     Iterable<String> providers) {
+        print(w, String.format("public %s() {", getModuleTypeImplName(moduleType)));
         for (String s : serializer) {
             print(w, String.format("    serializerList.add(%s);", s));
         }
@@ -443,16 +447,16 @@ public class JsonAutoBeanGenerator extends Generator {
         return getTypeName(type) + "SetWrapper";
     }
 
-    private SourceWriter getSourceWriter(TreeLogger logger, GeneratorContext ctx, JClassType intfType) {
-        JPackage serviceIntfPkg = intfType.getPackage();
-        String packageName = serviceIntfPkg == null ? "" : serviceIntfPkg.getName();
-        PrintWriter printWriter = ctx.tryCreate(logger, packageName, getTypeSimpleName());
+    private SourceWriter getSourceWriter(TreeLogger logger, GeneratorContext ctx, JClassType moduleType) {
+        JPackage modulePkg = moduleType.getPackage();
+        String packageName = modulePkg == null ? "" : modulePkg.getName();
+        PrintWriter printWriter = ctx.tryCreate(logger, packageName, getModuleTypeImplName(moduleType));
         if (printWriter == null) {
             return null;
         }
 
         ClassSourceFileComposerFactory composerFactory =
-                new ClassSourceFileComposerFactory(packageName, getTypeSimpleName());
+                new ClassSourceFileComposerFactory(packageName, getModuleTypeImplName(moduleType));
 
         String[] imports = new String[]{
                 // java.util
@@ -486,7 +490,7 @@ public class JsonAutoBeanGenerator extends Generator {
             composerFactory.addImport(imp);
         }
 
-        composerFactory.addImplementedInterface(intfType.getErasedType().getQualifiedSourceName());
+        composerFactory.addImplementedInterface(moduleType.getErasedType().getQualifiedSourceName());
 
         return composerFactory.createSourceWriter(ctx, printWriter);
     }
@@ -496,8 +500,8 @@ public class JsonAutoBeanGenerator extends Generator {
         return firstCharToUpperCase(fieldName);
     }
 
-    private String getTypeSimpleName() {
-        return REBIND_INTERFACE + "Impl";
+    private String getModuleTypeImplName(JClassType moduleType) {
+        return moduleType.getName().replace('.', '_') + "Impl";
     }
 
     private String replaceDotByUpperCase(String s) {

@@ -25,11 +25,11 @@ import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Integration tests for Requestor gwt-jackson processor.
+ * Integration tests for requestor gwt-jackson processor.
  *
  * @author Danilo Reinert
  */
-public class IntegrationGwtTest extends GWTTestCase {
+public class GwtJacksonModuleGwtTest extends GWTTestCase {
 
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";
@@ -48,7 +48,7 @@ public class IntegrationGwtTest extends GWTTestCase {
 
     @Override
     public void gwtSetUp() throws Exception {
-        bind(new TestSerializationModuleImpl());
+        GeneratedModulesBinder.bind(serializerManager, providerManager);
     }
 
     public void testSerializerShouldBeAvailableBySerializerManager() {
@@ -149,14 +149,14 @@ public class IntegrationGwtTest extends GWTTestCase {
         assertEquals(expected, output);
     }
 
-    private void bind(SerializationModule module) {
-        for (Serializer<?> serializer : module.getSerializers()) {
-            serializerManager.register(serializer);
-        }
-        for (Provider<?> provider : module.getProviders()) {
-            providerManager.register(provider);
-        }
-    }
+//    private void bind(SerializationModule module) {
+//        for (Serializer<?> serializer : module.getSerializers()) {
+//            serializerManager.register(serializer);
+//        }
+//        for (Provider<?> provider : module.getProviders()) {
+//            providerManager.register(provider);
+//        }
+//    }
 
     public static class Animal {
 

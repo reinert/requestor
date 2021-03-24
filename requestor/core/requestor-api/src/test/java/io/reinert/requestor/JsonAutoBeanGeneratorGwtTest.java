@@ -55,7 +55,7 @@ public class JsonAutoBeanGeneratorGwtTest extends GWTTestCase {
     public void gwtSetUp() throws Exception {
         serializerManager = new SerializerManagerImpl();
         providerManager = new ProviderManagerImpl();
-        GeneratedSerializersBinder.bind(serializerManager, providerManager);
+        GeneratedModulesBinder.bind(serializerManager, providerManager);
     }
 
     public void testProviderShouldBeAvailableByProviderManager() {

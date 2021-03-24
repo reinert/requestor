@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class SerializationModuleAssembler extends TypeAssembler {
 
     public SerializationModuleAssembler(TypeInfo moduleTypeInfo,
                                         Iterable<JsonObjectSerializerAssembler> serializerAssemblers) {
-        super(moduleTypeInfo.getPackage().getName(), moduleTypeInfo.getSimpleName() + "Impl");
+        super(moduleTypeInfo.getPackage().getName(), getTypeImplName(moduleTypeInfo));
 
         this.moduleTypeInfo = moduleTypeInfo;
         this.schema = new SerializationModuleSchema();
@@ -47,5 +47,11 @@ public class SerializationModuleAssembler extends TypeAssembler {
                 .addMethod(schema.constructor.assemble(code.constructor()))
                 .addMethod(schema.getSerializersMethod.assemble(code.getSerializersListMethod()))
                 .addMethod(schema.getProvidersMethod.assemble(code.getProvidersListMethod()));
+    }
+
+    private static String getTypeImplName(TypeInfo typeInfo) {
+        return typeInfo.getQualifiedName()
+                .replace(typeInfo.getPackage().getName() + ".", "")
+                .replace('.', '_') + "Impl";
     }
 }

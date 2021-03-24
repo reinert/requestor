@@ -19,15 +19,13 @@
 
   <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
 
+  <generate-with class="io.reinert.requestor.rebind.GeneratedModulesGenerator">
+    <when-type-is class="io.reinert.requestor.GeneratedModules"/>
+  </generate-with>
+
   <replace-with class="io.reinert.requestor.RequestorInitializerForJson">
     <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
   </replace-with>
 
-  <generate-with class="io.reinert.requestor.rebind.SerializationModuleGenerator">
-    <when-type-assignable class="io.reinert.requestor.SerializationModule"/>
-  </generate-with>
-
-  <source path="">
-    <exclude name="*/**"/>
-  </source>
+  <source path="" excludes="*/**"/>
 </module>
