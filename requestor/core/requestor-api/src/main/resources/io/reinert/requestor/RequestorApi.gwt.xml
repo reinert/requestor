@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2015 Danilo Reinert
+  ~ Copyright 2021 Danilo Reinert
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -36,8 +36,8 @@
     <when-type-is class="io.reinert.requestor.uri.UrlCodec"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.EmptyGeneratedSerializers">
-    <when-type-is class="io.reinert.requestor.GeneratedSerializers"/>
+  <replace-with class="io.reinert.requestor.EmptyGeneratedModules">
+    <when-type-is class="io.reinert.requestor.GeneratedModules"/>
   </replace-with>
 
   <replace-with class="io.reinert.requestor.RequestDispatcherFactoryImpl">

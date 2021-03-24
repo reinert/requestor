@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,10 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collections;
-import java.util.List;
-
-import io.reinert.requestor.serialization.Serializer;
-
-@SuppressWarnings("unchecked")
-class EmptyGeneratedSerializers implements GeneratedSerializers {
+class EmptyGeneratedModules implements GeneratedModules {
 
     @Override
-    public List<Serializer<?>> getSerializers() {
-        return Collections.EMPTY_LIST;
-    }
-
-    @Override
-    public List<Provider<?>> getProviders() {
-        return Collections.EMPTY_LIST;
+    public SerializationModule[] getSerializationModules() {
+        return new SerializationModule[0];
     }
 }

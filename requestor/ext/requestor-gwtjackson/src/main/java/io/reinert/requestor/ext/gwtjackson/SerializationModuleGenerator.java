@@ -44,6 +44,8 @@ import io.reinert.requestor.ext.gwtjackson.processing.ProcessingLogger;
 
 public class SerializationModuleGenerator {
 
+    public static String[] MEDIA_TYPE_PATTERNS = new String[] { "application/json" };
+
     private final TypeElement moduleTypeElement;
     private final TypeInfo moduleTypeInfo;
     private final Set<JsonObjectSerializerAssembler> serializerAssemblers;
@@ -151,7 +153,7 @@ public class SerializationModuleGenerator {
         AnnotationValue annValue = AnnotationMirrors.getAnnotationValue(annMirror, "value");
         Object value = annValue.getValue();
 
-        String[] mediaTypes = null;
+        String[] mediaTypes = MEDIA_TYPE_PATTERNS;
         Optional<AnnotationMirror> oMediaTypeAnnMirror = MoreElements.getAnnotationMirror(typeElement, MediaType.class);
         if (oMediaTypeAnnMirror.isPresent()) {
             AnnotationMirror mediaTypeAnnMirror = oMediaTypeAnnMirror.get();

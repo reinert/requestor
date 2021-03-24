@@ -26,7 +26,7 @@ public class RequestorJacksonGwtTestSuite extends GWTTestSuite {
         TestSuite suite = new TestSuite("Requestor Jackson GWT Test Suite");
 
         // Serialization
-        suite.addTestSuite(IntegrationGwtTest.class);
+        suite.addTestSuite(GwtJacksonModuleGwtTest.class);
 
         return suite;
     }

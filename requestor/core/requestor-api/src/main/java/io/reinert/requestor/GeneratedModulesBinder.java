@@ -19,21 +19,23 @@ import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.serialization.Serializer;
 
-class GeneratedSerializersBinder {
+class GeneratedModulesBinder {
 
-    private static GeneratedSerializers generatedSerializers;
+    private static GeneratedModules generatedModules;
 
-    public static void bind(SerializerManagerImpl serializerManager, ProviderManagerImpl providerManager) {
-        if (generatedSerializers == null) {
-            generatedSerializers = GWT.create(GeneratedSerializers.class);
+    public static void bind(SerializerManager serializerManager, ProviderManager providerManager) {
+        if (generatedModules == null) {
+            generatedModules = GWT.create(GeneratedModules.class);
         }
 
-        for (Serializer<?> serializer : generatedSerializers.getSerializers()) {
-            serializerManager.register(serializer);
-        }
+        for (SerializationModule serializationModule : generatedModules.getSerializationModules()) {
+            for (Serializer<?> serializer : serializationModule.getSerializers()) {
+                serializerManager.register(serializer);
+            }
 
-        for (Provider<?> provider : generatedSerializers.getProviders()) {
-            providerManager.register(provider);
+            for (Provider<?> provider : serializationModule.getProviders()) {
+                providerManager.register(provider);
+            }
         }
     }
 }

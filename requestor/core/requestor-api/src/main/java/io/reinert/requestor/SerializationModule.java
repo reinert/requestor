@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import java.util.List;
 import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Module that holds auto-generated Serializer.
+ * Module that holds auto-generated Serializers.
  * <p>
  *
  * To declare a serialization module you must inherit this class and annotate it with a supported annotation that

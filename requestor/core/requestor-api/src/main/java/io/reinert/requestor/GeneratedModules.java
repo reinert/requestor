@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,6 @@
  */
 package io.reinert.requestor;
 
-import java.util.List;
-
-import io.reinert.requestor.serialization.Serializer;
-
-/**
- * Generated Serializer from {@link Json}.
- *
- * @author Danilo Reinert
- */
-interface GeneratedSerializers {
-
-    List<Serializer<?>> getSerializers();
-
-    List<Provider<?>> getProviders();
-
+interface GeneratedModules {
+    SerializationModule[] getSerializationModules();
 }
