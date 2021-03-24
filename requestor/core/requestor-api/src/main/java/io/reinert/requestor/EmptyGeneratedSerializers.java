@@ -15,19 +15,21 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reinert.requestor.serialization.Serializer;
 
-/**
- * Generated Serializer from {@link Json}.
- *
- * @author Danilo Reinert
- */
-interface GeneratedJsonSerializer {
+@SuppressWarnings("unchecked")
+class EmptyGeneratedSerializers implements GeneratedSerializers {
 
-    List<Serializer<?>> getSerializers();
+    @Override
+    public List<Serializer<?>> getSerializers() {
+        return Collections.EMPTY_LIST;
+    }
 
-    List<Provider<?>> getProviders();
-
+    @Override
+    public List<Provider<?>> getProviders() {
+        return Collections.EMPTY_LIST;
+    }
 }

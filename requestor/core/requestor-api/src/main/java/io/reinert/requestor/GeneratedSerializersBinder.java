@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,20 @@ import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.serialization.Serializer;
 
-class GeneratedJsonSerializerBinder {
+class GeneratedSerializersBinder {
 
-    private static GeneratedJsonSerializer generatedJsonSerializer;
+    private static GeneratedSerializers generatedSerializers;
 
     public static void bind(SerializerManagerImpl serializerManager, ProviderManagerImpl providerManager) {
-        if (generatedJsonSerializer == null) {
-            generatedJsonSerializer = GWT.create(GeneratedJsonSerializer.class);
+        if (generatedSerializers == null) {
+            generatedSerializers = GWT.create(GeneratedSerializers.class);
         }
 
-        for (Serializer<?> serializer : generatedJsonSerializer.getSerializers()) {
+        for (Serializer<?> serializer : generatedSerializers.getSerializers()) {
             serializerManager.register(serializer);
         }
 
-        for (Provider<?> provider : generatedJsonSerializer.getProviders()) {
+        for (Provider<?> provider : generatedSerializers.getProviders()) {
             providerManager.register(provider);
         }
     }
