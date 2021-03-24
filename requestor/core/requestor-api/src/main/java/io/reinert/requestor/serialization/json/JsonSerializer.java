@@ -65,6 +65,7 @@ public abstract class JsonSerializer<T> implements Serializer<T> {
         return trim.startsWith("[") && trim.endsWith("]");
     }
 
+    // Used by JsonAutoBeanGenerator
     public static native String stringify(JavaScriptObject jso) /*-{
         return JSON.stringify(jso);
     }-*/;

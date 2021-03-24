@@ -15,13 +15,7 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.RequestorApiTest"/>
-
-  <inherits name="com.google.web.bindery.autobean.AutoBean"/>
-
-  <generate-with class="io.reinert.requestor.rebind.JsonAutoBeanGenerator">
-    <when-type-is class="io.reinert.requestor.GeneratedJsonSerializer"/>
-  </generate-with>
+  <inherits name="io.reinert.requestor.RequestorWithAutoBean"/>
 
   <source path="">
     <exclude name="rebind/**/*" />

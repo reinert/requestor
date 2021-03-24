@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,13 +32,16 @@ public class JsonAutoBeanGeneratorGwtTest extends GWTTestCase {
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";
 
-    @Json({APP_JSON, JAVASCRIPT})
     interface Animal {
         Integer getAge();
         String getName();
         void setAge(Integer age);
         void setName(String name);
     }
+
+    @MediaType({APP_JSON, JAVASCRIPT})
+    @JsonSerializationModule(Animal.class)
+    interface TestSerializationModule extends SerializationModule { }
 
     private SerializerManagerImpl serializerManager;
     private ProviderManagerImpl providerManager;
