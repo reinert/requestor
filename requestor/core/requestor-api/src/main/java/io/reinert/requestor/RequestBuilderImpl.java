@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,23 +30,29 @@ import io.reinert.requestor.uri.Uri;
 class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     private final Uri uri;
+    private final VolatileStorage storage;
+    private final Headers headers;
     private HttpMethod httpMethod;
-    private Headers headers;
     private int timeout;
     private Object payload;
     private Auth auth = PassThroughAuth.getInstance();
 
-    public RequestBuilderImpl(Uri uri) {
-        this(uri, new Headers());
+    public RequestBuilderImpl(Uri uri, VolatileStorage storage) {
+        this(uri, storage, new Headers());
     }
 
-    public RequestBuilderImpl(Uri uri, Headers headers) {
+    public RequestBuilderImpl(Uri uri, VolatileStorage storage, Headers headers) {
         this.uri = uri;
+        this.storage = storage;
         this.headers = headers;
     }
 
-    public static RequestBuilderImpl copyOf(RequestBuilder request) {
-        RequestBuilderImpl copy = new RequestBuilderImpl(request.getUri(), request.getHeaders());
+    private static RequestBuilderImpl copy(RequestBuilderImpl request) {
+        RequestBuilderImpl copy = new RequestBuilderImpl(
+                request.getUri(),
+                VolatileStorage.copy(request.getStorage()),
+                request.getHeaders()
+        );
         copy.httpMethod = request.getMethod();
         copy.auth = request.getAuth();
         copy.timeout = request.getTimeout();
@@ -97,6 +103,11 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     @Override
     public Auth getAuth() {
         return auth;
+    }
+
+    @Override
+    public VolatileStorage getStorage() {
+        return storage;
     }
 
     //===================================================================
@@ -192,6 +203,6 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
     //===================================================================
 
     protected RequestBuilderImpl build() {
-        return RequestBuilderImpl.copyOf(this);
+        return RequestBuilderImpl.copy(this);
     }
 }

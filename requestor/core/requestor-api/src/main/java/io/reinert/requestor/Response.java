@@ -112,6 +112,13 @@ public interface Response<T> {
     Request getRequest();
 
     /**
+     * Returns the storage of this request/response cycle.
+     *
+     * @return the storage
+     */
+    Storage getStorage();
+
+    /**
      * Base interface for statuses used in responses.
      */
     public interface StatusType {

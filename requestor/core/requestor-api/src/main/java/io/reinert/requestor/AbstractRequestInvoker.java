@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,9 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     protected final RequestDispatcher dispatcher;
     protected final RequestProcessor processor;
 
-    public AbstractRequestInvoker(Uri uri, RequestDispatcher dispatcher, RequestProcessor processor) {
-        super(uri);
+    public AbstractRequestInvoker(Uri uri, VolatileStorage storage, RequestDispatcher dispatcher,
+                                  RequestProcessor processor) {
+        super(uri, storage);
 
         this.dispatcher = dispatcher;
         this.processor = processor;

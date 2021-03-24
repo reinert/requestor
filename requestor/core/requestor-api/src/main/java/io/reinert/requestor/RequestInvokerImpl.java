@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,9 @@ import io.reinert.requestor.uri.Uri;
  */
 class RequestInvokerImpl extends AbstractRequestInvoker {
 
-    public RequestInvokerImpl(Uri uri, RequestProcessor processor, RequestDispatcher dispatcher) {
-        super(uri, dispatcher, processor);
+    public RequestInvokerImpl(Uri uri, VolatileStorage storage, RequestProcessor processor,
+                              RequestDispatcher dispatcher) {
+        super(uri, storage, dispatcher, processor);
     }
 
     //===================================================================

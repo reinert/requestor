@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ public class WebTarget implements FilterManager, InterceptorManager {
     private final DeferredFactory deferredFactory;
     private final FilterManagerImpl filterManager;
     private final InterceptorManagerImpl interceptorManager;
+    private final VolatileStorage storage;
     private final RequestProcessor requestProcessor;
     private final RequestDispatcher requestDispatcher;
     private final UriBuilder uriBuilder;
@@ -49,28 +50,31 @@ public class WebTarget implements FilterManager, InterceptorManager {
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
-              RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, Uri uri) {
+              RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, Uri uri,
+              VolatileStorage storage) {
         this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
-                deferredFactory, UriBuilder.fromUri(uri), uri);
+                deferredFactory, UriBuilder.fromUri(uri), uri, storage);
     }
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
-              RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, UriBuilder builder) {
+              RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, UriBuilder builder,
+              VolatileStorage storage) {
         this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
-                deferredFactory, builder, null);
+                deferredFactory, builder, null, storage);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
                       RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory,
-                      UriBuilder uriBuilder, Uri uri) {
+                      UriBuilder uriBuilder, Uri uri, VolatileStorage storage) {
         this.serializationEngine = serializationEngine;
         this.formDataSerializer = formDataSerializer;
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
         this.filterManager = new FilterManagerImpl(filterManager);
         this.interceptorManager = new InterceptorManagerImpl(interceptorManager);
+        this.storage = storage;
 
         final FilterEngine filterEngine = new FilterEngine(this.filterManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(this.interceptorManager);
@@ -339,7 +343,7 @@ public class WebTarget implements FilterManager, InterceptorManager {
 
     private WebTarget newWebTarget(UriBuilder copy) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, copy);
+                requestDispatcherFactory, deferredFactory, copy, VolatileStorage.copy(storage));
     }
 
     private UriBuilder cloneUriBuilder() {
@@ -347,6 +351,6 @@ public class WebTarget implements FilterManager, InterceptorManager {
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        return new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
+        return new RequestInvokerImpl(uri, new VolatileStorage(storage), requestProcessor, requestDispatcher);
     }
 }

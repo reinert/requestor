@@ -82,6 +82,10 @@ public abstract class Requestor
 
     public abstract <T> T getInstance(Class<T> type);
 
+    public abstract Storage getStorage();
+
+    public abstract void clearStorage();
+
     //===================================================================
     // Request factory methods
     //===================================================================

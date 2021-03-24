@@ -37,6 +37,7 @@ public class RequestorImpl extends Requestor {
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
     private final InterceptorManagerImpl interceptorManager = new InterceptorManagerImpl();
+    private final PersistentStorage storage = new PersistentStorage();
     private final SerializationEngine serializationEngine;
     private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
@@ -342,6 +343,16 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
+    public Storage getStorage() {
+        return storage;
+    }
+
+    @Override
+    public void clearStorage() {
+        storage.clear();
+    }
+
+    @Override
     public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) {
         return serializerManager.getSerializer(type, mediaType);
     }
@@ -425,7 +436,8 @@ public class RequestorImpl extends Requestor {
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, requestProcessor, requestDispatcher);
+        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStorage(storage), requestProcessor,
+                requestDispatcher);
         if (defaultMediaType != null) {
             request.contentType(defaultMediaType);
             request.accept(defaultMediaType);
@@ -435,11 +447,11 @@ public class RequestorImpl extends Requestor {
 
     private WebTarget createWebTarget(Uri uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, uri);
+                requestDispatcherFactory, deferredFactory, uri, new VolatileStorage(storage));
     }
 
     private WebTarget createWebTarget(UriBuilder uriBuilder) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, uriBuilder);
+                requestDispatcherFactory, deferredFactory, uriBuilder, new VolatileStorage(storage));
     }
 }
