@@ -49,14 +49,14 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     private static RequestBuilderImpl copy(RequestBuilderImpl request) {
         RequestBuilderImpl copy = new RequestBuilderImpl(
-                request.getUri(),
-                VolatileStorage.copy(request.getStorage()),
-                request.getHeaders()
+                request.uri,
+                VolatileStorage.copy(request.storage),
+                Headers.copy(request.headers)
         );
-        copy.httpMethod = request.getMethod();
-        copy.auth = request.getAuth();
-        copy.timeout = request.getTimeout();
-        copy.payload = request.getPayload();
+        copy.httpMethod = request.httpMethod;
+        copy.auth = request.auth;
+        copy.timeout = request.timeout;
+        copy.payload = request.payload;
         return copy;
     }
 

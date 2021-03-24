@@ -37,8 +37,9 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
     public Headers(Iterable<Header> headers) {
         if (headers != null) {
             final Iterator<Header> iterator = headers.iterator();
-            if (iterator.hasNext())
-                ensureHeaders();
+
+            if (iterator.hasNext()) ensureHeaders();
+
             while (iterator.hasNext()) {
                 Header header = iterator.next();
                 this.headers.put(formatKey(header.getName()), header);
@@ -62,6 +63,14 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
                 this.headers.put(formatKey(header.getName()), Header.fromRawHeader(header));
             }
         }
+    }
+
+    static Headers copy(Headers headers) {
+        if (headers.isEmpty()) {
+            return new Headers();
+        }
+
+        return new Headers(headers);
     }
 
     private static String formatKey(String headerName) {
