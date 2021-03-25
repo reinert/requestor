@@ -19,8 +19,9 @@ import com.google.gwt.core.client.Callback;
 
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RequestException;
-import io.reinert.requestor.ext.oauth2.AuthRequest;
-import io.reinert.requestor.ext.oauth2.TokenInfo;
+import io.reinert.requestor.oauth2.Auth;
+import io.reinert.requestor.oauth2.AuthRequest;
+import io.reinert.requestor.oauth2.TokenInfo;
 
 /**
  * OAuth2 authentication.
@@ -29,7 +30,7 @@ import io.reinert.requestor.ext.oauth2.TokenInfo;
  */
 public abstract class OAuth2Base extends AbstractAuth {
 
-    private static final io.reinert.requestor.ext.oauth2.Auth AUTH = io.reinert.requestor.ext.oauth2.Auth.get();
+    private static final Auth AUTH = Auth.get();
 
     private final AuthRequest authRequest;
 

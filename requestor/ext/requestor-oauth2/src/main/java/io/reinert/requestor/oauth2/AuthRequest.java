@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package io.reinert.requestor.ext.oauth2;
+package io.reinert.requestor.oauth2;
 
 /**
  * Represents a request for authentication to an OAuth 2.0 provider server.

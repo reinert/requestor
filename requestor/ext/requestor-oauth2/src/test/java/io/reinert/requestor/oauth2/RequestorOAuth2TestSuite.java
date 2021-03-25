@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.ext.oauth2;
+package io.reinert.requestor.oauth2;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
