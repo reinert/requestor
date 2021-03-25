@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwtjackson.meta.requestor;
 
-import com.google.gwt.junit.tools.GWTTestSuite;
+import io.reinert.requestor.serialization.Serializer;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+/**
+ * Metadata for {@link Serializer}.
+ */
+public interface SerializerMeta {
 
-public class RequestorJacksonGwtTestSuite extends GWTTestSuite {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Requestor Gwt-Jackson GWT Test Suite");
-
-        // Serialization
-        suite.addTestSuite(GwtJacksonModuleGwtTest.class);
-
-        return suite;
+    interface Method {
+        String DESERIALIZE = "deserialize";
+        String SERIALIZE = "serialize";
     }
 }

@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwtjackson;
 
-import com.google.gwt.junit.tools.GWTTestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class RequestorJacksonGwtTestSuite extends GWTTestSuite {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Requestor Gwt-Jackson GWT Test Suite");
-
-        // Serialization
-        suite.addTestSuite(GwtJacksonModuleGwtTest.class);
-
-        return suite;
-    }
+/**
+ * Test suite for main package.
+ */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+//        GwtJacksonProcessorTest.class
+})
+public class GwtJacksonTestSuite extends TestSuite {
 }

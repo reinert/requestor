@@ -130,7 +130,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <module>io.reinert.requestor.ext.gwtjackson.GwtJacksonTest</module>
+              <module>io.reinert.requestor.gwtjackson.GwtJacksonExtTest</module>
             </configuration>
           </execution>
         </executions>
