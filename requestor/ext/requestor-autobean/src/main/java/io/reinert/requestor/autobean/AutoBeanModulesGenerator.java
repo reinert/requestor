@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.rebind;
+package io.reinert.requestor.autobean;
 
 import java.io.PrintWriter;
 import java.util.ArrayDeque;
@@ -54,15 +54,15 @@ import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
 /**
- * Generator for {@link io.reinert.requestor.Json} annotated types powered by GWT AutoBean Framework.
+ * Generator for {@link io.reinert.requestor.JsonSerializationModule} annotated types powered by GWT AutoBean Framework.
  *
  * @author Danilo Reinert
  */
-public class JsonAutoBeanGenerator extends Generator {
+public class AutoBeanModulesGenerator extends Generator {
 
     public static String[] MEDIA_TYPE_PATTERNS = new String[] { "application/json" };
 
-    private static final Logger LOGGER = Logger.getLogger(JsonAutoBeanGenerator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AutoBeanModulesGenerator.class.getName());
 
     private static final String factoryFieldName = "myFactory";
     private static final String factoryTypeName = "MyFactory";

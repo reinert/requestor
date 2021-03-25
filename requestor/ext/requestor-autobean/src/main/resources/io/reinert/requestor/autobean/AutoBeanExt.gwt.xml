@@ -19,15 +19,13 @@
 
   <inherits name="com.google.web.bindery.autobean.AutoBean"/>
 
-  <generate-with class="io.reinert.requestor.rebind.GeneratedModulesGenerator">
+  <generate-with class="io.reinert.requestor.autobean.GeneratedAutoBeanModulesGenerator">
     <when-type-is class="io.reinert.requestor.GeneratedModules"/>
   </generate-with>
-
-  <set-configuration-property name="generateAutoBeans" value="true" />
 
   <replace-with class="io.reinert.requestor.RequestorInitializerForJson">
     <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
   </replace-with>
 
-  <source path="" excludes="rebind/**/*"/>
+  <source path="" excludes="*Generator.java"/>
 </module>

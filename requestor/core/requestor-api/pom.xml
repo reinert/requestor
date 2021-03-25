@@ -104,7 +104,6 @@
             <configuration>
               <modules>
                 <module>io.reinert.requestor.RequestorApiTest</module>
-                <module>io.reinert.requestor.RequestorWithAutoBeanTest</module>
               </modules>
             </configuration>
           </execution>

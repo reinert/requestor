@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.rebind;
+package io.reinert.requestor.autobean;
 
 import java.io.PrintWriter;
 import java.util.ArrayDeque;
@@ -36,18 +36,18 @@ import io.reinert.requestor.JsonSerializationModule;
 import io.reinert.requestor.SerializationModule;
 
 /**
- * Generator for GeneratedModules that instantiates all serializers for classes declared in
- * {@link JsonSerializationModule} annotation above interfaces extending from {@link SerializationModule}.
+ * Generator for GeneratedModules.
  *
  * @author Danilo Reinert
  */
-public class GeneratedModulesGenerator extends Generator {
+public class GeneratedAutoBeanModulesGenerator extends Generator {
 
     static final String SERIALIZATION_MODULE_FULL_NAME = SerializationModule.class.getName();
 
-    private static final Logger LOGGER = Logger.getLogger(GeneratedModulesGenerator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GeneratedAutoBeanModulesGenerator.class.getName());
 
     private final StringBuilder sourceLog = new StringBuilder();
+    private final AutoBeanModulesGenerator autoBeanGenerator = new AutoBeanModulesGenerator();
 
     @Override
     public String generate(TreeLogger logger, GeneratorContext ctx, String typeName) throws UnableToCompleteException {
@@ -90,6 +90,7 @@ public class GeneratedModulesGenerator extends Generator {
 
                 if (serializationModuleAnn != null && serializationModuleAnn.value().length > 0) {
                     nonEmptyModules.add(moduleType);
+                    autoBeanGenerator.generateModule(treeLogger, ctx, moduleType, serializationModuleAnn);
                 }
             }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,16 @@ package io.reinert.requestor;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 
-import io.reinert.requestor.serialization.OverlaySerializerGwtTest;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class RequestorGwtTestSuite extends GWTTestSuite {
+public class AutoBeanExtGwtTestSuite extends GWTTestSuite {
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("Requestor GWT Test Suite");
+        TestSuite suite = new TestSuite("Requestor AutoBean GWT Test Suite");
 
         // Serialization
-        suite.addTestSuite(OverlaySerializerGwtTest.class);
+        suite.addTestSuite(AutoBeanGeneratorGwtTest.class);
 
         return suite;
     }

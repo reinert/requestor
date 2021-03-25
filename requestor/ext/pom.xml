@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2015 Danilo Reinert
+  ~ Copyright 2021 Danilo Reinert
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -30,8 +30,9 @@
   <artifactId>requestor-ext-parent</artifactId>
 
   <modules>
-    <module>requestor-gwtjackson</module>
-    <module>requestor-oauth2</module>
     <module>requestor-digest</module>
+    <module>requestor-oauth2</module>
+    <module>requestor-autobean</module>
+    <module>requestor-gwtjackson</module>
   </modules>
 </project>
