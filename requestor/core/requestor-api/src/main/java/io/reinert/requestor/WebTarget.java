@@ -20,7 +20,9 @@ import java.util.Map;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.form.FormDataSerializer;
+import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 import io.reinert.requestor.uri.UriBuilderException;
@@ -32,10 +34,11 @@ import io.reinert.requestor.uri.UriBuilderException;
  *
  * @author Danilo Reinert
  */
-public class WebTarget implements FilterManager, InterceptorManager {
+public class WebTarget implements FilterManager, InterceptorManager, RequestDefaults {
 
     private static final String COULD_NOT_BUILD_THE_URI = "Could not build the URI.";
 
+    private final RequestDefaultsImpl defaults;
     private final SerializationEngine serializationEngine;
     private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
@@ -51,23 +54,23 @@ public class WebTarget implements FilterManager, InterceptorManager {
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
               RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, Uri uri,
-              VolatileStorage storage) {
+              VolatileStorage storage, RequestDefaultsImpl defaults) {
         this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
-                deferredFactory, UriBuilder.fromUri(uri), uri, storage);
+                deferredFactory, UriBuilder.fromUri(uri), uri, storage, defaults);
     }
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
               RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, UriBuilder builder,
-              VolatileStorage storage) {
+              VolatileStorage storage, RequestDefaultsImpl defaults) {
         this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
-                deferredFactory, builder, null, storage);
+                deferredFactory, builder, null, storage, defaults);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
                       RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory,
-                      UriBuilder uriBuilder, Uri uri, VolatileStorage storage) {
+                      UriBuilder uriBuilder, Uri uri, VolatileStorage storage, RequestDefaultsImpl defaults) {
         this.serializationEngine = serializationEngine;
         this.formDataSerializer = formDataSerializer;
         this.requestDispatcherFactory = requestDispatcherFactory;
@@ -75,6 +78,7 @@ public class WebTarget implements FilterManager, InterceptorManager {
         this.filterManager = new FilterManagerImpl(filterManager);
         this.interceptorManager = new InterceptorManagerImpl(interceptorManager);
         this.storage = storage;
+        this.defaults = defaults;
 
         final FilterEngine filterEngine = new FilterEngine(this.filterManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(this.interceptorManager);
@@ -106,6 +110,61 @@ public class WebTarget implements FilterManager, InterceptorManager {
     @Override
     public HandlerRegistration register(ResponseInterceptor responseInterceptor) {
         return interceptorManager.register(responseInterceptor);
+    }
+
+    @Override
+    public void reset() {
+        defaults.reset();
+    }
+
+    @Override
+    public void setMediaType(String mediaType) {
+        defaults.setMediaType(mediaType);
+    }
+
+    @Override
+    public String getMediaType() {
+        return defaults.getMediaType();
+    }
+
+    @Override
+    public void setAuth(Auth auth) {
+        defaults.setAuth(auth);
+    }
+
+    @Override
+    public Auth getAuth() {
+        return defaults.getAuth();
+    }
+
+    @Override
+    public void setTimeout(int timeout) {
+        defaults.setTimeout(timeout);
+    }
+
+    @Override
+    public int getTimeout() {
+        return defaults.getTimeout();
+    }
+
+    @Override
+    public void addHeader(Header header) {
+        defaults.addHeader(header);
+    }
+
+    @Override
+    public void addHeader(String headerName, String headerValue) {
+        defaults.addHeader(headerName, headerValue);
+    }
+
+    @Override
+    public Header getHeader(String headerName) {
+        return defaults.getHeader(headerName);
+    }
+
+    @Override
+    public void removeHeader(String headerName) {
+        defaults.removeHeader(headerName);
     }
 
     /**
@@ -343,7 +402,8 @@ public class WebTarget implements FilterManager, InterceptorManager {
 
     private WebTarget newWebTarget(UriBuilder copy) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, copy, VolatileStorage.copy(storage));
+                requestDispatcherFactory, deferredFactory, copy, VolatileStorage.copy(storage),
+                RequestDefaultsImpl.copy(defaults));
     }
 
     private UriBuilder cloneUriBuilder() {
@@ -351,6 +411,9 @@ public class WebTarget implements FilterManager, InterceptorManager {
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        return new RequestInvokerImpl(uri, new VolatileStorage(storage), requestProcessor, requestDispatcher);
+        final RequestInvokerImpl request =
+                new RequestInvokerImpl(uri, new VolatileStorage(storage), requestProcessor, requestDispatcher);
+        defaults.apply(request);
+        return request;
     }
 }

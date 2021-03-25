@@ -166,7 +166,12 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
      * @param header The header to be added
      */
     protected void add(Header header) {
+        if (header == null) {
+            throw new IllegalArgumentException("header cannot be null.");
+        }
+
         if (header.getValue() == null) {
+            if (headers == null) return;
             ensureHeaders().remove(header.getName());
         } else {
             ensureHeaders().put(formatKey(header.getName()), header);
@@ -180,7 +185,12 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
      * @param value Value of the header
      */
     protected void set(String name, String value) {
+        if (name == null) {
+            throw new IllegalArgumentException("Header name cannot be null.");
+        }
+
         if (value == null) {
+            if (headers == null) return;
             ensureHeaders().remove(name);
         } else {
             ensureHeaders().put(formatKey(name), new SimpleHeader(name, value));
@@ -194,7 +204,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
      *
      * @return The removed header or null if there was no header with the given name
      */
-    protected Header remove(String name) {
+    protected Header pop(String name) {
         return isEmpty() ? null : ensureHeaders().remove(name);
     }
 
