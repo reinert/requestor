@@ -18,14 +18,14 @@
  * Base package for managing user authentication using OAuth2 (draft 10).
  *
  * <p>
- * The main class to use in this package is {@link io.reinert.requestor.ext.oauth2.Auth}.
+ * The main class to use in this package is {@link io.reinert.requestor.oauth2.Auth}.
  * To begin the authentication process, call
- * {@link io.reinert.requestor.ext.oauth2.Auth#login(AuthRequest, com.google.gwt.core.client.Callback)}.
+ * {@link io.reinert.requestor.oauth2.Auth#login(AuthRequest, com.google.gwt.core.client.Callback)}.
  * </p>
  * 
  * <p>
- * See {@link io.reinert.requestor.ext.oauth2.Auth#login(AuthRequest, com.google.gwt.core.client.Callback)}.
+ * See {@link io.reinert.requestor.oauth2.Auth#login(AuthRequest, com.google.gwt.core.client.Callback)}.
  * </p>
  */
-package io.reinert.requestor.ext.oauth2;
+package io.reinert.requestor.oauth2;
 

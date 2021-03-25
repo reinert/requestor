@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package io.reinert.requestor.ext.oauth2;
+package io.reinert.requestor.oauth2;
 
 /**
  * Default implementation of token storage, using localStorage to store tokens (if supported).
@@ -26,19 +26,19 @@ class TokenStoreImpl implements TokenStore {
 
     public native void set(String key, String value) /*-{
         var obj = JSON.parse($wnd.localStorage.getItem(
-            @io.reinert.requestor.ext.oauth2.TokenStoreImpl::KEY) || '{}');
+            @io.reinert.requestor.oauth2.TokenStoreImpl::KEY) || '{}');
         obj[key] = value;
         $wnd.localStorage.setItem(
-            @io.reinert.requestor.ext.oauth2.TokenStoreImpl::KEY, JSON.stringify(obj));
+            @io.reinert.requestor.oauth2.TokenStoreImpl::KEY, JSON.stringify(obj));
     }-*/;
 
     public native String get(String key) /*-{
         return JSON.parse($wnd.localStorage.getItem(
-                @io.reinert.requestor.ext.oauth2.TokenStoreImpl::KEY) || '{}')[key] || '';
+                @io.reinert.requestor.oauth2.TokenStoreImpl::KEY) || '{}')[key] || '';
     }-*/;
 
     public native void clear() /*-{
         $wnd.localStorage.removeItem(
-            @io.reinert.requestor.ext.oauth2.TokenStoreImpl::KEY);
+            @io.reinert.requestor.oauth2.TokenStoreImpl::KEY);
     }-*/;
 }

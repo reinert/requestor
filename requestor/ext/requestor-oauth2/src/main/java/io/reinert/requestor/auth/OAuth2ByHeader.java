@@ -16,7 +16,7 @@
 package io.reinert.requestor.auth;
 
 import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.ext.oauth2.TokenInfo;
+import io.reinert.requestor.oauth2.TokenInfo;
 
 /**
  * OAuth2 authentication through the
