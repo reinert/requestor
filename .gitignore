@@ -28,3 +28,6 @@ war/WEB-INF/classes/
 .classpath
 .settings
 .project
+
+# docker #
+Dockerfile
