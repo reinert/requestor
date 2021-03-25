@@ -25,9 +25,11 @@ import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.Serializer;
 
 /**
- * Unit tests for {@link io.reinert.requestor.rebind.JsonAutoBeanGenerator}.
+ * Unit tests for AutoBean generated serialization modules.
+ *
+ * @author Danilo Reinert
  */
-public class JsonAutoBeanGeneratorGwtTest extends GWTTestCase {
+public class AutoBeanGeneratorGwtTest extends GWTTestCase {
 
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";
@@ -48,7 +50,7 @@ public class JsonAutoBeanGeneratorGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorWithAutoBeanTest";
+        return "io.reinert.requestor.autobean.AutoBeanExtTest";
     }
 
     @Override

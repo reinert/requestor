@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2014 Danilo Reinert
+  ~ Copyright 2021 Danilo Reinert
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,11 +15,5 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.RequestorWithAutoBean"/>
-
-  <source path="">
-    <exclude name="rebind/**/*" />
-    <exclude name="uri/UrlCodecMock.java" />
-    <exclude name="**/*JreTest*" />
-  </source>
+  <inherits name="io.reinert.requestor.autobean.AutoBeanExt"/>
 </module>
