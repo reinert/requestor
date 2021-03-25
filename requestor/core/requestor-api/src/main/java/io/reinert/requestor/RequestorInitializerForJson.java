@@ -40,6 +40,6 @@ public class RequestorInitializerForJson implements RequestorInitializer {
 
         requestor.register(OverlaySerializer.getInstance());
 
-        requestor.setDefaultMediaType("application/json");
+        requestor.setMediaType("application/json");
     }
 }

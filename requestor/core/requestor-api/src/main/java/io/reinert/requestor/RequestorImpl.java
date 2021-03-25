@@ -20,7 +20,9 @@ import java.util.Collection;
 import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.form.FormDataSerializer;
+import io.reinert.requestor.header.Header;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.uri.Uri;
@@ -33,19 +35,18 @@ import io.reinert.requestor.uri.UriBuilder;
  */
 public class RequestorImpl extends Requestor {
 
+    private final RequestDefaultsImpl defaults = new RequestDefaultsImpl();
+    private final PersistentStorage storage = new PersistentStorage();
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
     private final InterceptorManagerImpl interceptorManager = new InterceptorManagerImpl();
-    private final PersistentStorage storage = new PersistentStorage();
     private final SerializationEngine serializationEngine;
     private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
     private final RequestDispatcher requestDispatcher;
     private final RequestProcessor requestProcessor;
-
-    private String defaultMediaType;
 
     public RequestorImpl() {
         this(GWT.<FormDataSerializer>create(FormDataSerializer.class));
@@ -311,19 +312,6 @@ public class RequestorImpl extends Requestor {
     //===================================================================
 
     @Override
-    public void setDefaultMediaType(String mediaType) {
-        if (mediaType != null) {
-            validateMediaType(mediaType);
-        }
-        this.defaultMediaType = mediaType;
-    }
-
-    @Override
-    public String getDefaultMediaType() {
-        return defaultMediaType;
-    }
-
-    @Override
     public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) {
         return serializerManager.getDeserializer(type, mediaType);
     }
@@ -340,6 +328,61 @@ public class RequestorImpl extends Requestor {
             throw new RuntimeException("There's no Provider registered for this class.");
         }
         return provider.getInstance();
+    }
+
+    @Override
+    public void reset() {
+        defaults.reset();
+    }
+
+    @Override
+    public void setMediaType(String mediaType) {
+        defaults.setMediaType(mediaType);
+    }
+
+    @Override
+    public String getMediaType() {
+        return defaults.getMediaType();
+    }
+
+    @Override
+    public void setAuth(Auth auth) {
+        defaults.setAuth(auth);
+    }
+
+    @Override
+    public Auth getAuth() {
+        return defaults.getAuth();
+    }
+
+    @Override
+    public void setTimeout(int timeout) {
+        defaults.setTimeout(timeout);
+    }
+
+    @Override
+    public int getTimeout() {
+        return defaults.getTimeout();
+    }
+
+    @Override
+    public void addHeader(Header header) {
+        defaults.addHeader(header);
+    }
+
+    @Override
+    public void addHeader(String headerName, String headerValue) {
+        defaults.addHeader(headerName, headerValue);
+    }
+
+    @Override
+    public Header getHeader(String headerName) {
+        return defaults.getHeader(headerName);
+    }
+
+    @Override
+    public void removeHeader(String headerName) {
+        defaults.removeHeader(headerName);
     }
 
     @Override
@@ -421,37 +464,32 @@ public class RequestorImpl extends Requestor {
                                                                             Class<R> resourceType,
                                                                             Class<I> idType,
                                                                             Class<C> containerType) {
-        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, containerType);
+        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, containerType,
+                RequestDefaultsImpl.copy(defaults));
     }
 
     //===================================================================
     // Internal methods
     //===================================================================
 
-    static void validateMediaType(String mediaType) {
-        int i = mediaType.indexOf('/');
-        if (i == -1 || i != mediaType.lastIndexOf('/')) {
-            throw new IllegalArgumentException("Media-type must follow the pattern {type}/{subtype}");
-        }
-    }
-
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStorage(storage), requestProcessor,
                 requestDispatcher);
-        if (defaultMediaType != null) {
-            request.contentType(defaultMediaType);
-            request.accept(defaultMediaType);
-        }
+
+        defaults.apply(request);
+
         return request;
     }
 
     private WebTarget createWebTarget(Uri uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, uri, new VolatileStorage(storage));
+                requestDispatcherFactory, deferredFactory, uri, new VolatileStorage(storage),
+                RequestDefaultsImpl.copy(defaults));
     }
 
     private WebTarget createWebTarget(UriBuilder uriBuilder) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, uriBuilder, new VolatileStorage(storage));
+                requestDispatcherFactory, deferredFactory, uriBuilder, new VolatileStorage(storage),
+                RequestDefaultsImpl.copy(defaults));
     }
 }

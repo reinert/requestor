@@ -180,7 +180,7 @@ class RequestBuilderImpl implements RequestBuilder, RequestFilterContext {
 
     @Override
     public void removeHeader(String name) {
-        headers.remove(name);
+        headers.pop(name);
     }
 
     @Override

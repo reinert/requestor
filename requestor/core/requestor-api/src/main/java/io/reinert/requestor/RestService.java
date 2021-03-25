@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,27 +17,30 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import io.reinert.requestor.auth.Auth;
+import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
-public class RestService<R, I, C extends Collection> implements RestInvoker<R, I> {
+public class RestService<R, I, C extends Collection> implements RestInvoker<R, I>, RequestDefaults {
 
     protected final Requestor requestor;
     protected final UriBuilder uriBuilder;
     protected final Class<R> resourceType;
     protected final Class<I> idType;
     protected final Class<C> collectionType;
+    protected final RequestDefaultsImpl defaults;
 
     private boolean asMatrixParam = false;
-    private String defaultMediaType;
 
     protected RestService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
-                          Class<C> collectionType) {
+                          Class<C> collectionType, RequestDefaultsImpl defaults) {
         this.requestor = requestor;
         this.resourceType = resourceType;
         this.idType = idType;
         this.collectionType = collectionType;
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
+        this.defaults = defaults;
     }
 
     @Override
@@ -101,23 +104,67 @@ public class RestService<R, I, C extends Collection> implements RestInvoker<R, I
         return request(reqUriBuilder.build());
     }
 
+    @Override
+    public void reset() {
+        defaults.reset();
+    }
+
+    @Override
+    public void setMediaType(String mediaType) {
+        defaults.setMediaType(mediaType);
+    }
+
+    @Override
+    public String getMediaType() {
+        return defaults.getMediaType();
+    }
+
+    @Override
+    public void setAuth(Auth auth) {
+        defaults.setAuth(auth);
+    }
+
+    @Override
+    public Auth getAuth() {
+        return defaults.getAuth();
+    }
+
+    @Override
+    public void setTimeout(int timeout) {
+        defaults.setTimeout(timeout);
+    }
+
+    @Override
+    public int getTimeout() {
+        return defaults.getTimeout();
+    }
+
+    @Override
+    public void addHeader(Header header) {
+        defaults.addHeader(header);
+    }
+
+    @Override
+    public void addHeader(String headerName, String headerValue) {
+        defaults.addHeader(headerName, headerValue);
+    }
+
+    @Override
+    public Header getHeader(String headerName) {
+        return defaults.getHeader(headerName);
+    }
+
+    @Override
+    public void removeHeader(String headerName) {
+        defaults.removeHeader(headerName);
+    }
+
     public void setAsMatrixParam(boolean asMatrixParam) {
         this.asMatrixParam = asMatrixParam;
     }
 
     public boolean isAsMatrixParam() {
         return this.asMatrixParam;
-    }
-
-    public void setDefaultMediaType(String mediaType) {
-        if (mediaType != null) {
-            RequestorImpl.validateMediaType(mediaType);
-        }
-        this.defaultMediaType = mediaType;
-    }
-
-    public String getDefaultMediaType() {
-        return defaultMediaType;
     }
 
     protected void appendParamsToUri(UriBuilder reqUriBuilder, String[] params) {
@@ -141,10 +188,7 @@ public class RestService<R, I, C extends Collection> implements RestInvoker<R, I
 
     private RequestInvoker request(Uri uri) {
         final RequestInvoker request = requestor.req(uri);
-        if (defaultMediaType != null) {
-            request.contentType(defaultMediaType);
-            request.accept(defaultMediaType);
-        }
+        defaults.apply(request);
         return request;
     }
 }

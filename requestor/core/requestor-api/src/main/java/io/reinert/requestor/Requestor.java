@@ -47,8 +47,8 @@ import io.reinert.requestor.uri.UriBuilder;
  *
  * @author Danilo Reinert
  */
-public abstract class Requestor
-        implements SerializerManager, FilterManager, InterceptorManager, ProviderManager, DirectInvoker {
+public abstract class Requestor implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
+        DirectInvoker, RequestDefaults {
 
     public static Requestor newInstance() {
         return GWT.create(Requestor.class);
@@ -58,21 +58,11 @@ public abstract class Requestor
     // Requestor configuration
     //===================================================================
 
-    /**
-     * Sets a default media-type to be applied in all requests as content-type and accept headers.
-     *
-     * @throws IllegalArgumentException If media-type string is malformed
-     *
-     * @param mediaType The media-type to be set by default in all requests
-     */
-    public abstract void setDefaultMediaType(String mediaType);
+    public abstract Storage getStorage();
 
-    /**
-     * Get the default media-type that is being applied in all requests as content-type and accept headers.
-     *
-     * @return  The default HTTP media-type
-     */
-    public abstract String getDefaultMediaType();
+    public abstract void clearStorage();
+
+    public abstract <T> T getInstance(Class<T> type);
 
     public abstract <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType);
 
@@ -80,11 +70,31 @@ public abstract class Requestor
 
     public abstract <T> Provider<T> getProvider(Class<T> type);
 
-    public abstract <T> T getInstance(Class<T> type);
+    /**
+     * Register a {@link SerializationModule}.
+     *
+     * @param serializationModule  The module containing one or many generated serializer
+     *
+     * @return The {@link HandlerRegistration} object, capable of cancelling this registration
+     */
+    public abstract HandlerRegistration register(SerializationModule serializationModule);
 
-    public abstract Storage getStorage();
-
-    public abstract void clearStorage();
+    /**
+     * A client service useful to communicate with REST like resources.
+     *
+     * @param resourceUri   Base URI of the resource
+     * @param resourceType  Class of the resource
+     * @param idType        Class of the resource's ID
+     * @param containerType Class in which you want to accumulate collection results
+     * @param <R>           Resource type
+     * @param <I>           Resource's ID type
+     * @param <C>           Container type
+     * @return              A ResourceService of the Resource Type
+     */
+    public abstract <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
+                                                                                     Class<R> resourceType,
+                                                                                     Class<I> idType,
+                                                                                     Class<C> containerType);
 
     //===================================================================
     // Request factory methods
@@ -182,33 +192,4 @@ public abstract class Requestor
                                                                               Class<T> expectedType,
                                                                               Class<C> containerType);
 
-    //===================================================================
-    // Configuration
-    //===================================================================
-
-    /**
-     * Register a {@link SerializationModule}.
-     *
-     * @param serializationModule  The module containing one or many generated serializer
-     *
-     * @return The {@link HandlerRegistration} object, capable of cancelling this registration
-     */
-    public abstract HandlerRegistration register(SerializationModule serializationModule);
-
-    /**
-     * A client service useful to communicate with REST like resources.
-     *
-     * @param resourceUri   Base URI of the resource
-     * @param resourceType  Class of the resource
-     * @param idType        Class of the resource's ID
-     * @param containerType Class in which you want to accumulate collection results
-     * @param <R>           Resource type
-     * @param <I>           Resource's ID type
-     * @param <C>           Container type
-     * @return              A ResourceService of the Resource Type
-     */
-    public abstract <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
-                                                                                     Class<R> resourceType,
-                                                                                     Class<I> idType,
-                                                                                     Class<C> containerType);
 }

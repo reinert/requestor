@@ -54,7 +54,7 @@ public class CallbackGwtTest extends GWTTestCase {
         requestor.register(BookJsonSerializer.getInstance());
 
         // The mockapi service requires us to explicitly inform the content type header
-        requestor.setDefaultMediaType("application/json");
+        requestor.setMediaType("application/json");
     }
 
     public void testDoneCallback() {

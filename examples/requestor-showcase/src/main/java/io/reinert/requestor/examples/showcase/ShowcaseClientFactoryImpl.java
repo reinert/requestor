@@ -147,6 +147,6 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
 
     private void initRequestor() {
         requestor = Requestor.newInstance();
-        requestor.setDefaultMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
+        requestor.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
     }
 }
