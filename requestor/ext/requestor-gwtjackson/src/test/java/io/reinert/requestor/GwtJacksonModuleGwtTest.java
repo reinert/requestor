@@ -43,7 +43,7 @@ public class GwtJacksonModuleGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.GwtJacksonTest";
+        return "io.reinert.requestor.GwtJacksonExtTest";
     }
 
     @Override
