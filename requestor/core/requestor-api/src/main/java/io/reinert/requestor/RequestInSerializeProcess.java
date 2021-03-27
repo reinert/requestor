@@ -15,36 +15,20 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.uri.Uri;
+public class RequestInSerializeProcess extends AbstractProcessableRequest {
 
-/**
- * Represents a HTTP Request.
- *
- * @author Danilo Reinert
- */
-public interface Request {
+    private final SerializationEngine serializationEngine;
+    private final RequestSerializer requestSerializer;
 
-    String getAccept();
+    public RequestInSerializeProcess(ProcessableRequest request, SerializationEngine serializationEngine,
+                                     RequestSerializer requestSerializer) {
+        super(request);
+        this.serializationEngine = serializationEngine;
+        this.requestSerializer = requestSerializer;
+    }
 
-    String getContentType();
-
-    Headers getHeaders();
-
-    String getHeader(String name);
-
-    HttpMethod getMethod();
-
-    Object getPayload();
-
-    Payload getSerializedPayload();
-
-    int getTimeout();
-
-    Uri getUri();
-
-    Auth getAuth();
-
-    Storage getStorage();
-
+    @Override
+    public void process() {
+        requestSerializer.serialize(this, serializationEngine);
+    }
 }

@@ -15,36 +15,17 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.uri.Uri;
+public class RequestInInterceptProcess extends AbstractProcessableRequest {
 
-/**
- * Represents a HTTP Request.
- *
- * @author Danilo Reinert
- */
-public interface Request {
+    private final RequestInterceptor interceptor;
 
-    String getAccept();
+    public RequestInInterceptProcess(ProcessableRequest request, RequestInterceptor interceptor) {
+        super(request);
+        this.interceptor = interceptor;
+    }
 
-    String getContentType();
-
-    Headers getHeaders();
-
-    String getHeader(String name);
-
-    HttpMethod getMethod();
-
-    Object getPayload();
-
-    Payload getSerializedPayload();
-
-    int getTimeout();
-
-    Uri getUri();
-
-    Auth getAuth();
-
-    Storage getStorage();
-
+    @Override
+    public void process() {
+        interceptor.intercept(this);
+    }
 }

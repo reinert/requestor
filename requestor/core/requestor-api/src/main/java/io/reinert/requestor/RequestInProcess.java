@@ -15,39 +15,10 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.header.Header;
-import io.reinert.requestor.uri.Uri;
-
 /**
  *  Allows on to modify some properties of an ongoing request.
  *
  *  @author Danilo Reinert
  */
-public interface RequestFilterContext {
-
-    String getHeader(String name);
-
-    void setHeader(String name, String value);
-
-    void addHeader(Header header);
-
-    void removeHeader(String name);
-
-    HttpMethod getMethod();
-
-    void setMethod(HttpMethod httpMethod);
-
-    void setAuth(Auth auth);
-
-    int getTimeout();
-
-    void setTimeout(int timeoutMillis);
-
-    Uri getUri();
-
-    Object getPayload();
-
-    VolatileStorage getStorage();
-
+public interface RequestInProcess extends MutableRequest, InProcess {
 }

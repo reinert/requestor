@@ -28,11 +28,11 @@ public class Payload {
     private String string;
     private JavaScriptObject javaScriptObject;
 
-    private Payload(String string) {
+    protected Payload(String string) {
         this.string = string;
     }
 
-    private Payload(JavaScriptObject javaScriptObject) {
+    protected Payload(JavaScriptObject javaScriptObject) {
         this.javaScriptObject = javaScriptObject;
     }
 
@@ -79,8 +79,9 @@ public class Payload {
      *
      * @return The payload as JavaScriptObject
      */
-    public JavaScriptObject isJavaScriptObject() {
-        return javaScriptObject;
+    @SuppressWarnings("unchecked")
+    public <J extends JavaScriptObject> J isJavaScriptObject() {
+        return (J) javaScriptObject;
     }
 
     @Override

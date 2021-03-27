@@ -18,6 +18,7 @@ package io.reinert.requestor;
 import java.util.Arrays;
 import java.util.List;
 
+import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.SerializationContext;
@@ -46,6 +47,7 @@ public class SerializationEngineJreTest {
 
     @Mock private SerializerManagerImpl serializerManager;
     @Mock private ProviderManagerImpl providerManager;
+    @Mock private FormDataSerializer formDataSerializer;
 
     private SerializationEngine engine;
 
@@ -57,7 +59,7 @@ public class SerializationEngineJreTest {
 //                return new ArrayList();
 //            }
 //        });
-        engine = new SerializationEngine(serializerManager, providerManager);
+        engine = new SerializationEngine(serializerManager, providerManager, formDataSerializer);
     }
 
     @Test
@@ -119,7 +121,7 @@ public class SerializationEngineJreTest {
     @Test
     public void serializeRequest_RequestWithoutPayload_ShouldNeverAskSerializationEngine() {
         // Given
-        Request request = mock(Request.class);
+        SerializableRequest request = mock(SerializableRequest.class);
         when(request.getPayload()).thenReturn(null);
 
         // When
@@ -136,7 +138,7 @@ public class SerializationEngineJreTest {
         final Object singleInstance = new Object();
         final String mediaType = "any/type";
 
-        Request request = mock(Request.class);
+        SerializableRequest request = mock(SerializableRequest.class);
         when(request.getPayload()).thenReturn(singleInstance);
         when(request.getContentType()).thenReturn(mediaType);
 
@@ -159,7 +161,7 @@ public class SerializationEngineJreTest {
         final List<Object> collectionInstance = Arrays.asList(new Object(), new Object());
         final String mediaType = "any/type";
 
-        Request request = mock(Request.class);
+        SerializableRequest request = mock(SerializableRequest.class);
         when(request.getPayload()).thenReturn(collectionInstance);
         when(request.getContentType()).thenReturn(mediaType);
 

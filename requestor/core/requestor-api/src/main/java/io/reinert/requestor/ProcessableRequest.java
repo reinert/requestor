@@ -15,36 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.uri.Uri;
-
-/**
- * Represents a HTTP Request.
- *
- * @author Danilo Reinert
- */
-public interface Request {
-
-    String getAccept();
-
-    String getContentType();
-
-    Headers getHeaders();
-
-    String getHeader(String name);
-
-    HttpMethod getMethod();
-
-    Object getPayload();
-
-    Payload getSerializedPayload();
-
-    int getTimeout();
-
-    Uri getUri();
-
-    Auth getAuth();
-
-    Storage getStorage();
-
+public interface ProcessableRequest extends SerializedRequestInProcess, SerializableRequestInProcess {
+    void process();
 }

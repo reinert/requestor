@@ -23,7 +23,7 @@ import io.reinert.gdeferred.AlwaysCallback;
 import io.reinert.gdeferred.Promise;
 import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestFilter;
-import io.reinert.requestor.RequestFilterContext;
+import io.reinert.requestor.RequestInProcess;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseFilter;
@@ -63,8 +63,9 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
         // Add the filter and hold the registration
         final HandlerRegistration requestFilterRegistration = requestor.register(new RequestFilter() {
             @Override
-            public void filter(RequestFilterContext request) {
+            public void filter(RequestInProcess request) {
                 request.setHeader("A-Request-Filter-Header", "It Works!");
+                request.proceed();
             }
         });
 

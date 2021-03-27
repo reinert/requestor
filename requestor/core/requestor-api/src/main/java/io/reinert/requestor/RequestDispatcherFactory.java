@@ -23,5 +23,7 @@ package io.reinert.requestor;
  * @author Danilo Reinert
  */
 public interface RequestDispatcherFactory {
-    RequestDispatcher getRequestDispatcher(ResponseProcessor responseProcessor, DeferredFactory deferredFactory);
+    RequestDispatcher getRequestDispatcher(RequestProcessor requestProcessor,
+                                           ResponseProcessor responseProcessor,
+                                           DeferredFactory deferredFactory);
 }

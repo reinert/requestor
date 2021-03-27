@@ -159,6 +159,7 @@ public interface Response<T> {
         NO_CONTENT(204, "No Content"),
         RESET_CONTENT(205, "Reset Content"),
         PARTIAL_CONTENT(206, "Partial Content"),
+        REDIRECTION(300, "Redirection"),
         MOVED_PERMANENTLY(301, "Moved Permanently"),
         FOUND(302, "Found"),
         SEE_OTHER(303, "See Other"),
@@ -202,7 +203,8 @@ public interface Response<T> {
                     return s;
                 }
             }
-            return null;
+            throw new IllegalArgumentException("Invalid HTTP Status Code: " + statusCode +
+                    ". You should pass a valid code to build a Response.Status");
         }
 
         /**

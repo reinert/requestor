@@ -86,7 +86,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
                     public void onDone(BlobType result) {
                         view.setRetrieveProgressStatus(100);
 
-                        final JavaScriptObject blob = result.as();
+                        final JavaScriptObject blob = result.isJavaScriptObject();
                         if (blob == null) {
                             Window.alert("No content received.");
                             view.setRetrieveProgressStatus(0);

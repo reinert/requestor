@@ -15,24 +15,18 @@
  */
 package io.reinert.requestor.auth;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.i18n.client.NumberFormat;
 
-import io.reinert.requestor.Headers;
 import io.reinert.requestor.HttpMethod;
+import io.reinert.requestor.MutableSerializedRequest;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RawResponse;
+import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
-import io.reinert.requestor.ResponseType;
-import io.reinert.requestor.SerializedRequest;
-import io.reinert.requestor.SerializedRequestImpl;
-import io.reinert.requestor.UnsuccessfulResponseException;
-import io.reinert.requestor.VolatileStorage;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.uri.Uri;
@@ -43,7 +37,7 @@ import io.reinert.requestor.uri.Uri;
  *
  * @author Danilo Reinert
  */
-public class DigestAuth extends AbstractAuth {
+public class DigestAuth implements Auth {
 
     /**
      * An array containing the codes which are considered expected for the first attempt to retrieve the nonce.
@@ -61,7 +55,7 @@ public class DigestAuth extends AbstractAuth {
      */
     public static int DEFAULT_MAX_CHALLENGE_CALLS = 2;
 
-    private static NumberFormat NC_FORMAT = NumberFormat.getFormat("#00000000");
+    public static NumberFormat NC_FORMAT = NumberFormat.getFormat("#00000000");
 
     private final String user;
     private final String password;
@@ -86,9 +80,9 @@ public class DigestAuth extends AbstractAuth {
     }
 
     @Override
-    public void auth(final PreparedRequest request) {
+    public void auth(PreparedRequest request, RequestDispatcher dispatcher) {
         request.setWithCredentials(withCredentials);
-        attempt(request, null);
+        attempt(request, null, dispatcher);
     }
 
     /**
@@ -101,75 +95,78 @@ public class DigestAuth extends AbstractAuth {
         this.maxChallengeCalls = maxChallengeCalls;
     }
 
-    private void attempt(final PreparedRequest originalRequest, Response<?> attemptResponse) {
+    private void attempt(PreparedRequest originalRequest, Response<?> attemptResponse, RequestDispatcher dispatcher) {
         if (challengeCalls < maxChallengeCalls) {
-            final SerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
+            final MutableSerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
 
-            sendAttemptRequest(originalRequest, attemptRequest);
+            sendAttemptRequest(originalRequest, attemptRequest, dispatcher);
         } else {
             final Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
-                    originalRequest.getPayload(), attemptResponse);
+                    originalRequest.getSerializedPayload(), attemptResponse);
 
             if (authHeader != null) {
                 originalRequest.addHeader(authHeader);
             }
 
+            resetChallengeCalls();
             originalRequest.send();
         }
+
         challengeCalls++;
     }
 
-    private SerializedRequest copyRequest(PreparedRequest originalRequest, Response<?> attemptResponse) {
-        HttpMethod method = originalRequest.getMethod();
-        Uri uri = originalRequest.getUri();
-        VolatileStorage storage = (VolatileStorage) originalRequest.getStorage();
-        Payload payload = originalRequest.getPayload();
-        int timeout = originalRequest.getTimeout();
-        ResponseType responseType = originalRequest.getResponseType();
-        Headers headers = getAttemptHeaders(method, uri, payload, originalRequest.getHeaders(), attemptResponse);
-
-        return new SerializedRequestImpl(method, uri, storage, headers, payload, timeout, responseType);
+    // TODO: Make a Factory of Auth to limit the scope of the auth to each request to avoid issues with state managing
+    private void resetChallengeCalls() {
+        challengeCalls = 1;
     }
 
-    private void sendAttemptRequest(final PreparedRequest originalRequest, SerializedRequest attemptRequest) {
-        getDispatcher().dispatch(attemptRequest, RawResponse.class, new Callback<RawResponse, Throwable>() {
+    private MutableSerializedRequest copyRequest(PreparedRequest originalRequest, Response<?> attemptResponse) {
+        MutableSerializedRequest request = originalRequest.getMutableCopy();
+
+        final Header authHeader = getAuthorizationHeader(request.getUri(), request.getMethod(),
+                request.getSerializedPayload(), attemptResponse);
+
+        if (authHeader != null) {
+            request.addHeader(authHeader);
+        }
+
+        return request;
+    }
+
+    private void sendAttemptRequest(final PreparedRequest originalRequest, MutableSerializedRequest attemptRequest,
+                                    final RequestDispatcher dispatcher) {
+        dispatcher.dispatch(attemptRequest, RawResponse.class, new Callback<RawResponse, Throwable>() {
             @Override
             public void onFailure(Throwable error) {
-                try {
-                    if (error instanceof UnsuccessfulResponseException) {
-                        UnsuccessfulResponseException e = (UnsuccessfulResponseException) error;
-                        if (contains(EXPECTED_CODES, e.getStatusCode())) {
-                            // If the error response code is expected, then continue trying to authenticate
-                            attempt(originalRequest, e.getResponse());
-                            return;
-                        }
-                    }
-                    // Otherwise, throw an AuthenticationException and reject the promise with it
-                    throw new AuthException("The server returned a not expected status code.", error);
-                } catch (Exception e) {
-                    originalRequest.abort(new RequestException("Unable to authenticate request using DigestAuth. "
-                            + "See previous log.", e));
-                }
+                resetChallengeCalls();
+                originalRequest.abort(new RequestException("Unable to authenticate request using DigestAuth. "
+                        + "See previous log.", error));
             }
 
             @Override
             public void onSuccess(RawResponse response) {
-                // If the attempt succeeded, then abort the original request with the successful response
-                originalRequest.abort(response);
+                if (contains(EXPECTED_CODES, response.getStatusCode())) {
+                    // If the error response code is expected, then continue trying to authenticate
+                    attempt(originalRequest, response, dispatcher);
+                    return;
+                }
+
+                resetChallengeCalls();
+
+                if (isSuccessful(response)) {
+                    // If the attempt succeeded, then abort the original request with the successful response
+                    originalRequest.abort(response);
+                    return;
+                }
+
+                // Otherwise, throw an AuthenticationException and reject the promise with it
+                throw new AuthException("The server returned a not expected status code: " + response.getStatusCode());
             }
         });
     }
 
-    private Headers getAttemptHeaders(HttpMethod method, Uri url, Payload payload, Headers originalHeaders,
-                                      Response<?> attemptResponse) {
-        final ArrayList<Header> headerList = new ArrayList<Header>(originalHeaders.values());
-        final Header authHeader = getAuthorizationHeader(url, method, payload, attemptResponse);
-
-        if (authHeader != null) {
-            headerList.add(authHeader);
-        }
-
-        return new Headers(headerList);
+    private boolean isSuccessful(RawResponse response) {
+        return response.getStatusCode() / 100 == 2;
     }
 
     private Header getAuthorizationHeader(Uri uri, HttpMethod method, Payload payload, Response<?> attemptResp) {
@@ -179,6 +176,7 @@ public class DigestAuth extends AbstractAuth {
 
         final String authHeader = attemptResp.getHeader("WWW-Authenticate");
         if (authHeader == null) {
+            resetChallengeCalls();
             throw new AuthException("It was not possible to retrieve the 'WWW-Authenticate' header from "
                     + "server response. If you're using CORS, make sure your server allows the client to access this "
                     + "header by adding \"Access-Control-Expose-Headers: WWW-Authenticate\" to the response headers.");
@@ -233,10 +231,9 @@ public class DigestAuth extends AbstractAuth {
 
     private String generateResponseAuthIntQop(String method, String url, String ha1, String nonce, String nc,
                                               String cNonce, Payload payload) {
-        String body = payload == null || payload.isEmpty() ? "" : payload.isString();
+        String body = payload.toString();
         if (body == null) {
-            // TODO: Try to convert the JavaScriptObject to String before throwing the exception
-            throw new AuthException("Cannot convert a JavaScriptObject payload to a String");
+            throw new AuthException("Request body should not be empty.");
         }
         final String hBody = MD5.hash(body);
         final String ha2 = MD5.hash(method + ':' + url + ':' + hBody);

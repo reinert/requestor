@@ -15,27 +15,10 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.uri.Uri;
-
-/**
- *  Allows on to modify the serialized payload of an ongoing request.
- *
- *  @author Danilo Reinert
- */
-public interface RequestInterceptorContext {
-
-    String getHeader(String name);
-
-    HttpMethod getMethod();
-
-    int getTimeout();
-
-    Uri getUri();
-
-    Payload getPayload();
-
-    void setPayload(Payload payload);
-
-    Storage getStorage();
-
+public class RequestSerializerImpl implements RequestSerializer {
+    @Override
+    public void serialize(SerializableRequestInProcess request, SerializationEngine serializationEngine) {
+        serializationEngine.serializeRequest(request);
+        request.proceed();
+    }
 }

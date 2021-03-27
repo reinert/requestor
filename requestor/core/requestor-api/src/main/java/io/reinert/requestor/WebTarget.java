@@ -21,7 +21,6 @@ import java.util.Map;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
@@ -40,7 +39,6 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     private final RequestDefaultsImpl defaults;
     private final SerializationEngine serializationEngine;
-    private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
     private final FilterManagerImpl filterManager;
@@ -52,27 +50,25 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     private Uri uri;
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
-              SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
-              RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, Uri uri,
-              VolatileStorage storage, RequestDefaultsImpl defaults) {
-        this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
+              SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
+              DeferredFactory deferredFactory, Uri uri, VolatileStorage storage, RequestDefaultsImpl defaults) {
+        this(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
                 deferredFactory, UriBuilder.fromUri(uri), uri, storage, defaults);
     }
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
-              SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
-              RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory, UriBuilder builder,
-              VolatileStorage storage, RequestDefaultsImpl defaults) {
-        this(filterManager, interceptorManager, serializationEngine, formDataSerializer, requestDispatcherFactory,
+              SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
+              DeferredFactory deferredFactory, UriBuilder builder, VolatileStorage storage,
+              RequestDefaultsImpl defaults) {
+        this(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
                 deferredFactory, builder, null, storage, defaults);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
-                      SerializationEngine serializationEngine, FormDataSerializer formDataSerializer,
-                      RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory,
-                      UriBuilder uriBuilder, Uri uri, VolatileStorage storage, RequestDefaultsImpl defaults) {
+                      SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
+                      DeferredFactory deferredFactory, UriBuilder uriBuilder, Uri uri, VolatileStorage storage,
+                      RequestDefaultsImpl defaults) {
         this.serializationEngine = serializationEngine;
-        this.formDataSerializer = formDataSerializer;
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
         this.filterManager = new FilterManagerImpl(filterManager);
@@ -83,10 +79,20 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
         final FilterEngine filterEngine = new FilterEngine(this.filterManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(this.interceptorManager);
 
-        this.requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine,
-                formDataSerializer);
+        this.requestProcessor = new RequestProcessor(
+                serializationEngine,
+                defaults.getRequestSerializer(),
+                this.filterManager,
+                this.interceptorManager);
+
         this.requestDispatcher = requestDispatcherFactory.getRequestDispatcher(
-                new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine), deferredFactory);
+                new RequestProcessor(
+                        serializationEngine,
+                        defaults.getRequestSerializer(),
+                        this.filterManager,
+                        this.interceptorManager),
+                new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine),
+                deferredFactory);
 
         this.uriBuilder = uriBuilder;
         this.uri = uri;
@@ -165,6 +171,15 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     @Override
     public void removeHeader(String headerName) {
         defaults.removeHeader(headerName);
+    }
+
+    public void setRequestSerializer(RequestSerializer requestSerializer) {
+        defaults.setRequestSerializer(requestSerializer);
+        requestProcessor.setRequestSerializer(requestSerializer);
+    }
+
+    public RequestSerializer getRequestSerializer() {
+        return defaults.getRequestSerializer();
     }
 
     /**
@@ -401,9 +416,8 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     private WebTarget newWebTarget(UriBuilder copy) {
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, copy, VolatileStorage.copy(storage),
-                RequestDefaultsImpl.copy(defaults));
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
+                deferredFactory, copy, VolatileStorage.copy(storage), RequestDefaultsImpl.copy(defaults));
     }
 
     private UriBuilder cloneUriBuilder() {
@@ -412,7 +426,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvokerImpl request =
-                new RequestInvokerImpl(uri, new VolatileStorage(storage), requestProcessor, requestDispatcher);
+                new RequestInvokerImpl(uri, new VolatileStorage(storage), requestDispatcher);
         defaults.apply(request);
         return request;
     }

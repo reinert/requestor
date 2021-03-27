@@ -18,6 +18,7 @@ package io.reinert.requestor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
@@ -96,6 +97,14 @@ class InterceptorManagerImpl implements InterceptorManager {
      */
     public List<ResponseInterceptor> getResponseInterceptors() {
         return responseInterceptorsCopy;
+    }
+
+    public ListIterator<RequestInterceptor> reverseRequestInterceptorsIterator() {
+        return requestInterceptorsCopy.listIterator(requestInterceptorsCopy.size());
+    }
+
+    public ListIterator<ResponseInterceptor> reverseResponseInterceptorsIterator() {
+        return responseInterceptorsCopy.listIterator(responseInterceptorsCopy.size());
     }
 
     private void removeRequestInterceptor(RequestInterceptor requestInterceptor) {

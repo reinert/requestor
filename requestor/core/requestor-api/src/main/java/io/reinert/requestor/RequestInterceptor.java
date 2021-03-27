@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,5 +27,5 @@ public interface RequestInterceptor {
      *
      * @param context   The context of the request to be sent.
      */
-    void intercept(RequestInterceptorContext context);
+    void intercept(SerializedRequestInProcess context);
 }

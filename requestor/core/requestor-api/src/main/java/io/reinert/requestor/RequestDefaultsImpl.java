@@ -24,6 +24,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
     private Auth auth;
     private int timeout;
     private Headers headers = new Headers();
+    private RequestSerializer requestSerializer = new RequestSerializerImpl();
 
     static RequestDefaultsImpl copy(RequestDefaultsImpl defaults) {
         RequestDefaultsImpl newDefaults = new RequestDefaultsImpl();
@@ -33,6 +34,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
         for (Header h : defaults.headers) {
             newDefaults.addHeader(h);
         }
+        newDefaults.setRequestSerializer(defaults.getRequestSerializer());
         return newDefaults;
     }
 
@@ -116,6 +118,14 @@ public class RequestDefaultsImpl implements RequestDefaults {
     @Override
     public void removeHeader(String headerName) {
         headers.pop(headerName);
+    }
+
+    public void setRequestSerializer(RequestSerializer requestSerializer) {
+        this.requestSerializer = requestSerializer;
+    }
+
+    public RequestSerializer getRequestSerializer() {
+        return requestSerializer;
     }
 
     public void apply(RequestBuilder request) {

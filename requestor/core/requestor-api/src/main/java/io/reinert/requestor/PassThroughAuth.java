@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.AbstractAuth;
+import io.reinert.requestor.auth.Auth;
 
-class PassThroughAuth extends AbstractAuth {
+class PassThroughAuth implements Auth {
 
     private static PassThroughAuth INSTANCE = new PassThroughAuth();
 
@@ -29,7 +29,7 @@ class PassThroughAuth extends AbstractAuth {
     }
 
     @Override
-    public void auth(PreparedRequest preparedRequest) {
+    public void auth(PreparedRequest preparedRequest, RequestDispatcher dispatcher) {
         preparedRequest.send();
     }
 }

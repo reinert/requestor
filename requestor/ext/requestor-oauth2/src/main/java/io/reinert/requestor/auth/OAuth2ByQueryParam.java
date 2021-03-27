@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,8 @@ public class OAuth2ByQueryParam extends OAuth2Base {
     }
 
     @Override
-    protected void doAuth(PreparedRequest preparedRequest, TokenInfo tokenInfo) {
-        preparedRequest.setQueryParam("access_token", tokenInfo.getAccessToken());
+    protected void doAuth(PreparedRequest request, TokenInfo tokenInfo) {
+        request.setQueryParam("access_token", tokenInfo.getAccessToken());
+        request.send();
     }
 }

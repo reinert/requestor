@@ -41,12 +41,12 @@ public class RequestorImpl extends Requestor {
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
     private final InterceptorManagerImpl interceptorManager = new InterceptorManagerImpl();
+    private final RequestProcessor requestProcessor;
     private final SerializationEngine serializationEngine;
     private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
     private final RequestDispatcher requestDispatcher;
-    private final RequestProcessor requestProcessor;
 
     public RequestorImpl() {
         this(GWT.<FormDataSerializer>create(FormDataSerializer.class));
@@ -65,16 +65,17 @@ public class RequestorImpl extends Requestor {
         this.deferredFactory = deferredFactory;
 
         // init processor
-        serializationEngine = new SerializationEngine(serializerManager, providerManager);
+        serializationEngine = new SerializationEngine(serializerManager, providerManager, formDataSerializer);
         final FilterEngine filterEngine = new FilterEngine(filterManager);
         final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
-        requestProcessor = new RequestProcessor(serializationEngine, filterEngine, interceptorEngine,
-                formDataSerializer);
+        requestProcessor = new RequestProcessor(serializationEngine, defaults.getRequestSerializer(), filterManager,
+                interceptorManager);
 
         // init dispatcher
         final ResponseProcessor responseProcessor = new ResponseProcessor(serializationEngine, filterEngine,
                 interceptorEngine);
-        requestDispatcher = requestDispatcherFactory.getRequestDispatcher(responseProcessor, deferredFactory);
+        requestDispatcher = requestDispatcherFactory.getRequestDispatcher(requestProcessor, responseProcessor,
+                deferredFactory);
 
         // register generated serializer to the requestor
         GeneratedModulesBinder.bind(serializerManager, providerManager);
@@ -143,16 +144,16 @@ public class RequestorImpl extends Requestor {
         return createWebTarget(link.getUri());
     }
 
-    @Override
-    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> returnType) {
-        return requestDispatcher.dispatch(request, returnType);
-    }
-
-    @Override
-    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> returnType,
-                                                                     Class<C> containerType) {
-        return requestDispatcher.dispatch(request, returnType, containerType);
-    }
+//    @Override
+//    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> returnType) {
+//        return requestDispatcher.dispatch(request, returnType);
+//    }
+//
+//    @Override
+//    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> returnType,
+//                                                                     Class<C> containerType) {
+//        return requestDispatcher.dispatch(request, returnType, containerType);
+//    }
 
     //===================================================================
     // Direct invoke methods
@@ -385,6 +386,15 @@ public class RequestorImpl extends Requestor {
         defaults.removeHeader(headerName);
     }
 
+    public void setRequestSerializer(RequestSerializer requestSerializer) {
+        defaults.setRequestSerializer(requestSerializer);
+        requestProcessor.setRequestSerializer(requestSerializer);
+    }
+
+    public RequestSerializer getRequestSerializer() {
+        return defaults.getRequestSerializer();
+    }
+
     @Override
     public Storage getStorage() {
         return storage;
@@ -473,8 +483,7 @@ public class RequestorImpl extends Requestor {
     //===================================================================
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStorage(storage), requestProcessor,
-                requestDispatcher);
+        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStorage(storage), requestDispatcher);
 
         defaults.apply(request);
 
@@ -482,14 +491,12 @@ public class RequestorImpl extends Requestor {
     }
 
     private WebTarget createWebTarget(Uri uri) {
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, uri, new VolatileStorage(storage),
-                RequestDefaultsImpl.copy(defaults));
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
+                deferredFactory, uri, new VolatileStorage(storage), RequestDefaultsImpl.copy(defaults));
     }
 
     private WebTarget createWebTarget(UriBuilder uriBuilder) {
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, formDataSerializer,
-                requestDispatcherFactory, deferredFactory, uriBuilder, new VolatileStorage(storage),
-                RequestDefaultsImpl.copy(defaults));
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
+                deferredFactory, uriBuilder, new VolatileStorage(storage), RequestDefaultsImpl.copy(defaults));
     }
 }
