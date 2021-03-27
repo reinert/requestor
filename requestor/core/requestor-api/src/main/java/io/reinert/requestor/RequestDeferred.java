@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.auth;
-
-import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.RequestDispatcher;
+package io.reinert.requestor;
 
 /**
- * Abstraction for HTTP Authentication/Authorization methods.
+ * A deferred object capable of resolving/rejecting request promises.
+ *
+ * @param <R> The type of the request
  *
  * @author Danilo Reinert
  */
-public abstract class AbstractAuth implements Auth {
+public interface RequestDeferred<R extends Request> {
 
-    private RequestDispatcher dispatcher;
+    void resolve(R request);
 
-    public abstract void auth(PreparedRequest preparedRequest);
+    void reject(RawResponse response);
 
-    public final RequestDispatcher getDispatcher() {
-        return dispatcher;
-    }
+    void reject(RequestException error);
 
-    public final void setDispatcher(RequestDispatcher dispatcher) {
-        this.dispatcher = dispatcher;
-    }
 }

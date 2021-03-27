@@ -25,10 +25,10 @@ import io.reinert.gdeferred.Promise;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestInterceptor;
-import io.reinert.requestor.RequestInterceptorContext;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.ResponseInterceptor;
 import io.reinert.requestor.ResponseInterceptorContext;
+import io.reinert.requestor.SerializedRequestInProcess;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.impl.gdeferred.DoneCallback;
@@ -63,11 +63,13 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         // Add the interceptor and hold the registration
         final HandlerRegistration registration = requestor.register(new RequestInterceptor() {
             @Override
-            public void intercept(RequestInterceptorContext context) {
-                final String json = context.getPayload().isString();
+            public void intercept(SerializedRequestInProcess request) {
+                final String json = request.getSerializedPayload().isString();
                 if (json != null) {
-                    context.setPayload(Payload.fromText(")]}',\\n" + json));  // add )]}',\n to the beginning of JSONs
+                    // add ")]}',\n" to the beginning of JSONs
+                    request.setSerializedPayload(Payload.fromText(")]}',\\n" + json));
                 }
+                request.proceed();
             }
         });
 

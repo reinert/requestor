@@ -18,6 +18,7 @@ package io.reinert.requestor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
@@ -96,6 +97,14 @@ class FilterManagerImpl implements FilterManager {
      */
     public List<ResponseFilter> getResponseFilters() {
         return responseFiltersCopy;
+    }
+
+    public ListIterator<RequestFilter> reverseRequestFiltersIterator() {
+        return requestFiltersCopy.listIterator(requestFiltersCopy.size());
+    }
+
+    public ListIterator<ResponseFilter> reverseResponseFiltersIterator() {
+        return responseFiltersCopy.listIterator(responseFiltersCopy.size());
     }
 
     private void removeRequestFilter(RequestFilter requestFilter) {

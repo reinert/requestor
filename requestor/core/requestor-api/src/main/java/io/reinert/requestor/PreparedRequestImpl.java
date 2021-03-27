@@ -17,21 +17,19 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.uri.Uri;
 
 /**
- * Abstract implementation of RequestOrder which ensures the request to be dispatched only once.
+ * PreparedRequest implementation that ensures the request is dispatched only once.
  *
  * @author Danilo Reinert
  */
-class PreparedRequestImpl<T> implements PreparedRequest {
+class PreparedRequestImpl<R> implements PreparedRequest {
 
     private final RequestDispatcher dispatcher;
-    private final SerializedRequest request;
-    private final Headers headers;
-    private final Deferred<T> deferred;
-    private final Class<T> resolveType;
+    private final MutableSerializedRequest request;
+    private final Deferred<R> deferred;
+    private final Class<R> resolveType;
     private final Class<?> parametrizedType;
     private final ResponseType responseType;
     private final UriWithQueryBuilder uri;
@@ -39,17 +37,16 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     private boolean withCredentials;
     private boolean sent;
 
-    public PreparedRequestImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
-                               Class<T> resolveType, Class<?> parametrizedType) {
+    public PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
+                               Class<R> resolveType, Class<?> parametrizedType) {
         this(dispatcher, request, deferred, resolveType, parametrizedType, false, false);
     }
 
-    private PreparedRequestImpl(RequestDispatcher dispatcher, SerializedRequest request, Deferred<T> deferred,
-                                Class<T> resolveType, Class<?> parametrizedType, boolean withCredentials,
+    private PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
+                                Class<R> resolveType, Class<?> parametrizedType, boolean withCredentials,
                                 boolean sent) {
         this.dispatcher = dispatcher;
         this.request = request;
-        this.headers = request.getHeaders();
         this.deferred = deferred;
         this.resolveType = resolveType;
         this.parametrizedType = parametrizedType;
@@ -96,22 +93,22 @@ class PreparedRequestImpl<T> implements PreparedRequest {
 
     @Override
     public String getAccept() {
-        return headers.getValue("Accept");
+        return request.getAccept();
     }
 
     @Override
     public String getContentType() {
-        return headers.getValue("Content-Type");
+        return request.getContentType();
     }
 
     @Override
     public Headers getHeaders() {
-        return headers; // mutable
+        return request.getHeaders();
     }
 
     @Override
     public String getHeader(String name) {
-        return headers.getValue(name);
+        return request.getHeader(name);
     }
 
     @Override
@@ -120,8 +117,13 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     }
 
     @Override
-    public Payload getPayload() {
+    public Object getPayload() {
         return request.getPayload();
+    }
+
+    @Override
+    public Payload getSerializedPayload() {
+        return request.getSerializedPayload();
     }
 
     @Override
@@ -156,12 +158,17 @@ class PreparedRequestImpl<T> implements PreparedRequest {
 
     @Override
     public void addHeader(Header header) {
-        headers.add(header);
+        request.addHeader(header);
     }
 
     @Override
     public void setHeader(String name, String value) {
-        headers.add(new SimpleHeader(name, value));
+        request.setHeader(name, value);
+    }
+
+    @Override
+    public void removeHeader(String headerName) {
+        request.removeHeader(headerName);
     }
 
     @Override
@@ -170,12 +177,17 @@ class PreparedRequestImpl<T> implements PreparedRequest {
     }
 
     @Override
+    public MutableSerializedRequest getMutableCopy() {
+        return request.copy();
+    }
+
+    @Override
     public void setWithCredentials(boolean withCredentials) {
         this.withCredentials = withCredentials;
     }
 
     @Override
-    public Class<T> getResolveType() {
+    public Class<R> getResolveType() {
         return resolveType;
     }
 

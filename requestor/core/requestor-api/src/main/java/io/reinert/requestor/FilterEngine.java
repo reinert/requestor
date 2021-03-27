@@ -28,7 +28,7 @@ class FilterEngine {
         this.filterManager = filterManager;
     }
 
-    public void filterRequest(RequestFilterContext request) {
+    public void filterRequest(RequestInProcess request) {
         for (RequestFilter filter : filterManager.getRequestFilters()) {
             filter.filter(request);
         }

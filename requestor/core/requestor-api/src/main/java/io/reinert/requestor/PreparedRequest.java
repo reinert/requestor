@@ -27,7 +27,7 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface PreparedRequest extends SerializedRequest {
+public interface PreparedRequest extends Request {
 
     Class<?> getResolveType();
 
@@ -41,9 +41,13 @@ public interface PreparedRequest extends SerializedRequest {
 
     void addHeader(Header header);
 
-    void setHeader(String name, String value);
+    void setHeader(String headerName, String headerValue);
+
+    void removeHeader(String headerName);
 
     void setQueryParam(String name, String... values);
+
+    MutableSerializedRequest getMutableCopy();
 
     void send();
 

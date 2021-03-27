@@ -34,6 +34,8 @@ public class RequestorGDeferredGwtTestSuite extends GWTTestSuite {
         // ResourceService
         suite.addTestSuite(RestServiceGwtTest.class);
 
+        suite.addTestSuite(RequestFilterGwtTest.class);
+
         return suite;
     }
 }

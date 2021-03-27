@@ -15,36 +15,17 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.uri.Uri;
+public class RequestInFilterProcess extends AbstractProcessableRequest {
 
-/**
- * Represents a HTTP Request.
- *
- * @author Danilo Reinert
- */
-public interface Request {
+    private final RequestFilter filter;
 
-    String getAccept();
+    public RequestInFilterProcess(ProcessableRequest request, RequestFilter filter) {
+        super(request);
+        this.filter = filter;
+    }
 
-    String getContentType();
-
-    Headers getHeaders();
-
-    String getHeader(String name);
-
-    HttpMethod getMethod();
-
-    Object getPayload();
-
-    Payload getSerializedPayload();
-
-    int getTimeout();
-
-    Uri getUri();
-
-    Auth getAuth();
-
-    Storage getStorage();
-
+    @Override
+    public void process() {
+        filter.filter(this);
+    }
 }

@@ -235,7 +235,7 @@ public abstract class Auth {
         tokenStore.clear();
     }
 
-    /*
+    /**
      * @param req The authentication request of which to request the expiration
      *        status.
      * @return The number of milliseconds until the token expires, or negative

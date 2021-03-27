@@ -28,7 +28,7 @@ class InterceptorEngine {
         this.interceptorManager = interceptorManager;
     }
 
-    public void interceptRequest(RequestInterceptorContext request) {
+    public void interceptRequest(SerializedRequestInProcess request) {
         for (RequestInterceptor interceptor : interceptorManager.getRequestInterceptors()) {
             interceptor.intercept(request);
         }

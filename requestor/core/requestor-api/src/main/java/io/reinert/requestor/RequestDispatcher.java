@@ -19,8 +19,6 @@ import java.util.Collection;
 
 import com.google.gwt.core.client.Callback;
 
-import io.reinert.requestor.auth.Auth;
-
 /**
  * This class dispatches the requests and return promises.
  *
@@ -28,11 +26,14 @@ import io.reinert.requestor.auth.Auth;
  */
 public abstract class RequestDispatcher {
 
-    private final ResponseProcessor processor;
+    private final RequestProcessor requestProcessor;
+    private final ResponseProcessor responseProcessor;
     private final DeferredFactory deferredFactory;
 
-    public RequestDispatcher(ResponseProcessor processor, DeferredFactory deferredFactory) {
-        this.processor = processor;
+    public RequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
+                             DeferredFactory deferredFactory) {
+        this.requestProcessor = requestProcessor;
+        this.responseProcessor = responseProcessor;
         this.deferredFactory = deferredFactory;
     }
 
@@ -49,13 +50,13 @@ public abstract class RequestDispatcher {
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.
      *
-     * @param request           The request to be sent
-     * @param deferred          The deferred to resolve or reject when completed
-     * @param resolveType       The class of the expected result in the promise
-     * @param parametrizedType  The class of the parametrized type if a collection is expected as result
-     * @param <D>               The expected type of the promise
+     * @param request               The request to be sent
+     * @param deferred              The deferred to resolve or reject when completed
+     * @param resolveType           The class of the expected result in the promise
+     * @param parametrizedType      The class of the parametrized type if a collection is expected as result
+     * @param <R>                   The expected type of the promise
      */
-    protected abstract <D> void send(PreparedRequest request, final Deferred<D> deferred, Class<D> resolveType,
+    protected abstract <R> void send(PreparedRequest request, Deferred<R> deferred, Class<R> resolveType,
                                      Class<?> parametrizedType);
 
     /**
@@ -67,14 +68,12 @@ public abstract class RequestDispatcher {
      *
      * @return              The promise for the dispatched request
      */
-    @SuppressWarnings("unchecked")
-    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> resultType) {
+    public <T, S extends MutableSerializedRequest & SerializableRequest> Promise<T> dispatch(S request,
+                                                                                             Class<T> resultType) {
         final Deferred<T> deferred = deferredFactory.getDeferred();
-
-        final Auth auth = request.getAuth();
-        auth.setDispatcher(this);
-        auth.auth(new PreparedRequestImpl(this, request, deferred, resultType, null));
-
+        final RequestInAuthProcess<T, S> requestInAuthProcess = new RequestInAuthProcess<T, S>(request, resultType,
+                null, this, deferred);
+        requestProcessor.process(requestInAuthProcess);
         return deferred.getPromise();
     }
 
@@ -90,36 +89,30 @@ public abstract class RequestDispatcher {
      * @return              The promise for the dispatched request
      */
     @SuppressWarnings("unchecked")
-    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> resultType,
-                                                                     Class<C> containerType) {
+    public <T, C extends Collection<T>, S extends MutableSerializedRequest & SerializableRequest>
+            Promise<Collection<T>> dispatch(S request, Class<T> resultType, Class<C> containerType) {
         final Deferred<Collection<T>> deferred = deferredFactory.getDeferred();
-
-        final Auth auth = request.getAuth();
-        auth.setDispatcher(this);
-        auth.auth(new PreparedRequestImpl(this, request, deferred, containerType, resultType));
-
+        final RequestInAuthProcess<Collection<T>, S> requestInAuthProcess = new RequestInAuthProcess<Collection<T>, S>(
+                request, (Class<Collection<T>>) containerType, resultType, this, deferred);
+        requestProcessor.process(requestInAuthProcess);
         return deferred.getPromise();
     }
-
     /**
-     * Sends the request with the respective callback.
+     * Sends the request with the respective callback bypassing request processing.
      *
      * @param request       The built request
      * @param resultType    The class instance of the expected type in response payload
      * @param callback      The callback to be executed when done
      * @param <T>           The expected type in response payload
      */
-    @SuppressWarnings("unchecked")
-    public <T> void dispatch(SerializedRequest request, Class<T> resultType, Callback<T, Throwable> callback) {
+    public <T> void dispatch(MutableSerializedRequest request, Class<T> resultType, Callback<T, Throwable> callback) {
         final Deferred<T> deferred = new CallbackDeferred<T>(callback);
-
-        final Auth auth = request.getAuth();
-        auth.setDispatcher(this);
-        auth.auth(new PreparedRequestImpl(this, request, deferred, resultType, null));
+        // Send the request without processing
+        new PreparedRequestImpl<T>(this, request, deferred, resultType, null).send();
     }
 
     /**
-     * Sends the request and return an instance of {@link Promise} expecting a collection result.
+     * Sends the request with the respective callback expecting a collection result bypassing request processing.
      *
      * @param request       The built request
      * @param resultType    The class instance of the expected type in response payload
@@ -129,14 +122,13 @@ public abstract class RequestDispatcher {
      * @param <C>           The collection type to hold the values
      */
     @SuppressWarnings("unchecked")
-    public <T, C extends Collection> void dispatch(SerializedRequest request, Class<T> resultType,
-                                                   Class<C> containerType,
-                                                   Callback<Collection<T>, Throwable> callback) {
+    public <T, C extends Collection<T>> void dispatch(MutableSerializedRequest request, Class<T> resultType,
+                                                      Class<C> containerType,
+                                                      Callback<Collection<T>, Throwable> callback) {
         final Deferred<Collection<T>> deferred = new CallbackDeferred<Collection<T>>(callback);
-
-        final Auth auth = request.getAuth();
-        auth.setDispatcher(this);
-        auth.auth(new PreparedRequestImpl(this, request, deferred, containerType, resultType));
+        // Send the request without processing
+        new PreparedRequestImpl<Collection<T>>(this, request, deferred, (Class<Collection<T>>) containerType,
+                resultType).send();
     }
 
     /**
@@ -148,27 +140,29 @@ public abstract class RequestDispatcher {
      * @param resolveType       Class of the expected type in the promise
      * @param parametrizedType  Class of the parametrized type if the promise expects a collection
      * @param response          The response received from the request
-     * @param <D>               Type of the deferred
+     * @param <R>               Type of the deferred
      */
     @SuppressWarnings("unchecked")
-    protected <D> void evalResponse(Request request, Deferred<D> deferred, Class<D> resolveType,
+    protected <R> void evalResponse(Request request, Deferred<R> deferred, Class<R> resolveType,
                                     Class<?> parametrizedType, RawResponse response) {
+        // TODO: handle unsuccessful responses here?
+
         // If the user requested RawResponse, then don't process it
         if (resolveType == RawResponse.class) {
-            deferred.resolve((Response<D>) ResponseImpl.fromRawResponse(request, response));
+            deferred.resolve((Response<R>) ResponseImpl.fromRawResponse(request, response));
             return;
         }
 
         if (parametrizedType != null) {
-            processor.process(request, response, parametrizedType, (Class<Collection>) resolveType,
-                    (Deferred<Collection>) deferred);
+            responseProcessor.process(request, response, parametrizedType, (Class<Collection<?>>) resolveType,
+                    (Deferred<Collection<?>>) deferred);
             return;
         }
 
-        processor.process(request, response, resolveType, deferred);
+        responseProcessor.process(request, response, resolveType, deferred);
     }
 
     protected SerializationEngine getSerializationEngine() {
-        return processor.getSerializationEngine();
+        return responseProcessor.getSerializationEngine();
     }
 }

@@ -15,36 +15,17 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.uri.Uri;
-
 /**
- * Represents a HTTP Request.
+ * A request that can be aborted or proceed to be sent.
  *
  * @author Danilo Reinert
  */
-public interface Request {
+public interface InProcess {
 
-    String getAccept();
+    void proceed();
 
-    String getContentType();
+    void abort(RawResponse response);
 
-    Headers getHeaders();
-
-    String getHeader(String name);
-
-    HttpMethod getMethod();
-
-    Object getPayload();
-
-    Payload getSerializedPayload();
-
-    int getTimeout();
-
-    Uri getUri();
-
-    Auth getAuth();
-
-    Storage getStorage();
+    void abort(RequestException error);
 
 }

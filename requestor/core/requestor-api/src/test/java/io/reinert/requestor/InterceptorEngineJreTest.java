@@ -49,7 +49,7 @@ public class InterceptorEngineJreTest {
     @Test
     public void interceptorRequest_AnyRequestBuilder_ShouldApplyAllRegisteredInterceptors() {
         // Given
-        RequestInterceptorContext requestBuilder = mock(RequestInterceptorContext.class);
+        SerializedRequestInProcess requestBuilder = mock(SerializedRequestInProcess.class);
 
         // When
         engine.interceptRequest(requestBuilder);

@@ -28,8 +28,9 @@ import io.reinert.requestor.header.Header;
  */
 public class RequestDispatcherImpl extends RequestDispatcher {
 
-    public RequestDispatcherImpl(ResponseProcessor processor, DeferredFactory deferredFactory) {
-        super(processor, deferredFactory);
+    public RequestDispatcherImpl(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
+                                 DeferredFactory deferredFactory) {
+        super(requestProcessor, responseProcessor, deferredFactory);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();
-        final Payload payload = request.getPayload();
+        final Payload payload = request.getSerializedPayload();
         final ResponseType responseType = request.getResponseType();
 
         // Create XMLHttpRequest
@@ -136,7 +137,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         };
     }
 
-    private <D> RequestCallback getRequestCallback(final Request request, final XMLHttpRequest xhr,
+    private <D> RequestCallback getRequestCallback(final Request request,
+                                                   final XMLHttpRequest xhr,
                                                    final Deferred<D> deferred,
                                                    final Class<D> resolveType,
                                                    final Class<?> parametrizedType) {
@@ -147,13 +149,13 @@ public class RequestDispatcherImpl extends RequestDispatcher {
 
                 Payload payload = null;
 
-                if (responseType.isEmpty() || responseType.equalsIgnoreCase("text")) {
+                if (responseType.isEmpty() || responseType.equalsIgnoreCase(ResponseType.TEXT.getValue())) {
                     payload = Payload.fromText(xhr.getResponseText());
-                } else if (responseType.equalsIgnoreCase("blob")) {
+                } else if (responseType.equalsIgnoreCase(ResponseType.BLOB.getValue())) {
                     payload = Payload.fromBlob(xhr.getResponse());
-                } else if (responseType.equalsIgnoreCase("document")) {
+                } else if (responseType.equalsIgnoreCase(ResponseType.DOCUMENT.getValue())) {
                     payload = Payload.fromDocument(xhr.getResponse());
-                } else if (responseType.equalsIgnoreCase("json")) {
+                } else if (responseType.equalsIgnoreCase(ResponseType.JSON.getValue())) {
                     payload = Payload.fromJson(xhr.getResponse());
                 }
 

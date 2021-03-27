@@ -98,7 +98,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
 
     @Override
     public String toString() {
-        return headers.toString();
+        return headers == null ? "" : headers.toString();
     }
 
     @Override

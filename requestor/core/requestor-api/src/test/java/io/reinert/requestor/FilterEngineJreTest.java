@@ -49,7 +49,7 @@ public class FilterEngineJreTest {
     @Test
     public void filterRequest_AnyRequestBuilder_ShouldApplyAllRegisteredFilters() {
         // Given
-        RequestFilterContext request = mock(RequestFilterContext.class);
+        RequestInProcess request = mock(RequestInProcess.class);
 
         // When
         engine.filterRequest(request);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package io.reinert.requestor.auth;
 import com.google.gwt.core.client.Callback;
 
 import io.reinert.requestor.PreparedRequest;
+import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.oauth2.Auth;
 import io.reinert.requestor.oauth2.AuthRequest;
@@ -28,7 +29,7 @@ import io.reinert.requestor.oauth2.TokenInfo;
  *
  * @author Danilo Reinert
  */
-public abstract class OAuth2Base extends AbstractAuth {
+public abstract class OAuth2Base implements io.reinert.requestor.auth.Auth {
 
     private static final Auth AUTH = Auth.get();
 
@@ -40,12 +41,12 @@ public abstract class OAuth2Base extends AbstractAuth {
 
     /**
      * Use token to perform the request authorization.
-     * Implementers must not call preparedRequest#send().
+     * Implementers must call preparedRequest#send() at the end.
      *
-     * @param preparedRequest  request to be authorized
-     * @param tokenInfo     token information retrieved from OAuth login
+     * @param request   request to be authorized
+     * @param tokenInfo token information retrieved from OAuth login
      */
-    protected abstract void doAuth(PreparedRequest preparedRequest, TokenInfo tokenInfo);
+    protected abstract void doAuth(PreparedRequest request, TokenInfo tokenInfo);
 
     public OAuth2Base withScopeDelimiter(String delimiter) {
         authRequest.withScopeDelimiter(delimiter);
@@ -53,7 +54,7 @@ public abstract class OAuth2Base extends AbstractAuth {
     }
 
     @Override
-    public void auth(final PreparedRequest preparedRequest) {
+    public void auth(final PreparedRequest preparedRequest, RequestDispatcher dispatcher) {
         AUTH.login(authRequest, new Callback<TokenInfo, Throwable>() {
             @Override
             public void onFailure(Throwable reason) {
@@ -63,7 +64,6 @@ public abstract class OAuth2Base extends AbstractAuth {
             @Override
             public void onSuccess(TokenInfo tokenInfo) {
                 doAuth(preparedRequest, tokenInfo);
-                preparedRequest.send();
             }
         });
     }

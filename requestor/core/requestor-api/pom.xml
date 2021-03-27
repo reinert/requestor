@@ -105,6 +105,8 @@
               <modules>
                 <module>io.reinert.requestor.RequestorApiTest</module>
               </modules>
+              <skipTests>true</skipTests>
+              <skip>true</skip>
             </configuration>
           </execution>
         </executions>

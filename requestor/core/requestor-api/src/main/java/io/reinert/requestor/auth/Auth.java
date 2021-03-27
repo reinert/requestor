@@ -25,10 +25,6 @@ import io.reinert.requestor.RequestDispatcher;
  */
 public interface Auth {
 
-    RequestDispatcher getDispatcher();
-
-    void setDispatcher(RequestDispatcher dispatcher);
-
     /**
      * Performs the logic for making the request authenticated, then dispatch the request.
      * <p/>
@@ -39,5 +35,5 @@ public interface Auth {
      *
      * @param preparedRequest  The request about to be sent
      */
-    void auth(PreparedRequest preparedRequest);
+    void auth(PreparedRequest preparedRequest, RequestDispatcher dispatcher);
 }

@@ -23,8 +23,8 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import io.reinert.gdeferred.DoneCallback;
 import io.reinert.gdeferred.FailCallback;
 import io.reinert.requestor.PreparedRequest;
+import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.Requestor;
-import io.reinert.requestor.auth.AbstractAuth;
 import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
 import io.reinert.requestor.auth.OAuth2ByHeader;
@@ -34,7 +34,7 @@ import io.reinert.requestor.examples.showcase.util.Page;
 
 public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
-    private static class MyAuth extends AbstractAuth {
+    private static class MyAuth implements io.reinert.requestor.auth.Auth {
 
         private final String key;
 
@@ -43,7 +43,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         }
 
         @Override
-        public void auth(PreparedRequest preparedRequest) {
+        public void auth(PreparedRequest preparedRequest, RequestDispatcher dispatcher) {
             preparedRequest.setHeader("Authorization", "MyAuth " + key);
 
             // Mandatory to have the request actually sent.

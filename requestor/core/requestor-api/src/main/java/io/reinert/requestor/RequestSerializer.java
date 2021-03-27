@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2014 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,36 +15,18 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.uri.Uri;
-
 /**
- * Represents a HTTP Request.
+ * Request serializers are intended to serialize the request payload before it is sent to the server.
  *
  * @author Danilo Reinert
  */
-public interface Request {
+public interface RequestSerializer {
 
-    String getAccept();
-
-    String getContentType();
-
-    Headers getHeaders();
-
-    String getHeader(String name);
-
-    HttpMethod getMethod();
-
-    Object getPayload();
-
-    Payload getSerializedPayload();
-
-    int getTimeout();
-
-    Uri getUri();
-
-    Auth getAuth();
-
-    Storage getStorage();
-
+    /**
+     * Serialize method called after filters and before interceptors.
+     * It should serialize the request using the SerializationEngine provided.
+     *
+     * @param request   The request to be dispatched.
+     */
+    void serialize(SerializableRequestInProcess request, SerializationEngine serializationEngine);
 }

@@ -15,36 +15,11 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.uri.Uri;
+public interface SerializableRequest extends Request {
 
-/**
- * Represents a HTTP Request.
- *
- * @author Danilo Reinert
- */
-public interface Request {
+    void serializePayload(Payload payload);
 
-    String getAccept();
-
-    String getContentType();
-
-    Headers getHeaders();
-
-    String getHeader(String name);
-
-    HttpMethod getMethod();
-
-    Object getPayload();
-
-    Payload getSerializedPayload();
-
-    int getTimeout();
-
-    Uri getUri();
-
-    Auth getAuth();
-
-    Storage getStorage();
+    // TODO: refactor FormDataSerializer to extend Serializer and register as a regular serializer in the module
+    void setContentType(String mediaType);
 
 }

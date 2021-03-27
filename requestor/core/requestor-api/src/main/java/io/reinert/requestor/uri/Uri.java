@@ -24,6 +24,10 @@ public abstract class Uri {
 
     private static UriParser PARSER;
 
+    public static Uri copy(Uri uri) {
+        return create(uri.toString());
+    }
+
     public static Uri create(String uri) {
         if (uri == null || uri.isEmpty()) {
             throw new IllegalArgumentException("Uri cannot be null nor empty.");

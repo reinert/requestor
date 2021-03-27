@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reinert.requestor.form.FormData;
+import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.SerializationException;
@@ -36,10 +38,13 @@ class SerializationEngine {
 
     private final SerializerManagerImpl serializerManager;
     private final ProviderManagerImpl providerManager;
+    private final FormDataSerializer formDataSerializer;
 
-    public SerializationEngine(SerializerManagerImpl serializerManager, ProviderManagerImpl providerManager) {
+    public SerializationEngine(SerializerManagerImpl serializerManager, ProviderManagerImpl providerManager,
+                               FormDataSerializer formDataSerializer) {
         this.serializerManager = serializerManager;
         this.providerManager = providerManager;
+        this.formDataSerializer = formDataSerializer;
     }
 
     public <T, C extends Collection<T>> Response<C> deserializeResponse(Request request, SerializedResponse response,
@@ -72,8 +77,30 @@ class SerializationEngine {
         return result;
     }
 
-    public SerializedRequestDelegate serializeRequest(Request request) {
+    public void serializeRequest(SerializableRequest request) {
         Object payload = request.getPayload();
+
+        if (payload instanceof FormData) {
+            // TODO: refactor FormDataSerializer to extend Serializer and register as a regular serializer in the module
+            // maybe extract contentType matching from SerializationEngine
+
+            // FormData serialization
+            final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
+
+            // If mediaType is null then content-type header is removed and the browser handles it
+            request.setContentType(formDataSerializer.mediaType());
+
+            request.serializePayload(serializedPayload);
+
+            return;
+        }
+
+        if (payload instanceof Payload) {
+            request.serializePayload((Payload) payload);
+
+            return;
+        }
+
         String body = null;
         if (payload != null) { // Checks whether there's a payload to serialized
             final String mediaType = getRequestMediaType(request);
@@ -108,10 +135,11 @@ class SerializationEngine {
                 body = serializer.serialize(payload, new HttpSerializationContext(request, type));
             }
         }
-        return new SerializedRequestDelegate(request, Payload.fromText(body));
+
+        request.serializePayload(Payload.fromText(body));
     }
 
-    private String getRequestMediaType(Request request) {
+    private String getRequestMediaType(SerializableRequest request) {
         String mediaType = request.getContentType();
         if (mediaType == null || mediaType.isEmpty()) {
             mediaType = "*/*";

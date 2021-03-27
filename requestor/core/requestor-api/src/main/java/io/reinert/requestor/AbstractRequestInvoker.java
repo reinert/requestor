@@ -30,14 +30,11 @@ import io.reinert.requestor.uri.Uri;
 abstract class AbstractRequestInvoker extends RequestBuilderImpl implements RequestInvoker {
 
     protected final RequestDispatcher dispatcher;
-    protected final RequestProcessor processor;
 
-    public AbstractRequestInvoker(Uri uri, VolatileStorage storage, RequestDispatcher dispatcher,
-                                  RequestProcessor processor) {
+    public AbstractRequestInvoker(Uri uri, VolatileStorage storage, RequestDispatcher dispatcher) {
         super(uri, storage);
 
         this.dispatcher = dispatcher;
-        this.processor = processor;
     }
 
     //===================================================================
@@ -92,12 +89,12 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
 
     protected <T> Promise<T> send(HttpMethod method, Class<T> resultType) {
         setMethod(method);
-        return dispatcher.dispatch(processor.process(build()), resultType);
+        return dispatcher.dispatch(build(), resultType);
     }
 
-    protected <T, C extends Collection> Promise<Collection<T>> send(HttpMethod method, Class<T> resultType,
-                                                                    Class<C> containerType) {
+    protected <T, C extends Collection<T>> Promise<Collection<T>> send(HttpMethod method, Class<T> resultType,
+                                                                       Class<C> containerType) {
         setMethod(method);
-        return dispatcher.dispatch(processor.process(build()), resultType, containerType);
+        return dispatcher.dispatch(build(), resultType, containerType);
     }
 }
