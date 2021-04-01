@@ -55,8 +55,8 @@ public class ResponseImpl<T> implements Response<T> {
     }
 
     @Override
-    public String getHeader(String header) {
-        return headers.getValue(header);
+    public String getHeader(String headerName) {
+        return headers.getValue(headerName);
     }
 
     @Override
@@ -126,12 +126,16 @@ public class ResponseImpl<T> implements Response<T> {
                 '}';
     }
 
-    protected void addHeader(Header header) {
+    protected void putHeader(Header header) {
         headers.add(header);
     }
 
     protected void setHeader(String name, String value) {
         headers.add(new SimpleHeader(name, value));
+    }
+
+    protected Header popHeader(String headerName) {
+        return headers.pop(headerName);
     }
 
     protected void setContentType(String contentType) {

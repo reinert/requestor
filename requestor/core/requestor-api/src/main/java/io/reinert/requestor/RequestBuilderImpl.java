@@ -182,8 +182,8 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     //===================================================================
 
     @Override
-    public String getHeader(String name) {
-        return headers.getValue(name);
+    public String getHeader(String headerName) {
+        return headers.getValue(headerName);
     }
 
     @Override
@@ -207,13 +207,13 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void addHeader(Header header) {
+    public void putHeader(Header header) {
         headers.add(header);
     }
 
     @Override
-    public void removeHeader(String name) {
-        headers.pop(name);
+    public Header popHeader(String name) {
+        return headers.pop(name);
     }
 
     @Override

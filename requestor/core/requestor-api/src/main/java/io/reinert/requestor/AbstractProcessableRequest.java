@@ -43,8 +43,8 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public final void addHeader(Header header) {
-        request.addHeader(header);
+    public final void putHeader(Header header) {
+        request.putHeader(header);
     }
 
     @Override
@@ -53,8 +53,8 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public final void removeHeader(String name) {
-        request.removeHeader(name);
+    public final Header popHeader(String name) {
+        return request.popHeader(name);
     }
 
     @Override
@@ -103,8 +103,8 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public final String getHeader(String name) {
-        return request.getHeader(name);
+    public final String getHeader(String headerName) {
+        return request.getHeader(headerName);
     }
 
     @Override

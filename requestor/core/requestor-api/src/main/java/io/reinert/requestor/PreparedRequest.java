@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.header.Header;
-
 /**
  * The final form of a request.
  * <p/>
@@ -27,7 +25,7 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface PreparedRequest extends Request {
+public interface PreparedRequest extends Request, HasHeaders {
 
     Class<?> getResolveType();
 
@@ -38,12 +36,6 @@ public interface PreparedRequest extends Request {
     ResponseType getResponseType();
 
     void setWithCredentials(boolean withCredentials);
-
-    void addHeader(Header header);
-
-    void setHeader(String headerName, String headerValue);
-
-    void removeHeader(String headerName);
 
     void setQueryParam(String name, String... values);
 
