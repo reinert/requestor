@@ -72,7 +72,7 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     }
 
     @Override
-    public RequestInvoker payload(Object payload) throws IllegalArgumentException {
+    public RequestInvoker payload(Object payload) {
         super.payload(payload);
         return this;
     }
