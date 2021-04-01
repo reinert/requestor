@@ -32,7 +32,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
         newDefaults.setAuth(defaults.getAuth());
         newDefaults.setTimeout(defaults.getTimeout());
         for (Header h : defaults.headers) {
-            newDefaults.addHeader(h);
+            newDefaults.putHeader(h);
         }
         newDefaults.setRequestSerializer(defaults.getRequestSerializer());
         return newDefaults;
@@ -93,7 +93,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
     }
 
     @Override
-    public void addHeader(Header header) {
+    public void putHeader(Header header) {
         if (header != null && mediaType != null) {
             if ("content-type".equalsIgnoreCase(header.getName()) || "accept".equalsIgnoreCase(header.getName())) {
                 throw new IllegalStateException(
@@ -106,18 +106,23 @@ public class RequestDefaultsImpl implements RequestDefaults {
     }
 
     @Override
-    public void addHeader(String headerName, String headerValue) {
+    public void setHeader(String headerName, String headerValue) {
         headers.set(headerName, headerValue);
     }
 
     @Override
-    public Header getHeader(String headerName) {
-        return headers.get(headerName);
+    public Headers getHeaders() {
+        return headers;
     }
 
     @Override
-    public void removeHeader(String headerName) {
-        headers.pop(headerName);
+    public String getHeader(String headerName) {
+        return headers.getValue(headerName);
+    }
+
+    @Override
+    public Header popHeader(String headerName) {
+        return headers.pop(headerName);
     }
 
     public void setRequestSerializer(RequestSerializer requestSerializer) {

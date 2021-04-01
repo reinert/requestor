@@ -140,23 +140,28 @@ public class RestService<R, I, C extends Collection> implements RestInvoker<R, I
     }
 
     @Override
-    public void addHeader(Header header) {
-        defaults.addHeader(header);
+    public void putHeader(Header header) {
+        defaults.putHeader(header);
     }
 
     @Override
-    public void addHeader(String headerName, String headerValue) {
-        defaults.addHeader(headerName, headerValue);
+    public void setHeader(String headerName, String headerValue) {
+        defaults.setHeader(headerName, headerValue);
     }
 
     @Override
-    public Header getHeader(String headerName) {
+    public Headers getHeaders() {
+        return defaults.getHeaders();
+    }
+
+    @Override
+    public String getHeader(String headerName) {
         return defaults.getHeader(headerName);
     }
 
     @Override
-    public void removeHeader(String headerName) {
-        defaults.removeHeader(headerName);
+    public Header popHeader(String headerName) {
+        return defaults.popHeader(headerName);
     }
 
     public void setAsMatrixParam(boolean asMatrixParam) {

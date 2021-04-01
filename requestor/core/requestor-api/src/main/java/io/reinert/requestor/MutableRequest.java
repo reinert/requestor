@@ -24,7 +24,7 @@ import io.reinert.requestor.uri.Uri;
  *
  * @author Danilo Reinert
  */
-public interface MutableRequest extends Request {
+public interface MutableRequest extends Request, HasHeaders {
 
     /**
      * Set the URI of this request.
@@ -55,7 +55,7 @@ public interface MutableRequest extends Request {
      *
      * @param header The header instance
      */
-    void addHeader(Header header);
+    void putHeader(Header header);
 
     /**
      * Sets a request header with the given name and value.
@@ -75,8 +75,9 @@ public interface MutableRequest extends Request {
      * Removes the header with the given name if it exists in the current request.
      *
      * @param headerName    The name of the header to remove
+     * @return  The removed header, if it exists
      */
-    void removeHeader(String headerName);
+    Header popHeader(String headerName);
 
     /**
      * Sets the necessary information for authenticating the request against the server.

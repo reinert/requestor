@@ -35,8 +35,8 @@ public class RawResponseImpl extends ResponseImpl<Payload> implements RawRespons
     }
 
     @Override
-    public void addHeader(Header header) {
-        super.addHeader(header);
+    public void putHeader(Header headerName) {
+        super.putHeader(headerName);
     }
 
     @Override
@@ -57,6 +57,11 @@ public class RawResponseImpl extends ResponseImpl<Payload> implements RawRespons
     @Override
     public void setHeader(String name, String value) {
         super.setHeader(name, value);
+    }
+
+    @Override
+    public Header popHeader(String headerName) {
+        return super.popHeader(headerName);
     }
 
     @Override

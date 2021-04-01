@@ -25,11 +25,11 @@ import io.reinert.requestor.header.Header;
 public interface ResponseFilterContext {
 
     /**
-     * Adds (or replaces) a header to this response.
+     * Adds (or replaces) a headerName to this response.
      *
-     * @param header the header to add
+     * @param headerName the headerName to add
      */
-    void addHeader(Header header);
+    void putHeader(Header headerName);
 
     /**
      * Set a header to this response.
@@ -40,12 +40,14 @@ public interface ResponseFilterContext {
     void setHeader(String name, String value);
 
     /**
-     * Returns the value of the requested header or null if the header was not specified.
+     * Returns the value of the requested headerName or null if the headerName was not specified.
      *
-     * @param header the header to query for
-     * @return the value of response header
+     * @param headerName the headerName to query for
+     * @return the value of response headerName
      */
-    String getHeader(String header);
+    String getHeader(String headerName);
+
+    Header popHeader(String headerName);
 
     /**
      * Returns the value of the content-type header.

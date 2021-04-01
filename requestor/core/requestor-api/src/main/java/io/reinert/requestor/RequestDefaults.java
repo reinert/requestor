@@ -16,9 +16,8 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.header.Header;
 
-public interface RequestDefaults {
+public interface RequestDefaults extends HasHeaders {
 
     /**
      * Resets all defaults (mediaType, auth, timeout and headers).
@@ -48,13 +47,5 @@ public interface RequestDefaults {
     void setTimeout(int timeout);
 
     int getTimeout();
-
-    void addHeader(Header header);
-
-    void addHeader(String headerName, String headerValue);
-
-    Header getHeader(String headerName);
-
-    void removeHeader(String headerName);
 
 }

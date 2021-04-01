@@ -105,7 +105,7 @@ public class DigestAuth implements Auth {
                     originalRequest.getSerializedPayload(), attemptResponse);
 
             if (authHeader != null) {
-                originalRequest.addHeader(authHeader);
+                originalRequest.putHeader(authHeader);
             }
 
             resetChallengeCalls();
@@ -127,7 +127,7 @@ public class DigestAuth implements Auth {
                 request.getSerializedPayload(), attemptResponse);
 
         if (authHeader != null) {
-            request.addHeader(authHeader);
+            request.putHeader(authHeader);
         }
 
         return request;
