@@ -31,18 +31,27 @@
     <!-- Requestor dependencies -->
     <dependency>
       <groupId>io.reinert.requestor.core</groupId>
+      <artifactId>requestor-annotations</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.reinert.requestor.core</groupId>
       <artifactId>requestor-api</artifactId>
       <version>${project.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- GWT dependencies -->
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <!-- Test dependencies -->
@@ -50,6 +59,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

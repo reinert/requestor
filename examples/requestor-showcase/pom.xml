@@ -45,6 +45,7 @@
     <dependency>
       <groupId>io.reinert.gdeferred</groupId>
       <artifactId>gdeferred</artifactId>
+      <version>${gdeferred.version}</version>
     </dependency>
     <dependency>
       <groupId>io.reinert.requestor.impl</groupId>
@@ -59,11 +60,6 @@
     <dependency>
       <groupId>io.reinert.requestor.ext</groupId>
       <artifactId>requestor-digest</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
