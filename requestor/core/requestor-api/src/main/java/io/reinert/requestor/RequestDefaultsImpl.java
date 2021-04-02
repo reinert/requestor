@@ -135,20 +135,23 @@ public class RequestDefaultsImpl implements RequestDefaults {
 
     public void apply(RequestBuilder request) {
         if (mediaType != null) {
-            request.contentType(mediaType);
-            request.accept(mediaType);
+            if (request.getContentType() == null)
+                request.contentType(mediaType);
+            if (request.getAccept() == null)
+                request.accept(mediaType);
         }
 
-        if (auth != null) {
+        if (auth != null && request.getAuth() == null) {
             request.auth(auth);
         }
 
-        if (timeout > 0) {
+        if (timeout > 0 && request.getTimeout() == 0) {
             request.timeout(timeout);
         }
 
         for (Header h : headers) {
-            request.header(h);
+            if (request.getHeader(h.getName()) == null)
+                request.header(h);
         }
     }
 }
