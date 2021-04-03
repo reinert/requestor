@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,16 +36,19 @@ public abstract class Header extends com.google.gwt.http.client.Header {
         final String name = rawHeader.getName().toUpperCase();
         final String value = rawHeader.getValue();
 
+        if ("ACCEPT".equals(name))
+            return new AcceptHeader(parseHeaderValueAsElements(value));
+
         if ("CONTENT-TYPE".equals(name))
             return new ContentTypeHeader(value);
 
         if ("LINK".equals(name))
-            return new LinkHeader(parseHeaderValue(value));
+            return new LinkHeader(parseHeaderValueAsElements(value));
 
         return new SimpleHeader(name, value);
     }
 
-    static List<Element> parseHeaderValue(String headerValue) {
+    static List<Element> parseHeaderValueAsElements(String headerValue) {
         final List<Element> parsedElements = new ArrayList<Element>();
         final List<String> elements = splitEscapingQuotes(',', headerValue);
 

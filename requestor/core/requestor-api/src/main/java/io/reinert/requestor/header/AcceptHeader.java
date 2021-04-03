@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package io.reinert.requestor.header;
+
+import java.util.Collection;
 
 /**
  * The HTTP Accept header.
@@ -52,5 +54,9 @@ public class AcceptHeader extends QualityFactorHeader {
 
     public AcceptHeader(String... values) {
         super("Accept", values);
+    }
+
+    public AcceptHeader(Collection<Element> elements) {
+        super("Accept", elements);
     }
 }

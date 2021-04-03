@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,8 @@ public class LinkHeader extends MultivaluedHeader implements Iterable<Link> {
         this.linksMap = new HashMap<String, LinkElement>(elements.size());
         for (Element e : elements) {
             final LinkElement l = new LinkElement(e);
+            // It stores one link element per rel
+            // TODO: support many elements per rel
             linksMap.put(l.getRel(), l);
         }
     }
