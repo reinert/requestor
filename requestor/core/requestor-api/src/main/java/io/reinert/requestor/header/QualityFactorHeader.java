@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package io.reinert.requestor.header;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -63,6 +64,10 @@ public class QualityFactorHeader extends MultivaluedHeader {
 
     public QualityFactorHeader(String name, String... values) {
         super(name, toValues(values));
+    }
+
+    public QualityFactorHeader(String name, Collection<Element> elements) {
+        super(name, elements);
     }
 
     private static List<Param> getParams(double factor) {
