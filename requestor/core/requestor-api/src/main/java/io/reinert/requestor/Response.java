@@ -84,11 +84,11 @@ public interface Response<T> {
     int getStatusCode();
 
     /**
-     * Returns the HTTP status as a {@link StatusType} object.
+     * Returns the HTTP status as a {@link HttpStatus} object.
      *
      * @return the HTTP status
      */
-    StatusType getStatus();
+    HttpStatus getStatus();
 
     /**
      * Returns the payload deserialized.
@@ -121,7 +121,7 @@ public interface Response<T> {
     /**
      * Base interface for statuses used in responses.
      */
-    public interface StatusType {
+    public interface HttpStatus {
 
         /**
          * Get the associated status code.
@@ -143,15 +143,69 @@ public interface Response<T> {
          * @return the reason phrase.
          */
         String getReasonPhrase();
+
+        /**
+         * An enumeration representing the class of status code.
+         */
+        enum Family {
+
+            /**
+             * {@code 1xx} HTTP status codes.
+             */
+            INFORMATIONAL,
+            /**
+             * {@code 2xx} HTTP status codes.
+             */
+            SUCCESSFUL,
+            /**
+             * {@code 3xx} HTTP status codes.
+             */
+            REDIRECTION,
+            /**
+             * {@code 4xx} HTTP status codes.
+             */
+            CLIENT_ERROR,
+            /**
+             * {@code 5xx} HTTP status codes.
+             */
+            SERVER_ERROR,
+            /**
+             * Other, unrecognized HTTP status codes.
+             */
+            OTHER;
+
+            /**
+             * Get the response status family for the status code.
+             *
+             * @param statusCode response status code to get the family for.
+             * @return family of the response status code.
+             */
+            public static Family of(final int statusCode) {
+                switch (statusCode / 100) {
+                    case 1:
+                        return Family.INFORMATIONAL;
+                    case 2:
+                        return Family.SUCCESSFUL;
+                    case 3:
+                        return Family.REDIRECTION;
+                    case 4:
+                        return Family.CLIENT_ERROR;
+                    case 5:
+                        return Family.SERVER_ERROR;
+                    default:
+                        return Family.OTHER;
+                }
+            }
+        }
     }
 
     /**
      * Commonly used status codes defined by HTTP, see
      * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">HTTP/1.1 documentation</a>}
      * for the complete list. Additional status codes can be added by applications
-     * by creating an implementation of {@link StatusType}.
+     * by creating an implementation of {@link HttpStatus}.
      */
-    public enum Status implements StatusType {
+    public enum Status implements HttpStatus {
 
         OK(200, "OK"),
         CREATED(201, "Created"),
@@ -204,7 +258,7 @@ public interface Response<T> {
         INSUFFICIENT_STORAGE(507, "Insufficient Storage"),
         LOOP_DETECTED(508, "Loop Detected"),
         NOT_EXTENDED(510, "Not Extended"),
-        NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required"),;
+        NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required");
 
         /**
          * Convert a numerical status code into the corresponding Status.
@@ -212,68 +266,29 @@ public interface Response<T> {
          * @param statusCode the numerical status code.
          * @return the matching Status or null is no matching Status is defined.
          */
-        public static Status of(int statusCode) {
+        public static HttpStatus of(final int statusCode) {
+            // TODO: create a map to store the statuses and avoid this iteration
             for (Status s : Status.values()) {
                 if (s.code == statusCode) {
                     return s;
                 }
             }
-            throw new IllegalArgumentException("Invalid HTTP Status Code: " + statusCode +
-                    ". You should pass a valid code to build a Response.Status");
-        }
 
-        /**
-         * An enumeration representing the class of status code.
-         */
-        public enum Family {
+            final Family family = Family.of(statusCode);
 
-            /**
-             * {@code 1xx} HTTP status codes.
-             */
-            INFORMATIONAL,
-            /**
-             * {@code 2xx} HTTP status codes.
-             */
-            SUCCESSFUL,
-            /**
-             * {@code 3xx} HTTP status codes.
-             */
-            REDIRECTION,
-            /**
-             * {@code 4xx} HTTP status codes.
-             */
-            CLIENT_ERROR,
-            /**
-             * {@code 5xx} HTTP status codes.
-             */
-            SERVER_ERROR,
-            /**
-             * Other, unrecognized HTTP status codes.
-             */
-            OTHER;
-
-            /**
-             * Get the response status family for the status code.
-             *
-             * @param statusCode response status code to get the family for.
-             * @return family of the response status code.
-             */
-            public static Family of(final int statusCode) {
-                switch (statusCode / 100) {
-                    case 1:
-                        return Family.INFORMATIONAL;
-                    case 2:
-                        return Family.SUCCESSFUL;
-                    case 3:
-                        return Family.REDIRECTION;
-                    case 4:
-                        return Family.CLIENT_ERROR;
-                    case 5:
-                        return Family.SERVER_ERROR;
-                    default:
-                        return Family.OTHER;
+            return new HttpStatus() {
+                public int getStatusCode() {
+                    return statusCode;
                 }
-            }
+
+                public Family getFamily() {
+                    return family;
+                }
+
+                public String getReasonPhrase() {
+                    return "";
+                }
+            };
         }
 
         private final int code;

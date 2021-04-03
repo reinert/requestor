@@ -37,6 +37,10 @@ public class UnsuccessfulResponseException extends RequestException {
         this.response = response;
     }
 
+    public static UnsuccessfulResponseException cast(Throwable throwable) throws ClassCastException {
+        return (UnsuccessfulResponseException) throwable;
+    }
+
     /**
      * Returns the {@link Request} instance which was sent.
      *
@@ -60,7 +64,7 @@ public class UnsuccessfulResponseException extends RequestException {
      *
      * @return The response's status code.
      */
-    public int getStatusCode() {
-        return response.getStatusCode();
+    public Response.HttpStatus getStatus() {
+        return response.getStatus();
     }
 }
