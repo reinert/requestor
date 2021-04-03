@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.HashMap;
+
 /**
  * Represents a HTTP response.
  *
@@ -260,6 +262,8 @@ public interface Response<T> {
         NOT_EXTENDED(510, "Not Extended"),
         NETWORK_AUTHENTICATION_REQUIRED(511, "Network Authentication Required");
 
+        private static HashMap<String, HttpStatus> statuses = null;
+
         /**
          * Convert a numerical status code into the corresponding Status.
          *
@@ -267,11 +271,16 @@ public interface Response<T> {
          * @return the matching Status or null is no matching Status is defined.
          */
         public static HttpStatus of(final int statusCode) {
-            // TODO: create a map to store the statuses and avoid this iteration
-            for (Status s : Status.values()) {
-                if (s.code == statusCode) {
-                    return s;
+            if (statuses == null) {
+                statuses = new HashMap<String, HttpStatus>();
+                for (Status s : Status.values()) {
+                    statuses.put("" + s.code, s);
                 }
+            }
+
+            HttpStatus status = statuses.get("" + statusCode);
+            if (status != null) {
+                return status;
             }
 
             final Family family = Family.of(statusCode);
