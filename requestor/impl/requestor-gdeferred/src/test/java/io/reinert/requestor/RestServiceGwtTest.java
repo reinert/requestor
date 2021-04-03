@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.impl.gdeferred.DoneCallback;
@@ -43,7 +42,7 @@ public class RestServiceGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        Requestor requestor = GWT.create(Requestor.class);
+        Requestor requestor = Requestor.newInstance();
 
         requestor.register(BookJsonSerializer.getInstance());
 

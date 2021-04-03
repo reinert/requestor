@@ -22,6 +22,7 @@ import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
+// TODO: create an AbstractRestService from which anyone can easily create different facades
 public class RestService<R, I, C extends Collection> implements RestInvoker<R, I>, RequestDefaults {
 
     protected final Requestor requestor;
@@ -44,7 +45,7 @@ public class RestService<R, I, C extends Collection> implements RestInvoker<R, I
     }
 
     @Override
-    public Promise<Collection<R>> get(String... params) {
+    public Promise<Collection<R>> get(Object... params) {
         final UriBuilder reqUriBuilder = uriBuilder.clone();
 
         appendParamsToUri(reqUriBuilder, params);
@@ -53,12 +54,10 @@ public class RestService<R, I, C extends Collection> implements RestInvoker<R, I
     }
 
     @Override
-    public Promise<R> get(I id, String... params) {
+    public Promise<R> get(I id) {
         final UriBuilder reqUriBuilder = uriBuilder.clone();
 
         reqUriBuilder.segment(id);
-
-        appendParamsToUri(reqUriBuilder, params);
 
         return request(reqUriBuilder.build()).get(resourceType);
     }
@@ -172,7 +171,7 @@ public class RestService<R, I, C extends Collection> implements RestInvoker<R, I
         return this.asMatrixParam;
     }
 
-    protected void appendParamsToUri(UriBuilder reqUriBuilder, String[] params) {
+    protected void appendParamsToUri(UriBuilder reqUriBuilder, Object[] params) {
         // Check if params were given to the URI
         if (params != null && params.length > 0) {
             if (params.length % 2 > 0) {
@@ -183,9 +182,9 @@ public class RestService<R, I, C extends Collection> implements RestInvoker<R, I
             // Append the params to the request URI
             for (int i = 0; i < params.length; i = i + 2) {
                 if (asMatrixParam) {
-                    reqUriBuilder.matrixParam(params[i], params[i + 1]);
+                    reqUriBuilder.matrixParam(params[i].toString(), params[i + 1]);
                 } else {
-                    reqUriBuilder.queryParam(params[i], params[i + 1]);
+                    reqUriBuilder.queryParam(params[i].toString(), params[i + 1]);
                 }
             }
         }

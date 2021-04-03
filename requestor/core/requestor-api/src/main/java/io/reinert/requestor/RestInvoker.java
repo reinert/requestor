@@ -24,9 +24,9 @@ import java.util.Collection;
  */
 public interface RestInvoker<R, I> {
 
-    Promise<Collection<R>> get(String... params);
+    Promise<Collection<R>> get(Object... params);
 
-    Promise<R> get(I id, String... params);
+    Promise<R> get(I id);
 
     Promise<SerializedResponse> post(R resource);
 
