@@ -28,7 +28,7 @@ public class RawResponseImpl extends ResponseImpl<Payload> implements RawRespons
 
     private final SerializationEngine serializationEngine;
 
-    public RawResponseImpl(Request request, StatusType status, Headers headers, ResponseType type, Payload payload,
+    public RawResponseImpl(Request request, HttpStatus status, Headers headers, ResponseType type, Payload payload,
                            SerializationEngine serializationEngine) {
         super(request, status, headers, type, payload);
         this.serializationEngine = serializationEngine;

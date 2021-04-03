@@ -97,11 +97,11 @@ public interface ResponseFilterContext {
     int getStatusCode();
 
     /**
-     * Returns the HTTP status as a {@link Response.StatusType} object.
+     * Returns the HTTP status as a {@link Response.HttpStatus} object.
      *
      * @return the HTTP status
      */
-    Response.StatusType getStatus();
+    Response.HttpStatus getStatus();
 
     /**
      * Returns the raw payload.

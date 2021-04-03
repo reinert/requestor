@@ -33,12 +33,12 @@ public class ResponseImpl<T> implements Response<T> {
 
     private final Headers headers;
     private final LinkHeader linkHeader;
-    private final StatusType status;
+    private final HttpStatus status;
     private final Request request;
     private T payload;
     private ResponseType responseType;
 
-    public ResponseImpl(Request request, StatusType status, Headers headers, ResponseType responseType, T payload) {
+    public ResponseImpl(Request request, HttpStatus status, Headers headers, ResponseType responseType, T payload) {
         this.request = request;
         if (headers == null)
             throw new NullPointerException("Headers cannot be null");
@@ -91,7 +91,7 @@ public class ResponseImpl<T> implements Response<T> {
     }
 
     @Override
-    public StatusType getStatus() {
+    public HttpStatus getStatus() {
         return status;
     }
 
