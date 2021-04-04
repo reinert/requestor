@@ -18,10 +18,10 @@ digraph G {
 	//io.reinert.requestor.gwtjackson.GwtJacksonProcessor extends javax.annotation.processing.AbstractProcessor
 	c11006:p -> c10981:p [dir=back,arrowtail=empty];
 	// javax.annotation.processing.AbstractProcessor
-	c11006 [label=<<table title="javax.annotation.processing.AbstractProcessor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="https://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/AbstractProcessor.html">
+	c11006 [label=<<table title="javax.annotation.processing.AbstractProcessor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/javax/annotation/processing/AbstractProcessor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> AbstractProcessor </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="https://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/AbstractProcessor.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/javax/annotation/processing/AbstractProcessor.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

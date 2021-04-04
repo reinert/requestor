@@ -18,10 +18,10 @@ digraph G {
 	//com.google.gwt.http.client.RequestorRequest extends com.google.gwt.http.client.Request
 	c29064:p -> c29023:p [dir=back,arrowtail=empty];
 	// com.google.gwt.http.client.Request
-	c29064 [label=<<table title="com.google.gwt.http.client.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c29064 [label=<<table title="com.google.gwt.http.client.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/com/google/gwt/http/client/Request.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Request </td></tr>
 		</table></td></tr>
-		</table>>, URL="null", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/com/google/gwt/http/client/Request.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 
