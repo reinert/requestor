@@ -212,7 +212,7 @@ public class UriBuilderImpl extends UriBuilder {
                 final String[] mMatrixParams = uri.getMatrixParams(segment);
                 if (mMatrixParams != null) {
                     for (String param : mMatrixParams) {
-                        matrixParam(param, uri.getMatrixValues(segment, param));
+                        matrixParam(param, (Object[]) uri.getMatrixValues(segment, param));
                     }
                 }
             }
@@ -225,7 +225,7 @@ public class UriBuilderImpl extends UriBuilder {
         if (mQueryParams != null) {
             this.queryParams = null;
             for (String param : mQueryParams) {
-                queryParam(param, uri.getQueryValues(param));
+                queryParam(param, (Object[]) uri.getQueryValues(param));
             }
         }
 
