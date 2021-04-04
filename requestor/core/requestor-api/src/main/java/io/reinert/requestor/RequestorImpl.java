@@ -144,6 +144,11 @@ public class RequestorImpl extends Requestor {
         return createWebTarget(link.getUri());
     }
 
+    @Override
+    protected RequestDefaultsImpl getDefaults() {
+        return defaults;
+    }
+
 //    @Override
 //    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> returnType) {
 //        return requestDispatcher.dispatch(request, returnType);
@@ -479,13 +484,20 @@ public class RequestorImpl extends Requestor {
                                                                             Class<R> resourceType,
                                                                             Class<I> idType,
                                                                             Class<C> containerType) {
-        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, containerType,
-                RequestDefaultsImpl.copy(defaults));
+        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, containerType);
     }
 
     //===================================================================
     // Internal methods
     //===================================================================
+
+    RequestInvoker createRequest(Uri uri, VolatileStorage volatileStorage) {
+        final RequestInvoker request = new RequestInvokerImpl(uri, volatileStorage, requestDispatcher);
+
+        defaults.apply(request);
+
+        return request;
+    }
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStorage(storage), requestDispatcher);

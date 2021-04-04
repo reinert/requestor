@@ -17,38 +17,35 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.header.Header;
-import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
-// TODO: create an AbstractRestService from which anyone can easily create different facades
-public class RestService<R, I, C extends Collection> implements RestInvoker<R, I>, RequestDefaults {
+public class RestService<R, I, C extends Collection> extends AbstractService implements RestInvoker<R, I> {
 
-    protected final Requestor requestor;
-    protected final UriBuilder uriBuilder;
     protected final Class<R> resourceType;
     protected final Class<I> idType;
     protected final Class<C> collectionType;
-    protected final RequestDefaultsImpl defaults;
+    protected final UriBuilder uriBuilder;
 
     private boolean asMatrixParam = false;
 
     protected RestService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
-                          Class<C> collectionType, RequestDefaultsImpl defaults) {
-        this.requestor = requestor;
+                          Class<C> collectionType) {
+        super(requestor);
+        this.uriBuilder = UriBuilder.fromUri(resourceUri);
         this.resourceType = resourceType;
         this.idType = idType;
         this.collectionType = collectionType;
-        this.uriBuilder = UriBuilder.fromUri(resourceUri);
-        this.defaults = defaults;
     }
 
     @Override
     public Promise<Collection<R>> get(Object... params) {
         final UriBuilder reqUriBuilder = uriBuilder.clone();
 
-        appendParamsToUri(reqUriBuilder, params);
+        if (asMatrixParam) {
+            appendMatrixParamsToUri(reqUriBuilder, params);
+        } else {
+            appendQueryParamsToUri(reqUriBuilder, params);
+        }
 
         return request(reqUriBuilder.build()).get(resourceType, collectionType);
     }
@@ -103,96 +100,11 @@ public class RestService<R, I, C extends Collection> implements RestInvoker<R, I
         return request(reqUriBuilder.build());
     }
 
-    @Override
-    public void reset() {
-        defaults.reset();
-    }
-
-    @Override
-    public void setMediaType(String mediaType) {
-        defaults.setMediaType(mediaType);
-    }
-
-    @Override
-    public String getMediaType() {
-        return defaults.getMediaType();
-    }
-
-    @Override
-    public void setAuth(Auth auth) {
-        defaults.setAuth(auth);
-    }
-
-    @Override
-    public Auth getAuth() {
-        return defaults.getAuth();
-    }
-
-    @Override
-    public void setTimeout(int timeout) {
-        defaults.setTimeout(timeout);
-    }
-
-    @Override
-    public int getTimeout() {
-        return defaults.getTimeout();
-    }
-
-    @Override
-    public void putHeader(Header header) {
-        defaults.putHeader(header);
-    }
-
-    @Override
-    public void setHeader(String headerName, String headerValue) {
-        defaults.setHeader(headerName, headerValue);
-    }
-
-    @Override
-    public Headers getHeaders() {
-        return defaults.getHeaders();
-    }
-
-    @Override
-    public String getHeader(String headerName) {
-        return defaults.getHeader(headerName);
-    }
-
-    @Override
-    public Header popHeader(String headerName) {
-        return defaults.popHeader(headerName);
-    }
-
     public void setAsMatrixParam(boolean asMatrixParam) {
         this.asMatrixParam = asMatrixParam;
     }
 
     public boolean isAsMatrixParam() {
         return this.asMatrixParam;
-    }
-
-    protected void appendParamsToUri(UriBuilder reqUriBuilder, Object[] params) {
-        // Check if params were given to the URI
-        if (params != null && params.length > 0) {
-            if (params.length % 2 > 0) {
-                throw new IllegalArgumentException("It should have an even number of arguments, consisting of " +
-                        "key and value pairs which will be appended to the request URI");
-            }
-
-            // Append the params to the request URI
-            for (int i = 0; i < params.length; i = i + 2) {
-                if (asMatrixParam) {
-                    reqUriBuilder.matrixParam(params[i].toString(), params[i + 1]);
-                } else {
-                    reqUriBuilder.queryParam(params[i].toString(), params[i + 1]);
-                }
-            }
-        }
-    }
-
-    private RequestInvoker request(Uri uri) {
-        final RequestInvoker request = requestor.req(uri);
-        defaults.apply(request);
-        return request;
     }
 }
