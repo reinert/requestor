@@ -57,11 +57,11 @@ public abstract class Auth {
     private static final double TEN_MINUTES = 10 * 60 * 1000;
 
     /**
-     * Request an access token from an OAuth 2.0 provider.
-     * <p/>
+     * <p> Request an access token from an OAuth 2.0 provider. </p>
+     *
      * <p> If it can be determined that the user has already granted access, and the token has not yet expired, and that
      * the token will not expire soon, the existing token will be passed to the callback. </p>
-     * <p/>
+     *
      * <p> Otherwise, a popup window will be displayed which may prompt the user to grant access. If the user has
      * already granted access the popup will immediately close and the token will be passed to the callback. If access
      * hasn't been granted, the user will be prompted, and when they grant, the token will be passed to the callback.
@@ -226,8 +226,8 @@ public abstract class Auth {
     }
 
     /**
-     * Clears all tokens stored by this class.
-     * <p/>
+     * <p> Clears all tokens stored by this class. </p>
+     *
      * <p> This will result in subsequent calls to {@link #login(AuthRequest, Callback)} displaying a popup to the user.
      * If the user has already granted access, that popup will immediately close. </p>
      */

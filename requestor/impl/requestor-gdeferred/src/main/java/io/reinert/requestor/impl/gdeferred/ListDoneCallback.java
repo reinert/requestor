@@ -25,7 +25,7 @@ import io.reinert.requestor.RawResponseImpl;
 import io.reinert.requestor.Response;
 
 /**
- * DoneCallback<Collection<T>> that casts Collection<T> to List<T>.
+ * DoneCallback&lt;Collection&lt;T&gt;&gt; that casts Collection&lt;T&gt; to List&lt;T&gt;.
  *
  * @param <T> Type of List's values
  *

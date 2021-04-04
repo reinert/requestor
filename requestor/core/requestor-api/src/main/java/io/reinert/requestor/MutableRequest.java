@@ -92,7 +92,7 @@ public interface MutableRequest extends Request, HasHeaders {
      * Should the request timeout, registered RejectedCallbacks will be called in the returning Promise.
      * The callback method will receive an instance of the {@link RequestTimeoutException} class as its
      * {@link Throwable} argument.
-     * <p/>
+     * <p></p>
      *
      * Negative aren't allowed according to XMLHttpRequest specification.
      * So if a value less than zero is passed, it is ignored.

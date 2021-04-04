@@ -20,7 +20,7 @@ import io.reinert.requestor.oauth2.TokenInfo;
 
 /**
  * OAuth2 authentication through the
- * <a hfref="https://tools.ietf.org/html/rfc6750#section-2.3">URI Query Parameter</a> method.
+ * <a href="https://tools.ietf.org/html/rfc6750#section-2.3">URI Query Parameter</a> method.
  *
  * @author Danilo Reinert
  */

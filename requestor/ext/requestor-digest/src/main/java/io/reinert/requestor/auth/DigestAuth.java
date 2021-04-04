@@ -32,7 +32,7 @@ import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.uri.Uri;
 
 /**
- * HTTP Digest Authentication implementation. <br/>
+ * HTTP Digest Authentication implementation. <br>
  * This class supports MD5 digest authentication based on <a href="http://tools.ietf.org/html/rfc2617">RFC 2617</a>.
  *
  * @author Danilo Reinert

@@ -27,7 +27,7 @@ public interface Auth {
 
     /**
      * Performs the logic for making the request authenticated, then dispatch the request.
-     * <p/>
+     * <p></p>
      *
      * IMPORTANT: You must call requestOrder#send() after the auth has finished in order to dispatch the
      * request, otherwise the request will never be sent. <br>

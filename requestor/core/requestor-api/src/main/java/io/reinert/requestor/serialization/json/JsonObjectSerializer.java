@@ -40,14 +40,14 @@ public abstract class JsonObjectSerializer<T> extends JsonSerializer<T> {
 
     /**
      * Verifies if the deserializer should evaluate the response safely.
-     * <p/>
+     * <p></p>
      * If this method returns <code>true</code>, then the deserializer will evaluate the response using
      * {@link com.google.gwt.core.client.JsonUtils#safeEval(String)}, otherwise it will use
      * {@link com.google.gwt.core.client.JsonUtils#unsafeEval(String)}.
-     * <p/>
+     * <p></p>
      * If you are completely sure you'll will always receive safe contents, then you can override it
      * to return <code>false</code> and you'll benefit a faster deserialization.
-     * <p/>
+     * <p></p>
      * The default implementation is <code>true</code>.
      *
      * @return  <code>true</code> if you want to evaluate response safely,
@@ -123,7 +123,7 @@ public abstract class JsonObjectSerializer<T> extends JsonSerializer<T> {
 
     /**
      * Performs evaluation of serialized response obeying the #useSafeEval configuration.
-     * <p/>
+     * <p></p>
      *
      * If #useSafeEval is {@code true} then the eval is performed using {@link JsonUtils#safeEval},
      * otherwise then content will be loosely evaluated by {@link JsonUtils#unsafeEval}.

@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Declares types that must have auto-generated json serializer. <br/>
+ * Declares types that must have auto-generated json serializer. <br>
  * The implementation is let to extension projects.
  */
 @Inherited

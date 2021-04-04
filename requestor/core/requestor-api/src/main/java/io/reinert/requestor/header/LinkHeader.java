@@ -25,7 +25,7 @@ import io.reinert.requestor.Link;
 
 /**
  * The HTTP Link header.
- * <p/>
+ * <p></p>
  * It's a multivalued header that provides access to the attributes related by official spec.
  *
  * @author Danilo Reinert

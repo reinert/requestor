@@ -35,7 +35,7 @@ public interface Deserializer<T> {
 
     /**
      * Tells the content-type patterns which this deserializer handles.
-     * <p/>
+     * <p></p>
      * 
      * E.g., a deserializer for JSON can return {"application/json", "application/javascript"}.<br>
      * If you want to create a deserializer for any content-type just return "*&#47;*".
@@ -56,7 +56,7 @@ public interface Deserializer<T> {
 
     /**
      * Deserialize the plain text into a collection T.
-     * <p/>
+     * <p></p>
      * 
      * The collection instance can be retrieved from {@link DeserializationContext#getInstance(Class)}.
      *

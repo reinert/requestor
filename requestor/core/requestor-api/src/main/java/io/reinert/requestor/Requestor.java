@@ -28,17 +28,17 @@ import io.reinert.requestor.uri.UriBuilder;
 /**
  * This interface is a configurable container responsible for building requests.
  * Usually, you will use it as a singleton.
- * <p/>
+ * <p></p>
  *
  * It provides a convenience API for managing/creating HTTP Requests.
- * <p/>
+ * <p></p>
  *
  * You can register {@link RequestFilter} or {@link ResponseFilter}, to manipulate all your requests.
- * <p/>
+ * <p></p>
  *
  * You can register {@link RequestInterceptor} or {@link ResponseInterceptor} to intercept every request/response and
  * modify their payloads.
- * <p/>
+ * <p></p>
  *
  * You can register {@link Serializer} or a {@link Deserializer} to provide both serialization and/or deserialization
  * of objects according to media-types.

@@ -28,7 +28,7 @@ import io.reinert.requestor.uri.UriBuilderException;
 
 /**
  * A resource target identified by the resource URI.
- * <p/>
+ * <p></p>
  * Any Filters or Interceptors registered in a WebTarget instance do not affect others derived from the original.
  *
  * @author Danilo Reinert
@@ -222,10 +222,10 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
      * Create a new WebTarget instance by appending a matrix parameter to the existing set of matrix parameters of the
      * current final segment of the URI of the current target instance. If multiple values are supplied the parameter
      * will be added once per value.
-     * <p/>
+     * <p></p>
      * Note that the matrix parameters are tied to a particular path segment; appending a value to an existing matrix
      * parameter name will not affect the position of the matrix parameter in the URI path.
-     * <p/>
+     * <p></p>
      * A snapshot of the present configuration of the current (parent) target instance is taken and is inherited by the
      * newly constructed (child) target instance.
      *
@@ -243,11 +243,11 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     /**
      * Create a new WebTarget instance by appending path to the URI of the current target instance.
-     * <p/>
+     * <p></p>
      * When constructing the final path, a '/' separator will be inserted between the existing path and the supplied
      * path if necessary. Existing '/' characters are preserved thus a single value can represent multiple URI path
      * segments.
-     * <p/>
+     * <p></p>
      * A snapshot of the present configuration of the current (parent) target instance is taken and is inherited by the
      * newly constructed (child) target instance.
      *
@@ -268,7 +268,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     /**
      * Create a new WebTarget instance by configuring a query parameter on the URI of the current target instance.
      * If multiple values are supplied the parameter will be added once per value.
-     * <p/>
+     * <p></p>
      * A snapshot of the present configuration of the current (parent) target instance is taken and is inherited by the
      * newly constructed (child) target instance.
      *

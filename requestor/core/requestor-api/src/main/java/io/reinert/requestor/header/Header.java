@@ -25,7 +25,7 @@ public abstract class Header extends com.google.gwt.http.client.Header {
 
     /**
      * Factory method useful to create headers from original GWT {@link com.google.gwt.http.client.Response}.
-     * <p/>
+     * <p></p>
      * It should be used by {@link io.reinert.requestor.RequestDispatcher} impls when receiving responses.
      *
      * @param rawHeader  The original GWT header
