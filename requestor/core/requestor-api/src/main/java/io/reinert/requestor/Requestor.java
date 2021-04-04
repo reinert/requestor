@@ -164,6 +164,8 @@ public abstract class Requestor implements SerializerManager, FilterManager, Int
      */
     public abstract WebTarget target(Link link);
 
+    protected abstract RequestDefaultsImpl getDefaults();
+
 //    /**
 //     * Quickly dispatch serialized requests.
 //     * Use it if you want to skip the request processing steps and send a request as it is.

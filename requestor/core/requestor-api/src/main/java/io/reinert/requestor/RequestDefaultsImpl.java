@@ -31,7 +31,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
         newDefaults.setMediaType(defaults.getMediaType());
         newDefaults.setAuth(defaults.getAuth());
         newDefaults.setTimeout(defaults.getTimeout());
-        for (Header h : defaults.headers) {
+        for (Header h : defaults.getHeaders()) {
             newDefaults.putHeader(h);
         }
         newDefaults.setRequestSerializer(defaults.getRequestSerializer());
