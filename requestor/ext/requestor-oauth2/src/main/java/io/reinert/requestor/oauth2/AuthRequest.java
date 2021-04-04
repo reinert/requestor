@@ -45,9 +45,9 @@ public class AuthRequest {
     }
 
     /**
-     * Since some OAuth providers expect multiple scopes to be delimited with spaces (conforming with spec), or spaces,
-     * or plus signs, you can set the scope delimiter here that will be used for this AuthRequest.
-     * <p/>
+     * <p> Since some OAuth providers expect multiple scopes to be delimited with spaces (conforming with spec),
+     * or spaces, or plus signs, you can set the scope delimiter here that will be used for this AuthRequest. </p>
+     *
      * <p> By default, this will be a single space, in conformance with the latest draft of the OAuth 2.0 spec. </p>
      */
     public AuthRequest withScopeDelimiter(String scopeDelimiter) {

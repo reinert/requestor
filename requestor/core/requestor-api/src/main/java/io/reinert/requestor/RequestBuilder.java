@@ -86,7 +86,7 @@ public interface RequestBuilder extends Request {
      * Should the request timeout, registered RejectedCallbacks will be called in the returning Promise.
      * The callback method will receive an instance of the {@link RequestTimeoutException} class as its
      * {@link Throwable} argument.
-     * <p/>
+     * <p></p>
      *
      * Negative aren't allowed according to XMLHttpRequest specification.
      * So if a value less than zero is passed, it is ignored.
@@ -100,9 +100,9 @@ public interface RequestBuilder extends Request {
 
     /**
      * Input a object to be sent in the HTTP Request payload.
-     * <p/>
+     * <p></p>
      *
-     * This object will be serialized considering its class and the current content-type.<br/>
+     * This object will be serialized considering its class and the current content-type.<br>
      * If no serializer was found by matching these two factors, then a exception is thrown.
      *
      * @param payload The payload of the request

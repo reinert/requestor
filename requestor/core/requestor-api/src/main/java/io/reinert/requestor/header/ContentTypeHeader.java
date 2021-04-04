@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 /**
  * The HTTP Content-Type header.
- * </p>
+ * <p></p>
  * It's a simple header.
  *
  * @author Danilo Reinert

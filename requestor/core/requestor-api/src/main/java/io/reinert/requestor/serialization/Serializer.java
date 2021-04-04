@@ -35,7 +35,7 @@ public interface Serializer<T> extends Deserializer<T> {
 
     /**
      * Tells the media-type patterns which this serializer handles.
-     * <p/>
+     * <p></p>
      *
      * E.g., a serializer for JSON can return {"application/json", "application/javascript"}.<br>
      * If you want to create a serializer for any media-type just return "*&#47;*".

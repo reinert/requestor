@@ -31,7 +31,7 @@ import io.reinert.requestor.Response;
 /**
  * DeferredRequest implementation of GDeferred.
  *
- * @param <T> Expected type in {@link Promise#done(io.reinert.gdeferred.DoneCallback)}.
+ * @param <T> Expected type in Promise#done.
  */
 public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestProgress>
         implements Deferred<T>, Promise<T> {

@@ -71,7 +71,7 @@ public abstract class UrlCodec {
      * into its UTF-8 encoding and then encoding each of the resulting bytes as a
      * %xx hexadecimal escape sequence.
      *
-     * <p>
+     * <p></p>
      * The following character sets are <em>not</em> escaped by this method:
      * <ul>
      * <li>ASCII digits or letters</li>
@@ -90,7 +90,6 @@ public abstract class UrlCodec {
      *
      * </li>
      * </ul>
-     * </p>
      *
      * @param decodedURL a string containing URL characters that may require
      *        encoding
@@ -106,7 +105,7 @@ public abstract class UrlCodec {
      * converting it into its UTF-8 encoding and then encoding each of the
      * resulting bytes as a %xx hexadecimal escape sequence.
      *
-     * <p>
+     * <p></p>
      * The following character sets are <em>not</em> escaped by this method:
      * <ul>
      * <li>ASCII digits or letters</li>
@@ -115,9 +114,8 @@ public abstract class UrlCodec {
      * <pre>- _ . ! ~ * ' ( )</pre>
      * </li>
      * </ul>
-     * </p>
      *
-     * <p>
+     * <p></p>
      * Notice that this method <em>does</em> encode the URL component delimiter
      * characters:<blockquote>
      *
@@ -126,7 +124,6 @@ public abstract class UrlCodec {
      * </pre>
      *
      * </blockquote>
-     * </p>
      *
      * @param decodedURLComponent a string containing invalid URL characters
      * @return a string with all invalid URL characters escaped
@@ -145,7 +142,7 @@ public abstract class UrlCodec {
      * short form, '+' rather than %20. It should therefore only be used for
      * query-string parts.
      *
-     * <p>
+     * <p></p>
      * The following character sets are <em>not</em> escaped by this method:
      * <ul>
      * <li>ASCII digits or letters</li>
@@ -154,9 +151,8 @@ public abstract class UrlCodec {
      * <pre>- _ . ! ~ * ' ( )</pre>
      * </li>
      * </ul>
-     * </p>
      *
-     * <p>
+     * <p></p>
      * Notice that this method <em>does</em> encode the URL component delimiter
      * characters:<blockquote>
      *
@@ -165,7 +161,6 @@ public abstract class UrlCodec {
      * </pre>
      *
      * </blockquote>
-     * </p>
      *
      * @param decodedURLComponent a string containing invalid URL characters
      * @return a string with all invalid URL characters escaped

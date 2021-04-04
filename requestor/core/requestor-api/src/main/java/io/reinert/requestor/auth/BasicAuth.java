@@ -21,7 +21,7 @@ import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RequestDispatcher;
 
 /**
- * HTTP Basic Authentication implementation. <br/>
+ * HTTP Basic Authentication implementation. <br>
  * Beyond username and password, this class accepts a withCredentials boolean, useful for CORS requests.
  *
  * @author Danilo Reinert

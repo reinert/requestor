@@ -40,12 +40,12 @@ public abstract class RequestDispatcher {
     /**
      * Sends the request through the wire and resolves (or rejects) the deferred when completed.
      * The success result must be a instance of #resultType.
-     * <p/>
+     * <p></p>
      * Implementations must execute an HTTP Request with given values and resolve/reject the deferred when the request
      * is finished. It is recommended that progress events be sent to
      * {@link Deferred#notifyDownload(RequestProgress)} and
      * {@link Deferred#notifyUpload(RequestProgress)}.
-     * <p/>
+     * <p></p>
      * All possible exceptions should be caught and sent to {@link Deferred#reject(RequestException)}
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.

@@ -19,7 +19,7 @@ import java.util.Collection;
 
 /**
  * The HTTP Accept header.
- * <p/>
+ * <p></p>
  * It's a relative quality factor header.
  *
  * @author Danilo Reinert

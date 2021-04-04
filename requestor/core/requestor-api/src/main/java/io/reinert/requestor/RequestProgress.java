@@ -26,7 +26,7 @@ public interface RequestProgress {
 
     /**
      * Returns the loaded amount of the request.
-     * <p/>
+     * <p></p>
      *
      * If length is not computable, then 0 is returned.
      *
@@ -36,7 +36,7 @@ public interface RequestProgress {
 
     /**
      * Returns the total amount of the request.
-     * <p/>
+     * <p></p>
      *
      * If length is not computable, then 0 is returned.
      *
@@ -47,7 +47,7 @@ public interface RequestProgress {
     /**
      * Returns the completed amount of the request in a interval [0,1].
      * This value is calculated by dividing the loaded amount by the total.
-     * <p/>
+     * <p></p>
      *
      * If length is not computable, then 0 is returned.
      *
@@ -58,7 +58,7 @@ public interface RequestProgress {
     /**
      * Returns the completed amount of the request in a interval [0,1] multiplied by the given factor.
      * This value is calculated by dividing the loaded amount by the total and then multiplying by the factor.
-     * <p/>
+     * <p></p>
      *
      * If length is not computable, then 0 is returned.
      *

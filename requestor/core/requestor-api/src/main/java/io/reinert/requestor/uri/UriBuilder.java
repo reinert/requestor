@@ -21,9 +21,9 @@ import com.google.gwt.core.shared.GWT;
 
 /**
  * Utility class for building URIs from their components.
- * <p/>
+ * <p></p>
  * It is aware of templates.
- * <p/>
+ * <p></p>
  */
 public abstract class UriBuilder {
 
@@ -236,7 +236,7 @@ public abstract class UriBuilder {
      * in the stringified values will be encoded.
      * The state of the builder is unaffected; this method may be called
      * multiple times on the same builder instance.
-     * <p/>
+     * <p></p>
      *
      * All instances of the same template parameter
      * will be replaced by the same value that corresponds to the position of the

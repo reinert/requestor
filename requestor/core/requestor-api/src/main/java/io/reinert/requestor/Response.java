@@ -203,7 +203,7 @@ public interface Response<T> {
 
     /**
      * Commonly used status codes defined by HTTP, see
-     * {@link <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">HTTP/1.1 documentation</a>}
+     * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">HTTP/1.1 documentation</a>
      * for the complete list. Additional status codes can be added by applications
      * by creating an implementation of {@link HttpStatus}.
      */

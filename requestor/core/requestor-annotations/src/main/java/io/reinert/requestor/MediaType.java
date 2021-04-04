@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines that the type must have an auto-generated json serializer. <br/>
+ * Defines that the type must have an auto-generated json serializer. <br>
  * The implementation of the serializer is let to third-part projects.
  */
 @Inherited
@@ -31,8 +31,8 @@ import java.lang.annotation.Target;
 public @interface MediaType {
 
     /**
-     * A list of content-type patterns. <br/>
-     * These patterns will be used to match content-types of incoming responses and outgoing requests. <br/>
+     * A list of content-type patterns. <br>
+     * These patterns will be used to match content-types of incoming responses and outgoing requests. <br>
      * The pattern accepts wildcards like "&#42;&#47;json".
      */
     String[] value();
