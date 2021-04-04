@@ -1,6 +1,7 @@
 FROM openjdk:8-jdk-alpine
 
-RUN apk add --no-cache curl tar bash procps
+# graphviz is required by maven-javadoc-plugin (generate-site)
+RUN apk add --no-cache graphviz curl tar bash procps
 
 # Downloading and installing Maven
 # 1- Define a constant with the version of maven you want to install
