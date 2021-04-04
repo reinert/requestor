@@ -1,5 +1,6 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./FailCallback.html" title="io.reinert.requestor.impl.gdeferred.FailCallback" alt="" coords="31,112,129,155"/>
 <area shape="rect" id="node1" href="./FailCallback.html" title="&lt;TABLE&gt;" alt="" coords="21,107,139,160"/>
-<area shape="rect" id="node2" href="null" title="&lt;TABLE&gt;" alt="" coords="5,5,155,59"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/gdeferred/FailCallback.html" title="io.reinert.gdeferred.FailCallback" alt="" coords="16,11,144,53"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/gdeferred/FailCallback.html" title="&lt;TABLE&gt;" alt="" coords="5,5,155,59"/>
 </map>

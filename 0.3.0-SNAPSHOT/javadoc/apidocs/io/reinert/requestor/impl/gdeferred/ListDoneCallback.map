@@ -1,6 +1,8 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./ListDoneCallback.html" title="io.reinert.requestor.impl.gdeferred.ListDoneCallback" alt="" coords="109,118,272,143"/>
 <area shape="rect" id="node1" href="./ListDoneCallback.html" title="&lt;TABLE&gt;" alt="" coords="99,107,283,155"/>
-<area shape="rect" id="node2" href="null" title="&lt;TABLE&gt;" alt="" coords="5,5,168,59"/>
-<area shape="rect" id="node3" href="null" title="&lt;TABLE&gt;" alt="" coords="193,5,397,59"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/gdeferred/DoneCallback.html" title="io.reinert.gdeferred.DoneCallback" alt="" coords="16,11,157,53"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/gdeferred/DoneCallback.html" title="&lt;TABLE&gt;" alt="" coords="5,5,168,59"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/requestor/impl/gdeferred/DoneCallbackForList.html" title="io.reinert.requestor.impl.gdeferred.DoneCallbackForList" alt="" coords="203,11,386,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/requestor/impl/gdeferred/DoneCallbackForList.html" title="&lt;TABLE&gt;" alt="" coords="193,5,397,59"/>
 </map>
