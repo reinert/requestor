@@ -5,24 +5,23 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.serialization.json.JsonRecordReader
-	c7012 [label=<<table title="io.reinert.requestor.serialization.json.JsonRecordReader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonRecordReader.html">
+	c14847 [label=<<table title="io.reinert.requestor.serialization.json.JsonRecordReader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonRecordReader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonRecordReader </td></tr>
 		</table></td></tr>
-		</table>>, URL="./JsonRecordReader.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./JsonRecordReader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.serialization.json.JsonRecordReader extends com.google.gwt.core.client.JavaScriptObject
-	c7042:p -> c7012:p [dir=back,arrowtail=empty];
+	c14917:p -> c14847:p [dir=back,arrowtail=empty];
 	// com.google.gwt.core.client.JavaScriptObject
-	c7042 [label=<<table title="com.google.gwt.core.client.JavaScriptObject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
+	c14917 [label=<<table title="com.google.gwt.core.client.JavaScriptObject" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JavaScriptObject </td></tr>
 		</table></td></tr>
-		</table>>, URL="null", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="null", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

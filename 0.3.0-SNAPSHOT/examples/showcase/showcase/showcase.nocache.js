@@ -1,5 +1,5 @@
 function showcase(){
-  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.showcase=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'showcase', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'javascript:""', $intern_11 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_12 = ' top: -1000px;', $intern_13 = 'CSS1Compat', $intern_14 = '<!doctype html>', $intern_15 = '', $intern_16 = '<html><head><\/head><body><\/body><\/html>', $intern_17 = 'undefined', $intern_18 = 'DOMContentLoaded', $intern_19 = 50, $intern_20 = 'script', $intern_21 = 'javascript', $intern_22 = 'Failed to load ', $intern_23 = 'moduleStartup', $intern_24 = 'scriptTagAdded', $intern_25 = 'moduleRequested', $intern_26 = 'meta', $intern_27 = 'name', $intern_28 = 'showcase::', $intern_29 = '::', $intern_30 = 'gwt:property', $intern_31 = 'content', $intern_32 = '=', $intern_33 = 'gwt:onPropertyErrorFn', $intern_34 = 'Bad handler "', $intern_35 = '" for "gwt:onPropertyErrorFn"', $intern_36 = 'gwt:onLoadErrorFn', $intern_37 = '" for "gwt:onLoadErrorFn"', $intern_38 = '#', $intern_39 = '?', $intern_40 = '/', $intern_41 = 'img', $intern_42 = 'clear.cache.gif', $intern_43 = 'baseUrl', $intern_44 = 'showcase.nocache.js', $intern_45 = 'base', $intern_46 = '//', $intern_47 = 'user.agent', $intern_48 = 'webkit', $intern_49 = 'safari', $intern_50 = 'msie', $intern_51 = 10, $intern_52 = 11, $intern_53 = 'ie10', $intern_54 = 9, $intern_55 = 'ie9', $intern_56 = 8, $intern_57 = 'ie8', $intern_58 = 'gecko', $intern_59 = 'gecko1_8', $intern_60 = 2, $intern_61 = 3, $intern_62 = 4, $intern_63 = 'selectingPermutation', $intern_64 = 'showcase.devmode.js', $intern_65 = '2A21FA1B1C189D18D6363FA47A72A6EF', $intern_66 = '7BFEA54A3EEB159A46D4CF6363F0106B', $intern_67 = 'E17C6DAB416507A8D630FA9878E2048F', $intern_68 = 'E2CB7DABF7D835225504888BF2A50155', $intern_69 = 'F4C339208E3F827FB64BA93BCC806052', $intern_70 = ':', $intern_71 = '.cache.js', $intern_72 = 'loadExternalRefs', $intern_73 = 'end', $intern_74 = 'http:', $intern_75 = 'file:', $intern_76 = '_gwt_dummy_', $intern_77 = '__gwtDevModeHook:showcase', $intern_78 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_79 = ':moduleBase', $intern_80 = 'head';
+  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.showcase=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'showcase', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_11 = ' top: -1000px;', $intern_12 = 'CSS1Compat', $intern_13 = '<!doctype html>', $intern_14 = '', $intern_15 = '<html><head><\/head><body><\/body><\/html>', $intern_16 = 'undefined', $intern_17 = 'readystatechange', $intern_18 = 10, $intern_19 = 'script', $intern_20 = 'javascript', $intern_21 = 'Failed to load ', $intern_22 = 'moduleStartup', $intern_23 = 'scriptTagAdded', $intern_24 = 'moduleRequested', $intern_25 = 'meta', $intern_26 = 'name', $intern_27 = 'showcase::', $intern_28 = '::', $intern_29 = 'gwt:property', $intern_30 = 'content', $intern_31 = '=', $intern_32 = 'gwt:onPropertyErrorFn', $intern_33 = 'Bad handler "', $intern_34 = '" for "gwt:onPropertyErrorFn"', $intern_35 = 'gwt:onLoadErrorFn', $intern_36 = '" for "gwt:onLoadErrorFn"', $intern_37 = '#', $intern_38 = '?', $intern_39 = '/', $intern_40 = 'img', $intern_41 = 'clear.cache.gif', $intern_42 = 'baseUrl', $intern_43 = 'showcase.nocache.js', $intern_44 = 'base', $intern_45 = '//', $intern_46 = 'user.agent', $intern_47 = 'webkit', $intern_48 = 'safari', $intern_49 = 'msie', $intern_50 = 11, $intern_51 = 'ie10', $intern_52 = 9, $intern_53 = 'ie9', $intern_54 = 8, $intern_55 = 'ie8', $intern_56 = 'gecko', $intern_57 = 'gecko1_8', $intern_58 = 2, $intern_59 = 3, $intern_60 = 4, $intern_61 = 'selectingPermutation', $intern_62 = 'showcase.devmode.js', $intern_63 = '4BC5C815ABE3262A09646A4DA32E0880', $intern_64 = '4F60CA717788806651FFC5F3E808D225', $intern_65 = '5A1BFF0E6F3AE3B9CEA4093DAA656E76', $intern_66 = '7FD7B08B521568400959FB1FFA34BCFA', $intern_67 = 'E0DD4FEFF2D740B03B755364065E22BF', $intern_68 = ':', $intern_69 = '.cache.js', $intern_70 = 'loadExternalRefs', $intern_71 = 'end', $intern_72 = 'http:', $intern_73 = 'file:', $intern_74 = '_gwt_dummy_', $intern_75 = '__gwtDevModeHook:showcase', $intern_76 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_77 = ':moduleBase', $intern_78 = 'head';
   var $wnd = window;
   var $doc = document;
   sendStats($intern_0, $intern_1);
@@ -64,26 +64,22 @@ function showcase(){
       return;
     }
     var scriptFrame = $doc.createElement($intern_9);
-    scriptFrame.src = $intern_10;
     scriptFrame.id = $intern_4;
-    scriptFrame.style.cssText = $intern_11 + $intern_12;
+    scriptFrame.style.cssText = $intern_10 + $intern_11;
     scriptFrame.tabIndex = -1;
     $doc.body.appendChild(scriptFrame);
-    frameDoc = scriptFrame.contentDocument;
-    if (!frameDoc) {
-      frameDoc = scriptFrame.contentWindow.document;
-    }
+    frameDoc = scriptFrame.contentWindow.document;
     frameDoc.open();
-    var doctype = document.compatMode == $intern_13?$intern_14:$intern_15;
-    frameDoc.write(doctype + $intern_16);
+    var doctype = document.compatMode == $intern_12?$intern_13:$intern_14;
+    frameDoc.write(doctype + $intern_15);
     frameDoc.close();
   }
 
   function installScript(filename){
     function setupWaitForBodyLoad(callback){
       function isBodyLoaded(){
-        if (typeof $doc.readyState == $intern_17) {
-          return typeof $doc.body != $intern_17 && $doc.body != null;
+        if (typeof $doc.readyState == $intern_16) {
+          return typeof $doc.body != $intern_16 && $doc.body != null;
         }
         return /loaded|complete/.test($doc.readyState);
       }
@@ -93,12 +89,15 @@ function showcase(){
         callback();
         return;
       }
-      function onBodyDone(){
+      function checkBodyDone(){
         if (!bodyDone) {
+          if (!isBodyLoaded()) {
+            return;
+          }
           bodyDone = true;
           callback();
           if ($doc.removeEventListener) {
-            $doc.removeEventListener($intern_18, onBodyDone, false);
+            $doc.removeEventListener($intern_17, checkBodyDone, false);
           }
           if (onBodyDoneTimerId) {
             clearInterval(onBodyDoneTimerId);
@@ -107,33 +106,31 @@ function showcase(){
       }
 
       if ($doc.addEventListener) {
-        $doc.addEventListener($intern_18, onBodyDone, false);
+        $doc.addEventListener($intern_17, checkBodyDone, false);
       }
       var onBodyDoneTimerId = setInterval(function(){
-        if (isBodyLoaded()) {
-          onBodyDone();
-        }
+        checkBodyDone();
       }
-      , $intern_19);
+      , $intern_18);
     }
 
     function installCode(code_0){
       var doc = getInstallLocationDoc();
       var docbody = doc.body;
-      var script = doc.createElement($intern_20);
-      script.language = $intern_21;
+      var script = doc.createElement($intern_19);
+      script.language = $intern_20;
       script.src = code_0;
       if (showcase.__errFn) {
         script.onerror = function(){
-          showcase.__errFn($intern_4, new Error($intern_22 + code_0));
+          showcase.__errFn($intern_4, new Error($intern_21 + code_0));
         }
         ;
       }
       docbody.appendChild(script);
-      sendStats($intern_23, $intern_24);
+      sendStats($intern_22, $intern_23);
     }
 
-    sendStats($intern_23, $intern_25);
+    sendStats($intern_22, $intern_24);
     setupWaitForBodyLoad(function(){
       installCode(filename);
     }
@@ -147,8 +144,8 @@ function showcase(){
   showcase.__installRunAsyncCode = function(code_0){
     var doc = getInstallLocationDoc();
     var docbody = doc.body;
-    var script = doc.createElement($intern_20);
-    script.language = $intern_21;
+    var script = doc.createElement($intern_19);
+    script.language = $intern_20;
     script.text = code_0;
     docbody.appendChild(script);
   }
@@ -157,48 +154,48 @@ function showcase(){
     var metaProps = {};
     var propertyErrorFunc;
     var onLoadErrorFunc;
-    var metas = $doc.getElementsByTagName($intern_26);
+    var metas = $doc.getElementsByTagName($intern_25);
     for (var i = $intern_7, n = metas.length; i < n; ++i) {
-      var meta = metas[i], name_0 = meta.getAttribute($intern_27), content;
+      var meta = metas[i], name_0 = meta.getAttribute($intern_26), content_0;
       if (name_0) {
-        name_0 = name_0.replace($intern_28, $intern_15);
-        if (name_0.indexOf($intern_29) >= $intern_7) {
+        name_0 = name_0.replace($intern_27, $intern_14);
+        if (name_0.indexOf($intern_28) >= $intern_7) {
           continue;
         }
-        if (name_0 == $intern_30) {
-          content = meta.getAttribute($intern_31);
-          if (content) {
-            var value_0, eq = content.indexOf($intern_32);
+        if (name_0 == $intern_29) {
+          content_0 = meta.getAttribute($intern_30);
+          if (content_0) {
+            var value_0, eq = content_0.indexOf($intern_31);
             if (eq >= $intern_7) {
-              name_0 = content.substring($intern_7, eq);
-              value_0 = content.substring(eq + $intern_8);
+              name_0 = content_0.substring($intern_7, eq);
+              value_0 = content_0.substring(eq + $intern_8);
             }
              else {
-              name_0 = content;
-              value_0 = $intern_15;
+              name_0 = content_0;
+              value_0 = $intern_14;
             }
             metaProps[name_0] = value_0;
           }
         }
-         else if (name_0 == $intern_33) {
-          content = meta.getAttribute($intern_31);
-          if (content) {
+         else if (name_0 == $intern_32) {
+          content_0 = meta.getAttribute($intern_30);
+          if (content_0) {
             try {
-              propertyErrorFunc = eval(content);
+              propertyErrorFunc = eval(content_0);
             }
              catch (e) {
-              alert($intern_34 + content + $intern_35);
+              alert($intern_33 + content_0 + $intern_34);
             }
           }
         }
-         else if (name_0 == $intern_36) {
-          content = meta.getAttribute($intern_31);
-          if (content) {
+         else if (name_0 == $intern_35) {
+          content_0 = meta.getAttribute($intern_30);
+          if (content_0) {
             try {
-              onLoadErrorFunc = eval(content);
+              onLoadErrorFunc = eval(content_0);
             }
              catch (e) {
-              alert($intern_34 + content + $intern_37);
+              alert($intern_33 + content_0 + $intern_36);
             }
           }
         }
@@ -215,68 +212,68 @@ function showcase(){
 
   function computeScriptBase(){
     function getDirectoryOfFile(path){
-      var hashIndex = path.lastIndexOf($intern_38);
+      var hashIndex = path.lastIndexOf($intern_37);
       if (hashIndex == -1) {
         hashIndex = path.length;
       }
-      var queryIndex = path.indexOf($intern_39);
+      var queryIndex = path.indexOf($intern_38);
       if (queryIndex == -1) {
         queryIndex = path.length;
       }
-      var slashIndex = path.lastIndexOf($intern_40, Math.min(queryIndex, hashIndex));
-      return slashIndex >= $intern_7?path.substring($intern_7, slashIndex + $intern_8):$intern_15;
+      var slashIndex = path.lastIndexOf($intern_39, Math.min(queryIndex, hashIndex));
+      return slashIndex >= $intern_7?path.substring($intern_7, slashIndex + $intern_8):$intern_14;
     }
 
     function ensureAbsoluteUrl(url_0){
       if (url_0.match(/^\w+:\/\//)) {
       }
        else {
-        var img = $doc.createElement($intern_41);
-        img.src = url_0 + $intern_42;
+        var img = $doc.createElement($intern_40);
+        img.src = url_0 + $intern_41;
         url_0 = getDirectoryOfFile(img.src);
       }
       return url_0;
     }
 
     function tryMetaTag(){
-      var metaVal = __gwt_getMetaProperty($intern_43);
+      var metaVal = __gwt_getMetaProperty($intern_42);
       if (metaVal != null) {
         return metaVal;
       }
-      return $intern_15;
+      return $intern_14;
     }
 
     function tryNocacheJsTag(){
-      var scriptTags = $doc.getElementsByTagName($intern_20);
+      var scriptTags = $doc.getElementsByTagName($intern_19);
       for (var i = $intern_7; i < scriptTags.length; ++i) {
-        if (scriptTags[i].src.indexOf($intern_44) != -1) {
+        if (scriptTags[i].src.indexOf($intern_43) != -1) {
           return getDirectoryOfFile(scriptTags[i].src);
         }
       }
-      return $intern_15;
+      return $intern_14;
     }
 
     function tryBaseTag(){
-      var baseElements = $doc.getElementsByTagName($intern_45);
+      var baseElements = $doc.getElementsByTagName($intern_44);
       if (baseElements.length > $intern_7) {
         return baseElements[baseElements.length - $intern_8].href;
       }
-      return $intern_15;
+      return $intern_14;
     }
 
     function isLocationOk(){
       var loc = $doc.location;
-      return loc.href == loc.protocol + $intern_46 + loc.host + loc.pathname + loc.search + loc.hash;
+      return loc.href == loc.protocol + $intern_45 + loc.host + loc.pathname + loc.search + loc.hash;
     }
 
     var tempBase = tryMetaTag();
-    if (tempBase == $intern_15) {
+    if (tempBase == $intern_14) {
       tempBase = tryNocacheJsTag();
     }
-    if (tempBase == $intern_15) {
+    if (tempBase == $intern_14) {
       tempBase = tryBaseTag();
     }
-    if (tempBase == $intern_15 && isLocationOk()) {
+    if (tempBase == $intern_14 && isLocationOk()) {
       tempBase = getDirectoryOfFile($doc.location.href);
     }
     tempBase = ensureAbsoluteUrl(tempBase);
@@ -321,38 +318,38 @@ function showcase(){
       throw null;
     }
 
-    providers[$intern_47] = function(){
+    providers[$intern_46] = function(){
       var ua = navigator.userAgent.toLowerCase();
       var docMode = $doc.documentMode;
       if (function(){
-        return ua.indexOf($intern_48) != -1;
+        return ua.indexOf($intern_47) != -1;
       }
       ())
-        return $intern_49;
+        return $intern_48;
       if (function(){
-        return ua.indexOf($intern_50) != -1 && (docMode >= $intern_51 && docMode < $intern_52);
+        return ua.indexOf($intern_49) != -1 && (docMode >= $intern_18 && docMode < $intern_50);
+      }
+      ())
+        return $intern_51;
+      if (function(){
+        return ua.indexOf($intern_49) != -1 && (docMode >= $intern_52 && docMode < $intern_50);
       }
       ())
         return $intern_53;
       if (function(){
-        return ua.indexOf($intern_50) != -1 && (docMode >= $intern_54 && docMode < $intern_52);
+        return ua.indexOf($intern_49) != -1 && (docMode >= $intern_54 && docMode < $intern_50);
       }
       ())
         return $intern_55;
       if (function(){
-        return ua.indexOf($intern_50) != -1 && (docMode >= $intern_56 && docMode < $intern_52);
+        return ua.indexOf($intern_56) != -1 || docMode >= $intern_50;
       }
       ())
         return $intern_57;
-      if (function(){
-        return ua.indexOf($intern_58) != -1 || docMode >= $intern_52;
-      }
-      ())
-        return $intern_59;
-      return $intern_15;
+      return $intern_14;
     }
     ;
-    values[$intern_47] = {gecko1_8:$intern_7, ie10:$intern_8, ie8:$intern_60, ie9:$intern_61, safari:$intern_62};
+    values[$intern_46] = {'gecko1_8':$intern_7, 'ie10':$intern_8, 'ie8':$intern_58, 'ie9':$intern_59, 'safari':$intern_60};
     __gwt_isKnownPropertyValue = function(propName, propValue){
       return propValue in values[propName];
     }
@@ -369,36 +366,36 @@ function showcase(){
     ;
     showcase.__computePropValue = computePropValue;
     $wnd.__gwt_activeModules[$intern_4].bindings = showcase.__getPropMap;
-    sendStats($intern_0, $intern_63);
+    sendStats($intern_0, $intern_61);
     if (isHostedMode()) {
-      return computeUrlForResource($intern_64);
+      return computeUrlForResource($intern_62);
     }
     var strongName;
     try {
+      unflattenKeylistIntoAnswers([$intern_51], $intern_63);
+      unflattenKeylistIntoAnswers([$intern_53], $intern_64);
       unflattenKeylistIntoAnswers([$intern_55], $intern_65);
-      unflattenKeylistIntoAnswers([$intern_49], $intern_66);
-      unflattenKeylistIntoAnswers([$intern_57], $intern_67);
-      unflattenKeylistIntoAnswers([$intern_53], $intern_68);
-      unflattenKeylistIntoAnswers([$intern_59], $intern_69);
-      strongName = answers[computePropValue($intern_47)];
-      var idx = strongName.indexOf($intern_70);
+      unflattenKeylistIntoAnswers([$intern_57], $intern_66);
+      unflattenKeylistIntoAnswers([$intern_48], $intern_67);
+      strongName = answers[computePropValue($intern_46)];
+      var idx = strongName.indexOf($intern_68);
       if (idx != -1) {
-        softPermutationId = parseInt(strongName.substring(idx + $intern_8), $intern_51);
+        softPermutationId = parseInt(strongName.substring(idx + $intern_8), $intern_18);
         strongName = strongName.substring($intern_7, idx);
       }
     }
      catch (e) {
     }
     showcase.__softPermutationId = softPermutationId;
-    return computeUrlForResource(strongName + $intern_71);
+    return computeUrlForResource(strongName + $intern_69);
   }
 
   function loadExternalStylesheets(){
     if (!$wnd.__gwt_stylesLoaded) {
       $wnd.__gwt_stylesLoaded = {};
     }
-    sendStats($intern_72, $intern_1);
-    sendStats($intern_72, $intern_73);
+    sendStats($intern_70, $intern_1);
+    sendStats($intern_70, $intern_71);
   }
 
   processMetas();
@@ -406,10 +403,10 @@ function showcase(){
   activeModules[$intern_4].moduleBase = showcase.__moduleBase;
   var filename = getCompiledCodeFilename();
   if ($wnd) {
-    var devModePermitted = !!($wnd.location.protocol == $intern_74 || $wnd.location.protocol == $intern_75);
+    var devModePermitted = !!($wnd.location.protocol == $intern_72 || $wnd.location.protocol == $intern_73);
     $wnd.__gwt_activeModules[$intern_4].canRedirect = devModePermitted;
     function supportsSessionStorage(){
-      var key = $intern_76;
+      var key = $intern_74;
       try {
         $wnd.sessionStorage.setItem(key, key);
         $wnd.sessionStorage.removeItem(key);
@@ -421,27 +418,27 @@ function showcase(){
     }
 
     if (devModePermitted && supportsSessionStorage()) {
-      var devModeKey = $intern_77;
+      var devModeKey = $intern_75;
       var devModeUrl = $wnd.sessionStorage[devModeKey];
       if (!/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/.*$/.test(devModeUrl)) {
         if (devModeUrl && (window.console && console.log)) {
-          console.log($intern_78 + devModeUrl);
+          console.log($intern_76 + devModeUrl);
         }
-        devModeUrl = $intern_15;
+        devModeUrl = $intern_14;
       }
       if (devModeUrl && !$wnd[devModeKey]) {
         $wnd[devModeKey] = true;
-        $wnd[devModeKey + $intern_79] = computeScriptBase();
-        var devModeScript = $doc.createElement($intern_20);
+        $wnd[devModeKey + $intern_77] = computeScriptBase();
+        var devModeScript = $doc.createElement($intern_19);
         devModeScript.src = devModeUrl;
-        var head = $doc.getElementsByTagName($intern_80)[$intern_7];
+        var head = $doc.getElementsByTagName($intern_78)[$intern_7];
         head.insertBefore(devModeScript, head.firstElementChild || head.children[$intern_7]);
         return false;
       }
     }
   }
   loadExternalStylesheets();
-  sendStats($intern_0, $intern_73);
+  sendStats($intern_0, $intern_71);
   installScript(filename);
   return true;
 }

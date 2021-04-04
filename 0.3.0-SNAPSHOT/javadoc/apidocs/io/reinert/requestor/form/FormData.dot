@@ -5,25 +5,24 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.form.FormData
-	c4390 [label=<<table title="io.reinert.requestor.form.FormData" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FormData.html">
+	c9413 [label=<<table title="io.reinert.requestor.form.FormData" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FormData.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FormData </td></tr>
 		</table></td></tr>
-		</table>>, URL="./FormData.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./FormData.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.form.FormData implements java.lang.Iterable<T>
-	c4452:p -> c4390:p [dir=back,arrowtail=empty,style=dashed];
+	c9513:p -> c9413:p [dir=back,arrowtail=empty,style=dashed];
 	// java.lang.Iterable<T>
-	c4452 [label=<<table title="java.lang.Iterable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://download.oracle.com/javase/7/docs/api/java/lang/Iterable.html">
+	c9513 [label=<<table title="java.lang.Iterable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="https://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Iterable&lt;T&gt; </td></tr>
 		</table></td></tr>
-		</table>>, URL="http://download.oracle.com/javase/7/docs/api/java/lang/Iterable.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="https://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

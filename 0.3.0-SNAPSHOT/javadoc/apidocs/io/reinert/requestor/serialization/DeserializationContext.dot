@@ -5,24 +5,23 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.HttpDeserializationContext
-	c3386 [label=<<table title="io.reinert.requestor.HttpDeserializationContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../HttpDeserializationContext.html">
+	c6798 [label=<<table title="io.reinert.requestor.HttpDeserializationContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../HttpDeserializationContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HttpDeserializationContext </td></tr>
 		</table></td></tr>
-		</table>>, URL="../HttpDeserializationContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="../HttpDeserializationContext.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.serialization.DeserializationContext
-	c3430 [label=<<table title="io.reinert.requestor.serialization.DeserializationContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeserializationContext.html">
+	c6826 [label=<<table title="io.reinert.requestor.serialization.DeserializationContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeserializationContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> DeserializationContext </font></td></tr>
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> DeserializationContext </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="./DeserializationContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./DeserializationContext.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.HttpDeserializationContext extends io.reinert.requestor.serialization.DeserializationContext
-	c3430:p -> c3386:p [dir=back,arrowtail=empty];
+	c6826:p -> c6798:p [dir=back,arrowtail=empty];
 }
 

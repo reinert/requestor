@@ -5,25 +5,24 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.RequestDispatcherFactoryImpl
-	c10892 [label=<<table title="io.reinert.requestor.RequestDispatcherFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcherFactoryImpl.html">
+	c24606 [label=<<table title="io.reinert.requestor.RequestDispatcherFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatcherFactoryImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestDispatcherFactoryImpl </td></tr>
 		</table></td></tr>
-		</table>>, URL="./RequestDispatcherFactoryImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./RequestDispatcherFactoryImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RequestDispatcherFactory
-	c10893 [label=<<table title="io.reinert.requestor.RequestDispatcherFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestDispatcherFactory.html">
+	c24616 [label=<<table title="io.reinert.requestor.RequestDispatcherFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestDispatcherFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestDispatcherFactory </td></tr>
 		</table></td></tr>
-		</table>>, URL="./RequestDispatcherFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./RequestDispatcherFactory.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RequestDispatcherFactoryImpl implements io.reinert.requestor.RequestDispatcherFactory
-	c10893:p -> c10892:p [dir=back,arrowtail=empty,style=dashed];
+	c24616:p -> c24606:p [dir=back,arrowtail=empty,style=dashed];
 }
 

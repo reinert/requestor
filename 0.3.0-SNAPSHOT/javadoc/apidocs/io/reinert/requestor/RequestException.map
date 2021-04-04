@@ -1,14 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./UnsuccessfulResponseException.html" title="io.reinert.requestor.UnsuccessfulResponseException" alt="" coords="411,16,626,43"/>
-<area shape="rect" id="node1" href="./UnsuccessfulResponseException.html" title="&lt;TABLE&gt;" alt="" coords="401,5,637,53"/>
-<area shape="rect" id="node2_1" href="./RequestTimeoutException.html" title="io.reinert.requestor.RequestTimeoutException" alt="" coords="432,88,605,115"/>
-<area shape="rect" id="node2" href="./RequestTimeoutException.html" title="&lt;TABLE&gt;" alt="" coords="421,77,616,125"/>
-<area shape="rect" id="node3_2" href="./RequestPermissionException.html" title="io.reinert.requestor.RequestPermissionException" alt="" coords="423,160,615,187"/>
-<area shape="rect" id="node3" href="./RequestPermissionException.html" title="&lt;TABLE&gt;" alt="" coords="412,149,625,197"/>
-<area shape="rect" id="node4_3" href="./RequestException.html" title="io.reinert.requestor.RequestException" alt="" coords="214,124,341,151"/>
-<area shape="rect" id="node4" href="./RequestException.html" title="&lt;TABLE&gt;" alt="" coords="203,113,351,161"/>
-<area shape="rect" id="node5_4" href="./RequestDispatchException.html" title="io.reinert.requestor.RequestDispatchException" alt="" coords="430,232,607,259"/>
-<area shape="rect" id="node5" href="./RequestDispatchException.html" title="&lt;TABLE&gt;" alt="" coords="419,221,618,269"/>
-<area shape="rect" id="node6_5" href="http://download.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html" title="java.lang.RuntimeException" alt="" coords="17,124,143,151"/>
-<area shape="rect" id="node6" href="http://download.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html" title="&lt;TABLE&gt;" alt="" coords="6,113,154,161"/>
+<area shape="rect" id="node1_0" href="./RequestTimeoutException.html" title="io.reinert.requestor.RequestTimeoutException" alt="" coords="16,209,207,234"/>
+<area shape="rect" id="node1" href="./RequestTimeoutException.html" title="&lt;TABLE&gt;" alt="" coords="5,197,217,245"/>
+<area shape="rect" id="node2_1" href="./UnsuccessfulResponseException.html" title="io.reinert.requestor.UnsuccessfulResponseException" alt="" coords="253,209,485,234"/>
+<area shape="rect" id="node2" href="./UnsuccessfulResponseException.html" title="&lt;TABLE&gt;" alt="" coords="242,197,495,245"/>
+<area shape="rect" id="node3_2" href="./RequestException.html" title="io.reinert.requestor.RequestException" alt="" coords="433,113,569,138"/>
+<area shape="rect" id="node3" href="./RequestException.html" title="&lt;TABLE&gt;" alt="" coords="422,101,579,149"/>
+<area shape="rect" id="node4_3" href="./RequestPermissionException.html" title="io.reinert.requestor.RequestPermissionException" alt="" coords="530,209,738,234"/>
+<area shape="rect" id="node4" href="./RequestPermissionException.html" title="&lt;TABLE&gt;" alt="" coords="519,197,749,245"/>
+<area shape="rect" id="node5_4" href="./RequestDispatchException.html" title="io.reinert.requestor.RequestDispatchException" alt="" coords="784,209,977,234"/>
+<area shape="rect" id="node5" href="./RequestDispatchException.html" title="&lt;TABLE&gt;" alt="" coords="773,197,988,245"/>
+<area shape="rect" id="node6_5" href="https://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html" title="java.lang.RuntimeException" alt="" coords="431,17,570,42"/>
+<area shape="rect" id="node6" href="https://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html" title="&lt;TABLE&gt;" alt="" coords="421,5,581,53"/>
 </map>

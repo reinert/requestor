@@ -5,25 +5,77 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.RequestorImpl
-	c12728 [label=<<table title="io.reinert.requestor.RequestorImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorImpl.html">
+	c27960 [label=<<table title="io.reinert.requestor.RequestorImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorImpl </td></tr>
 		</table></td></tr>
-		</table>>, URL="./RequestorImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.Requestor
-	c12730 [label=<<table title="io.reinert.requestor.Requestor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Requestor.html">
+		</table>>, URL="./RequestorImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.InterceptorManager
+	c27963 [label=<<table title="io.reinert.requestor.InterceptorManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InterceptorManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Requestor </td></tr>
+<tr><td align="center" balign="center"> InterceptorManager </td></tr>
 		</table></td></tr>
-		</table>>, URL="./Requestor.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.RequestorImpl implements io.reinert.requestor.Requestor
-	c12730:p -> c12728:p [dir=back,arrowtail=empty,style=dashed];
+		</table>>, URL="./InterceptorManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.ProviderManager
+	c27973 [label=<<table title="io.reinert.requestor.ProviderManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProviderManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> ProviderManager </td></tr>
+		</table></td></tr>
+		</table>>, URL="./ProviderManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.SerializerManager
+	c27978 [label=<<table title="io.reinert.requestor.SerializerManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializerManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> SerializerManager </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SerializerManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.FilterManager
+	c27990 [label=<<table title="io.reinert.requestor.FilterManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FilterManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> FilterManager </td></tr>
+		</table></td></tr>
+		</table>>, URL="./FilterManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.DirectInvoker
+	c27997 [label=<<table title="io.reinert.requestor.DirectInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DirectInvoker.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> DirectInvoker </td></tr>
+		</table></td></tr>
+		</table>>, URL="./DirectInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.RequestDefaults
+	c28013 [label=<<table title="io.reinert.requestor.RequestDefaults" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDefaults.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> RequestDefaults </td></tr>
+		</table></td></tr>
+		</table>>, URL="./RequestDefaults.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.Requestor
+	c28014 [label=<<table title="io.reinert.requestor.Requestor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Requestor.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Requestor </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./Requestor.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.RequestorImpl extends io.reinert.requestor.Requestor
+	c28014:p -> c27960:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.Requestor implements io.reinert.requestor.SerializerManager
+	c27978:p -> c28014:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.Requestor implements io.reinert.requestor.FilterManager
+	c27990:p -> c28014:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.Requestor implements io.reinert.requestor.InterceptorManager
+	c27963:p -> c28014:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.Requestor implements io.reinert.requestor.ProviderManager
+	c27973:p -> c28014:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.Requestor implements io.reinert.requestor.DirectInvoker
+	c27997:p -> c28014:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.Requestor implements io.reinert.requestor.RequestDefaults
+	c28013:p -> c28014:p [dir=back,arrowtail=empty,style=dashed];
 }
 

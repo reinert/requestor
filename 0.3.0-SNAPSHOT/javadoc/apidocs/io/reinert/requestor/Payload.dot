@@ -5,16 +5,23 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.Payload
-	c9546 [label=<<table title="io.reinert.requestor.Payload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Payload.html">
+	c20895 [label=<<table title="io.reinert.requestor.Payload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Payload.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Payload </td></tr>
 		</table></td></tr>
-		</table>>, URL="./Payload.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Payload.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.types.SpecialType
+	c20994 [label=<<table title="io.reinert.requestor.types.SpecialType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./types/SpecialType.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> SpecialType </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./types/SpecialType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.types.SpecialType extends io.reinert.requestor.Payload
+	c20895:p -> c20994:p [dir=back,arrowtail=empty];
 }
 

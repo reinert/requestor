@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./SerializationModuleGenerator.html" title="io.reinert.requestor.gwtjackson.SerializationModuleGenerator" alt="" coords="16,17,229,42"/>
+<area shape="rect" id="node1" href="./SerializationModuleGenerator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,240,53"/>
+<area shape="rect" id="node2_1" href="./JsonObjectSerializerAssembler.html" title="io.reinert.requestor.gwtjackson.JsonObjectSerializerAssembler" alt="" coords="275,17,493,42"/>
+<area shape="rect" id="node2" href="./JsonObjectSerializerAssembler.html" title="&lt;TABLE&gt;" alt="" coords="264,5,504,53"/>
+<area shape="rect" id="node3_2" href="./JsonObjectSerializerGenerator.html" title="io.reinert.requestor.gwtjackson.JsonObjectSerializerGenerator" alt="" coords="539,17,754,42"/>
+<area shape="rect" id="node3" href="./JsonObjectSerializerGenerator.html" title="&lt;TABLE&gt;" alt="" coords="529,5,765,53"/>
+<area shape="rect" id="node4_3" href="./GwtJacksonProcessor.html" title="io.reinert.requestor.gwtjackson.GwtJacksonProcessor" alt="" coords="799,17,958,42"/>
+<area shape="rect" id="node4" href="./GwtJacksonProcessor.html" title="&lt;TABLE&gt;" alt="" coords="789,5,969,53"/>
+<area shape="rect" id="node5_4" href="./SerializationModuleAssembler.html" title="io.reinert.requestor.gwtjackson.SerializationModuleAssembler" alt="" coords="1003,17,1221,42"/>
+<area shape="rect" id="node5" href="./SerializationModuleAssembler.html" title="&lt;TABLE&gt;" alt="" coords="993,5,1231,53"/>
+</map>

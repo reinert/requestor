@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./BasicAuth.html" title="io.reinert.requestor.auth.BasicAuth" alt="" coords="190,19,271,45"/>
-<area shape="rect" id="node1" href="./BasicAuth.html" title="&lt;TABLE&gt;" alt="" coords="179,8,282,56"/>
-<area shape="rect" id="node2_1" href="./Authentication.html" title="io.reinert.requestor.auth.Authentication" alt="" coords="16,10,120,54"/>
-<area shape="rect" id="node2" href="./Authentication.html" title="&lt;TABLE&gt;" alt="" coords="5,5,131,59"/>
+<area shape="rect" id="node1_0" href="./BasicAuth.html" title="io.reinert.requestor.auth.BasicAuth" alt="" coords="21,118,105,143"/>
+<area shape="rect" id="node1" href="./BasicAuth.html" title="&lt;TABLE&gt;" alt="" coords="10,107,115,155"/>
+<area shape="rect" id="node2_1" href="./Auth.html" title="io.reinert.requestor.auth.Auth" alt="" coords="16,11,109,53"/>
+<area shape="rect" id="node2" href="./Auth.html" title="&lt;TABLE&gt;" alt="" coords="5,5,120,59"/>
 </map>

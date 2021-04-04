@@ -5,22 +5,21 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
-	// io.reinert.requestor.serialization.misc.VoidSerdes
-	c1204 [label=<<table title="io.reinert.requestor.serialization.misc.VoidSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./VoidSerdes.html">
+	// io.reinert.requestor.serialization.misc.VoidSerializer
+	c1037 [label=<<table title="io.reinert.requestor.serialization.misc.VoidSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./VoidSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> VoidSerdes </td></tr>
+<tr><td align="center" balign="center"> VoidSerializer </td></tr>
 		</table></td></tr>
-		</table>>, URL="./VoidSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.serialization.misc.TextSerdes
-	c1205 [label=<<table title="io.reinert.requestor.serialization.misc.TextSerdes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TextSerdes.html">
+		</table>>, URL="./VoidSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.serialization.misc.TextSerializer
+	c1038 [label=<<table title="io.reinert.requestor.serialization.misc.TextSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TextSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> TextSerdes </td></tr>
+<tr><td align="center" balign="center"> TextSerializer </td></tr>
 		</table></td></tr>
-		</table>>, URL="./TextSerdes.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./TextSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

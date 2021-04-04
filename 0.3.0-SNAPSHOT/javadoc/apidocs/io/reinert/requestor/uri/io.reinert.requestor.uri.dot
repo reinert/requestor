@@ -5,70 +5,75 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
-	// io.reinert.requestor.uri.UriParser
-	c1329 [label=<<table title="io.reinert.requestor.uri.UriParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriParser.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> UriParser </td></tr>
-		</table></td></tr>
-		</table>>, URL="./UriParser.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.uri.UriParseException
-	c1330 [label=<<table title="io.reinert.requestor.uri.UriParseException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriParseException.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> UriParseException </td></tr>
-		</table></td></tr>
-		</table>>, URL="./UriParseException.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.uri.UriBuilderImpl
-	c1331 [label=<<table title="io.reinert.requestor.uri.UriBuilderImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilderImpl.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> UriBuilderImpl </td></tr>
-		</table></td></tr>
-		</table>>, URL="./UriBuilderImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.uri.UriBuilderException
-	c1332 [label=<<table title="io.reinert.requestor.uri.UriBuilderException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilderException.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> UriBuilderException </td></tr>
-		</table></td></tr>
-		</table>>, URL="./UriBuilderException.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.uri.UriBuilder
-	c1333 [label=<<table title="io.reinert.requestor.uri.UriBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilder.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> UriBuilder </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="./UriBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.uri.Uri
-	c1334 [label=<<table title="io.reinert.requestor.uri.Uri" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Uri.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Uri </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Uri.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.uri.MultivaluedParamComposition
-	c1335 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.html">
+	c460 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> MultivaluedParamComposition </font></td></tr>
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> MultivaluedParamComposition </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="./MultivaluedParamComposition.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./MultivaluedParamComposition.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy
-	c1336 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.RepeatedParamStrategy.html">
+	c461 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.RepeatedParamStrategy.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RepeatedParamStrategy </td></tr>
 		</table></td></tr>
-		</table>>, URL="./MultivaluedParamComposition.RepeatedParamStrategy.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./MultivaluedParamComposition.RepeatedParamStrategy.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy
-	c1337 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html">
+	c462 [label=<<table title="io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CommaSeparatedValueStrategy </td></tr>
 		</table></td></tr>
-		</table>>, URL="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.uri.UriBuilderImpl extends io.reinert.requestor.uri.UriBuilder
-	c1333:p -> c1331:p [dir=back,arrowtail=empty];
+		</table>>, URL="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.uri.UriParseException
+	c463 [label=<<table title="io.reinert.requestor.uri.UriParseException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriParseException.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> UriParseException </td></tr>
+		</table></td></tr>
+		</table>>, URL="./UriParseException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.uri.Uri
+	c464 [label=<<table title="io.reinert.requestor.uri.Uri" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Uri.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Uri </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./Uri.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.uri.UrlCodec
+	c465 [label=<<table title="io.reinert.requestor.uri.UrlCodec" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UrlCodec.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> UrlCodec </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./UrlCodec.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.uri.UriParser
+	c466 [label=<<table title="io.reinert.requestor.uri.UriParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriParser.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> UriParser </td></tr>
+		</table></td></tr>
+		</table>>, URL="./UriParser.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.uri.UriBuilderImpl
+	c467 [label=<<table title="io.reinert.requestor.uri.UriBuilderImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilderImpl.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> UriBuilderImpl </td></tr>
+		</table></td></tr>
+		</table>>, URL="./UriBuilderImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.uri.UriBuilderException
+	c468 [label=<<table title="io.reinert.requestor.uri.UriBuilderException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilderException.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> UriBuilderException </td></tr>
+		</table></td></tr>
+		</table>>, URL="./UriBuilderException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.uri.UriBuilder
+	c469 [label=<<table title="io.reinert.requestor.uri.UriBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilder.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> UriBuilder </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./UriBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy extends io.reinert.requestor.uri.MultivaluedParamComposition
-	c1335:p -> c1336:p [dir=back,arrowtail=empty];
+	c460:p -> c461:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy extends io.reinert.requestor.uri.MultivaluedParamComposition
-	c1335:p -> c1337:p [dir=back,arrowtail=empty];
+	c460:p -> c462:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.uri.UriBuilderImpl extends io.reinert.requestor.uri.UriBuilder
+	c469:p -> c467:p [dir=back,arrowtail=empty];
 }
 

@@ -5,53 +5,70 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
-	// io.reinert.requestor.auth.MD5
-	c295 [label=<<table title="io.reinert.requestor.auth.MD5" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MD5.html">
+	// io.reinert.requestor.auth.OAuth2ByQueryParam
+	c1611 [label=<<table title="io.reinert.requestor.auth.OAuth2ByQueryParam" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OAuth2ByQueryParam.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> MD5 </td></tr>
+<tr><td align="center" balign="center"> OAuth2ByQueryParam </td></tr>
 		</table></td></tr>
-		</table>>, URL="./MD5.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./OAuth2ByQueryParam.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.auth.OAuth2ByHeader
+	c1612 [label=<<table title="io.reinert.requestor.auth.OAuth2ByHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OAuth2ByHeader.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> OAuth2ByHeader </td></tr>
+		</table></td></tr>
+		</table>>, URL="./OAuth2ByHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.auth.OAuth2Base
+	c1613 [label=<<table title="io.reinert.requestor.auth.OAuth2Base" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OAuth2Base.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> OAuth2Base </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./OAuth2Base.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.auth.DigestAuth
-	c296 [label=<<table title="io.reinert.requestor.auth.DigestAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DigestAuth.html">
+	c1614 [label=<<table title="io.reinert.requestor.auth.DigestAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DigestAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DigestAuth </td></tr>
 		</table></td></tr>
-		</table>>, URL="./DigestAuth.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.auth.CorsAuth
-	c297 [label=<<table title="io.reinert.requestor.auth.CorsAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CorsAuth.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> CorsAuth </td></tr>
-		</table></td></tr>
-		</table>>, URL="./CorsAuth.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./DigestAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.auth.BasicAuth
-	c298 [label=<<table title="io.reinert.requestor.auth.BasicAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BasicAuth.html">
+	c1615 [label=<<table title="io.reinert.requestor.auth.BasicAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BasicAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BasicAuth </td></tr>
 		</table></td></tr>
-		</table>>, URL="./BasicAuth.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.auth.AuthenticationException
-	c299 [label=<<table title="io.reinert.requestor.auth.AuthenticationException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AuthenticationException.html">
+		</table>>, URL="./BasicAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.auth.AuthException
+	c1616 [label=<<table title="io.reinert.requestor.auth.AuthException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AuthException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> AuthenticationException </td></tr>
+<tr><td align="center" balign="center"> AuthException </td></tr>
 		</table></td></tr>
-		</table>>, URL="./AuthenticationException.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.auth.Authentication
-	c300 [label=<<table title="io.reinert.requestor.auth.Authentication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Authentication.html">
+		</table>>, URL="./AuthException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.auth.CorsAuth
+	c1617 [label=<<table title="io.reinert.requestor.auth.CorsAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CorsAuth.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> CorsAuth </td></tr>
+		</table></td></tr>
+		</table>>, URL="./CorsAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.auth.Auth
+	c1618 [label=<<table title="io.reinert.requestor.auth.Auth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Auth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Authentication </td></tr>
+<tr><td align="center" balign="center"> Auth </td></tr>
 		</table></td></tr>
-		</table>>, URL="./Authentication.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.auth.DigestAuth implements io.reinert.requestor.auth.Authentication
-	c300:p -> c296:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.auth.CorsAuth implements io.reinert.requestor.auth.Authentication
-	c300:p -> c297:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.auth.BasicAuth implements io.reinert.requestor.auth.Authentication
-	c300:p -> c298:p [dir=back,arrowtail=empty,style=dashed];
+		</table>>, URL="./Auth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.auth.OAuth2ByQueryParam extends io.reinert.requestor.auth.OAuth2Base
+	c1613:p -> c1611:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.auth.OAuth2ByHeader extends io.reinert.requestor.auth.OAuth2Base
+	c1613:p -> c1612:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.auth.OAuth2Base implements io.reinert.requestor.auth.Auth
+	c1618:p -> c1613:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.auth.DigestAuth implements io.reinert.requestor.auth.Auth
+	c1618:p -> c1614:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.auth.BasicAuth implements io.reinert.requestor.auth.Auth
+	c1618:p -> c1615:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.auth.CorsAuth implements io.reinert.requestor.auth.Auth
+	c1618:p -> c1617:p [dir=back,arrowtail=empty,style=dashed];
 }
 

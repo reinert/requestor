@@ -5,25 +5,24 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.DeferredFactory
-	c3143 [label=<<table title="io.reinert.requestor.DeferredFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeferredFactory.html">
+	c6376 [label=<<table title="io.reinert.requestor.DeferredFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeferredFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeferredFactory </td></tr>
 		</table></td></tr>
-		</table>>, URL="./DeferredFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.gdeferred.DeferredFactoryImpl
-	c3213 [label=<<table title="io.reinert.requestor.gdeferred.DeferredFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./gdeferred/DeferredFactoryImpl.html">
+		</table>>, URL="./DeferredFactory.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.impl.gdeferred.DeferredFactoryImpl
+	c6500 [label=<<table title="io.reinert.requestor.impl.gdeferred.DeferredFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./impl/gdeferred/DeferredFactoryImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DeferredFactoryImpl </td></tr>
 		</table></td></tr>
-		</table>>, URL="./gdeferred/DeferredFactoryImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.gdeferred.DeferredFactoryImpl implements io.reinert.requestor.DeferredFactory
-	c3143:p -> c3213:p [dir=back,arrowtail=empty,style=dashed];
+		</table>>, URL="./impl/gdeferred/DeferredFactoryImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.impl.gdeferred.DeferredFactoryImpl implements io.reinert.requestor.DeferredFactory
+	c6376:p -> c6500:p [dir=back,arrowtail=empty,style=dashed];
 }
 

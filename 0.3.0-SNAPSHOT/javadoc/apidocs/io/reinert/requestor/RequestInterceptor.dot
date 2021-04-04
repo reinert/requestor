@@ -5,17 +5,16 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.RequestInterceptor
-	c11625 [label=<<table title="io.reinert.requestor.RequestInterceptor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestInterceptor.html">
+	c26506 [label=<<table title="io.reinert.requestor.RequestInterceptor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestInterceptor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInterceptor </td></tr>
 		</table></td></tr>
-		</table>>, URL="./RequestInterceptor.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./RequestInterceptor.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

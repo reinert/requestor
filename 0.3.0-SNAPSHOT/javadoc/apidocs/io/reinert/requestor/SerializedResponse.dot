@@ -5,35 +5,34 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.SerializedResponse
-	c15048 [label=<<table title="io.reinert.requestor.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedResponse.html">
+	c33377 [label=<<table title="io.reinert.requestor.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedResponse </td></tr>
 		</table></td></tr>
-		</table>>, URL="./SerializedResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./SerializedResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.Response<T>
-	c15058 [label=<<table title="io.reinert.requestor.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Response.html">
+	c33399 [label=<<table title="io.reinert.requestor.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Response.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Response&lt;T&gt; </td></tr>
 		</table></td></tr>
-		</table>>, URL="./Response.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Response.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RawResponse
-	c15083 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
+	c33406 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RawResponse </td></tr>
 		</table></td></tr>
-		</table>>, URL="./RawResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./RawResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.SerializedResponse implements io.reinert.requestor.Response<T>
-	c15058:p -> c15048:p [dir=back,arrowtail=empty,style=dashed];
+	c33399:p -> c33377:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.RawResponse implements io.reinert.requestor.SerializedResponse
-	c15048:p -> c15083:p [dir=back,arrowtail=empty,style=dashed];
+	c33377:p -> c33406:p [dir=back,arrowtail=empty,style=dashed];
 }
 

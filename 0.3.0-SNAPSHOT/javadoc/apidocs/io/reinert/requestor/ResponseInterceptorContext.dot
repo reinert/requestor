@@ -5,26 +5,25 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.ResponseInterceptorContext
-	c14068 [label=<<table title="io.reinert.requestor.ResponseInterceptorContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ResponseInterceptorContext.html">
+	c30566 [label=<<table title="io.reinert.requestor.ResponseInterceptorContext" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ResponseInterceptorContext.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseInterceptorContext </td></tr>
 		</table></td></tr>
-		</table>>, URL="./ResponseInterceptorContext.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./ResponseInterceptorContext.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RawResponse
-	c14098 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
+	c30615 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RawResponse </td></tr>
 		</table></td></tr>
-		</table>>, URL="./RawResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./RawResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RawResponse implements io.reinert.requestor.ResponseInterceptorContext
-	c14068:p -> c14098:p [dir=back,arrowtail=empty,style=dashed];
+	c30566:p -> c30615:p [dir=back,arrowtail=empty,style=dashed];
 }
 

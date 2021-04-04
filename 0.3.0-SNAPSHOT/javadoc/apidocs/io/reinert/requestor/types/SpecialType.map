@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../Payload.html" title="io.reinert.requestor.Payload" alt="" coords="277,17,348,42"/>
+<area shape="rect" id="node1" href="../Payload.html" title="&lt;TABLE&gt;" alt="" coords="267,5,359,53"/>
+<area shape="rect" id="node2_1" href="./SpecialType.html" title="io.reinert.requestor.types.SpecialType" alt="" coords="264,113,361,138"/>
+<area shape="rect" id="node2" href="./SpecialType.html" title="&lt;TABLE&gt;" alt="" coords="253,101,372,149"/>
+<area shape="rect" id="node3_2" href="./DocumentType.html" title="io.reinert.requestor.types.DocumentType" alt="" coords="16,209,132,234"/>
+<area shape="rect" id="node3" href="./DocumentType.html" title="&lt;TABLE&gt;" alt="" coords="5,197,143,245"/>
+<area shape="rect" id="node4_3" href="./ArrayBufferType.html" title="io.reinert.requestor.types.ArrayBufferType" alt="" coords="177,209,301,234"/>
+<area shape="rect" id="node4" href="./ArrayBufferType.html" title="&lt;TABLE&gt;" alt="" coords="167,197,312,245"/>
+<area shape="rect" id="node5_4" href="./BlobType.html" title="io.reinert.requestor.types.BlobType" alt="" coords="347,209,425,234"/>
+<area shape="rect" id="node5" href="./BlobType.html" title="&lt;TABLE&gt;" alt="" coords="336,197,436,245"/>
+<area shape="rect" id="node6_5" href="./JsonType.html" title="io.reinert.requestor.types.JsonType" alt="" coords="471,209,547,234"/>
+<area shape="rect" id="node6" href="./JsonType.html" title="&lt;TABLE&gt;" alt="" coords="460,197,557,245"/>
+</map>

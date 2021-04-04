@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Param.html" title="io.reinert.requestor.header.Param" alt="" coords="16,16,75,43"/>
-<area shape="rect" id="node1" href="./Param.html" title="&lt;TABLE&gt;" alt="" coords="5,5,85,53"/>
-<area shape="rect" id="node2_1" href="./Param.KeyValueParam.html" title="io.reinert.requestor.header.Param.KeyValueParam" alt="" coords="144,16,259,43"/>
-<area shape="rect" id="node2" href="./Param.KeyValueParam.html" title="&lt;TABLE&gt;" alt="" coords="133,5,269,53"/>
+<area shape="rect" id="node1_0" href="./Param.html" title="io.reinert.requestor.header.Param" alt="" coords="45,17,107,42"/>
+<area shape="rect" id="node1" href="./Param.html" title="&lt;TABLE&gt;" alt="" coords="35,5,117,53"/>
+<area shape="rect" id="node2_1" href="./Param.KeyValueParam.html" title="io.reinert.requestor.header.Param.KeyValueParam" alt="" coords="16,113,136,138"/>
+<area shape="rect" id="node2" href="./Param.KeyValueParam.html" title="&lt;TABLE&gt;" alt="" coords="5,101,147,149"/>
 </map>

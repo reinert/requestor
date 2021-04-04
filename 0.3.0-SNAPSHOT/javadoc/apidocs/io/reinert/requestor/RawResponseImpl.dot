@@ -5,33 +5,32 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
-	// io.reinert.requestor.ResponseImpl<T>
-	c10255 [label=<<table title="io.reinert.requestor.ResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseImpl.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> ResponseImpl&lt;T&gt; </td></tr>
-		</table></td></tr>
-		</table>>, URL="./ResponseImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.RawResponseImpl
-	c10282 [label=<<table title="io.reinert.requestor.RawResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RawResponseImpl.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> RawResponseImpl </td></tr>
-		</table></td></tr>
-		</table>>, URL="./RawResponseImpl.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.RawResponse
-	c10283 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
+	c23173 [label=<<table title="io.reinert.requestor.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RawResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RawResponse </td></tr>
 		</table></td></tr>
-		</table>>, URL="./RawResponse.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./RawResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.RawResponseImpl
+	c23179 [label=<<table title="io.reinert.requestor.RawResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RawResponseImpl.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> RawResponseImpl </td></tr>
+		</table></td></tr>
+		</table>>, URL="./RawResponseImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.ResponseImpl<T>
+	c23184 [label=<<table title="io.reinert.requestor.ResponseImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseImpl.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> ResponseImpl&lt;T&gt; </td></tr>
+		</table></td></tr>
+		</table>>, URL="./ResponseImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.RawResponseImpl extends io.reinert.requestor.ResponseImpl<io.reinert.requestor.Payload>
-	c10255:p -> c10282:p [dir=back,arrowtail=empty];
+	c23184:p -> c23179:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.RawResponseImpl implements io.reinert.requestor.RawResponse
-	c10283:p -> c10282:p [dir=back,arrowtail=empty,style=dashed];
+	c23173:p -> c23179:p [dir=back,arrowtail=empty,style=dashed];
 }
 

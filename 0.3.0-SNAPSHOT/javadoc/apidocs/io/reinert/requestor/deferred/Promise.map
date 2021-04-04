@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Promise.html" title="io.reinert.requestor.deferred.Promise" alt="" coords="16,43,109,87"/>
-<area shape="rect" id="node1" href="./Promise.html" title="&lt;TABLE&gt;" alt="" coords="5,38,120,93"/>
-<area shape="rect" id="node2_1" href="../gdeferred/GDeferredRequestPromise.html" title="io.reinert.requestor.gdeferred.GDeferredRequestPromise" alt="" coords="179,10,376,54"/>
-<area shape="rect" id="node2" href="../gdeferred/GDeferredRequestPromise.html" title="&lt;TABLE&gt;" alt="" coords="168,5,387,59"/>
-<area shape="rect" id="node3_2" href="../gdeferred/GDeferredRequest.html" title="io.reinert.requestor.gdeferred.GDeferredRequest" alt="" coords="445,52,595,79"/>
-<area shape="rect" id="node3" href="../gdeferred/GDeferredRequest.html" title="&lt;TABLE&gt;" alt="" coords="435,41,605,89"/>
-</map>

@@ -5,24 +5,23 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.header.SimpleHeader
-	c2789 [label=<<table title="io.reinert.requestor.header.SimpleHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleHeader.html">
+	c5929 [label=<<table title="io.reinert.requestor.header.SimpleHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleHeader </td></tr>
 		</table></td></tr>
-		</table>>, URL="./SimpleHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./SimpleHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.ContentTypeHeader
-	c2801 [label=<<table title="io.reinert.requestor.header.ContentTypeHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ContentTypeHeader.html">
+	c5931 [label=<<table title="io.reinert.requestor.header.ContentTypeHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ContentTypeHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ContentTypeHeader </td></tr>
 		</table></td></tr>
-		</table>>, URL="./ContentTypeHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./ContentTypeHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.header.ContentTypeHeader extends io.reinert.requestor.header.SimpleHeader
-	c2789:p -> c2801:p [dir=back,arrowtail=empty];
+	c5929:p -> c5931:p [dir=back,arrowtail=empty];
 }
 

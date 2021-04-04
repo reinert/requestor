@@ -5,25 +5,24 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.Json
-	c6225 [label=<<table title="io.reinert.requestor.Json" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Json.html">
+	c13322 [label=<<table title="io.reinert.requestor.Json" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Json.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> Json </font></td></tr>
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Json </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="./Json.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Json.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.Json implements java.lang.annotation.Annotation
-	c6301:p -> c6225:p [dir=back,arrowtail=empty,style=dashed];
+	c13428:p -> c13322:p [dir=back,arrowtail=empty,style=dashed];
 	// java.lang.annotation.Annotation
-	c6301 [label=<<table title="java.lang.annotation.Annotation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://download.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">
+	c13428 [label=<<table title="java.lang.annotation.Annotation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="https://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Annotation </td></tr>
 		</table></td></tr>
-		</table>>, URL="http://download.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="https://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

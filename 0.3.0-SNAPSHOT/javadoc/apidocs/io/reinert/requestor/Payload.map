@@ -1,4 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Payload.html" title="io.reinert.requestor.Payload" alt="" coords="17,16,85,43"/>
-<area shape="rect" id="node1" href="./Payload.html" title="&lt;TABLE&gt;" alt="" coords="6,5,95,53"/>
+<area shape="rect" id="node1_0" href="./Payload.html" title="io.reinert.requestor.Payload" alt="" coords="29,17,100,42"/>
+<area shape="rect" id="node1" href="./Payload.html" title="&lt;TABLE&gt;" alt="" coords="19,5,111,53"/>
+<area shape="rect" id="node2_1" href="./types/SpecialType.html" title="io.reinert.requestor.types.SpecialType" alt="" coords="16,113,113,138"/>
+<area shape="rect" id="node2" href="./types/SpecialType.html" title="&lt;TABLE&gt;" alt="" coords="5,101,124,149"/>
 </map>

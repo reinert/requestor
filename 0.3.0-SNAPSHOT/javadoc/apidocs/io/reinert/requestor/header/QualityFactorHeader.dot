@@ -5,32 +5,31 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
 	// io.reinert.requestor.header.QualityFactorHeader
-	c10065 [label=<<table title="io.reinert.requestor.header.QualityFactorHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./QualityFactorHeader.html">
+	c22873 [label=<<table title="io.reinert.requestor.header.QualityFactorHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./QualityFactorHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> QualityFactorHeader </td></tr>
 		</table></td></tr>
-		</table>>, URL="./QualityFactorHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.header.MultivaluedHeader
-	c10069 [label=<<table title="io.reinert.requestor.header.MultivaluedHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedHeader.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> MultivaluedHeader </td></tr>
-		</table></td></tr>
-		</table>>, URL="./MultivaluedHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./QualityFactorHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.AcceptHeader
-	c10077 [label=<<table title="io.reinert.requestor.header.AcceptHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AcceptHeader.html">
+	c22874 [label=<<table title="io.reinert.requestor.header.AcceptHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AcceptHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AcceptHeader </td></tr>
 		</table></td></tr>
-		</table>>, URL="./AcceptHeader.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./AcceptHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.header.MultivaluedHeader
+	c22880 [label=<<table title="io.reinert.requestor.header.MultivaluedHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultivaluedHeader.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MultivaluedHeader </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MultivaluedHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.header.QualityFactorHeader extends io.reinert.requestor.header.MultivaluedHeader
-	c10069:p -> c10065:p [dir=back,arrowtail=empty];
+	c22880:p -> c22873:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.header.AcceptHeader extends io.reinert.requestor.header.QualityFactorHeader
-	c10065:p -> c10077:p [dir=back,arrowtail=empty];
+	c22873:p -> c22874:p [dir=back,arrowtail=empty];
 }
 

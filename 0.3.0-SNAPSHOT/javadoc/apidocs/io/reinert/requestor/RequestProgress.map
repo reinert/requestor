@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./RequestProgressImpl.html" title="io.reinert.requestor.RequestProgressImpl" alt="" coords="209,19,354,45"/>
-<area shape="rect" id="node1" href="./RequestProgressImpl.html" title="&lt;TABLE&gt;" alt="" coords="198,8,365,56"/>
-<area shape="rect" id="node2_1" href="./RequestProgress.html" title="io.reinert.requestor.RequestProgress" alt="" coords="17,10,138,54"/>
-<area shape="rect" id="node2" href="./RequestProgress.html" title="&lt;TABLE&gt;" alt="" coords="6,5,149,59"/>
+<area shape="rect" id="node1_0" href="./RequestProgress.html" title="io.reinert.requestor.RequestProgress" alt="" coords="31,11,159,53"/>
+<area shape="rect" id="node1" href="./RequestProgress.html" title="&lt;TABLE&gt;" alt="" coords="20,5,169,59"/>
+<area shape="rect" id="node2_1" href="./RequestProgressImpl.html" title="io.reinert.requestor.RequestProgressImpl" alt="" coords="16,118,173,143"/>
+<area shape="rect" id="node2" href="./RequestProgressImpl.html" title="&lt;TABLE&gt;" alt="" coords="5,107,184,155"/>
 </map>

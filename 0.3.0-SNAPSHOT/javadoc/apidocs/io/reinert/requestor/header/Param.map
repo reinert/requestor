@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Param.html" title="io.reinert.requestor.header.Param" alt="" coords="16,52,75,79"/>
-<area shape="rect" id="node1" href="./Param.html" title="&lt;TABLE&gt;" alt="" coords="5,41,85,89"/>
-<area shape="rect" id="node2_1" href="./Param.SimpleParam.html" title="io.reinert.requestor.header.Param.SimpleParam" alt="" coords="152,16,251,43"/>
-<area shape="rect" id="node2" href="./Param.SimpleParam.html" title="&lt;TABLE&gt;" alt="" coords="141,5,261,53"/>
-<area shape="rect" id="node3_2" href="./Param.KeyValueParam.html" title="io.reinert.requestor.header.Param.KeyValueParam" alt="" coords="144,88,259,115"/>
-<area shape="rect" id="node3" href="./Param.KeyValueParam.html" title="&lt;TABLE&gt;" alt="" coords="133,77,269,125"/>
+<area shape="rect" id="node1_0" href="./Param.html" title="io.reinert.requestor.header.Param" alt="" coords="117,17,178,42"/>
+<area shape="rect" id="node1" href="./Param.html" title="&lt;TABLE&gt;" alt="" coords="106,5,189,53"/>
+<area shape="rect" id="node2_1" href="./Param.SimpleParam.html" title="io.reinert.requestor.header.Param.SimpleParam" alt="" coords="16,113,121,138"/>
+<area shape="rect" id="node2" href="./Param.SimpleParam.html" title="&lt;TABLE&gt;" alt="" coords="5,101,132,149"/>
+<area shape="rect" id="node3_2" href="./Param.KeyValueParam.html" title="io.reinert.requestor.header.Param.KeyValueParam" alt="" coords="167,113,287,138"/>
+<area shape="rect" id="node3" href="./Param.KeyValueParam.html" title="&lt;TABLE&gt;" alt="" coords="157,101,298,149"/>
 </map>

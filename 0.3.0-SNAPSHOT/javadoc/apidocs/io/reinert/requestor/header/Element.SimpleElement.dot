@@ -5,32 +5,31 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
-	// io.reinert.requestor.header.Link
-	c4152 [label=<<table title="io.reinert.requestor.header.Link" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Link.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Link </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Link.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.Element
-	c4154 [label=<<table title="io.reinert.requestor.header.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Element.html">
+	c8713 [label=<<table title="io.reinert.requestor.header.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Element.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> Element </font></td></tr>
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Element </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="./Element.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Element.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.header.Element.SimpleElement
-	c4155 [label=<<table title="io.reinert.requestor.header.Element.SimpleElement" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Element.SimpleElement.html">
+	c8714 [label=<<table title="io.reinert.requestor.header.Element.SimpleElement" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Element.SimpleElement.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleElement </td></tr>
 		</table></td></tr>
-		</table>>, URL="./Element.SimpleElement.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.header.Link extends io.reinert.requestor.header.Element.SimpleElement
-	c4155:p -> c4152:p [dir=back,arrowtail=empty];
+		</table>>, URL="./Element.SimpleElement.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.header.LinkElement
+	c8725 [label=<<table title="io.reinert.requestor.header.LinkElement" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LinkElement.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> LinkElement </td></tr>
+		</table></td></tr>
+		</table>>, URL="./LinkElement.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.header.Element.SimpleElement extends io.reinert.requestor.header.Element
-	c4154:p -> c4155:p [dir=back,arrowtail=empty];
+	c8713:p -> c8714:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.header.LinkElement extends io.reinert.requestor.header.Element.SimpleElement
+	c8714:p -> c8725:p [dir=back,arrowtail=empty];
 }
 

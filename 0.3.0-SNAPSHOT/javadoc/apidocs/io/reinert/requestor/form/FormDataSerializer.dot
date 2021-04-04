@@ -5,33 +5,32 @@
 #
 
 digraph G {
-	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
-	node [fontname="arial",fontsize=10,shape=plaintext];
+	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
+	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	rankdir=LR;
-	// io.reinert.requestor.form.FormDataSerializerUrlEncoded
-	c4634 [label=<<table title="io.reinert.requestor.form.FormDataSerializerUrlEncoded" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FormDataSerializerUrlEncoded.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> FormDataSerializerUrlEncoded </td></tr>
-		</table></td></tr>
-		</table>>, URL="./FormDataSerializerUrlEncoded.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.form.FormDataSerializerNative
-	c4635 [label=<<table title="io.reinert.requestor.form.FormDataSerializerNative" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FormDataSerializerNative.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> FormDataSerializerNative </td></tr>
-		</table></td></tr>
-		</table>>, URL="./FormDataSerializerNative.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.form.FormDataSerializer
-	c4636 [label=<<table title="io.reinert.requestor.form.FormDataSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FormDataSerializer.html">
+	c9783 [label=<<table title="io.reinert.requestor.form.FormDataSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FormDataSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> FormDataSerializer </td></tr>
 		</table></td></tr>
-		</table>>, URL="./FormDataSerializer.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./FormDataSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.form.FormDataSerializerUrlEncoded
+	c9784 [label=<<table title="io.reinert.requestor.form.FormDataSerializerUrlEncoded" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FormDataSerializerUrlEncoded.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> FormDataSerializerUrlEncoded </td></tr>
+		</table></td></tr>
+		</table>>, URL="./FormDataSerializerUrlEncoded.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.form.FormDataSerializerNative
+	c9785 [label=<<table title="io.reinert.requestor.form.FormDataSerializerNative" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FormDataSerializerNative.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> FormDataSerializerNative </td></tr>
+		</table></td></tr>
+		</table>>, URL="./FormDataSerializerNative.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.form.FormDataSerializerUrlEncoded implements io.reinert.requestor.form.FormDataSerializer
-	c4636:p -> c4634:p [dir=back,arrowtail=empty,style=dashed];
+	c9783:p -> c9784:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.form.FormDataSerializerNative implements io.reinert.requestor.form.FormDataSerializer
-	c4636:p -> c4635:p [dir=back,arrowtail=empty,style=dashed];
+	c9783:p -> c9785:p [dir=back,arrowtail=empty,style=dashed];
 }
 
