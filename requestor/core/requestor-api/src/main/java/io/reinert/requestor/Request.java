@@ -41,6 +41,8 @@ public interface Request {
 
     int getTimeout();
 
+    int getDelay();
+
     Uri getUri();
 
     Auth getAuth();

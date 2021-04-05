@@ -23,6 +23,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
     private String mediaType;
     private Auth auth;
     private int timeout;
+    private int delay;
     private Headers headers = new Headers();
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
 
@@ -83,13 +84,23 @@ public class RequestDefaultsImpl implements RequestDefaults {
     }
 
     @Override
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
+    public void setTimeout(int timeoutMillis) {
+        this.timeout = timeoutMillis;
     }
 
     @Override
     public int getTimeout() {
         return timeout;
+    }
+
+    @Override
+    public void setDelay(int delayMillis) {
+        delay = delayMillis;
+    }
+
+    @Override
+    public int getDelay() {
+        return delay;
     }
 
     @Override
@@ -145,8 +156,12 @@ public class RequestDefaultsImpl implements RequestDefaults {
             request.auth(auth);
         }
 
-        if (timeout > 0 && request.getTimeout() == 0) {
+        if (timeout > 0 && request.getTimeout() <= 0) {
             request.timeout(timeout);
+        }
+
+        if (delay > 0 && request.getDelay() <= 0) {
+            request.delay(delay);
         }
 
         for (Header h : headers) {

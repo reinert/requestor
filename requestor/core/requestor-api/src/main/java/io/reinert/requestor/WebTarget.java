@@ -144,13 +144,23 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     @Override
-    public void setTimeout(int timeout) {
-        defaults.setTimeout(timeout);
+    public void setTimeout(int timeoutMillis) {
+        defaults.setTimeout(timeoutMillis);
     }
 
     @Override
     public int getTimeout() {
         return defaults.getTimeout();
+    }
+
+    @Override
+    public void setDelay(int delayMillis) {
+        defaults.setDelay(delayMillis);
+    }
+
+    @Override
+    public int getDelay() {
+        return defaults.getDelay();
     }
 
     @Override

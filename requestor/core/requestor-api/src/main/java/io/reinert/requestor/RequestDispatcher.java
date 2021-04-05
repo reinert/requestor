@@ -18,6 +18,7 @@ package io.reinert.requestor;
 import java.util.Collection;
 
 import com.google.gwt.core.client.Callback;
+import com.google.gwt.user.client.Timer;
 
 /**
  * This class dispatches the requests and return promises.
@@ -71,9 +72,17 @@ public abstract class RequestDispatcher {
     public <T, S extends MutableSerializedRequest & SerializableRequest> Promise<T> dispatch(S request,
                                                                                              Class<T> resultType) {
         final Deferred<T> deferred = deferredFactory.getDeferred();
+
         final RequestInAuthProcess<T, S> requestInAuthProcess = new RequestInAuthProcess<T, S>(request, resultType,
                 null, this, deferred);
-        requestProcessor.process(requestInAuthProcess);
+
+        // TODO: switch by a native Timer to avoid importing GWT UI module
+        new Timer() {
+            public void run() {
+                requestProcessor.process(requestInAuthProcess);
+            }
+        }.schedule(request.getDelay());
+
         return deferred.getPromise();
     }
 
@@ -92,9 +101,17 @@ public abstract class RequestDispatcher {
     public <T, C extends Collection<T>, S extends MutableSerializedRequest & SerializableRequest>
             Promise<Collection<T>> dispatch(S request, Class<T> resultType, Class<C> containerType) {
         final Deferred<Collection<T>> deferred = deferredFactory.getDeferred();
+
         final RequestInAuthProcess<Collection<T>, S> requestInAuthProcess = new RequestInAuthProcess<Collection<T>, S>(
                 request, (Class<Collection<T>>) containerType, resultType, this, deferred);
-        requestProcessor.process(requestInAuthProcess);
+
+        // TODO: switch by a native Timer to avoid importing GWT UI module
+        new Timer() {
+            public void run() {
+                requestProcessor.process(requestInAuthProcess);
+            }
+        }.schedule(request.getDelay());
+
         return deferred.getPromise();
     }
     /**
@@ -107,8 +124,16 @@ public abstract class RequestDispatcher {
      */
     public <T> void dispatch(MutableSerializedRequest request, Class<T> resultType, Callback<T, Throwable> callback) {
         final Deferred<T> deferred = new CallbackDeferred<T>(callback);
+
         // Send the request without processing
-        new PreparedRequestImpl<T>(this, request, deferred, resultType, null).send();
+        final PreparedRequest p = new PreparedRequestImpl<T>(this, request, deferred, resultType, null);
+
+        // TODO: switch by a native Timer to avoid importing GWT UI module
+        new Timer() {
+            public void run() {
+                p.send();
+            }
+        }.schedule(request.getDelay());
     }
 
     /**
@@ -126,9 +151,17 @@ public abstract class RequestDispatcher {
                                                       Class<C> containerType,
                                                       Callback<Collection<T>, Throwable> callback) {
         final Deferred<Collection<T>> deferred = new CallbackDeferred<Collection<T>>(callback);
+
         // Send the request without processing
-        new PreparedRequestImpl<Collection<T>>(this, request, deferred, (Class<Collection<T>>) containerType,
-                resultType).send();
+        final PreparedRequest p = new PreparedRequestImpl<Collection<T>>(this, request, deferred,
+                (Class<Collection<T>>) containerType, resultType);
+
+        // TODO: switch by a native Timer to avoid importing GWT UI module
+        new Timer() {
+            public void run() {
+                p.send();
+            }
+        }.schedule(request.getDelay());
     }
 
     /**

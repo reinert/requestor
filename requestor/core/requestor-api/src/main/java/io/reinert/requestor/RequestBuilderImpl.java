@@ -34,6 +34,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private final Headers headers;
     private HttpMethod httpMethod;
     private int timeout;
+    private int delay;
     private Object payload;
     private Payload serializedPayload;
     private Auth auth = PassThroughAuth.getInstance();
@@ -58,6 +59,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
         copy.httpMethod = request.httpMethod;
         copy.auth = request.auth;
         copy.timeout = request.timeout;
+        copy.delay = request.delay;
         copy.payload = request.payload;
         copy.serializedPayload = request.serializedPayload;
         copy.serialized = request.serialized;
@@ -114,6 +116,11 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
+    public int getDelay() {
+        return delay;
+    }
+
+    @Override
     public Uri getUri() {
         return uri;
     }
@@ -159,6 +166,13 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     @Override
     public RequestBuilder payload(Object payload) {
         this.payload = payload;
+        return this;
+    }
+
+    @Override
+    public RequestBuilder delay(int delayMillis) {
+        if (delayMillis > 0)
+            delay = delayMillis;
         return this;
     }
 
@@ -229,6 +243,11 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     @Override
     public void setTimeout(int timeoutMillis) {
         this.timeout = timeoutMillis;
+    }
+
+    @Override
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 
     @Override

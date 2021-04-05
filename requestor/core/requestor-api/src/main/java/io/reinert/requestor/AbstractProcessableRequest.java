@@ -68,6 +68,11 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public void setDelay(int delayMillis) {
+        request.setDelay(delayMillis);
+    }
+
+    @Override
     public void setPayload(Object payload) {
         request.setPayload(payload);
     }
@@ -160,5 +165,10 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     @Override
     public final void abort(RequestException error) {
         request.abort(error);
+    }
+
+    @Override
+    public int getDelay() {
+        return request.getDelay();
     }
 }
