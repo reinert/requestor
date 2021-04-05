@@ -30,6 +30,7 @@ import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
 public class RestServiceGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
+    private static final int DELAY = 3000;
 
     private RestService<Book, Integer, List> bookService;
 
@@ -51,8 +52,12 @@ public class RestServiceGwtTest extends GWTTestCase {
                 Book.class,
                 Integer.class,
                 List.class);
+
         // The mockapi service requires us to explicitly inform the content type header
         bookService.setMediaType("application/json");
+
+        // Delay requests to avoid 429 Too Many Requests from mockapi.io
+        bookService.setDelay(DELAY);
     }
 
     public void testPostBooks() {
