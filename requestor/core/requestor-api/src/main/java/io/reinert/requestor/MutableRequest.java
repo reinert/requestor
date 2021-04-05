@@ -103,6 +103,16 @@ public interface MutableRequest extends Request, HasHeaders {
     void setTimeout(int timeoutMillis);
 
     /**
+     * Sets the number of milliseconds to wait for a request to be sent.
+     *
+     * Negative aren't allowed.
+     * So if a value less than zero is passed, it is ignored.
+     *
+     * @param delayMillis Number of milliseconds to wait before sending the request
+     */
+    void setDelay(int delayMillis);
+
+    /**
      * Input a payload to be serialized and then sent in the HTTP request body.
      *
      * @param payload The payload of the request

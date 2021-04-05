@@ -44,8 +44,12 @@ public interface RequestDefaults extends HasHeaders {
 
     Auth getAuth();
 
-    void setTimeout(int timeout);
+    void setTimeout(int timeoutMillis);
 
     int getTimeout();
+
+    void setDelay(int delayMillis);
+
+    int getDelay();
 
 }

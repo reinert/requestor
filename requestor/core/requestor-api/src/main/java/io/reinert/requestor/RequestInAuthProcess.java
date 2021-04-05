@@ -99,6 +99,11 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     }
 
     @Override
+    public void setDelay(int delayMillis) {
+        request.setDelay(delayMillis);
+    }
+
+    @Override
     public final void setPayload(Object object) {
         request.setPayload(object);
     }
@@ -161,6 +166,11 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     @Override
     public final int getTimeout() {
         return request.getTimeout();
+    }
+
+    @Override
+    public int getDelay() {
+        return request.getDelay();
     }
 
     @Override

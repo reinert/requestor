@@ -83,6 +83,12 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
         return this;
     }
 
+    @Override
+    public RequestInvoker delay(int delayMillis) {
+        super.delay(delayMillis);
+        return this;
+    }
+
     //===================================================================
     // Internal methods
     //===================================================================

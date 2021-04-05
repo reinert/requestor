@@ -132,6 +132,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
+    public int getDelay() {
+        return request.getDelay();
+    }
+
+    @Override
     public Uri getUri() {
         return uri.getUri();
     }

@@ -111,4 +111,14 @@ public interface RequestBuilder extends Request {
      */
     RequestBuilder payload(Object payload);
 
+    /**
+     * Delay the request dispatching in milliseconds.
+     * <p></p>
+     *
+     * @param delayMillis The time in milliseconds to delay the request
+     *
+     * @return This building request
+     */
+    RequestBuilder delay(int delayMillis);
+
 }
