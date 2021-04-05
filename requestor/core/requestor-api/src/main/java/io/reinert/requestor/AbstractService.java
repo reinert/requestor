@@ -10,11 +10,13 @@ public class AbstractService implements RequestDefaults {
     private final Requestor requestor;
     private final RequestDefaultsImpl defaults;
     private final Storage storage;
+    private final UriBuilder uriBuilder;
 
-    public AbstractService(Requestor requestor) {
+    public AbstractService(Requestor requestor, String resourceUri) {
         this.requestor = requestor;
         this.defaults = RequestDefaultsImpl.copy(requestor.getDefaults());
         this.storage = new VolatileStorage(requestor.getStorage());
+        this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 
     @Override
@@ -81,7 +83,11 @@ public class AbstractService implements RequestDefaults {
         return storage;
     }
 
-    protected void appendMatrixParamsToUri(UriBuilder reqUriBuilder, Object[] params) {
+    protected UriBuilder getUriBuilder() {
+        return uriBuilder.clone();
+    }
+
+    protected void appendMatrixParamsToUri(UriBuilder reqUriBuilder, Object... params) {
         // Check if params were given to the URI
         if (params != null && params.length > 0) {
             if (params.length % 2 > 0) {
@@ -95,7 +101,7 @@ public class AbstractService implements RequestDefaults {
         }
     }
 
-    protected void appendQueryParamsToUri(UriBuilder reqUriBuilder, Object[] params) {
+    protected void appendQueryParamsToUri(UriBuilder reqUriBuilder, Object... params) {
         // Check if params were given to the URI
         if (params != null && params.length > 0) {
             if (params.length % 2 > 0) {

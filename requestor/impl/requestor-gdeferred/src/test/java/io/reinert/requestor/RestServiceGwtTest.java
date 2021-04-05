@@ -29,7 +29,7 @@ import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
  */
 public class RestServiceGwtTest extends GWTTestCase {
 
-    private static final int TIMEOUT = 1000;
+    private static final int TIMEOUT = 5000;
 
     private RestService<Book, Integer, List> bookService;
 

@@ -24,14 +24,12 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
     protected final Class<R> resourceType;
     protected final Class<I> idType;
     protected final Class<C> collectionType;
-    protected final UriBuilder uriBuilder;
 
     private boolean asMatrixParam = false;
 
     protected RestService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
                           Class<C> collectionType) {
-        super(requestor);
-        this.uriBuilder = UriBuilder.fromUri(resourceUri);
+        super(requestor, resourceUri);
         this.resourceType = resourceType;
         this.idType = idType;
         this.collectionType = collectionType;
@@ -39,7 +37,7 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
 
     @Override
     public Promise<Collection<R>> get(Object... params) {
-        final UriBuilder reqUriBuilder = uriBuilder.clone();
+        final UriBuilder reqUriBuilder = getUriBuilder();
 
         if (asMatrixParam) {
             appendMatrixParamsToUri(reqUriBuilder, params);
@@ -52,7 +50,7 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
 
     @Override
     public Promise<R> get(I id) {
-        final UriBuilder reqUriBuilder = uriBuilder.clone();
+        final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
 
@@ -61,14 +59,14 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
 
     @Override
     public Promise<SerializedResponse> post(R resource) {
-        final UriBuilder reqUriBuilder = uriBuilder.clone();
+        final UriBuilder reqUriBuilder = getUriBuilder();
 
         return request(reqUriBuilder.build()).payload(resource).post(SerializedResponse.class);
     }
 
     @Override
     public Promise<SerializedResponse> put(I id, R resource) {
-        final UriBuilder reqUriBuilder = uriBuilder.clone();
+        final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
 
@@ -77,7 +75,7 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
 
     @Override
     public Promise<SerializedResponse> delete(I id) {
-        final UriBuilder reqUriBuilder = uriBuilder.clone();
+        final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
 
@@ -86,14 +84,14 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
 
     @Override
     public RequestInvoker req() {
-        final UriBuilder reqUriBuilder = uriBuilder.clone();
+        final UriBuilder reqUriBuilder = getUriBuilder();
 
         return request(reqUriBuilder.build());
     }
 
     @Override
     public RequestInvoker req(I id) {
-        final UriBuilder reqUriBuilder = uriBuilder.clone();
+        final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
 
