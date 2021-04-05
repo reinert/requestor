@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
 
 import io.reinert.requestor.impl.gdeferred.DoneCallback;
 import io.reinert.requestor.impl.gdeferred.FailCallback;
@@ -73,7 +72,8 @@ public class AbstractServiceGwtTest extends GWTTestCase {
         }
     }
 
-    private static final int TIMEOUT = 5000;
+    private static final int TIMEOUT = 6000;
+    public static final int DELAY = 3000;
 
     private BookService bookService;
 
@@ -94,40 +94,25 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
         // The mockapi service requires us to explicitly inform the content type header
         bookService.setMediaType("application/json");
+
+        // Delay requests to avoid 429 Too Many Requests from mockapi.io
+        bookService.setDelay(DELAY);
     }
 
     public void testPostBooks() {
         final Book book = new Book(null, "RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
 
-        new Timer() {
-            public void run() {
-                bookService.createBook(book).done(new DoneCallback<Book>() {
-                    @Override
-                    public void onDone(final Book created) {
-                        assertNotNull(created);
+        bookService.createBook(book).done(new DoneCallback<Book>() {
+            @Override
+            public void onDone(final Book created) {
+                assertNotNull(created);
 
-                        GWT.log(">>>>>>>>>>>>>>>>> CREATED");
-                        GWT.log(created.toString());
-                        GWT.log(created.getId().toString());
-
-                        // Trigger delete test
-                        new Timer() {
-                            public void run() {
-                                manualTestDeleteBook(created.getId());
-                            }
-                        }.schedule(5000);
-                    }
-                }).fail(new FailCallback() {
-                    public void onFail(Throwable throwable) {
-                        GWT.log(">>>>>>>>>>>>>>>> POST");
-                        GWT.log(throwable.getMessage());
-                        GWT.log(">>>>>>>>>>>>>>>>");
-                    }
-                });
+                // Trigger delete test
+                manualTestDeleteBook(created.getId());
             }
-        }.schedule(3000);
+        });
 
-        delayTestFinish(TIMEOUT * 4);
+        delayTestFinish(TIMEOUT * 2);
     }
 
     public void testGetBooks() {
