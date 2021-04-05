@@ -22,10 +22,6 @@
 'Requestor 0.3.0-SNAPSHOT API'
 -header
 '<a href="https://github.com/reinert/requestor" target="_blank">Back to Home</a>'
--link
-'http://download.oracle.com/javase/7/docs/api'
--link
-'http://www.gwtproject.org/javadoc/latest'
 -linkoffline
 'https://docs.oracle.com/javase/6/docs/api' '/usr/reinert/requestor/target/javadoc-bundle-options'
 -use
