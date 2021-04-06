@@ -28,17 +28,16 @@ import io.reinert.requestor.impl.gdeferred.DoneCallback;
 import io.reinert.requestor.impl.gdeferred.FailCallback;
 import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
 import io.reinert.requestor.impl.gdeferred.SetDoneCallback;
+import io.reinert.requestor.impl.gdeferred.StatusCallback;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
-
-import static junit.framework.TestCase.fail;
 
 /**
  * Integration tests of {@link RestService}.
  */
 public class CallbackGwtTest extends GWTTestCase {
 
-    private static final int TIMEOUT = 1000;
+    private static final int TIMEOUT = 2500;
 
     private Requestor requestor;
     private UriBuilder uriBuilder;
@@ -60,6 +59,9 @@ public class CallbackGwtTest extends GWTTestCase {
 
         // The mockapi service requires us to explicitly inform the content type header
         requestor.setMediaType("application/json");
+
+        // Delay requests to avoid 429 Too Many Requests
+        requestor.setDelay(1000);
     }
 
     //=========================================================================
@@ -256,6 +258,104 @@ public class CallbackGwtTest extends GWTTestCase {
                         assertEquals(Promise.State.REJECTED, state);
                         assertNull(body);
                         assertNotNull(throwable);
+
+                        finishTest();
+                    }
+                });
+        delayTestFinish(TIMEOUT);
+    }
+
+    //=========================================================================
+    // RESPONSE CALLBACKS
+    //=========================================================================
+
+    public void testDoneResponseCallback() {
+        requestor.req("http://httpbin.org/status/200").get(String.class)
+                .doneResponse(new io.reinert.gdeferred.DoneCallback<Response<String>>() {
+                    @Override
+                    public void onDone(Response<String> response) {
+                        assertNotNull(response);
+                        assertNotNull(response.getPayload());
+                        assertEquals(200, response.getStatusCode());
+
+                        finishTest();
+                    }
+                });
+        delayTestFinish(TIMEOUT);
+    }
+
+    public void testFailResponseCallback() {
+        requestor.req("http://httpbin.org/status/400").get(String.class)
+                .failResponse(new io.reinert.gdeferred.FailCallback<SerializedResponse>() {
+                    public void onFail(SerializedResponse response) {
+                        assertNotNull(response);
+                        assertNotNull(response.getPayload());
+                        assertEquals(400, response.getStatusCode());
+
+                        finishTest();
+                    }
+                });
+        delayTestFinish(TIMEOUT);
+    }
+
+    //=========================================================================
+    // STATUS CALLBACKS
+    //=========================================================================
+
+    public void testStatusCallback200() {
+        requestor.req("http://httpbin.org/status/200").get(String.class)
+                .status(200, new StatusCallback() {
+                    public void onStatus(Response<?> response) {
+                        assertNotNull(response);
+                        assertEquals(200, response.getStatusCode());
+                        Response<String> r = (Response<String>) response;
+                        assertNotNull(r.getPayload());
+
+                        finishTest();
+                    }
+                }).status(400, new StatusCallback() {
+                    public void onStatus(Response<?> response) {
+                        fail();
+                    }
+                });
+        delayTestFinish(TIMEOUT);
+    }
+
+    public void testStatusCallback400() {
+        requestor.req("http://httpbin.org/status/400").get(String.class)
+                .status(200, new StatusCallback() {
+                    public void onStatus(Response<?> response) {
+                        fail();
+                    }
+                }).status(400, new StatusCallback() {
+                    public void onStatus(Response<?> response) {
+                        assertNotNull(response);
+                        assertEquals(400, response.getStatusCode());
+                        SerializedResponse r = (SerializedResponse) response;
+                        assertNotNull(r.getPayload());
+
+                        finishTest();
+                    }
+                });
+        delayTestFinish(TIMEOUT);
+    }
+
+    public void testStatusCallback500() {
+        requestor.req("http://httpbin.org/status/500").get(String.class)
+                .status(200, new StatusCallback() {
+                    public void onStatus(Response<?> response) {
+                        fail();
+                    }
+                }).status(400, new StatusCallback() {
+                    public void onStatus(Response<?> response) {
+                        fail();
+                    }
+                }).status(500, new StatusCallback() {
+                    public void onStatus(Response<?> response) {
+                        assertNotNull(response);
+                        assertEquals(500, response.getStatusCode());
+                        SerializedResponse r = (SerializedResponse) response;
+                        assertNotNull(r.getPayload());
 
                         finishTest();
                     }

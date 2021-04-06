@@ -27,6 +27,8 @@ import io.reinert.requestor.Promise;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Response;
+import io.reinert.requestor.SerializedResponse;
+import io.reinert.requestor.UnsuccessfulResponseException;
 
 /**
  * DeferredRequest implementation of GDeferred.
@@ -59,14 +61,58 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     }
 
     @Override
+    public Promise<T> doneResponse(final io.reinert.gdeferred.DoneCallback<Response<T>> callback) {
+        super.done(new DoneCallback<T>() {
+            public void onDone(Response<T> response) {
+                callback.onDone(response);
+            }
+        });
+        return this;
+    }
+
+    @Override
     public Promise<T> fail(io.reinert.gdeferred.FailCallback<Throwable> callback) {
         super.fail(callback);
+        return this;
+    }
+
+    public Promise<T> failResponse(final io.reinert.gdeferred.FailCallback<SerializedResponse> callback) {
+        super.fail(new io.reinert.gdeferred.FailCallback<Throwable>() {
+            public void onFail(Throwable t) {
+                if (t instanceof UnsuccessfulResponseException) {
+                    callback.onFail(UnsuccessfulResponseException.cast(t).getResponse());
+                }
+            }
+        });
         return this;
     }
 
     @Override
     public Promise<T> progress(io.reinert.gdeferred.ProgressCallback<RequestProgress> callback) {
         super.progress(callback);
+        return this;
+    }
+
+    @Override
+    public Promise<T> status(final int statusCode, final StatusCallback callback) {
+        if (isSuccessful(statusCode)) {
+            super.done(new DoneCallback<T>() {
+                public void onDone(Response<T> response) {
+                    if (response.getStatusCode() == statusCode)
+                        callback.onStatus(response);
+                }
+            });
+        } else {
+            super.fail(new io.reinert.gdeferred.FailCallback<Throwable>() {
+                public void onFail(Throwable t) {
+                    if (t instanceof UnsuccessfulResponseException) {
+                        SerializedResponse response = UnsuccessfulResponseException.cast(t).getResponse();
+                        if (response.getStatusCode() == statusCode)
+                            callback.onStatus(response);
+                    }
+                }
+            });
+        }
         return this;
     }
 
@@ -199,5 +245,9 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
         if (uploadProgressCallbacks == null)
             uploadProgressCallbacks = new ArrayList<io.reinert.gdeferred.ProgressCallback<RequestProgress>>();
         return uploadProgressCallbacks;
+    }
+
+    private boolean isSuccessful(int statusCode) {
+        return statusCode / 100 == 2;
     }
 }

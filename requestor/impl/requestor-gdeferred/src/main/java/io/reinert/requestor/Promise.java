@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.impl.gdeferred.StatusCallback;
+
 /**
  * A Promise for requests.
  *
@@ -32,11 +34,17 @@ public interface Promise<T> extends io.reinert.gdeferred.Promise<T, Throwable, R
     @Override
     Promise<T> done(io.reinert.gdeferred.DoneCallback<T> callback);
 
+    Promise<T> doneResponse(io.reinert.gdeferred.DoneCallback<Response<T>> callback);
+
     @Override
     Promise<T> fail(io.reinert.gdeferred.FailCallback<Throwable> callback);
 
+    Promise<T> failResponse(io.reinert.gdeferred.FailCallback<SerializedResponse> callback);
+
     @Override
     Promise<T> progress(io.reinert.gdeferred.ProgressCallback<RequestProgress> callback);
+
+    Promise<T> status(int statusCode, StatusCallback callback);
 
     @Override
     Promise<T> then(io.reinert.gdeferred.DoneCallback<T> doneCallback);
