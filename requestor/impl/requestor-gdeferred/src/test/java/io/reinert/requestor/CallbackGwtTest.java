@@ -23,10 +23,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.gdeferred.Promise;
-import io.reinert.requestor.impl.gdeferred.AlwaysCallback;
-import io.reinert.requestor.impl.gdeferred.DoneCallback;
-import io.reinert.requestor.impl.gdeferred.FailCallback;
 import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestAlwaysCallback;
+import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestFailCallback;
 import io.reinert.requestor.impl.gdeferred.SetDoneCallback;
 import io.reinert.requestor.impl.gdeferred.StatusCallback;
 import io.reinert.requestor.uri.Uri;
@@ -71,7 +71,7 @@ public class CallbackGwtTest extends GWTTestCase {
     public void testDoneCallback() {
         // GET /books/1
         final Uri uri = uriBuilder.path("1").build();
-        requestor.req(uri).get(Book.class).done(new DoneCallback<Book>() {
+        requestor.req(uri).get(Book.class).done(new RequestDoneCallback<Book>() {
             public void onDone(Book result) {
                 assertNotNull(result);
 
@@ -84,7 +84,7 @@ public class CallbackGwtTest extends GWTTestCase {
     public void testDoneCallbackResponseOverload() {
         // GET /books/1
         final Uri uri = uriBuilder.path("1").build();
-        requestor.req(uri).get(Book.class).done(new DoneCallback<Book>() {
+        requestor.req(uri).get(Book.class).done(new RequestDoneCallback<Book>() {
             public void onDone(Response<Book> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -98,7 +98,7 @@ public class CallbackGwtTest extends GWTTestCase {
     public void testDoneCallbackForCollection() {
         // GET /books
         final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, List.class).done(new DoneCallback<Collection<Book>>() {
+        requestor.req(uri).get(Book.class, List.class).done(new RequestDoneCallback<Collection<Book>>() {
             public void onDone(Collection<Book> result) {
                 assertNotNull(result);
                 assertFalse(result.isEmpty());
@@ -112,7 +112,7 @@ public class CallbackGwtTest extends GWTTestCase {
     public void testDoneCallbackForCollectionResponseOverload() {
         // GET /books
         final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, List.class).done(new DoneCallback<Collection<Book>>() {
+        requestor.req(uri).get(Book.class, List.class).done(new RequestDoneCallback<Collection<Book>>() {
             public void onDone(Response<Collection<Book>> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -187,11 +187,11 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void test301FailCallback() {
         requestor.req("http://httpbin.org/status/300").get()
-                .done(new DoneCallback<Void>() {
+                .done(new RequestDoneCallback<Void>() {
                     public void onDone(Void result) {
                         fail();
                     }
-                }).fail(new FailCallback() {
+                }).fail(new RequestFailCallback() {
                     public void onFail(Throwable throwable) {
                         assertNotNull(throwable);
 
@@ -203,11 +203,11 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void test400FailCallback() {
         requestor.req("http://httpbin.org/status/400").get()
-                .done(new DoneCallback<Void>() {
+                .done(new RequestDoneCallback<Void>() {
                     public void onDone(Void result) {
                         fail();
                     }
-                }).fail(new FailCallback() {
+                }).fail(new RequestFailCallback() {
                     public void onFail(Throwable throwable) {
                         assertNotNull(throwable);
 
@@ -219,11 +219,11 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void test500FailCallback() {
         requestor.req("http://httpbin.org/status/500").get()
-                .done(new DoneCallback<Void>() {
+                .done(new RequestDoneCallback<Void>() {
                     public void onDone(Void result) {
                         fail();
                     }
-                }).fail(new FailCallback() {
+                }).fail(new RequestFailCallback() {
                     public void onFail(Throwable throwable) {
                         assertNotNull(throwable);
 
@@ -239,7 +239,7 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void testAlwaysCallbackOnSuccessfulResponse() {
         requestor.req("http://httpbin.org/status/200").get(String.class)
-                .always(new AlwaysCallback<String>() {
+                .always(new RequestAlwaysCallback<String>() {
                     public void onAlways(Promise.State state, String body, Throwable throwable) {
                         assertEquals(Promise.State.RESOLVED, state);
                         assertNotNull(body);
@@ -253,7 +253,7 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void testAlwaysCallbackOnUnsuccessfulResponse() {
         requestor.req("http://httpbin.org/status/400").get(String.class)
-                .always(new AlwaysCallback<String>() {
+                .always(new RequestAlwaysCallback<String>() {
                     public void onAlways(Promise.State state, String body, Throwable throwable) {
                         assertEquals(Promise.State.REJECTED, state);
                         assertNull(body);

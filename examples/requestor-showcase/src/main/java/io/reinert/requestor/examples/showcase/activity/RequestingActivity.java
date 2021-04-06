@@ -24,7 +24,7 @@ import io.reinert.requestor.Requestor;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
-import io.reinert.requestor.impl.gdeferred.DoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 public class RequestingActivity extends ShowcaseActivity implements Requesting.Handler {
 
@@ -40,7 +40,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
     @Override
     public void onGetIpButtonClick() {
         Promise<String> promise = (Promise<String>) requestor.req("http://httpbin.org/ip").get(String.class);
-        promise.done(new DoneCallback<String>() {
+        promise.done(new RequestDoneCallback<String>() {
             @Override
             public void onDone(String result) {
                 view.setIpText(result);
@@ -50,7 +50,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onPostButtonClick() {
-        requestor.req("http://httpbin.org/post").post(String.class).done(new DoneCallback<String>() {
+        requestor.req("http://httpbin.org/post").post(String.class).done(new RequestDoneCallback<String>() {
             @Override
             public void onDone(String result) {
                 view.setPostText(result);
@@ -60,7 +60,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onPutButtonClick() {
-        requestor.req("http://httpbin.org/put").put(String.class).done(new DoneCallback<String>() {
+        requestor.req("http://httpbin.org/put").put(String.class).done(new RequestDoneCallback<String>() {
             @Override
             public void onDone(String result) {
                 view.setPutText(result);
@@ -70,7 +70,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onDeleteButtonClick() {
-        requestor.req("http://httpbin.org/delete").delete(String.class).done(new DoneCallback<String>() {
+        requestor.req("http://httpbin.org/delete").delete(String.class).done(new RequestDoneCallback<String>() {
             @Override
             public void onDone(String result) {
                 view.setDeleteText(result);
@@ -80,7 +80,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onHeadButtonClick() {
-        requestor.req("http://httpbin.org/headers").head().done(new DoneCallback<Headers>() {
+        requestor.req("http://httpbin.org/headers").head().done(new RequestDoneCallback<Headers>() {
             @Override
             public void onDone(Headers result) {
                 view.setHeadText(Util.formatHeaders(result));
@@ -90,7 +90,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onOptionsButtonClick() {
-        requestor.req("http://httpbin.org/get").options(Headers.class).done(new DoneCallback<Headers>() {
+        requestor.req("http://httpbin.org/get").options(Headers.class).done(new RequestDoneCallback<Headers>() {
             @Override
             public void onDone(Headers result) {
                 view.setOptionsText(Util.formatHeaders(result));
@@ -100,7 +100,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onPatchButtonClick() {
-        requestor.req("http://httpbin.org/patch").patch(String.class).done(new DoneCallback<String>() {
+        requestor.req("http://httpbin.org/patch").patch(String.class).done(new RequestDoneCallback<String>() {
             @Override
             public void onDone(String result) {
                 view.setPatchText(result);

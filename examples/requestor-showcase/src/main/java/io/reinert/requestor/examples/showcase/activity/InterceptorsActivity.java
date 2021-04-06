@@ -31,7 +31,7 @@ import io.reinert.requestor.ResponseInterceptorContext;
 import io.reinert.requestor.SerializedRequestInProcess;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.impl.gdeferred.DoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 public class InterceptorsActivity extends ShowcaseActivity implements Interceptors.Handler {
 
@@ -76,7 +76,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         // Perform the request
         JavaScriptObject json = getMessageJson("Requestor is awesome!");
         requestor.req("http://httpbin.org/post").payload(json).post(String.class)
-                .done(new DoneCallback<String>() {
+                .done(new RequestDoneCallback<String>() {
                     @Override
                     public void onDone(String result) {
                         view.setRequestInterceptorText(result);
@@ -105,7 +105,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
 
         // Perform the response
         requestor.req("http://www.mocky.io/v2/54a3ec74fd145c6c0195e912").get(String.class)
-                .done(new DoneCallback<String>() {
+                .done(new RequestDoneCallback<String>() {
                     @Override
                     public void onDone(String response) {
                         view.setResponseInterceptorText(response);

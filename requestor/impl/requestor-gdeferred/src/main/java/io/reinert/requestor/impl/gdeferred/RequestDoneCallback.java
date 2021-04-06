@@ -23,7 +23,7 @@ import io.reinert.requestor.Response;
  *
  * @param <T> Type of the response payload
  */
-public abstract class DoneCallback<T> implements io.reinert.gdeferred.DoneCallback<T> {
+public abstract class RequestDoneCallback<T> implements io.reinert.gdeferred.DoneCallback<T> {
 
     @Override
     public void onDone(T result) {
