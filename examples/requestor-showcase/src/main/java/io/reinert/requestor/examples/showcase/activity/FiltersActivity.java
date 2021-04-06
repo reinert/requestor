@@ -31,7 +31,7 @@ import io.reinert.requestor.ResponseFilterContext;
 import io.reinert.requestor.examples.showcase.ui.Filters;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
-import io.reinert.requestor.impl.gdeferred.DoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 public class FiltersActivity extends ShowcaseActivity implements Filters.Handler {
 
@@ -71,7 +71,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
         // Perform the request
         requestor.req("http://httpbin.org/headers").get(String.class)
-                .done(new DoneCallback<String>() {
+                .done(new RequestDoneCallback<String>() {
                     @Override
                     public void onDone(String result) {
                         view.setRequestFilterText(result);
@@ -97,7 +97,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
         // Perform the response
         requestor.req("http://httpbin.org/headers").get(String.class)
-                .done(new DoneCallback<String>() {
+                .done(new RequestDoneCallback<String>() {
                     @Override
                     public void onDone(Response<String> response) {
                         view.setResponseFilterText(Util.formatHeaders(response.getHeaders()), response.getPayload());

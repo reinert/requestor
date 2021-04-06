@@ -26,7 +26,7 @@ import io.reinert.requestor.SerializedResponse;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.form.FormData;
-import io.reinert.requestor.impl.gdeferred.DoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 public class FormActivity extends ShowcaseActivity implements Form.Handler {
 
@@ -59,7 +59,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(SerializedResponse.class) // retrieve the raw response
-                .done(new DoneCallback<SerializedResponse>() {
+                .done(new RequestDoneCallback<SerializedResponse>() {
                     @Override
                     public void onDone(SerializedResponse response) {
                         // the payload is parsed as string by default
@@ -84,7 +84,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(SerializedResponse.class) // retrieve the raw response
-                .done(new DoneCallback<SerializedResponse>() {
+                .done(new RequestDoneCallback<SerializedResponse>() {
                     @Override
                     public void onDone(SerializedResponse response) {
                         // the payload is parsed as string by default

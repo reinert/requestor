@@ -62,7 +62,7 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
 
     @Override
     public Promise<T> doneResponse(final io.reinert.gdeferred.DoneCallback<Response<T>> callback) {
-        super.done(new DoneCallback<T>() {
+        super.done(new RequestDoneCallback<T>() {
             public void onDone(Response<T> response) {
                 callback.onDone(response);
             }
@@ -96,7 +96,7 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     @Override
     public Promise<T> status(final int statusCode, final StatusCallback callback) {
         if (isSuccessful(statusCode)) {
-            super.done(new DoneCallback<T>() {
+            super.done(new RequestDoneCallback<T>() {
                 public void onDone(Response<T> response) {
                     if (response.getStatusCode() == statusCode)
                         callback.onStatus(response);
@@ -216,8 +216,8 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
     protected void triggerDone(Response<T> resolved) {
         for (io.reinert.gdeferred.DoneCallback<T> callback : getDoneCallbacks()) {
             try {
-                if (callback instanceof DoneCallback) {
-                    ((DoneCallback) callback).onDone(resolved);
+                if (callback instanceof RequestDoneCallback) {
+                    ((RequestDoneCallback) callback).onDone(resolved);
                 } else if (callback instanceof ListDoneCallback) {
                     ((ListDoneCallback) callback).onDone((Response<List>) resolved);
                 }  else if (callback instanceof SetDoneCallback) {

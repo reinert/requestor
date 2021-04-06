@@ -22,9 +22,9 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.impl.gdeferred.DoneCallback;
-import io.reinert.requestor.impl.gdeferred.FailCallback;
 import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestFailCallback;
 import io.reinert.requestor.uri.Uri;
 
 /**
@@ -73,7 +73,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
     }
 
     private static final int TIMEOUT = 6000;
-    public static final int DELAY = 3000;
+    private static final int DELAY = 3000;
 
     private BookService bookService;
 
@@ -102,7 +102,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
     public void testPostBooks() {
         final Book book = new Book(null, "RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
 
-        bookService.createBook(book).done(new DoneCallback<Book>() {
+        bookService.createBook(book).done(new RequestDoneCallback<Book>() {
             @Override
             public void onDone(final Book created) {
                 assertNotNull(created);
@@ -129,7 +129,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     public void testGetBooksWithParams() {
         // GET /books?author=Leonard
-        bookService.getBooks("Leonard").done(new DoneCallback<Collection<Book>>() {
+        bookService.getBooks("Leonard").done(new RequestDoneCallback<Collection<Book>>() {
             @Override
             public void onDone(Collection<Book> books) {
                 assertNotNull(books);
@@ -146,7 +146,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     public void testGetBookById() {
         // GET /books/1
-        bookService.getBookById(1).done(new DoneCallback<Book>() {
+        bookService.getBookById(1).done(new RequestDoneCallback<Book>() {
             public void onDone(Book result) {
                 assertNotNull(result);
                 finishTest();
@@ -160,7 +160,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
         final Integer id = 2;
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
-        bookService.updateBook(id, book).done(new DoneCallback<Void>() {
+        bookService.updateBook(id, book).done(new RequestDoneCallback<Void>() {
             @Override
             public void onDone(Response<Void> response) {
                 assertNotNull(response);
@@ -176,7 +176,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     private void manualTestDeleteBook(Integer createdId) {
         // DELETE /books/{createdId}
-        bookService.deleteBook(createdId).done(new DoneCallback<Void>() {
+        bookService.deleteBook(createdId).done(new RequestDoneCallback<Void>() {
             @Override
             public void onDone(Response<Void> response) {
                 assertNotNull(response);
@@ -186,7 +186,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
                 finishTest();
             }
-        }).fail(new FailCallback() {
+        }).fail(new RequestFailCallback() {
             public void onFail(Throwable throwable) {
                 GWT.log(">>>>>>>>>>>>>>>> DELETE");
                 GWT.log(throwable.getMessage());

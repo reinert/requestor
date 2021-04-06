@@ -19,7 +19,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 
-import io.reinert.requestor.impl.gdeferred.DoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 /**
  * Integration tests of {@link RequestFilter}.
@@ -56,7 +56,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).done(new DoneCallback<String>() {
+        requestor.req("https://httpbin.org/get").get(String.class).done(new RequestDoneCallback<String>() {
             public void onDone(Response<String> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -91,7 +91,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).done(new DoneCallback<String>() {
+        requestor.req("https://httpbin.org/get").get(String.class).done(new RequestDoneCallback<String>() {
             public void onDone(Response<String> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -132,7 +132,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).done(new DoneCallback<String>() {
+        requestor.req("https://httpbin.org/get").get(String.class).done(new RequestDoneCallback<String>() {
             public void onDone(Response<String> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -196,7 +196,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).done(new DoneCallback<String>() {
+        requestor.req("https://httpbin.org/get").get(String.class).done(new RequestDoneCallback<String>() {
             public void onDone(Response<String> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());

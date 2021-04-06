@@ -21,8 +21,8 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.impl.gdeferred.DoneCallback;
 import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
+import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 /**
  * Integration tests of {@link RestService}.
@@ -63,7 +63,7 @@ public class RestServiceGwtTest extends GWTTestCase {
     public void testPostBooks() {
         Book book = new Book(null, "RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
 
-        bookService.post(book).done(new DoneCallback<SerializedResponse>() {
+        bookService.post(book).done(new RequestDoneCallback<SerializedResponse>() {
             @Override
             public void onDone(SerializedResponse response) {
                 assertNotNull(response);
@@ -98,7 +98,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBooksWithParams() {
         // GET /books?id=20
-        bookService.get("id", "20").done(new DoneCallback<Collection<Book>>() {
+        bookService.get("id", "20").done(new RequestDoneCallback<Collection<Book>>() {
             @Override
             public void onDone(Collection<Book> result) {
                 assertNotNull(result);
@@ -111,7 +111,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBook() {
         // GET /books/1
-        bookService.get(1).done(new DoneCallback<Book>() {
+        bookService.get(1).done(new RequestDoneCallback<Book>() {
             public void onDone(Book result) {
                 assertNotNull(result);
                 finishTest();
@@ -125,7 +125,7 @@ public class RestServiceGwtTest extends GWTTestCase {
         final Integer id = 2;
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
-        bookService.put(id, book).done(new DoneCallback<SerializedResponse>() {
+        bookService.put(id, book).done(new RequestDoneCallback<SerializedResponse>() {
             @Override
             public void onDone(SerializedResponse response) {
                 assertNotNull(response);
@@ -147,7 +147,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     private void manualTestDeleteBook(Integer createdId) {
         // DELETE /books/{createdId}
-        bookService.delete(createdId).done(new DoneCallback<SerializedResponse>() {
+        bookService.delete(createdId).done(new RequestDoneCallback<SerializedResponse>() {
             @Override
             public void onDone(SerializedResponse response) {
                 assertNotNull(response);

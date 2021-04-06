@@ -18,5 +18,5 @@ package io.reinert.requestor.impl.gdeferred;
 /**
  * FailCallback for request promises.
  */
-public interface FailCallback extends io.reinert.gdeferred.FailCallback<Throwable> {
+public interface RequestFailCallback extends io.reinert.gdeferred.FailCallback<Throwable> {
 }

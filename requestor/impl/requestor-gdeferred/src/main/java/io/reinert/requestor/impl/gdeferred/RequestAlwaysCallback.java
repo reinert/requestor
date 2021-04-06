@@ -20,5 +20,5 @@ package io.reinert.requestor.impl.gdeferred;
  *
  * @param <T> Type of the response payload
  */
-public interface AlwaysCallback<T> extends io.reinert.gdeferred.AlwaysCallback<T, Throwable> {
+public interface RequestAlwaysCallback<T> extends io.reinert.gdeferred.AlwaysCallback<T, Throwable> {
 }
