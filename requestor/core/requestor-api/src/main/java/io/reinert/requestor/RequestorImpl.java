@@ -150,14 +150,14 @@ public class RequestorImpl extends Requestor {
     }
 
 //    @Override
-//    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> returnType) {
-//        return requestDispatcher.dispatch(request, returnType);
+//    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> entityType) {
+//        return requestDispatcher.dispatch(request, entityType);
 //    }
 //
 //    @Override
-//    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> returnType,
-//                                                                     Class<C> containerType) {
-//        return requestDispatcher.dispatch(request, returnType, containerType);
+//    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> entityType,
+//                                                                     Class<C> collectionType) {
+//        return requestDispatcher.dispatch(request, entityType, collectionType);
 //    }
 
     //===================================================================
@@ -170,14 +170,14 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T> Promise<T> get(String uri, Class<T> resultType) {
-        return this.req(uri).get(resultType);
+    public <T> Promise<T> get(String uri, Class<T> entityType) {
+        return this.req(uri).get(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<T> resultType,
-                                                                Class<C> containerType) {
-        return this.req(uri).get(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<T> entityType,
+                                                                Class<C> collectionType) {
+        return this.req(uri).get(entityType, collectionType);
     }
 
     @Override
@@ -191,25 +191,25 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T> Promise<T> post(String uri, Object payload, Class<T> resultType) {
-        return this.req(uri).payload(payload).post(resultType);
+    public <T> Promise<T> post(String uri, Object payload, Class<T> entityType) {
+        return this.req(uri).payload(payload).post(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<T> resultType,
-                                                                 Class<C> containerType) {
-        return this.req(uri).payload(payload).post(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<T> entityType,
+                                                                 Class<C> collectionType) {
+        return this.req(uri).payload(payload).post(entityType, collectionType);
     }
 
     @Override
-    public <T> Promise<T> post(String uri, Class<T> resultType) {
-        return this.req(uri).post(resultType);
+    public <T> Promise<T> post(String uri, Class<T> entityType) {
+        return this.req(uri).post(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<T> resultType,
-                                                                 Class<C> containerType) {
-        return this.req(uri).post(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<T> entityType,
+                                                                 Class<C> collectionType) {
+        return this.req(uri).post(entityType, collectionType);
     }
 
     @Override
@@ -223,25 +223,25 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T> Promise<T> put(String uri, Object payload, Class<T> resultType) {
-        return this.req(uri).payload(payload).put(resultType);
+    public <T> Promise<T> put(String uri, Object payload, Class<T> entityType) {
+        return this.req(uri).payload(payload).put(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<T> resultType,
-                                                                Class<C> containerType) {
-        return this.req(uri).payload(payload).put(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<T> entityType,
+                                                                Class<C> collectionType) {
+        return this.req(uri).payload(payload).put(entityType, collectionType);
     }
 
     @Override
-    public <T> Promise<T> put(String uri, Class<T> resultType) {
-        return this.req(uri).put(resultType);
+    public <T> Promise<T> put(String uri, Class<T> entityType) {
+        return this.req(uri).put(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<T> resultType,
-                                                                Class<C> containerType) {
-        return this.req(uri).put(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<T> entityType,
+                                                                Class<C> collectionType) {
+        return this.req(uri).put(entityType, collectionType);
     }
 
     @Override
@@ -250,14 +250,14 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T> Promise<T> delete(String uri, Class<T> resultType) {
-        return this.req(uri).delete(resultType);
+    public <T> Promise<T> delete(String uri, Class<T> entityType) {
+        return this.req(uri).delete(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<T> resultType,
-                                                                   Class<C> containerType) {
-        return this.req(uri).delete(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<T> entityType,
+                                                                   Class<C> collectionType) {
+        return this.req(uri).delete(entityType, collectionType);
     }
 
     @Override
@@ -271,25 +271,25 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T> Promise<T> patch(String uri, Object payload, Class<T> resultType) {
-        return this.req(uri).payload(payload).patch(resultType);
+    public <T> Promise<T> patch(String uri, Object payload, Class<T> entityType) {
+        return this.req(uri).payload(payload).patch(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<T> resultType,
-                                                                  Class<C> containerType) {
-        return this.req(uri).payload(payload).patch(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<T> entityType,
+                                                                  Class<C> collectionType) {
+        return this.req(uri).payload(payload).patch(entityType, collectionType);
     }
 
     @Override
-    public <T> Promise<T> patch(String uri, Class<T> resultType) {
-        return this.req(uri).patch(resultType);
+    public <T> Promise<T> patch(String uri, Class<T> entityType) {
+        return this.req(uri).patch(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<T> resultType,
-                                                                  Class<C> containerType) {
-        return this.req(uri).patch(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<T> entityType,
+                                                                  Class<C> collectionType) {
+        return this.req(uri).patch(entityType, collectionType);
     }
 
     @Override
@@ -298,14 +298,14 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T> Promise<T> options(String uri, Class<T> resultType) {
-        return this.req(uri).options(resultType);
+    public <T> Promise<T> options(String uri, Class<T> entityType) {
+        return this.req(uri).options(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<T> resultType,
-                                                                    Class<C> containerType) {
-        return this.req(uri).options(resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<T> entityType,
+                                                                    Class<C> collectionType) {
+        return this.req(uri).options(entityType, collectionType);
     }
 
     @Override
@@ -493,8 +493,8 @@ public class RequestorImpl extends Requestor {
     public <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
                                                                             Class<R> resourceType,
                                                                             Class<I> idType,
-                                                                            Class<C> containerType) {
-        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, containerType);
+                                                                            Class<C> collectionType) {
+        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, collectionType);
     }
 
     //===================================================================

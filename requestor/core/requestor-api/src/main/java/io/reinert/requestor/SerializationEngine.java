@@ -48,8 +48,8 @@ class SerializationEngine {
     }
 
     public <T, C extends Collection<T>> Response<C> deserializeResponse(Request request, SerializedResponse response,
-                                                                        Class<T> type, Class<C> containerType) {
-        C result = deserializePayload(request, response, type, containerType);
+                                                                        Class<T> type, Class<C> collectionType) {
+        C result = deserializePayload(request, response, type, collectionType);
         return getDeserializedResponse(request, response, result);
     }
 
@@ -59,12 +59,12 @@ class SerializationEngine {
     }
 
     public <T, C extends Collection<T>> C deserializePayload(Request request, SerializedResponse response,
-                                                              Class<T> type, Class<C> containerType) {
+                                                              Class<T> type, Class<C> collectionType) {
         final String mediaType = getResponseMediaType(request, response);
         final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
-        C result = deserializer.deserialize(containerType, response.getPayload().isString(), context);
+        C result = deserializer.deserialize(collectionType, response.getPayload().isString(), context);
         return result;
     }
 

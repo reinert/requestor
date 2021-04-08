@@ -43,13 +43,13 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> Promise<T> get(Class<T> resultType) {
-        return send(HttpMethod.GET, resultType);
+    public <T> Promise<T> get(Class<T> entityType) {
+        return send(HttpMethod.GET, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> get(Class<T> resultType, Class<C> containerType) {
-        return send(HttpMethod.GET, resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> get(Class<T> entityType, Class<C> collectionType) {
+        return send(HttpMethod.GET, entityType, collectionType);
     }
 
     @Override
@@ -58,13 +58,13 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> Promise<T> post(Class<T> resultType) {
-        return send(HttpMethod.POST, resultType);
+    public <T> Promise<T> post(Class<T> entityType) {
+        return send(HttpMethod.POST, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(Class<T> resultType, Class<C> containerType) {
-        return send(HttpMethod.POST, resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> post(Class<T> entityType, Class<C> collectionType) {
+        return send(HttpMethod.POST, entityType, collectionType);
     }
 
     @Override
@@ -73,13 +73,13 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> Promise<T> put(Class<T> resultType) {
-        return send(HttpMethod.PUT, resultType);
+    public <T> Promise<T> put(Class<T> entityType) {
+        return send(HttpMethod.PUT, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(Class<T> resultType, Class<C> containerType) {
-        return send(HttpMethod.PUT, resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> put(Class<T> entityType, Class<C> collectionType) {
+        return send(HttpMethod.PUT, entityType, collectionType);
     }
 
     @Override
@@ -88,14 +88,14 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> Promise<T> delete(Class<T> resultType) {
-        return send(HttpMethod.DELETE, resultType);
+    public <T> Promise<T> delete(Class<T> entityType) {
+        return send(HttpMethod.DELETE, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> delete(Class<T> resultType,
-                                                                   Class<C> containerType) {
-        return send(HttpMethod.DELETE, resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> delete(Class<T> entityType,
+                                                                   Class<C> collectionType) {
+        return send(HttpMethod.DELETE, entityType, collectionType);
     }
 
     @Override
@@ -104,14 +104,14 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> Promise<T> patch(Class<T> resultType) {
-        return send(HttpMethod.PATCH, resultType);
+    public <T> Promise<T> patch(Class<T> entityType) {
+        return send(HttpMethod.PATCH, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(Class<T> resultType,
-                                                                  Class<C> containerType) {
-        return send(HttpMethod.PATCH, resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> patch(Class<T> entityType,
+                                                                  Class<C> collectionType) {
+        return send(HttpMethod.PATCH, entityType, collectionType);
     }
 
     @Override
@@ -120,14 +120,14 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T> Promise<T> options(Class<T> resultType) {
-        return send(HttpMethod.OPTIONS, resultType);
+    public <T> Promise<T> options(Class<T> entityType) {
+        return send(HttpMethod.OPTIONS, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType,
-                                                                    Class<C> containerType) {
-        return send(HttpMethod.OPTIONS, resultType, containerType);
+    public <T, C extends Collection> Promise<Collection<T>> options(Class<T> entityType,
+                                                                    Class<C> collectionType) {
+        return send(HttpMethod.OPTIONS, entityType, collectionType);
     }
 
     @Override

@@ -71,7 +71,7 @@ public class RawResponseImpl extends ResponseImpl<Payload> implements RawRespons
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> containerType) {
-        return serializationEngine.deserializePayload(getRequest(), this, type, containerType);
+    public <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> collectionType) {
+        return serializationEngine.deserializePayload(getRequest(), this, type, collectionType);
     }
 }
