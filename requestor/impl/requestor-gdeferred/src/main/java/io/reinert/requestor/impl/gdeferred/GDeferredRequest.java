@@ -26,6 +26,7 @@ import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.Promise;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestProgress;
+import io.reinert.requestor.RequestTimeoutException;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.SerializedResponse;
 import io.reinert.requestor.UnsuccessfulResponseException;
@@ -150,6 +151,19 @@ public class GDeferredRequest<T> extends DeferredObject<T, Throwable, RequestPro
                                   io.reinert.gdeferred.ProgressCallback<RequestProgress> upProgressCallback) {
         super.then(doneCallback, failCallback, progressCallback);
         this.upProgress(upProgressCallback);
+        return this;
+    }
+
+    @Override
+    public Promise<T> timeout(final TimeoutCallback callback) {
+        super.fail(new io.reinert.gdeferred.FailCallback<Throwable>() {
+            public void onFail(Throwable t) {
+                if (t instanceof RequestTimeoutException) {
+                    RequestTimeoutException timeoutException = (RequestTimeoutException) t;
+                    callback.onFail(timeoutException);
+                }
+            }
+        });
         return this;
     }
 

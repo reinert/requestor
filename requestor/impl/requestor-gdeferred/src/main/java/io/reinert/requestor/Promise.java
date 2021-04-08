@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.impl.gdeferred.StatusCallback;
+import io.reinert.requestor.impl.gdeferred.TimeoutCallback;
 
 /**
  * A Promise for requests.
@@ -62,5 +63,7 @@ public interface Promise<T> extends io.reinert.gdeferred.Promise<T, Throwable, R
                     io.reinert.gdeferred.FailCallback<Throwable> failCallback,
                     io.reinert.gdeferred.ProgressCallback<RequestProgress> progressCallback,
                     io.reinert.gdeferred.ProgressCallback<RequestProgress> upProgressCallback);
+
+    Promise<T> timeout(TimeoutCallback callback);
 
 }
