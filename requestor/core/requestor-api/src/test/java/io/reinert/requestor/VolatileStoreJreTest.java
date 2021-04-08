@@ -34,7 +34,7 @@ public class VolatileStoreJreTest {
 
     @Before
     public void setUp() {
-        store.set(KEY, VALUE);
+        store.put(KEY, VALUE);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class VolatileStoreJreTest {
 
         // Given
         VolatileStore volatileStore = new VolatileStore(store);
-        volatileStore.set(key, expected);
+        volatileStore.put(key, expected);
 
         // When
         int returned = volatileStore.pop(key);
@@ -86,7 +86,7 @@ public class VolatileStoreJreTest {
 
         // Given
         VolatileStore volatileStore = new VolatileStore(store);
-        volatileStore.set(KEY, localExpected);
+        volatileStore.put(KEY, localExpected);
 
         // When
         int returned = volatileStore.pop(KEY);
@@ -105,10 +105,10 @@ public class VolatileStoreJreTest {
 
         // Given
         VolatileStore volatileParent = new VolatileStore(store);
-        volatileParent.set(KEY, parentExpected);
+        volatileParent.put(KEY, parentExpected);
 
         VolatileStore volatileStore = new VolatileStore(volatileParent);
-        volatileStore.set(KEY, localExpected);
+        volatileStore.put(KEY, localExpected);
 
         // When
         int returned = volatileStore.pop(KEY);

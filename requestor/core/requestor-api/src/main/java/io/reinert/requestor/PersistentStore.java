@@ -33,13 +33,13 @@ public class PersistentStore implements Store {
     }
 
     @Override
-    public void set(String key, Object value) {
+    public void put(String key, Object value) {
         dataMap.put(key, value);
     }
 
     @Override
-    public void set(String key, Object value, boolean sessionPersistent) {
-        set(key, value);
+    public void put(String key, Object value, boolean sessionPersistent) {
+        put(key, value);
     }
 
     @Override

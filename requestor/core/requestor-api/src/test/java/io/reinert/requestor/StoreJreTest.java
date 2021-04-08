@@ -34,7 +34,7 @@ public class StoreJreTest {
         String key = "key";
 
         // Given
-        store.set(key, expected);
+        store.put(key, expected);
 
         // When
         int returned = store.get(key);
@@ -50,7 +50,7 @@ public class StoreJreTest {
         String key = "key";
 
         // Given
-        store.set(key, expected);
+        store.put(key, expected);
 
         // When
         int returned = store.pop(key);

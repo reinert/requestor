@@ -22,9 +22,9 @@ public interface Store {
 
     <T> T get(String key);
 
-    void set(String key, Object value);
+    void put(String key, Object value);
 
-    void set(String key, Object value, boolean sessionPersistent);
+    void put(String key, Object value, boolean sessionPersistent);
 
     boolean has(String key);
 
