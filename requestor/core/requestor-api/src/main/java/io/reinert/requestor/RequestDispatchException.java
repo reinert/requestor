@@ -20,14 +20,11 @@ package io.reinert.requestor;
  */
 public class RequestDispatchException extends RequestException {
 
-    public RequestDispatchException() {
+    public RequestDispatchException(Request request, String s) {
+        super(request, s);
     }
 
-    public RequestDispatchException(String s) {
-        super(s);
-    }
-
-    public RequestDispatchException(String s, Throwable throwable) {
-        super(s, throwable);
+    public RequestDispatchException(Request request, String s, Throwable throwable) {
+        super(request, s, throwable);
     }
 }

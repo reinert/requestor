@@ -31,9 +31,9 @@ public class RequestPermissionException extends RequestException {
      *
      * @param url the URL which cannot be accessed
      */
-    public RequestPermissionException(String url) {
-        super("Could not open the XHR: The URL " + url + " is invalid or violates the same-origin security restriction."
-                + " Please check your browser's security settings for the related URL.");
+    public RequestPermissionException(Request request, String url) {
+        super(request, "Could not open the XHR: The URL " + url + " is invalid or violates the same-origin security" +
+                " restriction. Please check your browser's security settings for the related URL.");
         this.url = url;
     }
 

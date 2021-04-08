@@ -49,8 +49,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         try {
             xmlHttpRequest.open(httpMethod.getValue(), url);
         } catch (JavaScriptException e) {
-            RequestPermissionException requestPermissionException = new RequestPermissionException(url);
-            requestPermissionException.initCause(new RequestException(e.getMessage()));
+            RequestPermissionException requestPermissionException = new RequestPermissionException(request, url);
+            requestPermissionException.initCause(new RequestException(request, e.getMessage()));
             deferred.reject(requestPermissionException);
             return;
         }
@@ -62,7 +62,8 @@ public class RequestDispatcherImpl extends RequestDispatcher {
         try {
             setHeaders(headers, xmlHttpRequest);
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestException("Could not manipulate the XHR headers: " + e.getMessage()));
+            deferred.reject(new RequestException(request, "Could not manipulate the XHR headers: " +
+                    e.getMessage()));
             return;
         }
 
@@ -121,7 +122,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                 xmlHttpRequest.send();
             }
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestDispatchException("Could not send the XHR: " + e.getMessage()));
+            deferred.reject(new RequestDispatchException(request, "Could not send the XHR: " + e.getMessage()));
         }
     }
 
@@ -179,7 +180,7 @@ public class RequestDispatcherImpl extends RequestDispatcher {
                     deferred.reject(new RequestTimeoutException(request, e.getTimeoutMillis()));
                 } else {
                     // reject as generic request exception
-                    deferred.reject(new RequestException(exception));
+                    deferred.reject(new RequestException(request, exception));
                 }
             }
         };

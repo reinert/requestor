@@ -23,7 +23,6 @@ package io.reinert.requestor;
  */
 public class UnsuccessfulResponseException extends RequestException {
 
-    private final Request request;
     private final SerializedResponse response;
 
     /**
@@ -32,22 +31,12 @@ public class UnsuccessfulResponseException extends RequestException {
      * @param response The response received from request.
      */
     public UnsuccessfulResponseException(Request request, SerializedResponse response) {
-        super("The response was received but the status code was not from 'Success' class (2xx).");
-        this.request = request;
+        super(request, "The response was received but the status code was not from 'Success' class (2xx).");
         this.response = response;
     }
 
     public static UnsuccessfulResponseException cast(Throwable throwable) throws ClassCastException {
         return (UnsuccessfulResponseException) throwable;
-    }
-
-    /**
-     * Returns the {@link Request} instance which was sent.
-     *
-     * @return the {@link Request} instance which was sent
-     */
-    public Request getRequest() {
-        return request;
     }
 
     /**

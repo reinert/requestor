@@ -21,10 +21,6 @@ package io.reinert.requestor;
 public class RequestTimeoutException extends RequestException {
 
     /**
-     * Request object which experienced the timed out.
-     */
-    private final Request request;
-    /**
      * Time, in milliseconds, of the timeout.
      */
     private final int timeoutMillis;
@@ -36,23 +32,12 @@ public class RequestTimeoutException extends RequestException {
      * @param timeoutMillis the number of milliseconds which expired
      */
     public RequestTimeoutException(Request request, int timeoutMillis) {
-        super(formatMessage(timeoutMillis));
-        this.request = request;
+        super(request, formatMessage(timeoutMillis));
         this.timeoutMillis = timeoutMillis;
     }
 
     private static String formatMessage(int timeoutMillis) {
-        return "A request timeout has expired after "
-                + Integer.toString(timeoutMillis) + " ms";
-    }
-
-    /**
-     * Returns the {@link Request} instance which timed out.
-     *
-     * @return the {@link Request} instance which timed out
-     */
-    public Request getRequest() {
-        return request;
+        return "A request timeout has expired after " + timeoutMillis + " ms";
     }
 
     /**
