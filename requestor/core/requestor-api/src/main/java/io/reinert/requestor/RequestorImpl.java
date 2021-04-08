@@ -36,7 +36,7 @@ import io.reinert.requestor.uri.UriBuilder;
 public class RequestorImpl extends Requestor {
 
     private final RequestDefaultsImpl defaults = new RequestDefaultsImpl();
-    private final PersistentStorage storage = new PersistentStorage();
+    private final PersistentStore store = new PersistentStore();
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
@@ -416,13 +416,13 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public Storage getStorage() {
-        return storage;
+    public Store getStore() {
+        return store;
     }
 
     @Override
-    public void clearStorage() {
-        storage.clear();
+    public void clearStore() {
+        store.clear();
     }
 
     @Override
@@ -501,8 +501,8 @@ public class RequestorImpl extends Requestor {
     // Internal methods
     //===================================================================
 
-    RequestInvoker createRequest(Uri uri, VolatileStorage volatileStorage) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, volatileStorage, requestDispatcher);
+    RequestInvoker createRequest(Uri uri, VolatileStore volatileStore) {
+        final RequestInvoker request = new RequestInvokerImpl(uri, volatileStore, requestDispatcher);
 
         defaults.apply(request);
 
@@ -510,7 +510,7 @@ public class RequestorImpl extends Requestor {
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStorage(storage), requestDispatcher);
+        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStore(store), requestDispatcher);
 
         defaults.apply(request);
 
@@ -519,11 +519,11 @@ public class RequestorImpl extends Requestor {
 
     private WebTarget createWebTarget(Uri uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, uri, new VolatileStorage(storage), RequestDefaultsImpl.copy(defaults));
+                deferredFactory, uri, new VolatileStore(store), RequestDefaultsImpl.copy(defaults));
     }
 
     private WebTarget createWebTarget(UriBuilder uriBuilder) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, uriBuilder, new VolatileStorage(storage), RequestDefaultsImpl.copy(defaults));
+                deferredFactory, uriBuilder, new VolatileStore(store), RequestDefaultsImpl.copy(defaults));
     }
 }

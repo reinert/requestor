@@ -25,42 +25,42 @@ import static org.junit.Assert.assertTrue;
 /**
  * Unit tests of {@link SerializerManagerImpl}.
  */
-public class VolatileStorageJreTest {
+public class VolatileStoreJreTest {
 
     private static final String KEY = "key";
     private static final int VALUE = 1;
 
-    private final PersistentStorage storage = new PersistentStorage();
+    private final PersistentStore store = new PersistentStore();
 
     @Before
     public void setUp() {
-        storage.set(KEY, VALUE);
+        store.set(KEY, VALUE);
     }
 
     @Test
     public void get_SetValueInParent_ShouldReturnSetValue() {
         // Given
-        VolatileStorage volatileStorage = new VolatileStorage(storage);
+        VolatileStore volatileStore = new VolatileStore(store);
 
         // When
-        int returned = volatileStorage.get(KEY);
+        int returned = volatileStore.get(KEY);
 
         // Then
         assertEquals(VALUE, returned);
-        assertTrue(volatileStorage.has(KEY));
+        assertTrue(volatileStore.has(KEY));
     }
 
     @Test
     public void pop_SetValueInParent_ShouldReturnSetValueAndKeepIt() {
         // Given
-        VolatileStorage volatileStorage = new VolatileStorage(storage);
+        VolatileStore volatileStore = new VolatileStore(store);
 
         // When
-        int returned = volatileStorage.pop(KEY);
+        int returned = volatileStore.pop(KEY);
 
         // Then
         assertEquals(VALUE, returned);
-        assertTrue(volatileStorage.has(KEY));
+        assertTrue(volatileStore.has(KEY));
     }
 
     @Test
@@ -69,15 +69,15 @@ public class VolatileStorageJreTest {
         String key = "key2";
 
         // Given
-        VolatileStorage volatileStorage = new VolatileStorage(storage);
-        volatileStorage.set(key, expected);
+        VolatileStore volatileStore = new VolatileStore(store);
+        volatileStore.set(key, expected);
 
         // When
-        int returned = volatileStorage.pop(key);
+        int returned = volatileStore.pop(key);
 
         // Then
         assertEquals(expected, returned);
-        assertFalse(volatileStorage.has(key));
+        assertFalse(volatileStore.has(key));
     }
 
     @Test
@@ -85,17 +85,17 @@ public class VolatileStorageJreTest {
         int localExpected = 2;
 
         // Given
-        VolatileStorage volatileStorage = new VolatileStorage(storage);
-        volatileStorage.set(KEY, localExpected);
+        VolatileStore volatileStore = new VolatileStore(store);
+        volatileStore.set(KEY, localExpected);
 
         // When
-        int returned = volatileStorage.pop(KEY);
-        int parentValue = volatileStorage.pop(KEY);
+        int returned = volatileStore.pop(KEY);
+        int parentValue = volatileStore.pop(KEY);
 
         // Then
         assertEquals(localExpected, returned);
         assertEquals(VALUE, parentValue);
-        assertTrue(volatileStorage.has(KEY));
+        assertTrue(volatileStore.has(KEY));
     }
 
     @Test
@@ -104,15 +104,15 @@ public class VolatileStorageJreTest {
         int localExpected = 3;
 
         // Given
-        VolatileStorage volatileParent = new VolatileStorage(storage);
+        VolatileStore volatileParent = new VolatileStore(store);
         volatileParent.set(KEY, parentExpected);
 
-        VolatileStorage volatileStorage = new VolatileStorage(volatileParent);
-        volatileStorage.set(KEY, localExpected);
+        VolatileStore volatileStore = new VolatileStore(volatileParent);
+        volatileStore.set(KEY, localExpected);
 
         // When
-        int returned = volatileStorage.pop(KEY);
-        int parentValue = volatileStorage.pop(KEY);
+        int returned = volatileStore.pop(KEY);
+        int parentValue = volatileStore.pop(KEY);
 
         // Then
         assertEquals(localExpected, returned);

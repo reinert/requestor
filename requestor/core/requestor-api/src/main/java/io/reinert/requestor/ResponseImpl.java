@@ -111,8 +111,8 @@ public class ResponseImpl<T> implements Response<T> {
     }
 
     @Override
-    public Storage getStorage() {
-        return request.getStorage();
+    public Store getStore() {
+        return request.getStore();
     }
 
     @Override

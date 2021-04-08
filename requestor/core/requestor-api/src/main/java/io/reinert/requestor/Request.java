@@ -47,6 +47,6 @@ public interface Request {
 
     Auth getAuth();
 
-    Storage getStorage();
+    Store getStore();
 
 }

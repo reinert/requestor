@@ -24,9 +24,9 @@ import static org.junit.Assert.assertTrue;
 /**
  * Unit tests of {@link SerializerManagerImpl}.
  */
-public class StorageJreTest {
+public class StoreJreTest {
 
-    private final Storage storage = new PersistentStorage();
+    private final Store store = new PersistentStore();
 
     @Test
     public void get_SetValue_ShouldReturnSetValueAndKeepIt() {
@@ -34,14 +34,14 @@ public class StorageJreTest {
         String key = "key";
 
         // Given
-        storage.set(key, expected);
+        store.set(key, expected);
 
         // When
-        int returned = storage.get(key);
+        int returned = store.get(key);
 
         // Then
         assertEquals(expected, returned);
-        assertTrue(storage.has(key));
+        assertTrue(store.has(key));
     }
 
     @Test
@@ -50,13 +50,13 @@ public class StorageJreTest {
         String key = "key";
 
         // Given
-        storage.set(key, expected);
+        store.set(key, expected);
 
         // When
-        int returned = storage.pop(key);
+        int returned = store.pop(key);
 
         // Then
         assertEquals(expected, returned);
-        assertFalse(storage.has(key));
+        assertFalse(store.has(key));
     }
 }

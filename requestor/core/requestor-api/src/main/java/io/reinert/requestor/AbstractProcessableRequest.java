@@ -143,8 +143,8 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public final Storage getStorage() {
-        return request.getStorage();
+    public final Store getStore() {
+        return request.getStore();
     }
 
     @Override

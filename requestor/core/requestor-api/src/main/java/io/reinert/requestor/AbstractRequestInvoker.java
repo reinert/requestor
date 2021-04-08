@@ -31,8 +31,8 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
 
     protected final RequestDispatcher dispatcher;
 
-    public AbstractRequestInvoker(Uri uri, VolatileStorage storage, RequestDispatcher dispatcher) {
-        super(uri, storage);
+    public AbstractRequestInvoker(Uri uri, VolatileStore store, RequestDispatcher dispatcher) {
+        super(uri, store);
 
         this.dispatcher = dispatcher;
     }

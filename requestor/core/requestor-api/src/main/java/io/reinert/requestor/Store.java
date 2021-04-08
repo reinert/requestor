@@ -15,7 +15,10 @@
  */
 package io.reinert.requestor;
 
-public interface Storage {
+/**
+ * A place to save/retrieve any object by key.
+ */
+public interface Store {
 
     <T> T get(String key);
 

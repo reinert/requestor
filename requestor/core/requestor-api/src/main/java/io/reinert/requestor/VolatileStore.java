@@ -18,23 +18,23 @@ package io.reinert.requestor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VolatileStorage implements Storage {
+public class VolatileStore implements Store {
 
-    private final Storage persistentStorage;
+    private final Store persistentStore;
     private Map<String, Object> localDataMap;
 
-    public static VolatileStorage copy(VolatileStorage volatileStorage) {
-        VolatileStorage storage = new VolatileStorage(volatileStorage.persistentStorage);
+    public static VolatileStore copy(VolatileStore volatileStore) {
+        VolatileStore store = new VolatileStore(volatileStore.persistentStore);
 
-        if (volatileStorage.localDataMap != null) {
-            storage.localDataMap = new HashMap<String, Object>(volatileStorage.localDataMap);
+        if (volatileStore.localDataMap != null) {
+            store.localDataMap = new HashMap<String, Object>(volatileStore.localDataMap);
         }
 
-        return storage;
+        return store;
     }
 
-    VolatileStorage(Storage storage) {
-        this.persistentStorage = storage;
+    VolatileStore(Store store) {
+        this.persistentStore = store;
     }
 
     @SuppressWarnings("unchecked")
@@ -46,14 +46,14 @@ public class VolatileStorage implements Storage {
         }
 
         if (data == null) {
-            data = persistentStorage.get(key);
+            data = persistentStore.get(key);
         }
 
         return data;
     }
 
     public void set(String key, Object value, boolean sessionPersistent) {
-        if (sessionPersistent) persistentStorage.set(key, value, true);
+        if (sessionPersistent) persistentStore.set(key, value, true);
         ensureDataMap().put(key, value);
     }
 
@@ -62,7 +62,7 @@ public class VolatileStorage implements Storage {
     }
 
     public boolean has(String key) {
-        boolean has = persistentStorage.has(key);
+        boolean has = persistentStore.has(key);
 
         if (has) return true;
 
@@ -80,7 +80,7 @@ public class VolatileStorage implements Storage {
         }
 
         if (data == null) {
-            data = persistentStorage.get(key);
+            data = persistentStore.get(key);
         }
 
         return data;

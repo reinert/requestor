@@ -184,7 +184,7 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     }
 
     @Override
-    public final Storage getStorage() {
-        return request.getStorage();
+    public final Store getStore() {
+        return request.getStore();
     }
 }
