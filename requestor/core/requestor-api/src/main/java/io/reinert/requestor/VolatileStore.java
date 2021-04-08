@@ -52,13 +52,13 @@ public class VolatileStore implements Store {
         return data;
     }
 
-    public void set(String key, Object value, boolean sessionPersistent) {
-        if (sessionPersistent) persistentStore.set(key, value, true);
+    public void put(String key, Object value, boolean sessionPersistent) {
+        if (sessionPersistent) persistentStore.put(key, value, true);
         ensureDataMap().put(key, value);
     }
 
-    public void set(String key, Object value) {
-        this.set(key, value, false);
+    public void put(String key, Object value) {
+        this.put(key, value, false);
     }
 
     public boolean has(String key) {
