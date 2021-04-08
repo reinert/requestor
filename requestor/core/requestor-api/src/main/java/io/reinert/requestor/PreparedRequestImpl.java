@@ -84,7 +84,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
         try {
             dispatcher.send(this, deferred, resolveType, parametrizedType);
         } catch (Exception e) {
-            deferred.reject(new RequestDispatchException(
+            deferred.reject(new RequestDispatchException(request,
                     "Some non-caught exception occurred while dispatching the request", e));
         }
 

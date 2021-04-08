@@ -139,8 +139,8 @@ public class DigestAuth implements Auth {
             @Override
             public void onFailure(Throwable error) {
                 resetChallengeCalls();
-                originalRequest.abort(new RequestException("Unable to authenticate request using DigestAuth. "
-                        + "See previous log.", error));
+                originalRequest.abort(new RequestException(originalRequest, "Unable to authenticate request using" +
+                        " DigestAuth. See previous log.", error));
             }
 
             @Override
