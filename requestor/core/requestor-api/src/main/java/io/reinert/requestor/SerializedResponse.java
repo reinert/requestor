@@ -29,6 +29,6 @@ public interface SerializedResponse extends Response<Payload> {
 
     <T> T getPayloadAs(Class<T> type);
 
-    <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> containerType);
+    <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> collectionType);
 
 }

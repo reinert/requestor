@@ -28,39 +28,39 @@ public interface Invoker {
 
     Promise<Void> get();
 
-    <T> Promise<T> get(Class<T> resultType);
+    <T> Promise<T> get(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> get(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> get(Class<T> entityType, Class<C> collectionType);
 
     Promise<Void> post();
 
-    <T> Promise<T> post(Class<T> resultType);
+    <T> Promise<T> post(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> post(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> post(Class<T> entityType, Class<C> collectionType);
 
     Promise<Void> put();
 
-    <T> Promise<T> put(Class<T> resultType);
+    <T> Promise<T> put(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> put(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> put(Class<T> entityType, Class<C> collectionType);
 
     Promise<Void> delete();
 
-    <T> Promise<T> delete(Class<T> resultType);
+    <T> Promise<T> delete(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> delete(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> delete(Class<T> entityType, Class<C> collectionType);
 
     Promise<Void> patch();
 
-    <T> Promise<T> patch(Class<T> resultType);
+    <T> Promise<T> patch(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> patch(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> patch(Class<T> entityType, Class<C> collectionType);
 
     Promise<Void> options();
 
-    <T> Promise<T> options(Class<T> resultType);
+    <T> Promise<T> options(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> options(Class<T> resultType, Class<C> containerType);
+    <T, C extends Collection> Promise<Collection<T>> options(Class<T> entityType, Class<C> collectionType);
 
     Promise<Headers> head();
 }

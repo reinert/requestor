@@ -85,7 +85,7 @@ public abstract class Requestor implements SerializerManager, FilterManager, Int
      * @param resourceUri   Base URI of the resource
      * @param resourceType  Class of the resource
      * @param idType        Class of the resource's ID
-     * @param containerType Class in which you want to accumulate collection results
+     * @param collectionType Class in which you want to accumulate collection results
      * @param <R>           Resource type
      * @param <I>           Resource's ID type
      * @param <C>           Container type
@@ -94,7 +94,7 @@ public abstract class Requestor implements SerializerManager, FilterManager, Int
     public abstract <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
                                                                                      Class<R> resourceType,
                                                                                      Class<I> idType,
-                                                                                     Class<C> containerType);
+                                                                                     Class<C> collectionType);
 
     //===================================================================
     // Request factory methods
@@ -184,7 +184,7 @@ public abstract class Requestor implements SerializerManager, FilterManager, Int
 //     *
 //     * @param request       The request to be sent
 //     * @param expectedType  The expected type class of the response
-//     * @param containerType The container to accumulate the result
+//     * @param collectionType The container to accumulate the result
 //     * @param <T>           The expected type of the response
 //     * @param <C>           The type of the container
 //     *
@@ -192,6 +192,6 @@ public abstract class Requestor implements SerializerManager, FilterManager, Int
 //     */
 //    public abstract <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request,
 //                                                                              Class<T> expectedType,
-//                                                                              Class<C> containerType);
+//                                                                              Class<C> collectionType);
 
 }

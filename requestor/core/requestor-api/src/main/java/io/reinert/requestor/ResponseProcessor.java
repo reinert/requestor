@@ -58,7 +58,7 @@ public class ResponseProcessor {
     }
 
     public <T, C extends Collection> void process(Request request, RawResponse response, Class<T> deserializationType,
-                                                  Class<C> containerType, Deferred<C> deferred) {
+                                                  Class<C> collectionType, Deferred<C> deferred) {
         // 1: FILTER
         filter(request, response);
 
@@ -67,7 +67,7 @@ public class ResponseProcessor {
 
         if (isSuccessful(response)) {
             // 3: DESERIALIZE
-            Response<C> r = deserializeCollectionResponse(request, response, deserializationType, containerType);
+            Response<C> r = deserializeCollectionResponse(request, response, deserializationType, collectionType);
 
             // 4: RESOLVE
             resolve(deferred, r);
@@ -84,7 +84,7 @@ public class ResponseProcessor {
     @SuppressWarnings("unchecked")
     private <T, C extends Collection> Response<C> deserializeCollectionResponse(Request request, RawResponse response,
                                                                                 Class<T> deserializationType,
-                                                                                Class<C> containerType) {
+                                                                                Class<C> collectionType) {
         // TODO: return a list of one element instead of null, logging the occurrence
         final ResponseType responseType = response.getResponseType();
         Response<C> r;
@@ -102,7 +102,7 @@ public class ResponseProcessor {
                     + "'. A null payload will be returned.");
             r = new ResponseImpl<C>(request, response.getStatus(), response.getHeaders(), responseType, null);
         } else if (responseType == ResponseType.DEFAULT || responseType == ResponseType.TEXT) {
-            r = serializationEngine.deserializeResponse(request, response, deserializationType, containerType);
+            r = serializationEngine.deserializeResponse(request, response, deserializationType, collectionType);
         } else {
             logger.log(Level.SEVERE, "Could not process response of type '" + responseType + "' to class '"
                     + deserializationType.getName() + "'. A null payload will be returned.");
