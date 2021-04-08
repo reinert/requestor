@@ -41,7 +41,7 @@
     <when-type-is class="io.reinert.requestor.GeneratedModules"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.RequestDispatcherFactoryImpl">
+  <replace-with class="io.reinert.requestor.XhrRequestDispatcherFactory">
     <when-type-is class="io.reinert.requestor.RequestDispatcherFactory"/>
   </replace-with>
 

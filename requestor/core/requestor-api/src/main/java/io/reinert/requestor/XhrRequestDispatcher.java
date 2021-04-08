@@ -26,10 +26,10 @@ import io.reinert.requestor.header.Header;
  *
  * @author Danilo Reinert
  */
-public class RequestDispatcherImpl extends RequestDispatcher {
+public class XhrRequestDispatcher extends RequestDispatcher {
 
-    public RequestDispatcherImpl(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                                 DeferredFactory deferredFactory) {
+    public XhrRequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
+                                DeferredFactory deferredFactory) {
         super(requestProcessor, responseProcessor, deferredFactory);
     }
 

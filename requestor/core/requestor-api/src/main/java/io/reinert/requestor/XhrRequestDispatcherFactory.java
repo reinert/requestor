@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public class RequestDispatcherFactoryImpl implements RequestDispatcherFactory {
+public class XhrRequestDispatcherFactory implements RequestDispatcherFactory {
 
     private RequestDispatcher requestDispatcher;
 
@@ -29,7 +29,7 @@ public class RequestDispatcherFactoryImpl implements RequestDispatcherFactory {
                                                   ResponseProcessor responseProcessor,
                                                   DeferredFactory deferredFactory) {
         if (requestDispatcher == null)
-            requestDispatcher = new RequestDispatcherImpl(requestProcessor, responseProcessor, deferredFactory);
+            requestDispatcher = new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredFactory);
         return requestDispatcher;
     }
 }
