@@ -30,7 +30,7 @@ import io.reinert.requestor.uri.Uri;
 class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, SerializableRequest {
 
     private Uri uri;
-    private final VolatileStorage storage;
+    private final VolatileStore store;
     private final Headers headers;
     private HttpMethod httpMethod;
     private int timeout;
@@ -40,20 +40,20 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private Auth auth = PassThroughAuth.getInstance();
     private boolean serialized = false;
 
-    public RequestBuilderImpl(Uri uri, VolatileStorage storage) {
-        this(uri, storage, new Headers());
+    public RequestBuilderImpl(Uri uri, VolatileStore store) {
+        this(uri, store, new Headers());
     }
 
-    public RequestBuilderImpl(Uri uri, VolatileStorage storage, Headers headers) {
+    public RequestBuilderImpl(Uri uri, VolatileStore store, Headers headers) {
         this.uri = uri;
-        this.storage = storage;
+        this.store = store;
         this.headers = headers;
     }
 
     private static RequestBuilderImpl copy(RequestBuilderImpl request) {
         RequestBuilderImpl copy = new RequestBuilderImpl(
                 Uri.copy(request.uri),
-                VolatileStorage.copy(request.storage),
+                VolatileStore.copy(request.store),
                 Headers.copy(request.headers)
         );
         copy.httpMethod = request.httpMethod;
@@ -131,8 +131,8 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public VolatileStorage getStorage() {
-        return storage;
+    public VolatileStore getStore() {
+        return store;
     }
 
     //===================================================================

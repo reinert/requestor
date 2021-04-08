@@ -44,13 +44,13 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
     }
 
     public void testOneInterceptor() {
-        final String storageKey = "testData";
-        final String expectedStorageValue = "testData";
+        final String storeKey = "testData";
+        final String expectedStoreValue = "testData";
 
         requestor.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
-                request.getStorage().set(storageKey, expectedStorageValue);
+                request.getStore().set(storeKey, expectedStoreValue);
                 request.setHeader("Test", "test");
                 request.proceed();
             }
@@ -60,7 +60,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             public void onDone(Response<String> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStorageValue, response.getStorage().get(storageKey));
+                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().contains("\"Test\": \"test\""));
                 finishTest();
             }
@@ -70,13 +70,13 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
     }
 
     public void testTwoInterceptors() {
-        final String storageKey = "testData";
-        final String expectedStorageValue = "testData";
+        final String storeKey = "testData";
+        final String expectedStoreValue = "testData";
 
         requestor.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
-                request.getStorage().set(storageKey, expectedStorageValue);
+                request.getStore().set(storeKey, expectedStoreValue);
                 request.proceed();
             }
         });
@@ -85,7 +85,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 // Test previous intercept
-                assertEquals(expectedStorageValue, request.getStorage().get(storageKey));
+                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
                 request.setHeader("Test", "test");
                 request.proceed();
             }
@@ -95,7 +95,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             public void onDone(Response<String> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStorageValue, response.getStorage().get(storageKey));
+                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().contains("\"Test\": \"test\""));
                 finishTest();
             }
@@ -105,8 +105,8 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
     }
 
     public void testThreeInterceptors() {
-        final String storageKey = "testData";
-        final String expectedStorageValue = "testData";
+        final String storeKey = "testData";
+        final String expectedStoreValue = "testData";
 
         requestor.register(new RequestInterceptor() {
             @Override
@@ -119,7 +119,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         requestor.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
-                request.getStorage().set(storageKey, expectedStorageValue);
+                request.getStore().set(storeKey, expectedStoreValue);
                 request.proceed();
             }
         });
@@ -137,7 +137,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertTrue(response.getPayload().contains("\"Test\": \"test\""));
-                assertEquals(expectedStorageValue, response.getStorage().get(storageKey));
+                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
@@ -147,15 +147,15 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
     }
 
     public void testAsyncInterceptors() {
-        final String storageKey = "testData";
-        final String expectedStorageValue = "testData";
-        final String storageKey2 = "testData2";
-        final String expectedStorageValue2 = "testData2";
+        final String storeKey = "testData";
+        final String expectedStoreValue = "testData";
+        final String storeKey2 = "testData2";
+        final String expectedStoreValue2 = "testData2";
 
         requestor.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
-                request.getStorage().set(storageKey, expectedStorageValue);
+                request.getStore().set(storeKey, expectedStoreValue);
                 request.proceed();
             }
         });
@@ -165,8 +165,8 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             public void intercept(final SerializedRequestInProcess request) {
                 new Timer() {
                     public void run() {
-                        assertEquals(expectedStorageValue, request.getStorage().get(storageKey));
-                        request.getStorage().set(storageKey2, expectedStorageValue2);
+                        assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                        request.getStore().set(storeKey2, expectedStoreValue2);
                         request.proceed();
                     }
                 }.schedule(500);
@@ -177,7 +177,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 // Test previous intercept
-                assertEquals(expectedStorageValue2, request.getStorage().get(storageKey2));
+                assertEquals(expectedStoreValue2, request.getStore().get(storeKey2));
                 request.setHeader("Test", "test");
                 request.proceed();
             }
@@ -200,8 +200,8 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             public void onDone(Response<String> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStorageValue, response.getStorage().get(storageKey));
-                assertEquals(expectedStorageValue2, response.getStorage().get(storageKey2));
+                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
+                assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
                 assertTrue(response.getPayload().contains("\"Test\": \"test\""));
                 assertTrue(response.getPayload().contains("\"Test2\": \"test2\""));
                 finishTest();

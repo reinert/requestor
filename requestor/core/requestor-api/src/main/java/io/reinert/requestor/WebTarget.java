@@ -43,7 +43,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     private final DeferredFactory deferredFactory;
     private final FilterManagerImpl filterManager;
     private final InterceptorManagerImpl interceptorManager;
-    private final VolatileStorage storage;
+    private final VolatileStore store;
     private final RequestProcessor requestProcessor;
     private final RequestDispatcher requestDispatcher;
     private final UriBuilder uriBuilder;
@@ -51,29 +51,29 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
-              DeferredFactory deferredFactory, Uri uri, VolatileStorage storage, RequestDefaultsImpl defaults) {
+              DeferredFactory deferredFactory, Uri uri, VolatileStore store, RequestDefaultsImpl defaults) {
         this(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, UriBuilder.fromUri(uri), uri, storage, defaults);
+                deferredFactory, UriBuilder.fromUri(uri), uri, store, defaults);
     }
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
               SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
-              DeferredFactory deferredFactory, UriBuilder builder, VolatileStorage storage,
+              DeferredFactory deferredFactory, UriBuilder builder, VolatileStore store,
               RequestDefaultsImpl defaults) {
         this(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, builder, null, storage, defaults);
+                deferredFactory, builder, null, store, defaults);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
-                      DeferredFactory deferredFactory, UriBuilder uriBuilder, Uri uri, VolatileStorage storage,
+                      DeferredFactory deferredFactory, UriBuilder uriBuilder, Uri uri, VolatileStore store,
                       RequestDefaultsImpl defaults) {
         this.serializationEngine = serializationEngine;
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
         this.filterManager = new FilterManagerImpl(filterManager);
         this.interceptorManager = new InterceptorManagerImpl(interceptorManager);
-        this.storage = storage;
+        this.store = store;
         this.defaults = defaults;
 
         final FilterEngine filterEngine = new FilterEngine(this.filterManager);
@@ -432,7 +432,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     private WebTarget newWebTarget(UriBuilder copy) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, copy, VolatileStorage.copy(storage), RequestDefaultsImpl.copy(defaults));
+                deferredFactory, copy, VolatileStore.copy(store), RequestDefaultsImpl.copy(defaults));
     }
 
     private UriBuilder cloneUriBuilder() {
@@ -441,7 +441,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvokerImpl request =
-                new RequestInvokerImpl(uri, new VolatileStorage(storage), requestDispatcher);
+                new RequestInvokerImpl(uri, new VolatileStore(store), requestDispatcher);
         defaults.apply(request);
         return request;
     }

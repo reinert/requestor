@@ -114,11 +114,11 @@ public interface Response<T> {
     Request getRequest();
 
     /**
-     * Returns the storage of this request/response cycle.
+     * Returns the store of this request/response cycle.
      *
-     * @return the storage
+     * @return the store
      */
-    Storage getStorage();
+    Store getStore();
 
     /**
      * Base interface for statuses used in responses.

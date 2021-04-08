@@ -18,11 +18,11 @@ package io.reinert.requestor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersistentStorage implements Storage {
+public class PersistentStore implements Store {
 
     private final Map<String, Object> dataMap;
 
-    PersistentStorage() {
+    PersistentStore() {
         this.dataMap = new HashMap<String, Object>();
     }
 

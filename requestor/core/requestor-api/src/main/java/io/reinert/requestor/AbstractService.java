@@ -9,13 +9,13 @@ public class AbstractService implements RequestDefaults {
 
     private final Requestor requestor;
     private final RequestDefaultsImpl defaults;
-    private final Storage storage;
+    private final Store store;
     private final UriBuilder uriBuilder;
 
     public AbstractService(Requestor requestor, String resourceUri) {
         this.requestor = requestor;
         this.defaults = RequestDefaultsImpl.copy(requestor.getDefaults());
-        this.storage = new VolatileStorage(requestor.getStorage());
+        this.store = new VolatileStore(requestor.getStore());
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 
@@ -89,8 +89,8 @@ public class AbstractService implements RequestDefaults {
         return defaults.popHeader(headerName);
     }
 
-    public Storage getStorage() {
-        return storage;
+    public Store getStore() {
+        return store;
     }
 
     protected UriBuilder getUriBuilder() {

@@ -58,9 +58,9 @@ public abstract class Requestor implements SerializerManager, FilterManager, Int
     // Requestor configuration
     //===================================================================
 
-    public abstract Storage getStorage();
+    public abstract Store getStore();
 
-    public abstract void clearStorage();
+    public abstract void clearStore();
 
     public abstract <T> T getInstance(Class<T> type);
 

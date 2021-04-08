@@ -40,6 +40,6 @@ public interface ResponseInterceptorContext {
 
     void setResponseType(ResponseType responseType);
 
-    Storage getStorage();
+    Store getStore();
 
 }

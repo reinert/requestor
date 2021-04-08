@@ -152,8 +152,8 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public Storage getStorage() {
-        return request.getStorage();
+    public Store getStore() {
+        return request.getStore();
     }
 
     @Override
