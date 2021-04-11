@@ -45,9 +45,9 @@ public interface Promise<T> {
 
     Promise<T> status(StatusFamily family, ResponseCallback<Object> callback);
 
-    Promise<T> success(PayloadCallback<T> callback);
+    <E extends T> Promise<T> success(PayloadCallback<E> callback);
 
-    Promise<T> success(PayloadResponseCallback<T> callback);
+    <E extends T> Promise<T> success(PayloadResponseCallback<E> callback);
 
     Promise<T> timeout(TimeoutCallback callback);
 
