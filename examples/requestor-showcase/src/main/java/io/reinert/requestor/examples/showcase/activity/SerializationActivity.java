@@ -85,9 +85,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onXmlCollectionGet() {
         requestor.req("http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09")
                 .get(MyObject.class, List.class)
-                .success(new PayloadCallback<Collection<MyObject>>() {
+                .success(new PayloadCallback<List<MyObject>>() {
                     @Override
-                    public void execute(Collection<MyObject> result) {
+                    public void execute(List<MyObject> result) {
                         view.setCollectionXmlGetText(Arrays.toString(result.toArray()));
                     }
                 });
@@ -139,9 +139,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onJsonCollectionGet() {
         requestor.req("http://www.mocky.io/v2/54aa937407b5f2601021ba0b")
                 .get(MyObject.class, List.class)
-                .success(new PayloadCallback<Collection<MyObject>>() {
+                .success(new PayloadCallback<List<MyObject>>() {
                     @Override
-                    public void execute(Collection<MyObject> result) {
+                    public void execute(List<MyObject> result) {
                         view.setCollectionJsonGetText(Arrays.toString(result.toArray()));
                     }
                 });

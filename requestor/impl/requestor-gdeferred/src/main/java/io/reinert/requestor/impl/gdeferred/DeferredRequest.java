@@ -133,10 +133,10 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Promise<T> success(final PayloadCallback<T> callback) {
+    public <E extends T> Promise<T> success(final PayloadCallback<E> callback) {
         deferred.done(new DoneCallback<Response<Object>>() {
             public void onDone(Response<Object> response) {
-                if (isSuccessful(response)) callback.execute((T) response.getPayload());
+                if (isSuccessful(response)) callback.execute((E) response.getPayload());
             }
         });
         return this;
@@ -144,11 +144,11 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Promise<T> success(final PayloadResponseCallback<T> callback) {
+    public <E extends T> Promise<T> success(final PayloadResponseCallback<E> callback) {
         deferred.done(new DoneCallback<Response<Object>>() {
             public void onDone(Response<Object> response) {
                 if (isSuccessful(response)) {
-                    Response<T> r = (Response<T>) response;
+                    Response<E> r = (Response<E>) ((Response<T>) response);
                     callback.execute(r.getPayload(), r);
                 }
             }
