@@ -16,30 +16,29 @@
 package io.reinert.requestor;
 
 /**
- * Allows one to modify a HTTP Response Payload.
- *
- * @author Danilo Reinert
+ * Base interface for statuses used in responses.
  */
-public interface ResponseInterceptorContext {
+public interface HttpStatus {
 
-    String getHeader(String header);
-
-    String getContentType();
-
+    /**
+     * Get the associated status code.
+     *
+     * @return the status code.
+     */
     int getStatusCode();
 
-    HttpStatus getStatus();
+    /**
+     * Get the class of status code.
+     *
+     * @return the class of status code.
+     */
+    StatusFamily getFamily();
 
-    Payload getPayload();
-
-    ResponseType getResponseType();
-
-    void setContentType(String mediaType);
-
-    void setPayload(Payload payload);
-
-    void setResponseType(ResponseType responseType);
-
-    Store getStore();
+    /**
+     * Get the reason phrase.
+     *
+     * @return the reason phrase.
+     */
+    String getReasonPhrase();
 
 }

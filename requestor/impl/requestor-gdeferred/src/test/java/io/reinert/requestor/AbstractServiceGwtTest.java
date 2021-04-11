@@ -166,7 +166,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
                 assertNotNull(response);
 
                 // The server should return a 200 status code
-                assertEquals(Response.Status.OK, response.getStatus());
+                assertEquals(Status.OK, response.getStatus());
 
                 finishTest();
             }
@@ -182,7 +182,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
                 assertNotNull(response);
 
                 // The server should return a 200 status code
-                assertEquals(Response.Status.OK, response.getStatus());
+                assertEquals(Status.OK, response.getStatus());
 
                 finishTest();
             }

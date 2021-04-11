@@ -57,7 +57,7 @@ public class ResponseProcessorJreTest {
 
         final Response<Object> deserializedResponse = mockResponse();
 
-        setupRawResponse(response, Response.Status.OK);
+        setupRawResponse(response, Status.OK);
         setupSerializationEngine(resolveType, response, request, deserializedResponse);
 
         // When
@@ -83,7 +83,7 @@ public class ResponseProcessorJreTest {
 
         final Response<Collection> deserializedResponse = mockResponse();
 
-        setupRawResponse(response, Response.Status.OK);
+        setupRawResponse(response, Status.OK);
         setupSerializationEngine(parametrizedType, containerType, response, request, deserializedResponse);
 
         // When
@@ -109,7 +109,7 @@ public class ResponseProcessorJreTest {
 
         final Response<Object> deserializedResponse = mockResponse();
 
-        setupRawResponse(response, Response.Status.BAD_REQUEST);
+        setupRawResponse(response, Status.BAD_REQUEST);
         setupSerializationEngine(resolveType, response, request, deserializedResponse);
 
         // When
@@ -134,7 +134,7 @@ public class ResponseProcessorJreTest {
 
         final Response<Collection> deserializedResponse = mockResponse();
 
-        setupRawResponse(response, Response.Status.INTERNAL_SERVER_ERROR);
+        setupRawResponse(response, Status.INTERNAL_SERVER_ERROR);
         setupSerializationEngine(parametrizedType, containerType, response, request, deserializedResponse);
 
         // When
@@ -169,7 +169,7 @@ public class ResponseProcessorJreTest {
         return mock(Response.class);
     }
 
-    private void setupRawResponse(RawResponse response, Response.Status responseStatus) {
+    private void setupRawResponse(RawResponse response, Status responseStatus) {
         when(response.getResponseType()).thenReturn(ResponseType.DEFAULT);
         // This stub is unnecessary according to mockito
         // when(response.getHeaders()).thenReturn(mockHeaders());
