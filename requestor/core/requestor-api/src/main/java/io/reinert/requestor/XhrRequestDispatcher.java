@@ -162,7 +162,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
 
                 final RawResponseImpl response = new RawResponseImpl(
                         request,
-                        Response.Status.of(gwtResponse.getStatusCode()),
+                        Status.of(gwtResponse.getStatusCode()),
                         new Headers(gwtResponse.getHeaders()),
                         ResponseType.of(responseType),
                         payload,

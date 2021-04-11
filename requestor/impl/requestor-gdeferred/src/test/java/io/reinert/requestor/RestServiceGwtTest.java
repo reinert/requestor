@@ -69,7 +69,7 @@ public class RestServiceGwtTest extends GWTTestCase {
                 assertNotNull(response);
 
                 // The server should return a 201 status code
-                assertEquals(Response.Status.CREATED, response.getStatus());
+                assertEquals(Status.CREATED, response.getStatus());
 
                 // The response returns the created book in the server with the generated ID
                 Book createdResource = response.getPayloadAs(Book.class);
@@ -131,7 +131,7 @@ public class RestServiceGwtTest extends GWTTestCase {
                 assertNotNull(response);
 
                 // The server should return a 201 status code
-                assertEquals(Response.Status.OK, response.getStatus());
+                assertEquals(Status.OK, response.getStatus());
 
                 // The response returns the created book in the server with the generated ID
                 Book updatedResource = response.getPayloadAs(Book.class);
@@ -153,7 +153,7 @@ public class RestServiceGwtTest extends GWTTestCase {
                 assertNotNull(response);
 
                 // The server should return a 200 status code
-                assertEquals(Response.Status.OK, response.getStatus());
+                assertEquals(Status.OK, response.getStatus());
 
                 finishTest();
             }

@@ -53,7 +53,7 @@ public class UnsuccessfulResponseException extends RequestException {
      *
      * @return The response's status code.
      */
-    public Response.HttpStatus getStatus() {
+    public HttpStatus getStatus() {
         return response.getStatus();
     }
 }
