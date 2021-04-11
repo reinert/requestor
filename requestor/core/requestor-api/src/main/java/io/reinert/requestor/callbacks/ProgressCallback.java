@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.impl.gdeferred;
+package io.reinert.requestor.callbacks;
 
-import io.reinert.requestor.RequestTimeoutException;
+import io.reinert.requestor.RequestProgress;
 
 /**
- * TimeoutCallback for request promises.
+ * Progress callback for request promises.
  */
-public interface TimeoutCallback extends io.reinert.gdeferred.FailCallback<RequestTimeoutException> {
+public interface ProgressCallback {
+    void execute(RequestProgress progress);
 }

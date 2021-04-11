@@ -120,7 +120,7 @@ public enum Status implements HttpStatus {
     private final String reason;
     private final StatusFamily family;
 
-    private Status(final int statusCode, final String reasonPhrase) {
+    Status(final int statusCode, final String reasonPhrase) {
         this.code = statusCode;
         this.reason = reasonPhrase;
         this.family = StatusFamily.of(statusCode);
@@ -163,5 +163,9 @@ public enum Status implements HttpStatus {
                 ", reason='" + reason + '\'' +
                 ", family=" + family +
                 '}';
+    }
+
+    public boolean is(int statusCode) {
+        return code == statusCode;
     }
 }

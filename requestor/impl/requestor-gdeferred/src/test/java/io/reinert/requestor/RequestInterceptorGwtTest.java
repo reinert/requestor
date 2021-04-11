@@ -19,7 +19,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 
-import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
+import io.reinert.requestor.callbacks.ResponseCallback;
 
 /**
  * Integration tests of {@link RequestInterceptor}.
@@ -56,12 +56,12 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).done(new RequestDoneCallback<String>() {
-            public void onDone(Response<String> response) {
+        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback<Object>() {
+            public void execute(Response<Object> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertTrue(response.getPayload().contains("\"Test\": \"test\""));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
         });
@@ -91,12 +91,12 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).done(new RequestDoneCallback<String>() {
-            public void onDone(Response<String> response) {
+        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback<Object>() {
+            public void execute(Response<Object> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertTrue(response.getPayload().contains("\"Test\": \"test\""));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
         });
@@ -132,13 +132,13 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).done(new RequestDoneCallback<String>() {
-            public void onDone(Response<String> response) {
+        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback<Object>() {
+            public void execute(Response<Object> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertTrue(response.getPayload().contains("\"Test\": \"test\""));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertTrue(response.getPayload().contains("\"Test2\": \"test2\""));
+                assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
         });
@@ -196,14 +196,14 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).done(new RequestDoneCallback<String>() {
-            public void onDone(Response<String> response) {
+        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback<Object>() {
+            public void execute(Response<Object> response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
-                assertTrue(response.getPayload().contains("\"Test\": \"test\""));
-                assertTrue(response.getPayload().contains("\"Test2\": \"test2\""));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
+                assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
         });

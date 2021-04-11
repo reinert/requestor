@@ -58,28 +58,28 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
     }
 
     @Override
-    public Promise<SerializedResponse> post(R resource) {
+    public Promise<R> post(R resource) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
-        return request(reqUriBuilder.build()).payload(resource).post(SerializedResponse.class);
+        return request(reqUriBuilder.build()).payload(resource).post(resourceType);
     }
 
     @Override
-    public Promise<SerializedResponse> put(I id, R resource) {
+    public Promise<R> put(I id, R resource) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
 
-        return request(reqUriBuilder.build()).payload(resource).put(SerializedResponse.class);
+        return request(reqUriBuilder.build()).payload(resource).put(resourceType);
     }
 
     @Override
-    public Promise<SerializedResponse> delete(I id) {
+    public Promise<Void> delete(I id) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
 
-        return request(reqUriBuilder.build()).delete(SerializedResponse.class);
+        return request(reqUriBuilder.build()).delete(Void.class);
     }
 
     @Override

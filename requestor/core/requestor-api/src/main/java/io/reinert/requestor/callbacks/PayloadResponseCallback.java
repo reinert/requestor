@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.impl.gdeferred;
+package io.reinert.requestor.callbacks;
+
+import io.reinert.requestor.Response;
 
 /**
- * AlwaysCallback for request promises.
- *
- * @param <T> Type of the response payload
+ * Success callback for request promises.
  */
-public interface RequestAlwaysCallback<T> extends io.reinert.gdeferred.AlwaysCallback<T, Throwable> {
+public interface PayloadResponseCallback<E> {
+    void execute(E e, Response<E> response);
 }

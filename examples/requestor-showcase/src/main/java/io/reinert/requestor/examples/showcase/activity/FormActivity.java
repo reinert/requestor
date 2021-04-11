@@ -23,10 +23,10 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.SerializedResponse;
+import io.reinert.requestor.callbacks.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.form.FormData;
-import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 public class FormActivity extends ShowcaseActivity implements Form.Handler {
 
@@ -59,9 +59,9 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(SerializedResponse.class) // retrieve the raw response
-                .done(new RequestDoneCallback<SerializedResponse>() {
+                .success(new PayloadCallback<SerializedResponse>() {
                     @Override
-                    public void onDone(SerializedResponse response) {
+                    public void execute(SerializedResponse response) {
                         // the payload is parsed as string by default
                         // to change it, we can set the desired responseType in the RequestBuilder
                         final String payload = response.getPayload().isString();
@@ -84,9 +84,9 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(SerializedResponse.class) // retrieve the raw response
-                .done(new RequestDoneCallback<SerializedResponse>() {
+                .success(new PayloadCallback<SerializedResponse>() {
                     @Override
-                    public void onDone(SerializedResponse response) {
+                    public void execute(SerializedResponse response) {
                         // the payload is parsed as string by default
                         // to change it, we can set the desired responseType in the RequestBuilder
                         final String payload = response.getPayload().isString();

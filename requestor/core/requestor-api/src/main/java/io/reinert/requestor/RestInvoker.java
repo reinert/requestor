@@ -28,11 +28,11 @@ public interface RestInvoker<R, I> {
 
     Promise<R> get(I id);
 
-    Promise<SerializedResponse> post(R resource);
+    Promise<R> post(R resource);
 
-    Promise<SerializedResponse> put(I id, R resource);
+    Promise<R> put(I id, R resource);
 
-    Promise<SerializedResponse> delete(I id);
+    Promise<Void> delete(I id);
 
     // TODO: make a patch request filtering informed fields in serialization
 //    Promise<Void> patch(I id, R resource, String... fields);
