@@ -79,7 +79,12 @@ public abstract class RequestDispatcher {
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
             public void run() {
-                requestProcessor.process(requestInAuthProcess);
+                try {
+                    requestProcessor.process(requestInAuthProcess);
+                } catch (Exception e) {
+                    deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +
+                            " request. See previous exception.", e));
+                }
             }
         }.schedule(request.getDelay());
 
@@ -108,7 +113,12 @@ public abstract class RequestDispatcher {
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
             public void run() {
-                requestProcessor.process(requestInAuthProcess);
+                try {
+                    requestProcessor.process(requestInAuthProcess);
+                } catch (Exception e) {
+                    deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +
+                            " request. See previous exception.", e));
+                }
             }
         }.schedule(request.getDelay());
 

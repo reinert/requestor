@@ -159,7 +159,7 @@ public class DigestAuth implements Auth {
                     return;
                 }
 
-                // Otherwise, throw an AuthenticationException and reject the promise with it
+                // Otherwise, throw an AuthException and reject the promise with it
                 throw new AuthException("The server returned a not expected status code: " + response.getStatusCode());
             }
         });
@@ -233,7 +233,7 @@ public class DigestAuth implements Auth {
                                               String cNonce, Payload payload) {
         String body = payload.toString();
         if (body == null) {
-            throw new AuthException("Request body should not be empty.");
+            throw new AuthException("Response body in Digest auth Int Qop method should not be empty.");
         }
         final String hBody = MD5.hash(body);
         final String ha2 = MD5.hash(method + ':' + url + ':' + hBody);
