@@ -21,8 +21,8 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
-import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
+import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callbacks.PayloadResponseCallback;
 
 /**
  * Integration tests of {@link RestService}.
@@ -63,22 +63,19 @@ public class RestServiceGwtTest extends GWTTestCase {
     public void testPostBooks() {
         Book book = new Book(null, "RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
 
-        bookService.post(book).done(new RequestDoneCallback<SerializedResponse>() {
+        bookService.post(book).success(new PayloadResponseCallback<Book>() {
             @Override
-            public void onDone(SerializedResponse response) {
+            public void execute(Book returnedBook, Response<Book> response) {
                 assertNotNull(response);
 
                 // The server should return a 201 status code
                 assertEquals(Status.CREATED, response.getStatus());
 
-                // The response returns the created book in the server with the generated ID
-                Book createdResource = response.getPayloadAs(Book.class);
-
                 // Check if the return book has an ID
-                assertNotNull(createdResource.getId());
+                assertNotNull(returnedBook.getId());
 
                 // Trigger delete test
-                manualTestDeleteBook(createdResource.getId());
+                manualTestDeleteBook(returnedBook.getId());
             }
         });
         delayTestFinish(TIMEOUT * 2);
@@ -86,8 +83,8 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBooks() {
         // GET /books
-        bookService.get().done(new ListDoneCallback<Book>() {
-            public void onDone(List<Book> result) {
+        bookService.get().success(new PayloadCallback<Collection<Book>>() {
+            public void execute(Collection<Book> result) {
                 assertNotNull(result);
                 assertFalse(result.isEmpty());
                 finishTest();
@@ -98,9 +95,9 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBooksWithParams() {
         // GET /books?id=20
-        bookService.get("id", "20").done(new RequestDoneCallback<Collection<Book>>() {
+        bookService.get("id", "20").success(new PayloadCallback<Collection<Book>>() {
             @Override
-            public void onDone(Collection<Book> result) {
+            public void execute(Collection<Book> result) {
                 assertNotNull(result);
                 assertEquals(1, result.size());
                 finishTest();
@@ -111,8 +108,8 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBook() {
         // GET /books/1
-        bookService.get(1).done(new RequestDoneCallback<Book>() {
-            public void onDone(Book result) {
+        bookService.get(1).success(new PayloadCallback<Book>() {
+            public void execute(Book result) {
                 assertNotNull(result);
                 finishTest();
             }
@@ -125,19 +122,16 @@ public class RestServiceGwtTest extends GWTTestCase {
         final Integer id = 2;
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
-        bookService.put(id, book).done(new RequestDoneCallback<SerializedResponse>() {
+        bookService.put(id, book).success(new PayloadResponseCallback<Book>() {
             @Override
-            public void onDone(SerializedResponse response) {
+            public void execute(Book returnedBook, Response<Book> response) {
                 assertNotNull(response);
 
                 // The server should return a 201 status code
                 assertEquals(Status.OK, response.getStatus());
 
-                // The response returns the created book in the server with the generated ID
-                Book updatedResource = response.getPayloadAs(Book.class);
-
                 // Check if the return book has an ID
-                assertEquals(book, updatedResource);
+                assertEquals(book, returnedBook);
 
                 finishTest();
             }
@@ -147,9 +141,9 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     private void manualTestDeleteBook(Integer createdId) {
         // DELETE /books/{createdId}
-        bookService.delete(createdId).done(new RequestDoneCallback<SerializedResponse>() {
+        bookService.delete(createdId).success(new PayloadResponseCallback<Void>() {
             @Override
-            public void onDone(SerializedResponse response) {
+            public void execute(Void unused, Response<Void> response) {
                 assertNotNull(response);
 
                 // The server should return a 200 status code

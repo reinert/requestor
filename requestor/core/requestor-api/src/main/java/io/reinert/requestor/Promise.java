@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +15,42 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.callbacks.ExceptionCallback;
+import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callbacks.PayloadResponseCallback;
+import io.reinert.requestor.callbacks.ProgressCallback;
+import io.reinert.requestor.callbacks.ResponseCallback;
+import io.reinert.requestor.callbacks.TimeoutCallback;
+
 /**
- * Promise marker interface.
- * <p>
+ * A Promise for requests.
  *
- * NOTE TO IMPLEMENTATIONS: Implementers should declare their own {@link Promise} interface (based on the package
- * io.reinert.requestor) exposing their Promise API, replacing this anemic interface. This exact type is removed from
- * classpath when Requestor assembles its jar.
- * <p>
- *
- * NOTE TO EXTENSIONS: This interface is removed from classpath when packaging the api in order to implementers replace
- * by their own interface. So, if you must reference it in some extension project, you should declare this type in your
- * project and remember to exclude it fromm packaging too. By replicating this interface in your project, java compiler
- * will not claim the absense of this type in the classpath, and by removing it from packaging you will prevent
- * conflicts with implementers that ship their own Promise interface in their package.
- *
- * @param <F> The type of the fulfilled (successful) result
+ * @param <T> The type of successful result
  *
  * @author Danilo Reinert
  */
-public interface Promise<F> {
+public interface Promise<T> {
+
+    Promise<T> abort(ExceptionCallback callback);
+
+    Promise<T> load(ResponseCallback<Object> callback);
+
+    Promise<T> fail(ResponseCallback<Object> callback);
+
+    Promise<T> progress(ProgressCallback callback);
+
+    Promise<T> status(int statusCode, ResponseCallback<Object> callback);
+
+    Promise<T> status(Status status, ResponseCallback<Object> callback);
+
+    Promise<T> status(StatusFamily family, ResponseCallback<Object> callback);
+
+    Promise<T> success(PayloadCallback<T> callback);
+
+    Promise<T> success(PayloadResponseCallback<T> callback);
+
+    Promise<T> timeout(TimeoutCallback callback);
+
+    Promise<T> upProgress(ProgressCallback callback);
+
 }

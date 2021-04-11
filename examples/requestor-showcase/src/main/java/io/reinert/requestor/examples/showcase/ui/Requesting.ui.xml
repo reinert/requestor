@@ -43,9 +43,9 @@
         <div class="highlight">
           <pre ui:field="promiseIp" class="java">
             <code>
-              promise.done(new DoneCallback&lt;String&gt;() {
+              promise.success(new SuccessCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(String result) {
+              &#32;&#32;&#32;&#32;public void onSuccess(String result) {
               <br/>
               &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setIpText(result);
               <br/>
@@ -74,9 +74,9 @@
         <div class="highlight">
           <pre ui:field="postSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/post&quot;).post(String.class).done(new DoneCallback&lt;String&gt;() {
+              requestor.req(&quot;http://httpbin.org/post&quot;).post(String.class).success(new SuccessCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(String result) {
+              &#32;&#32;&#32;&#32;public void onSuccess(String result) {
               <br/>
               &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPostText(result);
               <br/>
@@ -99,9 +99,9 @@
         <div class="highlight">
           <pre ui:field="putSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/put&quot;).put(String.class).done(new DoneCallback&lt;String&gt;() {
+              requestor.req(&quot;http://httpbin.org/put&quot;).put(String.class).success(new SuccessCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(String result) {
+              &#32;&#32;&#32;&#32;public void onSuccess(String result) {
               <br/>
               &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPutText(result);
               <br/>
@@ -124,9 +124,9 @@
         <div class="highlight">
           <pre ui:field="deleteSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/delete&quot;).delete(String.class).done(new DoneCallback&lt;String&gt;() {
+              requestor.req(&quot;http://httpbin.org/delete&quot;).delete(String.class).success(new SuccessCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(String result) {
+              &#32;&#32;&#32;&#32;public void onSuccess(String result) {
               <br/>
               &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setDeleteText(result);
               <br/>
@@ -149,9 +149,9 @@
         <div class="highlight">
           <pre ui:field="headSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/headers&quot;).head().done(new DoneCallback&lt;Headers&gt;() {
+              requestor.req(&quot;http://httpbin.org/headers&quot;).head().success(new SuccessCallback&lt;Headers&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(Headers result) {
+              &#32;&#32;&#32;&#32;public void onSuccess(Headers result) {
               <br/>
               &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setHeadText(Util.formatHeaders(result));
               <br/>
@@ -174,9 +174,9 @@
         <div class="highlight">
           <pre ui:field="optionsSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/get&quot;).options(Headers.class).done(new DoneCallback&lt;Headers&gt;() {
+              requestor.req(&quot;http://httpbin.org/get&quot;).options(Headers.class).success(new SuccessCallback&lt;Headers&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(Headers result) {
+              &#32;&#32;&#32;&#32;public void onSuccess(Headers result) {
               <br/>
               &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setOptionsText(Util.formatHeaders(result));
               <br/>
@@ -199,9 +199,9 @@
         <div class="highlight">
           <pre ui:field="patchSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/patch&quot;).patch(String.class).done(new DoneCallback&lt;String&gt;() {
+              requestor.req(&quot;http://httpbin.org/patch&quot;).patch(String.class).success(new SuccessCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(String result) {
+              &#32;&#32;&#32;&#32;public void onSuccess(String result) {
               <br/>
               &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(result);
               <br/>

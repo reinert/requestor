@@ -20,8 +20,6 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.gdeferred.AlwaysCallback;
-import io.reinert.gdeferred.Promise;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestInterceptor;
@@ -29,9 +27,9 @@ import io.reinert.requestor.Requestor;
 import io.reinert.requestor.ResponseInterceptor;
 import io.reinert.requestor.ResponseInterceptorContext;
 import io.reinert.requestor.SerializedRequestInProcess;
+import io.reinert.requestor.callbacks.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 public class InterceptorsActivity extends ShowcaseActivity implements Interceptors.Handler {
 
@@ -76,18 +74,17 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         // Perform the request
         JavaScriptObject json = getMessageJson("Requestor is awesome!");
         requestor.req("http://httpbin.org/post").payload(json).post(String.class)
-                .done(new RequestDoneCallback<String>() {
-                    @Override
-                    public void onDone(String result) {
+                .success(new PayloadCallback<String>() {
+                    public void execute(String result) {
                         view.setRequestInterceptorText(result);
                     }
-                })
-                .always(new AlwaysCallback<String, Throwable>() {
-                    @Override
-                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
-                        registration.removeHandler(); // cancel interceptor registration
-                    }
                 });
+//                .always(new AlwaysCallback<String, Throwable>() {
+//                    @Override
+//                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
+//                        registration.removeHandler(); // cancel interceptor registration
+//                    }
+//                });
     }
 
     @Override
@@ -105,18 +102,18 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
 
         // Perform the response
         requestor.req("http://www.mocky.io/v2/54a3ec74fd145c6c0195e912").get(String.class)
-                .done(new RequestDoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String response) {
+                    public void execute(String response) {
                         view.setResponseInterceptorText(response);
                     }
-                })
-                .always(new AlwaysCallback<String, Throwable>() {
-                    @Override
-                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
-                        registration.removeHandler(); // cancel interceptor registration
-                    }
                 });
+//                .always(new AlwaysCallback<String, Throwable>() {
+//                    @Override
+//                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
+//                        registration.removeHandler(); // cancel interceptor registration
+//                    }
+//                });
     }
 
     private JavaScriptObject getMessageJson(String message) {

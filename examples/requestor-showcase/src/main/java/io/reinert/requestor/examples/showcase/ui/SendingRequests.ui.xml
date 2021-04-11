@@ -54,8 +54,8 @@
           <pre ui:field="hsmNoArg" class="java">
             <code>requestor.req("/server/books/1")
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.delete() /* here delete has no args */
-              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Void&gt;() {
-              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(Void result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.success(new SuccessCallback&lt;Void&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onSuccess(Void result) {
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* result == null */
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
@@ -74,8 +74,8 @@
           <pre ui:field="hsmOneArg" class="java">
             <code>requestor.req(&quot;/server/books&quot;)
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(Book.class) /* here post has one class arg */
-              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Book&gt;() {
-              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(Book result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.success(new SuccessCallback&lt;Book&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onSuccess(Book result) {
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
@@ -94,8 +94,8 @@
           <pre ui:field="hsmTwoArgs" class="java">
             <code>requestor.req(&quot;/server/books&quot;)
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(Book.class, Collection.class) /* here get has two class args */
-              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.done(new DoneCallback&lt;Collection&lt;Book&gt;&gt;() {
-              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onDone(&lt;Collection&lt;Book&gt;&gt; result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.success(new SuccessCallback&lt;Collection&lt;Book&gt;&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onSuccess(&lt;Collection&lt;Book&gt;&gt; result) {
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});

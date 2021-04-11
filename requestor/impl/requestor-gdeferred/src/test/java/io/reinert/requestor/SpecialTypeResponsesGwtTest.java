@@ -18,7 +18,7 @@ package io.reinert.requestor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
+import io.reinert.requestor.callbacks.PayloadCallback;
 
 /**
  * Integration tests for deserializing special types like Headers, RawResponse, SerializedResponse and Response.
@@ -41,8 +41,8 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     public void testResponseTypeAsHeaders() {
         requestor.req("http://httpbin.org/get")
                 .get(Headers.class)
-                .done(new RequestDoneCallback<Headers>() {
-                    public void onDone(Headers result) {
+                .success(new PayloadCallback<Headers>() {
+                    public void execute(Headers result) {
                         assertNotNull(result);
                         finishTest();
                     }
@@ -53,8 +53,8 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     public void testResponseTypeAsPayload() {
         requestor.req("http://httpbin.org/get")
                 .get(Payload.class)
-                .done(new RequestDoneCallback<Payload>() {
-                    public void onDone(Payload result) {
+                .success(new PayloadCallback<Payload>() {
+                    public void execute(Payload result) {
                         assertNotNull(result);
                         finishTest();
                     }
@@ -65,8 +65,8 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     public void testResponseTypeAsRawResponse() {
         requestor.req("http://httpbin.org/get")
                 .get(RawResponse.class)
-                .done(new RequestDoneCallback<RawResponse>() {
-                    public void onDone(RawResponse result) {
+                .success(new PayloadCallback<RawResponse>() {
+                    public void execute(RawResponse result) {
                         assertNotNull(result);
                         assertFalse(result.getPayload().isEmpty());
                         finishTest();
@@ -78,8 +78,8 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     public void testResponseTypeAsSerializedResponse() {
         requestor.req("http://httpbin.org/get")
                 .get(SerializedResponse.class)
-                .done(new RequestDoneCallback<SerializedResponse>() {
-                    public void onDone(SerializedResponse result) {
+                .success(new PayloadCallback<SerializedResponse>() {
+                    public void execute(SerializedResponse result) {
                         assertNotNull(result);
                         assertFalse(result.getPayload().isEmpty());
                         finishTest();
@@ -91,8 +91,8 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     public void testResponseTypeAsResponse() {
         requestor.req("http://httpbin.org/get")
                 .get(Response.class)
-                .done(new RequestDoneCallback<Response>() {
-                    public void onDone(Response result) {
+                .success(new PayloadCallback<Response>() {
+                    public void execute(Response result) {
                         assertNotNull(result);
                         SerializedResponse response = (SerializedResponse) result;
                         assertFalse(response.getPayload().isEmpty());

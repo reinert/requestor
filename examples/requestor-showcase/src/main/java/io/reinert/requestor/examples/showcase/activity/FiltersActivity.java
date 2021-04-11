@@ -19,8 +19,6 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.gdeferred.AlwaysCallback;
-import io.reinert.gdeferred.Promise;
 import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestFilter;
 import io.reinert.requestor.RequestInProcess;
@@ -28,10 +26,11 @@ import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseFilter;
 import io.reinert.requestor.ResponseFilterContext;
+import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callbacks.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Filters;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
-import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
 
 public class FiltersActivity extends ShowcaseActivity implements Filters.Handler {
 
@@ -71,18 +70,18 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
         // Perform the request
         requestor.req("http://httpbin.org/headers").get(String.class)
-                .done(new RequestDoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String result) {
+                    public void execute(String result) {
                         view.setRequestFilterText(result);
                     }
-                })
-                .always(new AlwaysCallback<String, Throwable>() {
-                    @Override
-                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
-                        requestFilterRegistration.removeHandler(); // cancel filter registration
-                    }
                 });
+//                .always(new AlwaysCallback<String, Throwable>() {
+//                    @Override
+//                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
+//                        requestFilterRegistration.removeHandler(); // cancel filter registration
+//                    }
+//                });
     }
 
     @Override
@@ -97,17 +96,19 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
         // Perform the response
         requestor.req("http://httpbin.org/headers").get(String.class)
-                .done(new RequestDoneCallback<String>() {
-                    @Override
-                    public void onDone(Response<String> response) {
-                        view.setResponseFilterText(Util.formatHeaders(response.getHeaders()), response.getPayload());
-                    }
-                })
-                .always(new AlwaysCallback<String, Throwable>() {
-                    @Override
-                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
-                        responseFilterRegistration.removeHandler(); // cancel filter registration
+                .status(200, new ResponseCallback<Object>() {
+                    public void execute(Response<Object> response) {
+                        view.setResponseFilterText(
+                                Util.formatHeaders(response.getHeaders()),
+                                (String) response.getPayload()
+                        );
                     }
                 });
+//                .always(new AlwaysCallback<String, Throwable>() {
+//                    @Override
+//                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
+//                        responseFilterRegistration.removeHandler(); // cancel filter registration
+//                    }
+//                });
     }
 }

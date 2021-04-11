@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
-
-import io.reinert.requestor.auth.DigestAuth;
+package io.reinert.requestor.callbacks;
 
 /**
- * Just to satisfy compiler.
- *
- * Since this class is removed from classpath in Requestor API packaging, and we reference it in {@link DigestAuth}
- * we need to redeclare it here so the compiler actually find this class in the classpath and succeeds while compiling.
- * This interface is removed from classpath when assembling the jar of this extension.
+ * Success callback for request promises.
  */
-public interface Promise<F> {
+public interface PayloadCallback<E> {
+    void execute(E e);
 }

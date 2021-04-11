@@ -24,11 +24,10 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.gdeferred.DoneCallback;
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.callbacks.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
@@ -74,9 +73,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onXmlObjectGet() {
         requestor.req("http://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08")
                 .get(MyObject.class)
-                .done(new DoneCallback<MyObject>() {
+                .success(new PayloadCallback<MyObject>() {
                     @Override
-                    public void onDone(MyObject result) {
+                    public void execute(MyObject result) {
                         view.setSingleXmlGetText(result.toString());
                     }
                 });
@@ -86,9 +85,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onXmlCollectionGet() {
         requestor.req("http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09")
                 .get(MyObject.class, List.class)
-                .done(new ListDoneCallback<MyObject>() {
+                .success(new PayloadCallback<Collection<MyObject>>() {
                     @Override
-                    public void onDone(List<MyObject> result) {
+                    public void execute(Collection<MyObject> result) {
                         view.setCollectionXmlGetText(Arrays.toString(result.toArray()));
                     }
                 });
@@ -100,9 +99,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                 .contentType("application/xml")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
-                .done(new DoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String result) {
+                    public void execute(String result) {
                         view.setSingleXmlPostText(result);
                     }
                 });
@@ -116,9 +115,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),
                         new MyObject("Ipsum", 210, new Date(1420070400000L))))
                 .post(String.class)
-                .done(new DoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String result) {
+                    public void execute(String result) {
                         view.setCollectionXmlPostText(result);
                     }
                 });
@@ -128,9 +127,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onJsonObjectGet() {
             requestor.req("http://www.mocky.io/v2/54aa93c307b5f2671021ba0c")
                     .get(MyObject.class)
-                    .done(new DoneCallback<MyObject>() {
+                    .success(new PayloadCallback<MyObject>() {
                         @Override
-                        public void onDone(MyObject result) {
+                        public void execute(MyObject result) {
                             view.setSingleJsonGetText(result.toString());
                         }
                     });
@@ -140,9 +139,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onJsonCollectionGet() {
         requestor.req("http://www.mocky.io/v2/54aa937407b5f2601021ba0b")
                 .get(MyObject.class, List.class)
-                .done(new ListDoneCallback<MyObject>() {
+                .success(new PayloadCallback<Collection<MyObject>>() {
                     @Override
-                    public void onDone(List<MyObject> result) {
+                    public void execute(Collection<MyObject> result) {
                         view.setCollectionJsonGetText(Arrays.toString(result.toArray()));
                     }
                 });
@@ -154,9 +153,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                 .contentType("application/json")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
-                .done(new DoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String result) {
+                    public void execute(String result) {
                         view.setSingleJsonPostText(result);
                     }
                 });
@@ -170,9 +169,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),
                         new MyObject("Ipsum", 210, new Date(1420070400000L))))
                 .post(String.class)
-                .done(new DoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String result) {
+                    public void execute(String result) {
                         view.setCollectionJsonPostText(result);
                     }
                 });

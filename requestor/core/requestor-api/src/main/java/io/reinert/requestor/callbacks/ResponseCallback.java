@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.impl.gdeferred;
+package io.reinert.requestor.callbacks;
 
 import io.reinert.requestor.Response;
 
-public interface StatusCallback {
-    void onStatus(Response<?> response);
+/**
+ * Load callback for request promises.
+ */
+public interface ResponseCallback<E> {
+    void execute(Response<E> response);
 }

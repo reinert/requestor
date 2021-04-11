@@ -38,23 +38,24 @@ public class ResponseProcessor {
         this.interceptorEngine = interceptorEngine;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> void process(Request request, RawResponse response, Class<T> deserializationType, Deferred<T> deferred) {
+
         // 1: FILTER
         filter(request, response);
 
         // 2: INTERCEPT
         intercept(request, response);
 
+        Response<T> r = (Response<T>) response;
+
         if (isSuccessful(response)) {
             // 3: DESERIALIZE
-            Response<T> r = deserializeSingleResponse(request, response, deserializationType);
-
-            // 4: RESOLVE
-            resolve(deferred, r);
-        } else {
-            // 3: REJECT
-            reject(request, response, deferred);
+            r = deserializeSingleResponse(request, response, deserializationType);
         }
+
+        // 4: RESOLVE
+        resolve(deferred, r);
     }
 
     public <T, C extends Collection> void process(Request request, RawResponse response, Class<T> deserializationType,
@@ -65,16 +66,18 @@ public class ResponseProcessor {
         // 2: INTERCEPT
         intercept(request, response);
 
+        Response<C> r;
+
         if (isSuccessful(response)) {
             // 3: DESERIALIZE
-            Response<C> r = deserializeCollectionResponse(request, response, deserializationType, collectionType);
-
-            // 4: RESOLVE
-            resolve(deferred, r);
+            r = deserializeCollectionResponse(request, response, deserializationType, collectionType);
         } else {
-            // 3: REJECT
-            reject(request, response, deferred);
+            r = new ResponseImpl<C>(request, response.getStatus(), response.getHeaders(), response.getResponseType(),
+                    null);
         }
+
+        // 4: RESOLVE
+        resolve(deferred, r);
     }
 
     SerializationEngine getSerializationEngine() {
@@ -145,10 +148,6 @@ public class ResponseProcessor {
 
     private boolean isSuccessful(RawResponse response) {
         return response.getStatusCode() / 100 == 2;
-    }
-
-    private <D> void reject(Request request, RawResponse response, Deferred<D> deferred) {
-        deferred.reject(new UnsuccessfulResponseException(request, response));
     }
 
     private <D> void resolve(Deferred<D> deferred, Response<D> r) {

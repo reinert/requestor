@@ -17,18 +17,12 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.gdeferred.Promise;
-import io.reinert.requestor.impl.gdeferred.ListDoneCallback;
-import io.reinert.requestor.impl.gdeferred.RequestAlwaysCallback;
-import io.reinert.requestor.impl.gdeferred.RequestDoneCallback;
-import io.reinert.requestor.impl.gdeferred.RequestFailCallback;
-import io.reinert.requestor.impl.gdeferred.SetDoneCallback;
-import io.reinert.requestor.impl.gdeferred.StatusCallback;
+import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callbacks.ResponseCallback;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
@@ -65,14 +59,14 @@ public class CallbackGwtTest extends GWTTestCase {
     }
 
     //=========================================================================
-    // DONE CALLBACKS
+    // SUCCESS CALLBACKS
     //=========================================================================
 
-    public void testDoneCallback() {
+    public void testSuccessCallback() {
         // GET /books/1
         final Uri uri = uriBuilder.path("1").build();
-        requestor.req(uri).get(Book.class).done(new RequestDoneCallback<Book>() {
-            public void onDone(Book result) {
+        requestor.req(uri).get(Book.class).success(new PayloadCallback<Book>() {
+            public void execute(Book result) {
                 assertNotNull(result);
 
                 finishTest();
@@ -81,25 +75,11 @@ public class CallbackGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testDoneCallbackResponseOverload() {
-        // GET /books/1
-        final Uri uri = uriBuilder.path("1").build();
-        requestor.req(uri).get(Book.class).done(new RequestDoneCallback<Book>() {
-            public void onDone(Response<Book> response) {
-                assertNotNull(response);
-                assertNotNull(response.getPayload());
-
-                finishTest();
-            }
-        });
-        delayTestFinish(TIMEOUT);
-    }
-
-    public void testDoneCallbackForCollection() {
+    public void testSuccessCallbackForCollection() {
         // GET /books
         final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, List.class).done(new RequestDoneCallback<Collection<Book>>() {
-            public void onDone(Collection<Book> result) {
+        requestor.req(uri).get(Book.class, List.class).success(new PayloadCallback<Collection<Book>>() {
+            public void execute(Collection<Book> result) {
                 assertNotNull(result);
                 assertFalse(result.isEmpty());
 
@@ -109,91 +89,47 @@ public class CallbackGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testDoneCallbackForCollectionResponseOverload() {
-        // GET /books
-        final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, List.class).done(new RequestDoneCallback<Collection<Book>>() {
-            public void onDone(Response<Collection<Book>> response) {
-                assertNotNull(response);
-                assertNotNull(response.getPayload());
-                assertFalse(response.getPayload().isEmpty());
+//    public void testListSuccessCallback() {
+//        // GET /books
+//        final Uri uri = uriBuilder.build();
+//        requestor.req(uri).get(Book.class, List.class).success(new ListSuccessCallback<Book>() {
+//            public void onSuccess(List<Book> result) {
+//                assertNotNull(result);
+//                assertFalse(result.isEmpty());
+//
+//                finishTest();
+//            }
+//        });
+//        delayTestFinish(TIMEOUT);
+//    }
 
-                finishTest();
-            }
-        });
-        delayTestFinish(TIMEOUT);
-    }
-
-    public void testListDoneCallback() {
-        // GET /books
-        final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, List.class).done(new ListDoneCallback<Book>() {
-            public void onDone(List<Book> result) {
-                assertNotNull(result);
-                assertFalse(result.isEmpty());
-
-                finishTest();
-            }
-        });
-        delayTestFinish(TIMEOUT);
-    }
-
-    public void testListDoneCallbackResponseOverload() {
-        // GET /books
-        final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, List.class).done(new ListDoneCallback<Book>() {
-            public void onDone(Response<List<Book>> response) {
-                assertNotNull(response);
-                assertNotNull(response.getPayload());
-                assertFalse(response.getPayload().isEmpty());
-
-                finishTest();
-            }
-        });
-        delayTestFinish(TIMEOUT);
-    }
-    public void testSetDoneCallback() {
-        // GET /books
-        final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, Set.class).done(new SetDoneCallback<Book>() {
-            public void onDone(Set<Book> result) {
-                assertNotNull(result);
-                assertFalse(result.isEmpty());
-
-                finishTest();
-            }
-        });
-        delayTestFinish(TIMEOUT);
-    }
-
-    public void testSetDoneCallbackResponseOverload() {
-        // GET /books
-        final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, Set.class).done(new SetDoneCallback<Book>() {
-            public void onDone(Response<Set<Book>> response) {
-                assertNotNull(response);
-                assertNotNull(response.getPayload());
-                assertFalse(response.getPayload().isEmpty());
-
-                finishTest();
-            }
-        });
-        delayTestFinish(TIMEOUT);
-    }
+//    public void testSetSuccessCallback() {
+//        // GET /books
+//        final Uri uri = uriBuilder.build();
+//        requestor.req(uri).get(Book.class, Set.class).success(new SetSuccessCallback<Book>() {
+//            public void onSuccess(Set<Book> result) {
+//                assertNotNull(result);
+//                assertFalse(result.isEmpty());
+//
+//                finishTest();
+//            }
+//        });
+//        delayTestFinish(TIMEOUT);
+//    }
 
     //=========================================================================
-    // FAIL CALLBACKS
+    // ERROR CALLBACKS
     //=========================================================================
 
-    public void test301FailCallback() {
+    public void test301ErrorCallback() {
         requestor.req("http://httpbin.org/status/300").get()
-                .done(new RequestDoneCallback<Void>() {
-                    public void onDone(Void result) {
+                .success(new PayloadCallback<Void>() {
+                    public void execute(Void result) {
                         fail();
                     }
-                }).fail(new RequestFailCallback() {
-                    public void onFail(Throwable throwable) {
-                        assertNotNull(throwable);
+                }).status(300, new ResponseCallback() {
+                    public void execute(Response response) {
+                        assertNotNull(response);
 
                         finishTest();
                     }
@@ -201,15 +137,15 @@ public class CallbackGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void test400FailCallback() {
+    public void test400ErrorCallback() {
         requestor.req("http://httpbin.org/status/400").get()
-                .done(new RequestDoneCallback<Void>() {
-                    public void onDone(Void result) {
+                .success(new PayloadCallback<Void>() {
+                    public void execute(Void result) {
                         fail();
                     }
-                }).fail(new RequestFailCallback() {
-                    public void onFail(Throwable throwable) {
-                        assertNotNull(throwable);
+                }).status(400, new ResponseCallback() {
+                    public void execute(Response response) {
+                        assertNotNull(response);
 
                         finishTest();
                     }
@@ -217,80 +153,15 @@ public class CallbackGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void test500FailCallback() {
+    public void test500ErrorCallback() {
         requestor.req("http://httpbin.org/status/500").get()
-                .done(new RequestDoneCallback<Void>() {
-                    public void onDone(Void result) {
+                .success(new PayloadCallback<Void>() {
+                    public void execute(Void result) {
                         fail();
                     }
-                }).fail(new RequestFailCallback() {
-                    public void onFail(Throwable throwable) {
-                        assertNotNull(throwable);
-
-                        finishTest();
-                    }
-                });
-        delayTestFinish(TIMEOUT);
-    }
-
-    //=========================================================================
-    // ALWAYS CALLBACKS
-    //=========================================================================
-
-    public void testAlwaysCallbackOnSuccessfulResponse() {
-        requestor.req("http://httpbin.org/status/200").get(String.class)
-                .always(new RequestAlwaysCallback<String>() {
-                    public void onAlways(Promise.State state, String body, Throwable throwable) {
-                        assertEquals(Promise.State.RESOLVED, state);
-                        assertNotNull(body);
-                        assertNull(throwable);
-
-                        finishTest();
-                    }
-                });
-        delayTestFinish(TIMEOUT);
-    }
-
-    public void testAlwaysCallbackOnUnsuccessfulResponse() {
-        requestor.req("http://httpbin.org/status/400").get(String.class)
-                .always(new RequestAlwaysCallback<String>() {
-                    public void onAlways(Promise.State state, String body, Throwable throwable) {
-                        assertEquals(Promise.State.REJECTED, state);
-                        assertNull(body);
-                        assertNotNull(throwable);
-
-                        finishTest();
-                    }
-                });
-        delayTestFinish(TIMEOUT);
-    }
-
-    //=========================================================================
-    // RESPONSE CALLBACKS
-    //=========================================================================
-
-    public void testDoneResponseCallback() {
-        requestor.req("http://httpbin.org/status/200").get(String.class)
-                .doneResponse(new io.reinert.gdeferred.DoneCallback<Response<String>>() {
-                    @Override
-                    public void onDone(Response<String> response) {
+                }).status(500, new ResponseCallback() {
+                    public void execute(Response response) {
                         assertNotNull(response);
-                        assertNotNull(response.getPayload());
-                        assertEquals(200, response.getStatusCode());
-
-                        finishTest();
-                    }
-                });
-        delayTestFinish(TIMEOUT);
-    }
-
-    public void testFailResponseCallback() {
-        requestor.req("http://httpbin.org/status/400").get(String.class)
-                .failResponse(new io.reinert.gdeferred.FailCallback<SerializedResponse>() {
-                    public void onFail(SerializedResponse response) {
-                        assertNotNull(response);
-                        assertNotNull(response.getPayload());
-                        assertEquals(400, response.getStatusCode());
 
                         finishTest();
                     }
@@ -304,17 +175,16 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void testStatusCallback200() {
         requestor.req("http://httpbin.org/status/200").get(String.class)
-                .status(200, new StatusCallback() {
-                    public void onStatus(Response<?> response) {
+                .status(200, new ResponseCallback<Object>() {
+                    public void execute(Response<Object> response) {
                         assertNotNull(response);
                         assertEquals(200, response.getStatusCode());
-                        Response<String> r = (Response<String>) response;
-                        assertNotNull(r.getPayload());
+                        assertNotNull(response.getPayload());
 
                         finishTest();
                     }
-                }).status(400, new StatusCallback() {
-                    public void onStatus(Response<?> response) {
+                }).status(400, new ResponseCallback() {
+                    public void execute(Response response) {
                         fail();
                     }
                 });
@@ -323,12 +193,12 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void testStatusCallback400() {
         requestor.req("http://httpbin.org/status/400").get(String.class)
-                .status(200, new StatusCallback() {
-                    public void onStatus(Response<?> response) {
+                .status(200, new ResponseCallback<Object>() {
+                    public void execute(Response<Object> response) {
                         fail();
                     }
-                }).status(400, new StatusCallback() {
-                    public void onStatus(Response<?> response) {
+                }).status(400, new ResponseCallback() {
+                    public void execute(Response response) {
                         assertNotNull(response);
                         assertEquals(400, response.getStatusCode());
                         SerializedResponse r = (SerializedResponse) response;
@@ -342,16 +212,16 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void testStatusCallback500() {
         requestor.req("http://httpbin.org/status/500").get(String.class)
-                .status(200, new StatusCallback() {
-                    public void onStatus(Response<?> response) {
+                .status(200, new ResponseCallback<Object>() {
+                    public void execute(Response<Object> response) {
                         fail();
                     }
-                }).status(400, new StatusCallback() {
-                    public void onStatus(Response<?> response) {
+                }).status(400, new ResponseCallback() {
+                    public void execute(Response response) {
                         fail();
                     }
-                }).status(500, new StatusCallback() {
-                    public void onStatus(Response<?> response) {
+                }).status(500, new ResponseCallback() {
+                    public void execute(Response response) {
                         assertNotNull(response);
                         assertEquals(500, response.getStatusCode());
                         SerializedResponse r = (SerializedResponse) response;

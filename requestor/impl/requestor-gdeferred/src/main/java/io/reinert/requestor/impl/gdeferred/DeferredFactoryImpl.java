@@ -25,6 +25,6 @@ public class DeferredFactoryImpl implements DeferredFactory {
 
     @Override
     public <T> Deferred<T> getDeferred() {
-        return new GDeferredRequest<T>();
+        return new DeferredRequest<T>();
     }
 }

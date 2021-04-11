@@ -141,9 +141,9 @@
         <div class="highlight">
           <pre ui:field="makeRequest" class="java">
             <code>
-              r.req("http://httpbin.org/ip").get(String.class).done(new DoneCallback&lt;String&gt;() {
+              r.req("http://httpbin.org/ip").get(String.class).success(new SuccessCallback&lt;String&gt;() {
               <br/>
-              &#32;&#32;&#32;&#32;public void onDone(String ip) {
+              &#32;&#32;&#32;&#32;public void onSuccess(String ip) {
               <br/>
               &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Window.alert(ip);
               <br/>

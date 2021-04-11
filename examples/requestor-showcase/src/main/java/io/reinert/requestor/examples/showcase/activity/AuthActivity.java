@@ -20,15 +20,16 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.gdeferred.DoneCallback;
-import io.reinert.gdeferred.FailCallback;
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.Response;
 import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
 import io.reinert.requestor.auth.OAuth2ByHeader;
 import io.reinert.requestor.auth.OAuth2ByQueryParam;
+import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callbacks.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
 
@@ -66,16 +67,16 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         requestor.req("http://httpbin.org/basic-auth/" + user + "/" + password)
                 .auth(new BasicAuth(user, password))
                 .get(String.class)
-                .done(new DoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String result) {
+                    public void execute(String result) {
                         view.setBasicText(result);
                     }
                 })
-                .fail(new FailCallback<Throwable>() {
+                .fail(new ResponseCallback<Object>() {
                     @Override
-                    public void onFail(Throwable result) {
-                        GWT.log("Authentication failed.", result);
+                    public void execute(Response<Object> response) {
+                        GWT.log("Authentication failed.");
                     }
                 });
     }
@@ -85,16 +86,16 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         requestor.req("http://httpbin.org/digest-auth/" + qop + '/' + user + '/' + password)
                 .auth(new DigestAuth(user, password, true))
                 .get(String.class)
-                .done(new DoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String result) {
+                    public void execute(String result) {
                         view.setDigestText(result);
                     }
                 })
-                .fail(new FailCallback<Throwable>() {
+                .fail(new ResponseCallback<Object>() {
                     @Override
-                    public void onFail(Throwable result) {
-                        GWT.log("Authentication failed.", result);
+                    public void execute(Response<Object> response) {
+                        GWT.log("Authentication failed.");
                     }
                 });
     }
@@ -104,9 +105,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         requestor.req("http://httpbin.org/headers")
                 .auth(new MyAuth(key))
                 .get(String.class)
-                .done(new DoneCallback<String>() {
+                .success(new PayloadCallback<String>() {
                     @Override
-                    public void onDone(String result) {
+                    public void execute(String result) {
                         view.setCustomText(result);
                     }
                 });
@@ -121,9 +122,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         requestor.req(profilePictureEndpoint)
                 .auth(new OAuth2ByHeader(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
-                .done(new DoneCallback<JavaScriptObject>() {
+                .success(new PayloadCallback<JavaScriptObject>() {
                     @Override
-                    public void onDone(JavaScriptObject result) {
+                    public void execute(JavaScriptObject result) {
                         final JavaScriptObject image = getObject(result, "image");
                         final String imageUrl = getString(image, "url");
                         view.addImage(imageUrl);
@@ -140,9 +141,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         requestor.req(profilePictureEndpoint)
                 .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
-                .done(new DoneCallback<JavaScriptObject>() {
+                .success(new PayloadCallback<JavaScriptObject>() {
                     @Override
-                    public void onDone(JavaScriptObject result) {
+                    public void execute(JavaScriptObject result) {
                         final JavaScriptObject data = getObject(result, "data");
                         final String imageUrl = getString(data, "url");
                         view.addImage(imageUrl);
@@ -159,9 +160,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         requestor.req(profilePictureEndpoint)
                 .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
-                .done(new DoneCallback<JavaScriptObject>() {
+                .success(new PayloadCallback<JavaScriptObject>() {
                     @Override
-                    public void onDone(JavaScriptObject result) {
+                    public void execute(JavaScriptObject result) {
                         final String userId = getObject(result, "id");
                         final String imageUrl = "https://apis.live.net/v5.0/" + userId + "/picture";
                         view.addImage(imageUrl);
