@@ -43,7 +43,7 @@ public interface PreparedRequest extends Request, HasHeaders {
 
     void send();
 
-    void abort(RawResponse response);
+    void abort(Response response);
 
     void abort(RequestException error);
 

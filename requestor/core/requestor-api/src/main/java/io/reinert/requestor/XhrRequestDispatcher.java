@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
+
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
@@ -160,16 +162,17 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     payload = Payload.fromJson(xhr.getResponse());
                 }
 
-                final RawResponseImpl response = new RawResponseImpl(
+                final Response response = new ResponseImpl(
                         request,
                         Status.of(gwtResponse.getStatusCode()),
                         new Headers(gwtResponse.getHeaders()),
                         ResponseType.of(responseType),
                         payload,
-                        getSerializationEngine()
+                        parametrizedType != null ? parametrizedType : resolveType,
+                        parametrizedType != null ? (Class<? extends Collection>) resolveType : null
                 );
 
-                evalResponse(request, deferred, resolveType, parametrizedType, response);
+                evalResponse(request, deferred, response);
             }
 
             public void onError(com.google.gwt.http.client.Request gwtRequest, Throwable exception) {

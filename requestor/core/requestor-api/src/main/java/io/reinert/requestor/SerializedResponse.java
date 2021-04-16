@@ -22,7 +22,7 @@ import java.util.Collection;
  *
  * @author Danilo Reinert
  */
-public interface SerializedResponse extends Response<Payload> {
+public interface SerializedResponse extends Response {
 
     @Override
     Payload getPayload();

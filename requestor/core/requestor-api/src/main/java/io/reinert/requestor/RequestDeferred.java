@@ -26,7 +26,7 @@ public interface RequestDeferred<R extends Request> {
 
     void resolve(R request);
 
-    void reject(RawResponse response);
+    void reject(Response response);
 
     void reject(RequestException error);
 

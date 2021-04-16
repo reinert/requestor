@@ -46,8 +46,8 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     private static Logger LOGGER = Logger.getLogger(DeferredRequest.class.getName());
 
-    private final DeferredObject<Response<Object>, RequestException, RequestProgress> deferred =
-            new DeferredObject<Response<Object>, RequestException, RequestProgress>();
+    private final DeferredObject<Response, RequestException, RequestProgress> deferred =
+            new DeferredObject<Response, RequestException, RequestProgress>();
     private HttpConnection connection;
     private ArrayList<ProgressCallback> uploadProgressCallbacks;
 
@@ -69,9 +69,9 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> load(final ResponseCallback<Object> callback) {
-        deferred.done(new DoneCallback<Response<Object>>() {
-            public void onDone(Response<Object> response) {
+    public Promise<T> load(final ResponseCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
                 callback.execute(response);
             }
         });
@@ -79,9 +79,9 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> fail(final ResponseCallback<Object> callback) {
-        deferred.done(new DoneCallback<Response<Object>>() {
-            public void onDone(Response<Object> response) {
+    public Promise<T> fail(final ResponseCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
                 if (!isSuccessful(response)) callback.execute(response);
             }
         });
@@ -99,9 +99,9 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> status(final int statusCode, final ResponseCallback<Object> callback) {
-        deferred.done(new DoneCallback<Response<Object>>() {
-            public void onDone(Response<Object> response) {
+    public Promise<T> status(final int statusCode, final ResponseCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
                 if (response.getStatusCode() == statusCode)
                     callback.execute(response);
             }
@@ -110,9 +110,9 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> status(final Status status, final ResponseCallback<Object> callback) {
-        deferred.done(new DoneCallback<Response<Object>>() {
-            public void onDone(Response<Object> response) {
+    public Promise<T> status(final Status status, final ResponseCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
                 if (response.getStatusCode() == status.getStatusCode())
                     callback.execute(response);
             }
@@ -121,9 +121,9 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> status(final StatusFamily family, final ResponseCallback<Object> callback) {
-        deferred.done(new DoneCallback<Response<Object>>() {
-            public void onDone(Response<Object> response) {
+    public Promise<T> status(final StatusFamily family, final ResponseCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
                 if (StatusFamily.of(response.getStatusCode()) == family)
                     callback.execute(response);
             }
@@ -134,8 +134,8 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     @SuppressWarnings("unchecked")
     @Override
     public <E extends T> Promise<T> success(final PayloadCallback<E> callback) {
-        deferred.done(new DoneCallback<Response<Object>>() {
-            public void onDone(Response<Object> response) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
                 if (isSuccessful(response)) callback.execute((E) response.getPayload());
             }
         });
@@ -145,11 +145,10 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     @SuppressWarnings("unchecked")
     @Override
     public <E extends T> Promise<T> success(final PayloadResponseCallback<E> callback) {
-        deferred.done(new DoneCallback<Response<Object>>() {
-            public void onDone(Response<Object> response) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
                 if (isSuccessful(response)) {
-                    Response<E> r = (Response<E>) ((Response<T>) response);
-                    callback.execute(r.getPayload(), r);
+                    callback.execute((E) response.getPayload(), response);
                 }
             }
         });
@@ -184,8 +183,8 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void resolve(final Response<T> response) {
-        deferred.resolve((Response<Object>) response);
+    public void resolve(final Response response) {
+        deferred.resolve(response);
     }
 
     @Override
@@ -237,7 +236,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
             callback.execute(progress);
     }
 
-    private boolean isSuccessful(Response<Object> response) {
+    private boolean isSuccessful(Response response) {
         return response.getStatusCode() / 100 == 2;
     }
 }

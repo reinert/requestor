@@ -65,7 +65,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
         bookService.post(book).success(new PayloadResponseCallback<Book>() {
             @Override
-            public void execute(Book returnedBook, Response<Book> response) {
+            public void execute(Book returnedBook, Response response) {
                 assertNotNull(response);
 
                 // The server should return a 201 status code
@@ -124,7 +124,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
         bookService.put(id, book).success(new PayloadResponseCallback<Book>() {
             @Override
-            public void execute(Book returnedBook, Response<Book> response) {
+            public void execute(Book returnedBook, Response response) {
                 assertNotNull(response);
 
                 // The server should return a 201 status code
@@ -143,7 +143,7 @@ public class RestServiceGwtTest extends GWTTestCase {
         // DELETE /books/{createdId}
         bookService.delete(createdId).success(new PayloadResponseCallback<Void>() {
             @Override
-            public void execute(Void unused, Response<Void> response) {
+            public void execute(Void unused, Response response) {
                 assertNotNull(response);
 
                 // The server should return a 200 status code

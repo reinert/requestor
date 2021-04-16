@@ -24,7 +24,7 @@ public interface InProcess {
 
     void proceed();
 
-    void abort(RawResponse response);
+    void abort(Response response);
 
     void abort(RequestException error);
 

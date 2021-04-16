@@ -23,7 +23,6 @@ import io.reinert.requestor.HttpMethod;
 import io.reinert.requestor.MutableSerializedRequest;
 import io.reinert.requestor.Payload;
 import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.RawResponse;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
@@ -95,7 +94,7 @@ public class DigestAuth implements Auth {
         this.maxChallengeCalls = maxChallengeCalls;
     }
 
-    private void attempt(PreparedRequest originalRequest, Response<?> attemptResponse, RequestDispatcher dispatcher) {
+    private void attempt(PreparedRequest originalRequest, Response attemptResponse, RequestDispatcher dispatcher) {
         if (challengeCalls < maxChallengeCalls) {
             final MutableSerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
 
@@ -120,7 +119,7 @@ public class DigestAuth implements Auth {
         challengeCalls = 1;
     }
 
-    private MutableSerializedRequest copyRequest(PreparedRequest originalRequest, Response<?> attemptResponse) {
+    private MutableSerializedRequest copyRequest(PreparedRequest originalRequest, Response attemptResponse) {
         MutableSerializedRequest request = originalRequest.getMutableCopy();
 
         final Header authHeader = getAuthorizationHeader(request.getUri(), request.getMethod(),
@@ -135,7 +134,7 @@ public class DigestAuth implements Auth {
 
     private void sendAttemptRequest(final PreparedRequest originalRequest, MutableSerializedRequest attemptRequest,
                                     final RequestDispatcher dispatcher) {
-        dispatcher.dispatch(attemptRequest, RawResponse.class, new Callback<RawResponse, Throwable>() {
+        dispatcher.dispatch(attemptRequest, Response.class, new Callback<Response, Throwable>() {
             @Override
             public void onFailure(Throwable error) {
                 resetChallengeCalls();
@@ -144,7 +143,7 @@ public class DigestAuth implements Auth {
             }
 
             @Override
-            public void onSuccess(RawResponse response) {
+            public void onSuccess(Response response) {
                 if (contains(EXPECTED_CODES, response.getStatusCode())) {
                     // If the error response code is expected, then continue trying to authenticate
                     attempt(originalRequest, response, dispatcher);
@@ -165,11 +164,11 @@ public class DigestAuth implements Auth {
         });
     }
 
-    private boolean isSuccessful(RawResponse response) {
+    private boolean isSuccessful(Response response) {
         return response.getStatusCode() / 100 == 2;
     }
 
-    private Header getAuthorizationHeader(Uri uri, HttpMethod method, Payload payload, Response<?> attemptResp) {
+    private Header getAuthorizationHeader(Uri uri, HttpMethod method, Payload payload, Response attemptResp) {
         if (attemptResp == null) {
             return null;
         }

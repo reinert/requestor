@@ -124,6 +124,7 @@ public abstract class RequestDispatcher {
 
         return deferred.getPromise();
     }
+
     /**
      * Sends the request with the respective callback bypassing request processing.
      *
@@ -180,29 +181,29 @@ public abstract class RequestDispatcher {
      *
      * @param request           Dispatched request
      * @param deferred          Promise to be resolved
-     * @param resolveType       Class of the expected type in the promise
-     * @param parametrizedType  Class of the parametrized type if the promise expects a collection
      * @param response          The response received from the request
      * @param <R>               Type of the deferred
      */
     @SuppressWarnings("unchecked")
-    protected <R> void evalResponse(Request request, Deferred<R> deferred, Class<R> resolveType,
-                                    Class<?> parametrizedType, RawResponse response) {
+    protected <R, E> void evalResponse(Request request, Deferred<R> deferred, Response response) {
         // TODO: handle unsuccessful responses here?
 
         // If the user requested RawResponse, then don't process it
-        if (resolveType == RawResponse.class) {
-            deferred.resolve((Response<R>) ResponseImpl.fromRawResponse(request, response));
-            return;
-        }
+        // TODO: create a bypassResponse[Filter|Intercept] option
+//        if (resolveType == RawResponse.class) {
+//            deferred.resolve((Response<R>) ResponseImpl.fromRawResponse(request, response));
+//            return;
+//        }
 
-        if (parametrizedType != null) {
-            responseProcessor.process(request, response, parametrizedType, (Class<Collection<?>>) resolveType,
-                    (Deferred<Collection<?>>) deferred);
-            return;
-        }
-
-        responseProcessor.process(request, response, resolveType, deferred);
+        // FIXME: process response
+//        if (parametrizedType != null) {
+//            responseProcessor.process(request, response, parametrizedType, resolveType,
+//                    deferred);
+//            return;
+//        }
+//
+//        responseProcessor.process(request, response, resolveType, deferred);
+        deferred.resolve(response);
     }
 
     protected SerializationEngine getSerializationEngine() {

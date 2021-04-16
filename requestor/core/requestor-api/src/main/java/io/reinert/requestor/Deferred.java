@@ -24,7 +24,7 @@ package io.reinert.requestor;
  */
 public interface Deferred<T> {
 
-    void resolve(Response<T> response);
+    void resolve(Response response);
 
     void reject(RequestException error);
 

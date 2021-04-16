@@ -15,14 +15,14 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
+
 /**
  * Represents a HTTP response.
  *
- * @param <T> Type of the payload
- *
  * @author Danilo Reinert
  */
-public interface Response<T> {
+public interface Response {
 
     /**
      * Returns the value of the requested header or null if the header was not
@@ -95,7 +95,15 @@ public interface Response<T> {
      *
      * @return the response payload
      */
-    T getPayload();
+    Object getPayload();
+
+    Payload getSerializedPayload();
+
+    void deserializePayload(Object payload);
+
+    Class<?> getEntityType();
+
+    Class<? extends Collection> getCollectionType();
 
     /**
      * Returns the response type.

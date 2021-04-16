@@ -44,8 +44,8 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     }
 
     @Override
-    public void abort(RawResponse response) {
-        dispatcher.evalResponse(this, deferred, resolveType, parametrizedType, response);
+    public void abort(Response response) {
+        dispatcher.evalResponse(this, deferred, response);
     }
 
     @Override

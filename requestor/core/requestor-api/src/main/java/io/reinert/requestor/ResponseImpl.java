@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import java.util.Collection;
 import java.util.Collections;
 
 import io.reinert.requestor.header.ContentTypeHeader;
@@ -25,34 +26,40 @@ import io.reinert.requestor.header.SimpleHeader;
 /**
  * Represents a response with payload already deserialized.
  *
- * @param <T>   Type of the payload.
- *
  * @author Danilo Reinert
  */
-public class ResponseImpl<T> implements Response<T> {
+public class ResponseImpl implements Response {
 
     private final Headers headers;
     private final LinkHeader linkHeader;
     private final HttpStatus status;
     private final Request request;
-    private T payload;
+    private Object payload;
+    private Payload serializedPayload;
     private ResponseType responseType;
+    private boolean deserialized = false;
+    private final Class<?> entityType;
+    private final Class<? extends Collection> collectionType;
 
-    public ResponseImpl(Request request, HttpStatus status, Headers headers, ResponseType responseType, T payload) {
+    public ResponseImpl(Request request, HttpStatus status, Headers headers, ResponseType responseType,
+                        Payload serializedPayload, Class<?> entityType, Class<? extends Collection> collectionType) {
         this.request = request;
+        this.entityType = entityType;
+        this.collectionType = collectionType;
         if (headers == null)
             throw new NullPointerException("Headers cannot be null");
         this.headers = headers;
         this.linkHeader = (LinkHeader) headers.get("Link");
         this.status = status;
         this.responseType = responseType;
-        this.payload = payload;
+        this.serializedPayload = serializedPayload;
     }
 
-    public static ResponseImpl<RawResponse> fromRawResponse(Request request, RawResponse rawResponse) {
-        return new ResponseImpl<RawResponse>(request, rawResponse.getStatus(), rawResponse.getHeaders(),
-                rawResponse.getResponseType(), rawResponse);
-    }
+//    public static ResponseImpl<RawResponse> fromRawResponse(Request request, RawResponse rawResponse) {
+//        return new ResponseImpl<RawResponse>(request, rawResponse.getStatus(), rawResponse.getHeaders(),
+//                rawResponse.getResponseType(), rawResponse, rawResponse.getSerializedPayload(), entityType,
+//                collectionType);
+//    }
 
     @Override
     public String getHeader(String headerName) {
@@ -96,8 +103,32 @@ public class ResponseImpl<T> implements Response<T> {
     }
 
     @Override
-    public T getPayload() {
+    public Object getPayload() {
         return payload;
+    }
+
+    @Override
+    public Payload getSerializedPayload() {
+        return serializedPayload;
+    }
+
+    @Override
+    public Class<?> getEntityType() {
+        return entityType;
+    }
+
+    @Override
+    public Class<? extends Collection> getCollectionType() {
+        return collectionType;
+    }
+
+    @Override
+    public void deserializePayload(Object payload) {
+        if (deserialized)
+            throw new IllegalStateException("Payload was already deserialized.");
+
+        this.payload = payload;
+        deserialized = true;
     }
 
     @Override
@@ -119,9 +150,10 @@ public class ResponseImpl<T> implements Response<T> {
     public String toString() {
         return "ResponseImpl{" +
                 "headers=" + headers +
-                ", linkHeader=" + linkHeader +
+                ", linkHeader=" + (linkHeader != null ? linkHeader : "null") +
                 ", status=" + status +
-                ", payload=" + payload +
+                ", payload=" + (payload != null ? payload : "null") +
+                ", serializedPayload=" + (serializedPayload != null ? serializedPayload : "null") +
                 ", responseType=" + responseType +
                 '}';
     }
@@ -142,8 +174,8 @@ public class ResponseImpl<T> implements Response<T> {
         headers.add(new ContentTypeHeader(contentType));
     }
 
-    protected void setPayload(T payload) {
-        this.payload = payload;
+    protected void setSerializedPayload(Payload serializedPayload) {
+        this.serializedPayload = serializedPayload;
     }
 
     protected void setResponseType(ResponseType responseType) {

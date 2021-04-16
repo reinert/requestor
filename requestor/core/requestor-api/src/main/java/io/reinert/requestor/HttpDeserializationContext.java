@@ -26,15 +26,15 @@ import io.reinert.requestor.serialization.UnableToDeserializeException;
 public class HttpDeserializationContext extends DeserializationContext {
 
     private final Request request;
-    private final SerializedResponse response;
+    private final Response response;
     private final ProviderManagerImpl providerManager;
 
-    protected HttpDeserializationContext(Request request, SerializedResponse response,
+    protected HttpDeserializationContext(Request request, Response response,
                                          ProviderManagerImpl providerManager, Class<?> requestedType) {
         this(request, response, providerManager, requestedType, null);
     }
 
-    protected HttpDeserializationContext(Request request, SerializedResponse response,
+    protected HttpDeserializationContext(Request request, Response response,
                                          ProviderManagerImpl providerManager, Class<?> requestedType,
                                          Class<?> parametrizedType) {
         super(requestedType, parametrizedType);
@@ -56,7 +56,7 @@ public class HttpDeserializationContext extends DeserializationContext {
         return request;
     }
 
-    public SerializedResponse getResponse() {
+    public Response getResponse() {
         return response;
     }
 }

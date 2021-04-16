@@ -96,8 +96,8 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
         // Perform the response
         requestor.req("http://httpbin.org/headers").get(String.class)
-                .status(200, new ResponseCallback<Object>() {
-                    public void execute(Response<Object> response) {
+                .status(200, new ResponseCallback() {
+                    public void execute(Response response) {
                         view.setResponseFilterText(
                                 Util.formatHeaders(response.getHeaders()),
                                 (String) response.getPayload()
