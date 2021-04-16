@@ -21,5 +21,5 @@ import io.reinert.requestor.Response;
  * Success callback for request promises.
  */
 public interface PayloadResponseCallback<E> {
-    void execute(E e, Response<E> response);
+    void execute(E e, Response response);
 }

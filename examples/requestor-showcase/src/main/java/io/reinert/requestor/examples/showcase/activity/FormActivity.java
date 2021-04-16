@@ -22,7 +22,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.Requestor;
-import io.reinert.requestor.SerializedResponse;
+import io.reinert.requestor.Response;
 import io.reinert.requestor.callbacks.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
@@ -58,13 +58,13 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
         FormData formData = FormData.wrap(formElement);
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
-                .post(SerializedResponse.class) // retrieve the raw response
-                .success(new PayloadCallback<SerializedResponse>() {
+                .post(Response.class) // retrieve the raw response
+                .success(new PayloadCallback<Response>() {
                     @Override
-                    public void execute(SerializedResponse response) {
+                    public void execute(Response response) {
                         // the payload is parsed as string by default
                         // to change it, we can set the desired responseType in the RequestBuilder
-                        final String payload = response.getPayload().isString();
+                        final String payload = response.getSerializedPayload().isString();
                         view.setWrappingText(payload);
                     }
                 });
@@ -83,13 +83,13 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                 .build();
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
-                .post(SerializedResponse.class) // retrieve the raw response
-                .success(new PayloadCallback<SerializedResponse>() {
+                .post(Response.class) // retrieve the raw response
+                .success(new PayloadCallback<Response>() {
                     @Override
-                    public void execute(SerializedResponse response) {
+                    public void execute(Response response) {
                         // the payload is parsed as string by default
                         // to change it, we can set the desired responseType in the RequestBuilder
-                        final String payload = response.getPayload().isString();
+                        final String payload = response.getSerializedPayload().isString();
                         view.setBuildingText(payload);
                     }
                 });

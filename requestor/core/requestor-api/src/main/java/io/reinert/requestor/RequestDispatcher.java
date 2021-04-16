@@ -15,10 +15,10 @@
  */
 package io.reinert.requestor;
 
-import java.util.Collection;
-
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.Timer;
+
+import io.reinert.requestor.payload.PayloadType;
 
 /**
  * This class dispatches the requests and return promises.
@@ -53,28 +53,27 @@ public abstract class RequestDispatcher {
      *
      * @param request               The request to be sent
      * @param deferred              The deferred to resolve or reject when completed
-     * @param resolveType           The class of the expected result in the promise
-     * @param parametrizedType      The class of the parametrized type if a collection is expected as result
+     * @param responsePayloadType   The type of the expected response payload
      * @param <R>                   The expected type of the promise
      */
-    protected abstract <R> void send(PreparedRequest request, Deferred<R> deferred, Class<R> resolveType,
-                                     Class<?> parametrizedType);
+    protected abstract <R> void send(PreparedRequest request, Deferred<R> deferred,
+                                     PayloadType responsePayloadType);
 
     /**
      * Sends the request and return an instance of {@link Promise} expecting a sole result.
      *
-     * @param request       The built request
-     * @param entityType    The class instance of the expected type in response payload
-     * @param <T>           The expected type in response payload
+     * @param request               The built request
+     * @param responsePayloadType   The class instance of the expected type in response payload
+     * @param <T>                   The expected type in response payload
      *
-     * @return              The promise for the dispatched request
+     * @return                      The promise for the dispatched request
      */
-    public <T, S extends MutableSerializedRequest & SerializableRequest> Promise<T> dispatch(S request,
-                                                                                             Class<T> entityType) {
+    public <T, S extends MutableSerializedRequest & SerializableRequest> Promise<T> dispatch(
+            S request, PayloadType responsePayloadType) {
         final Deferred<T> deferred = deferredFactory.getDeferred();
 
-        final RequestInAuthProcess<T, S> requestInAuthProcess = new RequestInAuthProcess<T, S>(request, entityType,
-                null, this, deferred);
+        final RequestInAuthProcess<T, S> requestInAuthProcess = new RequestInAuthProcess<T, S>(request,
+                responsePayloadType, this, deferred);
 
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
@@ -91,80 +90,20 @@ public abstract class RequestDispatcher {
         return deferred.getPromise();
     }
 
-    /**
-     * Sends the request and return an instance of {@link Promise} expecting a collection result.
-     *
-     * @param request       The built request
-     * @param entityType    The class instance of the expected type in response payload
-     * @param collectionType The class instance of the container type which will hold the values
-     * @param <T>           The expected type in response payload
-     * @param <C>           The collection type to hold the values
-     *
-     * @return              The promise for the dispatched request
-     */
-    @SuppressWarnings("unchecked")
-    public <T, C extends Collection<T>, S extends MutableSerializedRequest & SerializableRequest>
-            Promise<Collection<T>> dispatch(S request, Class<T> entityType, Class<C> collectionType) {
-        final Deferred<Collection<T>> deferred = deferredFactory.getDeferred();
-
-        final RequestInAuthProcess<Collection<T>, S> requestInAuthProcess = new RequestInAuthProcess<Collection<T>, S>(
-                request, (Class<Collection<T>>) collectionType, entityType, this, deferred);
-
-        // TODO: switch by a native Timer to avoid importing GWT UI module
-        new Timer() {
-            public void run() {
-                try {
-                    requestProcessor.process(requestInAuthProcess);
-                } catch (Exception e) {
-                    deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +
-                            " request. See previous exception.", e));
-                }
-            }
-        }.schedule(request.getDelay());
-
-        return deferred.getPromise();
-    }
     /**
      * Sends the request with the respective callback bypassing request processing.
      *
-     * @param request       The built request
-     * @param entityType    The class instance of the expected type in response payload
-     * @param callback      The callback to be executed when done
-     * @param <T>           The expected type in response payload
+     * @param request               The built request
+     * @param responsePayloadType   The expected PayloadType of the response payload
+     * @param callback              The callback to be executed when done
+     * @param <T>                   The expected type of the response payload
      */
-    public <T> void dispatch(MutableSerializedRequest request, Class<T> entityType, Callback<T, Throwable> callback) {
+    public <T> void dispatch(MutableSerializedRequest request, PayloadType responsePayloadType,
+                             Callback<T, Throwable> callback) {
         final Deferred<T> deferred = new CallbackDeferred<T>(callback);
 
         // Send the request without processing
-        final PreparedRequest p = new PreparedRequestImpl<T>(this, request, deferred, entityType, null);
-
-        // TODO: switch by a native Timer to avoid importing GWT UI module
-        new Timer() {
-            public void run() {
-                p.send();
-            }
-        }.schedule(request.getDelay());
-    }
-
-    /**
-     * Sends the request with the respective callback expecting a collection result bypassing request processing.
-     *
-     * @param request       The built request
-     * @param entityType    The class instance of the expected type in response payload
-     * @param collectionType The class instance of the container type which will hold the values
-     * @param callback      The callback to be executed when done
-     * @param <T>           The expected type in response payload
-     * @param <C>           The collection type to hold the values
-     */
-    @SuppressWarnings("unchecked")
-    public <T, C extends Collection<T>> void dispatch(MutableSerializedRequest request, Class<T> entityType,
-                                                      Class<C> collectionType,
-                                                      Callback<Collection<T>, Throwable> callback) {
-        final Deferred<Collection<T>> deferred = new CallbackDeferred<Collection<T>>(callback);
-
-        // Send the request without processing
-        final PreparedRequest p = new PreparedRequestImpl<Collection<T>>(this, request, deferred,
-                (Class<Collection<T>>) collectionType, entityType);
+        final PreparedRequest p = new PreparedRequestImpl<T>(this, request, deferred, responsePayloadType);
 
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
@@ -178,31 +117,13 @@ public abstract class RequestDispatcher {
      * Evaluates the response and resolves the deferred.
      * This method must be called by implementations after the response is received.
      *
-     * @param request           Dispatched request
-     * @param deferred          Promise to be resolved
-     * @param resolveType       Class of the expected type in the promise
-     * @param parametrizedType  Class of the parametrized type if the promise expects a collection
-     * @param response          The response received from the request
-     * @param <R>               Type of the deferred
+     * @param request   Dispatched request
+     * @param deferred  Promise to be resolved
+     * @param response  The response received from the request
+     * @param <R>       Type of the deferred
      */
-    @SuppressWarnings("unchecked")
-    protected <R> void evalResponse(Request request, Deferred<R> deferred, Class<R> resolveType,
-                                    Class<?> parametrizedType, RawResponse response) {
-        // TODO: handle unsuccessful responses here?
-
-        // If the user requested RawResponse, then don't process it
-        if (resolveType == RawResponse.class) {
-            deferred.resolve((Response<R>) ResponseImpl.fromRawResponse(request, response));
-            return;
-        }
-
-        if (parametrizedType != null) {
-            responseProcessor.process(request, response, parametrizedType, (Class<Collection<?>>) resolveType,
-                    (Deferred<Collection<?>>) deferred);
-            return;
-        }
-
-        responseProcessor.process(request, response, resolveType, deferred);
+    protected <R, E> void evalResponse(Request request, Deferred<R> deferred, RawResponse response) {
+        responseProcessor.process(request, response, deferred);
     }
 
     protected SerializationEngine getSerializationEngine() {

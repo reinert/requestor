@@ -33,9 +33,10 @@ class CallbackDeferred<T> implements Deferred<T> {
         this.callback = callback;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void resolve(Response<T> response) {
-        callback.onSuccess(response.getPayload());
+    public void resolve(Response response) {
+        callback.onSuccess((T) response.getPayload());
     }
 
     @Override

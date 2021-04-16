@@ -23,14 +23,14 @@ package io.reinert.requestor;
  */
 public class UnsuccessfulResponseException extends RequestException {
 
-    private final SerializedResponse response;
+    private final Response response;
 
     /**
      * Constructs the exception with the request and respective response.
      *
      * @param response The response received from request.
      */
-    public UnsuccessfulResponseException(Request request, SerializedResponse response) {
+    public UnsuccessfulResponseException(Request request, Response response) {
         super(request, "The response was received but the status code was not from 'Success' class (2xx).");
         this.response = response;
     }
@@ -44,7 +44,7 @@ public class UnsuccessfulResponseException extends RequestException {
      *
      * @return The unsuccessful {@link Response}.
      */
-    public SerializedResponse getResponse() {
+    public Response getResponse() {
         return response;
     }
 

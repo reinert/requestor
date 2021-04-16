@@ -56,8 +56,8 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback<Object>() {
-            public void execute(Response<Object> response) {
+        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+            public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
@@ -91,8 +91,8 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback<Object>() {
-            public void execute(Response<Object> response) {
+        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+            public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
@@ -132,8 +132,8 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback<Object>() {
-            public void execute(Response<Object> response) {
+        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
+            public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
@@ -196,8 +196,8 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback<Object>() {
-            public void execute(Response<Object> response) {
+        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
+            public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));

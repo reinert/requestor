@@ -19,6 +19,8 @@ import java.util.Collection;
 
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.CollectionPayloadType;
+import io.reinert.requestor.payload.SinglePayloadType;
 import io.reinert.requestor.uri.Uri;
 
 /**
@@ -95,12 +97,14 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
 
     protected <T> Promise<T> send(HttpMethod method, Class<T> entityType) {
         setMethod(method);
-        return dispatcher.dispatch(build(), entityType);
+        return dispatcher.dispatch(build(), new SinglePayloadType(entityType));
     }
 
-    protected <T, C extends Collection<T>> Promise<Collection<T>> send(HttpMethod method, Class<T> entityType,
+    protected <T, C extends Collection<T>> Promise<Collection<T>> send(HttpMethod method,
+                                                                       Class<T> entityType,
                                                                        Class<C> collectionType) {
         setMethod(method);
-        return dispatcher.dispatch(build(), entityType, collectionType);
+        return dispatcher.dispatch(build(), new CollectionPayloadType(collectionType,
+                new SinglePayloadType(entityType)));
     }
 }

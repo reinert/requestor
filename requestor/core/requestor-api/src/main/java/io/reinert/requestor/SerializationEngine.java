@@ -47,34 +47,34 @@ class SerializationEngine {
         this.formDataSerializer = formDataSerializer;
     }
 
-    public <T, C extends Collection<T>> Response<C> deserializeResponse(Request request, SerializedResponse response,
-                                                                        Class<T> type, Class<C> collectionType) {
-        C result = deserializePayload(request, response, type, collectionType);
-        return getDeserializedResponse(request, response, result);
+    public <T, C extends Collection<T>> void deserializeResponse(Request request, RawResponse response,
+                                                                 Class<T> entityType, Class<C> collectionType) {
+        C result = deserializePayload(request, response, entityType, collectionType);
+        response.setDeserializedPayload(result);
     }
 
-    public <T> Response<T> deserializeResponse(Request request, SerializedResponse response, Class<T> type) {
-        T result = deserializePayload(request, response, type);
-        return getDeserializedResponse(request, response, result);
+    public <T> void deserializeResponse(Request request, RawResponse response, Class<T> entityType) {
+        T result = deserializePayload(request, response, entityType);
+        response.setDeserializedPayload(result);
     }
 
-    public <T, C extends Collection<T>> C deserializePayload(Request request, SerializedResponse response,
-                                                              Class<T> type, Class<C> collectionType) {
+    public <T, C extends Collection<T>> C deserializePayload(Request request, Response response,
+                                                             Class<T> entityType, Class<C> collectionType) {
         final String mediaType = getResponseMediaType(request, response);
-        final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
-        checkDeserializerNotNull(response, type, deserializer);
-        final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
-        C result = deserializer.deserialize(collectionType, response.getPayload().isString(), context);
-        return result;
+        final Deserializer<T> deserializer = serializerManager.getDeserializer(entityType, mediaType);
+        checkDeserializerNotNull(response, entityType, deserializer);
+        final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager,
+                entityType);
+        return deserializer.deserialize(collectionType, response.getSerializedPayload().isString(), context);
     }
 
-    public <T> T deserializePayload(Request request, SerializedResponse response, Class<T> type) {
+    public <T> T deserializePayload(Request request, Response response, Class<T> entityType) {
         final String mediaType = getResponseMediaType(request, response);
-        final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
-        checkDeserializerNotNull(response, type, deserializer);
-        final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager, type);
-        T result = deserializer.deserialize(response.getPayload().isString(), context);
-        return result;
+        final Deserializer<T> deserializer = serializerManager.getDeserializer(entityType, mediaType);
+        checkDeserializerNotNull(response, entityType, deserializer);
+        final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager,
+                entityType);
+        return deserializer.deserialize(response.getSerializedPayload().isString(), context);
     }
 
     public void serializeRequest(SerializableRequest request) {
@@ -151,7 +151,7 @@ class SerializationEngine {
         return mediaType;
     }
 
-    private String getResponseMediaType(Request request, SerializedResponse response) {
+    private String getResponseMediaType(Request request, Response response) {
         String medaType = response.getContentType();
         if (medaType == null || medaType.isEmpty()) {
             medaType = "*/*";
@@ -167,12 +167,7 @@ class SerializationEngine {
         return contentType.split(";")[0];
     }
 
-    private <T> Response<T> getDeserializedResponse(Request request, SerializedResponse response, T result) {
-        return new ResponseImpl<T>(request, response.getStatus(), response.getHeaders(), response.getResponseType(),
-                result);
-    }
-
-    private void checkDeserializerNotNull(SerializedResponse response, Class<?> type, Deserializer<?> deserializer) {
+    private void checkDeserializerNotNull(Response response, Class<?> type, Deserializer<?> deserializer) {
         if (deserializer == null) {
             throw new SerializationException("Could not find Deserializer for class '" + type.getName() + "' and " +
                     "media-type '" + response.getContentType() + "'.");

@@ -13,22 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.payload;
 
-import java.util.Collection;
+import java.util.Map;
 
-/**
- * Represents a serialized HTTP response.
- *
- * @author Danilo Reinert
- */
-public interface SerializedResponse extends Response<Payload> {
+public interface PayloadType extends Iterable<Map.Entry<String, PayloadType>> {
 
-    @Override
-    Payload getPayload();
+    String ROOT_KEY = "";
 
-    <T> T getPayloadAs(Class<T> type);
-
-    <T, C extends Collection> Collection<T> getPayloadAs(Class<T> type, Class<C> collectionType);
-
+    Class<?> getType();
 }

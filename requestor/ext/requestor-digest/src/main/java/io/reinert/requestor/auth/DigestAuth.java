@@ -29,6 +29,7 @@ import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
+import io.reinert.requestor.payload.SinglePayloadType;
 import io.reinert.requestor.uri.Uri;
 
 /**
@@ -95,7 +96,7 @@ public class DigestAuth implements Auth {
         this.maxChallengeCalls = maxChallengeCalls;
     }
 
-    private void attempt(PreparedRequest originalRequest, Response<?> attemptResponse, RequestDispatcher dispatcher) {
+    private void attempt(PreparedRequest originalRequest, Response attemptResponse, RequestDispatcher dispatcher) {
         if (challengeCalls < maxChallengeCalls) {
             final MutableSerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
 
@@ -120,7 +121,7 @@ public class DigestAuth implements Auth {
         challengeCalls = 1;
     }
 
-    private MutableSerializedRequest copyRequest(PreparedRequest originalRequest, Response<?> attemptResponse) {
+    private MutableSerializedRequest copyRequest(PreparedRequest originalRequest, Response attemptResponse) {
         MutableSerializedRequest request = originalRequest.getMutableCopy();
 
         final Header authHeader = getAuthorizationHeader(request.getUri(), request.getMethod(),
@@ -135,7 +136,8 @@ public class DigestAuth implements Auth {
 
     private void sendAttemptRequest(final PreparedRequest originalRequest, MutableSerializedRequest attemptRequest,
                                     final RequestDispatcher dispatcher) {
-        dispatcher.dispatch(attemptRequest, RawResponse.class, new Callback<RawResponse, Throwable>() {
+        dispatcher.dispatch(attemptRequest, new SinglePayloadType(RawResponse.class),
+                new Callback<RawResponse, Throwable>() {
             @Override
             public void onFailure(Throwable error) {
                 resetChallengeCalls();
@@ -165,11 +167,11 @@ public class DigestAuth implements Auth {
         });
     }
 
-    private boolean isSuccessful(RawResponse response) {
+    private boolean isSuccessful(Response response) {
         return response.getStatusCode() / 100 == 2;
     }
 
-    private Header getAuthorizationHeader(Uri uri, HttpMethod method, Payload payload, Response<?> attemptResp) {
+    private Header getAuthorizationHeader(Uri uri, HttpMethod method, Payload payload, Response attemptResp) {
         if (attemptResp == null) {
             return null;
         }

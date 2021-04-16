@@ -20,6 +20,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.PayloadType;
 
 /**
  * Default implementation of {@link RequestDispatcher}.
@@ -34,8 +35,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
     }
 
     @Override
-    protected <D> void send(PreparedRequest request, final Deferred<D> deferred, Class<D> resolveType,
-                            Class<?> parametrizedType) {
+    protected <D> void send(PreparedRequest request, final Deferred<D> deferred, PayloadType payloadType) {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();
@@ -71,8 +71,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         xmlHttpRequest.setResponseType(responseType.getValue());
 
         // Create RequestCallback
-        final RequestCallback callback = getRequestCallback(request, xmlHttpRequest, deferred, resolveType,
-                parametrizedType);
+        final RequestCallback callback = getRequestCallback(request, xmlHttpRequest, deferred, payloadType);
 
         // Create the underlying request from gwt.http module
         final com.google.gwt.http.client.RequestorRequest gwtRequest = new com.google.gwt.http.client.RequestorRequest(
@@ -141,8 +140,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
     private <D> RequestCallback getRequestCallback(final Request request,
                                                    final XMLHttpRequest xhr,
                                                    final Deferred<D> deferred,
-                                                   final Class<D> resolveType,
-                                                   final Class<?> parametrizedType) {
+                                                   final PayloadType payloadType) {
         return new RequestCallback() {
             public void onResponseReceived(com.google.gwt.http.client.Request gwtRequest,
                                            com.google.gwt.http.client.Response gwtResponse) {
@@ -160,16 +158,16 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     payload = Payload.fromJson(xhr.getResponse());
                 }
 
-                final RawResponseImpl response = new RawResponseImpl(
+                final RawResponse response = new RawResponse(
                         request,
                         Status.of(gwtResponse.getStatusCode()),
                         new Headers(gwtResponse.getHeaders()),
                         ResponseType.of(responseType),
                         payload,
-                        getSerializationEngine()
+                        payloadType
                 );
 
-                evalResponse(request, deferred, resolveType, parametrizedType, response);
+                evalResponse(request, deferred, response);
             }
 
             public void onError(com.google.gwt.http.client.Request gwtRequest, Throwable exception) {

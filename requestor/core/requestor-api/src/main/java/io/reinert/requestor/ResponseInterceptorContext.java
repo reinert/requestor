@@ -30,13 +30,13 @@ public interface ResponseInterceptorContext {
 
     HttpStatus getStatus();
 
-    Payload getPayload();
+    Payload getSerializedPayload();
 
     ResponseType getResponseType();
 
     void setContentType(String mediaType);
 
-    void setPayload(Payload payload);
+    void setSerializedPayload(Payload payload);
 
     void setResponseType(ResponseType responseType);
 

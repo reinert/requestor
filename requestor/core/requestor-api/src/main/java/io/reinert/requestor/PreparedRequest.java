@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.payload.PayloadType;
+
 /**
  * The final form of a request.
  * <p></p>
@@ -27,11 +29,9 @@ package io.reinert.requestor;
  */
 public interface PreparedRequest extends Request, HasHeaders {
 
-    Class<?> getResolveType();
-
-    Class<?> getParametrizedType();
-
     boolean isWithCredentials();
+
+    PayloadType getResponsePayloadType();
 
     ResponseType getResponseType();
 

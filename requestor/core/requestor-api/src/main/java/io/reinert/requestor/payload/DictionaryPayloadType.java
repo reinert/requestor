@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.payload;
 
-/**
- * A deferred object capable of resolving/rejecting request promises.
- *
- * @param <R> The type of the request
- *
- * @author Danilo Reinert
- */
-public interface RequestDeferred<R extends Request> {
+import java.util.HashMap;
 
-    void resolve(R request);
+public class DictionaryPayloadType extends RootPayloadType {
 
-    void reject(Response response);
+    private final PayloadType valueType;
 
-    void reject(RequestException error);
+    public DictionaryPayloadType(PayloadType valueType) {
+        this.valueType = valueType;
+    }
 
+    public PayloadType getValueType() {
+        return valueType;
+    }
+
+    @Override
+    public Class<?> getType() {
+        return HashMap.class;
+    }
 }

@@ -41,9 +41,9 @@ class ShowcaseDeferredFactory implements DeferredFactory {
         // Show loading widget
         Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferred);
 
-        deferred.fail(new ResponseCallback<Object>() {
+        deferred.fail(new ResponseCallback() {
             @Override
-            public void execute(Response<Object> response) {
+            public void execute(Response response) {
                 if (Status.UNAUTHORIZED.is(response.getStatusCode())) {
                     Window.alert("The XHR could not be opened due to security reasons. "
                             + "If you are using IE9- or Opera Mini probably it's because the poor support for CORS of "
@@ -54,8 +54,8 @@ class ShowcaseDeferredFactory implements DeferredFactory {
                             + "\". See browser's network for more details.");
                 }
             }
-        }).load(new ResponseCallback<Object>() {
-            public void execute(Response<Object> response) {
+        }).load(new ResponseCallback() {
+            public void execute(Response response) {
                 // Hide loading widget
                 Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);
             }

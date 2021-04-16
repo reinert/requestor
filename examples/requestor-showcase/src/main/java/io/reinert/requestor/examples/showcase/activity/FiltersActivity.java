@@ -75,13 +75,13 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
                     public void execute(String result) {
                         view.setRequestFilterText(result);
                     }
+                })
+                .load(new ResponseCallback() {
+                    @Override
+                    public void execute(Response response) {
+                        requestFilterRegistration.removeHandler(); // cancel filter registration
+                    }
                 });
-//                .always(new AlwaysCallback<String, Throwable>() {
-//                    @Override
-//                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
-//                        requestFilterRegistration.removeHandler(); // cancel filter registration
-//                    }
-//                });
     }
 
     @Override
@@ -96,19 +96,19 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
         // Perform the response
         requestor.req("http://httpbin.org/headers").get(String.class)
-                .status(200, new ResponseCallback<Object>() {
-                    public void execute(Response<Object> response) {
+                .status(200, new ResponseCallback() {
+                    public void execute(Response response) {
                         view.setResponseFilterText(
                                 Util.formatHeaders(response.getHeaders()),
                                 (String) response.getPayload()
                         );
                     }
+                })
+                .load(new ResponseCallback() {
+                    @Override
+                    public void execute(Response response) {
+                        responseFilterRegistration.removeHandler(); // cancel filter registration
+                    }
                 });
-//                .always(new AlwaysCallback<String, Throwable>() {
-//                    @Override
-//                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
-//                        responseFilterRegistration.removeHandler(); // cancel filter registration
-//                    }
-//                });
     }
 }

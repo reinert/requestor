@@ -73,9 +73,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                         view.setBasicText(result);
                     }
                 })
-                .fail(new ResponseCallback<Object>() {
+                .fail(new ResponseCallback() {
                     @Override
-                    public void execute(Response<Object> response) {
+                    public void execute(Response response) {
                         GWT.log("Authentication failed.");
                     }
                 });
@@ -92,9 +92,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                         view.setDigestText(result);
                     }
                 })
-                .fail(new ResponseCallback<Object>() {
+                .fail(new ResponseCallback() {
                     @Override
-                    public void execute(Response<Object> response) {
+                    public void execute(Response response) {
                         GWT.log("Authentication failed.");
                     }
                 });

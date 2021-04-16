@@ -33,17 +33,17 @@ public interface Promise<T> {
 
     Promise<T> abort(ExceptionCallback callback);
 
-    Promise<T> load(ResponseCallback<Object> callback);
+    Promise<T> load(ResponseCallback callback);
 
-    Promise<T> fail(ResponseCallback<Object> callback);
+    Promise<T> fail(ResponseCallback callback);
 
     Promise<T> progress(ProgressCallback callback);
 
-    Promise<T> status(int statusCode, ResponseCallback<Object> callback);
+    Promise<T> status(int statusCode, ResponseCallback callback);
 
-    Promise<T> status(Status status, ResponseCallback<Object> callback);
+    Promise<T> status(Status status, ResponseCallback callback);
 
-    Promise<T> status(StatusFamily family, ResponseCallback<Object> callback);
+    Promise<T> status(StatusFamily family, ResponseCallback callback);
 
     <E extends T> Promise<T> success(PayloadCallback<E> callback);
 

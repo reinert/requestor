@@ -20,6 +20,6 @@ import io.reinert.requestor.Response;
 /**
  * Load callback for request promises.
  */
-public interface ResponseCallback<E> {
-    void execute(Response<E> response);
+public interface ResponseCallback {
+    void execute(Response response);
 }

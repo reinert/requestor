@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.impl.gdeferred;
+package io.reinert.requestor.payload;
 
-import java.util.List;
+import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
 
-import io.reinert.requestor.Response;
+public abstract class RootPayloadType implements PayloadType {
 
-/**
- * A hack interface for enabling {@link ListDoneCallback#onDone(java.util.List)} to compile.
- *
- * @param <T> The type of list objects
- *
- * @author Danilo Reinert
- */
-interface DoneCallbackForList<T> {
-
-    void onDone(List<T> result);
-
-    void onDone(Response<List<T>> response);
-
+    @Override
+    public Iterator<Map.Entry<String, PayloadType>> iterator() {
+        return Collections.singleton((Map.Entry<String, PayloadType>)
+                new AbstractMap.SimpleEntry<String, PayloadType>(ROOT_KEY, this)).iterator();
+    }
 }

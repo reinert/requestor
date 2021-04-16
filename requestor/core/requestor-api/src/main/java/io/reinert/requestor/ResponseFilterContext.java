@@ -108,7 +108,7 @@ public interface ResponseFilterContext {
      *
      * @return the response payload
      */
-    Payload getPayload();
+    Payload getSerializedPayload();
 
     /**
      * Returns the response type.

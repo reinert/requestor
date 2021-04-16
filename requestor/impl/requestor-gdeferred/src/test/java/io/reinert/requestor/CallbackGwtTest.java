@@ -175,8 +175,8 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void testStatusCallback200() {
         requestor.req("http://httpbin.org/status/200").get(String.class)
-                .status(200, new ResponseCallback<Object>() {
-                    public void execute(Response<Object> response) {
+                .status(200, new ResponseCallback() {
+                    public void execute(Response response) {
                         assertNotNull(response);
                         assertEquals(200, response.getStatusCode());
                         assertNotNull(response.getPayload());
@@ -193,16 +193,15 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void testStatusCallback400() {
         requestor.req("http://httpbin.org/status/400").get(String.class)
-                .status(200, new ResponseCallback<Object>() {
-                    public void execute(Response<Object> response) {
+                .status(200, new ResponseCallback() {
+                    public void execute(Response response) {
                         fail();
                     }
                 }).status(400, new ResponseCallback() {
                     public void execute(Response response) {
                         assertNotNull(response);
                         assertEquals(400, response.getStatusCode());
-                        SerializedResponse r = (SerializedResponse) response;
-                        assertNotNull(r.getPayload());
+                        assertNotNull(response.getSerializedPayload());
 
                         finishTest();
                     }
@@ -212,8 +211,8 @@ public class CallbackGwtTest extends GWTTestCase {
 
     public void testStatusCallback500() {
         requestor.req("http://httpbin.org/status/500").get(String.class)
-                .status(200, new ResponseCallback<Object>() {
-                    public void execute(Response<Object> response) {
+                .status(200, new ResponseCallback() {
+                    public void execute(Response response) {
                         fail();
                     }
                 }).status(400, new ResponseCallback() {
@@ -224,8 +223,7 @@ public class CallbackGwtTest extends GWTTestCase {
                     public void execute(Response response) {
                         assertNotNull(response);
                         assertEquals(500, response.getStatusCode());
-                        SerializedResponse r = (SerializedResponse) response;
-                        assertNotNull(r.getPayload());
+                        assertNotNull(response.getSerializedPayload());
 
                         finishTest();
                     }

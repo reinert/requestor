@@ -17,22 +17,21 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.PayloadType;
 import io.reinert.requestor.uri.Uri;
 
 public class RequestInAuthProcess<R, S extends MutableSerializedRequest & SerializableRequest>
         implements ProcessableRequest {
 
     private final S request;
-    private final Class<R> resolveType;
-    private final Class<?> parametrizedType;
+    private final PayloadType responsePayloadType;
     private final RequestDispatcher dispatcher;
     private final Deferred<R> deferred;
 
-    public RequestInAuthProcess(S request, Class<R> resolveType, Class<?> parametrizedType,
+    public RequestInAuthProcess(S request, PayloadType responsePayloadType,
                                 RequestDispatcher dispatcher, Deferred<R> deferred) {
         this.request = request;
-        this.resolveType = resolveType;
-        this.parametrizedType = parametrizedType;
+        this.responsePayloadType = responsePayloadType;
         this.dispatcher = dispatcher;
         this.deferred = deferred;
     }
@@ -40,12 +39,12 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     @Override
     public void process() {
         Auth auth = getAuth();
-        auth.auth(new PreparedRequestImpl<R>(dispatcher, this, deferred, resolveType, parametrizedType), dispatcher);
+        auth.auth(new PreparedRequestImpl<R>(dispatcher, this, deferred, responsePayloadType), dispatcher);
     }
 
     @Override
     public void abort(RawResponse response) {
-        dispatcher.evalResponse(this, deferred, resolveType, parametrizedType, response);
+        dispatcher.evalResponse(this, deferred, response);
     }
 
     @Override

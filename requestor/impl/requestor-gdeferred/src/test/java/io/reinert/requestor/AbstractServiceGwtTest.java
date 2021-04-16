@@ -159,8 +159,8 @@ public class AbstractServiceGwtTest extends GWTTestCase {
         final Integer id = 2;
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
-        bookService.updateBook(id, book).status(200, new ResponseCallback<Object>() {
-            public void execute(Response<Object> response) {
+        bookService.updateBook(id, book).status(200, new ResponseCallback() {
+            public void execute(Response response) {
                 assertNotNull(response);
 
                 // The server should return a 200 status code

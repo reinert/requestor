@@ -68,7 +68,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
                 .success(new PayloadCallback<RawResponse>() {
                     public void execute(RawResponse result) {
                         assertNotNull(result);
-                        assertFalse(result.getPayload().isEmpty());
+                        assertFalse(result.getSerializedPayload().isEmpty());
                         finishTest();
                     }
                 });
@@ -77,11 +77,11 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
 
     public void testResponseTypeAsSerializedResponse() {
         requestor.req("http://httpbin.org/get")
-                .get(SerializedResponse.class)
-                .success(new PayloadCallback<SerializedResponse>() {
-                    public void execute(SerializedResponse result) {
+                .get(Response.class)
+                .success(new PayloadCallback<Response>() {
+                    public void execute(Response result) {
                         assertNotNull(result);
-                        assertFalse(result.getPayload().isEmpty());
+                        assertFalse(result.getSerializedPayload().isEmpty());
                         finishTest();
                     }
                 });
@@ -94,8 +94,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
                 .success(new PayloadCallback<Response>() {
                     public void execute(Response result) {
                         assertNotNull(result);
-                        SerializedResponse response = (SerializedResponse) result;
-                        assertFalse(response.getPayload().isEmpty());
+                        assertFalse(result.getSerializedPayload().isEmpty());
                         finishTest();
                     }
                 });

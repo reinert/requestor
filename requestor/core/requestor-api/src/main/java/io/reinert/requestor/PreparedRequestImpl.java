@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.PayloadType;
 import io.reinert.requestor.uri.Uri;
 
 /**
@@ -29,8 +30,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     private final RequestDispatcher dispatcher;
     private final MutableSerializedRequest request;
     private final Deferred<R> deferred;
-    private final Class<R> resolveType;
-    private final Class<?> parametrizedType;
+    private final PayloadType responsePayloadType;
     private final ResponseType responseType;
     private final UriWithQueryBuilder uri;
 
@@ -38,19 +38,18 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     private boolean sent;
 
     public PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
-                               Class<R> resolveType, Class<?> parametrizedType) {
-        this(dispatcher, request, deferred, resolveType, parametrizedType, false, false);
+                               PayloadType responsePayloadType) {
+        this(dispatcher, request, deferred, responsePayloadType, false, false);
     }
 
     private PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
-                                Class<R> resolveType, Class<?> parametrizedType, boolean withCredentials,
+                                PayloadType responsePayloadType, boolean withCredentials,
                                 boolean sent) {
         this.dispatcher = dispatcher;
         this.request = request;
         this.deferred = deferred;
-        this.resolveType = resolveType;
-        this.parametrizedType = parametrizedType;
-        this.responseType = ResponseType.of(resolveType);
+        this.responsePayloadType = responsePayloadType;
+        this.responseType = ResponseType.of(responsePayloadType.getType());
         this.withCredentials = withCredentials;
         this.sent = sent;
         this.uri = new UriWithQueryBuilder(request.getUri());
@@ -61,7 +60,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
         if (sent)
             throw new IllegalStateException("PreparedRequest couldn't be aborted: Request has already been sent.");
 
-        dispatcher.evalResponse(request, deferred, resolveType, parametrizedType, response);
+        dispatcher.evalResponse(request, deferred, response);
 
         sent = true;
     }
@@ -82,7 +81,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
             throw new IllegalStateException("PreparedRequest has already been sent.");
 
         try {
-            dispatcher.send(this, deferred, resolveType, parametrizedType);
+            dispatcher.send(this, deferred, responsePayloadType);
         } catch (Exception e) {
             deferred.reject(new RequestDispatchException(request,
                     "Some non-caught exception occurred while dispatching the request", e));
@@ -142,6 +141,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
+    public PayloadType getResponsePayloadType() {
+        return responsePayloadType;
+    }
+
+    @Override
     public ResponseType getResponseType() {
         return responseType;
     }
@@ -189,15 +193,5 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public void setWithCredentials(boolean withCredentials) {
         this.withCredentials = withCredentials;
-    }
-
-    @Override
-    public Class<R> getResolveType() {
-        return resolveType;
-    }
-
-    @Override
-    public Class<?> getParametrizedType() {
-        return parametrizedType;
     }
 }

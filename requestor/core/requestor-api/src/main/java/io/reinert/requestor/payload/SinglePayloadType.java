@@ -13,23 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.impl.gdeferred;
+package io.reinert.requestor.payload;
 
-import java.util.Set;
+public class SinglePayloadType extends RootPayloadType {
 
-import io.reinert.requestor.Response;
+    private final Class<?> type;
 
-/**
- * A hack interface for enabling {@link SetDoneCallback#onDone(java.util.Set)} to compile.
- *
- * @param <T> The type of Set objects
- *
- * @author Danilo Reinert
- */
-interface DoneCallbackForSet<T> {
+    public SinglePayloadType(Class<?> type) {
+        this.type = type;
+    }
 
-    void onDone(Set<T> result);
-
-    void onDone(Response<Set<T>> response);
-
+    public Class<?> getType() {
+        return type;
+    }
 }

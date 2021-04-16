@@ -24,10 +24,12 @@ import io.reinert.requestor.Payload;
 import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestInterceptor;
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseInterceptor;
 import io.reinert.requestor.ResponseInterceptorContext;
 import io.reinert.requestor.SerializedRequestInProcess;
 import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callbacks.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
 
@@ -78,13 +80,13 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                     public void execute(String result) {
                         view.setRequestInterceptorText(result);
                     }
+                })
+                .load(new ResponseCallback() {
+                    @Override
+                    public void execute(Response response) {
+                        registration.removeHandler(); // cancel interceptor registration
+                    }
                 });
-//                .always(new AlwaysCallback<String, Throwable>() {
-//                    @Override
-//                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
-//                        registration.removeHandler(); // cancel interceptor registration
-//                    }
-//                });
     }
 
     @Override
@@ -93,9 +95,9 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         final HandlerRegistration registration = requestor.register(new ResponseInterceptor() {
             @Override
             public void intercept(Request request, ResponseInterceptorContext context) {
-                final String json = context.getPayload().isString();
+                final String json = context.getSerializedPayload().isString();
                 if (json != null) {
-                    context.setPayload(Payload.fromText(json.substring(6))); // remove first 6 chars )]}',\n
+                    context.setSerializedPayload(Payload.fromText(json.substring(6))); // remove first 6 chars )]}',\n
                 }
             }
         });
@@ -107,13 +109,13 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                     public void execute(String response) {
                         view.setResponseInterceptorText(response);
                     }
+                })
+                .load(new ResponseCallback() {
+                    @Override
+                    public void execute(Response response) {
+                        registration.removeHandler(); // cancel interceptor registration
+                    }
                 });
-//                .always(new AlwaysCallback<String, Throwable>() {
-//                    @Override
-//                    public void onAlways(Promise.State state, String resolved, Throwable rejected) {
-//                        registration.removeHandler(); // cancel interceptor registration
-//                    }
-//                });
     }
 
     private JavaScriptObject getMessageJson(String message) {
