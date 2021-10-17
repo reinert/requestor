@@ -15,10 +15,10 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.types.ArrayBufferType;
-import io.reinert.requestor.types.BlobType;
-import io.reinert.requestor.types.DocumentType;
-import io.reinert.requestor.types.JsonType;
+import io.reinert.requestor.type.ArrayBuffer;
+import io.reinert.requestor.type.Blob;
+import io.reinert.requestor.type.Document;
+import io.reinert.requestor.type.Json;
 
 /**
  * The type of response expected from the XMLHttpRequest.
@@ -39,19 +39,19 @@ public enum ResponseType {
     }
 
     public static ResponseType of(Class<?> type) {
-        if (type == ArrayBufferType.class) {
+        if (type == ArrayBuffer.class) {
             return ARRAY_BUFFER;
         }
 
-        if (type == BlobType.class) {
+        if (type == Blob.class) {
             return BLOB;
         }
 
-        if (type == DocumentType.class) {
+        if (type == Document.class) {
             return DOCUMENT;
         }
 
-        if (type == JsonType.class) {
+        if (type == Json.class) {
             return JSON;
         }
 

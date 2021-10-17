@@ -13,22 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.types;
+package io.reinert.requestor.type;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.Payload;
+public class ArrayBuffer extends NativeType {
 
-/**
- * Represents a javascript type that XMLHttpRequest handles without serialization.
- * An SpecialType escapes the serialization when processing.
- *
- * @author Danilo Reinert
- */
-public abstract class SpecialType extends Payload {
-
-    public SpecialType(JavaScriptObject jso) {
+    public ArrayBuffer(JavaScriptObject jso) {
         super(jso);
     }
-
 }

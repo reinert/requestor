@@ -21,6 +21,10 @@ import java.util.logging.Logger;
 
 import io.reinert.requestor.payload.CollectionPayloadType;
 import io.reinert.requestor.payload.PayloadType;
+import io.reinert.requestor.type.ArrayBuffer;
+import io.reinert.requestor.type.Blob;
+import io.reinert.requestor.type.Document;
+import io.reinert.requestor.type.Json;
 
 /**
  * This class performs all necessary processing steps to incoming responses.
@@ -116,6 +120,14 @@ public class ResponseProcessor {
         final ResponseType responseType = response.getResponseType();
         if (Payload.class == deserializationType) {
             response.setDeserializedPayload((T) response.getSerializedPayload());
+        } else if (Blob.class == deserializationType) {
+            response.setDeserializedPayload(new Blob(response.getSerializedPayload().isJavaScriptObject()));
+        } else if (ArrayBuffer.class == deserializationType) {
+            response.setDeserializedPayload(new ArrayBuffer(response.getSerializedPayload().isJavaScriptObject()));
+        } else if (Document.class == deserializationType) {
+            response.setDeserializedPayload(new Document(response.getSerializedPayload().isJavaScriptObject()));
+        } else if (Json.class == deserializationType) {
+            response.setDeserializedPayload(new Json(response.getSerializedPayload().isJavaScriptObject()));
         } else if (Response.class == deserializationType) {
             response.setDeserializedPayload(response);
         } else if (Headers.class == deserializationType) {

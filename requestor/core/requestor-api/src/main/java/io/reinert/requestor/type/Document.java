@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.types;
+package io.reinert.requestor.type;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class BlobType extends SpecialType {
+public class Document extends NativeType {
 
-    public BlobType(JavaScriptObject jso) {
+    public Document(JavaScriptObject jso) {
         super(jso);
     }
 }
