@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.callbacks;
+package io.reinert.requestor.callback;
+
+import io.reinert.requestor.Response;
 
 /**
  * Success callback for request promises.
  */
-public interface PayloadCallback<E> {
-    void execute(E e);
+public interface PayloadResponseCallback<E> {
+    void execute(E e, Response response);
 }

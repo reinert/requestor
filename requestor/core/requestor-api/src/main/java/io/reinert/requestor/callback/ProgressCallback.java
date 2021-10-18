@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.callbacks;
+package io.reinert.requestor.callback;
 
-import io.reinert.requestor.Response;
+import io.reinert.requestor.RequestProgress;
 
 /**
- * Load callback for request promises.
+ * Progress callback for request promises.
  */
-public interface ResponseCallback {
-    void execute(Response response);
+public interface ProgressCallback {
+    void execute(RequestProgress progress);
 }

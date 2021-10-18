@@ -21,8 +21,8 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.callbacks.PayloadCallback;
-import io.reinert.requestor.callbacks.PayloadResponseCallback;
+import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.callback.PayloadResponseCallback;
 
 /**
  * Integration tests of {@link RestService}.

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.callbacks;
+package io.reinert.requestor.callback;
 
-import io.reinert.requestor.RequestTimeoutException;
+import io.reinert.requestor.Response;
 
 /**
- * Timeout callback for request promises.
+ * Load callback for request promises.
  */
-public interface TimeoutCallback {
-    void execute(RequestTimeoutException timeoutException);
+public interface ResponseCallback {
+    void execute(Response response);
 }

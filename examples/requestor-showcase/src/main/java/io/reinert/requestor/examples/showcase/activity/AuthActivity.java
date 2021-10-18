@@ -28,8 +28,8 @@ import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
 import io.reinert.requestor.auth.OAuth2ByHeader;
 import io.reinert.requestor.auth.OAuth2ByQueryParam;
-import io.reinert.requestor.callbacks.PayloadCallback;
-import io.reinert.requestor.callbacks.ResponseCallback;
+import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
 

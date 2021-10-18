@@ -19,7 +19,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 
-import io.reinert.requestor.callbacks.ResponseCallback;
+import io.reinert.requestor.callback.ResponseCallback;
 
 /**
  * Integration tests of {@link RequestInterceptor}.

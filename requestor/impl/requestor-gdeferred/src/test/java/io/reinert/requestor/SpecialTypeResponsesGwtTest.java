@@ -18,7 +18,7 @@ package io.reinert.requestor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callback.PayloadCallback;
 
 /**
  * Integration tests for deserializing special types like Headers, RawResponse, SerializedResponse and Response.

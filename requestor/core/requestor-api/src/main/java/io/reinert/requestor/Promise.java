@@ -15,12 +15,12 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.callbacks.ExceptionCallback;
-import io.reinert.requestor.callbacks.PayloadCallback;
-import io.reinert.requestor.callbacks.PayloadResponseCallback;
-import io.reinert.requestor.callbacks.ProgressCallback;
-import io.reinert.requestor.callbacks.ResponseCallback;
-import io.reinert.requestor.callbacks.TimeoutCallback;
+import io.reinert.requestor.callback.ExceptionCallback;
+import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.callback.PayloadResponseCallback;
+import io.reinert.requestor.callback.ProgressCallback;
+import io.reinert.requestor.callback.ResponseCallback;
+import io.reinert.requestor.callback.TimeoutCallback;
 
 /**
  * A Promise for requests.

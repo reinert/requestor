@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.callbacks;
+package io.reinert.requestor.callback;
 
-import io.reinert.requestor.RequestProgress;
+import io.reinert.requestor.RequestException;
 
 /**
- * Progress callback for request promises.
+ * Error callback for request promises.
  */
-public interface ProgressCallback {
-    void execute(RequestProgress progress);
+public interface ExceptionCallback {
+    void execute(RequestException exception);
 }

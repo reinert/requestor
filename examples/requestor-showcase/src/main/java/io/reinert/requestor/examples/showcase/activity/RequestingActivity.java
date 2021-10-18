@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import io.reinert.requestor.Headers;
 import io.reinert.requestor.Promise;
 import io.reinert.requestor.Requestor;
-import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;

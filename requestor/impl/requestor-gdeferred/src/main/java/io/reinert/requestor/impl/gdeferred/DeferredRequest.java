@@ -30,12 +30,12 @@ import io.reinert.requestor.RequestTimeoutException;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.Status;
 import io.reinert.requestor.StatusFamily;
-import io.reinert.requestor.callbacks.ExceptionCallback;
-import io.reinert.requestor.callbacks.PayloadCallback;
-import io.reinert.requestor.callbacks.PayloadResponseCallback;
-import io.reinert.requestor.callbacks.ProgressCallback;
-import io.reinert.requestor.callbacks.ResponseCallback;
-import io.reinert.requestor.callbacks.TimeoutCallback;
+import io.reinert.requestor.callback.ExceptionCallback;
+import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.callback.PayloadResponseCallback;
+import io.reinert.requestor.callback.ProgressCallback;
+import io.reinert.requestor.callback.ResponseCallback;
+import io.reinert.requestor.callback.TimeoutCallback;
 
 /**
  * DeferredRequest implementation of GDeferred.

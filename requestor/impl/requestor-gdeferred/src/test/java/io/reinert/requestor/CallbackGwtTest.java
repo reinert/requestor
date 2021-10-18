@@ -21,8 +21,8 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.callbacks.PayloadCallback;
-import io.reinert.requestor.callbacks.ResponseCallback;
+import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 

@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.Requestor;
-import io.reinert.requestor.callbacks.PayloadCallback;
+import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.serialization.DeserializationContext;

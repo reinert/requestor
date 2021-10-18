@@ -28,8 +28,8 @@ import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseInterceptor;
 import io.reinert.requestor.ResponseInterceptorContext;
 import io.reinert.requestor.SerializedRequestInProcess;
-import io.reinert.requestor.callbacks.PayloadCallback;
-import io.reinert.requestor.callbacks.ResponseCallback;
+import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
 
