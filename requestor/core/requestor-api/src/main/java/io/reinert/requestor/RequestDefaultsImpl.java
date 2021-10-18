@@ -24,8 +24,9 @@ public class RequestDefaultsImpl implements RequestDefaults {
     private Auth auth;
     private int timeout;
     private int delay;
-    private Headers headers = new Headers();
+    private final Headers headers = new Headers();
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
+    private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
 
     static RequestDefaultsImpl copy(RequestDefaultsImpl defaults) {
         RequestDefaultsImpl newDefaults = new RequestDefaultsImpl();
@@ -142,6 +143,14 @@ public class RequestDefaultsImpl implements RequestDefaults {
 
     public RequestSerializer getRequestSerializer() {
         return requestSerializer;
+    }
+
+    public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
+        this.responseDeserializer = responseDeserializer;
+    }
+
+    public ResponseDeserializer getResponseDeserializer() {
+        return responseDeserializer;
     }
 
     public void apply(RequestBuilder request) {

@@ -24,10 +24,10 @@ import java.util.ListIterator;
  */
 class RequestProcessor {
 
-    private final FilterManagerImpl filterManager;
-    private RequestSerializer requestSerializer;
-    private final InterceptorManagerImpl interceptorManager;
     private final SerializationEngine serializationEngine;
+    private RequestSerializer requestSerializer;
+    private final FilterManagerImpl filterManager;
+    private final InterceptorManagerImpl interceptorManager;
 
     public RequestProcessor(SerializationEngine serializationEngine, RequestSerializer requestSerializer,
                             FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager) {
@@ -42,7 +42,7 @@ class RequestProcessor {
         // 2: SERIALIZE
         // 3: INTERCEPT
         // 4: AUTH (outside)
-        filter(serialize(intercept(request))).process();
+        applyFilters(applySerializer(applyInterceptors(request))).process();
     }
 
     public RequestSerializer getRequestSerializer() {
@@ -53,7 +53,7 @@ class RequestProcessor {
         this.requestSerializer = requestSerializer;
     }
 
-    private ProcessableRequest filter(ProcessableRequest request) {
+    private ProcessableRequest applyFilters(ProcessableRequest request) {
         // Apply filters in reverse order so they are executed in the order they were registered
         final ListIterator<RequestFilter> it = filterManager.reverseRequestFiltersIterator();
         while (it.hasPrevious()) {
@@ -63,7 +63,7 @@ class RequestProcessor {
         return request;
     }
 
-    private ProcessableRequest intercept(ProcessableRequest request) {
+    private ProcessableRequest applyInterceptors(ProcessableRequest request) {
         // Apply interceptors in reverse order so they are executed in the order they were registered
         final ListIterator<RequestInterceptor> it = interceptorManager.reverseRequestInterceptorsIterator();
         while (it.hasPrevious()) {
@@ -73,7 +73,7 @@ class RequestProcessor {
         return request;
     }
 
-    private ProcessableRequest serialize(ProcessableRequest request) {
+    private ProcessableRequest applySerializer(ProcessableRequest request) {
         return new RequestInSerializeProcess(request, serializationEngine, requestSerializer);
     }
 }

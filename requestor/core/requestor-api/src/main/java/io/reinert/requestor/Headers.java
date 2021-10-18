@@ -56,7 +56,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
         }
     }
 
-    Headers(com.google.gwt.http.client.Header... headers) {
+    public Headers(com.google.gwt.http.client.Header... headers) {
         if (headers.length > 0) {
             ensureHeaders();
             for (final com.google.gwt.http.client.Header header : headers) {

@@ -19,13 +19,12 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestFilter;
 import io.reinert.requestor.RequestInProcess;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseFilter;
-import io.reinert.requestor.ResponseFilterContext;
+import io.reinert.requestor.ResponseInProcess;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Filters;
@@ -89,8 +88,9 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
         // Add the filter and hold the registration
         final HandlerRegistration responseFilterRegistration = requestor.register(new ResponseFilter() {
             @Override
-            public void filter(Request request, ResponseFilterContext response) {
+            public void filter(ResponseInProcess response) {
                 response.setHeader("A-Response-Filter-Header", "It Works!");
+                response.proceed();
             }
         });
 

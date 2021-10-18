@@ -26,8 +26,7 @@ public interface ResponseFilter {
     /**
      * Filter method called after a response has been provided for a request.
      *
-     * @param request   The sent request.
      * @param response  The received response.
      */
-    void filter(Request request, ResponseFilterContext response);
+    void filter(ResponseInProcess response);
 }

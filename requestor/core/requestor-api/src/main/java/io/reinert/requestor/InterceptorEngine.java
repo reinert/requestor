@@ -34,9 +34,9 @@ class InterceptorEngine {
         }
     }
 
-    public void interceptResponse(Request request, ResponseInterceptorContext response) {
+    public void interceptResponse(SerializedResponseInProcess response) {
         for (ResponseInterceptor interceptor : interceptorManager.getResponseInterceptors()) {
-            interceptor.intercept(request, response);
+            interceptor.intercept(response);
         }
     }
 }

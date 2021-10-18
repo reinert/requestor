@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.impl.gdeferred;
 
 /**
- * A request that can be aborted or proceed to be sent.
+ * IncompatibleTypeException is the superclass exception related to type cast issues.
  *
  * @author Danilo Reinert
  */
-public interface InProcess {
+public class IncompatibleTypeException extends RuntimeException {
 
-    void proceed();
+    public IncompatibleTypeException() {
+    }
 
+    public IncompatibleTypeException(String s) {
+        super(s);
+    }
+
+    public IncompatibleTypeException(String s, Throwable throwable) {
+        super(s, throwable);
+    }
 }

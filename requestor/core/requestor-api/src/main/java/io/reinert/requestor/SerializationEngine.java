@@ -22,10 +22,19 @@ import java.util.logging.Logger;
 
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.form.FormDataSerializer;
+import io.reinert.requestor.payload.CollectionPayloadType;
+import io.reinert.requestor.payload.CompositePayloadType;
+import io.reinert.requestor.payload.DictionaryPayloadType;
+import io.reinert.requestor.payload.PayloadType;
+import io.reinert.requestor.payload.SinglePayloadType;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.SerializationException;
 import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.type.ArrayBuffer;
+import io.reinert.requestor.type.Blob;
+import io.reinert.requestor.type.Document;
+import io.reinert.requestor.type.Json;
 
 /**
  * Responsible for performing managed de/serialization.
@@ -47,18 +56,62 @@ class SerializationEngine {
         this.formDataSerializer = formDataSerializer;
     }
 
-    public <T, C extends Collection<T>> void deserializeResponse(Request request, RawResponse response,
-                                                                 Class<T> entityType, Class<C> collectionType) {
-        C result = deserializePayload(request, response, entityType, collectionType);
-        response.setDeserializedPayload(result);
+    public void deserializeResponse(DeserializableResponse response) {
+        final Request request = response.getRequest();
+        final PayloadType payloadType = response.getPayloadType();
+        final Class<?> type = payloadType.getType();
+
+        Object result = null;
+
+        // Special types that skip regular deserialization
+        if (Payload.class == type) {
+            result = response.getSerializedPayload();
+        } else if (Blob.class == type) {
+            result = new Blob(response.getSerializedPayload().isJavaScriptObject());
+        } else if (ArrayBuffer.class == type) {
+            result = new ArrayBuffer(response.getSerializedPayload().isJavaScriptObject());
+        } else if (Document.class == type) {
+            result = new Document(response.getSerializedPayload().isJavaScriptObject());
+        } else if (Json.class == type) {
+            result = new Json(response.getSerializedPayload().isJavaScriptObject());
+        } else if (Response.class == type || SerializedResponse.class == type || RawResponse.class == type) {
+            result = response.getRawResponse();
+        } else if (Headers.class == type) {
+            result = response.getHeaders();
+        }
+
+        if (result != null) {
+            response.deserializePayload(result);
+            return;
+        }
+
+        // Regular deserialization process
+        final ResponseType responseType = response.getResponseType();
+        if (responseType != ResponseType.DEFAULT && responseType != ResponseType.TEXT) {
+            throw new SerializationException("Deserialization of '" + responseType +
+                    "' response type is not supported yet.");
+        }
+
+        if (payloadType instanceof DictionaryPayloadType || payloadType instanceof CompositePayloadType) {
+            throw new SerializationException("Deserialization of " + payloadType.getClass().getName() +
+                    " is not supported yet.");
+        }
+
+        if (payloadType instanceof CollectionPayloadType) {
+            CollectionPayloadType collectionPayloadType = (CollectionPayloadType) payloadType;
+            Class<? extends Collection> collectionType = collectionPayloadType.getType();
+            Class<?> parametrizedType = collectionPayloadType.getParametrizedPayloadType().getType();
+            result = deserializePayload(request, response, parametrizedType, collectionType);
+        }
+
+        if (payloadType instanceof SinglePayloadType) {
+            result = deserializePayload(request, response, type);
+        }
+
+        response.deserializePayload(result);
     }
 
-    public <T> void deserializeResponse(Request request, RawResponse response, Class<T> entityType) {
-        T result = deserializePayload(request, response, entityType);
-        response.setDeserializedPayload(result);
-    }
-
-    public <T, C extends Collection<T>> C deserializePayload(Request request, Response response,
+    public <T, C extends Collection<T>> C deserializePayload(Request request, SerializedResponse response,
                                                              Class<T> entityType, Class<C> collectionType) {
         final String mediaType = getResponseMediaType(request, response);
         final Deserializer<T> deserializer = serializerManager.getDeserializer(entityType, mediaType);
@@ -68,12 +121,12 @@ class SerializationEngine {
         return deserializer.deserialize(collectionType, response.getSerializedPayload().isString(), context);
     }
 
-    public <T> T deserializePayload(Request request, Response response, Class<T> entityType) {
+    public <T> T deserializePayload(Request request, SerializedResponse response, Class<T> type) {
         final String mediaType = getResponseMediaType(request, response);
-        final Deserializer<T> deserializer = serializerManager.getDeserializer(entityType, mediaType);
-        checkDeserializerNotNull(response, entityType, deserializer);
+        final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
+        checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager,
-                entityType);
+                type);
         return deserializer.deserialize(response.getSerializedPayload().isString(), context);
     }
 
@@ -151,7 +204,7 @@ class SerializationEngine {
         return mediaType;
     }
 
-    private String getResponseMediaType(Request request, Response response) {
+    private String getResponseMediaType(Request request, SerializedResponse response) {
         String medaType = response.getContentType();
         if (medaType == null || medaType.isEmpty()) {
             medaType = "*/*";
@@ -167,7 +220,7 @@ class SerializationEngine {
         return contentType.split(";")[0];
     }
 
-    private void checkDeserializerNotNull(Response response, Class<?> type, Deserializer<?> deserializer) {
+    private void checkDeserializerNotNull(SerializedResponse response, Class<?> type, Deserializer<?> deserializer) {
         if (deserializer == null) {
             throw new SerializationException("Could not find Deserializer for class '" + type.getName() + "' and " +
                     "media-type '" + response.getContentType() + "'.");

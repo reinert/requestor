@@ -15,6 +15,5 @@
  */
 package io.reinert.requestor;
 
-public interface ProcessableRequest extends SerializedRequestInProcess, SerializableRequestInProcess {
-    void process();
+public interface ProcessableRequest extends SerializedRequestInProcess, SerializableRequestInProcess, Processable {
 }

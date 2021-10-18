@@ -45,6 +45,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     private final InterceptorManagerImpl interceptorManager;
     private final VolatileStore store;
     private final RequestProcessor requestProcessor;
+    private final ResponseProcessor responseProcessor;
     private final RequestDispatcher requestDispatcher;
     private final UriBuilder uriBuilder;
     private Uri uri;
@@ -76,22 +77,21 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
         this.store = store;
         this.defaults = defaults;
 
-        final FilterEngine filterEngine = new FilterEngine(this.filterManager);
-        final InterceptorEngine interceptorEngine = new InterceptorEngine(this.interceptorManager);
-
         this.requestProcessor = new RequestProcessor(
                 serializationEngine,
                 defaults.getRequestSerializer(),
                 this.filterManager,
                 this.interceptorManager);
 
+        this.responseProcessor = new ResponseProcessor(
+                serializationEngine,
+                defaults.getResponseDeserializer(),
+                this.filterManager,
+                this.interceptorManager);
+
         this.requestDispatcher = requestDispatcherFactory.getRequestDispatcher(
-                new RequestProcessor(
-                        serializationEngine,
-                        defaults.getRequestSerializer(),
-                        this.filterManager,
-                        this.interceptorManager),
-                new ResponseProcessor(serializationEngine, filterEngine, interceptorEngine),
+                this.requestProcessor,
+                this.responseProcessor,
                 deferredFactory);
 
         this.uriBuilder = uriBuilder;
@@ -195,6 +195,15 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     public RequestSerializer getRequestSerializer() {
         return defaults.getRequestSerializer();
+    }
+
+    public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
+        defaults.setResponseDeserializer(responseDeserializer);
+        responseProcessor.setResponseDeserializer(responseDeserializer);
+    }
+
+    public ResponseDeserializer getResponseDeserializer() {
+        return defaults.getResponseDeserializer();
     }
 
     /**

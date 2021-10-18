@@ -77,9 +77,9 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
 
     public void testResponseTypeAsSerializedResponse() {
         requestor.req("http://httpbin.org/get")
-                .get(Response.class)
-                .success(new PayloadCallback<Response>() {
-                    public void execute(Response result) {
+                .get(SerializedResponse.class)
+                .success(new PayloadCallback<SerializedResponse>() {
+                    public void execute(SerializedResponse result) {
                         assertNotNull(result);
                         assertFalse(result.getSerializedPayload().isEmpty());
                         finishTest();
@@ -99,14 +99,5 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
                     }
                 });
         delayTestFinish(500);
-    }
-
-    private static <T> boolean isInstanceOf(Class<T> type, Object object) {
-        try {
-            T objectAsType = (T) object;
-        } catch (ClassCastException exception) {
-            return false;
-        }
-        return true;
     }
 }

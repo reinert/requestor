@@ -21,4 +21,9 @@ package io.reinert.requestor;
  *  @author Danilo Reinert
  */
 public interface RequestInProcess extends MutableRequest, InProcess {
+
+    void abort(RawResponse response);
+
+    void abort(RequestException error);
+
 }

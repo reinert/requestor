@@ -25,7 +25,6 @@ import junit.framework.TestSuite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        FilterEngineJreTest.class,
         FilterManagerImplJreTest.class,
         SerializerManagerImplJreTest.class,
         })

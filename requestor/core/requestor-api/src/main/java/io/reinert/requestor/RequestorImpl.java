@@ -42,6 +42,7 @@ public class RequestorImpl extends Requestor {
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
     private final InterceptorManagerImpl interceptorManager = new InterceptorManagerImpl();
     private final RequestProcessor requestProcessor;
+    private final ResponseProcessor responseProcessor;
     private final SerializationEngine serializationEngine;
     private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
@@ -64,16 +65,14 @@ public class RequestorImpl extends Requestor {
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
 
-        // init processor
+        // init processors
         serializationEngine = new SerializationEngine(serializerManager, providerManager, formDataSerializer);
-        final FilterEngine filterEngine = new FilterEngine(filterManager);
-        final InterceptorEngine interceptorEngine = new InterceptorEngine(interceptorManager);
         requestProcessor = new RequestProcessor(serializationEngine, defaults.getRequestSerializer(), filterManager,
                 interceptorManager);
+        responseProcessor = new ResponseProcessor(serializationEngine, defaults.getResponseDeserializer(),
+                filterManager, interceptorManager);
 
         // init dispatcher
-        final ResponseProcessor responseProcessor = new ResponseProcessor(serializationEngine, filterEngine,
-                interceptorEngine);
         requestDispatcher = requestDispatcherFactory.getRequestDispatcher(requestProcessor, responseProcessor,
                 deferredFactory);
 
@@ -413,6 +412,15 @@ public class RequestorImpl extends Requestor {
 
     public RequestSerializer getRequestSerializer() {
         return defaults.getRequestSerializer();
+    }
+
+    public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
+        defaults.setResponseDeserializer(responseDeserializer);
+        responseProcessor.setResponseDeserializer(responseDeserializer);
+    }
+
+    public ResponseDeserializer getResponseDeserializer() {
+        return defaults.getResponseDeserializer();
     }
 
     @Override

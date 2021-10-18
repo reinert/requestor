@@ -16,30 +16,9 @@
 package io.reinert.requestor;
 
 /**
- * Allows one to modify a HTTP Response Payload.
+ *  Allows one to modify the serialized payload of an incoming response.
  *
- * @author Danilo Reinert
+ *  @author Danilo Reinert
  */
-public interface ResponseInterceptorContext {
-
-    String getHeader(String header);
-
-    String getContentType();
-
-    int getStatusCode();
-
-    HttpStatus getStatus();
-
-    Payload getSerializedPayload();
-
-    ResponseType getResponseType();
-
-    void setContentType(String mediaType);
-
-    void setSerializedPayload(Payload payload);
-
-    void setResponseType(ResponseType responseType);
-
-    Store getStore();
-
+public interface DeserializableResponseInProcess extends DeserializableResponse, SerializedResponseInProcess {
 }

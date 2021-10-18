@@ -21,13 +21,12 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.Payload;
-import io.reinert.requestor.Request;
 import io.reinert.requestor.RequestInterceptor;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseInterceptor;
-import io.reinert.requestor.ResponseInterceptorContext;
 import io.reinert.requestor.SerializedRequestInProcess;
+import io.reinert.requestor.SerializedResponseInProcess;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
@@ -94,11 +93,12 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         // Add the interceptor and hold the registration
         final HandlerRegistration registration = requestor.register(new ResponseInterceptor() {
             @Override
-            public void intercept(Request request, ResponseInterceptorContext context) {
-                final String json = context.getSerializedPayload().isString();
+            public void intercept(SerializedResponseInProcess response) {
+                final String json = response.getSerializedPayload().isString();
                 if (json != null) {
-                    context.setSerializedPayload(Payload.fromText(json.substring(6))); // remove first 6 chars )]}',\n
+                    response.setSerializedPayload(Payload.fromText(json.substring(6))); // remove first 6 chars )]}',\n
                 }
+                response.proceed();
             }
         });
 

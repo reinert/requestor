@@ -16,12 +16,17 @@
 package io.reinert.requestor;
 
 /**
- * A request that can be aborted or proceed to be sent.
+ * A mutable deserialized response.
  *
  * @author Danilo Reinert
  */
-public interface InProcess {
+public interface MutableResponse extends MutableSerializedResponse, Response {
 
-    void proceed();
+    /**
+     * Input a payload to be serialized and then sent in the HTTP request body.
+     *
+     * @param payload The payload of the request
+     */
+    void setPayload(Object payload);
 
 }

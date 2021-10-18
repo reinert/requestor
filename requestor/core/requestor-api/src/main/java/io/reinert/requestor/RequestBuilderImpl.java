@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.logging.Logger;
+
 import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
@@ -28,6 +30,8 @@ import io.reinert.requestor.uri.Uri;
  * @author Danilo Reinert
  */
 class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, SerializableRequest {
+
+    private static Logger LOGGER = Logger.getLogger(RequestBuilderImpl.class.getName());
 
     private Uri uri;
     private final VolatileStore store;
@@ -97,6 +101,11 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
 
     @Override
     public void serializePayload(Payload payload) {
+        if (serialized) {
+            throw new IllegalStateException("The request is already serialized." +
+                    " Cannot serialize twice.");
+        }
+
         serializedPayload = payload;
         serialized = true;
     }
@@ -253,8 +262,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     @Override
     public void setPayload(Object payload) {
         if (serialized) {
-            throw new IllegalStateException("The request is already serialized." +
-                    " Cannot change the original payload after the serialization has been performed.");
+            LOGGER.warning("Setting a deserialized payload in an already serialized request.");
         }
 
         this.payload = payload;
@@ -262,6 +270,11 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
 
     @Override
     public void setSerializedPayload(Payload serializedPayload) {
+        if (!serialized) {
+            throw new IllegalStateException("Request payload was not serialized yet." +
+                    "Cannot change the serialized payload before serializing the request.");
+        }
+
         this.serializedPayload = serializedPayload;
     }
 

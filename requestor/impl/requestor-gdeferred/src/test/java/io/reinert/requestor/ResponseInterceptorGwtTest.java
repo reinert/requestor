@@ -22,9 +22,9 @@ import com.google.gwt.user.client.Timer;
 import io.reinert.requestor.callback.ResponseCallback;
 
 /**
- * Integration tests of {@link RequestFilter}.
+ * Integration tests of {@link ResponseInterceptor}.
  */
-public class RequestFilterGwtTest extends GWTTestCase {
+public class ResponseInterceptorGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
 
@@ -43,16 +43,16 @@ public class RequestFilterGwtTest extends GWTTestCase {
         requestor.setMediaType("application/json");
     }
 
-    public void testOneFilter() {
+    public void testOneInterceptor() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                request.getStore().put(storeKey, expectedStoreValue);
-                request.setHeader("Test", "test");
-                request.proceed();
+            public void intercept(SerializedResponseInProcess response) {
+                response.getStore().put(storeKey, expectedStoreValue);
+                response.setHeader("Test", "test");
+                response.proceed();
             }
         });
 
@@ -61,7 +61,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
+                assertEquals("test", response.getHeader("Test"));
                 finishTest();
             }
         });
@@ -69,25 +69,25 @@ public class RequestFilterGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testTwoFilters() {
+    public void testTwoInterceptors() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                request.getStore().put(storeKey, expectedStoreValue);
-                request.proceed();
+            public void intercept(SerializedResponseInProcess response) {
+                response.getStore().put(storeKey, expectedStoreValue);
+                response.proceed();
             }
         });
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                // Test previous filter
-                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
-                request.setHeader("Test", "test");
-                request.proceed();
+            public void intercept(SerializedResponseInProcess response) {
+                // Test previous intercept
+                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
+                response.setHeader("Test", "test");
+                response.proceed();
             }
         });
 
@@ -96,7 +96,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
+                assertEquals("test", response.getHeader("Test"));
                 finishTest();
             }
         });
@@ -104,44 +104,44 @@ public class RequestFilterGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testThreeFilters() {
+    public void testThreeInterceptors() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                request.setHeader("Test", "test");
-                request.proceed();
+            public void intercept(SerializedResponseInProcess response) {
+                response.setHeader("Test", "test");
+                response.proceed();
             }
         });
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                assertEquals("test", request.getHeader("Test"));
-                request.getStore().put(storeKey, expectedStoreValue);
-                request.proceed();
+            public void intercept(SerializedResponseInProcess response) {
+                assertEquals("test", response.getHeader("Test"));
+                response.getStore().put(storeKey, expectedStoreValue);
+                response.proceed();
             }
         });
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                assertEquals("test", request.getHeader("Test"));
-                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
-                request.setHeader("Test2", "test2");
-                request.proceed();
+            public void intercept(SerializedResponseInProcess response) {
+                assertEquals("test", response.getHeader("Test"));
+                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
+                response.setHeader("Test2", "test2");
+                response.proceed();
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
+                assertEquals("test", response.getHeader("Test"));
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
+                assertEquals("test2", response.getHeader("Test2"));
                 finishTest();
             }
         });
@@ -149,64 +149,64 @@ public class RequestFilterGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testAsyncFilters() {
+    public void testAsyncInterceptors() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
         final String storeKey2 = "testData2";
         final String expectedStoreValue2 = "testData2";
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                request.getStore().put(storeKey, expectedStoreValue);
-                request.proceed();
+            public void intercept(SerializedResponseInProcess response) {
+                response.getStore().put(storeKey, expectedStoreValue);
+                response.proceed();
             }
         });
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(final RequestInProcess request) {
+            public void intercept(final SerializedResponseInProcess response) {
                 new Timer() {
                     public void run() {
-                        assertEquals(expectedStoreValue, request.getStore().get(storeKey));
-                        request.getStore().put(storeKey2, expectedStoreValue2);
-                        request.proceed();
+                        assertEquals(expectedStoreValue, response.getStore().get(storeKey));
+                        response.getStore().put(storeKey2, expectedStoreValue2);
+                        response.proceed();
                     }
                 }.schedule(500);
             }
         });
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                // Test previous filter
-                assertEquals(expectedStoreValue2, request.getStore().get(storeKey2));
-                request.setHeader("Test", "test");
-                request.proceed();
+            public void intercept(SerializedResponseInProcess response) {
+                // Test previous intercept
+                assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
+                response.setHeader("Test", "test");
+                response.proceed();
             }
         });
 
-        requestor.register(new RequestFilter() {
+        requestor.register(new ResponseInterceptor() {
             @Override
-            public void filter(final RequestInProcess request) {
+            public void intercept(final SerializedResponseInProcess response) {
                 new Timer() {
                     @Override
                     public void run() {
-                        request.setHeader("Test2", "test2");
-                        request.proceed();
+                        response.setHeader("Test2", "test2");
+                        response.proceed();
                     }
                 }.schedule(500);
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
-                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
-                assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
+                assertEquals("test", response.getHeader("Test"));
+                assertEquals("test2", response.getHeader("Test2"));
                 finishTest();
             }
         });

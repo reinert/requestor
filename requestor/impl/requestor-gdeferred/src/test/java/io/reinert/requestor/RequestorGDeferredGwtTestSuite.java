@@ -27,13 +27,19 @@ public class RequestorGDeferredGwtTestSuite extends GWTTestSuite {
 
         suite.addTestSuite(CallbackGwtTest.class);
 
-//        suite.addTestSuite(SpecialTypeResponsesGwtTest.class);
+        suite.addTestSuite(SpecialTypeResponsesGwtTest.class);
 
         suite.addTestSuite(RestServiceGwtTest.class);
 
         suite.addTestSuite(AbstractServiceGwtTest.class);
 
         suite.addTestSuite(RequestFilterGwtTest.class);
+
+        suite.addTestSuite(RequestInterceptorGwtTest.class);
+
+        suite.addTestSuite(ResponseFilterGwtTest.class);
+
+        suite.addTestSuite(ResponseInterceptorGwtTest.class);
 
         return suite;
     }

@@ -117,16 +117,10 @@ public abstract class RequestDispatcher {
      * Evaluates the response and resolves the deferred.
      * This method must be called by implementations after the response is received.
      *
-     * @param request   Dispatched request
-     * @param deferred  Promise to be resolved
      * @param response  The response received from the request
      * @param <R>       Type of the deferred
      */
-    protected <R, E> void evalResponse(Request request, Deferred<R> deferred, RawResponse response) {
-        responseProcessor.process(request, response, deferred);
-    }
-
-    protected SerializationEngine getSerializationEngine() {
-        return responseProcessor.getSerializationEngine();
+    protected <R> void evalResponse(RawResponse response) {
+        responseProcessor.process(response);
     }
 }

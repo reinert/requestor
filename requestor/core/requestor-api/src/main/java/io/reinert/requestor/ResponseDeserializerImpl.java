@@ -15,13 +15,20 @@
  */
 package io.reinert.requestor;
 
-/**
- * A request that can be aborted or proceed to be sent.
- *
- * @author Danilo Reinert
- */
-public interface InProcess {
+public class ResponseDeserializerImpl implements ResponseDeserializer {
+    @Override
+    public void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine) {
+        if (isSuccessful(response)) {
+            serializationEngine.deserializeResponse(response);
+        } else {
+            // TODO: deserialize by statusCode
+            response.deserializePayload(response.getSerializedPayload());
+        }
 
-    void proceed();
+        response.proceed();
+    }
 
+    private boolean isSuccessful(SerializedResponse response) {
+        return response.getStatusCode() / 100 == 2;
+    }
 }

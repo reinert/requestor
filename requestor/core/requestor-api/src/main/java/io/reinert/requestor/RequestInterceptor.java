@@ -25,7 +25,7 @@ public interface RequestInterceptor {
     /**
      * Intercept method called immediately before a request is sent to a client transport layer.
      *
-     * @param context   The context of the request to be sent.
+     * @param request   The request to be sent.
      */
-    void intercept(SerializedRequestInProcess context);
+    void intercept(SerializedRequestInProcess request);
 }

@@ -34,9 +34,9 @@ class FilterEngine {
         }
     }
 
-    public void filterResponse(Request request, ResponseFilterContext response) {
+    public void filterResponse(ResponseInProcess response) {
         for (ResponseFilter filter : filterManager.getResponseFilters()) {
-            filter.filter(request, response);
+            filter.filter(response);
         }
     }
 }

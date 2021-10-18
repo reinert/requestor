@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import java.util.Collections;
+import java.util.logging.Logger;
 
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
@@ -28,7 +29,9 @@ import io.reinert.requestor.payload.PayloadType;
  *
  * @author Danilo Reinert
  */
-public class RawResponse implements Response, ResponseInterceptorContext, ResponseFilterContext {
+public class RawResponse implements MutableResponse, DeserializableResponse, ProcessableResponse {
+
+    private static Logger LOGGER = Logger.getLogger(RawResponse.class.getName());
 
     private final Headers headers;
     private final LinkHeader linkHeader;
@@ -39,18 +42,19 @@ public class RawResponse implements Response, ResponseInterceptorContext, Respon
     private ResponseType responseType;
     private boolean deserialized = false;
     private final PayloadType payloadType;
+    private final Deferred<?> deferred;
 
     public RawResponse(Request request, HttpStatus status, Headers headers, ResponseType responseType,
-                       Payload serializedPayload, PayloadType payloadType) {
+                       PayloadType payloadType, Payload serializedPayload, Deferred<?> deferred) {
         this.request = request;
-        this.payloadType = payloadType;
-        if (headers == null)
-            throw new NullPointerException("Headers cannot be null");
+        if (headers == null) throw new NullPointerException("Headers cannot be null");
         this.headers = headers;
         this.linkHeader = (LinkHeader) headers.get("Link");
         this.status = status;
         this.responseType = responseType;
+        this.payloadType = payloadType;
         this.serializedPayload = serializedPayload;
+        this.deferred = deferred;
     }
 
 //    public static ResponseImpl<RawResponse> fromRawResponse(Request request, RawResponse rawResponse) {
@@ -102,6 +106,10 @@ public class RawResponse implements Response, ResponseInterceptorContext, Respon
 
     @Override
     public Object getPayload() {
+        if (!deserialized) {
+            throw new IllegalStateException("Payload was not deserialized yet.");
+        }
+
         return payload;
     }
 
@@ -115,9 +123,11 @@ public class RawResponse implements Response, ResponseInterceptorContext, Respon
         return payloadType;
     }
 
-    public void setDeserializedPayload(Object payload) {
-        if (deserialized)
-            throw new IllegalStateException("Deserialized payload was already set. Cannot set twice.");
+    @Override
+    public void deserializePayload(Object payload) {
+        if (deserialized) {
+            throw new IllegalStateException("Deserialized payload was already set. Cannot deserialize twice.");
+        }
 
         this.payload = payload;
         deserialized = true;
@@ -152,7 +162,21 @@ public class RawResponse implements Response, ResponseInterceptorContext, Respon
 
     @Override
     public void setSerializedPayload(Payload payload) {
+        if (deserialized) {
+            LOGGER.warning("Setting a serialized payload in an already serialized response.");
+        }
+
         this.serializedPayload = payload;
+    }
+
+    @Override
+    public void setPayload(Object payload) {
+        if (!deserialized) {
+            throw new IllegalStateException("Response payload was not deserialized yet." +
+                    "Cannot change the deserialized payload before deserializing the response.");
+        }
+
+        this.payload = payload;
     }
 
     @Override
@@ -178,5 +202,20 @@ public class RawResponse implements Response, ResponseInterceptorContext, Respon
     @Override
     public Header popHeader(String headerName) {
         return headers.pop(headerName);
+    }
+
+    @Override
+    public void proceed() {
+        this.process();
+    }
+
+    @Override
+    public void process() {
+        deferred.resolve(this);
+    }
+
+    @Override
+    public Response getRawResponse() {
+        return this;
     }
 }

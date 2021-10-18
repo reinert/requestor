@@ -20,23 +20,19 @@ import java.util.Collection;
 public class CollectionPayloadType extends RootPayloadType {
 
     private final Class<? extends Collection> collectionType;
-    private final RootPayloadType parametrizedType;
+    private final RootPayloadType parametrizedPayloadType;
 
-    public CollectionPayloadType(Class<? extends Collection> collectionType, RootPayloadType parametrizedType) {
+    public CollectionPayloadType(Class<? extends Collection> collectionType, RootPayloadType parametrizedPayloadType) {
         this.collectionType = collectionType;
-        this.parametrizedType = parametrizedType;
+        this.parametrizedPayloadType = parametrizedPayloadType;
     }
 
-    public Class<? extends Collection> getCollectionType() {
-        return collectionType;
-    }
-
-    public RootPayloadType getParametrizedType() {
-        return parametrizedType;
+    public RootPayloadType getParametrizedPayloadType() {
+        return parametrizedPayloadType;
     }
 
     @Override
-    public Class<?> getType() {
+    public Class<? extends Collection> getType() {
         return collectionType;
     }
 }

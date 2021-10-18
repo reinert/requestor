@@ -15,39 +15,26 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.PayloadType;
 
 /**
- * Allows one to modify HTTP Response Headers.
+ * Represents a raw HTTP response.
  *
  * @author Danilo Reinert
  */
-public interface ResponseFilterContext {
+public interface SerializedResponse {
 
     /**
-     * Adds (or replaces) a headerName to this response.
+     * Returns the value of the requested header or null if the header was not
+     * specified.
      *
-     * @param headerName the headerName to add
-     */
-    void putHeader(Header headerName);
-
-    /**
-     * Set a header to this response.
+     * @param header the header to query for
+     * @return the value of response header
      *
-     * @param name the header name
-     * @param value the header value
+     * @throws IllegalArgumentException if the header name is empty
+     * @throws NullPointerException if the header name is null
      */
-    void setHeader(String name, String value);
-
-    /**
-     * Returns the value of the requested headerName or null if the headerName was not specified.
-     *
-     * @param headerName the headerName to query for
-     * @return the value of response headerName
-     */
-    String getHeader(String headerName);
-
-    Header popHeader(String headerName);
+    String getHeader(String header);
 
     /**
      * Returns the value of the content-type header.
@@ -85,7 +72,7 @@ public interface ResponseFilterContext {
     /**
      * Returns the HTTP headers associated with this response.
      *
-     * @return the Headers
+     * @return the headers
      */
     Headers getHeaders();
 
@@ -103,12 +90,9 @@ public interface ResponseFilterContext {
      */
     HttpStatus getStatus();
 
-    /**
-     * Returns the raw payload.
-     *
-     * @return the response payload
-     */
     Payload getSerializedPayload();
+
+    PayloadType getPayloadType();
 
     /**
      * Returns the response type.
@@ -116,6 +100,13 @@ public interface ResponseFilterContext {
      * @return the response type
      */
     ResponseType getResponseType();
+
+    /**
+     * Returns the request that originated this response.
+     *
+     * @return  the original request
+     */
+    Request getRequest();
 
     /**
      * Returns the store of this request/response cycle.

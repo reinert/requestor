@@ -16,12 +16,17 @@
 package io.reinert.requestor;
 
 /**
- * A request that can be aborted or proceed to be sent.
+ * Response deserializers are intended to deserialize the response payload after it's received from the server.
  *
  * @author Danilo Reinert
  */
-public interface InProcess {
+public interface ResponseDeserializer {
 
-    void proceed();
-
+    /**
+     * Deserialize method called after interceptors and before filters.
+     * It should deserialize the response using the SerializationEngine provided.
+     *
+     * @param response  The received response.
+     */
+    void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine);
 }

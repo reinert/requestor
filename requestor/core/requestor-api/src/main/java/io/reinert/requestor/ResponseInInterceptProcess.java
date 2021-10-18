@@ -15,13 +15,17 @@
  */
 package io.reinert.requestor;
 
-/**
- * A request that can be aborted or proceed to be sent.
- *
- * @author Danilo Reinert
- */
-public interface InProcess {
+public class ResponseInInterceptProcess extends AbstractProcessableResponse {
 
-    void proceed();
+    private final ResponseInterceptor interceptor;
 
+    public ResponseInInterceptProcess(ProcessableResponse response, ResponseInterceptor interceptor) {
+        super(response);
+        this.interceptor = interceptor;
+    }
+
+    @Override
+    public void process() {
+        interceptor.intercept(this);
+    }
 }

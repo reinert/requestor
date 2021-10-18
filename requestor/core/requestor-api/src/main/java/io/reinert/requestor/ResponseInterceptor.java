@@ -25,8 +25,7 @@ public interface ResponseInterceptor {
     /**
      * Intercept method called immediately after a response has been provided for a request.
      *
-     * @param request   The sent request.
-     * @param context   The context of the received response.
+     * @param response  The received response.
      */
-    void intercept(Request request, ResponseInterceptorContext context);
+    void intercept(SerializedResponseInProcess response);
 }

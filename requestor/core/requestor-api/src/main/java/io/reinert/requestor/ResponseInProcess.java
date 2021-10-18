@@ -16,12 +16,9 @@
 package io.reinert.requestor;
 
 /**
- * A request that can be aborted or proceed to be sent.
+ *  Allows on to modify some properties of an incoming response.
  *
- * @author Danilo Reinert
+ *  @author Danilo Reinert
  */
-public interface InProcess {
-
-    void proceed();
-
+public interface ResponseInProcess extends MutableResponse, SerializedResponseInProcess {
 }

@@ -163,11 +163,11 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                         Status.of(gwtResponse.getStatusCode()),
                         new Headers(gwtResponse.getHeaders()),
                         ResponseType.of(responseType),
+                        payloadType,
                         payload,
-                        payloadType
-                );
+                        deferred);
 
-                evalResponse(request, deferred, response);
+                evalResponse(response);
             }
 
             public void onError(com.google.gwt.http.client.Request gwtRequest, Throwable exception) {

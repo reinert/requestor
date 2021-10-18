@@ -16,7 +16,6 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.auth.Auth;
-import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 
 /**
@@ -46,38 +45,6 @@ public interface MutableRequest extends Request, HasHeaders {
      * @param mediaType The media type accepted as response
      */
     void setAccept(String mediaType);
-
-    /**
-     * Adds a request header.
-     *
-     * If a header with the specified name has already been set
-     * then the new value overwrites the current value.
-     *
-     * @param header The header instance
-     */
-    void putHeader(Header header);
-
-    /**
-     * Sets a request header with the given name and value.
-     *
-     * If a header with the specified name has already been set
-     * then the new value overwrites the current value.
-     *
-     * If a null value is given, then any existing header with
-     * the given name is removed.
-     *
-     * @param headerName    The name of the header
-     * @param headerValue   The value of the header
-     */
-    void setHeader(String headerName, String headerValue);
-
-    /**
-     * Removes the header with the given name if it exists in the current request.
-     *
-     * @param headerName    The name of the header to remove
-     * @return  The removed header, if it exists
-     */
-    Header popHeader(String headerName);
 
     /**
      * Sets the necessary information for authenticating the request against the server.

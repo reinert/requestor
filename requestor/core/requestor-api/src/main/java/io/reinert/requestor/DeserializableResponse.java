@@ -15,13 +15,14 @@
  */
 package io.reinert.requestor;
 
-/**
- * A request that can be aborted or proceed to be sent.
- *
- * @author Danilo Reinert
- */
-public interface InProcess {
+public interface DeserializableResponse extends SerializedResponse {
 
-    void proceed();
+    void deserializePayload(Object payload);
+
+    void setContentType(String mediaType);
+
+    void setResponseType(ResponseType responseType);
+
+    Response getRawResponse();
 
 }

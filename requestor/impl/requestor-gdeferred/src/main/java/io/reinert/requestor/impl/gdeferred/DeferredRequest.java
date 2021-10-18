@@ -136,7 +136,15 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     public <E extends T> Promise<T> success(final PayloadCallback<E> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (isSuccessful(response)) callback.execute((E) response.getPayload());
+                if (isSuccessful(response)) {
+                    try {
+                        callback.execute((E) response.getPayload());
+                    } catch (ClassCastException e) {
+                        throw new IncompatibleTypeException("Cannot cast " +
+                                response.getPayload().getClass().getName() + " to " +
+                                response.getPayloadType().getType().getName() + ".", e);
+                    }
+                }
             }
         });
         return this;
@@ -148,7 +156,13 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
-                    callback.execute((E) response.getPayload(), response);
+                    try {
+                        callback.execute((E) response.getPayload(), response);
+                    } catch (ClassCastException e) {
+                        throw new IncompatibleTypeException("Cannot cast " +
+                                response.getPayload().getClass().getName() + " to " +
+                                response.getPayloadType().getType().getName() + ".", e);
+                    }
                 }
             }
         });

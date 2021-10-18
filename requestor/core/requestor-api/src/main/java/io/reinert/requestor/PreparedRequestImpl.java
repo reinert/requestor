@@ -60,7 +60,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
         if (sent)
             throw new IllegalStateException("PreparedRequest couldn't be aborted: Request has already been sent.");
 
-        dispatcher.evalResponse(request, deferred, response);
+        dispatcher.evalResponse(response);
 
         sent = true;
     }

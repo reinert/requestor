@@ -33,7 +33,7 @@ public class CompositePayloadType implements PayloadType {
     }
 
     @Override
-    public Class<?> getType() {
+    public Class<? extends Map> getType() {
         return HashMap.class;
     }
 
