@@ -36,7 +36,13 @@ class CallbackDeferred<T> implements Deferred<T> {
     @SuppressWarnings("unchecked")
     @Override
     public void resolve(Response response) {
-        callback.onSuccess((T) response.getPayload());
+        try {
+            callback.onSuccess((T) response.getPayload());
+        } catch (ClassCastException e) {
+            throw new IncompatibleTypeException("Cannot cast " +
+                    response.getPayload().getClass().getName() + " to " +
+                    response.getPayloadType().getType().getName() + ".", e);
+        }
     }
 
     @Override

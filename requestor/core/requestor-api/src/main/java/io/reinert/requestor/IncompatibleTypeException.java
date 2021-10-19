@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.impl.gdeferred;
+package io.reinert.requestor;
 
 /**
  * IncompatibleTypeException is the superclass exception related to type cast issues.

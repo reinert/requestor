@@ -23,6 +23,7 @@ import io.reinert.gdeferred.FailCallback;
 import io.reinert.gdeferred.impl.DeferredObject;
 import io.reinert.requestor.Deferred;
 import io.reinert.requestor.HttpConnection;
+import io.reinert.requestor.IncompatibleTypeException;
 import io.reinert.requestor.Promise;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.RequestProgress;
