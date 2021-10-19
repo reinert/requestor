@@ -136,6 +136,26 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
+    public int getThrottleInterval() {
+        return request.getThrottleInterval();
+    }
+
+    @Override
+    public int getThrottleLimit() {
+        return request.getThrottleLimit();
+    }
+
+    @Override
+    public int getThrottleCounter() {
+        return request.getThrottleCounter();
+    }
+
+    @Override
+    public void stopThrottle() {
+        request.stopThrottle();
+    }
+
+    @Override
     public Uri getUri() {
         return uri.getUri();
     }

@@ -80,24 +80,6 @@ public interface RequestBuilder extends Request {
     RequestBuilder auth(Auth auth);
 
     /**
-     * Sets the number of milliseconds to wait for a request to complete.
-     *
-     * Should the request timeout, registered RejectedCallbacks will be called in the returning Promise.
-     * The callback method will receive an instance of the {@link RequestTimeoutException} class as its
-     * {@link Throwable} argument.
-     * <p></p>
-     *
-     * Negative aren't allowed according to XMLHttpRequest specification.
-     * So if a value less than zero is passed, it is ignored.
-     *
-     * @param timeoutMillis Number of milliseconds to wait before canceling the
-     *                      request, a value of zero disables timeouts
-     *
-     * @return This building request
-     */
-    RequestBuilder timeout(int timeoutMillis);
-
-    /**
      * Input a object to be sent in the HTTP Request payload.
      * <p></p>
      *
@@ -111,7 +93,30 @@ public interface RequestBuilder extends Request {
     RequestBuilder payload(Object payload);
 
     /**
+     * Sets the number of milliseconds to wait for a request to complete.
+     *
+     * Should the request timeout, registered RejectedCallbacks will be called in the returning Promise.
+     * The callback method will receive an instance of the {@link RequestTimeoutException} class as its
+     * {@link Throwable} argument.
+     * <p></p>
+     *
+     * Negative aren't allowed according to XMLHttpRequest specification.
+     * So if a value less than zero is passed, it is ignored.
+     * <p></p>
+     *
+     * @param timeoutMillis Number of milliseconds to wait before canceling the
+     *                      request, a value of zero disables timeouts
+     *
+     * @return This building request
+     */
+    RequestBuilder timeout(int timeoutMillis);
+
+    /**
      * Delay the request dispatching in milliseconds.
+     * <p></p>
+     *
+     * Negative aren't allowed.
+     * So if a value less than zero is passed, it is ignored.
      * <p></p>
      *
      * @param delayMillis The time in milliseconds to delay the request
@@ -119,5 +124,43 @@ public interface RequestBuilder extends Request {
      * @return This building request
      */
     RequestBuilder delay(int delayMillis);
+
+    /**
+     * Throttle the request dispatching in a regular period of time in milliseconds.
+     * <p></p>
+     *
+     * If delay is also set, then the time window between each request will be throttle + delay.
+     * <p></p>
+     *
+     * Negative aren't allowed.
+     * So if a value less than zero is passed, it is ignored.
+     * <p></p>
+     *
+     * @param intervalMillis The time in milliseconds to throttle the request
+     *
+     * @return This building request
+     */
+    RequestBuilder throttle(int intervalMillis);
+
+    /**
+     * Throttle the request dispatching in a regular period of time in milliseconds for a limited number of times.
+     * <p></p>
+     *
+     * The request will automatically stop throttling after being called for the limit number of times.
+     * <p></p>
+     *
+     * If delay is also set, then the time window between each request will be throttle + delay.
+     * <p></p>
+     *
+     * Negative aren't allowed.
+     * So if a value less than zero is passed, it is ignored.
+     * <p></p>
+     *
+     * @param intervalMillis The time in milliseconds to throttle the request
+     * @param limit Maximum number of times the request will be throttled
+     *
+     * @return This building request
+     */
+    RequestBuilder throttle(int intervalMillis, int limit);
 
 }

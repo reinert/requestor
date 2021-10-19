@@ -64,6 +64,26 @@ public class AbstractService implements RequestDefaults {
     }
 
     @Override
+    public void setThrottle(int intervalMillis) {
+        defaults.setThrottle(intervalMillis);
+    }
+
+    @Override
+    public void setThrottle(int intervalMillis, int limit) {
+        defaults.setThrottle(intervalMillis, limit);
+    }
+
+    @Override
+    public int getThrottleInterval() {
+        return defaults.getThrottleInterval();
+    }
+
+    @Override
+    public int getThrottleLimit() {
+        return defaults.getThrottleLimit();
+    }
+
+    @Override
     public void putHeader(Header header) {
         defaults.putHeader(header);
     }

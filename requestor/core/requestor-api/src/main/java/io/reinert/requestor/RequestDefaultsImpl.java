@@ -23,6 +23,8 @@ public class RequestDefaultsImpl implements RequestDefaults {
     private Auth auth;
     private int timeout;
     private int delay;
+    private int throttleInterval;
+    private int throttleLimit;
     private final Headers headers = new Headers();
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
     private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
@@ -32,6 +34,8 @@ public class RequestDefaultsImpl implements RequestDefaults {
         newDefaults.setMediaType(defaults.getMediaType());
         newDefaults.setAuth(defaults.getAuth());
         newDefaults.setTimeout(defaults.getTimeout());
+        newDefaults.setDelay(defaults.getDelay());
+        newDefaults.setThrottle(defaults.getThrottleInterval(), defaults.getThrottleLimit());
         for (Header h : defaults.getHeaders()) {
             newDefaults.putHeader(h);
         }
@@ -104,6 +108,27 @@ public class RequestDefaultsImpl implements RequestDefaults {
     }
 
     @Override
+    public void setThrottle(int intervalMillis) {
+        throttleInterval = intervalMillis;
+    }
+
+    @Override
+    public void setThrottle(int intervalMillis, int limit) {
+        throttleInterval = intervalMillis;
+        throttleLimit = limit;
+    }
+
+    @Override
+    public int getThrottleInterval() {
+        return throttleInterval;
+    }
+
+    @Override
+    public int getThrottleLimit() {
+        return throttleLimit;
+    }
+
+    @Override
     public void putHeader(Header header) {
         if (header != null && mediaType != null) {
             if ("content-type".equalsIgnoreCase(header.getName()) || "accept".equalsIgnoreCase(header.getName())) {
@@ -170,6 +195,14 @@ public class RequestDefaultsImpl implements RequestDefaults {
 
         if (delay > 0 && request.getDelay() <= 0) {
             request.delay(delay);
+        }
+
+        if (throttleInterval > 0 && request.getThrottleInterval() <= 0) {
+            if (throttleLimit > 0 && request.getThrottleLimit() <= 0) {
+                request.throttle(throttleInterval, throttleLimit);
+            } else {
+                request.throttle(throttleInterval);
+            }
         }
 
         for (Header h : headers) {

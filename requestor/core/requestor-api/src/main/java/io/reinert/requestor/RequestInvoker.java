@@ -48,6 +48,12 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     RequestInvoker delay(int delayMillis);
 
     @Override
+    RequestInvoker throttle(int intervalMillis);
+
+    @Override
+    RequestInvoker throttle(int intervalMillis, int limit);
+
+    @Override
     RequestInvoker payload(Object payload) throws IllegalArgumentException;
 
 }

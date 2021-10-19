@@ -103,6 +103,20 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     }
 
     @Override
+    public void setThrottleInterval(int intervalMillis) {
+        request.setThrottleInterval(intervalMillis);
+    }
+
+    @Override
+    public void setThrottleLimit(int throttleLimit) {
+        request.setThrottleLimit(throttleLimit);
+    }
+
+    @Override
+    public int incrementThrottleCounter() {
+        return request.incrementThrottleCounter();
+    }
+    @Override
     public final void setPayload(Object payload) {
         request.setPayload(payload);
     }
@@ -170,6 +184,26 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     @Override
     public int getDelay() {
         return request.getDelay();
+    }
+
+    @Override
+    public int getThrottleInterval() {
+        return request.getThrottleInterval();
+    }
+
+    @Override
+    public int getThrottleLimit() {
+        return request.getThrottleLimit();
+    }
+
+    @Override
+    public int getThrottleCounter() {
+        return request.getThrottleCounter();
+    }
+
+    @Override
+    public void stopThrottle() {
+        request.stopThrottle();
     }
 
     @Override

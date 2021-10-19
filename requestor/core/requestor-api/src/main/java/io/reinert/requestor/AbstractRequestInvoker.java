@@ -90,6 +90,18 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
         return this;
     }
 
+    @Override
+    public RequestInvoker throttle(int intervalMillis) {
+        super.throttle(intervalMillis);
+        return this;
+    }
+
+    @Override
+    public RequestInvoker throttle(int intervalMillis, int limit) {
+        super.throttle(intervalMillis, limit);
+        return this;
+    }
+
     //===================================================================
     // Internal methods
     //===================================================================

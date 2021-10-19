@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 import io.reinert.gdeferred.DoneCallback;
 import io.reinert.gdeferred.FailCallback;
-import io.reinert.gdeferred.impl.DeferredObject;
+import io.reinert.gdeferred.impl.RequestorDeferred;
 import io.reinert.requestor.Deferred;
 import io.reinert.requestor.HttpConnection;
 import io.reinert.requestor.IncompatibleTypeException;
@@ -47,12 +47,16 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     private static Logger LOGGER = Logger.getLogger(DeferredRequest.class.getName());
 
-    private final DeferredObject<Response, RequestException, RequestProgress> deferred =
-            new DeferredObject<Response, RequestException, RequestProgress>();
+    private final RequestorDeferred<Response, RequestException, RequestProgress> deferred;
     private HttpConnection connection;
     private ArrayList<ProgressCallback> uploadProgressCallbacks;
 
     public DeferredRequest() {
+        this(new RequestorDeferred<Response, RequestException, RequestProgress>());
+    }
+
+    protected DeferredRequest(RequestorDeferred<Response, RequestException, RequestProgress> deferred) {
+        this.deferred = deferred;
     }
 
     //===================================================================
@@ -237,6 +241,16 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     @Override
     public Promise<T> getPromise() {
         return this;
+    }
+
+    @Override
+    public Deferred<T> getUnresolvedCopy() {
+        DeferredRequest<T> copy = new DeferredRequest<T>(this.deferred.getUnresolvedCopy());
+        if (this.uploadProgressCallbacks != null) {
+            copy.uploadProgressCallbacks = new ArrayList<ProgressCallback>();
+            copy.uploadProgressCallbacks.addAll(this.uploadProgressCallbacks);
+        }
+        return copy;
     }
 
     //===================================================================

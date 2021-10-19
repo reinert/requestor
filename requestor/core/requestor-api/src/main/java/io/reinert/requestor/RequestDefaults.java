@@ -50,4 +50,12 @@ public interface RequestDefaults extends HasHeaders {
 
     int getDelay();
 
+    void setThrottle(int intervalMillis);
+
+    void setThrottle(int intervalMillis, int limit);
+
+    int getThrottleInterval();
+
+    int getThrottleLimit();
+
 }

@@ -60,9 +60,6 @@ public interface MutableRequest extends Request, HasHeaders {
      * {@link Throwable} argument.
      * <p></p>
      *
-     * Negative aren't allowed according to XMLHttpRequest specification.
-     * So if a value less than zero is passed, it is ignored.
-     *
      * @param timeoutMillis Number of milliseconds to wait before canceling the
      *                      request, a value of zero disables timeouts
      */
@@ -71,12 +68,30 @@ public interface MutableRequest extends Request, HasHeaders {
     /**
      * Sets the number of milliseconds to wait for a request to be sent.
      *
-     * Negative aren't allowed.
-     * So if a value less than zero is passed, it is ignored.
-     *
      * @param delayMillis Number of milliseconds to wait before sending the request
      */
     void setDelay(int delayMillis);
+
+    /**
+     * Sets the number of milliseconds to throttle the request in a regular time window.
+     *
+     * @param intervalMillis Number of milliseconds to throttle the request
+     */
+    void setThrottleInterval(int intervalMillis);
+
+    /**
+     * The request will automatically stop throttling after being called for the limit number of times.
+     *
+     * @param throttleLimit Maximum number of times the request should be throttled
+     */
+    void setThrottleLimit(int throttleLimit);
+
+    /**
+     * The throttle counter is incremented by 1.
+     *
+     * Returns the updated throttle counter.
+     */
+    int incrementThrottleCounter();
 
     /**
      * Input a payload to be serialized and then sent in the HTTP request body.

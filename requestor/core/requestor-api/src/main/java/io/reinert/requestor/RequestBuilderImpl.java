@@ -39,10 +39,11 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private HttpMethod httpMethod;
     private int timeout;
     private int delay;
+    private ThrottleOptions throttleOptions = new ThrottleOptions();
     private Object payload;
     private SerializedPayload serializedPayload;
-    private Auth auth = PassThroughAuth.getInstance();
     private boolean serialized = false;
+    private Auth auth = PassThroughAuth.getInstance();
 
     public RequestBuilderImpl(Uri uri, VolatileStore store) {
         this(uri, store, new Headers());
@@ -61,12 +62,13 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
                 Headers.copy(request.headers)
         );
         copy.httpMethod = request.httpMethod;
-        copy.auth = request.auth;
         copy.timeout = request.timeout;
         copy.delay = request.delay;
+        copy.throttleOptions = request.throttleOptions;
         copy.payload = request.payload;
         copy.serializedPayload = request.serializedPayload;
         copy.serialized = request.serialized;
+        copy.auth = request.auth;
         return copy;
     }
 
@@ -130,6 +132,26 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
+    public int getThrottleInterval() {
+        return throttleOptions.getThrottleInterval();
+    }
+
+    @Override
+    public int getThrottleLimit() {
+        return throttleOptions.getThrottleLimit();
+    }
+
+    @Override
+    public int getThrottleCounter() {
+        return throttleOptions.getThrottleCounter();
+    }
+
+    @Override
+    public void stopThrottle() {
+        throttleOptions.setThrottleInterval(0);
+    }
+
+    @Override
     public Uri getUri() {
         return uri;
     }
@@ -180,15 +202,25 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
 
     @Override
     public RequestBuilder delay(int delayMillis) {
-        if (delayMillis > 0)
-            delay = delayMillis;
+        if (delayMillis > 0) delay = delayMillis;
+        return this;
+    }
+
+    @Override
+    public RequestBuilder throttle(int intervalMillis) {
+        return throttle(intervalMillis, 0);
+    }
+
+    @Override
+    public RequestBuilder throttle(int intervalMillis, int limit) {
+        if (intervalMillis > 0) throttleOptions.setThrottleInterval(intervalMillis);
+        throttleOptions.setThrottleLimit(limit);
         return this;
     }
 
     @Override
     public RequestBuilder timeout(int timeoutMillis) {
-        if (timeoutMillis > 0)
-            timeout = timeoutMillis;
+        if (timeoutMillis > 0) timeout = timeoutMillis;
         return this;
     }
 
@@ -255,8 +287,24 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void setDelay(int delay) {
-        this.delay = delay;
+    public void setDelay(int delayMillis) {
+        this.delay = delayMillis;
+    }
+
+    @Override
+    public void setThrottleInterval(int intervalMillis) {
+        throttleOptions.setThrottleInterval(intervalMillis);
+    }
+
+    @Override
+    public void setThrottleLimit(int throttleLimit) {
+        throttleOptions.setThrottleLimit(throttleLimit);
+    }
+
+    @Override
+    public int incrementThrottleCounter() {
+        throttleOptions.setThrottleCounter(throttleOptions.getThrottleCounter() + 1);
+        return throttleOptions.getThrottleCounter();
     }
 
     @Override

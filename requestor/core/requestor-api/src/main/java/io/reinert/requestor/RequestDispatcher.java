@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.logging.Logger;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.Timer;
 
@@ -26,6 +28,8 @@ import io.reinert.requestor.payload.type.PayloadType;
  * @author Danilo Reinert
  */
 public abstract class RequestDispatcher {
+
+    private static Logger LOGGER = Logger.getLogger(RequestDispatcher.class.getName());
 
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
@@ -69,25 +73,52 @@ public abstract class RequestDispatcher {
      * @return                      The promise for the dispatched request
      */
     public <T, S extends MutableSerializedRequest & SerializableRequest> Promise<T> dispatch(
-            S request, PayloadType responsePayloadType) {
+            final S request, final PayloadType responsePayloadType) {
         final Deferred<T> deferred = deferredFactory.getDeferred();
 
+        scheduleDispatch(request, responsePayloadType, deferred);
+
+        LOGGER.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
+                request.getDelay() + "ms.");
+
+        return deferred.getPromise();
+    }
+
+    private <T, S extends MutableSerializedRequest & SerializableRequest> void scheduleDispatch(
+            final S request, final PayloadType responsePayloadType, final Deferred<T> deferred) {
         final RequestInAuthProcess<T, S> requestInAuthProcess = new RequestInAuthProcess<T, S>(request,
                 responsePayloadType, this, deferred);
+
+        final S originalRequest = request.getThrottleInterval() > 0 ? (S) request.copy() : null;
 
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
             public void run() {
                 try {
+                    // Process and send the request
                     requestProcessor.process(requestInAuthProcess);
+
+                    LOGGER.warning(">>>>>> ( " + request.getThrottleLimit() + ", "  +
+                            request.getThrottleCounter() + ", " + request.getThrottleInterval() + " )");
+
+                    // Throttle the request
+                    if (requestInAuthProcess.getThrottleInterval() > 0 && (
+                            requestInAuthProcess.getThrottleLimit() <= 0 ||
+                            requestInAuthProcess.getThrottleCounter() < requestInAuthProcess.getThrottleLimit())) {
+                        new Timer() {
+                            @Override
+                            public void run() {
+                                originalRequest.incrementThrottleCounter();
+                                scheduleDispatch(originalRequest, responsePayloadType, deferred.getUnresolvedCopy());
+                            }
+                        }.schedule(request.getThrottleInterval());
+                    }
                 } catch (Exception e) {
                     deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +
                             " request. See previous exception.", e));
                 }
             }
         }.schedule(request.getDelay());
-
-        return deferred.getPromise();
     }
 
     /**

@@ -71,4 +71,9 @@ class CallbackDeferred<T> implements Deferred<T> {
     public Promise<T> getPromise() {
         return null;
     }
+
+    @Override
+    public Deferred<T> getUnresolvedCopy() {
+        return new CallbackDeferred<T>(callback);
+    }
 }

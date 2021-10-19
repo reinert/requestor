@@ -43,6 +43,14 @@ public interface Request {
 
     int getDelay();
 
+    int getThrottleInterval();
+
+    int getThrottleLimit();
+
+    int getThrottleCounter();
+
+    void stopThrottle(); // The request is throttled one more time after stopThrottle is called
+
     Uri getUri();
 
     Auth getAuth();

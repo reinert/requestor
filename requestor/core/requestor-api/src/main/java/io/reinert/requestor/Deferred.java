@@ -38,4 +38,6 @@ public interface Deferred<T> {
 
     Promise<T> getPromise();
 
+    Deferred<T> getUnresolvedCopy();
+
 }
