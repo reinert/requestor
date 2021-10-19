@@ -63,7 +63,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         final HandlerRegistration registration = requestor.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
-                final String json = request.getSerializedPayload().isString();
+                final String json = request.getSerializedPayload().getString();
                 if (json != null) {
                     // add ")]}',\n" to the beginning of JSONs
                     request.setSerializedPayload(SerializedPayload.fromText(")]}',\\n" + json));
@@ -94,7 +94,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         final HandlerRegistration registration = requestor.register(new ResponseInterceptor() {
             @Override
             public void intercept(SerializedResponseInProcess response) {
-                final String json = response.getSerializedPayload().isString();
+                final String json = response.getSerializedPayload().getString();
                 if (json != null) {
                     // remove first 6 chars )]}',\n
                     response.setSerializedPayload(SerializedPayload.fromText(json.substring(6)));

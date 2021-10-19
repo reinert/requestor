@@ -113,10 +113,10 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         // Send the request
         try {
             if (serializedPayload != null) {
-                if (serializedPayload.isString() != null) {
-                    xmlHttpRequest.send(serializedPayload.isString());
+                if (serializedPayload.isString()) {
+                    xmlHttpRequest.send(serializedPayload.getString());
                 } else {
-                    xmlHttpRequest.send(serializedPayload.isJavaScriptObject());
+                    xmlHttpRequest.send(serializedPayload.getObject());
                 }
             } else {
                 xmlHttpRequest.send();

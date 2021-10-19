@@ -65,13 +65,21 @@ public class SerializedPayload {
         return (string == null || string.isEmpty()) && javaScriptObject == null;
     }
 
+    public boolean isString() {
+        return string != null;
+    }
+
     /**
      * Returns the string value if this payload is of String type.
      *
      * @return The payload as String
      */
-    public String isString() {
+    public String getString() {
         return string;
+    }
+
+    public boolean isObject() {
+        return javaScriptObject != null;
     }
 
     /**
@@ -80,7 +88,7 @@ public class SerializedPayload {
      * @return The payload as JavaScriptObject
      */
     @SuppressWarnings("unchecked")
-    public <J extends JavaScriptObject> J isJavaScriptObject() {
+    public <J extends JavaScriptObject> J getObject() {
         return (J) javaScriptObject;
     }
 

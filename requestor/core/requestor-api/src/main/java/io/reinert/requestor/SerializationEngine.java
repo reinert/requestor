@@ -68,13 +68,13 @@ class SerializationEngine {
         if (SerializedPayload.class == type) {
             result = response.getSerializedPayload();
         } else if (Blob.class == type) {
-            result = new Blob(response.getSerializedPayload().isJavaScriptObject());
+            result = new Blob(response.getSerializedPayload().getObject());
         } else if (ArrayBuffer.class == type) {
-            result = new ArrayBuffer(response.getSerializedPayload().isJavaScriptObject());
+            result = new ArrayBuffer(response.getSerializedPayload().getObject());
         } else if (Document.class == type) {
-            result = new Document(response.getSerializedPayload().isJavaScriptObject());
+            result = new Document(response.getSerializedPayload().getObject());
         } else if (Json.class == type) {
-            result = new Json(response.getSerializedPayload().isJavaScriptObject());
+            result = new Json(response.getSerializedPayload().getObject());
         } else if (Response.class == type || SerializedResponse.class == type || RawResponse.class == type) {
             result = response.getRawResponse();
         } else if (Headers.class == type) {
@@ -119,7 +119,7 @@ class SerializationEngine {
         checkDeserializerNotNull(response, entityType, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager,
                 entityType);
-        return deserializer.deserialize(collectionType, response.getSerializedPayload().isString(), context);
+        return deserializer.deserialize(collectionType, response.getSerializedPayload().getString(), context);
     }
 
     public <T> T deserializePayload(Request request, SerializedResponse response, Class<T> type) {
@@ -128,7 +128,7 @@ class SerializationEngine {
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager,
                 type);
-        return deserializer.deserialize(response.getSerializedPayload().isString(), context);
+        return deserializer.deserialize(response.getSerializedPayload().getString(), context);
     }
 
     public void serializeRequest(SerializableRequest request) {
