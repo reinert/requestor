@@ -18,7 +18,6 @@ package io.reinert.requestor.auth;
 import com.google.gwt.core.client.Callback;
 
 import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.oauth2.Auth;
 import io.reinert.requestor.oauth2.AuthRequest;
@@ -29,7 +28,7 @@ import io.reinert.requestor.oauth2.TokenInfo;
  *
  * @author Danilo Reinert
  */
-public abstract class OAuth2Base implements io.reinert.requestor.auth.Auth {
+public abstract class OAuth2Base implements io.reinert.requestor.Auth {
 
     private static final Auth AUTH = Auth.get();
 
@@ -54,7 +53,7 @@ public abstract class OAuth2Base implements io.reinert.requestor.auth.Auth {
     }
 
     @Override
-    public void auth(final PreparedRequest preparedRequest, RequestDispatcher dispatcher) {
+    public void auth(final PreparedRequest preparedRequest) {
         AUTH.login(authRequest, new Callback<TokenInfo, Throwable>() {
             @Override
             public void onFailure(Throwable reason) {

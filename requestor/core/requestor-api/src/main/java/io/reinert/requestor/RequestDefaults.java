@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
-
 public interface RequestDefaults extends HasHeaders {
 
     /**

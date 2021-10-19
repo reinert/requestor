@@ -17,7 +17,6 @@ package io.reinert.requestor;
 
 import java.util.logging.Logger;
 
-import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;

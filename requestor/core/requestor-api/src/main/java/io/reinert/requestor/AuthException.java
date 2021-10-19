@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.auth;
+package io.reinert.requestor;
 
 /**
  * Exception for authentication issues.

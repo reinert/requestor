@@ -15,8 +15,8 @@
  */
 package io.reinert.requestor.auth;
 
+import io.reinert.requestor.Auth;
 import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.RequestDispatcher;
 
 /**
  * This class sets withCredentials to true to enable CORS authentication.
@@ -26,7 +26,7 @@ import io.reinert.requestor.RequestDispatcher;
 public class CorsAuth implements Auth {
 
     @Override
-    public void auth(PreparedRequest preparedRequest, RequestDispatcher dispatcher) {
+    public void auth(PreparedRequest preparedRequest) {
         preparedRequest.setWithCredentials(true);
         preparedRequest.send();
     }

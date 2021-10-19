@@ -20,7 +20,6 @@ import java.util.Map;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;

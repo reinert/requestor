@@ -20,7 +20,6 @@ import java.util.Collection;
 import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.serialization.Deserializer;

@@ -19,6 +19,8 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.i18n.client.NumberFormat;
 
+import io.reinert.requestor.Auth;
+import io.reinert.requestor.AuthException;
 import io.reinert.requestor.HttpMethod;
 import io.reinert.requestor.MutableSerializedRequest;
 import io.reinert.requestor.Payload;
@@ -81,9 +83,9 @@ public class DigestAuth implements Auth {
     }
 
     @Override
-    public void auth(PreparedRequest request, RequestDispatcher dispatcher) {
+    public void auth(PreparedRequest request) {
         request.setWithCredentials(withCredentials);
-        attempt(request, null, dispatcher);
+        attempt(request, null, request.getDispatcher());
     }
 
     /**

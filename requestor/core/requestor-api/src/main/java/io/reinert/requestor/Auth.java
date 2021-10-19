@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.auth;
-
-import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.RequestDispatcher;
+package io.reinert.requestor;
 
 /**
  * Abstraction for HTTP Authentication/Authorization methods.
@@ -35,5 +32,5 @@ public interface Auth {
      *
      * @param preparedRequest  The request about to be sent
      */
-    void auth(PreparedRequest preparedRequest, RequestDispatcher dispatcher);
+    void auth(PreparedRequest preparedRequest);
 }

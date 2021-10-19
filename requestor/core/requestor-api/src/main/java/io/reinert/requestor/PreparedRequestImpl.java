@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.payload.PayloadType;
 import io.reinert.requestor.uri.Uri;
@@ -148,6 +147,16 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public ResponseType getResponseType() {
         return responseType;
+    }
+
+    @Override
+    public RequestDispatcher getDispatcher() {
+        return dispatcher;
+    }
+
+    @Override
+    public Deferred<?> getDeferred() {
+        return deferred;
     }
 
     @Override

@@ -35,6 +35,10 @@ public interface PreparedRequest extends Request, HasHeaders {
 
     ResponseType getResponseType();
 
+    RequestDispatcher getDispatcher();
+
+    Deferred<?> getDeferred();
+
     void setWithCredentials(boolean withCredentials);
 
     void setQueryParam(String name, String... values);

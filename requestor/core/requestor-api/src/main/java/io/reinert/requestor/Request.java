@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.uri.Uri;
 
 /**

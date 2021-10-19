@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.payload.PayloadType;
 import io.reinert.requestor.uri.Uri;
@@ -39,7 +38,7 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     @Override
     public void process() {
         Auth auth = getAuth();
-        auth.auth(new PreparedRequestImpl<R>(dispatcher, this, deferred, responsePayloadType), dispatcher);
+        auth.auth(new PreparedRequestImpl<R>(dispatcher, this, deferred, responsePayloadType));
     }
 
     @Override
@@ -185,5 +184,13 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
     @Override
     public final Store getStore() {
         return request.getStore();
+    }
+
+    public RequestDispatcher getDispatcher() {
+        return dispatcher;
+    }
+
+    public Deferred<R> getDeferred() {
+        return deferred;
     }
 }

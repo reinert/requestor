@@ -17,8 +17,8 @@ package io.reinert.requestor.auth;
 
 import com.google.gwt.core.client.JavaScriptException;
 
+import io.reinert.requestor.Auth;
 import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.RequestDispatcher;
 
 /**
  * HTTP Basic Authentication implementation. <br>
@@ -43,7 +43,7 @@ public class BasicAuth implements Auth {
     }
 
     @Override
-    public void auth(PreparedRequest preparedRequest, RequestDispatcher dispatcher) {
+    public void auth(PreparedRequest preparedRequest) {
         try {
             preparedRequest.setHeader("Authorization", "Basic " + btoa(user + ":" + password));
         } catch (JavaScriptException e) {

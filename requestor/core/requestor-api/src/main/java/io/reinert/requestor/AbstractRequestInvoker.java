@@ -17,7 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import io.reinert.requestor.auth.Auth;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.payload.CollectionPayloadType;
 import io.reinert.requestor.payload.SinglePayloadType;

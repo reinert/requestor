@@ -15,8 +15,8 @@
  */
 package io.reinert.requestor.auth;
 
+import io.reinert.requestor.Auth;
 import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.RequestDispatcher;
 
 /**
  * Bearer Token Authentication implementation. <br>
@@ -40,7 +40,7 @@ public class BearerAuth implements Auth {
     }
 
     @Override
-    public void auth(PreparedRequest preparedRequest, RequestDispatcher dispatcher) {
+    public void auth(PreparedRequest preparedRequest) {
         preparedRequest.setHeader("Authorization", "Bearer " + token);
         preparedRequest.setWithCredentials(withCredentials);
         preparedRequest.send();
