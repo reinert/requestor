@@ -13,13 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.payload;
+package io.reinert.requestor.payload.type;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public interface PayloadType extends Iterable<Map.Entry<String, PayloadType>> {
+public class DictionaryPayloadType extends RootPayloadType {
 
-    String ROOT_KEY = "";
+    private final PayloadType valuePayloadType;
 
-    Class<?> getType();
+    public DictionaryPayloadType(PayloadType valuePayloadType) {
+        this.valuePayloadType = valuePayloadType;
+    }
+
+    public PayloadType getValuePayloadType() {
+        return valuePayloadType;
+    }
+
+    @Override
+    public Class<? extends Map> getType() {
+        return HashMap.class;
+    }
 }

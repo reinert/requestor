@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.payload;
+package io.reinert.requestor.payload.type;
 
-public class SinglePayloadType extends RootPayloadType {
+import java.util.Map;
 
-    private final Class<?> type;
+public interface PayloadType extends Iterable<Map.Entry<String, PayloadType>> {
 
-    public SinglePayloadType(Class<?> type) {
-        this.type = type;
-    }
+    String ROOT_KEY = "";
 
-    public Class<?> getType() {
-        return type;
-    }
+    Class<?> getType();
 }

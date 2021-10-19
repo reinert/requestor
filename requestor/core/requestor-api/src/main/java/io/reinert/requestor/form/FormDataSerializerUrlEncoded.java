@@ -24,7 +24,7 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.NodeCollection;
 import com.google.gwt.http.client.URL;
 
-import io.reinert.requestor.SerializedPayload;
+import io.reinert.requestor.payload.SerializedPayload;
 
 /**
  * FormDataSerializer that serialize the {@link FormData} into chained URL encoded key-value pairs.

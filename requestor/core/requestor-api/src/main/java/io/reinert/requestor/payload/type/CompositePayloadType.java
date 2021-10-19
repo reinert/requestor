@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.payload;
+package io.reinert.requestor.payload.type;
 
 import java.util.HashMap;
 import java.util.Iterator;

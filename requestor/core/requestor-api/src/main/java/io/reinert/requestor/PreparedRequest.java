@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-import io.reinert.requestor.payload.PayloadType;
+import io.reinert.requestor.payload.type.PayloadType;
 
 /**
  * The final form of a request.

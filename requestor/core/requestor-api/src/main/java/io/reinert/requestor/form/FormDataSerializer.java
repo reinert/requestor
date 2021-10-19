@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.form;
 
-import io.reinert.requestor.SerializedPayload;
+import io.reinert.requestor.payload.SerializedPayload;
 
 /**
  * Serializes {@link FormData} objects.

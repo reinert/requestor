@@ -22,11 +22,12 @@ import java.util.logging.Logger;
 
 import io.reinert.requestor.form.FormData;
 import io.reinert.requestor.form.FormDataSerializer;
-import io.reinert.requestor.payload.CollectionPayloadType;
-import io.reinert.requestor.payload.CompositePayloadType;
-import io.reinert.requestor.payload.DictionaryPayloadType;
-import io.reinert.requestor.payload.PayloadType;
-import io.reinert.requestor.payload.SinglePayloadType;
+import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.payload.type.CollectionPayloadType;
+import io.reinert.requestor.payload.type.CompositePayloadType;
+import io.reinert.requestor.payload.type.DictionaryPayloadType;
+import io.reinert.requestor.payload.type.PayloadType;
+import io.reinert.requestor.payload.type.SinglePayloadType;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.SerializationException;

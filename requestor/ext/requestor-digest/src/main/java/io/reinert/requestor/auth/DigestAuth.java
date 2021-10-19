@@ -28,10 +28,10 @@ import io.reinert.requestor.RawResponse;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
-import io.reinert.requestor.SerializedPayload;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
-import io.reinert.requestor.payload.SinglePayloadType;
+import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.payload.type.SinglePayloadType;
 import io.reinert.requestor.uri.Uri;
 
 /**

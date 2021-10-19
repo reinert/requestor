@@ -13,25 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.payload;
+package io.reinert.requestor.payload.type;
 
-import java.util.HashMap;
+import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 
-public class DictionaryPayloadType extends RootPayloadType {
-
-    private final PayloadType valuePayloadType;
-
-    public DictionaryPayloadType(PayloadType valuePayloadType) {
-        this.valuePayloadType = valuePayloadType;
-    }
-
-    public PayloadType getValuePayloadType() {
-        return valuePayloadType;
-    }
+public abstract class RootPayloadType implements PayloadType {
 
     @Override
-    public Class<? extends Map> getType() {
-        return HashMap.class;
+    public Iterator<Map.Entry<String, PayloadType>> iterator() {
+        return Collections.singleton((Map.Entry<String, PayloadType>)
+                new AbstractMap.SimpleEntry<String, PayloadType>(ROOT_KEY, this)).iterator();
     }
 }

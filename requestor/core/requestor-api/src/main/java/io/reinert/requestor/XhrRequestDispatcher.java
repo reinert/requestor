@@ -20,7 +20,8 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.payload.PayloadType;
+import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.payload.type.PayloadType;
 
 /**
  * Default implementation of {@link RequestDispatcher}.

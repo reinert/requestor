@@ -21,6 +21,7 @@ import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
+import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.uri.Uri;
 
 /**

@@ -16,7 +16,8 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.payload.PayloadType;
+import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.payload.type.PayloadType;
 import io.reinert.requestor.uri.Uri;
 
 /**

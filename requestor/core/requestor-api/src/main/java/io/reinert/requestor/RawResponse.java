@@ -22,7 +22,8 @@ import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.LinkHeader;
 import io.reinert.requestor.header.SimpleHeader;
-import io.reinert.requestor.payload.PayloadType;
+import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.payload.type.PayloadType;
 
 /**
  * Represents a response just received by the request and prepared to be processed.

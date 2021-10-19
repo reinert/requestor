@@ -17,7 +17,7 @@ package io.reinert.requestor.form;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.SerializedPayload;
+import io.reinert.requestor.payload.SerializedPayload;
 
 /**
  * FormDataSerializer based on native JS FormData object.

@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.payload.SerializedPayload;
+
 /**
  * A mutable serialized response.
  *

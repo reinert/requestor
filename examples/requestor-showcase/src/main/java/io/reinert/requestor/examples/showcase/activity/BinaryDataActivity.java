@@ -24,11 +24,11 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Requestor;
-import io.reinert.requestor.SerializedPayload;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ProgressCallback;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
+import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.type.Blob;
 
 public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.Handler {

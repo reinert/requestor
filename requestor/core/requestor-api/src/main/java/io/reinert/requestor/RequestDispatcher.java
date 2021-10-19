@@ -18,7 +18,7 @@ package io.reinert.requestor;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.Timer;
 
-import io.reinert.requestor.payload.PayloadType;
+import io.reinert.requestor.payload.type.PayloadType;
 
 /**
  * This class dispatches the requests and return promises.

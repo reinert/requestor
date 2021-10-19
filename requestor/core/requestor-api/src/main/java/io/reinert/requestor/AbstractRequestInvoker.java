@@ -18,8 +18,8 @@ package io.reinert.requestor;
 import java.util.Collection;
 
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.payload.CollectionPayloadType;
-import io.reinert.requestor.payload.SinglePayloadType;
+import io.reinert.requestor.payload.type.CollectionPayloadType;
+import io.reinert.requestor.payload.type.SinglePayloadType;
 import io.reinert.requestor.uri.Uri;
 
 /**
