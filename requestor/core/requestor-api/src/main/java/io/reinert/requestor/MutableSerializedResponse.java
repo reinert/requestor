@@ -32,9 +32,9 @@ public interface MutableSerializedResponse extends SerializedResponse, HasHeader
     /**
      * Input a serialized payload to be deserialized.
      *
-     * @param payload The payload of the response
+     * @param serializedPayload The payload of the response
      */
-    void setSerializedPayload(Payload payload);
+    void setSerializedPayload(SerializedPayload serializedPayload);
 
     void setResponseType(ResponseType responseType);
 

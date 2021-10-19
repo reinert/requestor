@@ -90,7 +90,7 @@ public interface SerializedResponse {
      */
     HttpStatus getStatus();
 
-    Payload getSerializedPayload();
+    SerializedPayload getSerializedPayload();
 
     PayloadType getPayloadType();
 

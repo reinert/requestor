@@ -77,13 +77,13 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public void setSerializedPayload(Payload payload) {
-        request.setSerializedPayload(payload);
+    public void setSerializedPayload(SerializedPayload serializedPayload) {
+        request.setSerializedPayload(serializedPayload);
     }
 
     @Override
-    public void serializePayload(Payload payload) {
-        request.serializePayload(payload);
+    public void serializePayload(SerializedPayload serializedPayload) {
+        request.serializePayload(serializedPayload);
     }
 
     @Override
@@ -122,7 +122,7 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public Payload getSerializedPayload() {
+    public SerializedPayload getSerializedPayload() {
         return request.getSerializedPayload();
     }
 

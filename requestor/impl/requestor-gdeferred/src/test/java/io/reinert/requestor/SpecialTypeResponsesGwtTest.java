@@ -52,9 +52,9 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
 
     public void testResponseTypeAsPayload() {
         requestor.req("http://httpbin.org/get")
-                .get(Payload.class)
-                .success(new PayloadCallback<Payload>() {
-                    public void execute(Payload result) {
+                .get(SerializedPayload.class)
+                .success(new PayloadCallback<SerializedPayload>() {
+                    public void execute(SerializedPayload result) {
                         assertNotNull(result);
                         finishTest();
                     }

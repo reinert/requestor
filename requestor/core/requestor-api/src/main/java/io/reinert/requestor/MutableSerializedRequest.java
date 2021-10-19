@@ -20,9 +20,9 @@ public interface MutableSerializedRequest extends MutableRequest {
     /**
      * Sets the payload serialized to be sent in the HTTP request body.
      *
-     * @param payload The payload of the request
+     * @param serializedPayload The payload of the request
      */
-    void setSerializedPayload(Payload payload);
+    void setSerializedPayload(SerializedPayload serializedPayload);
 
     MutableSerializedRequest copy();
 

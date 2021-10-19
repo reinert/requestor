@@ -23,12 +23,12 @@ import io.reinert.requestor.Auth;
 import io.reinert.requestor.AuthException;
 import io.reinert.requestor.HttpMethod;
 import io.reinert.requestor.MutableSerializedRequest;
-import io.reinert.requestor.Payload;
 import io.reinert.requestor.PreparedRequest;
 import io.reinert.requestor.RawResponse;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
+import io.reinert.requestor.SerializedPayload;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.payload.SinglePayloadType;
@@ -173,7 +173,8 @@ public class DigestAuth implements Auth {
         return response.getStatusCode() / 100 == 2;
     }
 
-    private Header getAuthorizationHeader(Uri uri, HttpMethod method, Payload payload, Response attemptResp) {
+    private Header getAuthorizationHeader(Uri uri, HttpMethod method, SerializedPayload serializedPayload,
+                                          Response attemptResp) {
         if (attemptResp == null) {
             return null;
         }
@@ -217,7 +218,7 @@ public class DigestAuth implements Auth {
             digestBuilder.append("\", cnonce=\"").append(cNonce);
         } else if (contains(qop, "auth-int")) {
             // "auth-int" method
-            response = generateResponseAuthIntQop(httpMethod, uriPath, ha1, nonce, nc, cNonce, payload);
+            response = generateResponseAuthIntQop(httpMethod, uriPath, ha1, nonce, nc, cNonce, serializedPayload);
             digestBuilder.append("\", qop=\"").append("auth-int");
             digestBuilder.append("\", nc=\"").append(nc);
             digestBuilder.append("\", cnonce=\"").append(cNonce);
@@ -234,8 +235,8 @@ public class DigestAuth implements Auth {
     }
 
     private String generateResponseAuthIntQop(String method, String url, String ha1, String nonce, String nc,
-                                              String cNonce, Payload payload) {
-        String body = payload.toString();
+                                              String cNonce, SerializedPayload serializedPayload) {
+        String body = serializedPayload.toString();
         if (body == null) {
             throw new AuthException("Response body in Digest auth Int Qop method should not be empty.");
         }

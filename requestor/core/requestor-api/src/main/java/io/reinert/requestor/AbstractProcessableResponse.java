@@ -57,8 +57,8 @@ public abstract class AbstractProcessableResponse implements ProcessableResponse
     }
 
     @Override
-    public void setSerializedPayload(Payload payload) {
-        response.setSerializedPayload(payload);
+    public void setSerializedPayload(SerializedPayload serializedPayload) {
+        response.setSerializedPayload(serializedPayload);
     }
 
     @Override
@@ -87,7 +87,7 @@ public abstract class AbstractProcessableResponse implements ProcessableResponse
     }
 
     @Override
-    public Payload getSerializedPayload() {
+    public SerializedPayload getSerializedPayload() {
         return response.getSerializedPayload();
     }
 

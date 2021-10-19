@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.form;
 
-import io.reinert.requestor.Payload;
+import io.reinert.requestor.SerializedPayload;
 
 /**
  * Serializes {@link FormData} objects.
@@ -32,11 +32,11 @@ public interface FormDataSerializer {
     String mediaType();
 
     /**
-     * Receives a {@link FormData} and serializes it into a {@link Payload}.
+     * Receives a {@link FormData} and serializes it into a {@link SerializedPayload}.
      *
      * @param formData the FormData to be serialized
      *
      * @return the serialized Payload
      */
-    Payload serialize(FormData formData);
+    SerializedPayload serialize(FormData formData);
 }

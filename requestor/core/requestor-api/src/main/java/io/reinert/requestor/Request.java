@@ -36,7 +36,7 @@ public interface Request {
 
     Object getPayload();
 
-    Payload getSerializedPayload();
+    SerializedPayload getSerializedPayload();
 
     int getTimeout();
 

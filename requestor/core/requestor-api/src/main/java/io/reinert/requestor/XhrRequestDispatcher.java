@@ -39,7 +39,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();
-        final Payload payload = request.getSerializedPayload();
+        final SerializedPayload serializedPayload = request.getSerializedPayload();
         final ResponseType responseType = request.getResponseType();
 
         // Create XMLHttpRequest
@@ -111,11 +111,11 @@ public class XhrRequestDispatcher extends RequestDispatcher {
 
         // Send the request
         try {
-            if (payload != null) {
-                if (payload.isString() != null) {
-                    xmlHttpRequest.send(payload.isString());
+            if (serializedPayload != null) {
+                if (serializedPayload.isString() != null) {
+                    xmlHttpRequest.send(serializedPayload.isString());
                 } else {
-                    xmlHttpRequest.send(payload.isJavaScriptObject());
+                    xmlHttpRequest.send(serializedPayload.isJavaScriptObject());
                 }
             } else {
                 xmlHttpRequest.send();
@@ -146,16 +146,16 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                                            com.google.gwt.http.client.Response gwtResponse) {
                 final String responseType = xhr.getResponseType();
 
-                Payload payload = null;
+                SerializedPayload serializedPayload = null;
 
                 if (responseType.isEmpty() || responseType.equalsIgnoreCase(ResponseType.TEXT.getValue())) {
-                    payload = Payload.fromText(xhr.getResponseText());
+                    serializedPayload = SerializedPayload.fromText(xhr.getResponseText());
                 } else if (responseType.equalsIgnoreCase(ResponseType.BLOB.getValue())) {
-                    payload = Payload.fromBlob(xhr.getResponse());
+                    serializedPayload = SerializedPayload.fromBlob(xhr.getResponse());
                 } else if (responseType.equalsIgnoreCase(ResponseType.DOCUMENT.getValue())) {
-                    payload = Payload.fromDocument(xhr.getResponse());
+                    serializedPayload = SerializedPayload.fromDocument(xhr.getResponse());
                 } else if (responseType.equalsIgnoreCase(ResponseType.JSON.getValue())) {
-                    payload = Payload.fromJson(xhr.getResponse());
+                    serializedPayload = SerializedPayload.fromJson(xhr.getResponse());
                 }
 
                 final RawResponse response = new RawResponse(
@@ -164,7 +164,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                         new Headers(gwtResponse.getHeaders()),
                         ResponseType.of(responseType),
                         payloadType,
-                        payload,
+                        serializedPayload,
                         deferred);
 
                 evalResponse(response);

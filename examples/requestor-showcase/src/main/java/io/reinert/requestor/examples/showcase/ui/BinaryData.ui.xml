@@ -34,7 +34,7 @@
           <code>
             JavaScriptObject file = getFile();<br/>
             requestor.req("http://httpbin.org/post")
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new Payload(file))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new SerializedPayload(file))
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.upProgress(new ProgressCallback&lt;RequestProgress&gt;() {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onProgress(RequestProgress progress) {

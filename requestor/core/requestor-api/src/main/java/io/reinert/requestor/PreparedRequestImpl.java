@@ -120,7 +120,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public Payload getSerializedPayload() {
+    public SerializedPayload getSerializedPayload() {
         return request.getSerializedPayload();
     }
 

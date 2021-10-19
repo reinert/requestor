@@ -64,7 +64,7 @@ class SerializationEngine {
         Object result = null;
 
         // Special types that skip regular deserialization
-        if (Payload.class == type) {
+        if (SerializedPayload.class == type) {
             result = response.getSerializedPayload();
         } else if (Blob.class == type) {
             result = new Blob(response.getSerializedPayload().isJavaScriptObject());
@@ -138,7 +138,7 @@ class SerializationEngine {
             // maybe extract contentType matching from SerializationEngine
 
             // FormData serialization
-            final Payload serializedPayload = formDataSerializer.serialize((FormData) payload);
+            final SerializedPayload serializedPayload = formDataSerializer.serialize((FormData) payload);
 
             // If mediaType is null then content-type header is removed and the browser handles it
             request.setContentType(formDataSerializer.mediaType());
@@ -148,8 +148,8 @@ class SerializationEngine {
             return;
         }
 
-        if (payload instanceof Payload) {
-            request.serializePayload((Payload) payload);
+        if (payload instanceof SerializedPayload) {
+            request.serializePayload((SerializedPayload) payload);
 
             return;
         }
@@ -189,7 +189,7 @@ class SerializationEngine {
             }
         }
 
-        request.serializePayload(Payload.fromText(body));
+        request.serializePayload(SerializedPayload.fromText(body));
     }
 
     private String getRequestMediaType(SerializableRequest request) {

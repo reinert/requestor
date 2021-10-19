@@ -39,7 +39,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private int timeout;
     private int delay;
     private Object payload;
-    private Payload serializedPayload;
+    private SerializedPayload serializedPayload;
     private Auth auth = PassThroughAuth.getInstance();
     private boolean serialized = false;
 
@@ -99,18 +99,18 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void serializePayload(Payload payload) {
+    public void serializePayload(SerializedPayload serializedPayload) {
         if (serialized) {
             throw new IllegalStateException("The request is already serialized." +
                     " Cannot serialize twice.");
         }
 
-        serializedPayload = payload;
+        this.serializedPayload = serializedPayload;
         serialized = true;
     }
 
     @Override
-    public Payload getSerializedPayload() {
+    public SerializedPayload getSerializedPayload() {
         if (!serialized) {
             throw new IllegalStateException("Payload was not serialized yet.");
         }
@@ -268,7 +268,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void setSerializedPayload(Payload serializedPayload) {
+    public void setSerializedPayload(SerializedPayload serializedPayload) {
         if (!serialized) {
             throw new IllegalStateException("Request payload was not serialized yet." +
                     "Cannot change the serialized payload before serializing the request.");

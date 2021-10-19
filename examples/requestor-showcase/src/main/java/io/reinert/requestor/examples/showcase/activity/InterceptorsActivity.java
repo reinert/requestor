@@ -20,11 +20,11 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.requestor.Payload;
 import io.reinert.requestor.RequestInterceptor;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseInterceptor;
+import io.reinert.requestor.SerializedPayload;
 import io.reinert.requestor.SerializedRequestInProcess;
 import io.reinert.requestor.SerializedResponseInProcess;
 import io.reinert.requestor.callback.PayloadCallback;
@@ -66,7 +66,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                 final String json = request.getSerializedPayload().isString();
                 if (json != null) {
                     // add ")]}',\n" to the beginning of JSONs
-                    request.setSerializedPayload(Payload.fromText(")]}',\\n" + json));
+                    request.setSerializedPayload(SerializedPayload.fromText(")]}',\\n" + json));
                 }
                 request.proceed();
             }
@@ -96,7 +96,8 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
             public void intercept(SerializedResponseInProcess response) {
                 final String json = response.getSerializedPayload().isString();
                 if (json != null) {
-                    response.setSerializedPayload(Payload.fromText(json.substring(6))); // remove first 6 chars )]}',\n
+                    // remove first 6 chars )]}',\n
+                    response.setSerializedPayload(SerializedPayload.fromText(json.substring(6)));
                 }
                 response.proceed();
             }

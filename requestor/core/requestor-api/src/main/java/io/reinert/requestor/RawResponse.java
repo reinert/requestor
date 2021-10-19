@@ -38,14 +38,14 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     private final HttpStatus status;
     private final Request request;
     private Object payload;
-    private Payload serializedPayload;
+    private SerializedPayload serializedPayload;
     private ResponseType responseType;
     private boolean deserialized = false;
     private final PayloadType payloadType;
     private final Deferred<?> deferred;
 
     public RawResponse(Request request, HttpStatus status, Headers headers, ResponseType responseType,
-                       PayloadType payloadType, Payload serializedPayload, Deferred<?> deferred) {
+                       PayloadType payloadType, SerializedPayload serializedPayload, Deferred<?> deferred) {
         this.request = request;
         if (headers == null) throw new NullPointerException("Headers cannot be null");
         this.headers = headers;
@@ -114,7 +114,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public Payload getSerializedPayload() {
+    public SerializedPayload getSerializedPayload() {
         return serializedPayload;
     }
 
@@ -161,12 +161,12 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public void setSerializedPayload(Payload payload) {
+    public void setSerializedPayload(SerializedPayload serializedPayload) {
         if (deserialized) {
             LOGGER.warning("Setting a serialized payload in an already serialized response.");
         }
 
-        this.serializedPayload = payload;
+        this.serializedPayload = serializedPayload;
     }
 
     @Override

@@ -24,7 +24,7 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.NodeCollection;
 import com.google.gwt.http.client.URL;
 
-import io.reinert.requestor.Payload;
+import io.reinert.requestor.SerializedPayload;
 
 /**
  * FormDataSerializer that serialize the {@link FormData} into chained URL encoded key-value pairs.
@@ -42,7 +42,7 @@ public class FormDataSerializerUrlEncoded implements FormDataSerializer {
     }
 
     @Override
-    public Payload serialize(FormData formData) {
+    public SerializedPayload serialize(FormData formData) {
         StringBuilder serialized = new StringBuilder();
 
         final FormElement formElement = formData.getFormElement();
@@ -76,7 +76,7 @@ public class FormDataSerializerUrlEncoded implements FormDataSerializer {
                 serialized.append(name).append('=').append(value).append('&'); // append 'name=value&'
             }
             serialized.setLength(serialized.length() - 1); // remove last '&' character
-            return Payload.fromText(serialized.toString());
+            return SerializedPayload.fromText(serialized.toString());
         }
 
         for (FormData.Param param : formData) {
@@ -91,7 +91,7 @@ public class FormDataSerializerUrlEncoded implements FormDataSerializer {
             }
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
-        return Payload.fromText(serialized.toString());
+        return SerializedPayload.fromText(serialized.toString());
     }
 
     private String encode(String value) {

@@ -22,9 +22,9 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.Payload;
 import io.reinert.requestor.RequestProgress;
 import io.reinert.requestor.Requestor;
+import io.reinert.requestor.SerializedPayload;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ProgressCallback;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
@@ -47,7 +47,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
         view.setSendProgressStatus(0);
         view.setSendText(null);
         requestor.req("http://httpbin.org/post")
-                .payload(Payload.fromBlob(file))
+                .payload(SerializedPayload.fromBlob(file))
                 .post(String.class)
                 .success(new PayloadCallback<String>() {
                     @Override

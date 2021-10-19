@@ -23,37 +23,37 @@ import com.google.gwt.core.client.JavaScriptObject;
  *
  * @author Danilo Reinert
  */
-public class Payload {
+public class SerializedPayload {
 
     private String string;
     private JavaScriptObject javaScriptObject;
 
-    protected Payload(String string) {
+    protected SerializedPayload(String string) {
         this.string = string;
     }
 
-    protected Payload(JavaScriptObject javaScriptObject) {
+    protected SerializedPayload(JavaScriptObject javaScriptObject) {
         this.javaScriptObject = javaScriptObject;
     }
 
-    public static Payload fromText(String text) {
-        return new Payload(text);
+    public static SerializedPayload fromText(String text) {
+        return new SerializedPayload(text);
     }
 
-    public static Payload fromBlob(JavaScriptObject blob) {
-        return new Payload(blob);
+    public static SerializedPayload fromBlob(JavaScriptObject blob) {
+        return new SerializedPayload(blob);
     }
 
-    public static Payload fromDocument(JavaScriptObject document) {
-        return new Payload(document);
+    public static SerializedPayload fromDocument(JavaScriptObject document) {
+        return new SerializedPayload(document);
     }
 
-    public static Payload fromJson(JavaScriptObject json) {
-        return new Payload(json);
+    public static SerializedPayload fromJson(JavaScriptObject json) {
+        return new SerializedPayload(json);
     }
 
-    public static Payload fromFormData(JavaScriptObject formData) {
-        return new Payload(formData);
+    public static SerializedPayload fromFormData(JavaScriptObject formData) {
+        return new SerializedPayload(formData);
     }
 
     /**
