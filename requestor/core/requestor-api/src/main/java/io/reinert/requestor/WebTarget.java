@@ -103,7 +103,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     @Override
-    public HandlerRegistration register(RequestFilter.Factory provider) {
+    public HandlerRegistration register(RequestFilter.Provider provider) {
         return filterManager.register(provider);
     }
 
@@ -113,7 +113,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     @Override
-    public HandlerRegistration register(ResponseFilter.Factory provider) {
+    public HandlerRegistration register(ResponseFilter.Provider provider) {
         return filterManager.register(provider);
     }
 

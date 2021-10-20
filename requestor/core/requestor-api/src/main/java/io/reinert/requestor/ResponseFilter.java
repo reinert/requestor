@@ -23,7 +23,7 @@ package io.reinert.requestor;
  */
 public interface ResponseFilter {
 
-    interface Factory extends io.reinert.requestor.Factory<ResponseFilter> { }
+    interface Provider extends io.reinert.requestor.Provider<ResponseFilter> { }
 
     /**
      * Filter method called after a response has been provided for a request.

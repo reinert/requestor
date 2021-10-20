@@ -45,7 +45,7 @@ class SerializationModuleCode {
         return CodeBlock.builder().add("new $T()", arrayListTypeName).build();
     }
 
-    CodeBlock providersListField() {
+    CodeBlock typeProvidersListField() {
         return CodeBlock.builder().add("$T.emptyList()", Collections.class).build();
     }
 
@@ -61,7 +61,7 @@ class SerializationModuleCode {
         return CodeBlock.builder().addStatement("return $N", schema.serializerListField.spec()).build();
     }
 
-    CodeBlock getProvidersListMethod() {
-        return CodeBlock.builder().addStatement("return $N", schema.providersListField.spec()).build();
+    CodeBlock getTypeProvidersListMethod() {
+        return CodeBlock.builder().addStatement("return $N", schema.typeProvidersListField.spec()).build();
     }
 }

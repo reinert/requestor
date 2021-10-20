@@ -45,11 +45,11 @@ public class HttpDeserializationContext extends DeserializationContext {
     }
 
     public <T> T getInstance(Class<T> type) {
-        final Provider<T> factory = providerManager.get(type);
-        if (factory == null)
+        final Provider<T> provider = providerManager.get(type);
+        if (provider == null)
             throw new UnableToDeserializeException("Could not get instance because there is no provider " +
                     "for the type " + type.getName() + " registered in the Requestor.");
-        return factory.getInstance();
+        return provider.getInstance();
     }
 
     public Request getRequest() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,12 @@ package io.reinert.requestor;
  *
  * @param <T> Type of object to instantiate.
  */
-public interface Provider<T> extends Factory<T> {
+public interface Provider<T> {
 
     /**
-     * Get type of T.
+     * Instantiate T.
      *
-     * @return the class instance of T
+     * @return an instance of T
      */
-    Class<T> getType();
-
+    T getInstance();
 }

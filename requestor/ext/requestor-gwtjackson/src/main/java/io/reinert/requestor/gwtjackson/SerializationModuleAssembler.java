@@ -43,10 +43,10 @@ public class SerializationModuleAssembler extends TypeAssembler {
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(moduleTypeInfo.getClassName())
                 .addField(schema.serializerListField.assemble(code.serializerListField()))
-                .addField(schema.providersListField.assemble(code.providersListField()))
+                .addField(schema.typeProvidersListField.assemble(code.typeProvidersListField()))
                 .addMethod(schema.constructor.assemble(code.constructor()))
                 .addMethod(schema.getSerializersMethod.assemble(code.getSerializersListMethod()))
-                .addMethod(schema.getProvidersMethod.assemble(code.getProvidersListMethod()));
+                .addMethod(schema.getTypeProvidersMethod.assemble(code.getTypeProvidersListMethod()));
     }
 
     private static String getTypeImplName(TypeInfo typeInfo) {

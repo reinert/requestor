@@ -33,7 +33,7 @@ public interface FilterManager {
      */
     HandlerRegistration register(RequestFilter requestFilter);
 
-    HandlerRegistration register(RequestFilter.Factory factory);
+    HandlerRegistration register(RequestFilter.Provider provider);
 
     /**
      * Register a response filter.
@@ -44,6 +44,6 @@ public interface FilterManager {
      */
     HandlerRegistration register(ResponseFilter responseFilter);
 
-    HandlerRegistration register(ResponseFilter.Factory factory);
+    HandlerRegistration register(ResponseFilter.Provider provider);
 
 }

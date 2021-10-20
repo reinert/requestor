@@ -33,6 +33,5 @@ public class ProviderManagerImplJreTest {
         assert collectionProvider != null;
         final Collection c = collectionProvider.getInstance();
         Assert.assertEquals(c.size(), 0);
-        Assert.assertEquals(Collection.class, collectionProvider.getType());
     }
 }

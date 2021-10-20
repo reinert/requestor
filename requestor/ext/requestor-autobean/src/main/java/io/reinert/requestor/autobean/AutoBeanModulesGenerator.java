@@ -126,7 +126,7 @@ public class AutoBeanModulesGenerator extends Generator {
         }
 
         final ArrayDeque<String> serializerFields = new ArrayDeque<String>();
-        final ArrayDeque<String> providerFields = new ArrayDeque<String>();
+        final ArrayDeque<String> typeProviderFields = new ArrayDeque<String>();
 
         if (!allTypesAndWrappers.isEmpty()) {
             generateFactoryInterface(sourceWriter, allTypesAndWrappers);
@@ -136,8 +136,8 @@ public class AutoBeanModulesGenerator extends Generator {
             sourceWriter.println();
 
             for (JClassType autoBeanType : autoBeanTypes) {
-                final String providerFieldName = generateProviderField(sourceWriter, autoBeanType);
-                providerFields.add(providerFieldName);
+                final String typeProviderFieldName = generateTypeProviderField(sourceWriter, autoBeanType);
+                typeProviderFields.add(typeProviderFieldName);
 
                 final String serializerFieldName = generateSerializerClassAndField(treeLogger, typeOracle,
                         sourceWriter, autoBeanType, mediaTypes);
@@ -146,7 +146,7 @@ public class AutoBeanModulesGenerator extends Generator {
         }
 
         generateFields(sourceWriter);
-        generateConstructor(sourceWriter, moduleType, serializerFields, providerFields);
+        generateConstructor(sourceWriter, moduleType, serializerFields, typeProviderFields);
         generateMethods(sourceWriter);
 
         // TODO: uncomment the line below to log the generated source code
@@ -189,13 +189,13 @@ public class AutoBeanModulesGenerator extends Generator {
     }
 
     private void generateConstructor(SourceWriter w, JClassType moduleType, Iterable<String> serializer,
-                                     Iterable<String> providers) {
+                                     Iterable<String> typeProviders) {
         print(w, String.format("public %s() {", getModuleTypeImplName(moduleType)));
         for (String s : serializer) {
             print(w, String.format("    serializerList.add(%s);", s));
         }
-        for (String s : providers) {
-            print(w, String.format("    providersList.add(%s);", s));
+        for (String s : typeProviders) {
+            print(w, String.format("    typeProvidersList.add(%s);", s));
         }
         print(w, String.format("}"));
         print(w, String.format(""));
@@ -217,9 +217,10 @@ public class AutoBeanModulesGenerator extends Generator {
 
     private void generateFields(SourceWriter w) {
         // Initialize a field with binary name of the remote service interface
-        print(w, String.format("private final ArrayList<Serializer<?>> serializerList =" +
-                " new ArrayList<Serializer<?>>();"));
-        print(w, String.format("private final ArrayList<Provider<?>> providersList = new ArrayList<Provider<?>>();"));
+        print(w, String.format("private final ArrayList<Serializer<?>> serializerList = " +
+                "new ArrayList<Serializer<?>>();"));
+        print(w, String.format("private final ArrayList<TypeProvider<?>> typeProvidersList = " +
+                "new ArrayList<TypeProvider<?>>();"));
         print(w, String.format(""));
     }
 
@@ -241,18 +242,18 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format("}"));
         print(w, String.format(""));
         print(w, String.format("@Override"));
-        print(w, String.format("public List<Provider<?>> getProviders() {"));
-        print(w, String.format("    return providersList;"));
+        print(w, String.format("public List<TypeProvider<?>> getTypeProviders() {"));
+        print(w, String.format("    return typeProvidersList;"));
         print(w, String.format("}"));
         print(w, String.format(""));
     }
 
-    private String generateProviderField(SourceWriter w, JClassType type) {
+    private String generateTypeProviderField(SourceWriter w, JClassType type) {
         final String fieldName = getFieldName(type);
         final String autoBeanFactoryMethodName = factoryFieldName + "." + fieldName;
-        final String providerFieldName = fieldName + "Provider";
+        final String typeProviderFieldName = fieldName + "TypeProvider";
 
-        print(w, String.format("private final Provider %s = new Provider<%s>() {", providerFieldName,
+        print(w, String.format("private final TypeProvider %s = new TypeProvider<%s>() {", typeProviderFieldName,
                 type.getQualifiedSourceName()));
         print(w, String.format("    @Override"));
         print(w, String.format("    public Class<%s> getType() {", type.getQualifiedSourceName()));
@@ -266,7 +267,7 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format("};"));
         print(w, String.format(""));
 
-        return providerFieldName;
+        return typeProviderFieldName;
     }
 
     /**

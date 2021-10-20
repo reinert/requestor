@@ -153,8 +153,8 @@ public class GwtJacksonModuleGwtTest extends GWTTestCase {
 //        for (Serializer<?> serializer : module.getSerializers()) {
 //            serializerManager.register(serializer);
 //        }
-//        for (Provider<?> provider : module.getProviders()) {
-//            providerManager.register(provider);
+//        for (TypeProvider<?> typeProvider : module.getTypeProviders()) {
+//            providerManager.register(typeProvider);
 //        }
 //    }
 

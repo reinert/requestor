@@ -473,8 +473,8 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public HandlerRegistration register(RequestFilter.Factory factory) {
-        return filterManager.register(factory);
+    public HandlerRegistration register(RequestFilter.Provider provider) {
+        return filterManager.register(provider);
     }
 
     @Override
@@ -483,8 +483,8 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public HandlerRegistration register(ResponseFilter.Factory factory) {
-        return filterManager.register(factory);
+    public HandlerRegistration register(ResponseFilter.Provider provider) {
+        return filterManager.register(provider);
     }
 
     @Override
@@ -498,13 +498,18 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public HandlerRegistration register(Provider<?> provider) {
+    public <T> HandlerRegistration register(Class<T> type, Provider<T> provider) {
+        return providerManager.register(type, provider);
+    }
+
+    @Override
+    public <T> HandlerRegistration register(TypeProvider<T> provider) {
         return providerManager.register(provider);
     }
 
     @Override
     public HandlerRegistration register(SerializationModule serializationModule) {
-        final int length = serializationModule.getSerializers().size() + serializationModule.getProviders().size();
+        final int length = serializationModule.getSerializers().size() + serializationModule.getTypeProviders().size();
         final HandlerRegistration[] registrations = new HandlerRegistration[length];
         int i = -1;
 
@@ -512,7 +517,7 @@ public class RequestorImpl extends Requestor {
             registrations[++i] = register(serializer);
         }
 
-        for (Provider<?> provider : serializationModule.getProviders()) {
+        for (TypeProvider<?> provider : serializationModule.getTypeProviders()) {
             registrations[++i] = register(provider);
         }
 

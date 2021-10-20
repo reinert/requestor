@@ -32,6 +32,6 @@ public interface SerializationModule {
 
     List<Serializer<?>> getSerializers();
 
-    List<Provider<?>> getProviders();
+    List<TypeProvider<?>> getTypeProviders();
 
 }

@@ -23,7 +23,7 @@ package io.reinert.requestor;
  */
 public interface RequestFilter {
 
-    interface Factory extends io.reinert.requestor.Factory<RequestFilter> { }
+    interface Provider extends io.reinert.requestor.Provider<RequestFilter> { }
 
     /**
      * Filter method called before a request has been dispatched to a client transport layer.

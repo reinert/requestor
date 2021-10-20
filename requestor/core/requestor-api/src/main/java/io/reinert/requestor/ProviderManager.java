@@ -27,9 +27,20 @@ public interface ProviderManager {
     /**
      * Register a {@link Provider}.
      *
+     * @param type      the type related to the provider
      * @param provider  the provider to register
      *
      * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
      */
-    HandlerRegistration register(Provider<?> provider);
+    <T> HandlerRegistration register(Class<T> type, Provider<T> provider);
+
+    /**
+     * Register a {@link TypeProvider}.
+     *
+     * @param provider  the provider to register
+     *
+     * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
+     */
+    <T> HandlerRegistration register(TypeProvider<T> provider);
+
 }

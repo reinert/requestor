@@ -26,7 +26,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.WildcardTypeName;
 
-import io.reinert.requestor.Provider;
+import io.reinert.requestor.TypeProvider;
 import io.reinert.requestor.gwtjackson.codegen.FieldAssembler;
 import io.reinert.requestor.gwtjackson.codegen.MethodAssembler;
 import io.reinert.requestor.serialization.Serializer;
@@ -35,15 +35,15 @@ class SerializationModuleSchema {
 
     final Constructor constructor = new Constructor();
     final GetSerializersMethod getSerializersMethod = new GetSerializersMethod();
-    final GetProvidersMethod getProvidersMethod = new GetProvidersMethod();
+    final GetTypeProvidersMethod getTypeProvidersMethod = new GetTypeProvidersMethod();
     final SerializerListField serializerListField = new SerializerListField();
-    final ProvidersListField providersListField = new ProvidersListField();
+    final TypeProvidersListField typeProvidersListField = new TypeProvidersListField();
 
     private final TypeName serializerListTypeName = ParameterizedTypeName.get(ClassName.get(List.class),
             ParameterizedTypeName.get(ClassName.get(Serializer.class),
             WildcardTypeName.subtypeOf(ClassName.OBJECT)));
-    private final TypeName providersListTypeName = ParameterizedTypeName.get(ClassName.get(List.class),
-            ParameterizedTypeName.get(ClassName.get(Provider.class),
+    private final TypeName typeProvidersListTypeName = ParameterizedTypeName.get(ClassName.get(List.class),
+            ParameterizedTypeName.get(ClassName.get(TypeProvider.class),
                     WildcardTypeName.subtypeOf(ClassName.OBJECT)));
 
     class SerializerListField extends FieldAssembler {
@@ -52,9 +52,10 @@ class SerializationModuleSchema {
         }
     }
 
-    class ProvidersListField extends FieldAssembler {
+    class TypeProvidersListField extends FieldAssembler {
         protected FieldSpec.Builder getDeclaration() {
-            return FieldSpec.builder(providersListTypeName, "providersList", Modifier.PRIVATE, Modifier.FINAL);
+            return FieldSpec.builder(typeProvidersListTypeName, "typeProvidersList", Modifier.PRIVATE,
+                    Modifier.FINAL);
         }
     }
 
@@ -73,10 +74,10 @@ class SerializationModuleSchema {
         }
     }
 
-    class GetProvidersMethod extends MethodAssembler {
+    class GetTypeProvidersMethod extends MethodAssembler {
         protected MethodSpec.Builder getSignature() {
-            return MethodSpec.methodBuilder("getProviders")
-                    .returns(providersListTypeName)
+            return MethodSpec.methodBuilder("getTypeProviders")
+                    .returns(typeProvidersListTypeName)
                     .addModifiers(Modifier.PUBLIC);
         }
     }

@@ -37,70 +37,12 @@ class ProviderManagerImpl implements ProviderManager {
     private final Map<String, Provider<?>> providers = new HashMap<String, Provider<?>>();
 
     public ProviderManagerImpl() {
-        final Provider<ArrayList> arrayListProvider = new Provider<ArrayList>() {
-
-            @Override
-            public Class<ArrayList> getType() {
-                return ArrayList.class;
-            }
-
-            @Override
-            public ArrayList getInstance() {
-                return new ArrayList();
-            }
-        };
-        providers.put(Collection.class.getName(), arrayListProvider);
-        providers.put(List.class.getName(), arrayListProvider);
-        providers.put(ArrayList.class.getName(), arrayListProvider);
-        providers.put(LinkedList.class.getName(), new Provider<LinkedList>() {
-
-            @Override
-            public Class<LinkedList> getType() {
-                return LinkedList.class;
-            }
-
-            @Override
-            public LinkedList getInstance() {
-                return new LinkedList();
-            }
-        });
-        final Provider<HashSet> hashSetProvider = new Provider<HashSet>() {
-
-            @Override
-            public Class<HashSet> getType() {
-                return HashSet.class;
-            }
-
-            @Override
-            public HashSet getInstance() {
-                return new HashSet();
-            }
-        };
-        providers.put(Set.class.getName(), hashSetProvider);
-        providers.put(HashSet.class.getName(), hashSetProvider);
-        providers.put(TreeSet.class.getName(), new Provider<TreeSet>() {
-
-            @Override
-            public Class<TreeSet> getType() {
-                return TreeSet.class;
-            }
-
-            @Override
-            public TreeSet getInstance() {
-                return new TreeSet();
-            }
-        });
+        registerCollectionProviders();
     }
 
-    /**
-     * Register a {@link Provider}.
-     *
-     * @param provider  the provider to register
-     *
-     * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
-     */
-    public HandlerRegistration register(Provider<?> provider) {
-        final String typeName = provider.getType().getName();
+    @Override
+    public <T> HandlerRegistration register(Class<T> type, Provider<T> provider) {
+        final String typeName = type.getName();
         providers.put(typeName, provider);
 
         return new HandlerRegistration() {
@@ -109,6 +51,11 @@ class ProviderManagerImpl implements ProviderManager {
                 providers.remove(typeName);
             }
         };
+    }
+
+    @Override
+    public <T> HandlerRegistration register(TypeProvider<T> provider) {
+        return register(provider.getType(), provider);
     }
 
     /**
@@ -120,5 +67,37 @@ class ProviderManagerImpl implements ProviderManager {
     public <T> Provider<T> get(Class<T> type) {
         // TODO: throw exception if not exists?
         return (Provider<T>) providers.get(type.getName());
+    }
+
+    private void registerCollectionProviders() {
+        final Provider<ArrayList> arrayListProvider = new Provider<ArrayList>() {
+            @Override
+            public ArrayList getInstance() {
+                return new ArrayList();
+            }
+        };
+        providers.put(Collection.class.getName(), arrayListProvider);
+        providers.put(List.class.getName(), arrayListProvider);
+        providers.put(ArrayList.class.getName(), arrayListProvider);
+        providers.put(LinkedList.class.getName(), new Provider<LinkedList>() {
+            @Override
+            public LinkedList getInstance() {
+                return new LinkedList();
+            }
+        });
+        final Provider<HashSet> hashSetProvider = new Provider<HashSet>() {
+            @Override
+            public HashSet getInstance() {
+                return new HashSet();
+            }
+        };
+        providers.put(Set.class.getName(), hashSetProvider);
+        providers.put(HashSet.class.getName(), hashSetProvider);
+        providers.put(TreeSet.class.getName(), new Provider<TreeSet>() {
+            @Override
+            public TreeSet getInstance() {
+                return new TreeSet();
+            }
+        });
     }
 }

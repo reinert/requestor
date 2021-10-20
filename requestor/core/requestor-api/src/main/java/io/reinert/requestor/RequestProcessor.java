@@ -55,7 +55,7 @@ class RequestProcessor {
 
     private ProcessableRequest applyFilters(ProcessableRequest request) {
         // Apply filters in reverse order, so they are executed in the order they were registered
-        final ListIterator<RequestFilter.Factory> it = filterManager.reverseRequestFiltersIterator();
+        final ListIterator<RequestFilter.Provider> it = filterManager.reverseRequestFiltersIterator();
         while (it.hasPrevious()) {
             request = new RequestInFilterProcess(request, it.previous().getInstance());
         }

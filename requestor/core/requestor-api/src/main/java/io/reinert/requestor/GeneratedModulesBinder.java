@@ -33,7 +33,7 @@ class GeneratedModulesBinder {
                 serializerManager.register(serializer);
             }
 
-            for (Provider<?> provider : serializationModule.getProviders()) {
+            for (TypeProvider<?> provider : serializationModule.getTypeProviders()) {
                 providerManager.register(provider);
             }
         }
