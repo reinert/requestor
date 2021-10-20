@@ -15,20 +15,23 @@
  */
 package io.reinert.requestor;
 
+import java.util.logging.Logger;
+
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
 import io.reinert.requestor.uri.Uri;
 
-public class RequestInAuthProcess<R, S extends MutableSerializedRequest & SerializableRequest>
-        implements ProcessableRequest {
+public class RequestInAuthProcess<R> implements ProcessableRequest {
 
-    private final S request;
+    private static final Logger LOGGER = Logger.getLogger(RequestInAuthProcess.class.getName());
+
+    private final MutableSerializedRequest request;
     private final PayloadType responsePayloadType;
     private final RequestDispatcher dispatcher;
     private final Deferred<R> deferred;
 
-    public RequestInAuthProcess(S request, PayloadType responsePayloadType,
+    public RequestInAuthProcess(MutableSerializedRequest request, PayloadType responsePayloadType,
                                 RequestDispatcher dispatcher, Deferred<R> deferred) {
         this.request = request;
         this.responsePayloadType = responsePayloadType;
@@ -168,7 +171,11 @@ public class RequestInAuthProcess<R, S extends MutableSerializedRequest & Serial
 
     @Override
     public void serializePayload(SerializedPayload serializedPayload) {
-        request.serializePayload(serializedPayload);
+        try {
+            ((SerializableRequest) request).serializePayload(serializedPayload);
+        } catch (ClassCastException e) {
+            LOGGER.warning("Cannot serialize payload. Delegated request is not a SerializableRequest.");
+        }
     }
 
     @Override

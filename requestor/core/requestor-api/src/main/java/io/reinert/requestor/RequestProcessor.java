@@ -37,7 +37,7 @@ class RequestProcessor {
         this.interceptorManager = interceptorManager;
     }
 
-    public void process(RequestInAuthProcess<?, ?> request) {
+    public void process(RequestInAuthProcess<?> request) {
         // 1: FILTER
         // 2: SERIALIZE
         // 3: INTERCEPT

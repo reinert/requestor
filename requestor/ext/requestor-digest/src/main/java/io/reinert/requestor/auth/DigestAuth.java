@@ -138,7 +138,7 @@ public class DigestAuth implements Auth {
 
     private void sendAttemptRequest(final PreparedRequest originalRequest, MutableSerializedRequest attemptRequest,
                                     final RequestDispatcher dispatcher) {
-        dispatcher.dispatch(attemptRequest, new SinglePayloadType(RawResponse.class),
+        dispatcher.dispatch(attemptRequest, new SinglePayloadType(RawResponse.class), true,
                 new Callback<RawResponse, Throwable>() {
             @Override
             public void onFailure(Throwable error) {

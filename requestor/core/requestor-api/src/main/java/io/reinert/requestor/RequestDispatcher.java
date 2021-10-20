@@ -29,7 +29,7 @@ import io.reinert.requestor.payload.type.PayloadType;
  */
 public abstract class RequestDispatcher {
 
-    private static Logger LOGGER = Logger.getLogger(RequestDispatcher.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(RequestDispatcher.class.getName());
 
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
@@ -72,53 +72,15 @@ public abstract class RequestDispatcher {
      *
      * @return                      The promise for the dispatched request
      */
-    public <T, S extends MutableSerializedRequest & SerializableRequest> Promise<T> dispatch(
-            final S request, final PayloadType responsePayloadType) {
-        final Deferred<T> deferred = deferredFactory.getDeferred();
+    public <T> Promise<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
+        Deferred<T> deferred = deferredFactory.getDeferred();
 
-        scheduleDispatch(request, responsePayloadType, deferred);
+        scheduleDispatch(request, responsePayloadType, deferred, false, false);
 
         LOGGER.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
                 request.getDelay() + "ms.");
 
         return deferred.getPromise();
-    }
-
-    private <T, S extends MutableSerializedRequest & SerializableRequest> void scheduleDispatch(
-            final S request, final PayloadType responsePayloadType, final Deferred<T> deferred) {
-        final RequestInAuthProcess<T, S> requestInAuthProcess = new RequestInAuthProcess<T, S>(request,
-                responsePayloadType, this, deferred);
-
-        final S originalRequest = request.getThrottleInterval() > 0 ? (S) request.copy() : null;
-
-        // TODO: switch by a native Timer to avoid importing GWT UI module
-        new Timer() {
-            public void run() {
-                try {
-                    // Process and send the request
-                    requestProcessor.process(requestInAuthProcess);
-
-                    LOGGER.warning(">>>>>> ( " + request.getThrottleLimit() + ", "  +
-                            request.getThrottleCounter() + ", " + request.getThrottleInterval() + " )");
-
-                    // Throttle the request
-                    if (requestInAuthProcess.getThrottleInterval() > 0 && (
-                            requestInAuthProcess.getThrottleLimit() <= 0 ||
-                            requestInAuthProcess.getThrottleCounter() < requestInAuthProcess.getThrottleLimit())) {
-                        new Timer() {
-                            @Override
-                            public void run() {
-                                originalRequest.incrementThrottleCounter();
-                                scheduleDispatch(originalRequest, responsePayloadType, deferred.getUnresolvedCopy());
-                            }
-                        }.schedule(request.getThrottleInterval());
-                    }
-                } catch (Exception e) {
-                    deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +
-                            " request. See previous exception.", e));
-                }
-            }
-        }.schedule(request.getDelay());
     }
 
     /**
@@ -130,16 +92,52 @@ public abstract class RequestDispatcher {
      * @param <T>                   The expected type of the response payload
      */
     public <T> void dispatch(MutableSerializedRequest request, PayloadType responsePayloadType,
-                             Callback<T, Throwable> callback) {
+                             boolean skipAuth, Callback<T, Throwable> callback) {
         final Deferred<T> deferred = new CallbackDeferred<T>(callback);
 
-        // Send the request without processing
-        final PreparedRequest p = new PreparedRequestImpl<T>(this, request, deferred, responsePayloadType);
+        // TODO: add a skipAuth option and handle it in RequestInAuthProcess#process and erase the skipAuth flag here.
+        scheduleDispatch(request, responsePayloadType, deferred, true, skipAuth);
+    }
+
+    private <T> void scheduleDispatch(final MutableSerializedRequest request, final PayloadType responsePayloadType,
+                                      final Deferred<T> deferred, final boolean skipProcessing,
+                                      final boolean skipAuth) {
+        final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request,
+                responsePayloadType, this, deferred);
+
+        final MutableSerializedRequest originalRequest = request.getThrottleInterval() > 0 ? request.copy() : null;
 
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
             public void run() {
-                p.send();
+                try {
+                    // Process and send the request
+                    if (skipProcessing) {
+                        if (skipAuth) {
+                            requestInAuthProcess.setAuth(PassThroughAuth.getInstance());
+                        }
+                        requestInAuthProcess.process();
+                    } else {
+                        requestProcessor.process(requestInAuthProcess);
+                    }
+
+                    // Throttle the request
+                    if (requestInAuthProcess.getThrottleInterval() > 0 && (
+                            requestInAuthProcess.getThrottleLimit() <= 0 ||
+                            requestInAuthProcess.getThrottleCounter() < requestInAuthProcess.getThrottleLimit())) {
+                        new Timer() {
+                            @Override
+                            public void run() {
+                                originalRequest.incrementThrottleCounter();
+                                scheduleDispatch(originalRequest, responsePayloadType, deferred.getUnresolvedCopy(),
+                                        false, false);
+                            }
+                        }.schedule(request.getThrottleInterval());
+                    }
+                } catch (Exception e) {
+                    deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +
+                            " request. See previous exception.", e));
+                }
             }
         }.schedule(request.getDelay());
     }
