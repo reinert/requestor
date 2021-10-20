@@ -22,6 +22,8 @@ package io.reinert.requestor;
  */
 public interface ResponseInterceptor {
 
+    interface Provider extends io.reinert.requestor.Provider<ResponseInterceptor> { }
+
     /**
      * Intercept method called immediately after a response has been provided for a request.
      *

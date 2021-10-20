@@ -29,13 +29,15 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
  */
 class InterceptorManagerImpl implements InterceptorManager {
 
-    private final List<RequestInterceptor> requestInterceptors = new ArrayList<RequestInterceptor>();
-    private final List<ResponseInterceptor> responseInterceptors = new ArrayList<ResponseInterceptor>();
+    private final List<RequestInterceptor.Provider> requestInterceptors =
+            new ArrayList<RequestInterceptor.Provider>();
+    private final List<ResponseInterceptor.Provider> responseInterceptors =
+            new ArrayList<ResponseInterceptor.Provider>();
 
     @SuppressWarnings("unchecked")
-    private List<RequestInterceptor> requestInterceptorsCopy = Collections.EMPTY_LIST;
+    private List<RequestInterceptor.Provider> requestInterceptorsCopy = Collections.EMPTY_LIST;
     @SuppressWarnings("unchecked")
-    private List<ResponseInterceptor> responseInterceptorsCopy = Collections.EMPTY_LIST;
+    private List<ResponseInterceptor.Provider> responseInterceptorsCopy = Collections.EMPTY_LIST;
 
     public InterceptorManagerImpl() {
     }
@@ -47,36 +49,56 @@ class InterceptorManagerImpl implements InterceptorManager {
      * @param manager  a manager to wrap
      */
     public InterceptorManagerImpl(InterceptorManagerImpl manager) {
-        final List<RequestInterceptor> managerRequestInterceptors = manager.getRequestInterceptors();
+        final List<RequestInterceptor.Provider> managerRequestInterceptors = manager.getRequestInterceptors();
         this.requestInterceptors.addAll(managerRequestInterceptors);
         this.requestInterceptorsCopy = managerRequestInterceptors; // It's an immutable list
-        final List<ResponseInterceptor> managerResponseInterceptors = manager.getResponseInterceptors();
+        final List<ResponseInterceptor.Provider> managerResponseInterceptors = manager.getResponseInterceptors();
         this.responseInterceptors.addAll(managerResponseInterceptors);
         this.responseInterceptorsCopy = managerResponseInterceptors; // It's an immutable list
     }
 
     @Override
     public HandlerRegistration register(final RequestInterceptor requestInterceptor) {
-        requestInterceptors.add(requestInterceptor);
-        updateRequestInterceptorsCopy(); // getRequestInterceptors returns this immutable copy
+        return register(new RequestInterceptor.Provider() {
+            @Override
+            public RequestInterceptor getInstance() {
+                return requestInterceptor;
+            }
+        });
+    }
+
+    @Override
+    public HandlerRegistration register(final RequestInterceptor.Provider provider) {
+        requestInterceptors.add(provider);
+        updateRequestInterceptorsCopy(); // getRequestInterceptors returns this copy
 
         return new HandlerRegistration() {
             @Override
             public void removeHandler() {
-                removeRequestInterceptor(requestInterceptor);
+                removeRequestInterceptor(provider);
             }
         };
     }
 
     @Override
     public HandlerRegistration register(final ResponseInterceptor responseInterceptor) {
-        responseInterceptors.add(responseInterceptor);
-        updateResponseInterceptorsCopy(); // getResponseInterceptors returns this immutable copy
+        return register(new ResponseInterceptor.Provider() {
+            @Override
+            public ResponseInterceptor getInstance() {
+                return responseInterceptor;
+            }
+        });
+    }
+
+    @Override
+    public HandlerRegistration register(final ResponseInterceptor.Provider provider) {
+        responseInterceptors.add(provider);
+        updateResponseInterceptorsCopy(); // getResponseInterceptors returns this copy
 
         return new HandlerRegistration() {
             @Override
             public void removeHandler() {
-                removeResponseInterceptor(responseInterceptor);
+                removeResponseInterceptor(provider);
             }
         };
     }
@@ -86,7 +108,7 @@ class InterceptorManagerImpl implements InterceptorManager {
      *
      * @return the request interceptors
      */
-    public List<RequestInterceptor> getRequestInterceptors() {
+    public List<RequestInterceptor.Provider> getRequestInterceptors() {
         return requestInterceptorsCopy;
     }
 
@@ -95,24 +117,24 @@ class InterceptorManagerImpl implements InterceptorManager {
      *
      * @return the response interceptors
      */
-    public List<ResponseInterceptor> getResponseInterceptors() {
+    public List<ResponseInterceptor.Provider> getResponseInterceptors() {
         return responseInterceptorsCopy;
     }
 
-    public ListIterator<RequestInterceptor> reverseRequestInterceptorsIterator() {
+    public ListIterator<RequestInterceptor.Provider> reverseRequestInterceptorsIterator() {
         return requestInterceptorsCopy.listIterator(requestInterceptorsCopy.size());
     }
 
-    public ListIterator<ResponseInterceptor> reverseResponseInterceptorsIterator() {
+    public ListIterator<ResponseInterceptor.Provider> reverseResponseInterceptorsIterator() {
         return responseInterceptorsCopy.listIterator(responseInterceptorsCopy.size());
     }
 
-    private void removeRequestInterceptor(RequestInterceptor requestInterceptor) {
+    private void removeRequestInterceptor(RequestInterceptor.Provider requestInterceptor) {
         requestInterceptors.remove(requestInterceptor);
         updateRequestInterceptorsCopy();
     }
 
-    private void removeResponseInterceptor(ResponseInterceptor responseInterceptor) {
+    private void removeResponseInterceptor(ResponseInterceptor.Provider responseInterceptor) {
         responseInterceptors.remove(responseInterceptor);
         updateResponseInterceptorsCopy();
     }

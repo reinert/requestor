@@ -22,6 +22,8 @@ package io.reinert.requestor;
  */
 public interface RequestInterceptor {
 
+    interface Provider extends io.reinert.requestor.Provider<RequestInterceptor> { }
+
     /**
      * Intercept method called immediately before a request is sent to a client transport layer.
      *

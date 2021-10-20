@@ -73,9 +73,9 @@ class ResponseProcessor {
 
     private ProcessableResponse applyInterceptors(ProcessableResponse response) {
         // Apply interceptors in reverse order, so they are executed in the order they were registered
-        final ListIterator<ResponseInterceptor> it = interceptorManager.reverseResponseInterceptorsIterator();
+        final ListIterator<ResponseInterceptor.Provider> it = interceptorManager.reverseResponseInterceptorsIterator();
         while (it.hasPrevious()) {
-            response = new ResponseInInterceptProcess(response, it.previous());
+            response = new ResponseInInterceptProcess(response, it.previous().getInstance());
         }
 
         return response;

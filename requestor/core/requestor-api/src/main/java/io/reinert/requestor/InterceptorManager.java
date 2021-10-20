@@ -33,6 +33,8 @@ public interface InterceptorManager {
      */
     HandlerRegistration register(RequestInterceptor requestInterceptor);
 
+    HandlerRegistration register(RequestInterceptor.Provider provider);
+
     /**
      * Register a response interceptor.
      *
@@ -41,4 +43,7 @@ public interface InterceptorManager {
      * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
      */
     HandlerRegistration register(ResponseInterceptor responseInterceptor);
+
+    HandlerRegistration register(ResponseInterceptor.Provider provider);
+
 }

@@ -65,9 +65,9 @@ class RequestProcessor {
 
     private ProcessableRequest applyInterceptors(ProcessableRequest request) {
         // Apply interceptors in reverse order, so they are executed in the order they were registered
-        final ListIterator<RequestInterceptor> it = interceptorManager.reverseRequestInterceptorsIterator();
+        final ListIterator<RequestInterceptor.Provider> it = interceptorManager.reverseRequestInterceptorsIterator();
         while (it.hasPrevious()) {
-            request = new RequestInInterceptProcess(request, it.previous());
+            request = new RequestInInterceptProcess(request, it.previous().getInstance());
         }
 
         return request;
