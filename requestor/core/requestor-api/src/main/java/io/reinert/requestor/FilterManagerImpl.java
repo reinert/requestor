@@ -29,13 +29,13 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
  */
 class FilterManagerImpl implements FilterManager {
 
-    private final List<RequestFilter> requestFilters = new ArrayList<RequestFilter>();
-    private final List<ResponseFilter> responseFilters = new ArrayList<ResponseFilter>();
+    private final List<RequestFilter.Factory> requestFilters = new ArrayList<RequestFilter.Factory>();
+    private final List<ResponseFilter.Factory> responseFilters = new ArrayList<ResponseFilter.Factory>();
 
     @SuppressWarnings("unchecked")
-    private List<RequestFilter> requestFiltersCopy = Collections.EMPTY_LIST;
+    private List<RequestFilter.Factory> requestFiltersCopy = Collections.EMPTY_LIST;
     @SuppressWarnings("unchecked")
-    private List<ResponseFilter> responseFiltersCopy = Collections.EMPTY_LIST;
+    private List<ResponseFilter.Factory> responseFiltersCopy = Collections.EMPTY_LIST;
 
     public FilterManagerImpl() {
     }
@@ -47,36 +47,56 @@ class FilterManagerImpl implements FilterManager {
      * @param manager  a manager to wrap
      */
     public FilterManagerImpl(FilterManagerImpl manager) {
-        final List<RequestFilter> managerRequestFilters = manager.getRequestFilters();
+        final List<RequestFilter.Factory> managerRequestFilters = manager.getRequestFilters();
         this.requestFilters.addAll(managerRequestFilters);
         this.requestFiltersCopy = managerRequestFilters; // It's an immutable list
-        final List<ResponseFilter> managerResponseFilters = manager.getResponseFilters();
+        final List<ResponseFilter.Factory> managerResponseFilters = manager.getResponseFilters();
         this.responseFilters.addAll(managerResponseFilters);
         this.responseFiltersCopy = managerResponseFilters; // It's an immutable list
     }
 
     @Override
     public HandlerRegistration register(final RequestFilter requestFilter) {
-        requestFilters.add(requestFilter);
-        updateRequestFiltersCopy(); // getRequestFilters returns this immutable copy
+        return register(new RequestFilter.Factory() {
+            @Override
+            public RequestFilter getInstance() {
+                return requestFilter;
+            }
+        });
+    }
+
+    @Override
+    public HandlerRegistration register(final RequestFilter.Factory factory) {
+        requestFilters.add(factory);
+        updateRequestFiltersCopy(); // getRequestFilters returns this copy
 
         return new HandlerRegistration() {
             @Override
             public void removeHandler() {
-                removeRequestFilter(requestFilter);
+                removeRequestFilter(factory);
             }
         };
     }
 
     @Override
     public HandlerRegistration register(final ResponseFilter responseFilter) {
-        responseFilters.add(responseFilter);
-        updateResponseFiltersCopy(); // getResponseFilters returns this immutable copy
+        return register(new ResponseFilter.Factory() {
+            @Override
+            public ResponseFilter getInstance() {
+                return responseFilter;
+            }
+        });
+    }
+
+    @Override
+    public HandlerRegistration register(final ResponseFilter.Factory factory) {
+        responseFilters.add(factory);
+        updateResponseFiltersCopy(); // getResponseFilters returns this copy
 
         return new HandlerRegistration() {
             @Override
             public void removeHandler() {
-                removeResponseFilter(responseFilter);
+                removeResponseFilter(factory);
             }
         };
     }
@@ -86,7 +106,7 @@ class FilterManagerImpl implements FilterManager {
      *
      * @return The request filters.
      */
-    public List<RequestFilter> getRequestFilters() {
+    public List<RequestFilter.Factory> getRequestFilters() {
         return requestFiltersCopy;
     }
 
@@ -95,24 +115,24 @@ class FilterManagerImpl implements FilterManager {
      *
      * @return The response filters.
      */
-    public List<ResponseFilter> getResponseFilters() {
+    public List<ResponseFilter.Factory> getResponseFilters() {
         return responseFiltersCopy;
     }
 
-    public ListIterator<RequestFilter> reverseRequestFiltersIterator() {
+    public ListIterator<RequestFilter.Factory> reverseRequestFiltersIterator() {
         return requestFiltersCopy.listIterator(requestFiltersCopy.size());
     }
 
-    public ListIterator<ResponseFilter> reverseResponseFiltersIterator() {
+    public ListIterator<ResponseFilter.Factory> reverseResponseFiltersIterator() {
         return responseFiltersCopy.listIterator(responseFiltersCopy.size());
     }
 
-    private void removeRequestFilter(RequestFilter requestFilter) {
+    private void removeRequestFilter(RequestFilter.Factory requestFilter) {
         requestFilters.remove(requestFilter);
         updateRequestFiltersCopy();
     }
 
-    private void removeResponseFilter(ResponseFilter responseFilter) {
+    private void removeResponseFilter(ResponseFilter.Factory responseFilter) {
         responseFilters.remove(responseFilter);
         updateResponseFiltersCopy();
     }

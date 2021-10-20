@@ -63,9 +63,9 @@ class ResponseProcessor {
 
     private ProcessableResponse applyFilters(ProcessableResponse response) {
         // Apply filters in reverse order, so they are executed in the order they were registered
-        final ListIterator<ResponseFilter> it = filterManager.reverseResponseFiltersIterator();
+        final ListIterator<ResponseFilter.Factory> it = filterManager.reverseResponseFiltersIterator();
         while (it.hasPrevious()) {
-            response = new ResponseInFilterProcess(response, it.previous());
+            response = new ResponseInFilterProcess(response, it.previous().getInstance());
         }
 
         return response;

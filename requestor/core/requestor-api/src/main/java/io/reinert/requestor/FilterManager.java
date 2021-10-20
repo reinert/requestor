@@ -33,6 +33,8 @@ public interface FilterManager {
      */
     HandlerRegistration register(RequestFilter requestFilter);
 
+    HandlerRegistration register(RequestFilter.Factory factory);
+
     /**
      * Register a response filter.
      *
@@ -41,4 +43,7 @@ public interface FilterManager {
      * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
      */
     HandlerRegistration register(ResponseFilter responseFilter);
+
+    HandlerRegistration register(ResponseFilter.Factory factory);
+
 }

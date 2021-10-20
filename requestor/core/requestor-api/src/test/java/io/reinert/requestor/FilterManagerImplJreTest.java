@@ -33,31 +33,31 @@ public class FilterManagerImplJreTest {
     @Test(expected = UnsupportedOperationException.class)
     public void getRequestFilters_ShouldReturnAnImmutableList() {
         // Given
-        RequestFilter requestFilter = mock(RequestFilter.class);
+        RequestFilter.Factory requestFilter = mock(RequestFilter.Factory.class);
         manager.register(requestFilter);
 
         // When
-        List<RequestFilter> filters = manager.getRequestFilters();
+        List<RequestFilter.Factory> filters = manager.getRequestFilters();
 
         // Then
         assertEquals(filters.size(), 1);
         assertSame(requestFilter, manager.getRequestFilters().get(0));
-        filters.add(mock(RequestFilter.class)); // throw UnsupportedOperationException
+        filters.add(mock(RequestFilter.Factory.class)); // throw UnsupportedOperationException
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void getResponseFilters_ShouldReturnAnImmutableList() {
         // Given
-        ResponseFilter responseFilter = mock(ResponseFilter.class);
+        ResponseFilter.Factory responseFilter = mock(ResponseFilter.Factory.class);
         manager.register(responseFilter);
 
         // When
-        List<ResponseFilter> filters = manager.getResponseFilters();
+        List<ResponseFilter.Factory> filters = manager.getResponseFilters();
 
         // Then
         assertEquals(filters.size(), 1);
         assertSame(responseFilter, manager.getResponseFilters().get(0));
-        filters.add(mock(ResponseFilter.class)); // throw UnsupportedOperationException
+        filters.add(mock(ResponseFilter.Factory.class)); // throw UnsupportedOperationException
     }
 
     @Test

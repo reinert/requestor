@@ -103,8 +103,18 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     @Override
+    public HandlerRegistration register(RequestFilter.Factory provider) {
+        return filterManager.register(provider);
+    }
+
+    @Override
     public HandlerRegistration register(ResponseFilter responseFilter) {
         return filterManager.register(responseFilter);
+    }
+
+    @Override
+    public HandlerRegistration register(ResponseFilter.Factory provider) {
+        return filterManager.register(provider);
     }
 
     @Override

@@ -473,8 +473,18 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
+    public HandlerRegistration register(RequestFilter.Factory factory) {
+        return filterManager.register(factory);
+    }
+
+    @Override
     public HandlerRegistration register(ResponseFilter responseFilter) {
         return filterManager.register(responseFilter);
+    }
+
+    @Override
+    public HandlerRegistration register(ResponseFilter.Factory factory) {
+        return filterManager.register(factory);
     }
 
     @Override

@@ -54,17 +54,17 @@ class RequestProcessor {
     }
 
     private ProcessableRequest applyFilters(ProcessableRequest request) {
-        // Apply filters in reverse order so they are executed in the order they were registered
-        final ListIterator<RequestFilter> it = filterManager.reverseRequestFiltersIterator();
+        // Apply filters in reverse order, so they are executed in the order they were registered
+        final ListIterator<RequestFilter.Factory> it = filterManager.reverseRequestFiltersIterator();
         while (it.hasPrevious()) {
-            request = new RequestInFilterProcess(request, it.previous());
+            request = new RequestInFilterProcess(request, it.previous().getInstance());
         }
 
         return request;
     }
 
     private ProcessableRequest applyInterceptors(ProcessableRequest request) {
-        // Apply interceptors in reverse order so they are executed in the order they were registered
+        // Apply interceptors in reverse order, so they are executed in the order they were registered
         final ListIterator<RequestInterceptor> it = interceptorManager.reverseRequestInterceptorsIterator();
         while (it.hasPrevious()) {
             request = new RequestInInterceptProcess(request, it.previous());
