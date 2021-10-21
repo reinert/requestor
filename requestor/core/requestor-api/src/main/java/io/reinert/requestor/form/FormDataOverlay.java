@@ -18,7 +18,7 @@ package io.reinert.requestor.form;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.FormElement;
 
-final class FormDataOverlay extends JavaScriptObject {
+public final class FormDataOverlay extends JavaScriptObject {
 
     protected FormDataOverlay() {
     }

@@ -21,7 +21,6 @@ public interface SerializableRequest extends Request {
 
     void serializePayload(SerializedPayload serializedPayload);
 
-    // TODO: refactor FormDataSerializer to extend Serializer and register as a regular serializer in the module
     void setContentType(String mediaType);
 
 }

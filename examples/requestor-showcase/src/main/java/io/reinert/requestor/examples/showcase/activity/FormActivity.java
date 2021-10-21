@@ -56,6 +56,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
     @Override
     public void onWrappingPostButtonClick(FormElement formElement) {
         FormData formData = FormData.wrap(formElement);
+
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
@@ -76,11 +77,13 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
         FormData formData = FormData.builder()
                 .append("custname", custname)
                 .append("custtel", custtel)
+                .append("custemail", custemail)
                 .append("size", size)
                 .append("topping", toppings)
                 .append("time", time)
                 .append("comments", comments)
                 .build();
+
         requestor.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
@@ -91,6 +94,34 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                         // to change it, we can set the desired responseType in the RequestBuilder
                         final String payload = response.getSerializedPayload().getString();
                         view.setBuildingText(payload);
+                    }
+                });
+    }
+
+    @Override
+    public void onBuildingUrlEncodedPostButtonClick(String custname, String custtel, String custemail, String size,
+                                                    List<String> toppings, String time, String comments) {
+        FormData formData = FormData.builder()
+                .append("custname", custname)
+                .append("custtel", custtel)
+                .append("custemail", custemail)
+                .append("size", size)
+                .append("topping", toppings)
+                .append("time", time)
+                .append("comments", comments)
+                .build();
+
+        requestor.req("http://httpbin.org/post")
+                .payload(formData)
+                .contentType("application/x-www-form-urlencoded")
+                .post(Response.class) // retrieve the raw response
+                .success(new PayloadCallback<Response>() {
+                    @Override
+                    public void execute(Response response) {
+                        // the payload is parsed as string by default
+                        // to change it, we can set the desired responseType in the RequestBuilder
+                        final String payload = response.getSerializedPayload().getString();
+                        view.setBuildingUrlEncodedText(payload);
                     }
                 });
     }

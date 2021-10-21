@@ -38,11 +38,6 @@
         <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
     </replace-with>
 
-    <!-- Serialize FormData to x-www-form-urlencoded type. It doesn't support files -->
-    <replace-with class="io.reinert.requestor.form.FormDataSerializerUrlEncoded">
-        <when-type-is class="io.reinert.requestor.form.FormDataSerializer"/>
-    </replace-with>
-
     <!-- Use a custom DeferredFactory -->
     <replace-with class="io.reinert.requestor.examples.showcase.ShowcaseDeferredFactory">
         <when-type-is class="io.reinert.requestor.DeferredFactory"/>

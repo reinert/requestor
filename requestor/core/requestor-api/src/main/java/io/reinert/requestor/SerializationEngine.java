@@ -20,8 +20,11 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 import io.reinert.requestor.form.FormData;
-import io.reinert.requestor.form.FormDataSerializer;
+import io.reinert.requestor.form.FormDataOverlay;
+import io.reinert.requestor.form.FormDataSerializerUrlEncoded;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.CollectionPayloadType;
 import io.reinert.requestor.payload.type.CompositePayloadType;
@@ -48,13 +51,10 @@ class SerializationEngine {
 
     private final SerializerManagerImpl serializerManager;
     private final ProviderManagerImpl providerManager;
-    private final FormDataSerializer formDataSerializer;
 
-    public SerializationEngine(SerializerManagerImpl serializerManager, ProviderManagerImpl providerManager,
-                               FormDataSerializer formDataSerializer) {
+    public SerializationEngine(SerializerManagerImpl serializerManager, ProviderManagerImpl providerManager) {
         this.serializerManager = serializerManager;
         this.providerManager = providerManager;
-        this.formDataSerializer = formDataSerializer;
     }
 
     public void deserializeResponse(DeserializableResponse response) {
@@ -134,17 +134,9 @@ class SerializationEngine {
     public void serializeRequest(SerializableRequest request) {
         Object payload = request.getPayload();
 
-        if (payload instanceof FormData) {
-            // TODO: refactor FormDataSerializer to extend Serializer and register as a regular serializer in the module
-            // maybe extract contentType matching from SerializationEngine
-
-            // FormData serialization
-            final SerializedPayload serializedPayload = formDataSerializer.serialize((FormData) payload);
-
-            // If mediaType is null then content-type header is removed and the browser handles it
-            request.setContentType(formDataSerializer.mediaType());
-
-            request.serializePayload(serializedPayload);
+        if (payload instanceof FormData &&
+                !FormDataSerializerUrlEncoded.MEDIA_TYPE.equalsIgnoreCase(request.getContentType())) {
+            request.serializePayload(getFormDataSerializedPayload((FormData) payload));
 
             return;
         }
@@ -191,6 +183,22 @@ class SerializationEngine {
         }
 
         request.serializePayload(SerializedPayload.fromText(body));
+    }
+
+    private SerializedPayload getFormDataSerializedPayload(FormData formData) {
+        if (formData.getFormElement() != null)
+            return SerializedPayload.fromFormData(FormDataOverlay.create(formData.getFormElement()));
+
+        FormDataOverlay overlay = FormDataOverlay.create();
+        for (FormData.Param param : formData) {
+            final Object value = param.getValue();
+            if (value instanceof String) {
+                overlay.append(param.getName(), (String) value);
+            } else {
+                overlay.append(param.getName(), (JavaScriptObject) value, param.getFileName());
+            }
+        }
+        return SerializedPayload.fromFormData(overlay);
     }
 
     private String getRequestMediaType(SerializableRequest request) {

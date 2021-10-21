@@ -103,7 +103,7 @@ public class FormData implements Iterable<FormData.Param> {
         }
     }
 
-    static class Param {
+    public static class Param {
 
         private String name;
         private JavaScriptObject jsoValue;

@@ -45,10 +45,6 @@
     <when-type-is class="io.reinert.requestor.RequestDispatcherFactory"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.form.FormDataSerializerNative">
-    <when-type-is class="io.reinert.requestor.form.FormDataSerializer"/>
-  </replace-with>
-
   <replace-with class="io.reinert.requestor.RequestorInitializerClean">
     <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
   </replace-with>

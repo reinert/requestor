@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.form;
 
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +25,9 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.NodeCollection;
 import com.google.gwt.http.client.URL;
 
-import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.serialization.DeserializationContext;
+import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.serialization.Serializer;
 
 /**
  * FormDataSerializer that serialize the {@link FormData} into chained URL encoded key-value pairs.
@@ -32,17 +35,24 @@ import io.reinert.requestor.payload.SerializedPayload;
  *
  * @author Danilo Reinert
  */
-public class FormDataSerializerUrlEncoded implements FormDataSerializer {
+public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
 
-    private static Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());
+    public static final String MEDIA_TYPE = "application/x-www-form-urlencoded";
+
+    private static final Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());
 
     @Override
-    public String mediaType() {
-        return "application/x-www-form-urlencoded";
+    public Class<FormData> handledType() {
+        return FormData.class;
     }
 
     @Override
-    public SerializedPayload serialize(FormData formData) {
+    public String[] mediaType() {
+        return new String[] { MEDIA_TYPE };
+    }
+
+    @Override
+    public String serialize(FormData formData, SerializationContext context) {
         StringBuilder serialized = new StringBuilder();
 
         final FormElement formElement = formData.getFormElement();
@@ -76,7 +86,7 @@ public class FormDataSerializerUrlEncoded implements FormDataSerializer {
                 serialized.append(name).append('=').append(value).append('&'); // append 'name=value&'
             }
             serialized.setLength(serialized.length() - 1); // remove last '&' character
-            return SerializedPayload.fromText(serialized.toString());
+            return serialized.toString();
         }
 
         for (FormData.Param param : formData) {
@@ -91,7 +101,23 @@ public class FormDataSerializerUrlEncoded implements FormDataSerializer {
             }
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
-        return SerializedPayload.fromText(serialized.toString());
+        return serialized.toString();
+    }
+
+    @Override
+    public String serialize(Collection<FormData> c, SerializationContext context) {
+        throw new UnsupportedOperationException("Can only serialize a single instance of FormData.");
+    }
+
+    @Override
+    public FormData deserialize(String response, DeserializationContext context) {
+        throw new UnsupportedOperationException("Cannot deserialize to FormData.");
+    }
+
+    @Override
+    public <C extends Collection<FormData>> C deserialize(Class<C> collectionType, String response,
+                                                          DeserializationContext context) {
+        throw new UnsupportedOperationException("Cannot deserialize to FormData.");
     }
 
     private String encode(String value) {

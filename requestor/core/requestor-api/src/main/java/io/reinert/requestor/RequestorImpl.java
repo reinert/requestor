@@ -20,7 +20,6 @@ import java.util.Collection;
 import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
-import io.reinert.requestor.form.FormDataSerializer;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
@@ -43,29 +42,21 @@ public class RequestorImpl extends Requestor {
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
     private final SerializationEngine serializationEngine;
-    private final FormDataSerializer formDataSerializer;
     private final RequestDispatcherFactory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
     private final RequestDispatcher requestDispatcher;
 
     public RequestorImpl() {
-        this(GWT.<FormDataSerializer>create(FormDataSerializer.class));
-    }
-
-    public RequestorImpl(FormDataSerializer formDataSerializer) {
-        this(formDataSerializer,
-             GWT.<RequestDispatcherFactory>create(RequestDispatcherFactory.class),
+        this(GWT.<RequestDispatcherFactory>create(RequestDispatcherFactory.class),
              GWT.<DeferredFactory>create(DeferredFactory.class));
     }
 
-    public RequestorImpl(FormDataSerializer formDataSerializer, RequestDispatcherFactory requestDispatcherFactory,
-                         DeferredFactory deferredFactory) {
-        this.formDataSerializer = formDataSerializer;
+    public RequestorImpl(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
 
         // init processors
-        serializationEngine = new SerializationEngine(serializerManager, providerManager, formDataSerializer);
+        serializationEngine = new SerializationEngine(serializerManager, providerManager);
         requestProcessor = new RequestProcessor(serializationEngine, defaults.getRequestSerializer(), filterManager,
                 interceptorManager);
         responseProcessor = new ResponseProcessor(serializationEngine, defaults.getResponseDeserializer(),

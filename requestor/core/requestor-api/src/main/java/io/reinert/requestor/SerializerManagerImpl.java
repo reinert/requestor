@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.form.FormDataSerializerUrlEncoded;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.SerializationException;
@@ -43,6 +44,10 @@ class SerializerManagerImpl implements SerializerManager {
             ArrayList<DeserializerHolder>>();
     private final Map<String, ArrayList<SerializerHolder>> serializers = new HashMap<String,
             ArrayList<SerializerHolder>>();
+
+    public SerializerManagerImpl() {
+        register(new FormDataSerializerUrlEncoded());
+    }
 
     /**
      * Register a deserializer of the given type.

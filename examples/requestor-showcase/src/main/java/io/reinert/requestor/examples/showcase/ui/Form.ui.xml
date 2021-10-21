@@ -91,6 +91,7 @@
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("comments", comments)
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.build();
               <br/>
+              <br/>
               requestor.req("http://httpbin.org/post").payload(formData).post();
             </code>
           </pre>
@@ -101,6 +102,29 @@
             <g:Button ui:field="buildingPostButton" styleName="btn">POST</g:Button>
           </g:HTMLPanel>
           <textarea ui:field="buildingTextArea" class="form-control result" rows="5" readonly="readonly"/>
+        </g:HTMLPanel>
+
+        <br/>
+
+        <p>By default FormData payloads are sent as native JS FormData objects.
+          <br/>
+          If you rather want them serialized in <b>"url encoded" format</b>, set the request <b>content-type</b> to <code>"application/x-www-form-urlencoded"</code>.
+          <br/>
+          Note that <i>"url encoded" serialization doesn't support binary files</i>. If you need to send binary content in the FormData payload, use the default serialization.
+        </p>
+        <div class="highlight">
+          <pre ui:field="buildingUrlEncoded" class="java">
+            <code>
+              requestor.req("http://httpbin.org/post").contentType("application/x-www-form-urlencoded").payload(formData).post();
+            </code>
+          </pre>
+        </div>
+
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="buildingUrlEncodedPostButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="buildingUrlEncodedTextArea" class="form-control result" rows="5" readonly="readonly"/>
         </g:HTMLPanel>
       </g:HTMLPanel>
   </g:HTMLPanel>

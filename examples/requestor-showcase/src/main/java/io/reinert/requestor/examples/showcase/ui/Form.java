@@ -38,6 +38,8 @@ public class Form extends Composite {
         void onWrappingPostButtonClick(FormElement formElement);
         void onBuildingPostButtonClick(String custname, String custtel, String custemail, String size,
                                        List<String> toppings, String time, String comments);
+        void onBuildingUrlEncodedPostButtonClick(String custname, String custtel, String custemail, String size,
+                                                 List<String> toppings, String time, String comments);
     }
 
     interface FormUiBinder extends UiBinder<HTMLPanel, Form> { }
@@ -45,8 +47,8 @@ public class Form extends Composite {
     private static FormUiBinder uiBinder = GWT.create(FormUiBinder.class);
 
     @UiField FormElement form;
-    @UiField TextAreaElement comments, wrappingTextArea, buildingTextArea;
-    @UiField PreElement wrapping, building;
+    @UiField TextAreaElement comments, wrappingTextArea, buildingTextArea, buildingUrlEncodedTextArea;
+    @UiField PreElement wrapping, building, buildingUrlEncoded;
     @UiField InputElement custname, custtel, custemail, sizeSmall, sizeMedium, sizeLarge, topBacon, topCheese, topOnion,
             topMushroom, time;
 
@@ -54,7 +56,7 @@ public class Form extends Composite {
 
     public Form() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(wrapping, building);
+        HighlightJs.highlightBlock(wrapping, building, buildingUrlEncoded);
     }
 
     public void setHandler(Handler handler) {
@@ -88,11 +90,38 @@ public class Form extends Composite {
         handler.onBuildingPostButtonClick(custnameVal, custtelVal, custemailVal, size, toppings, timeVal, commentsVal);
     }
 
+    @UiHandler("buildingUrlEncodedPostButton")
+    public void onBuildingUrlEncodedPostButtonClick(ClickEvent e) {
+        String custnameVal = this.custname.getValue();
+        String custtelVal = this.custtel.getValue();
+        String custemailVal = this.custemail.getValue();
+
+        String size = sizeSmall.isChecked() ? sizeSmall.getValue() :
+                sizeMedium.isChecked() ? sizeMedium.getValue() :
+                        sizeLarge.isChecked() ? sizeLarge.getValue() : "";
+
+        ArrayList<String> toppings = new ArrayList<String>();
+        if (topBacon.isChecked()) toppings.add(topBacon.getValue());
+        if (topCheese.isChecked()) toppings.add(topCheese.getValue());
+        if (topOnion.isChecked()) toppings.add(topOnion.getValue());
+        if (topMushroom.isChecked()) toppings.add(topMushroom.getValue());
+
+        String timeVal = this.time.getValue();
+        String commentsVal = this.comments.getValue();
+
+        handler.onBuildingUrlEncodedPostButtonClick(custnameVal, custtelVal, custemailVal, size, toppings, timeVal,
+                commentsVal);
+    }
+
     public void setWrappingText(String content) {
         wrappingTextArea.setValue(content);
     }
 
     public void setBuildingText(String content) {
         buildingTextArea.setValue(content);
+    }
+
+    public void setBuildingUrlEncodedText(String content) {
+        buildingUrlEncodedTextArea.setValue(content);
     }
 }
