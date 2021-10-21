@@ -164,9 +164,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<T> entityType,
-                                                                Class<C> collectionType) {
-        return this.req(uri).get(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<C> collectionType,
+                                                                Class<T> entityType) {
+        return this.req(uri).get(collectionType, entityType);
     }
 
     @Override
@@ -185,9 +185,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<T> entityType,
-                                                                 Class<C> collectionType) {
-        return this.req(uri).payload(payload).post(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<C> collectionType,
+                                                                 Class<T> entityType) {
+        return this.req(uri).payload(payload).post(collectionType, entityType);
     }
 
     @Override
@@ -196,9 +196,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<T> entityType,
-                                                                 Class<C> collectionType) {
-        return this.req(uri).post(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<C> collectionType,
+                                                                 Class<T> entityType) {
+        return this.req(uri).post(collectionType, entityType);
     }
 
     @Override
@@ -217,9 +217,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<T> entityType,
-                                                                Class<C> collectionType) {
-        return this.req(uri).payload(payload).put(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<C> collectionType,
+                                                                Class<T> entityType) {
+        return this.req(uri).payload(payload).put(collectionType, entityType);
     }
 
     @Override
@@ -228,9 +228,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<T> entityType,
-                                                                Class<C> collectionType) {
-        return this.req(uri).put(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<C> collectionType,
+                                                                Class<T> entityType) {
+        return this.req(uri).put(collectionType, entityType);
     }
 
     @Override
@@ -244,9 +244,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<T> entityType,
-                                                                   Class<C> collectionType) {
-        return this.req(uri).delete(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<C> collectionType,
+                                                                   Class<T> entityType) {
+        return this.req(uri).delete(collectionType, entityType);
     }
 
     @Override
@@ -265,9 +265,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<T> entityType,
-                                                                  Class<C> collectionType) {
-        return this.req(uri).payload(payload).patch(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<C> collectionType,
+                                                                  Class<T> entityType) {
+        return this.req(uri).payload(payload).patch(collectionType, entityType);
     }
 
     @Override
@@ -276,9 +276,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<T> entityType,
-                                                                  Class<C> collectionType) {
-        return this.req(uri).patch(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<C> collectionType,
+                                                                  Class<T> entityType) {
+        return this.req(uri).patch(collectionType, entityType);
     }
 
     @Override
@@ -292,9 +292,9 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<T> entityType,
-                                                                    Class<C> collectionType) {
-        return this.req(uri).options(entityType, collectionType);
+    public <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<C> collectionType,
+                                                                    Class<T> entityType) {
+        return this.req(uri).options(collectionType, entityType);
     }
 
     @Override

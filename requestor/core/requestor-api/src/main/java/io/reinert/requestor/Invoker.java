@@ -30,37 +30,37 @@ public interface Invoker {
 
     <T> Promise<T> get(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> get(Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> get(Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> post();
 
     <T> Promise<T> post(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> post(Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> post(Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> put();
 
     <T> Promise<T> put(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> put(Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> put(Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> delete();
 
     <T> Promise<T> delete(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> delete(Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> delete(Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> patch();
 
     <T> Promise<T> patch(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> patch(Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> patch(Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> options();
 
     <T> Promise<T> options(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> options(Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> options(Class<C> collectionType, Class<T> entityType);
 
     Promise<Headers> head();
 }

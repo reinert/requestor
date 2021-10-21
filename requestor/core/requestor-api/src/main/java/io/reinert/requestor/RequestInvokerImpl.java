@@ -48,7 +48,7 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> get(Class<T> entityType, Class<C> collectionType) {
+    public <T, C extends Collection> Promise<Collection<T>> get(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.GET, entityType, collectionType);
     }
 
@@ -63,7 +63,7 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(Class<T> entityType, Class<C> collectionType) {
+    public <T, C extends Collection> Promise<Collection<T>> post(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.POST, entityType, collectionType);
     }
 
@@ -78,7 +78,7 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(Class<T> entityType, Class<C> collectionType) {
+    public <T, C extends Collection> Promise<Collection<T>> put(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.PUT, entityType, collectionType);
     }
 
@@ -93,8 +93,7 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> delete(Class<T> entityType,
-                                                                   Class<C> collectionType) {
+    public <T, C extends Collection> Promise<Collection<T>> delete(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.DELETE, entityType, collectionType);
     }
 
@@ -109,8 +108,7 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(Class<T> entityType,
-                                                                  Class<C> collectionType) {
+    public <T, C extends Collection> Promise<Collection<T>> patch(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.PATCH, entityType, collectionType);
     }
 
@@ -125,8 +123,7 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> options(Class<T> entityType,
-                                                                    Class<C> collectionType) {
+    public <T, C extends Collection> Promise<Collection<T>> options(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.OPTIONS, entityType, collectionType);
     }
 

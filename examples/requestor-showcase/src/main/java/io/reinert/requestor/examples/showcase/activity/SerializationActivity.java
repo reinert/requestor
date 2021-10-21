@@ -84,7 +84,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     @Override
     public void onXmlCollectionGet() {
         requestor.req("http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09")
-                .get(MyObject.class, List.class)
+                .get(List.class, MyObject.class)
                 .success(new PayloadCallback<List<MyObject>>() {
                     @Override
                     public void execute(List<MyObject> result) {
@@ -138,7 +138,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     @Override
     public void onJsonCollectionGet() {
         requestor.req("http://www.mocky.io/v2/54aa937407b5f2601021ba0b")
-                .get(MyObject.class, List.class)
+                .get(List.class, MyObject.class)
                 .success(new PayloadCallback<List<MyObject>>() {
                     @Override
                     public void execute(List<MyObject> result) {

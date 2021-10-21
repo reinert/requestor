@@ -78,7 +78,7 @@ public class CallbackGwtTest extends GWTTestCase {
     public void testSuccessCallbackForCollection() {
         // GET /books
         final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(Book.class, List.class).success(new PayloadCallback<Collection<Book>>() {
+        requestor.req(uri).get(List.class, Book.class).success(new PayloadCallback<Collection<Book>>() {
             public void execute(Collection<Book> result) {
                 assertNotNull(result);
                 assertFalse(result.isEmpty());

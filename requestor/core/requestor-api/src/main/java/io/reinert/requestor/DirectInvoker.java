@@ -28,7 +28,7 @@ public interface DirectInvoker {
 
     <T> Promise<T> get(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> post(String uri);
 
@@ -36,12 +36,12 @@ public interface DirectInvoker {
 
     <T> Promise<T> post(String uri, Object payload, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<T> entityType,
-                                                          Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<C> collectionType,
+                                                          Class<T> entityType);
 
     <T> Promise<T> post(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> put(String uri);
 
@@ -49,18 +49,18 @@ public interface DirectInvoker {
 
     <T> Promise<T> put(String uri, Object payload, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<T> entityType,
-                                                         Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<C> collectionType,
+                                                         Class<T> entityType);
 
     <T> Promise<T> put(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> delete(String uri);
 
     <T> Promise<T> delete(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> patch(String uri);
 
@@ -68,18 +68,18 @@ public interface DirectInvoker {
 
     <T> Promise<T> patch(String uri, Object payload, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<T> entityType,
-                                                           Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<C> collectionType,
+                                                           Class<T> entityType);
 
     <T> Promise<T> patch(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<C> collectionType, Class<T> entityType);
 
     Promise<Void> options(String uri);
 
     <T> Promise<T> options(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<T> entityType, Class<C> collectionType);
+    <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<C> collectionType, Class<T> entityType);
 
     Promise<Headers> head(String uri);
 }

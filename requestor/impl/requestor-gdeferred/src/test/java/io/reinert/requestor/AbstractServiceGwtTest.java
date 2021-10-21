@@ -41,7 +41,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
             Uri uri = getUriBuilder()
                     .queryParam("author", authors) // append ?author={author}
                     .build();
-            return request(uri).get(Book.class, List.class);
+            return request(uri).get(List.class, Book.class);
         }
 
         public Promise<Book> getBookById(Integer id) {

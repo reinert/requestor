@@ -45,7 +45,7 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
             appendQueryParamsToUri(reqUriBuilder, params);
         }
 
-        return request(reqUriBuilder.build()).get(resourceType, collectionType);
+        return request(reqUriBuilder.build()).get(collectionType, resourceType);
     }
 
     @Override
