@@ -30,17 +30,16 @@ public class RequestDefaultsImpl implements RequestDefaults {
     private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
 
     static RequestDefaultsImpl copy(RequestDefaultsImpl defaults) {
-        RequestDefaultsImpl newDefaults = new RequestDefaultsImpl();
-        newDefaults.setMediaType(defaults.getMediaType());
-        newDefaults.setAuth(defaults.getAuth());
-        newDefaults.setTimeout(defaults.getTimeout());
-        newDefaults.setDelay(defaults.getDelay());
-        newDefaults.setThrottle(defaults.getThrottleInterval(), defaults.getThrottleLimit());
-        for (Header h : defaults.getHeaders()) {
-            newDefaults.putHeader(h);
-        }
-        newDefaults.setRequestSerializer(defaults.getRequestSerializer());
-        return newDefaults;
+        RequestDefaultsImpl copy = new RequestDefaultsImpl();
+        copy.setMediaType(defaults.mediaType);
+        copy.setAuth(defaults.authProvider);
+        copy.setTimeout(defaults.timeout);
+        copy.setDelay(defaults.delay);
+        copy.setThrottle(defaults.throttleInterval, defaults.throttleLimit);
+        for (Header h : defaults.headers) copy.putHeader(h);
+        copy.setRequestSerializer(defaults.requestSerializer);
+        copy.setResponseDeserializer(defaults.responseDeserializer);
+        return copy;
     }
 
     static void validateMediaType(String mediaType) {
@@ -52,9 +51,12 @@ public class RequestDefaultsImpl implements RequestDefaults {
 
     @Override
     public void reset() {
-        this.mediaType = null;
-        this.auth = null;
-        this.timeout = 0;
+        mediaType = null;
+        authProvider = null;
+        timeout = 0;
+        delay = 0;
+        throttleInterval = 0;
+        throttleLimit = 0;
         headers.clear();
     }
 
@@ -204,16 +206,16 @@ public class RequestDefaultsImpl implements RequestDefaults {
             request.auth(authProvider);
         }
 
-        if (timeout > 0 && request.getTimeout() <= 0) {
+        if (timeout > 0) {
             request.timeout(timeout);
         }
 
-        if (delay > 0 && request.getDelay() <= 0) {
+        if (delay > 0) {
             request.delay(delay);
         }
 
-        if (throttleInterval > 0 && request.getThrottleInterval() <= 0) {
-            if (throttleLimit > 0 && request.getThrottleLimit() <= 0) {
+        if (throttleInterval > 0) {
+            if (throttleLimit > 0) {
                 request.throttle(throttleInterval, throttleLimit);
             } else {
                 request.throttle(throttleInterval);
@@ -221,8 +223,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
         }
 
         for (Header h : headers) {
-            if (request.getHeader(h.getName()) == null)
-                request.header(h);
+            request.header(h);
         }
     }
 }
