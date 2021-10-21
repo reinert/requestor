@@ -158,6 +158,11 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     @Override
+    public void setAuth(Auth.Provider authProvider) {
+        defaults.setAuth(authProvider);
+    }
+
+    @Override
     public Auth getAuth() {
         return defaults.getAuth();
     }

@@ -22,6 +22,8 @@ package io.reinert.requestor;
  */
 public interface Auth {
 
+    interface Provider extends io.reinert.requestor.Provider<Auth> { }
+
     /**
      * Performs the logic for making the request authenticated, then dispatch the request.
      * <p></p>

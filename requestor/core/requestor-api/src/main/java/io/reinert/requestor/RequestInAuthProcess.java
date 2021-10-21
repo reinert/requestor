@@ -41,7 +41,7 @@ public class RequestInAuthProcess<R> implements ProcessableRequest {
 
     @Override
     public void process() {
-        Auth auth = getAuth();
+        Auth auth = request.getAuth();
         auth.auth(new PreparedRequestImpl<R>(dispatcher, this, deferred, responsePayloadType));
     }
 
@@ -93,6 +93,11 @@ public class RequestInAuthProcess<R> implements ProcessableRequest {
     @Override
     public final void setAuth(Auth auth) {
         request.setAuth(auth);
+    }
+
+    @Override
+    public void setAuth(Auth.Provider authProvider) {
+        request.setAuth(authProvider);
     }
 
     @Override

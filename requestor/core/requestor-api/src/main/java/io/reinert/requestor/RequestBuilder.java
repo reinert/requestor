@@ -80,6 +80,15 @@ public interface RequestBuilder extends Request {
     RequestBuilder auth(Auth auth);
 
     /**
+     * Sets the necessary information for authenticating the request against the server.
+     *
+     * @param authProvider The authentication procedure provider
+     *
+     * @return This building request
+     */
+    RequestBuilder auth(Auth.Provider authProvider);
+
+    /**
      * Input a object to be sent in the HTTP Request payload.
      * <p></p>
      *

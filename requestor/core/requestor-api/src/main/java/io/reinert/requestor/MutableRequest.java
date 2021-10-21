@@ -52,6 +52,8 @@ public interface MutableRequest extends Request, HasHeaders {
      */
     void setAuth(Auth auth);
 
+    void setAuth(Auth.Provider authProvider);
+
     /**
      * Sets the number of milliseconds to wait for a request to complete.
      *

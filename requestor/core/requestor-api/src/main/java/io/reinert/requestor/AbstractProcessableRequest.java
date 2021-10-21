@@ -63,6 +63,11 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public void setAuth(Auth.Provider authProvider) {
+        request.setAuth(authProvider);
+    }
+
+    @Override
     public final void setTimeout(int timeoutMillis) {
         request.setTimeout(timeoutMillis);
     }

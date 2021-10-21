@@ -26,6 +26,15 @@ class PassThroughAuth implements Auth {
         return INSTANCE;
     }
 
+    public static Auth.Provider getProvider() {
+        return new Provider() {
+            @Override
+            public Auth getInstance() {
+                return INSTANCE;
+            }
+        };
+    }
+
     @Override
     public void auth(PreparedRequest preparedRequest) {
         preparedRequest.send();

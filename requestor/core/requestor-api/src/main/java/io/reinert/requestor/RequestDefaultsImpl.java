@@ -20,7 +20,7 @@ import io.reinert.requestor.header.Header;
 public class RequestDefaultsImpl implements RequestDefaults {
 
     private String mediaType;
-    private Auth auth;
+    private Auth.Provider authProvider;
     private int timeout;
     private int delay;
     private int throttleInterval;
@@ -78,13 +78,28 @@ public class RequestDefaultsImpl implements RequestDefaults {
     }
 
     @Override
-    public void setAuth(Auth auth) {
-        this.auth = auth;
+    public void setAuth(final Auth auth) {
+        Auth.Provider provider = (auth == null) ? null : new Auth.Provider() {
+            @Override
+            public Auth getInstance() {
+                return auth;
+            }
+        };
+        setAuth(provider);
+    }
+
+    @Override
+    public void setAuth(Auth.Provider authProvider) {
+        this.authProvider = authProvider;
     }
 
     @Override
     public Auth getAuth() {
-        return auth;
+        return authProvider.getInstance();
+    }
+
+    public Auth.Provider getAuthProvider() {
+        return authProvider;
     }
 
     @Override
@@ -185,8 +200,8 @@ public class RequestDefaultsImpl implements RequestDefaults {
                 request.accept(mediaType);
         }
 
-        if (auth != null && request.getAuth() == null) {
-            request.auth(auth);
+        if (authProvider != null) {
+            request.auth(authProvider);
         }
 
         if (timeout > 0 && request.getTimeout() <= 0) {

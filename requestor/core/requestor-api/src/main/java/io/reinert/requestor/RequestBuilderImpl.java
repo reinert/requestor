@@ -43,7 +43,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private Object payload;
     private SerializedPayload serializedPayload;
     private boolean serialized = false;
-    private Auth auth = PassThroughAuth.getInstance();
+    private Auth.Provider authProvider = PassThroughAuth.getProvider();
 
     public RequestBuilderImpl(Uri uri, VolatileStore store) {
         this(uri, store, new Headers());
@@ -68,7 +68,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
         copy.payload = request.payload;
         copy.serializedPayload = request.serializedPayload;
         copy.serialized = request.serialized;
-        copy.auth = request.auth;
+        copy.authProvider = request.authProvider;
         return copy;
     }
 
@@ -158,7 +158,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
 
     @Override
     public Auth getAuth() {
-        return auth;
+        return authProvider.getInstance();
     }
 
     @Override
@@ -225,10 +225,24 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public RequestBuilder auth(Auth auth) {
-        if (auth == null)
+    public RequestBuilder auth(final Auth auth) {
+        if (auth == null) {
             throw new IllegalArgumentException("Auth cannot be null.");
-        this.auth = auth;
+        }
+        return auth(new Auth.Provider() {
+            @Override
+            public Auth getInstance() {
+                return auth;
+            }
+        });
+    }
+
+    @Override
+    public RequestBuilder auth(Auth.Provider authProvider) {
+        if (authProvider == null) {
+            throw new IllegalArgumentException("Auth provider cannot be null.");
+        }
+        this.authProvider = authProvider;
         return this;
     }
 
@@ -278,7 +292,12 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
 
     @Override
     public void setAuth(Auth auth) {
-        this.auth = auth;
+        this.auth(auth);
+    }
+
+    @Override
+    public void setAuth(Auth.Provider authProvider) {
+        this.auth(authProvider);
     }
 
     @Override

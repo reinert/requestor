@@ -355,6 +355,11 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
+    public void setAuth(Auth.Provider authProvider) {
+        defaults.setAuth(authProvider);
+    }
+
+    @Override
     public Auth getAuth() {
         return defaults.getAuth();
     }
