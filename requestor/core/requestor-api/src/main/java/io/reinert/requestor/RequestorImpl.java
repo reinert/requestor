@@ -138,17 +138,6 @@ public class RequestorImpl extends Requestor {
         return defaults;
     }
 
-//    @Override
-//    public <T> Promise<T> dispatch(SerializedRequest request, Class<T> entityType) {
-//        return requestDispatcher.dispatch(request, entityType);
-//    }
-//
-//    @Override
-//    public <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request, Class<T> entityType,
-//                                                                     Class<C> collectionType) {
-//        return requestDispatcher.dispatch(request, entityType, collectionType);
-//    }
-
     //===================================================================
     // Direct invoke methods
     //===================================================================

@@ -166,32 +166,4 @@ public abstract class Requestor implements SerializerManager, FilterManager, Int
 
     protected abstract RequestDefaultsImpl getDefaults();
 
-//    /**
-//     * Quickly dispatch serialized requests.
-//     * Use it if you want to skip the request processing steps and send a request as it is.
-//     *
-//     * @param request       The request to be sent
-//     * @param expectedType  The expected type class of the response
-//     * @param <T>           The expected type of the response
-//     *
-//     * @return  Promise of the expected type
-//     */
-//    public abstract <T> Promise<T> dispatch(SerializedRequest request, Class<T> expectedType);
-//
-//    /**
-//     * Directly dispatch serialized requests.
-//     * Use it if you want to skip the request processing steps and send a request as it is.
-//     *
-//     * @param request       The request to be sent
-//     * @param expectedType  The expected type class of the response
-//     * @param collectionType The container to accumulate the result
-//     * @param <T>           The expected type of the response
-//     * @param <C>           The type of the container
-//     *
-//     * @return  Promise of the expected type
-//     */
-//    public abstract <T, C extends Collection> Promise<Collection<T>> dispatch(SerializedRequest request,
-//                                                                              Class<T> expectedType,
-//                                                                              Class<C> collectionType);
-
 }
