@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.callback.PayloadCallback;
@@ -114,17 +113,17 @@ public class AbstractServiceGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT * 2);
     }
 
-//    public void testGetBooks() {
-//        // GET /books
-//        bookService.getBooks().success(new ListSuccessCallback<Book>() {
-//            public void onSuccess(List<Book> books) {
-//                assertNotNull(books);
-//                assertFalse(books.isEmpty());
-//                finishTest();
-//            }
-//        });
-//        delayTestFinish(TIMEOUT);
-//    }
+    public void testGetBooks() {
+        // GET /books
+        bookService.getBooks().success(new PayloadCallback<Collection<Book>>() {
+            public void execute(Collection<Book> books) {
+                assertNotNull(books);
+                assertFalse(books.isEmpty());
+                finishTest();
+            }
+        });
+        delayTestFinish(TIMEOUT);
+    }
 
     public void testGetBooksWithParams() {
         // GET /books?author=Leonard
@@ -182,13 +181,6 @@ public class AbstractServiceGwtTest extends GWTTestCase {
                 assertEquals(Status.OK, response.getStatus());
 
                 finishTest();
-            }
-        }).status(429, new ResponseCallback() {
-            @Override
-            public void execute(Response response) {
-                GWT.log(">>>>>>>>>>>>>>>> DELETE 429 Error");
-                GWT.log(response.getStatus().toString());
-                GWT.log(">>>>>>>>>>>>>>>>");
             }
         });
     }
