@@ -164,7 +164,7 @@ class SerializerManagerImpl implements SerializerManager {
     }
 
     private <T> String getClassName(Class<T> type) {
-        String typeName = type.getName();
+        String typeName = type.getCanonicalName();
         // AutoBean class name normalization (remove all content after $)
         int i = typeName.indexOf("AutoBean$");
         if (i > -1) {
