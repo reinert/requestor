@@ -42,7 +42,7 @@ class ProviderManagerImpl implements ProviderManager {
 
     @Override
     public <T> HandlerRegistration register(Class<T> type, Provider<T> provider) {
-        final String typeName = type.getName();
+        final String typeName = type.getCanonicalName();
         providers.put(typeName, provider);
 
         return new HandlerRegistration() {
@@ -66,7 +66,7 @@ class ProviderManagerImpl implements ProviderManager {
     @SuppressWarnings("unchecked")
     public <T> Provider<T> get(Class<T> type) {
         // TODO: throw exception if not exists?
-        return (Provider<T>) providers.get(type.getName());
+        return (Provider<T>) providers.get(type.getCanonicalName());
     }
 
     private void registerCollectionProviders() {
@@ -76,10 +76,10 @@ class ProviderManagerImpl implements ProviderManager {
                 return new ArrayList();
             }
         };
-        providers.put(Collection.class.getName(), arrayListProvider);
-        providers.put(List.class.getName(), arrayListProvider);
-        providers.put(ArrayList.class.getName(), arrayListProvider);
-        providers.put(LinkedList.class.getName(), new Provider<LinkedList>() {
+        providers.put(Collection.class.getCanonicalName(), arrayListProvider);
+        providers.put(List.class.getCanonicalName(), arrayListProvider);
+        providers.put(ArrayList.class.getCanonicalName(), arrayListProvider);
+        providers.put(LinkedList.class.getCanonicalName(), new Provider<LinkedList>() {
             @Override
             public LinkedList getInstance() {
                 return new LinkedList();
@@ -91,9 +91,9 @@ class ProviderManagerImpl implements ProviderManager {
                 return new HashSet();
             }
         };
-        providers.put(Set.class.getName(), hashSetProvider);
-        providers.put(HashSet.class.getName(), hashSetProvider);
-        providers.put(TreeSet.class.getName(), new Provider<TreeSet>() {
+        providers.put(Set.class.getCanonicalName(), hashSetProvider);
+        providers.put(HashSet.class.getCanonicalName(), hashSetProvider);
+        providers.put(TreeSet.class.getCanonicalName(), new Provider<TreeSet>() {
             @Override
             public TreeSet getInstance() {
                 return new TreeSet();
