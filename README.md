@@ -3,21 +3,21 @@
 A powerful HTTP Client API for bullet proof GWT SPAs.
 
 Requestor offers a plenty of carefully designed features that enables you to manage the HTTP communication process through all your application:
-* **Requesting Fluent API** *(makes you feel so good! 😌)*
-* **Promises** (integrate any promise library)
-* **Serialization** (integrate any serialization library)
-* **Authentication** (make complex auths smoothly)
-* **Request and Response Hooking** (Filters and Interceptors)
-* **Session** (set default parameters to all requests)
-* **Data Store** (store aux data both in session and request scope)
-* **Links API** (HATEOAS for real connoisseurs)
-* **Headers API** (build and parse complex headers easily)
-* **URI API** (build and parse complex URIs easily)
-* **Binary Data** upload and download
-* **Form Data** handling
+* **Requesting Fluent API** - *makes you feel so good!* 😌
+* **Promises** - chain callbacks neatly
+* **Serialization** - serialize and deserialize payloads integrating any library
+* **Authentication** - ready-to-use authentication mechanisms
+* **Request/Response Async Hooking** - filter and intercept requests and responses
+* **HTTP Throttling** - throttle requests in a breeze
+* **Client Session** - set default parameters to all requests
+* **Data Store** - store auxiliary data both in session and request scope
+* **Links API** - navigate through an API interacting with its links (HATEOAS for real)
+* **Headers API** - build and parse complex headers easily
+* **URI API** - build and parse complex URIs easily
+* **Binary Data** - upload and download files tracking the progress
 
 It supports GWT 2.9 and Java 8+ while maintains backwards compatibility with GWT 2.7 and Java 1.5.
-GWT3 and J2CL support is in the roadmap.
+GWT3 and J2CL support is planned without breaking API compatibility.
 
 
 ## Preview
@@ -29,105 +29,44 @@ Requestor r = Requestor.newInstance();
 r.get("http://httpbin.org/ip", String.class).success( Window::alert );
 ```
 
-Make a POST request sending a serialized a object in the body:
+Make a POST request sending a serialized object in the payload:
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
 r.post("/api/books", book).success( () -> showSuccessMsg() ).fail( () -> showErrorMsg() );
 ```
 
-GET collections of objects:
+GET a collection of an object:
 
 ```java
-r.get("/api/books", Book.class, List.class).success( books -> renderTable(books) );
+r.get("/api/books", List.class, Book.class).success( books -> renderTable(books) );
 ```
 
-The above examples are aliases in Requestor class to make quick requests.
-Additionally, you can access a fluent API to build and send more complex requests.
+The above examples are shortcuts in Requestor class to make quick requests.
+Additionally, you can access the fluent API to build and send more complex requests.
 
-### Requesting Fluent API
+### Requesting fluent API brief
 
-Requesting can be better understood in three parts:
-1) Access the request builder by calling `Requestor#req(String uri)`, and **start building your request**.
-2) Then, you get access to the `RequestInvoker` interface, which allows you to **invoke any HTTP method**.
-   Here, you also define what type you expect to receive in the response body.
-3) Finally, by calling any HTTP invoke method, you receive a Promise instance, which allows you to **chain callbacks** nicely.   
+Requesting involves three steps:
+1) Access the request builder by calling `requestor.req( <uri> )`, and **set the request options** with chaining methods.
+2) After setting the options, you must **call one of the invoke methods**, represented by the corresponding HTTP methods (get, post, put, etc). When calling an invoke method, you must specify what type you expect to receive in the response payload.
+3) Finally, by calling any invoke method you receive a Promise, which allows you to **chain callbacks** nicely.   
 
 ```java
-//========================================
-// 1. Build your request
-//========================================
-
-RequestInvoker req = r.req("/api/books")
-        .timeout(10000) // Set the request timeout in milliseconds
-        .delay(2000) // Set the request delay in milliseconds (wait 2s before sending the request)
-        .contentType("aplication/json") // Set the Content-Type header
-        .accept("text/plain") // Set the Accept header
-        .header("Accept-Encoding", "gzip") // Set a custom header 
-        .auth(new BasicAuth("username", "password")) // Set the authentication (more on this later)
-        .payload(book); // Set the payload to be serialized in the request body
-
-
-//========================================
-// 2. Invoke an HTTP method
-//========================================
-
-// Send a POST request expecting an Integer as response
-Promise<Integer> postReq = req.post(Integer.class);
-
-// Send a GET request expecting a Set of Books as response
-Promise<Collection<Book>> getReq = req.get(Book.class, Set.class);
-
-// Send a DELETE request ignoring the response body
-Promise<Void> delReq = req.delete();
-
-// PUT, PATCH, HEAD and OPTIONS are also available but were omitted for didactic purposes
-
-        
-//========================================
-// 3. Handle promise results
-//======================================== 
-// This is executed if the request was successful
-// You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
-postReq.success(payload -> showSuccess(payload)) // Response was 2xx and body was deserialized as Integer
-       .fail(response -> showError(response.getStatus())) // Response was unsuccessful (status ≠ 2xx)
-       .abort(exception -> log(exception)); // Request was not performed
-
-// If you requested a collection of objects, you can retrieve the deserialized payload as well:
-getReq.success(books -> renderTable(books)); // Response was deserialized into a Set of Book objects
-
-// If you want to access the Response in success, declare an additional argument in the callback
-delReq.success((payload, response) -> { // Response returned 2xx
-    HttpStatus status = response.getStatus(); // Get the response status
-    Headers headers = response.getHeaders(); // Get all headers so you can iterate on them
-    String hostHeader = response.getHeader("Host"); // Get the Host header
-    String contentType = response.getContentType(); // Get the Content-Type header
-    Link undoLink = response.getLink("undo"); // Get the 'undo' relation of the Link header
-    // Store and access any object by key in session or request scope (more on this later)
-    Store store = response.getStore();
-});
-
-// You can even deal with specific responses status codes and timeout events
-delReq.status(400, response -> alert("Response was 400: " + response.getStatus().getReasonPhrase()))
-      .status(429, response -> alert("Response was 429: " + response.getStatus().getReasonPhrase()))
-      .status(500, response -> alert("Response was 500: " + response.getStatus().getReasonPhrase()))
-      .timeout(e -> alert("Request timed out in " + e.getTimeoutMillis()/1000 + "s."));
+requestor.req("/api/books/1") // Start building the request
+         .timeout(10000) // Set the request options
+         .get(Book.class) // Invoke an HTTP method informing the expected type
+         .success(book -> view.render(book)); // Add callbacks to the promise
 ```
 
-#### **❤️ Write beautiful code**
-Joining the three parts together you can write a clean code like below.
+In case you want to know more details of how it works, see [Requesting Fluent API](#requesting-fluent-api) section.
 
-```java
-// Post a book to the server and retrieve the created entity
-r.req("/api/books")
-    .payload(book);
-    .post(Book.class)
-    .success(book -> view.renderBook(book))
-    .fail(Notifications::showError);
-```
+To know all the request options available see [Request Options](#request-options) section.
 
-#### **💡 Set up your client session**
-The Requestor object is a **SESSION** where in can configure default request parameters to avoid code repetition as also save and retrieve any data by key through the **Store**.
+### **💡 Set up your client session**
+The Requestor object is a client **SESSION** where you can configure default request parameters.
+Also, you can save and retrieve any data by key through the **Store**.
+Finally, you can reset the session state at anytime.
 
 ```java
 Requestor r = Requestor.newInstance();
@@ -151,8 +90,8 @@ r.post("/api/books", book);
 
 ### Looking for some REST?
 
-Requestor offers a built-in REST service facade so you can perform CRUD operations around an Entity model.
-Create a new `RestService` by calling `Requestor#newRestService(String uri, Class<E> entityClass, Class<I> idClass, Class<C> collectionClass)`.
+Requestor offers a REST client, so you can perform basic CRUD operations against a resource.
+Create a new `RestService` by calling `requestor.newRestService( <uri>, <entityClass>, <idClass>, <collectionClass> )`.
 
 ```java
 bookService = r.newRestService("/api/books", Book.class, Integer.class, List.class);
@@ -162,7 +101,7 @@ bookService.setMediaType("application/json");
 
 // POST a book to '/api/books' and receive the created book from server
 Book book = new Book("RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
-bookService.post(book).success(createdBook -> renderBook(createdBook));
+bookService.post(book).success(createdBook -> render(createdBook));
 
 // GET all books from '/api/books'
 bookService.get().success(books -> render(books));
@@ -174,16 +113,17 @@ bookService.get("author", "Richardson", "year", 2006).success(books -> render(bo
 bookService.get(123).success(books -> render(books));
 
 // PUT a book in the resource with ID 123 from '/api/books/123' and receive the updated book
-bookService.put(123, book).success(updatedBook -> renderBook(updatedBook));
+bookService.put(123, book).success(updatedBook -> render(updatedBook));
 
 // DELETE the book of ID 123 from '/api/books/123' (returns void)
 bookService.delete(123).success(() -> showSuccess('Book was deleted.'));
 ```
 
-Although Requestor provides this ready-to-use REST facade, you may find more useful to extend `AbstractService` class (which RestService inherits) and implement your own service clients.
+Although Requestor provides this ready-to-use REST client, you may find more useful to extend `AbstractService` class and implement your own service clients.
 Don't worry, you'll write less code than existing code generation solutions while keeping full control of the request flow.
 
-**AbstractService** gives you the advantage of little coding while allows you to have full control of requesting logic if you need to implement specific rules. Additionally, you are benefited with better testing capabilities and bug tracking.
+**AbstractService** gives you the advantage of little coding while allows you to have full control of requesting logic in case you need to customize it.
+Additionally, you are benefited with better testing capabilities and bug tracking.
 See more details in [REST](#rest) section.
 
 
@@ -205,12 +145,12 @@ Then, make requestor available to your GWT project by importing the implementati
 <inherits name="io.reinert.requestor.RequestorByGDeferred"/>
 ```
 
-Requestor core is decoupled from the Promise API it exposes.
+Requestor is primarily focused on the HTTP Client API.
+Hence, **requestor-core** declares a Promise interface, but doesn't implement it.
+The implementation is delegated to **requestor-impl**'s. Thus, a **requestor-impl** integrates **requestor-core** to some promise library.
 
-Thus, a requestor impl integrates the core to some promise library.
-
-Currently, there's one implementation available: **requestor-gdeferred**. It binds requestor with [gdeferred](https://github.com/reinert/gdeferred) promise API.
-Furthermore, an implementation binding requestor-core with [elemental2](https://github.com/google/elemental2) promise API is on the way.
+Currently, there's one impl available: **requestor-gdeferred**. It binds requestor with [gdeferred](https://github.com/reinert/gdeferred) promise API.
+Furthermore, an impl integrating **requestor-core** with [elemental2](https://github.com/google/elemental2) promise API is on the way.
 
 ### Latest Release
 0.2.0 (18 Feb 2015)
@@ -238,35 +178,46 @@ With Requestor, you can:
 * Add new logic requirements not needing to change existing classes, but instead creating new small units, avoiding code conflict between co-workers.
 
 
+## Request Options
+### accept
+### auth
+### contentType
+### delay
+### header
+### payload
+### throttle
+### timeout
+
+
 ## Promises
 
 Requestor declares its own Promise contract which can be implemented by any Promise library easily.
 Currently, there's one integration available: requestor-gdeferred.
 Additionally, an integration with [elemental2](https://github.com/google/elemental2) promise API is in the roadmap.
 
-A `Promise<T>` will deserialize the response body as `T` if it's successful (2xx). Check the available callbacks:
-  * **success**( (T payload [, Response\<T\> r]) -> void )
+A `Promise<T>` will give you access to the response body as `T` if it's successful (2xx). Check the available callbacks:
+  * **success**( payload [, response ] -> {} )
     * executed when the response *is successful* (status = 2xx)
     * gives you access to the *deserialized payload* and the *response* (optional)
-  * **fail**( (Response\<?\> r) -> void )
+  * **fail**( response -> {} )
     * executed if the response *is unsuccessful* (status ≠ 2xx)
     * gives you access to the whole *response*
-  * **load**( (Response\<?\> r) -> void )
+  * **load**( response -> {} )
     * executed if the response *is completed*, regardless of *success or failure*
     * gives you access both to the *response*
-  * **status**(int statusCode, (Response\<?\> r) -> void )
-    * executed when the response *returned the given status code*
+  * **status**( statusCode|statusFamily, response -> {} )
+    * executed when the response *returned the given status code/family*
     * gives you access to the *response* object
-  * **progress**( (RequestProgress p) -> void )
+  * **progress**( requestProgress -> {} )
     * executed many times while the request is being sent
     * allows you to track the *download progress*
-  * **upProgress**( (RequestProgress p) -> void )
+  * **upProgress**( requestProgress -> {} )
     * executed many times while the response is being received
     * allows you to track the *upload progress*
-  * **timeout**( (TimeoutException e) -> void )
+  * **timeout**( timeoutException -> {} )
     * executed when a timeout occurs
     * gives you access to the request object
-  * **abort**( (RequestException e) -> void )
+  * **abort**( requestException -> {} )
     * executed if the request *could not be performed* due to any exception (even timeout)
     * gives you access to the original *exception*
 
@@ -369,10 +320,44 @@ promise.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
 ```
 
 
+## Request Processing
+### Filter
+### Serialize
+### Intercept
+### Authenticate
+
+## Response Processing
+### Intercept
+### Deserialize
+### Filter
+
+## Serialization
+### Jackson
+### AutoBeans
+### Custom
+#### JSON
+#### XML
+#### SubTypes
+
+## Auth
+### Basic
+### Bearer Token
+### Digest
+### CORS
+### OAuth2
+### Custom
+
+## Session
+
+## Data Store
+### Session Store
+### Request Store
+
+
 ## REST
 
 As stated before, Requestor provides the [RestService](#looking-for-some-rest) to handle basic CRUD operations against a REST resource.
-But you are likely to end up implementing your own abstract service class by extending the AbstractService with the peculiarities of your server API to avoid code repetition.
+But you are likely to implement your app's abstract service class by extending the AbstractService with the peculiarities of your server API to avoid code repetition.
 
 🧐 It's worth noting that ***AbstractService is a branch session derived from the main session*** (Requestor).
 Then, the default parameters defined in the main session are also applied in your AbstractService.
@@ -424,7 +409,7 @@ public class BookService extends AbstractService {
 }
 ```
 
-Now use your service:
+Now use your service client:
 
 ```java
 // It's a good practice to use Requestor object as a singleton since it's your main client session
@@ -470,12 +455,12 @@ public class MyBookService extends AbstractService {
     public Promise<Book> createBook(Book book) {
         Uri uri = getUriBuilder().build();
         // add the error handling callbacks in the promise returned by the post method
-        return handleErrors(request(uri).payload(book).post(Book.class));
+        return applyCallbacks(request(uri).payload(book).post(Book.class));
     }
     
     // Implement all your service calls following the same pattern...
 
-    private <T> Promise<T> handleErrors(Promise<T> promise) {
+    private <T> Promise<T> applyCallbacks(Promise<T> promise) {
         return promise
                 .status(404, response -> goToNotFound(response.getRequest().getUri()))
                 .status(500, response -> goToServerError(response))
@@ -483,40 +468,104 @@ public class MyBookService extends AbstractService {
                 .abort(e -> log(e));
     }
 
-    // Implement the other methods...
+    // Implement other methods...
 }
 ```
 
 **💡 PRO TIP**: Create your own **"AppAbstractService"** and handle the errors in the superclass to save you coding and maintenance cost.
 Use the above example as inspiration as also the [RestService](https://github.com/reinert/requestor/blob/master/requestor/core/requestor-api/src/main/java/io/reinert/requestor/RestService.java) class.
 
-## Request Processing
-### Filter
-### Serialize
-#### Bypassing serialization with Payload object
-### Intercept
-### Authenticate
 
-## Serialization
-### Jackson
-### AutoBeans
-### Custom
-#### JSON
-#### XML
-#### SubTypes
+## Requesting Fluent API
 
-## Auth
-### Basic
-### Digest
-### CORS
-### OAuth2
-### Token (Custom)
+The Fluent API was designed to provide an enjoyable coding experience while requesting through a chainable interface. Here how it works:
+1. Requestor is your client session, thus it's the starting point when requesting.
+2. It exposes the `req` method that returns a `RequestInvoker`, which has request building and invoking capabilities.
+3. `RequestInvoker` implements the chainable `RequestBuilder` interface, which allows you to set the request options.
+4. Also, `RequestInvoker` implements the `Invoker` interface, which allows you to send the request by calling one of the HTTP Methods.
+5. When invoking the request, you also need to specify the class type you expect as the response payload.
+6. The request invoke methods return a `Promise<T>` according to the expected type you specified.
+7. The `Promise<T>` interface enables callback chaining, so you can handle different results neatly.
 
-## Session
+In summary, these are the three requesting steps:
+1. Build your request
+2. Invoke an HTTP method
+3. Chain callbacks
 
-## Data Store
-### Session Store
-### Request Store
+```java
+//========================================
+// 1. Build your request
+//========================================
+
+RequestInvoker req = requestor.req("/api/books")
+        .timeout(10000) // Set the request timeout in milliseconds
+        .delay(2000) // Set the request delay in milliseconds (wait 2s before sending the request)
+        .contentType("aplication/json") // Set the Content-Type header
+        .accept("text/plain") // Set the Accept header
+        .header("Accept-Encoding", "gzip") // Set a custom header 
+        .auth(new BasicAuth("username", "password")) // Set the authentication (more on this later)
+        .payload(book); // Set the payload to be serialized in the request body
+        .throttle(5000, 10) // Throttle the request each 5s up to 10 times
+
+
+//========================================
+// 2. Invoke an HTTP method
+//========================================
+
+// Send a POST request expecting an Integer as response
+Promise<Integer> postReq = req.post(Integer.class);
+
+// Send a GET request expecting a Set of Books as response
+Promise<Collection<Book>> getReq = req.get(Set.class, Book.class);
+
+// Send a DELETE request ignoring the response body
+Promise<Void> delReq = req.delete();
+
+// PUT, PATCH, HEAD and OPTIONS are also available but were omitted for didactic purposes
+
+        
+//========================================
+// 3. Chain callbacks
+//======================================== 
+// This is executed if the request was successful
+// You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
+postReq.success(payload -> showSuccess(payload)) // Response was 2xx and body was deserialized as Integer
+       .fail(response -> showError(response.getStatus())) // Response was unsuccessful (status ≠ 2xx)
+       .abort(exception -> log(exception)); // Request was not performed
+
+// If you requested a collection of objects, you can retrieve the deserialized payload as well:
+getReq.success(books -> renderTable(books)); // Response was deserialized into a Set of Book objects
+
+// If you want to access the Response in success, declare an additional argument in the callback
+delReq.success((payload, response) -> { // Response returned 2xx
+    HttpStatus status = response.getStatus(); // Get the response status
+    Headers headers = response.getHeaders(); // Get all headers so you can iterate on them
+    String hostHeader = response.getHeader("Host"); // Get the Host header
+    String contentType = response.getContentType(); // Get the Content-Type header
+    Link undoLink = response.getLink("undo"); // Get the 'undo' relation of the Link header
+    // Store and access any object by key in session or request scope (more on this later)
+    Store store = response.getStore();
+});
+
+// You can even deal with specific responses status codes and timeout events
+delReq.status(400, response -> alert("Response was 400: " + response.getStatus().getReasonPhrase()))
+      .status(429, response -> alert("Response was 429: " + response.getStatus().getReasonPhrase()))
+      .status(500, response -> alert("Response was 500: " + response.getStatus().getReasonPhrase()))
+      .timeout(e -> alert("Request timed out in " + e.getTimeoutMillis()/1000 + "s."));
+```
+
+### **❤️ Write beautiful code**
+Joining the three parts together you can write a clean code like below.
+
+```java
+// Post a book to the server and retrieve the created entity
+requestor.req("/api/books")
+    .payload(book)
+    .post(Book.class)
+    .success(book -> view.render(book))
+    .fail(Notifications::showError);
+```
+
 
 ## Links API (HATEOAS)
 ### Get a Link
@@ -526,10 +575,12 @@ Use the above example as inspiration as also the [RestService](https://github.co
 #### Transactions
 #### Undo Operations
 
+
 ## Headers API
 ### The Headers type
 ### Existing Header types
 ### Extending Header types
+
 
 ## URI API
 ### The URI type
@@ -537,9 +588,11 @@ Use the above example as inspiration as also the [RestService](https://github.co
 #### UriProxy
 ### Parsing URIs
 
+
 ## Binary Data
 ### Upload
 ### Download
+
 
 ## Form Data
 ### Native FormData dispatching
