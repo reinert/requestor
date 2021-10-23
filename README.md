@@ -94,7 +94,7 @@ Requestor offers a REST client, so you can perform basic CRUD operations against
 Create a new `RestService` by calling `requestor.newRestService( <uri>, <entityClass>, <idClass>, <collectionClass> )`.
 
 ```java
-bookService = r.newRestService("/api/books", Book.class, Integer.class, List.class);
+bookService = requestor.newRestService("/api/books", Book.class, Integer.class, List.class);
 
 // Configure your service to always set Content-Type and Accept headers as 'application/json'
 bookService.setMediaType("application/json");
@@ -179,19 +179,93 @@ With Requestor, you can:
 
 
 ## Request Options
-### accept
-### auth
-### contentType
-### delay
-### header
-### payload
-### throttle
-### timeout
+
+Requestor's Fluent API exposes many chaining methods to properly configure your request.
+
+Suppose you start building the request below:
+
+```java
+RequestInvoker req = requestor.req("/api/books/");
+```
+
+### *payload*
+
+Set any object as the request payload. This object is then serialized into the HTTP message's body
+as part of the [request processing](#request-processing) right after its invocation.
+
+```java
+req.payload( "a simple string" );
+req.payload( new Book("RESTful Web Services", "Leonard Richardson", new Date(1179795600000L) );
+req.payload( Arrays.asList(book1, book2, book3) );
+```
+
+### *auth*
+
+Set an `Auth` implementation to properly authenticate your request. This async functional interface
+is capable of supplying the request with the required credentials and later sending it.
+
+```java
+req.auth( new BasicAuth("username", "password") );
+req.auth( new BearerAuth("a-token") );
+req.auth( new MyOwnAuth("whatever") );
+```
+
+### *accept*
+
+A shortcut to set the Accept header.
+
+```java
+req.accept( "application/json" );
+```
+
+### *contentType*
+
+A shortcut to set the Content-Type header.
+
+```java
+req.contentType( "application/json" );
+```
+
+### *header*
+
+Set an HTTP header informing a key-value pair or a [Header](#headers-api) type.
+
+```java
+req.header( "Accept-Language", "da, en-gb;q=0.8, en;q=0.7" );
+req.header( new QualityFactorHeader("Accept-Language", "da", 1.0, "en-gb", 0.8, "en", 0.7) );
+```
+
+### *delay*
+
+Set a period of time in milliseconds in which the request must be delayed before being sent.
+
+```java
+req.delay( 5000 ); // Delay the request for 5s
+```
+
+### *timeout*
+
+Set a period of time in milliseconds in which the request should timeout.
+
+```java
+req.timeout( 10000 ); // Timeout the request after 10s
+```
+
+### *throttle*
+
+If you need to request a specific endpoint in a regular period of time, you can set the throttle
+option in milliseconds. Additionally, you can limit the maximum number of requests so that the
+throttling stops.
+
+```java
+req.throttle( 3000 ); // Send the request each 3s
+req.throttle( 3000, 10 ); // Send the request each 3s up to the limit of 10 requests
+```
 
 
 ## Promises
 
-Requestor declares its own Promise contract which can be implemented by any Promise library easily.
+Requestor declares its own Promise contract which can be implemented by any Promise library.
 Currently, there's one integration available: requestor-gdeferred.
 Additionally, an integration with [elemental2](https://github.com/google/elemental2) promise API is in the roadmap.
 
@@ -224,7 +298,6 @@ A `Promise<T>` will give you access to the response body as `T` if it's successf
 Check how you can use them below:
 
 ```java
-
 // You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
 requestor.get('/httpbin.org/ip', String.class).success(new PayloadCallback<String>() {
     public void execute(String ip) {
@@ -232,37 +305,37 @@ requestor.get('/httpbin.org/ip', String.class).success(new PayloadCallback<Strin
         view.showIp(ip);
     }
 }).success(new PayloadResponseCallback<String>() {
-    public void execute(String ip, Response<String> r) {
+    public void execute(String ip, Response r) {
         Window.alert("Response status was " + r.getStatus.toString());
     }
-}).fail(new ResponseCallback<Object>() {
-    public void execute(Response<Object> r) {
+}).fail(new ResponseCallback() {
+    public void execute(Response r) {
         // This is executed if the request was unsuccessful (status ≠ 2xx)
         view.showError("Request failed. Server message: " + r.getPayload().toString());
     }
-}).load(new ResponseCallback<Object>() {
-    public void execute(Response<Object> r) {
+}).load(new ResponseCallback() {
+    public void execute(Response r) {
         // This is always executed, regardless of success or failure
         Window.alert("Response status was " + r.getStatus.toString());
     }
-}).status(429, new ResponseCallback<Object>() {
-    public void execute(Response<Object> r) {
+}).status(429, new ResponseCallback() {
+    public void execute(Response r) {
         // This is executed if the response status code 429
         view.showError("Too many requests. Please try again in a few seconds.");
     }
-}).status(StatusFamily.SERVER_ERROR, new ResponseCallback<Object>() {
-    public void execute(Response<Object> r) {
+}).status(StatusFamily.SERVER_ERROR, new ResponseCallback() {
+    public void execute(Response r) {
         // This is executed if the response status code was 5xx (server error)
         view.showError("Request failed. Server message: " + r.getPayload().toString());
     }
 }).progress(new ProgressCallback() {
-    public void onProgress(RequestProgress progress) {
+    public void execute(RequestProgress progress) {
         // This is executed many times while the response is being received
         if (progress.isLengthComputable())
             view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );
     }
 }).upProgress(new ProgressCallback() {
-    public void onProgress(RequestProgress progress) {
+    public void execute(RequestProgress progress) {
         // This is executed many times while the request is being sent
         if (progress.isLengthComputable())
           // getCompletedFraction(int factor) calculates (loaded/total)*factor
@@ -274,7 +347,7 @@ requestor.get('/httpbin.org/ip', String.class).success(new PayloadCallback<Strin
         view.showError("Request timed out: " + e.getMessage());
     }
 }).fail(new ExceptionCallback() {
-    public void onFail(RequestException e) {
+    public void execute(RequestException e) {
         // This is executed if the request could not be performed due to any exception thrown before sending   
         if (t instanceof TimeoutException) {
             // It catches timeouts also
@@ -319,18 +392,6 @@ promise.success( books -> books.get(0) ); // COMPILATION ERROR: books is Collect
 promise.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
 ```
 
-
-## Request Processing
-### Filter
-### Serialize
-### Intercept
-### Authenticate
-
-## Response Processing
-### Intercept
-### Deserialize
-### Filter
-
 ## Serialization
 ### Jackson
 ### AutoBeans
@@ -346,6 +407,17 @@ promise.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
 ### CORS
 ### OAuth2
 ### Custom
+
+## Request Processing
+### Filter
+### Serialize
+### Intercept
+### Authenticate
+
+## Response Processing
+### Intercept
+### Deserialize
+### Filter
 
 ## Session
 
