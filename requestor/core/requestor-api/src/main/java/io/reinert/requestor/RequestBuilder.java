@@ -135,41 +135,41 @@ public interface RequestBuilder extends Request {
     RequestBuilder delay(int delayMillis);
 
     /**
-     * Throttle the request dispatching in a regular period of time in milliseconds.
+     * Poll the request dispatching in a regular period of time in milliseconds.
      * <p></p>
      *
-     * If delay is also set, then the time window between each request will be throttle + delay.
+     * If delay is also set, then the time window between each request will be poll + delay.
      * <p></p>
      *
      * Negative aren't allowed.
      * So if a value less than zero is passed, it is ignored.
      * <p></p>
      *
-     * @param intervalMillis The time in milliseconds to throttle the request
+     * @param intervalMillis The time in milliseconds to poll the request
      *
      * @return This building request
      */
-    RequestBuilder throttle(int intervalMillis);
+    RequestBuilder poll(int intervalMillis);
 
     /**
-     * Throttle the request dispatching in a regular period of time in milliseconds for a limited number of times.
+     * Poll the request dispatching in a regular period of time in milliseconds for a limited number of times.
      * <p></p>
      *
-     * The request will automatically stop throttling after being called for the limit number of times.
+     * The request will automatically stop polling after being called for the limit number of times.
      * <p></p>
      *
-     * If delay is also set, then the time window between each request will be throttle + delay.
+     * If delay is also set, then the time window between each request will be pollInterval + delay.
      * <p></p>
      *
      * Negative aren't allowed.
      * So if a value less than zero is passed, it is ignored.
      * <p></p>
      *
-     * @param intervalMillis The time in milliseconds to throttle the request
-     * @param limit Maximum number of times the request will be throttled
+     * @param intervalMillis The time in milliseconds to poll the request
+     * @param limit Maximum number of times the request will be polled
      *
      * @return This building request
      */
-    RequestBuilder throttle(int intervalMillis, int limit);
+    RequestBuilder poll(int intervalMillis, int limit);
 
 }

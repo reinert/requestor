@@ -42,17 +42,17 @@ public class RequestGwtTest extends GWTTestCase {
         requestor.setMediaType("application/json");
     }
 
-    public void testStopThrottling() {
-        requestor.req("https://httpbin.org/get").throttle(500).get().status(200, new ResponseCallback() {
+    public void testStopPolling() {
+        requestor.req("https://httpbin.org/get").poll(500).get().status(200, new ResponseCallback() {
             public void execute(Response response) {
-                // The request is throttled one more time after stopThrottle is called
-                assertTrue(response.getRequest().getThrottleCounter() <= 3);
+                // The request is polled one more time after stopPoll is called
+                assertTrue(response.getRequest().getPollCounter() <= 3);
 
-                if (response.getRequest().getThrottleCounter() == 2) {
-                    response.getRequest().stopThrottle();
+                if (response.getRequest().getPollCounter() == 2) {
+                    response.getRequest().stopPoll();
                 }
 
-                if (response.getRequest().getThrottleCounter() == 3) {
+                if (response.getRequest().getPollCounter() == 3) {
                     finishTest();
                 }
             }
@@ -61,11 +61,11 @@ public class RequestGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testThrottleLimit() {
-        requestor.req("https://httpbin.org/get").throttle(500, 2).get().status(200, new ResponseCallback() {
+    public void testPollLimit() {
+        requestor.req("https://httpbin.org/get").poll(500, 2).get().status(200, new ResponseCallback() {
             public void execute(Response response) {
-                assertTrue(response.getRequest().getThrottleCounter() <= 2);
-                if (response.getRequest().getThrottleCounter() == 2) {
+                assertTrue(response.getRequest().getPollCounter() <= 2);
+                if (response.getRequest().getPollCounter() == 2) {
                     finishTest();
                 }
             }

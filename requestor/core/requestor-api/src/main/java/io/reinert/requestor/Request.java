@@ -43,13 +43,13 @@ public interface Request {
 
     int getDelay();
 
-    int getThrottleInterval();
+    int getPollInterval();
 
-    int getThrottleLimit();
+    int getPollLimit();
 
-    int getThrottleCounter();
+    int getPollCounter();
 
-    void stopThrottle(); // The request is throttled one more time after stopThrottle is called
+    void stopPoll(); // The request is polled one more time after stopPoll is called
 
     Uri getUri();
 

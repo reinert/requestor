@@ -105,7 +105,7 @@ public abstract class RequestDispatcher {
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request,
                 responsePayloadType, this, deferred);
 
-        final MutableSerializedRequest originalRequest = request.getThrottleInterval() > 0 ? request.copy() : null;
+        final MutableSerializedRequest originalRequest = request.getPollInterval() > 0 ? request.copy() : null;
 
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
@@ -121,18 +121,18 @@ public abstract class RequestDispatcher {
                         requestProcessor.process(requestInAuthProcess);
                     }
 
-                    // Throttle the request
-                    if (requestInAuthProcess.getThrottleInterval() > 0 && (
-                            requestInAuthProcess.getThrottleLimit() <= 0 ||
-                            requestInAuthProcess.getThrottleCounter() < requestInAuthProcess.getThrottleLimit())) {
+                    // Poll the request
+                    if (requestInAuthProcess.getPollInterval() > 0 && (
+                            requestInAuthProcess.getPollLimit() <= 0 ||
+                            requestInAuthProcess.getPollCounter() < requestInAuthProcess.getPollLimit())) {
                         new Timer() {
                             @Override
                             public void run() {
-                                originalRequest.incrementThrottleCounter();
+                                originalRequest.incrementPollCounter();
                                 scheduleDispatch(originalRequest, responsePayloadType, deferred.getUnresolvedCopy(),
                                         false, false);
                             }
-                        }.schedule(request.getThrottleInterval());
+                        }.schedule(request.getPollInterval());
                     }
                 } catch (Exception e) {
                     deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +

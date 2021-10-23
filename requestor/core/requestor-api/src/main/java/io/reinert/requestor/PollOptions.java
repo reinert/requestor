@@ -15,34 +15,34 @@
  */
 package io.reinert.requestor;
 
-public class ThrottleOptions {
+public class PollOptions {
 
-    private int throttleInterval;
-    private int throttleLimit;
-    private int throttleCounter;
+    private int pollInterval;
+    private int pollLimit;
+    private int pollCounter;
 
-    public int getThrottleInterval() {
-        return throttleInterval;
+    public int getPollInterval() {
+        return pollInterval;
     }
 
-    public int getThrottleLimit() {
-        return throttleLimit;
+    public int getPollLimit() {
+        return pollLimit;
     }
 
-    public int getThrottleCounter() {
-        return throttleCounter;
+    public int getPollCounter() {
+        return pollCounter;
     }
 
-    public void setThrottleInterval(int throttleInterval) {
-        this.throttleInterval = throttleInterval;
+    public void setPollInterval(int pollInterval) {
+        this.pollInterval = pollInterval;
     }
 
-    public void setThrottleLimit(int throttleLimit) {
-        this.throttleLimit = throttleLimit;
+    public void setPollLimit(int pollLimit) {
+        this.pollLimit = pollLimit;
     }
 
-    public void setThrottleCounter(int throttleCounter) {
-        this.throttleCounter = throttleCounter;
+    public void setPollCounter(int pollCounter) {
+        this.pollCounter = pollCounter;
     }
 
 }

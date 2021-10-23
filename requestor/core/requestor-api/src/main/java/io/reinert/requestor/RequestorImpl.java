@@ -365,23 +365,23 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public void setThrottle(int intervalMillis) {
-        defaults.setThrottle(intervalMillis);
+    public void setPoll(int intervalMillis) {
+        defaults.setPoll(intervalMillis);
     }
 
     @Override
-    public void setThrottle(int intervalMillis, int limit) {
-        defaults.setThrottle(intervalMillis, limit);
+    public void setPoll(int intervalMillis, int limit) {
+        defaults.setPoll(intervalMillis, limit);
     }
 
     @Override
-    public int getThrottleInterval() {
-        return defaults.getThrottleInterval();
+    public int getPollInterval() {
+        return defaults.getPollInterval();
     }
 
     @Override
-    public int getThrottleLimit() {
-        return defaults.getThrottleLimit();
+    public int getPollLimit() {
+        return defaults.getPollLimit();
     }
 
     @Override

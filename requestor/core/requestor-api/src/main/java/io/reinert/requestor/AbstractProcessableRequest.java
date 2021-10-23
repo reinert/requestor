@@ -78,18 +78,18 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public void setThrottleInterval(int intervalMillis) {
-        request.setThrottleInterval(intervalMillis);
+    public void setPollInterval(int intervalMillis) {
+        request.setPollInterval(intervalMillis);
     }
 
     @Override
-    public void setThrottleLimit(int throttleLimit) {
-        request.setThrottleLimit(throttleLimit);
+    public void setPollLimit(int pollLimit) {
+        request.setPollLimit(pollLimit);
     }
 
     @Override
-    public int incrementThrottleCounter() {
-        return request.incrementThrottleCounter();
+    public int incrementPollCounter() {
+        return request.incrementPollCounter();
     }
 
     @Override
@@ -158,23 +158,23 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public int getThrottleInterval() {
-        return request.getThrottleInterval();
+    public int getPollInterval() {
+        return request.getPollInterval();
     }
 
     @Override
-    public int getThrottleLimit() {
-        return request.getThrottleLimit();
+    public int getPollLimit() {
+        return request.getPollLimit();
     }
 
     @Override
-    public int getThrottleCounter() {
-        return request.getThrottleCounter();
+    public int getPollCounter() {
+        return request.getPollCounter();
     }
 
     @Override
-    public void stopThrottle() {
-        request.stopThrottle();
+    public void stopPoll() {
+        request.stopPoll();
     }
 
     @Override

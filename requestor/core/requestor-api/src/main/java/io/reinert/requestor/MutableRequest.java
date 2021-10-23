@@ -75,25 +75,25 @@ public interface MutableRequest extends Request, HasHeaders {
     void setDelay(int delayMillis);
 
     /**
-     * Sets the number of milliseconds to throttle the request in a regular time window.
+     * Sets the number of milliseconds to poll the request in a regular time window.
      *
-     * @param intervalMillis Number of milliseconds to throttle the request
+     * @param intervalMillis Number of milliseconds to poll the request
      */
-    void setThrottleInterval(int intervalMillis);
+    void setPollInterval(int intervalMillis);
 
     /**
-     * The request will automatically stop throttling after being called for the limit number of times.
+     * The request will automatically stop polling after being called for the limit number of times.
      *
-     * @param throttleLimit Maximum number of times the request should be throttled
+     * @param pollLimit Maximum number of times the request should be polled
      */
-    void setThrottleLimit(int throttleLimit);
+    void setPollLimit(int pollLimit);
 
     /**
-     * The throttle counter is incremented by 1.
+     * The poll counter is incremented by 1.
      *
-     * Returns the updated throttle counter.
+     * Returns the updated poll counter.
      */
-    int incrementThrottleCounter();
+    int incrementPollCounter();
 
     /**
      * Input a payload to be serialized and then sent in the HTTP request body.

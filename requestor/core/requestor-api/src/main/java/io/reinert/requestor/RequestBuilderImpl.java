@@ -39,7 +39,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private HttpMethod httpMethod;
     private int timeout;
     private int delay;
-    private ThrottleOptions throttleOptions = new ThrottleOptions();
+    private PollOptions pollOptions = new PollOptions();
     private Object payload;
     private SerializedPayload serializedPayload;
     private boolean serialized = false;
@@ -64,7 +64,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
         copy.httpMethod = request.httpMethod;
         copy.timeout = request.timeout;
         copy.delay = request.delay;
-        copy.throttleOptions = request.throttleOptions;
+        copy.pollOptions = request.pollOptions;
         copy.payload = request.payload;
         copy.serializedPayload = request.serializedPayload;
         copy.serialized = request.serialized;
@@ -132,23 +132,23 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public int getThrottleInterval() {
-        return throttleOptions.getThrottleInterval();
+    public int getPollInterval() {
+        return pollOptions.getPollInterval();
     }
 
     @Override
-    public int getThrottleLimit() {
-        return throttleOptions.getThrottleLimit();
+    public int getPollLimit() {
+        return pollOptions.getPollLimit();
     }
 
     @Override
-    public int getThrottleCounter() {
-        return throttleOptions.getThrottleCounter();
+    public int getPollCounter() {
+        return pollOptions.getPollCounter();
     }
 
     @Override
-    public void stopThrottle() {
-        throttleOptions.setThrottleInterval(0);
+    public void stopPoll() {
+        pollOptions.setPollInterval(0);
     }
 
     @Override
@@ -207,14 +207,14 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public RequestBuilder throttle(int intervalMillis) {
-        return throttle(intervalMillis, 0);
+    public RequestBuilder poll(int intervalMillis) {
+        return poll(intervalMillis, 0);
     }
 
     @Override
-    public RequestBuilder throttle(int intervalMillis, int limit) {
-        if (intervalMillis > 0) throttleOptions.setThrottleInterval(intervalMillis);
-        throttleOptions.setThrottleLimit(limit);
+    public RequestBuilder poll(int intervalMillis, int limit) {
+        if (intervalMillis > 0) pollOptions.setPollInterval(intervalMillis);
+        pollOptions.setPollLimit(limit);
         return this;
     }
 
@@ -311,19 +311,19 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void setThrottleInterval(int intervalMillis) {
-        throttleOptions.setThrottleInterval(intervalMillis);
+    public void setPollInterval(int intervalMillis) {
+        pollOptions.setPollInterval(intervalMillis);
     }
 
     @Override
-    public void setThrottleLimit(int throttleLimit) {
-        throttleOptions.setThrottleLimit(throttleLimit);
+    public void setPollLimit(int pollLimit) {
+        pollOptions.setPollLimit(pollLimit);
     }
 
     @Override
-    public int incrementThrottleCounter() {
-        throttleOptions.setThrottleCounter(throttleOptions.getThrottleCounter() + 1);
-        return throttleOptions.getThrottleCounter();
+    public int incrementPollCounter() {
+        pollOptions.setPollCounter(pollOptions.getPollCounter() + 1);
+        return pollOptions.getPollCounter();
     }
 
     @Override

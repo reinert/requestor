@@ -23,8 +23,8 @@ public class RequestDefaultsImpl implements RequestDefaults {
     private Auth.Provider authProvider;
     private int timeout;
     private int delay;
-    private int throttleInterval;
-    private int throttleLimit;
+    private int pollInterval;
+    private int pollLimit;
     private final Headers headers = new Headers();
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
     private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
@@ -35,7 +35,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
         copy.setAuth(defaults.authProvider);
         copy.setTimeout(defaults.timeout);
         copy.setDelay(defaults.delay);
-        copy.setThrottle(defaults.throttleInterval, defaults.throttleLimit);
+        copy.setPoll(defaults.pollInterval, defaults.pollLimit);
         for (Header h : defaults.headers) copy.putHeader(h);
         copy.setRequestSerializer(defaults.requestSerializer);
         copy.setResponseDeserializer(defaults.responseDeserializer);
@@ -55,8 +55,8 @@ public class RequestDefaultsImpl implements RequestDefaults {
         authProvider = null;
         timeout = 0;
         delay = 0;
-        throttleInterval = 0;
-        throttleLimit = 0;
+        pollInterval = 0;
+        pollLimit = 0;
         headers.clear();
     }
 
@@ -125,24 +125,24 @@ public class RequestDefaultsImpl implements RequestDefaults {
     }
 
     @Override
-    public void setThrottle(int intervalMillis) {
-        throttleInterval = intervalMillis;
+    public void setPoll(int intervalMillis) {
+        pollInterval = intervalMillis;
     }
 
     @Override
-    public void setThrottle(int intervalMillis, int limit) {
-        throttleInterval = intervalMillis;
-        throttleLimit = limit;
+    public void setPoll(int intervalMillis, int limit) {
+        pollInterval = intervalMillis;
+        pollLimit = limit;
     }
 
     @Override
-    public int getThrottleInterval() {
-        return throttleInterval;
+    public int getPollInterval() {
+        return pollInterval;
     }
 
     @Override
-    public int getThrottleLimit() {
-        return throttleLimit;
+    public int getPollLimit() {
+        return pollLimit;
     }
 
     @Override
@@ -214,11 +214,11 @@ public class RequestDefaultsImpl implements RequestDefaults {
             request.delay(delay);
         }
 
-        if (throttleInterval > 0) {
-            if (throttleLimit > 0) {
-                request.throttle(throttleInterval, throttleLimit);
+        if (pollInterval > 0) {
+            if (pollLimit > 0) {
+                request.poll(pollInterval, pollLimit);
             } else {
-                request.throttle(throttleInterval);
+                request.poll(pollInterval);
             }
         }
 
