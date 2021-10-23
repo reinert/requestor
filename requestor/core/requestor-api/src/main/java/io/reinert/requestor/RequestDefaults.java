@@ -52,12 +52,16 @@ public interface RequestDefaults extends HasHeaders {
 
     int getDelay();
 
-    void setPoll(int intervalMillis);
+    void setPolling(PollingStrategy strategy, int intervalMillis);
 
-    void setPoll(int intervalMillis, int limit);
+    void setPolling(PollingStrategy strategy, int intervalMillis, int limit);
 
-    int getPollInterval();
+    boolean isPolling();
 
-    int getPollLimit();
+    int getPollingInterval();
+
+    int getPollingLimit();
+
+    PollingStrategy getPollingStrategy();
 
 }

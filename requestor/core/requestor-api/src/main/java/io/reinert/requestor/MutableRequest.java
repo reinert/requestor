@@ -75,25 +75,39 @@ public interface MutableRequest extends Request, HasHeaders {
     void setDelay(int delayMillis);
 
     /**
+     * Sets if the polling is active or not.
+     *
+     * @param active Flag to determine whether the request should be polling
+     */
+    void setPollingActive(boolean active);
+
+    /**
      * Sets the number of milliseconds to poll the request in a regular time window.
      *
      * @param intervalMillis Number of milliseconds to poll the request
      */
-    void setPollInterval(int intervalMillis);
+    void setPollingInterval(int intervalMillis);
 
     /**
      * The request will automatically stop polling after being called for the limit number of times.
      *
      * @param pollLimit Maximum number of times the request should be polled
      */
-    void setPollLimit(int pollLimit);
+    void setPollingLimit(int pollLimit);
+
+    /**
+     * Sets if the polling should be SHORT or LONG.
+     *
+     * @param strategy Strategy of the polling
+     */
+    void setPollingStrategy(PollingStrategy strategy);
 
     /**
      * The poll counter is incremented by 1.
      *
      * Returns the updated poll counter.
      */
-    int incrementPollCounter();
+    int incrementPollingCounter();
 
     /**
      * Input a payload to be serialized and then sent in the HTTP request body.

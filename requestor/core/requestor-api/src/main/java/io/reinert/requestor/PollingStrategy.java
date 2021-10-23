@@ -15,34 +15,6 @@
  */
 package io.reinert.requestor;
 
-public class PollOptions {
-
-    private int pollInterval;
-    private int pollLimit;
-    private int pollCounter;
-
-    public int getPollInterval() {
-        return pollInterval;
-    }
-
-    public int getPollLimit() {
-        return pollLimit;
-    }
-
-    public int getPollCounter() {
-        return pollCounter;
-    }
-
-    public void setPollInterval(int pollInterval) {
-        this.pollInterval = pollInterval;
-    }
-
-    public void setPollLimit(int pollLimit) {
-        this.pollLimit = pollLimit;
-    }
-
-    public void setPollCounter(int pollCounter) {
-        this.pollCounter = pollCounter;
-    }
-
+public enum PollingStrategy {
+    SHORT, LONG;
 }

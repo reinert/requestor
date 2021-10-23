@@ -39,7 +39,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private HttpMethod httpMethod;
     private int timeout;
     private int delay;
-    private PollOptions pollOptions = new PollOptions();
+    private PollingOptions pollingOptions = new PollingOptions();
     private Object payload;
     private SerializedPayload serializedPayload;
     private boolean serialized = false;
@@ -64,7 +64,8 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
         copy.httpMethod = request.httpMethod;
         copy.timeout = request.timeout;
         copy.delay = request.delay;
-        copy.pollOptions = request.pollOptions;
+        // Soft copy pollingOptions to keep track of the pollingCounter
+        copy.pollingOptions = request.pollingOptions;
         copy.payload = request.payload;
         copy.serializedPayload = request.serializedPayload;
         copy.serialized = request.serialized;
@@ -132,23 +133,33 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public int getPollInterval() {
-        return pollOptions.getPollInterval();
+    public boolean isPolling() {
+        return pollingOptions.isPolling();
     }
 
     @Override
-    public int getPollLimit() {
-        return pollOptions.getPollLimit();
+    public int getPollingInterval() {
+        return pollingOptions.getPollingInterval();
     }
 
     @Override
-    public int getPollCounter() {
-        return pollOptions.getPollCounter();
+    public int getPollingLimit() {
+        return pollingOptions.getPollingLimit();
     }
 
     @Override
-    public void stopPoll() {
-        pollOptions.setPollInterval(0);
+    public int getPollingCounter() {
+        return pollingOptions.getPollingCounter();
+    }
+
+    @Override
+    public PollingStrategy getPollingStrategy() {
+        return pollingOptions.getPollingStrategy();
+    }
+
+    @Override
+    public void stopPolling() {
+        pollingOptions.stopPolling();
     }
 
     @Override
@@ -207,14 +218,14 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public RequestBuilder poll(int intervalMillis) {
-        return poll(intervalMillis, 0);
+    public RequestBuilder poll(PollingStrategy strategy, int intervalMillis) {
+        pollingOptions.startPolling(strategy, intervalMillis, 0);
+        return this;
     }
 
     @Override
-    public RequestBuilder poll(int intervalMillis, int limit) {
-        if (intervalMillis > 0) pollOptions.setPollInterval(intervalMillis);
-        pollOptions.setPollLimit(limit);
+    public RequestBuilder poll(PollingStrategy strategy, int intervalMillis, int limit) {
+        pollingOptions.startPolling(strategy, intervalMillis, limit);
         return this;
     }
 
@@ -311,19 +322,28 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void setPollInterval(int intervalMillis) {
-        pollOptions.setPollInterval(intervalMillis);
+    public void setPollingActive(boolean active) {
+        pollingOptions.setPollingActive(active);
     }
 
     @Override
-    public void setPollLimit(int pollLimit) {
-        pollOptions.setPollLimit(pollLimit);
+    public void setPollingStrategy(PollingStrategy strategy) {
+        pollingOptions.setPollingStrategy(strategy);
     }
 
     @Override
-    public int incrementPollCounter() {
-        pollOptions.setPollCounter(pollOptions.getPollCounter() + 1);
-        return pollOptions.getPollCounter();
+    public void setPollingInterval(int intervalMillis) {
+        pollingOptions.setPollingInterval(intervalMillis);
+    }
+
+    @Override
+    public void setPollingLimit(int pollLimit) {
+        pollingOptions.setPollingLimit(pollLimit);
+    }
+
+    @Override
+    public int incrementPollingCounter() {
+        return pollingOptions.incrementPollingCounter();
     }
 
     @Override

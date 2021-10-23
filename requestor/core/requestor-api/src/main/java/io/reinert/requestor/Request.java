@@ -43,13 +43,17 @@ public interface Request {
 
     int getDelay();
 
-    int getPollInterval();
+    boolean isPolling();
 
-    int getPollLimit();
+    int getPollingInterval();
 
-    int getPollCounter();
+    int getPollingLimit();
 
-    void stopPoll(); // The request is polled one more time after stopPoll is called
+    int getPollingCounter();
+
+    PollingStrategy getPollingStrategy();
+
+    void stopPolling(); // The request is polled one more time after stopPoll is called
 
     Uri getUri();
 

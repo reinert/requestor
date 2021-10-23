@@ -91,14 +91,14 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     }
 
     @Override
-    public RequestInvoker poll(int intervalMillis) {
-        super.poll(intervalMillis);
+    public RequestInvoker poll(PollingStrategy strategy, int intervalMillis) {
+        super.poll(strategy, intervalMillis);
         return this;
     }
 
     @Override
-    public RequestInvoker poll(int intervalMillis, int limit) {
-        super.poll(intervalMillis, limit);
+    public RequestInvoker poll(PollingStrategy strategy, int intervalMillis, int limit) {
+        super.poll(strategy, intervalMillis, limit);
         return this;
     }
 

@@ -136,23 +136,33 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public int getPollInterval() {
-        return request.getPollInterval();
+    public boolean isPolling() {
+        return request.isPolling();
     }
 
     @Override
-    public int getPollLimit() {
-        return request.getPollLimit();
+    public int getPollingInterval() {
+        return request.getPollingInterval();
     }
 
     @Override
-    public int getPollCounter() {
-        return request.getPollCounter();
+    public int getPollingLimit() {
+        return request.getPollingLimit();
     }
 
     @Override
-    public void stopPoll() {
-        request.stopPoll();
+    public int getPollingCounter() {
+        return request.getPollingCounter();
+    }
+
+    @Override
+    public PollingStrategy getPollingStrategy() {
+        return request.getPollingStrategy();
+    }
+
+    @Override
+    public void stopPolling() {
+        request.stopPolling();
     }
 
     @Override

@@ -365,23 +365,33 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public void setPoll(int intervalMillis) {
-        defaults.setPoll(intervalMillis);
+    public void setPolling(PollingStrategy strategy, int intervalMillis) {
+        defaults.setPolling(strategy, intervalMillis);
     }
 
     @Override
-    public void setPoll(int intervalMillis, int limit) {
-        defaults.setPoll(intervalMillis, limit);
+    public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
+        defaults.setPolling(strategy, intervalMillis, limit);
     }
 
     @Override
-    public int getPollInterval() {
-        return defaults.getPollInterval();
+    public boolean isPolling() {
+        return defaults.isPolling();
     }
 
     @Override
-    public int getPollLimit() {
-        return defaults.getPollLimit();
+    public int getPollingInterval() {
+        return defaults.getPollingInterval();
+    }
+
+    @Override
+    public int getPollingLimit() {
+        return defaults.getPollingLimit();
+    }
+
+    @Override
+    public PollingStrategy getPollingStrategy() {
+        return defaults.getPollingStrategy();
     }
 
     @Override

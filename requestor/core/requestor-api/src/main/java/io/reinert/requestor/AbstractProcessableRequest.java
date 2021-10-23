@@ -78,18 +78,28 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public void setPollInterval(int intervalMillis) {
-        request.setPollInterval(intervalMillis);
+    public void setPollingActive(boolean active) {
+        request.setPollingActive(active);
     }
 
     @Override
-    public void setPollLimit(int pollLimit) {
-        request.setPollLimit(pollLimit);
+    public void setPollingInterval(int intervalMillis) {
+        request.setPollingInterval(intervalMillis);
     }
 
     @Override
-    public int incrementPollCounter() {
-        return request.incrementPollCounter();
+    public void setPollingLimit(int pollLimit) {
+        request.setPollingLimit(pollLimit);
+    }
+
+    @Override
+    public void setPollingStrategy(PollingStrategy strategy) {
+        request.setPollingStrategy(strategy);
+    }
+
+    @Override
+    public int incrementPollingCounter() {
+        return request.incrementPollingCounter();
     }
 
     @Override
@@ -158,23 +168,33 @@ public abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public int getPollInterval() {
-        return request.getPollInterval();
+    public boolean isPolling() {
+        return request.isPolling();
     }
 
     @Override
-    public int getPollLimit() {
-        return request.getPollLimit();
+    public int getPollingInterval() {
+        return request.getPollingInterval();
     }
 
     @Override
-    public int getPollCounter() {
-        return request.getPollCounter();
+    public int getPollingLimit() {
+        return request.getPollingLimit();
     }
 
     @Override
-    public void stopPoll() {
-        request.stopPoll();
+    public int getPollingCounter() {
+        return request.getPollingCounter();
+    }
+
+    @Override
+    public PollingStrategy getPollingStrategy() {
+        return request.getPollingStrategy();
+    }
+
+    @Override
+    public void stopPolling() {
+        request.stopPolling();
     }
 
     @Override

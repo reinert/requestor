@@ -48,10 +48,10 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     RequestInvoker delay(int delayMillis);
 
     @Override
-    RequestInvoker poll(int intervalMillis);
+    RequestInvoker poll(PollingStrategy strategy, int intervalMillis);
 
     @Override
-    RequestInvoker poll(int intervalMillis, int limit);
+    RequestInvoker poll(PollingStrategy strategy, int intervalMillis, int limit);
 
     @Override
     RequestInvoker payload(Object payload) throws IllegalArgumentException;

@@ -135,7 +135,11 @@ public interface RequestBuilder extends Request {
     RequestBuilder delay(int delayMillis);
 
     /**
-     * Poll the request dispatching in a regular period of time in milliseconds.
+     * Poll the request according to the specified interval in milliseconds.
+     * <p></p>
+     *
+     * The poll strategy determines whether the next request should be triggered after sending the
+     * previous one (SHORT) or after receiving its response (LONG).
      * <p></p>
      *
      * If delay is also set, then the time window between each request will be poll + delay.
@@ -145,14 +149,19 @@ public interface RequestBuilder extends Request {
      * So if a value less than zero is passed, it is ignored.
      * <p></p>
      *
-     * @param intervalMillis The time in milliseconds to poll the request
+     * @param strategy          The polling strategy
+     * @param intervalMillis    The time in milliseconds to poll the request
      *
      * @return This building request
      */
-    RequestBuilder poll(int intervalMillis);
+    RequestBuilder poll(PollingStrategy strategy, int intervalMillis);
 
     /**
      * Poll the request dispatching in a regular period of time in milliseconds for a limited number of times.
+     * <p></p>
+     *
+     * The poll strategy determines whether the next request should be triggered after sending the
+     * previous one (SHORT) or after receiving its response (LONG).
      * <p></p>
      *
      * The request will automatically stop polling after being called for the limit number of times.
@@ -165,11 +174,12 @@ public interface RequestBuilder extends Request {
      * So if a value less than zero is passed, it is ignored.
      * <p></p>
      *
-     * @param intervalMillis The time in milliseconds to poll the request
-     * @param limit Maximum number of times the request will be polled
+     * @param strategy          The polling strategy
+     * @param intervalMillis    The time in milliseconds to poll the request
+     * @param limit             Maximum number of times the request will be polled
      *
      * @return This building request
      */
-    RequestBuilder poll(int intervalMillis, int limit);
+    RequestBuilder poll(PollingStrategy strategy, int intervalMillis, int limit);
 
 }

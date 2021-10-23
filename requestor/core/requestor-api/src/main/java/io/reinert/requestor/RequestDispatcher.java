@@ -105,7 +105,7 @@ public abstract class RequestDispatcher {
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request,
                 responsePayloadType, this, deferred);
 
-        final MutableSerializedRequest originalRequest = request.getPollInterval() > 0 ? request.copy() : null;
+        final MutableSerializedRequest originalRequest = request.getPollingInterval() > 0 ? request.copy() : null;
 
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
@@ -122,17 +122,17 @@ public abstract class RequestDispatcher {
                     }
 
                     // Poll the request
-                    if (requestInAuthProcess.getPollInterval() > 0 && (
-                            requestInAuthProcess.getPollLimit() <= 0 ||
-                            requestInAuthProcess.getPollCounter() < requestInAuthProcess.getPollLimit())) {
+                    if (requestInAuthProcess.getPollingInterval() > 0 && (
+                            requestInAuthProcess.getPollingLimit() <= 0 ||
+                            requestInAuthProcess.getPollingCounter() < requestInAuthProcess.getPollingLimit())) {
                         new Timer() {
                             @Override
                             public void run() {
-                                originalRequest.incrementPollCounter();
+                                originalRequest.incrementPollingCounter();
                                 scheduleDispatch(originalRequest, responsePayloadType, deferred.getUnresolvedCopy(),
                                         false, false);
                             }
-                        }.schedule(request.getPollInterval());
+                        }.schedule(request.getPollingInterval());
                     }
                 } catch (Exception e) {
                     deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +

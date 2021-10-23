@@ -23,8 +23,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
     private Auth.Provider authProvider;
     private int timeout;
     private int delay;
-    private int pollInterval;
-    private int pollLimit;
+    private PollingOptions pollingOptions = new PollingOptions();
     private final Headers headers = new Headers();
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
     private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
@@ -35,7 +34,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
         copy.setAuth(defaults.authProvider);
         copy.setTimeout(defaults.timeout);
         copy.setDelay(defaults.delay);
-        copy.setPoll(defaults.pollInterval, defaults.pollLimit);
+        copy.pollingOptions = defaults.pollingOptions.copy();
         for (Header h : defaults.headers) copy.putHeader(h);
         copy.setRequestSerializer(defaults.requestSerializer);
         copy.setResponseDeserializer(defaults.responseDeserializer);
@@ -55,8 +54,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
         authProvider = null;
         timeout = 0;
         delay = 0;
-        pollInterval = 0;
-        pollLimit = 0;
+        pollingOptions.reset();
         headers.clear();
     }
 
@@ -125,24 +123,33 @@ public class RequestDefaultsImpl implements RequestDefaults {
     }
 
     @Override
-    public void setPoll(int intervalMillis) {
-        pollInterval = intervalMillis;
+    public void setPolling(PollingStrategy strategy, int intervalMillis) {
+        pollingOptions.startPolling(strategy, intervalMillis, 0);
     }
 
     @Override
-    public void setPoll(int intervalMillis, int limit) {
-        pollInterval = intervalMillis;
-        pollLimit = limit;
+    public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
+        pollingOptions.startPolling(strategy, intervalMillis, limit);
     }
 
     @Override
-    public int getPollInterval() {
-        return pollInterval;
+    public boolean isPolling() {
+        return pollingOptions.isPolling();
     }
 
     @Override
-    public int getPollLimit() {
-        return pollLimit;
+    public int getPollingInterval() {
+        return pollingOptions.getPollingInterval();
+    }
+
+    @Override
+    public int getPollingLimit() {
+        return pollingOptions.getPollingLimit();
+    }
+
+    @Override
+    public PollingStrategy getPollingStrategy() {
+        return pollingOptions.getPollingStrategy();
     }
 
     @Override
@@ -214,12 +221,9 @@ public class RequestDefaultsImpl implements RequestDefaults {
             request.delay(delay);
         }
 
-        if (pollInterval > 0) {
-            if (pollLimit > 0) {
-                request.poll(pollInterval, pollLimit);
-            } else {
-                request.poll(pollInterval);
-            }
+        if (pollingOptions.isPolling()) {
+            request.poll(pollingOptions.getPollingStrategy(), pollingOptions.getPollingInterval(),
+                    pollingOptions.getPollingLimit());
         }
 
         for (Header h : headers) {
