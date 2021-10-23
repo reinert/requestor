@@ -169,8 +169,8 @@ If something proves to be inevitably repetitive on the user side, then code gene
 Requestor was inspired in many successful HTTP Client APIs in other ecosystems like Python Requests, Angular HttpClient, Ruby Http.rb and JAX-RS Client.
 
 With Requestor, you can:
-* Communicate with any HTTP API elegantly while writing as little code as possible.
-* Deal with different server HTTP APIs keeping the same client communication pattern and facilitating the maintenance of your code base.
+* Quickly make offhand requests writing as little code as possible.
+* Communicate with different HTTP APIs keeping the same client communication pattern, thus improving your code base maintainability.
 * Handle multiple media types (json and xml for instance) for the same java type without hacks.
 * Deserialize different types according to the response status, allowing you to properly model error messages in you app.
 * Navigate through discoverable REST API links, full leveraging HATEOAS.
@@ -393,8 +393,101 @@ promise.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
 ```
 
 ## Serialization
-### Jackson
-### AutoBeans
+
+Serialization is part of the [Request Processing](#request-processing) and deserializarion is part of the [Response Processing](#response-processing).
+
+Requestor exposes the `Serializer<T>` interface responsible for performing serialization and deserialization of a specific type.
+Besides providing serialization and deserialization logic, the `Serializer<T>` interface declares the **Media Types** it can handle.
+This way, you can have *multiple Serializers for the same type handling different media types*, e.g., json and xml.
+Requestor's serialization engine is smart enough to match the appropriate Serializer according to the request/response's Content-Type.
+
+Serialization and deserialization is enabled by registering a `Serializer<T>` instance in the requestor [session](#session).
+If you only need the deserialization part then you can register a `Deserializer<T>` implementation.
+
+```java
+requestor.register(new MyTypeSerializer());
+```
+
+Although you can implement your own Serializers, you may want to use some requestor extension that provides **automatic serialization and deserialization**.
+Currently, there are two available: `requestor-gwtjackson` and `requestor-autobeans`.
+
+### Gwt-Jackson
+
+The `requestor-gwtjackson` extension integrates requestor with gwt-jackson to provide auto serialization. Intending to have the Serializers automatically
+generated you just need to declare a `SerializationModule` with the desired classes you want to serialize. Additionally, you need to specify the
+**Media Types** that the serializers will handle. Since gwt-jackson serializes to json format, you'll probably set "application/json" as a media type,
+but you can declare other media types, even wildcard types like "\*/json" or "\*/\*".
+
+```java
+@MediaType({"application/json", "*/*"})
+@JsonSerializationModule({ Author.class, Book.class })
+interface MySerializationModule extends SerializationModule { }
+```
+
+And that's it. Now you'll have auto generated Serializers for Author and Book classes registered in your requestor session.
+
+In order to install requestor-gwtjackson extension add the following to your pom.xml:
+
+```xml
+<dependencies>
+  ...
+  <dependency>
+    <groupId>com.github.nmorel.gwtjackson</groupId>
+    <artifactId>gwt-jackson</artifactId>
+    <version>${gwtjackson.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>io.reinert.requestor.ext</groupId>
+    <artifactId>requestor-gwtjackson</artifactId>
+    <version>${requestor.version}</version>
+  <dependency>
+  ...
+</dependencies>
+```
+
+Then inherit the `GwtJacksonExt` GWT module in your gwt.xml file:
+
+```xml
+<inherits name="io.reinert.requestor.gwtjackson.GwtJacksonExt"/>
+```
+
+### AutoBean
+
+Similarly to the previous extension, `requestor-autobean` provides auto serialization for AutoBean interfaces.
+Likewise, to use it you just need to declare a SerializationModule the same way, informing the classes you
+want to serialize and also the Media Types they will handle.
+
+```java
+@MediaType({"application/json", "*/*"})
+@JsonSerializationModule({ Author.class, Book.class })
+interface MySerializationModule extends SerializationModule { }
+```
+
+The installation procedure is pretty much the same.
+
+```xml
+<dependencies>
+  ...
+  <dependency>
+    <groupId>com.github.nmorel.gwtjackson</groupId>
+    <artifactId>gwt-jackson</artifactId>
+    <version>${gwtjackson.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>io.reinert.requestor.ext</groupId>
+    <artifactId>requestor-autobean</artifactId>
+    <version>${requestor.version}</version>
+  <dependency>
+  ...
+</dependencies>
+```
+
+Then inherit the `AutoBeanExt` GWT module in your gwt.xml file:
+
+```xml
+<inherits name="io.reinert.requestor.gwtjackson.AutoBeanExt"/>
+```
+
 ### Custom
 #### JSON
 #### XML
