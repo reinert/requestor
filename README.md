@@ -649,8 +649,8 @@ bookService.deleteBook(123).success( () -> showSucessMsg() ).fail(...);
 
 ### Create your own Abstract Service
 
-👌 It's a **good practice** to handle the errors inside your service, so you don't have to always set fail callbacks.
-Check the `handleErrors` below. It adds some predefined callbacks to promises:
+👌 It's a good practice to *handle the errors inside your service*, so you don't have to always set fail callbacks.
+Check the `applyErrorCallbacks` method below. It adds some predefined callbacks to promises:
 
 ```java
 public class MyBookService extends AbstractService {
@@ -666,12 +666,13 @@ public class MyBookService extends AbstractService {
     public Promise<Book> createBook(Book book) {
         Uri uri = getUriBuilder().build();
         // add the error handling callbacks in the promise returned by the post method
-        return applyCallbacks(request(uri).payload(book).post(Book.class));
+        Promise<Book> promise = request(uri).payload(book).post(Book.class);
+        return applyErrorCallbacks(promise);
     }
     
     // Implement all your service calls following the same pattern...
 
-    private <T> Promise<T> applyCallbacks(Promise<T> promise) {
+    private <T> Promise<T> applyErrorCallbacks(Promise<T> promise) {
         return promise
                 .status(404, response -> goToNotFound(response.getRequest().getUri()))
                 .status(500, response -> goToServerError(response))
