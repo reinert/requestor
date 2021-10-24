@@ -1,6 +1,6 @@
 # Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor) [![Gitter](https://img.shields.io/badge/Gitter-Join%20Chat-blue.svg?style=flat)](https://gitter.im/reinert/requestor)
 
-A powerful HTTP Client API for bullet proof GWT SPAs.
+A powerful HTTP Client API for bulletproof GWT SPAs.
 
 Requestor offers a plenty of carefully designed features that enables you to manage the HTTP communication process through all your application:
 * **Requesting Fluent API** - *makes you feel so good!* 😌
@@ -8,7 +8,7 @@ Requestor offers a plenty of carefully designed features that enables you to man
 * **Serialization** - serialize and deserialize payloads integrating any library
 * **Authentication** - ready-to-use authentication mechanisms
 * **Request/Response Async Hooking** - filter and intercept requests and responses
-* **HTTP Throttling** - throttle requests in a breeze
+* **HTTP Polling** - make long or short polling with a single command
 * **Client Session** - set default parameters to all requests
 * **Data Store** - store auxiliary data both in session and request scope
 * **Links API** - navigate through an API interacting with its links (HATEOAS for real)
@@ -45,7 +45,7 @@ r.get("/api/books", List.class, Book.class).success( books -> renderTable(books)
 The above examples are shortcuts in Requestor class to make quick requests.
 Additionally, you can access the fluent API to build and send more complex requests.
 
-### Requesting fluent API brief
+### Requesting Fluent API *(briefing)*
 
 Requesting involves three steps:
 1) Access the request builder by calling `requestor.req( <uri> )`, and **set the request options** with chaining methods.
@@ -251,17 +251,63 @@ Set a period of time in milliseconds in which the request should timeout.
 req.timeout( 10000 ); // Timeout the request after 10s
 ```
 
-### *throttle*
+### *poll*
 
-If you need to request a specific endpoint in a regular period of time, you can set the throttle
-option in milliseconds. Additionally, you can limit the maximum number of requests so that the
-throttling stops.
+If you need to ping an endpoint in a specific interval, you can set the poll option with the `PollingStrategy` and the `interval` in milliseconds.
+Additionally, you can set the maximum number of requests so that the polling stops by informing the `limit` argument.
 
 ```java
-req.throttle( 3000 ); // Send the request each 3s
-req.throttle( 3000, 10 ); // Send the request each 3s up to the limit of 10 requests
+// Send the request each 3s
+req.poll( PollingStrategy.SHORT, 3000 );
+
+// Send the request each 3s up to the limit of 10 requests
+req.poll( PollingStrategy.SHORT, 3000, 10 );
 ```
 
+There are two PollingStrategy choices: **LONG** or **SHORT**.
+* `PollingStrategy.LONG` - Long polling means that the next request will be dispatched only **after the previous response has been received**.
+  * If you set an interval, then the next request will be delayed by this interval only after the previous response has come.
+* `PollingStrategy.SHORT` - On the other hand, with Short polling the next request will be dispatched right **after the previous request has been sent**.
+    * If you set an interval, then the next request will be delayed by this interval as soon the previous request is dispatched.
+
+```java
+// The next requests are dispatched 3s after the previous ones
+req.poll( PollingStrategy.SHORT, 3000 );
+
+// The next requests are dispatched as soon the responses are received
+req.poll( PollingStrategy.LONG); // Equivalent to req.poll( PollingStrategy.LONG, 0 );
+
+// The next requests are dispatched 10s after previous responses up to the limit of 5 requests
+req.poll( PollingStrategy.LONG, 10000, 5 );
+```
+
+In both cases, if you also set the request's delay option, then the subsequent dispatches' *total delay* = *request delay* + *polling interval*.
+
+```java
+// The first request is delayed by 2s and the next ones are delayed by 5s (2 + 3)
+req.delay(2000).poll( PollingStrategy.SHORT, 3000 );
+```
+
+Furthermore, if you didn't set a *polling limit*, you can manually stop the polling by calling `request.stopPolling()`.
+
+```java
+requestor.req("/api/books/")
+        .poll(PollingStrategy.LONG)
+        .get()
+        .load(new ResponseCallback() {
+            public void execute(Response response) {
+                Request request = response.getRequest();
+
+                if (request.getPollingCounter() == 3) {
+                    request.stopPolling(); // Stop polling after receving the third response
+                }
+            }
+        });
+```
+
+
+It's worth noting that each new dispatched request will pass through all the **request/response processing**.
+Thereby, you'll have every polling request always up to date with your filters, serializers, interceptors and auths.
 
 ## Promises
 
@@ -670,7 +716,7 @@ RequestInvoker req = requestor.req("/api/books")
         .header("Accept-Encoding", "gzip") // Set a custom header 
         .auth(new BasicAuth("username", "password")) // Set the authentication (more on this later)
         .payload(book); // Set the payload to be serialized in the request body
-        .throttle(5000, 10) // Throttle the request each 5s up to 10 times
+        .poll(PollingStrategy.SHORT, 5000, 10) // Poll the request each 5s up to 10 times
 
 
 //========================================
