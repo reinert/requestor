@@ -18,6 +18,8 @@ package io.reinert.requestor;
 
 import com.google.gwt.core.client.Callback;
 
+import io.reinert.requestor.callback.ResponseCallback;
+
 /**
  * Use it in the case you want to create a special deferred executing a single callback.
  *
@@ -28,16 +30,28 @@ import com.google.gwt.core.client.Callback;
 class CallbackDeferred<T> implements Deferred<T> {
 
     private final Callback<T, Throwable> callback;
+    private ResponseCallback resolveCallback;
 
     protected CallbackDeferred(Callback<T, Throwable> callback) {
         this.callback = callback;
+    }
+
+    private CallbackDeferred(Callback<T, Throwable> callback, ResponseCallback resolveCallback) {
+        this.callback = callback;
+        this.resolveCallback = resolveCallback;
+    }
+
+    public void onResolve(ResponseCallback responseCallback) {
+        resolveCallback = responseCallback;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void resolve(Response response) {
         try {
-            callback.onSuccess((T) response.getPayload());
+            T payload = (T) response.getPayload();
+            if (resolveCallback != null) resolveCallback.execute(response);
+            callback.onSuccess(payload);
         } catch (ClassCastException e) {
             throw new IncompatibleTypeException("Cannot cast " +
                     response.getPayload().getClass().getName() + " to " +
@@ -74,6 +88,6 @@ class CallbackDeferred<T> implements Deferred<T> {
 
     @Override
     public Deferred<T> getUnresolvedCopy() {
-        return new CallbackDeferred<T>(callback);
+        return new CallbackDeferred<T>(callback, resolveCallback);
     }
 }

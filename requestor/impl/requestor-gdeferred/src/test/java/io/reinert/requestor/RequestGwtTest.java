@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor;
 
+import java.util.logging.Logger;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -26,6 +28,7 @@ import io.reinert.requestor.callback.ResponseCallback;
 public class RequestGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
+    private static final Logger logger = Logger.getLogger(RequestGwtTest.class.getName());
 
     private Requestor requestor;
 
@@ -42,34 +45,66 @@ public class RequestGwtTest extends GWTTestCase {
         requestor.setMediaType("application/json");
     }
 
-    public void testStopPolling() {
-        requestor.req("https://httpbin.org/get").poll(500).get().status(200, new ResponseCallback() {
-            public void execute(Response response) {
-                // The request is polled one more time after stopPoll is called
-                assertTrue(response.getRequest().getPollCounter() <= 3);
+    public void testStopShortPolling() {
+        requestor.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500).get().status(200,
+                new ResponseCallback() {
+                    public void execute(Response response) {
+                        // The request can be sent one more time after stopPolling is called in SHORT strategy
+                        // depending on the time to receive the responses
+                        assertTrue(response.getRequest().getPollingCounter() <= 3);
 
-                if (response.getRequest().getPollCounter() == 2) {
-                    response.getRequest().stopPoll();
-                }
-
-                if (response.getRequest().getPollCounter() == 3) {
-                    finishTest();
-                }
-            }
-        });
+                        if (response.getRequest().getPollingCounter() == 2) {
+                            response.getRequest().stopPolling();
+                            finishTest();
+                        }
+                    }
+                });
 
         delayTestFinish(TIMEOUT);
     }
 
-    public void testPollLimit() {
-        requestor.req("https://httpbin.org/get").poll(500, 2).get().status(200, new ResponseCallback() {
-            public void execute(Response response) {
-                assertTrue(response.getRequest().getPollCounter() <= 2);
-                if (response.getRequest().getPollCounter() == 2) {
-                    finishTest();
-                }
-            }
-        });
+    public void testStopLongPolling() {
+        requestor.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 500).get().status(200,
+                new ResponseCallback() {
+                    public void execute(Response response) {
+                        assertTrue(response.getRequest().getPollingCounter() <= 2);
+
+                        if (response.getRequest().getPollingCounter() == 2) {
+                            response.getRequest().stopPolling();
+                            finishTest();
+                        }
+                    }
+                });
+
+        delayTestFinish(TIMEOUT);
+    }
+
+    public void testShortPollingLimit() {
+        requestor.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500, 3).get().status(200,
+                new ResponseCallback() {
+                    public void execute(Response response) {
+                        assertTrue(response.getRequest().getPollingCounter() <= 3);
+
+                        if (response.getRequest().getPollingCounter() == 3) {
+                            finishTest();
+                        }
+                    }
+                });
+
+        delayTestFinish(TIMEOUT);
+    }
+
+    public void testLongPollingLimit() {
+        requestor.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 0, 3).get().status(200,
+                new ResponseCallback() {
+                    public void execute(Response response) {
+                        assertTrue(response.getRequest().getPollingCounter() <= 3);
+
+                        if (response.getRequest().getPollingCounter() == 3) {
+                            finishTest();
+                        }
+                    }
+                });
 
         delayTestFinish(TIMEOUT);
     }

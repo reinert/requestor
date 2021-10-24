@@ -61,7 +61,11 @@ class PollingOptions {
 
     public int incrementPollingCounter() {
         pollingCounter++;
-        pollingActive = pollingCounter >= pollingLimit;
+
+        if (pollingLimit > 0) {
+            pollingActive = pollingCounter < pollingLimit;
+        }
+
         return pollingCounter;
     }
 

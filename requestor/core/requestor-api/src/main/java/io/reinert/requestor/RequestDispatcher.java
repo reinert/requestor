@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.Timer;
 
+import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.payload.type.PayloadType;
 
 /**
@@ -29,7 +30,7 @@ import io.reinert.requestor.payload.type.PayloadType;
  */
 public abstract class RequestDispatcher {
 
-    private static final Logger LOGGER = Logger.getLogger(RequestDispatcher.class.getName());
+    private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());
 
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
@@ -64,6 +65,17 @@ public abstract class RequestDispatcher {
                                      PayloadType responsePayloadType);
 
     /**
+     * Evaluates the response and resolves the deferred.
+     * This method must be called by implementations after the response is received.
+     *
+     * @param response  The response received from the request
+     * @param <R>       Type of the deferred
+     */
+    protected <R> void evalResponse(RawResponse response) {
+        responseProcessor.process(response);
+    }
+
+    /**
      * Sends the request and return an instance of {@link Promise} expecting a sole result.
      *
      * @param request               The built request
@@ -75,12 +87,18 @@ public abstract class RequestDispatcher {
     public <T> Promise<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
         Deferred<T> deferred = deferredFactory.getDeferred();
 
+        Promise<T> promise = deferred.getPromise();
+
+        if (isLongPolling(request)) {
+            promise.load(getLongPollingCallback(request, responsePayloadType, deferred));
+        }
+
         scheduleDispatch(request, responsePayloadType, deferred, false, false);
 
-        LOGGER.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
+        logger.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
                 request.getDelay() + "ms.");
 
-        return deferred.getPromise();
+        return promise;
     }
 
     /**
@@ -93,7 +111,11 @@ public abstract class RequestDispatcher {
      */
     public <T> void dispatch(MutableSerializedRequest request, PayloadType responsePayloadType,
                              boolean skipAuth, Callback<T, Throwable> callback) {
-        final Deferred<T> deferred = new CallbackDeferred<T>(callback);
+        final CallbackDeferred<T> deferred = new CallbackDeferred<T>(callback);
+
+        if (isLongPolling(request)) {
+            deferred.onResolve(getLongPollingCallback(request, responsePayloadType, deferred));
+        }
 
         // TODO: add a skipAuth option and handle it in RequestInAuthProcess#process and erase the skipAuth flag here.
         scheduleDispatch(request, responsePayloadType, deferred, true, skipAuth);
@@ -102,37 +124,31 @@ public abstract class RequestDispatcher {
     private <T> void scheduleDispatch(final MutableSerializedRequest request, final PayloadType responsePayloadType,
                                       final Deferred<T> deferred, final boolean skipProcessing,
                                       final boolean skipAuth) {
-        final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request,
-                responsePayloadType, this, deferred);
+        request.incrementPollingCounter();
 
-        final MutableSerializedRequest originalRequest = request.getPollingInterval() > 0 ? request.copy() : null;
+        final MutableSerializedRequest nextRequest = isShortPolling(request) ? request.copy() : null;
+
+        final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request, responsePayloadType,
+                this, deferred);
 
         // TODO: switch by a native Timer to avoid importing GWT UI module
         new Timer() {
             public void run() {
                 try {
                     // Process and send the request
+                    if (skipAuth) {
+                        requestInAuthProcess.setAuth(PassThroughAuth.getInstance());
+                    }
+
                     if (skipProcessing) {
-                        if (skipAuth) {
-                            requestInAuthProcess.setAuth(PassThroughAuth.getInstance());
-                        }
                         requestInAuthProcess.process();
                     } else {
                         requestProcessor.process(requestInAuthProcess);
                     }
 
                     // Poll the request
-                    if (requestInAuthProcess.getPollingInterval() > 0 && (
-                            requestInAuthProcess.getPollingLimit() <= 0 ||
-                            requestInAuthProcess.getPollingCounter() < requestInAuthProcess.getPollingLimit())) {
-                        new Timer() {
-                            @Override
-                            public void run() {
-                                originalRequest.incrementPollingCounter();
-                                scheduleDispatch(originalRequest, responsePayloadType, deferred.getUnresolvedCopy(),
-                                        false, false);
-                            }
-                        }.schedule(request.getPollingInterval());
+                    if (nextRequest != null) {
+                        schedulePollingRequest(nextRequest, responsePayloadType, deferred);
                     }
                 } catch (Exception e) {
                     deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +
@@ -142,14 +158,40 @@ public abstract class RequestDispatcher {
         }.schedule(request.getDelay());
     }
 
-    /**
-     * Evaluates the response and resolves the deferred.
-     * This method must be called by implementations after the response is received.
-     *
-     * @param response  The response received from the request
-     * @param <R>       Type of the deferred
-     */
-    protected <R> void evalResponse(RawResponse response) {
-        responseProcessor.process(response);
+    private <T> ResponseCallback getLongPollingCallback(final MutableSerializedRequest request,
+                                                        final PayloadType responsePayloadType,
+                                                        final Deferred<T> deferred) {
+        final MutableSerializedRequest originalRequest = request.copy();
+        return new ResponseCallback() {
+            @Override
+            public void execute(Response response) {
+                if (isLongPolling(originalRequest)) {
+                    schedulePollingRequest(originalRequest.copy(), responsePayloadType, deferred);
+                }
+            }
+        };
+    }
+
+    private <T> void schedulePollingRequest(final MutableSerializedRequest nextRequest,
+                                            final PayloadType responsePayloadType,
+                                            final Deferred<T> deferred) {
+        // TODO: switch by a native Timer to avoid importing GWT UI module
+        new Timer() {
+            @Override
+            public void run() {
+                if (nextRequest.isPolling()) {
+                    scheduleDispatch(nextRequest, responsePayloadType, deferred.getUnresolvedCopy(),false, false);
+                }
+            }
+        }.schedule(nextRequest.getPollingInterval());
+    }
+
+    private boolean isLongPolling(MutableSerializedRequest request) {
+        return request.isPolling() && request.getPollingStrategy() == PollingStrategy.LONG;
+    }
+
+    private boolean isShortPolling(MutableSerializedRequest request) {
+        return request.isPolling() &&
+                request.getPollingStrategy() == PollingStrategy.SHORT;
     }
 }
