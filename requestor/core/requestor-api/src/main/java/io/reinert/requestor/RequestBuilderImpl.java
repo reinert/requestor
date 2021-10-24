@@ -218,6 +218,12 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
+    public RequestBuilder poll(PollingStrategy strategy) {
+        pollingOptions.startPolling(strategy, 0, 0);
+        return this;
+    }
+
+    @Override
     public RequestBuilder poll(PollingStrategy strategy, int intervalMillis) {
         pollingOptions.startPolling(strategy, intervalMillis, 0);
         return this;

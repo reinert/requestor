@@ -135,6 +135,27 @@ public interface RequestBuilder extends Request {
     RequestBuilder delay(int delayMillis);
 
     /**
+     * Poll the request according to the specified strategy with no interval.
+     * <p></p>
+     *
+     * The poll strategy determines whether the next request should be triggered after sending the
+     * previous one (SHORT) or after receiving its response (LONG).
+     * <p></p>
+     *
+     * If delay is also set, then the time window between each request will be poll + delay.
+     * <p></p>
+     *
+     * Negative aren't allowed.
+     * So if a value less than zero is passed, it is ignored.
+     * <p></p>
+     *
+     * @param strategy          The polling strategy
+     *
+     * @return This building request
+     */
+    RequestBuilder poll(PollingStrategy strategy);
+
+    /**
      * Poll the request according to the specified interval in milliseconds.
      * <p></p>
      *
