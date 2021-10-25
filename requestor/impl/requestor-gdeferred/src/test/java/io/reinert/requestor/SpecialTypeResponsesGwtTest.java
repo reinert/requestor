@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.callback.PayloadCallback;
@@ -36,7 +35,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     @Override
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
-        session = GWT.create(Session.class);
+        session = new CleanSession();
     }
 
     public void testResponseTypeAsHeaders() {

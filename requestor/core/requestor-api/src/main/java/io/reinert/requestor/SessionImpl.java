@@ -30,7 +30,7 @@ import io.reinert.requestor.uri.UriBuilder;
  *
  * @author Danilo Reinert
  */
-public class SessionImpl extends Session {
+public abstract class SessionImpl extends Session {
 
     private final RequestDefaultsImpl defaults = new RequestDefaultsImpl();
     private final PersistentStore store = new PersistentStore();
@@ -69,8 +69,10 @@ public class SessionImpl extends Session {
         GeneratedModulesBinder.bind(serializerManager, providerManager);
 
         // perform initial set-up by user
-        GWT.<SessionInitializer>create(SessionInitializer.class).configure(this);
+        configure();
     }
+
+    protected abstract void configure();
 
     //===================================================================
     // Request methods

@@ -23,9 +23,5 @@
     <when-type-is class="io.reinert.requestor.GeneratedModules"/>
   </generate-with>
 
-  <replace-with class="io.reinert.requestor.SessionInitializerForJson">
-    <when-type-is class="io.reinert.requestor.SessionInitializer"/>
-  </replace-with>
-
   <source path="" excludes="**/*"/>
 </module>

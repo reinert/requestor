@@ -18,7 +18,6 @@ package io.reinert.requestor;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.callback.PayloadCallback;
@@ -47,7 +46,7 @@ public class CallbackGwtTest extends GWTTestCase {
 
         uriBuilder = UriBuilder.fromUri("https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
 
-        session = GWT.create(Session.class);
+        session = new CleanSession();
 
         session.register(BookJsonSerializer.getInstance());
 

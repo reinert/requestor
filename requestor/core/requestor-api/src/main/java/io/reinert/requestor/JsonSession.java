@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,27 +19,22 @@ import io.reinert.requestor.serialization.json.JsonBooleanSerializer;
 import io.reinert.requestor.serialization.json.JsonNumberSerializer;
 import io.reinert.requestor.serialization.json.JsonStringSerializer;
 import io.reinert.requestor.serialization.json.OverlaySerializer;
-import io.reinert.requestor.serialization.misc.TextSerializer;
-import io.reinert.requestor.serialization.misc.VoidSerializer;
 
 /**
- * Initializer that configures the Requestor for handling JSON communication.
+ * A session that handles json data.
  *
  * @author Danilo Reinert
  */
-public class SessionInitializerForJson implements SessionInitializer {
+public class JsonSession extends CleanSession {
 
-    @Override
-    public void configure(Session session) {
-        session.register(VoidSerializer.getInstance());
-        session.register(TextSerializer.getInstance());
+    protected void configure() {
+        super.configure();
 
-        session.register(JsonStringSerializer.getInstance());
-        session.register(JsonNumberSerializer.getInstance());
-        session.register(JsonBooleanSerializer.getInstance());
+        register(JsonStringSerializer.getInstance());
+        register(JsonNumberSerializer.getInstance());
+        register(JsonBooleanSerializer.getInstance());
+        register(OverlaySerializer.getInstance());
 
-        session.register(OverlaySerializer.getInstance());
-
-        session.setMediaType("application/json");
+        setMediaType("application/json");
     }
 }

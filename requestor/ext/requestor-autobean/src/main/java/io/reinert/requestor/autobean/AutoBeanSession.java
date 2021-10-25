@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.autobean;
 
-import io.reinert.requestor.serialization.misc.TextSerializer;
-import io.reinert.requestor.serialization.misc.VoidSerializer;
+import io.reinert.requestor.JsonSession;
 
 /**
- * Initializer that configures the Requestor for handling only text plain.
+ * A session that handles AutoBeans.
  *
  * @author Danilo Reinert
  */
-public class SessionInitializerClean implements SessionInitializer {
-
-    @Override
-    public void configure(Session session) {
-        session.register(VoidSerializer.getInstance());
-        session.register(TextSerializer.getInstance());
-    }
-}
+public class AutoBeanSession extends JsonSession { }

@@ -19,6 +19,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
+import io.reinert.requestor.JsonSession;
 import io.reinert.requestor.Session;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
@@ -50,7 +51,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private Serialization serialization;
 
     public ShowcaseClientFactoryImpl() {
-        initRequestor();
+        initSession();
     }
 
     @Override
@@ -145,8 +146,8 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         return interceptors;
     }
 
-    private void initRequestor() {
-        session = Session.newInstance();
+    private void initSession() {
+        session = new JsonSession();
         session.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
     }
 }

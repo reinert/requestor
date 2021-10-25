@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,18 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.serialization.misc.TextSerializer;
+import io.reinert.requestor.serialization.misc.VoidSerializer;
+
 /**
- * This interface is responsible for performing the default configuration of every {@link Session} created.
- * Its implementation could do things like registering Serializers, Filters, Providers, etc.
+ * A clean session that handles only string data.
  *
  * @author Danilo Reinert
  */
-public interface SessionInitializer {
+public class CleanSession extends SessionImpl {
 
-    /**
-     * Perform all desired configurations for the requestor initialization.
-     *
-     * @param session The requestor being initialized
-     */
-    void configure(Session session);
+    protected void configure() {
+        register(VoidSerializer.getInstance());
+        register(TextSerializer.getInstance());
+    }
 }

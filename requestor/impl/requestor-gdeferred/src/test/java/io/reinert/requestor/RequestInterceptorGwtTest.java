@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 
@@ -39,7 +38,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        session = GWT.create(Session.class);
+        session = new CleanSession();
         session.setMediaType("application/json");
     }
 

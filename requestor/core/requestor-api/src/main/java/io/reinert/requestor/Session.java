@@ -17,8 +17,6 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
-import com.google.gwt.core.client.GWT;
-
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.uri.Uri;
@@ -49,12 +47,8 @@ import io.reinert.requestor.uri.UriBuilder;
 public abstract class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
         DirectInvoker, RequestDefaults {
 
-    public static Session newInstance() {
-        return GWT.create(Session.class);
-    }
-
     //===================================================================
-    // Requestor configuration
+    // Session configuration
     //===================================================================
 
     public abstract PersistentStore getStore();
