@@ -548,14 +548,6 @@ public class RequestorImpl extends Requestor {
     // Internal methods
     //===================================================================
 
-    RequestInvoker createRequest(Uri uri, VolatileStore volatileStore) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, volatileStore, requestDispatcher);
-
-        defaults.apply(request);
-
-        return request;
-    }
-
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStore(store), requestDispatcher);
 

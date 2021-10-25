@@ -31,46 +31,40 @@ import io.reinert.requestor.uri.Uri;
  */
 class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, SerializableRequest {
 
-    private static Logger LOGGER = Logger.getLogger(RequestBuilderImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(RequestBuilderImpl.class.getName());
 
     private Uri uri;
-    private final VolatileStore store;
-    private final Headers headers;
+    private VolatileStore store;
+    private Headers headers;
+    private Auth.Provider authProvider;
     private HttpMethod httpMethod;
     private int timeout;
     private int delay;
-    private PollingOptions pollingOptions = new PollingOptions();
+    private PollingOptions pollingOptions;
     private Object payload;
     private SerializedPayload serializedPayload;
-    private boolean serialized = false;
-    private Auth.Provider authProvider = PassThroughAuth.getProvider();
+    private boolean serialized;
 
     public RequestBuilderImpl(Uri uri, VolatileStore store) {
-        this(uri, store, new Headers());
+        this(uri, store, null, null, null, 0, 0, null, null, null, false);
     }
 
-    public RequestBuilderImpl(Uri uri, VolatileStore store, Headers headers) {
+    public RequestBuilderImpl(Uri uri, VolatileStore store, Headers headers, Auth.Provider authProvider,
+                              HttpMethod httpMethod, int timeout, int delay, PollingOptions pollingOptions,
+                              Object payload, SerializedPayload serializedPayload, boolean serialized) {
+        if (uri == null) throw new NullPointerException("Uri cannot be null");
         this.uri = uri;
+        if (store == null) throw new NullPointerException("Store cannot be null");
         this.store = store;
-        this.headers = headers;
-    }
-
-    private static RequestBuilderImpl copy(RequestBuilderImpl request) {
-        RequestBuilderImpl copy = new RequestBuilderImpl(
-                Uri.copy(request.uri),
-                VolatileStore.copy(request.store),
-                Headers.copy(request.headers)
-        );
-        copy.httpMethod = request.httpMethod;
-        copy.timeout = request.timeout;
-        copy.delay = request.delay;
-        // Soft copy pollingOptions to keep track of the pollingCounter
-        copy.pollingOptions = request.pollingOptions;
-        copy.payload = request.payload;
-        copy.serializedPayload = request.serializedPayload;
-        copy.serialized = request.serialized;
-        copy.authProvider = request.authProvider;
-        return copy;
+        this.headers = headers != null ? headers : new Headers();
+        this.authProvider = authProvider != null ? authProvider : PassThroughAuth.getProvider();
+        this.httpMethod = httpMethod;
+        this.timeout = timeout;
+        this.delay = delay;
+        this.pollingOptions = pollingOptions != null ? pollingOptions : new PollingOptions();
+        this.payload = payload;
+        this.serializedPayload = serializedPayload;
+        this.serialized = serialized;
     }
 
     //===================================================================
@@ -355,7 +349,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     @Override
     public void setPayload(Object payload) {
         if (serialized) {
-            LOGGER.warning("Setting a deserialized payload in an already serialized request.");
+            logger.warning("Setting a deserialized payload in an already serialized request.");
         }
 
         this.payload = payload;
@@ -373,7 +367,19 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
 
     @Override
     public RequestBuilderImpl copy() {
-        return build();
+        return new RequestBuilderImpl(
+                Uri.copy(uri),
+                store, // keep store reference
+                Headers.copy(headers),
+                authProvider,
+                httpMethod,
+                timeout,
+                delay,
+                pollingOptions, // keep pollingOptions reference
+                payload,
+                serializedPayload,
+                serialized
+        );
     }
 
     //===================================================================
@@ -381,6 +387,18 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     //===================================================================
 
     protected RequestBuilderImpl build() {
-        return RequestBuilderImpl.copy(this);
+        return new RequestBuilderImpl(
+                Uri.copy(uri),
+                VolatileStore.copy(store),
+                Headers.copy(headers),
+                authProvider,
+                httpMethod,
+                timeout,
+                delay,
+                PollingOptions.copy(pollingOptions),
+                payload,
+                null,
+                false
+        );
     }
 }
