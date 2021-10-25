@@ -83,7 +83,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
     }
 
     public String getValue(String header) {
-        return getValue(formatKey(header), null);
+        return getValue(header, null);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
 
     @Override
     public boolean containsKey(Object key) {
-        return !isEmpty() && headers.containsKey(formatKey(key.toString()));
+        return !isEmpty() && key != null && headers.containsKey(formatKey(key.toString()));
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
 
     @Override
     public Header get(Object key) {
-        return isEmpty() ? null : headers.get(formatKey(headers.toString()));
+        return isEmpty() || key == null ? null : headers.get(formatKey(key.toString()));
     }
 
     @Override
@@ -167,7 +167,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
      */
     protected void add(Header header) {
         if (header == null) {
-            throw new IllegalArgumentException("header cannot be null.");
+            throw new IllegalArgumentException("Header argument cannot be null.");
         }
 
         if (header.getValue() == null) {
@@ -205,7 +205,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
      * @return The removed header or null if there was no header with the given name
      */
     protected Header pop(String name) {
-        return isEmpty() ? null : ensureHeaders().remove(name);
+        return isEmpty() || name == null ? null : ensureHeaders().remove(name);
     }
 
     private Map<String, Header> ensureHeaders() {
