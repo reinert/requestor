@@ -27,6 +27,16 @@ class PollingOptions {
         return pollingActive;
     }
 
+    public static PollingOptions copy(PollingOptions options) {
+        PollingOptions copy = new PollingOptions();
+        copy.pollingActive = options.pollingActive;
+        copy.pollingInterval = options.pollingInterval;
+        copy.pollingLimit = options.pollingLimit;
+        copy.pollingCounter = options.pollingCounter;
+        copy.pollingStrategy = options.pollingStrategy;
+        return copy;
+    }
+
     public int getPollingInterval() {
         return pollingInterval;
     }
@@ -67,15 +77,6 @@ class PollingOptions {
         }
 
         return pollingCounter;
-    }
-
-    public PollingOptions copy() {
-        PollingOptions copy = new PollingOptions();
-        copy.pollingActive = this.pollingActive;
-        copy.pollingInterval = this.pollingInterval;
-        copy.pollingCounter = this.pollingCounter;
-        copy.pollingStrategy = this.pollingStrategy;
-        return copy;
     }
 
     public void reset() {

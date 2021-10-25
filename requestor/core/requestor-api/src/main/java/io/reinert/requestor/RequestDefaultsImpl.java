@@ -34,7 +34,7 @@ public class RequestDefaultsImpl implements RequestDefaults {
         copy.setAuth(defaults.authProvider);
         copy.setTimeout(defaults.timeout);
         copy.setDelay(defaults.delay);
-        copy.pollingOptions = defaults.pollingOptions.copy();
+        copy.pollingOptions = PollingOptions.copy(defaults.pollingOptions);
         for (Header h : defaults.headers) copy.putHeader(h);
         copy.setRequestSerializer(defaults.requestSerializer);
         copy.setResponseDeserializer(defaults.responseDeserializer);
