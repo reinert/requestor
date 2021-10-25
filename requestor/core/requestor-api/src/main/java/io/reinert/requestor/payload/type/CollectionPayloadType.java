@@ -17,17 +17,18 @@ package io.reinert.requestor.payload.type;
 
 import java.util.Collection;
 
-public class CollectionPayloadType extends RootPayloadType {
+public class CollectionPayloadType<T> extends RootPayloadType<Collection<T>> {
 
     private final Class<? extends Collection> collectionType;
-    private final RootPayloadType parametrizedPayloadType;
+    private final RootPayloadType<T> parametrizedPayloadType;
 
-    public CollectionPayloadType(Class<? extends Collection> collectionType, RootPayloadType parametrizedPayloadType) {
+    public CollectionPayloadType(Class<? extends Collection> collectionType,
+                                 RootPayloadType<T> parametrizedPayloadType) {
         this.collectionType = collectionType;
         this.parametrizedPayloadType = parametrizedPayloadType;
     }
 
-    public RootPayloadType getParametrizedPayloadType() {
+    public RootPayloadType<T> getParametrizedPayloadType() {
         return parametrizedPayloadType;
     }
 

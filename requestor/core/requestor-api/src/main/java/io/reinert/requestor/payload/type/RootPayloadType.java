@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
-public abstract class RootPayloadType implements PayloadType {
+public abstract class RootPayloadType<T> implements PayloadType {
 
     @Override
     public Iterator<Map.Entry<String, PayloadType>> iterator() {

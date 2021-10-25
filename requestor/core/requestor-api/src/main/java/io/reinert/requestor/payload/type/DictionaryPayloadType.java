@@ -18,15 +18,15 @@ package io.reinert.requestor.payload.type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DictionaryPayloadType extends RootPayloadType {
+public class DictionaryPayloadType<T> extends RootPayloadType<Map<String, T>> {
 
-    private final PayloadType valuePayloadType;
+    private final RootPayloadType<T> valuePayloadType;
 
-    public DictionaryPayloadType(PayloadType valuePayloadType) {
+    public DictionaryPayloadType(RootPayloadType<T> valuePayloadType) {
         this.valuePayloadType = valuePayloadType;
     }
 
-    public PayloadType getValuePayloadType() {
+    public RootPayloadType<T> getValuePayloadType() {
         return valuePayloadType;
     }
 

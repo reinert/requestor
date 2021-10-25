@@ -15,15 +15,15 @@
  */
 package io.reinert.requestor.payload.type;
 
-public class SinglePayloadType extends RootPayloadType {
+public class SinglePayloadType<T> extends RootPayloadType<T> {
 
-    private final Class<?> type;
+    private final Class<T> type;
 
-    public SinglePayloadType(Class<?> type) {
+    public SinglePayloadType(Class<T> type) {
         this.type = type;
     }
 
-    public Class<?> getType() {
+    public Class<T> getType() {
         return type;
     }
 }
