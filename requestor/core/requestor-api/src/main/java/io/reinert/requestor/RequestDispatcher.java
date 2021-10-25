@@ -30,6 +30,12 @@ import io.reinert.requestor.payload.type.PayloadType;
  */
 public abstract class RequestDispatcher {
 
+    public interface Factory {
+        RequestDispatcher newRequestDispatcher(RequestProcessor requestProcessor,
+                                               ResponseProcessor responseProcessor,
+                                               DeferredFactory deferredFactory);
+    }
+
     private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());
 
     private final RequestProcessor requestProcessor;

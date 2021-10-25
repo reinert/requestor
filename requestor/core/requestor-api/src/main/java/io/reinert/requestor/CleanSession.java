@@ -33,7 +33,7 @@ public class CleanSession extends Session {
         super(deferredFactory);
     }
 
-    public CleanSession(DeferredFactory deferredFactory, RequestDispatcherFactory requestDispatcherFactory) {
+    public CleanSession(DeferredFactory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         super(deferredFactory, requestDispatcherFactory);
     }
 

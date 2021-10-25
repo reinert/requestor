@@ -16,21 +16,21 @@
 package io.reinert.requestor;
 
 /**
- * Default implementation for {@link RequestDispatcherFactory}.
+ * Default implementation for {@link RequestDispatcher.Factory}.
  *
  * @author Danilo Reinert
  */
-public class XhrRequestDispatcherFactory implements RequestDispatcherFactory {
+public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
 
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
-    private DeferredFactory deferredFactory;
+    private Deferred.Factory deferredFactory;
     private RequestDispatcher requestDispatcher;
 
     @Override
-    public RequestDispatcher getRequestDispatcher(RequestProcessor requestProcessor,
+    public RequestDispatcher newRequestDispatcher(RequestProcessor requestProcessor,
                                                   ResponseProcessor responseProcessor,
-                                                  DeferredFactory deferredFactory) {
+                                                  Deferred.Factory deferredFactory) {
         if (this.requestProcessor == requestProcessor &&
                 this.responseProcessor == responseProcessor &&
                 this.deferredFactory == deferredFactory) {

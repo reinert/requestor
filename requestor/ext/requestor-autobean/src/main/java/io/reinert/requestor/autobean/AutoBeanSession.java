@@ -17,7 +17,7 @@ package io.reinert.requestor.autobean;
 
 import io.reinert.requestor.DeferredFactory;
 import io.reinert.requestor.JsonSession;
-import io.reinert.requestor.RequestDispatcherFactory;
+import io.reinert.requestor.RequestDispatcher;
 
 /**
  * A session that handles AutoBeans.
@@ -34,7 +34,7 @@ public class AutoBeanSession extends JsonSession {
         super(deferredFactory);
     }
 
-    public AutoBeanSession(DeferredFactory deferredFactory, RequestDispatcherFactory requestDispatcherFactory) {
+    public AutoBeanSession(DeferredFactory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         super(deferredFactory, requestDispatcherFactory);
     }
 }

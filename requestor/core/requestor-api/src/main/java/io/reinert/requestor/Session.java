@@ -59,7 +59,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
     private final SerializationEngine serializationEngine;
-    private final RequestDispatcherFactory requestDispatcherFactory;
+    private final RequestDispatcher.Factory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
 
     public Session() {
@@ -70,7 +70,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
         this(deferredFactory, new XhrRequestDispatcherFactory());
     }
 
-    public Session(DeferredFactory deferredFactory, RequestDispatcherFactory requestDispatcherFactory) {
+    public Session(DeferredFactory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
 
@@ -600,7 +600,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStore(store),
-                requestDispatcherFactory.getRequestDispatcher(requestProcessor, responseProcessor, deferredFactory));
+                requestDispatcherFactory.newRequestDispatcher(requestProcessor, responseProcessor, deferredFactory));
 
         defaults.apply(request);
 

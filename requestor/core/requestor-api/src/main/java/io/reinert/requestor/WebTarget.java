@@ -36,7 +36,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     private final RequestDefaultsImpl defaults;
     private final SerializationEngine serializationEngine;
-    private final RequestDispatcherFactory requestDispatcherFactory;
+    private final RequestDispatcher.Factory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
     private final FilterManagerImpl filterManager;
     private final InterceptorManagerImpl interceptorManager;
@@ -48,14 +48,14 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     private Uri uri;
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
-              SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
+              SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
               DeferredFactory deferredFactory, Uri uri, VolatileStore store, RequestDefaultsImpl defaults) {
         this(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
                 deferredFactory, UriBuilder.fromUri(uri), uri, store, defaults);
     }
 
     WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
-              SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
+              SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
               DeferredFactory deferredFactory, UriBuilder builder, VolatileStore store,
               RequestDefaultsImpl defaults) {
         this(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
@@ -63,7 +63,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
-                      SerializationEngine serializationEngine, RequestDispatcherFactory requestDispatcherFactory,
+                      SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
                       DeferredFactory deferredFactory, UriBuilder uriBuilder, Uri uri, VolatileStore store,
                       RequestDefaultsImpl defaults) {
         this.serializationEngine = serializationEngine;

@@ -35,7 +35,7 @@ public class JsonSession extends CleanSession {
         super(deferredFactory);
     }
 
-    public JsonSession(DeferredFactory deferredFactory, RequestDispatcherFactory requestDispatcherFactory) {
+    public JsonSession(DeferredFactory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         super(deferredFactory, requestDispatcherFactory);
     }
 
