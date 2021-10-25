@@ -328,10 +328,10 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
      *
      * @return  a new target instance.
      *
-     * @throws NullPointerException  if path is null.
+     * @throws IllegalArgumentException  if path is null.
      */
     public WebTarget path(String path) {
-        if (path == null) throw new NullPointerException("The path argument of WebTarget cannot be null.");
+        if (path == null) throw new IllegalArgumentException("The path argument of WebTarget cannot be null.");
         final UriBuilder copy = cloneUriBuilder();
         // FIXME: must extract current path and append to the given, because UriBuilder#path overwrites existing path
         copy.path(path);

@@ -52,9 +52,9 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     public RequestBuilderImpl(Uri uri, VolatileStore store, Headers headers, Auth.Provider authProvider,
                               HttpMethod httpMethod, int timeout, int delay, PollingOptions pollingOptions,
                               Object payload, SerializedPayload serializedPayload, boolean serialized) {
-        if (uri == null) throw new NullPointerException("Uri cannot be null");
+        if (uri == null) throw new IllegalArgumentException("Uri cannot be null");
         this.uri = uri;
-        if (store == null) throw new NullPointerException("Store cannot be null");
+        if (store == null) throw new IllegalArgumentException("Store cannot be null");
         this.store = store;
         this.headers = headers != null ? headers : new Headers();
         this.authProvider = authProvider != null ? authProvider : PassThroughAuth.getProvider();

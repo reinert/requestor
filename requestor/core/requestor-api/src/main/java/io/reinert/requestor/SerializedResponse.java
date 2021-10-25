@@ -31,9 +31,6 @@ public interface SerializedResponse {
      *
      * @param header the header to query for
      * @return the value of response header
-     *
-     * @throws IllegalArgumentException if the header name is empty
-     * @throws NullPointerException if the header name is null
      */
     String getHeader(String header);
 

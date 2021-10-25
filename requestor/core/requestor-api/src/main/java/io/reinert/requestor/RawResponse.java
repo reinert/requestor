@@ -32,7 +32,7 @@ import io.reinert.requestor.payload.type.PayloadType;
  */
 public class RawResponse implements MutableResponse, DeserializableResponse, ProcessableResponse {
 
-    private static Logger LOGGER = Logger.getLogger(RawResponse.class.getName());
+    private static final Logger logger = Logger.getLogger(RawResponse.class.getName());
 
     private final Headers headers;
     private final LinkHeader linkHeader;
@@ -48,7 +48,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     public RawResponse(Request request, HttpStatus status, Headers headers, ResponseType responseType,
                        PayloadType payloadType, SerializedPayload serializedPayload, Deferred<?> deferred) {
         this.request = request;
-        if (headers == null) throw new NullPointerException("Headers cannot be null");
+        if (headers == null) throw new IllegalArgumentException("Headers cannot be null");
         this.headers = headers;
         this.linkHeader = (LinkHeader) headers.get("Link");
         this.status = status;
@@ -57,12 +57,6 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
         this.serializedPayload = serializedPayload;
         this.deferred = deferred;
     }
-
-//    public static ResponseImpl<RawResponse> fromRawResponse(Request request, RawResponse rawResponse) {
-//        return new ResponseImpl<RawResponse>(request, rawResponse.getStatus(), rawResponse.getHeaders(),
-//                rawResponse.getResponseType(), rawResponse, rawResponse.getSerializedPayload(), entityType,
-//                collectionType);
-//    }
 
     @Override
     public String getHeader(String headerName) {
@@ -164,7 +158,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     @Override
     public void setSerializedPayload(SerializedPayload serializedPayload) {
         if (deserialized) {
-            LOGGER.warning("Setting a serialized payload in an already serialized response.");
+            logger.warning("Setting a serialized payload in an already serialized response.");
         }
 
         this.serializedPayload = serializedPayload;

@@ -34,7 +34,7 @@ public class VolatileStore implements Store {
     }
 
     VolatileStore(Store store) {
-        if (store == null) throw new NullPointerException("Store cannot be null");
+        if (store == null) throw new IllegalArgumentException("Store cannot be null");
         this.persistentStore = store;
     }
 

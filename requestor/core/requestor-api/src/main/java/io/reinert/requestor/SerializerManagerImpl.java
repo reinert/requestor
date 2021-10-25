@@ -97,7 +97,7 @@ class SerializerManagerImpl implements SerializerManager {
     @SuppressWarnings("unchecked")
     public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) throws SerializationException {
         checkNotNull(type, "Type (Class<T>) cannot be null.");
-        checkNotNull(mediaType, "Media-Type cannot be null.");
+        checkNotNull(mediaType, "Media-Type string cannot be null.");
 
         final String typeName = getClassName(type);
         final Key key = new Key(typeName, mediaType);
@@ -136,7 +136,7 @@ class SerializerManagerImpl implements SerializerManager {
     @SuppressWarnings("unchecked")
     public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) throws SerializationException {
         checkNotNull(type, "Type (Class<T>) cannot be null.");
-        checkNotNull(mediaType, "Media-Type cannot be null.");
+        checkNotNull(mediaType, "Media-Type string cannot be null.");
 
         final String typeName = getClassName(type);
         final Key key = new Key(typeName, mediaType);
