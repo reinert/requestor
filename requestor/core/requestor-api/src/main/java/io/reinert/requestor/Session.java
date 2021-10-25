@@ -60,17 +60,17 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     private final ResponseProcessor responseProcessor;
     private final SerializationEngine serializationEngine;
     private final RequestDispatcher.Factory requestDispatcherFactory;
-    private final DeferredFactory deferredFactory;
+    private final Deferred.Factory deferredFactory;
 
     public Session() {
-        this(GWT.<DeferredFactory>create(DeferredFactory.class));
+        this(GWT.<Deferred.Factory>create(Deferred.Factory.class));
     }
 
-    public Session(DeferredFactory deferredFactory) {
+    public Session(Deferred.Factory deferredFactory) {
         this(deferredFactory, new XhrRequestDispatcherFactory());
     }
 
-    public Session(DeferredFactory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
+    public Session(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
 

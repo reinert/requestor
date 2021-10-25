@@ -16,15 +16,13 @@
 package io.reinert.requestor.impl.gdeferred;
 
 import io.reinert.requestor.Deferred;
-import io.reinert.requestor.DeferredFactory;
 
 /**
  * Implementation of DeferredRequestFactory returning a GDeferredRequest.
  */
-public class DeferredFactoryImpl implements DeferredFactory {
+public class DeferredFactoryImpl implements Deferred.Factory {
 
-    @Override
-    public <T> Deferred<T> getDeferred() {
+    public <T> Deferred<T> newDeferred() {
         return new DeferredRequest<T>();
     }
 }

@@ -33,17 +33,17 @@ public abstract class RequestDispatcher {
     public interface Factory {
         RequestDispatcher newRequestDispatcher(RequestProcessor requestProcessor,
                                                ResponseProcessor responseProcessor,
-                                               DeferredFactory deferredFactory);
+                                               Deferred.Factory deferredFactory);
     }
 
     private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());
 
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
-    private final DeferredFactory deferredFactory;
+    private final Deferred.Factory deferredFactory;
 
     public RequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                             DeferredFactory deferredFactory) {
+                             Deferred.Factory deferredFactory) {
         this.requestProcessor = requestProcessor;
         this.responseProcessor = responseProcessor;
         this.deferredFactory = deferredFactory;
@@ -91,7 +91,7 @@ public abstract class RequestDispatcher {
      * @return                      The promise for the dispatched request
      */
     public <T> Promise<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
-        Deferred<T> deferred = deferredFactory.getDeferred();
+        Deferred<T> deferred = deferredFactory.newDeferred();
 
         Promise<T> promise = deferred.getPromise();
 

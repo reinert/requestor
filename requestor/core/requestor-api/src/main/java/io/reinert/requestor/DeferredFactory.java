@@ -19,5 +19,5 @@ package io.reinert.requestor;
  * Factory for {@link Deferred}.
  */
 public interface DeferredFactory {
-    <T> Deferred<T> getDeferred();
+    <T> Deferred<T> newDeferred();
 }

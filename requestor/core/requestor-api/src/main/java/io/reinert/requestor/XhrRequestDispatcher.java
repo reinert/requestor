@@ -31,7 +31,7 @@ import io.reinert.requestor.payload.type.PayloadType;
 public class XhrRequestDispatcher extends RequestDispatcher {
 
     public XhrRequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                                DeferredFactory deferredFactory) {
+                                Deferred.Factory deferredFactory) {
         super(requestProcessor, responseProcessor, deferredFactory);
     }
 

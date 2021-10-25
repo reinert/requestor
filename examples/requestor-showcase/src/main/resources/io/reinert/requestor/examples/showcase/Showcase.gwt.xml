@@ -33,9 +33,9 @@
 
     <entry-point class="io.reinert.requestor.examples.showcase.Showcase"/>
 
-    <!-- Use a custom DeferredFactory -->
+    <!-- Use a custom Deferred.Factory -->
     <replace-with class="io.reinert.requestor.examples.showcase.ShowcaseDeferredFactory">
-        <when-type-is class="io.reinert.requestor.DeferredFactory"/>
+        <when-type-is class="io.reinert.requestor.Deferred.Factory"/>
     </replace-with>
 
     <!-- Use ClientFactoryImpl by default -->

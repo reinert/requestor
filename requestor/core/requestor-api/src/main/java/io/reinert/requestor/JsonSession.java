@@ -31,11 +31,11 @@ public class JsonSession extends CleanSession {
         super();
     }
 
-    public JsonSession(DeferredFactory deferredFactory) {
+    public JsonSession(Deferred.Factory deferredFactory) {
         super(deferredFactory);
     }
 
-    public JsonSession(DeferredFactory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
+    public JsonSession(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         super(deferredFactory, requestDispatcherFactory);
     }
 

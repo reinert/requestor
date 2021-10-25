@@ -19,7 +19,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 import io.reinert.requestor.Deferred;
-import io.reinert.requestor.DeferredFactory;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.Status;
@@ -32,10 +31,10 @@ import io.reinert.requestor.impl.gdeferred.DeferredRequest;
 /**
  * Factory that creates a deferred with a preset fail callback.
  */
-class ShowcaseDeferredFactory implements DeferredFactory {
+class ShowcaseDeferredFactory implements Deferred.Factory {
 
     @Override
-    public <T> Deferred<T> getDeferred() {
+    public <T> Deferred<T> newDeferred() {
         final DeferredRequest<T> deferred = new DeferredRequest<T>();
 
         // Show loading widget

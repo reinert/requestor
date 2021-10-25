@@ -24,6 +24,10 @@ package io.reinert.requestor;
  */
 public interface Deferred<T> {
 
+    interface Factory {
+        <T> Deferred<T> newDeferred();
+    }
+
     void resolve(Response response);
 
     void reject(RequestException error);

@@ -29,11 +29,11 @@ public class CleanSession extends Session {
         super();
     }
 
-    public CleanSession(DeferredFactory deferredFactory) {
+    public CleanSession(Deferred.Factory deferredFactory) {
         super(deferredFactory);
     }
 
-    public CleanSession(DeferredFactory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
+    public CleanSession(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         super(deferredFactory, requestDispatcherFactory);
     }
 
