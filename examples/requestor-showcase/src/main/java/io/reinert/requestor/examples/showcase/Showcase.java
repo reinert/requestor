@@ -18,7 +18,6 @@ package io.reinert.requestor.examples.showcase;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -41,7 +40,7 @@ import io.reinert.requestor.examples.showcase.ui.loading.Loading;
  */
 public class Showcase implements EntryPoint {
 
-    public static final ShowcaseClientFactory CLIENT_FACTORY = GWT.create(ShowcaseClientFactory.class);
+    public static final ShowcaseClientFactory CLIENT_FACTORY = new ShowcaseClientFactoryImpl();
 
     private final Place defaultPlace = new HomePlace();
 

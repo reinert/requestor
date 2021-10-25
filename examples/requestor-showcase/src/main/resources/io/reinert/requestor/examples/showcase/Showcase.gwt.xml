@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-~ Copyright 2014 Danilo Reinert
+~ Copyright 2021 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -32,16 +32,6 @@
     <source path=""/>
 
     <entry-point class="io.reinert.requestor.examples.showcase.Showcase"/>
-
-    <!-- Use a custom Deferred.Factory -->
-    <replace-with class="io.reinert.requestor.examples.showcase.ShowcaseDeferredFactory">
-        <when-type-is class="io.reinert.requestor.Deferred.Factory"/>
-    </replace-with>
-
-    <!-- Use ClientFactoryImpl by default -->
-    <replace-with class="io.reinert.requestor.examples.showcase.ShowcaseClientFactoryImpl">
-        <when-type-is class="io.reinert.requestor.examples.showcase.ShowcaseClientFactory"/>
-    </replace-with>
 
     <!--<inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>-->
 </module>

@@ -50,10 +50,6 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     private Interceptors interceptors;
     private Serialization serialization;
 
-    public ShowcaseClientFactoryImpl() {
-        initSession();
-    }
-
     @Override
     public EventBus getEventBus() {
         return eventBus;
@@ -66,6 +62,10 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
 
     @Override
     public Session getSession() {
+        if (session == null) {
+            session = new JsonSession(new ShowcaseDeferredFactory());
+            session.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
+        }
         return session;
     }
 
@@ -144,10 +144,5 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
         if (interceptors == null)
             interceptors = new Interceptors();
         return interceptors;
-    }
-
-    private void initSession() {
-        session = new JsonSession();
-        session.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
     }
 }
