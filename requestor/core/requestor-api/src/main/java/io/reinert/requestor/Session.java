@@ -61,7 +61,6 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     private final SerializationEngine serializationEngine;
     private final RequestDispatcherFactory requestDispatcherFactory;
     private final DeferredFactory deferredFactory;
-    private final RequestDispatcher requestDispatcher;
 
     public Session() {
         this(GWT.<DeferredFactory>create(DeferredFactory.class));
@@ -81,10 +80,6 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
                 interceptorManager);
         responseProcessor = new ResponseProcessor(serializationEngine, defaults.getResponseDeserializer(),
                 filterManager, interceptorManager);
-
-        // init dispatcher
-        requestDispatcher = requestDispatcherFactory.getRequestDispatcher(requestProcessor, responseProcessor,
-                deferredFactory);
 
         // register generated serializer to the session
         GeneratedModulesBinder.bind(serializerManager, providerManager);
@@ -604,7 +599,8 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStore(store), requestDispatcher);
+        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStore(store),
+                requestDispatcherFactory.getRequestDispatcher(requestProcessor, responseProcessor, deferredFactory));
 
         defaults.apply(request);
 

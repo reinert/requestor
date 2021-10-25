@@ -22,14 +22,29 @@ package io.reinert.requestor;
  */
 public class XhrRequestDispatcherFactory implements RequestDispatcherFactory {
 
+    private RequestProcessor requestProcessor;
+    private ResponseProcessor responseProcessor;
+    private DeferredFactory deferredFactory;
     private RequestDispatcher requestDispatcher;
 
     @Override
     public RequestDispatcher getRequestDispatcher(RequestProcessor requestProcessor,
                                                   ResponseProcessor responseProcessor,
                                                   DeferredFactory deferredFactory) {
-        if (requestDispatcher == null)
+        if (this.requestProcessor == requestProcessor &&
+                this.responseProcessor == responseProcessor &&
+                this.deferredFactory == deferredFactory) {
+            return requestDispatcher;
+        }
+
+        if (requestDispatcher == null) {
+            this.requestProcessor = requestProcessor;
+            this.responseProcessor = responseProcessor;
+            this.deferredFactory = deferredFactory;
             requestDispatcher = new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredFactory);
-        return requestDispatcher;
+            return requestDispatcher;
+        }
+
+        return new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredFactory);
     }
 }
