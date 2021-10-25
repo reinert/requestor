@@ -20,8 +20,8 @@
 
   <source path="" excludes="rebind/**/*"/>
 
-  <replace-with class="io.reinert.requestor.RequestorImpl">
-    <when-type-is class="io.reinert.requestor.Requestor"/>
+  <replace-with class="io.reinert.requestor.SessionImpl">
+    <when-type-is class="io.reinert.requestor.Session"/>
   </replace-with>
 
   <replace-with class="io.reinert.requestor.uri.BucketsImpl">
@@ -44,8 +44,8 @@
     <when-type-is class="io.reinert.requestor.RequestDispatcherFactory"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.RequestorInitializerClean">
-    <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
+  <replace-with class="io.reinert.requestor.SessionInitializerClean">
+    <when-type-is class="io.reinert.requestor.SessionInitializer"/>
   </replace-with>
 </module>
 

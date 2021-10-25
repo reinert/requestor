@@ -30,7 +30,7 @@ public class RequestGwtTest extends GWTTestCase {
     private static final int TIMEOUT = 5000;
     private static final Logger logger = Logger.getLogger(RequestGwtTest.class.getName());
 
-    private Requestor requestor;
+    private Session session;
 
     @Override
     public String getModuleName() {
@@ -41,12 +41,12 @@ public class RequestGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        requestor = GWT.create(Requestor.class);
-        requestor.setMediaType("application/json");
+        session = GWT.create(Session.class);
+        session.setMediaType("application/json");
     }
 
     public void testStopShortPolling() {
-        requestor.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500).get().status(200,
+        session.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500).get().status(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         // The request can be sent one more time after stopPolling is called in SHORT strategy
@@ -64,7 +64,7 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testStopLongPolling() {
-        requestor.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 500).get().status(200,
+        session.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 500).get().status(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         assertTrue(response.getRequest().getPollingCounter() <= 2);
@@ -80,7 +80,7 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testShortPollingLimit() {
-        requestor.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500, 3).get().status(200,
+        session.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500, 3).get().status(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         assertTrue(response.getRequest().getPollingCounter() <= 3);
@@ -95,7 +95,7 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testLongPollingLimit() {
-        requestor.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 0, 3).get().status(200,
+        session.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 0, 3).get().status(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         assertTrue(response.getRequest().getPollingCounter() <= 3);

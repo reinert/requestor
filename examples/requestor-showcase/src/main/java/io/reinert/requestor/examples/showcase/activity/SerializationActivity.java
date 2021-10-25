@@ -24,7 +24,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.Registration;
-import io.reinert.requestor.Requestor;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.examples.showcase.util.Page;
@@ -38,23 +38,23 @@ import io.reinert.requestor.serialization.json.JsonRecordWriter;
 public class SerializationActivity extends ShowcaseActivity implements Serialization.Handler {
 
     private final Serialization view;
-    private final Requestor requestor;
+    private final Session session;
 
     private Registration xmlSerializerRegistration;
     private Registration jsonSerializerRegistration;
 
-    public SerializationActivity(String section, Serialization view, Requestor requestor) {
+    public SerializationActivity(String section, Serialization view, Session session) {
         super(section);
         this.view = view;
-        this.requestor = requestor;
+        this.session = session;
     }
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         view.setHandler(this);
 
-        xmlSerializerRegistration = requestor.register(new MySerializer());
-        jsonSerializerRegistration = requestor.register(new MyJsonSerializer());
+        xmlSerializerRegistration = session.register(new MySerializer());
+        jsonSerializerRegistration = session.register(new MyJsonSerializer());
 
         Page.setTitle("Serialization");
         Page.setDescription("Exchange any media type with a powerful serialization mechanism.");
@@ -71,7 +71,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlObjectGet() {
-        requestor.req("http://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08")
+        session.req("http://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08")
                 .get(MyObject.class)
                 .success(new PayloadCallback<MyObject>() {
                     @Override
@@ -83,7 +83,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlCollectionGet() {
-        requestor.req("http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09")
+        session.req("http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09")
                 .get(List.class, MyObject.class)
                 .success(new PayloadCallback<List<MyObject>>() {
                     @Override
@@ -95,7 +95,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlObjectPost() {
-        requestor.req("http://httpbin.org/post")
+        session.req("http://httpbin.org/post")
                 .contentType("application/xml")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
@@ -109,7 +109,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlCollectionPost() {
-        requestor.req("http://httpbin.org/post")
+        session.req("http://httpbin.org/post")
                 .contentType("application/xml")
                 .payload(Arrays.asList(
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),
@@ -125,7 +125,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonObjectGet() {
-            requestor.req("http://www.mocky.io/v2/54aa93c307b5f2671021ba0c")
+            session.req("http://www.mocky.io/v2/54aa93c307b5f2671021ba0c")
                     .get(MyObject.class)
                     .success(new PayloadCallback<MyObject>() {
                         @Override
@@ -137,7 +137,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonCollectionGet() {
-        requestor.req("http://www.mocky.io/v2/54aa937407b5f2601021ba0b")
+        session.req("http://www.mocky.io/v2/54aa937407b5f2601021ba0b")
                 .get(List.class, MyObject.class)
                 .success(new PayloadCallback<List<MyObject>>() {
                     @Override
@@ -149,7 +149,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonObjectPost() {
-        requestor.req("http://httpbin.org/post")
+        session.req("http://httpbin.org/post")
                 .contentType("application/json")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
@@ -163,7 +163,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonCollectionPost() {
-        requestor.req("http://httpbin.org/post")
+        session.req("http://httpbin.org/post")
                 .contentType("application/json")
                 .payload(Arrays.asList(
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),

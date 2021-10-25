@@ -30,6 +30,6 @@ public class InterceptorsPlace extends ShowcasePlace {
     @Override
     public Activity getActivity() {
         return new InterceptorsActivity(getSection(), Showcase.CLIENT_FACTORY.getInterceptors(),
-                Showcase.CLIENT_FACTORY.getRequestor());
+                Showcase.CLIENT_FACTORY.getSession());
     }
 }

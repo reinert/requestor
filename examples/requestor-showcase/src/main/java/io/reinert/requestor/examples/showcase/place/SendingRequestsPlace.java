@@ -30,6 +30,6 @@ public class SendingRequestsPlace extends ShowcasePlace {
     @Override
     public Activity getActivity() {
         return new SendingRequestsActivity(getSection(), Showcase.CLIENT_FACTORY.getSendingRequests(),
-                Showcase.CLIENT_FACTORY.getRequestor());
+                Showcase.CLIENT_FACTORY.getSession());
     }
 }

@@ -46,11 +46,11 @@ import io.reinert.requestor.uri.UriBuilder;
  *
  * @author Danilo Reinert
  */
-public abstract class Requestor implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
+public abstract class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
         DirectInvoker, RequestDefaults {
 
-    public static Requestor newInstance() {
-        return GWT.create(Requestor.class);
+    public static Session newInstance() {
+        return GWT.create(Session.class);
     }
 
     //===================================================================

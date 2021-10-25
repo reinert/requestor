@@ -23,7 +23,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.RequestProgress;
-import io.reinert.requestor.Requestor;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ProgressCallback;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
@@ -34,19 +34,19 @@ import io.reinert.requestor.type.Blob;
 public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.Handler {
 
     private final BinaryData view;
-    private final Requestor requestor;
+    private final Session session;
 
-    public BinaryDataActivity(String section, BinaryData view, Requestor requestor) {
+    public BinaryDataActivity(String section, BinaryData view, Session session) {
         super(section);
         this.view = view;
-        this.requestor = requestor;
+        this.session = session;
     }
 
     @Override
     public void onSendButtonClick(JavaScriptObject file) {
         view.setSendProgressStatus(0);
         view.setSendText(null);
-        requestor.req("http://httpbin.org/post")
+        session.req("http://httpbin.org/post")
                 .payload(SerializedPayload.fromBlob(file))
                 .post(String.class)
                 .success(new PayloadCallback<String>() {
@@ -72,7 +72,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
 
     @Override
     public void onRetrieveButtonClick(String url) {
-        requestor.req(url)
+        session.req(url)
                 .get(Blob.class)
                 .progress(new ProgressCallback() {
                     @Override

@@ -27,9 +27,9 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
 
     private boolean asMatrixParam = false;
 
-    protected RestService(Requestor requestor, String resourceUri, Class<R> resourceType, Class<I> idType,
+    protected RestService(Session session, String resourceUri, Class<R> resourceType, Class<I> idType,
                           Class<C> collectionType) {
-        super(requestor, resourceUri);
+        super(session, resourceUri);
         this.resourceType = resourceType;
         this.idType = idType;
         this.collectionType = collectionType;

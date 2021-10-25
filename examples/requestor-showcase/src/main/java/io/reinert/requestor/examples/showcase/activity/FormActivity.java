@@ -21,8 +21,8 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
@@ -31,12 +31,12 @@ import io.reinert.requestor.form.FormData;
 public class FormActivity extends ShowcaseActivity implements Form.Handler {
 
     private final Form view;
-    private final Requestor requestor;
+    private final Session session;
 
-    public FormActivity(String section, Form form, Requestor requestor) {
+    public FormActivity(String section, Form form, Session session) {
         super(section);
         this.view = form;
-        this.requestor = requestor;
+        this.session = session;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
     public void onWrappingPostButtonClick(FormElement formElement) {
         FormData formData = FormData.wrap(formElement);
 
-        requestor.req("http://httpbin.org/post")
+        session.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
                 .success(new PayloadCallback<Response>() {
@@ -84,7 +84,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                 .append("comments", comments)
                 .build();
 
-        requestor.req("http://httpbin.org/post")
+        session.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
                 .success(new PayloadCallback<Response>() {
@@ -111,7 +111,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                 .append("comments", comments)
                 .build();
 
-        requestor.req("http://httpbin.org/post")
+        session.req("http://httpbin.org/post")
                 .payload(formData)
                 .contentType("application/x-www-form-urlencoded")
                 .post(Response.class) // retrieve the raw response

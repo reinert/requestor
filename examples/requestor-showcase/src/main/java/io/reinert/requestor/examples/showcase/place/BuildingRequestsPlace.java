@@ -30,6 +30,6 @@ public class BuildingRequestsPlace extends ShowcasePlace {
     @Override
     public Activity getActivity() {
         return new BuildingRequestsActivity(getSection(), Showcase.CLIENT_FACTORY.getBuildingRequests(),
-                Showcase.CLIENT_FACTORY.getRequestor());
+                Showcase.CLIENT_FACTORY.getSession());
     }
 }

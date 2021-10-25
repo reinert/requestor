@@ -21,10 +21,10 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import io.reinert.requestor.Registration;
 import io.reinert.requestor.RequestFilter;
 import io.reinert.requestor.RequestInProcess;
-import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseFilter;
 import io.reinert.requestor.ResponseInProcess;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Filters;
@@ -34,12 +34,12 @@ import io.reinert.requestor.examples.showcase.util.Util;
 public class FiltersActivity extends ShowcaseActivity implements Filters.Handler {
 
     private final Filters view;
-    private final Requestor requestor;
+    private final Session session;
 
-    public FiltersActivity(String section, Filters view, Requestor requestor) {
+    public FiltersActivity(String section, Filters view, Session session) {
         super(section);
         this.view = view;
-        this.requestor = requestor;
+        this.session = session;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
     @Override
     public void onRequestFilterButtonClick() {
         // Add the filter and hold the registration
-        final Registration requestFilterRegistration = requestor.register(new RequestFilter() {
+        final Registration requestFilterRegistration = session.register(new RequestFilter() {
             @Override
             public void filter(RequestInProcess request) {
                 request.setHeader("A-Request-Filter-Header", "It Works!");
@@ -68,7 +68,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
         });
 
         // Perform the request
-        requestor.req("http://httpbin.org/headers").get(String.class)
+        session.req("http://httpbin.org/headers").get(String.class)
                 .success(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
@@ -86,7 +86,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
     @Override
     public void onResponseFilterButtonClick() {
         // Add the filter and hold the registration
-        final Registration responseFilterRegistration = requestor.register(new ResponseFilter() {
+        final Registration responseFilterRegistration = session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 response.setHeader("A-Response-Filter-Header", "It Works!");
@@ -95,7 +95,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
         });
 
         // Perform the response
-        requestor.req("http://httpbin.org/headers").get(String.class)
+        session.req("http://httpbin.org/headers").get(String.class)
                 .status(200, new ResponseCallback() {
                     public void execute(Response response) {
                         view.setResponseFilterText(

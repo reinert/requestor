@@ -38,8 +38,8 @@
 
         <div class="highlight">
           <pre ui:field="overlaysSetup" class="xml">
-            <code>&lt;replace-with class=&quot;io.reinert.requestor.RequestorInitializerForJson&quot;&gt;
-              <br/>&#32;&#32;&lt;when-type-is class="io.reinert.requestor.RequestorInitializer"/&gt;
+            <code>&lt;replace-with class=&quot;io.reinert.requestor.SessionInitializerForJson&quot;&gt;
+              <br/>&#32;&#32;&lt;when-type-is class="io.reinert.requestor.SessionInitializer"/&gt;
               <br/>&lt;/replace-with&gt;
             </code>
           </pre>

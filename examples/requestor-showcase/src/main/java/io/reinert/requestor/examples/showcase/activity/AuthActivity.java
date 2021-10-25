@@ -21,8 +21,8 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.auth.BasicAuth;
 import io.reinert.requestor.auth.DigestAuth;
 import io.reinert.requestor.auth.OAuth2ByHeader;
@@ -53,17 +53,17 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
     }
 
     private final Auth view;
-    private final Requestor requestor;
+    private final Session session;
 
-    public AuthActivity(String section, Auth view, Requestor requestor) {
+    public AuthActivity(String section, Auth view, Session session) {
         super(section);
         this.view = view;
-        this.requestor = requestor;
+        this.session = session;
     }
 
     @Override
     public void onBasicButtonClick(String user, String password) {
-        requestor.req("http://httpbin.org/basic-auth/" + user + "/" + password)
+        session.req("http://httpbin.org/basic-auth/" + user + "/" + password)
                 .auth(new BasicAuth(user, password))
                 .get(String.class)
                 .success(new PayloadCallback<String>() {
@@ -82,7 +82,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onDigestButtonClick(String user, String password, String qop) {
-        requestor.req("http://httpbin.org/digest-auth/" + qop + '/' + user + '/' + password)
+        session.req("http://httpbin.org/digest-auth/" + qop + '/' + user + '/' + password)
                 .auth(new DigestAuth(user, password, true))
                 .get(String.class)
                 .success(new PayloadCallback<String>() {
@@ -101,7 +101,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onCustomButtonClick(String key) {
-        requestor.req("http://httpbin.org/headers")
+        session.req("http://httpbin.org/headers")
                 .auth(new MyAuth(key))
                 .get(String.class)
                 .success(new PayloadCallback<String>() {
@@ -118,7 +118,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         final String authUrl = "https://accounts.google.com/o/oauth2/auth";
         final String appClientId = "60734886159-99bmoevf41sott6sa2cijltc85orhc18.apps.googleusercontent.com";
         final String scope = "https://www.googleapis.com/auth/plus.login";
-        requestor.req(profilePictureEndpoint)
+        session.req(profilePictureEndpoint)
                 .auth(new OAuth2ByHeader(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
                 .success(new PayloadCallback<JavaScriptObject>() {
@@ -137,7 +137,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         final String authUrl = "https://www.facebook.com/dialog/oauth";
         final String appClientId = "366496696889929";
         final String scope = "public_profile";
-        requestor.req(profilePictureEndpoint)
+        session.req(profilePictureEndpoint)
                 .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
                 .success(new PayloadCallback<JavaScriptObject>() {
@@ -156,7 +156,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         final String authUrl = "https://login.live.com/oauth20_authorize.srf";
         final String appClientId = "000000004015498F";
         final String scope = "wl.basic";
-        requestor.req(profilePictureEndpoint)
+        session.req(profilePictureEndpoint)
                 .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
                 .success(new PayloadCallback<JavaScriptObject>() {

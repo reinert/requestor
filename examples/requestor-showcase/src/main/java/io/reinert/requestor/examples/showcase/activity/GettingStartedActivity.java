@@ -33,7 +33,7 @@ public class GettingStartedActivity extends ShowcaseActivity {
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         Page.setTitle("Getting Started");
-        Page.setDescription("The steps to download, install and set up Requestor.");
+        Page.setDescription("The steps to download, install and set up Session.");
         panel.setWidget(gettingStarted);
         scrollToSection();
     }

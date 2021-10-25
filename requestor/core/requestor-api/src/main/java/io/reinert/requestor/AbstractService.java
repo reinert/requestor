@@ -6,15 +6,15 @@ import io.reinert.requestor.uri.UriBuilder;
 
 public class AbstractService implements RequestDefaults {
 
-    private final Requestor requestor;
+    private final Session session;
     private final RequestDefaultsImpl defaults;
     private final Store store;
     private final UriBuilder uriBuilder;
 
-    public AbstractService(Requestor requestor, String resourceUri) {
-        this.requestor = requestor;
-        this.defaults = RequestDefaultsImpl.copy(requestor.getDefaults());
-        this.store = new VolatileStore(requestor.getStore());
+    public AbstractService(Session session, String resourceUri) {
+        this.session = session;
+        this.defaults = RequestDefaultsImpl.copy(session.getDefaults());
+        this.store = new VolatileStore(session.getStore());
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 
@@ -155,7 +155,7 @@ public class AbstractService implements RequestDefaults {
     }
 
     protected RequestInvoker request(Uri uri) {
-        final RequestInvoker request = requestor.req(uri);
+        final RequestInvoker request = session.req(uri);
         defaults.apply(request);
         return request;
     }

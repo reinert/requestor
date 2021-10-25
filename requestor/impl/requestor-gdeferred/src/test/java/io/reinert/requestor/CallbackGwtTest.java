@@ -33,7 +33,7 @@ public class CallbackGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 2500;
 
-    private Requestor requestor;
+    private Session session;
     private UriBuilder uriBuilder;
 
     @Override
@@ -47,15 +47,15 @@ public class CallbackGwtTest extends GWTTestCase {
 
         uriBuilder = UriBuilder.fromUri("https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
 
-        requestor = GWT.create(Requestor.class);
+        session = GWT.create(Session.class);
 
-        requestor.register(BookJsonSerializer.getInstance());
+        session.register(BookJsonSerializer.getInstance());
 
         // The mockapi service requires us to explicitly inform the content type header
-        requestor.setMediaType("application/json");
+        session.setMediaType("application/json");
 
         // Delay requests to avoid 429 Too Many Requests
-        requestor.setDelay(1000);
+        session.setDelay(1000);
     }
 
     //=========================================================================
@@ -65,7 +65,7 @@ public class CallbackGwtTest extends GWTTestCase {
     public void testSuccessCallback() {
         // GET /books/1
         final Uri uri = uriBuilder.path("1").build();
-        requestor.req(uri).get(Book.class).success(new PayloadCallback<Book>() {
+        session.req(uri).get(Book.class).success(new PayloadCallback<Book>() {
             public void execute(Book result) {
                 assertNotNull(result);
 
@@ -78,7 +78,7 @@ public class CallbackGwtTest extends GWTTestCase {
     public void testSuccessCallbackForCollection() {
         // GET /books
         final Uri uri = uriBuilder.build();
-        requestor.req(uri).get(List.class, Book.class).success(new PayloadCallback<Collection<Book>>() {
+        session.req(uri).get(List.class, Book.class).success(new PayloadCallback<Collection<Book>>() {
             public void execute(Collection<Book> result) {
                 assertNotNull(result);
                 assertFalse(result.isEmpty());
@@ -122,7 +122,7 @@ public class CallbackGwtTest extends GWTTestCase {
     //=========================================================================
 
     public void test301ErrorCallback() {
-        requestor.req("http://httpbin.org/status/300").get()
+        session.req("http://httpbin.org/status/300").get()
                 .success(new PayloadCallback<Void>() {
                     public void execute(Void result) {
                         fail();
@@ -138,7 +138,7 @@ public class CallbackGwtTest extends GWTTestCase {
     }
 
     public void test400ErrorCallback() {
-        requestor.req("http://httpbin.org/status/400").get()
+        session.req("http://httpbin.org/status/400").get()
                 .success(new PayloadCallback<Void>() {
                     public void execute(Void result) {
                         fail();
@@ -154,7 +154,7 @@ public class CallbackGwtTest extends GWTTestCase {
     }
 
     public void test500ErrorCallback() {
-        requestor.req("http://httpbin.org/status/500").get()
+        session.req("http://httpbin.org/status/500").get()
                 .success(new PayloadCallback<Void>() {
                     public void execute(Void result) {
                         fail();
@@ -174,7 +174,7 @@ public class CallbackGwtTest extends GWTTestCase {
     //=========================================================================
 
     public void testStatusCallback200() {
-        requestor.req("http://httpbin.org/status/200").get(String.class)
+        session.req("http://httpbin.org/status/200").get(String.class)
                 .status(200, new ResponseCallback() {
                     public void execute(Response response) {
                         assertNotNull(response);
@@ -192,7 +192,7 @@ public class CallbackGwtTest extends GWTTestCase {
     }
 
     public void testStatusCallback400() {
-        requestor.req("http://httpbin.org/status/400").get(String.class)
+        session.req("http://httpbin.org/status/400").get(String.class)
                 .status(200, new ResponseCallback() {
                     public void execute(Response response) {
                         fail();
@@ -210,7 +210,7 @@ public class CallbackGwtTest extends GWTTestCase {
     }
 
     public void testStatusCallback500() {
-        requestor.req("http://httpbin.org/status/500").get(String.class)
+        session.req("http://httpbin.org/status/500").get(String.class)
                 .status(200, new ResponseCallback() {
                     public void execute(Response response) {
                         fail();

@@ -28,7 +28,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
 
-    private Requestor requestor;
+    private Session session;
 
     @Override
     public String getModuleName() {
@@ -39,15 +39,15 @@ public class ResponseFilterGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        requestor = GWT.create(Requestor.class);
-        requestor.setMediaType("application/json");
+        session = GWT.create(Session.class);
+        session.setMediaType("application/json");
     }
 
     public void testOneFilter() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 response.getStore().put(storeKey, expectedStoreValue);
@@ -56,7 +56,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -73,7 +73,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 response.getStore().put(storeKey, expectedStoreValue);
@@ -81,7 +81,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 // Test previous filter
@@ -91,7 +91,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -108,7 +108,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 response.setHeader("Test", "test");
@@ -116,7 +116,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 assertEquals("test", response.getHeader("Test"));
@@ -125,7 +125,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 assertEquals("test", response.getHeader("Test"));
@@ -135,7 +135,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -155,7 +155,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
         final String storeKey2 = "testData2";
         final String expectedStoreValue2 = "testData2";
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 response.getStore().put(storeKey, expectedStoreValue);
@@ -163,7 +163,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(final ResponseInProcess response) {
                 new Timer() {
@@ -176,7 +176,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 // Test previous filter
@@ -186,7 +186,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new ResponseFilter() {
+        session.register(new ResponseFilter() {
             @Override
             public void filter(final ResponseInProcess response) {
                 new Timer() {
@@ -199,7 +199,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());

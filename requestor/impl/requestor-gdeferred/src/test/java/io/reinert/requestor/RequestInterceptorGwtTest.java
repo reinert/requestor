@@ -28,7 +28,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
 
-    private Requestor requestor;
+    private Session session;
 
     @Override
     public String getModuleName() {
@@ -39,15 +39,15 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        requestor = GWT.create(Requestor.class);
-        requestor.setMediaType("application/json");
+        session = GWT.create(Session.class);
+        session.setMediaType("application/json");
     }
 
     public void testOneInterceptor() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.getStore().put(storeKey, expectedStoreValue);
@@ -56,7 +56,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -73,7 +73,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.getStore().put(storeKey, expectedStoreValue);
@@ -81,7 +81,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 // Test previous intercept
@@ -91,7 +91,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -108,7 +108,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.setHeader("Test", "test");
@@ -116,7 +116,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.getStore().put(storeKey, expectedStoreValue);
@@ -124,7 +124,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.setHeader("Test2", "test2");
@@ -132,7 +132,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -152,7 +152,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         final String storeKey2 = "testData2";
         final String expectedStoreValue2 = "testData2";
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.getStore().put(storeKey, expectedStoreValue);
@@ -160,7 +160,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(final SerializedRequestInProcess request) {
                 new Timer() {
@@ -173,7 +173,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 // Test previous intercept
@@ -183,7 +183,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.register(new RequestInterceptor() {
+        session.register(new RequestInterceptor() {
             @Override
             public void intercept(final SerializedRequestInProcess request) {
                 new Timer() {
@@ -196,7 +196,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        requestor.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());

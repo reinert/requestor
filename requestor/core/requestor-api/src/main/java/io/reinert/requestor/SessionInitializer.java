@@ -16,17 +16,17 @@
 package io.reinert.requestor;
 
 /**
- * This interface is responsible for performing the default configuration of every {@link Requestor} created.
+ * This interface is responsible for performing the default configuration of every {@link Session} created.
  * Its implementation could do things like registering Serializers, Filters, Providers, etc.
  *
  * @author Danilo Reinert
  */
-public interface RequestorInitializer {
+public interface SessionInitializer {
 
     /**
      * Perform all desired configurations for the requestor initialization.
      *
-     * @param requestor The requestor being initialized
+     * @param session The requestor being initialized
      */
-    void configure(Requestor requestor);
+    void configure(Session session);
 }

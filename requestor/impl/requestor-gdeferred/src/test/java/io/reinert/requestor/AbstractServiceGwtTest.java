@@ -32,8 +32,8 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     private static class BookService extends AbstractService {
 
-        public BookService(Requestor requestor) {
-            super(requestor, "https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
+        public BookService(Session session) {
+            super(session, "https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
         }
 
         public Promise<Collection<Book>> getBooks(String... authors) {
@@ -84,11 +84,11 @@ public class AbstractServiceGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        Requestor requestor = Requestor.newInstance();
+        Session session = Session.newInstance();
 
-        requestor.register(BookJsonSerializer.getInstance());
+        session.register(BookJsonSerializer.getInstance());
 
-        bookService = new BookService(requestor);
+        bookService = new BookService(session);
 
         // The mockapi service requires us to explicitly inform the content type header
         bookService.setMediaType("application/json");

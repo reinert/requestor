@@ -30,6 +30,6 @@ public class SerializationPlace extends ShowcasePlace {
     @Override
     public Activity getActivity() {
         return new SerializationActivity(getSection(), Showcase.CLIENT_FACTORY.getSerialization(),
-                Showcase.CLIENT_FACTORY.getRequestor());
+                Showcase.CLIENT_FACTORY.getSession());
     }
 }

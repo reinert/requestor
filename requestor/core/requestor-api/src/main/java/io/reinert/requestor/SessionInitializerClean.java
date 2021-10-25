@@ -23,11 +23,11 @@ import io.reinert.requestor.serialization.misc.VoidSerializer;
  *
  * @author Danilo Reinert
  */
-public class RequestorInitializerClean implements RequestorInitializer {
+public class SessionInitializerClean implements SessionInitializer {
 
     @Override
-    public void configure(Requestor requestor) {
-        requestor.register(VoidSerializer.getInstance());
-        requestor.register(TextSerializer.getInstance());
+    public void configure(Session session) {
+        session.register(VoidSerializer.getInstance());
+        session.register(TextSerializer.getInstance());
     }
 }

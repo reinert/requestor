@@ -26,7 +26,7 @@ import io.reinert.requestor.payload.SerializedPayload;
  */
 public class SpecialTypeResponsesGwtTest extends GWTTestCase {
 
-    private Requestor requestor;
+    private Session session;
 
     @Override
     public String getModuleName() {
@@ -36,11 +36,11 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     @Override
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
-        requestor = GWT.create(Requestor.class);
+        session = GWT.create(Session.class);
     }
 
     public void testResponseTypeAsHeaders() {
-        requestor.req("http://httpbin.org/get")
+        session.req("http://httpbin.org/get")
                 .get(Headers.class)
                 .success(new PayloadCallback<Headers>() {
                     public void execute(Headers result) {
@@ -52,7 +52,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     }
 
     public void testResponseTypeAsPayload() {
-        requestor.req("http://httpbin.org/get")
+        session.req("http://httpbin.org/get")
                 .get(SerializedPayload.class)
                 .success(new PayloadCallback<SerializedPayload>() {
                     public void execute(SerializedPayload result) {
@@ -64,7 +64,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     }
 
     public void testResponseTypeAsRawResponse() {
-        requestor.req("http://httpbin.org/get")
+        session.req("http://httpbin.org/get")
                 .get(RawResponse.class)
                 .success(new PayloadCallback<RawResponse>() {
                     public void execute(RawResponse result) {
@@ -77,7 +77,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     }
 
     public void testResponseTypeAsSerializedResponse() {
-        requestor.req("http://httpbin.org/get")
+        session.req("http://httpbin.org/get")
                 .get(SerializedResponse.class)
                 .success(new PayloadCallback<SerializedResponse>() {
                     public void execute(SerializedResponse result) {
@@ -90,7 +90,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     }
 
     public void testResponseTypeAsResponse() {
-        requestor.req("http://httpbin.org/get")
+        session.req("http://httpbin.org/get")
                 .get(Response.class)
                 .success(new PayloadCallback<Response>() {
                     public void execute(Response result) {

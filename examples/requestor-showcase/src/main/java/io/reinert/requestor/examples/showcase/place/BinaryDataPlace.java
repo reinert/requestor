@@ -30,6 +30,6 @@ public class BinaryDataPlace extends ShowcasePlace {
     @Override
     public Activity getActivity() {
         return new BinaryDataActivity(getSection(), Showcase.CLIENT_FACTORY.getBinaryData(),
-                Showcase.CLIENT_FACTORY.getRequestor());
+                Showcase.CLIENT_FACTORY.getSession());
     }
 }

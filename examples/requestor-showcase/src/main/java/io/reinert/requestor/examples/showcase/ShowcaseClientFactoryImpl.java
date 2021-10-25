@@ -19,7 +19,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
-import io.reinert.requestor.Requestor;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
@@ -36,7 +36,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
 
     private final EventBus eventBus = new SimpleEventBus();
     private final PlaceController placeController = new PlaceController(eventBus);
-    private Requestor requestor;
+    private Session session;
     private Home home;
     private GettingStarted gettingStarted;
     private Requesting requesting;
@@ -64,8 +64,8 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     }
 
     @Override
-    public Requestor getRequestor() {
-        return requestor;
+    public Session getSession() {
+        return session;
     }
 
     @Override
@@ -146,7 +146,7 @@ public class ShowcaseClientFactoryImpl implements ShowcaseClientFactory {
     }
 
     private void initRequestor() {
-        requestor = Requestor.newInstance();
-        requestor.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
+        session = Session.newInstance();
+        session.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
     }
 }

@@ -27,19 +27,19 @@ import io.reinert.requestor.serialization.misc.VoidSerializer;
  *
  * @author Danilo Reinert
  */
-public class RequestorInitializerForJson implements RequestorInitializer {
+public class SessionInitializerForJson implements SessionInitializer {
 
     @Override
-    public void configure(Requestor requestor) {
-        requestor.register(VoidSerializer.getInstance());
-        requestor.register(TextSerializer.getInstance());
+    public void configure(Session session) {
+        session.register(VoidSerializer.getInstance());
+        session.register(TextSerializer.getInstance());
 
-        requestor.register(JsonStringSerializer.getInstance());
-        requestor.register(JsonNumberSerializer.getInstance());
-        requestor.register(JsonBooleanSerializer.getInstance());
+        session.register(JsonStringSerializer.getInstance());
+        session.register(JsonNumberSerializer.getInstance());
+        session.register(JsonBooleanSerializer.getInstance());
 
-        requestor.register(OverlaySerializer.getInstance());
+        session.register(OverlaySerializer.getInstance());
 
-        requestor.setMediaType("application/json");
+        session.setMediaType("application/json");
     }
 }

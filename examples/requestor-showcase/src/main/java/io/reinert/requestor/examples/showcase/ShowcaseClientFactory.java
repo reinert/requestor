@@ -18,7 +18,7 @@ package io.reinert.requestor.examples.showcase;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
-import io.reinert.requestor.Requestor;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
@@ -34,7 +34,7 @@ import io.reinert.requestor.examples.showcase.ui.Serialization;
 public interface ShowcaseClientFactory {
     EventBus getEventBus();
     PlaceController getPlaceController();
-    Requestor getRequestor();
+    Session getSession();
     Home getHome();
     GettingStarted getGettingStarted();
     Requesting getRequesting();

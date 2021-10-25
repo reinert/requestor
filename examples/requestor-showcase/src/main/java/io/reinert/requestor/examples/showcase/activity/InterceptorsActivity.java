@@ -21,11 +21,11 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.Registration;
 import io.reinert.requestor.RequestInterceptor;
-import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.ResponseInterceptor;
 import io.reinert.requestor.SerializedRequestInProcess;
 import io.reinert.requestor.SerializedResponseInProcess;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
@@ -35,12 +35,12 @@ import io.reinert.requestor.payload.SerializedPayload;
 public class InterceptorsActivity extends ShowcaseActivity implements Interceptors.Handler {
 
     private final Interceptors view;
-    private final Requestor requestor;
+    private final Session session;
 
-    public InterceptorsActivity(String section, Interceptors view, Requestor requestor) {
+    public InterceptorsActivity(String section, Interceptors view, Session session) {
         super(section);
         this.view = view;
-        this.requestor = requestor;
+        this.session = session;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
     @Override
     public void onRequestInterceptorButtonClick() {
         // Add the interceptor and hold the registration
-        final Registration registration = requestor.register(new RequestInterceptor() {
+        final Registration registration = session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 final String json = request.getSerializedPayload().getString();
@@ -73,8 +73,8 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         });
 
         // Perform the request
-        JavaScriptObject json = getMessageJson("Requestor is awesome!");
-        requestor.req("http://httpbin.org/post").payload(json).post(String.class)
+        JavaScriptObject json = getMessageJson("Session is awesome!");
+        session.req("http://httpbin.org/post").payload(json).post(String.class)
                 .success(new PayloadCallback<String>() {
                     public void execute(String result) {
                         view.setRequestInterceptorText(result);
@@ -91,7 +91,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
     @Override
     public void onResponseInterceptorButtonClick() {
         // Add the interceptor and hold the registration
-        final Registration registration = requestor.register(new ResponseInterceptor() {
+        final Registration registration = session.register(new ResponseInterceptor() {
             @Override
             public void intercept(SerializedResponseInProcess response) {
                 final String json = response.getSerializedPayload().getString();
@@ -104,7 +104,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         });
 
         // Perform the response
-        requestor.req("http://www.mocky.io/v2/54a3ec74fd145c6c0195e912").get(String.class)
+        session.req("http://www.mocky.io/v2/54a3ec74fd145c6c0195e912").get(String.class)
                 .success(new PayloadCallback<String>() {
                     @Override
                     public void execute(String response) {

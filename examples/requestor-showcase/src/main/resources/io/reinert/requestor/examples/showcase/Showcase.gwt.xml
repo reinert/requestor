@@ -34,8 +34,8 @@
     <entry-point class="io.reinert.requestor.examples.showcase.Showcase"/>
 
     <!-- Use the JSON initializer -->
-    <replace-with class="io.reinert.requestor.RequestorInitializerForJson">
-        <when-type-is class="io.reinert.requestor.RequestorInitializer"/>
+    <replace-with class="io.reinert.requestor.SessionInitializerForJson">
+        <when-type-is class="io.reinert.requestor.SessionInitializer"/>
     </replace-with>
 
     <!-- Use a custom DeferredFactory -->

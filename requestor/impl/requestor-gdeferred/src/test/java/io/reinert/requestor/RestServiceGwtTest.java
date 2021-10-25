@@ -43,11 +43,11 @@ public class RestServiceGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        Requestor requestor = Requestor.newInstance();
+        Session session = Session.newInstance();
 
-        requestor.register(BookJsonSerializer.getInstance());
+        session.register(BookJsonSerializer.getInstance());
 
-        bookService = requestor.newRestService(
+        bookService = session.newRestService(
                 "https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books",
                 Book.class,
                 Integer.class,

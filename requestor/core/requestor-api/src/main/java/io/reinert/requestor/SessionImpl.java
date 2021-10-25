@@ -26,11 +26,11 @@ import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
 /**
- * Default implementation for {@link Requestor}.
+ * Default implementation for {@link Session}.
  *
  * @author Danilo Reinert
  */
-public class RequestorImpl extends Requestor {
+public class SessionImpl extends Session {
 
     private final RequestDefaultsImpl defaults = new RequestDefaultsImpl();
     private final PersistentStore store = new PersistentStore();
@@ -45,12 +45,12 @@ public class RequestorImpl extends Requestor {
     private final DeferredFactory deferredFactory;
     private final RequestDispatcher requestDispatcher;
 
-    public RequestorImpl() {
+    public SessionImpl() {
         this(GWT.<RequestDispatcherFactory>create(RequestDispatcherFactory.class),
              GWT.<DeferredFactory>create(DeferredFactory.class));
     }
 
-    public RequestorImpl(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
+    public SessionImpl(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
 
@@ -69,7 +69,7 @@ public class RequestorImpl extends Requestor {
         GeneratedModulesBinder.bind(serializerManager, providerManager);
 
         // perform initial set-up by user
-        GWT.<RequestorInitializer>create(RequestorInitializer.class).configure(this);
+        GWT.<SessionInitializer>create(SessionInitializer.class).configure(this);
     }
 
     //===================================================================

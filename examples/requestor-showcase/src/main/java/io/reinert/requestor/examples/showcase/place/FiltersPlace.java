@@ -30,6 +30,6 @@ public class FiltersPlace extends ShowcasePlace {
     @Override
     public Activity getActivity() {
         return new FiltersActivity(getSection(), Showcase.CLIENT_FACTORY.getFilters(),
-                Showcase.CLIENT_FACTORY.getRequestor());
+                Showcase.CLIENT_FACTORY.getSession());
     }
 }

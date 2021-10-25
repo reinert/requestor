@@ -18,19 +18,19 @@ package io.reinert.requestor.examples.showcase.activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.Requestor;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.util.Page;
 
 public class BuildingRequestsActivity extends ShowcaseActivity {
 
     private final BuildingRequests view;
-    private final Requestor requestor;
+    private final Session session;
 
-    public BuildingRequestsActivity(String section, BuildingRequests view, Requestor requestor) {
+    public BuildingRequestsActivity(String section, BuildingRequests view, Session session) {
         super(section);
         this.view = view;
-        this.requestor = requestor;
+        this.session = session;
     }
 
     @Override
