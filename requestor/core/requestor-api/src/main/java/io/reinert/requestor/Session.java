@@ -17,13 +17,16 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 
+import com.google.gwt.core.client.GWT;
+
+import io.reinert.requestor.header.Header;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
 /**
- * This interface is a configurable container responsible for building requests.
+ * This is a configurable client session responsible for building requests.
  * Usually, you will use it as a singleton.
  * <p></p>
  *
@@ -47,19 +50,498 @@ import io.reinert.requestor.uri.UriBuilder;
 public abstract class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
         DirectInvoker, RequestDefaults {
 
+    private final RequestDefaultsImpl defaults = new RequestDefaultsImpl();
+    private final PersistentStore store = new PersistentStore();
+    private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
+    private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
+    private final FilterManagerImpl filterManager = new FilterManagerImpl();
+    private final InterceptorManagerImpl interceptorManager = new InterceptorManagerImpl();
+    private final RequestProcessor requestProcessor;
+    private final ResponseProcessor responseProcessor;
+    private final SerializationEngine serializationEngine;
+    private final RequestDispatcherFactory requestDispatcherFactory;
+    private final DeferredFactory deferredFactory;
+    private final RequestDispatcher requestDispatcher;
+
+    public Session() {
+        this(GWT.<RequestDispatcherFactory>create(RequestDispatcherFactory.class),
+             GWT.<DeferredFactory>create(DeferredFactory.class));
+    }
+
+    public Session(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
+        this.requestDispatcherFactory = requestDispatcherFactory;
+        this.deferredFactory = deferredFactory;
+
+        // init processors
+        serializationEngine = new SerializationEngine(serializerManager, providerManager);
+        requestProcessor = new RequestProcessor(serializationEngine, defaults.getRequestSerializer(), filterManager,
+                interceptorManager);
+        responseProcessor = new ResponseProcessor(serializationEngine, defaults.getResponseDeserializer(),
+                filterManager, interceptorManager);
+
+        // init dispatcher
+        requestDispatcher = requestDispatcherFactory.getRequestDispatcher(requestProcessor, responseProcessor,
+                deferredFactory);
+
+        // register generated serializer to the requestor
+        GeneratedModulesBinder.bind(serializerManager, providerManager);
+
+        // perform initial set-up by user
+        configure();
+    }
+
+    /**
+     * Perform initial configuration for the session in construction.
+     */
+    protected abstract void configure();
+
+    //===================================================================
+    // Request methods
+    //===================================================================
+
+    /**
+     * Start building a request with the given uri string.
+     *
+     * @param uri   The uri of the request.
+     *
+     * @return  The request builder.
+     */
+    public RequestInvoker req(String uri) {
+        if (uri == null) throw new IllegalArgumentException("Uri string cannot be null.");
+        return createRequest(Uri.create(uri));
+    }
+
+    /**
+     * Start building a request with the given Uri.
+     *
+     * @param uri   The uri of the request.
+     *
+     * @return  The request builder.
+     */
+    public RequestInvoker req(Uri uri) {
+        if (uri == null) throw new IllegalArgumentException("Uri cannot be null.");
+        return createRequest(uri);
+    }
+
+    /**
+     * Start building a request with the given Link.
+     *
+     * @param link   The link to request.
+     *
+     * @return  The request builder.
+     */
+    public RequestInvoker req(Link link) {
+        if (link == null) throw new IllegalArgumentException("Link cannot be null.");
+        return createRequest(link.getUri());
+    }
+
+    /**
+     * Build a new web resource target.
+     *
+     * @param uri  Stringified URI of the target resource. May contain URI template parameters.
+     *             Must not be {@code null}.
+     *
+     * @return  Web resource target bound to the provided URI.
+     */
+    public WebTarget target(String uri) {
+        if (uri == null) throw new IllegalArgumentException("Uri string cannot be null.");
+        return createWebTarget(UriBuilder.fromUri(uri));
+    }
+
+    /**
+     * Build a new web resource target.
+     *
+     * @param uri  Web resource URI represented. Must not be {@code null}.
+     *
+     * @return  Web resource target bound to the provided URI.
+     */
+    public WebTarget target(Uri uri) {
+        if (uri == null) throw new IllegalArgumentException("Uri cannot be null.");
+        return createWebTarget(uri);
+    }
+
+    /**
+     * Build a new web resource target.
+     *
+     * @param uriBuilder  Web resource URI represented as URI builder. Must not be {@code null}.
+     *
+     * @return  Web resource target bound to the provided URI.
+     */
+    public WebTarget target(UriBuilder uriBuilder) {
+        if (uriBuilder == null) throw new IllegalArgumentException("UriBuilder cannot be null.");
+        return createWebTarget(uriBuilder);
+    }
+
+    /**
+     * Build a new web resource target.
+     *
+     * @param link  Link to a web resource. Must not be {@code null}.
+     *
+     * @return  Web resource target bound to the link web resource.
+     */
+    public WebTarget target(Link link) {
+        if (link == null) throw new IllegalArgumentException("Link cannot be null.");
+        return createWebTarget(link.getUri());
+    }
+
+    //===================================================================
+    // Direct invoke methods
+    //===================================================================
+
+    @Override
+    public Promise<Void> get(String uri) {
+        return this.req(uri).get();
+    }
+
+    @Override
+    public <T> Promise<T> get(String uri, Class<T> entityType) {
+        return this.req(uri).get(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<C> collectionType,
+                                                                Class<T> entityType) {
+        return this.req(uri).get(collectionType, entityType);
+    }
+
+    @Override
+    public Promise<Void> post(String uri) {
+        return this.req(uri).post();
+    }
+
+    @Override
+    public Promise<Void> post(String uri, Object payload) {
+        return this.req(uri).payload(payload).post();
+    }
+
+    @Override
+    public <T> Promise<T> post(String uri, Object payload, Class<T> entityType) {
+        return this.req(uri).payload(payload).post(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<C> collectionType,
+                                                                 Class<T> entityType) {
+        return this.req(uri).payload(payload).post(collectionType, entityType);
+    }
+
+    @Override
+    public <T> Promise<T> post(String uri, Class<T> entityType) {
+        return this.req(uri).post(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<C> collectionType,
+                                                                 Class<T> entityType) {
+        return this.req(uri).post(collectionType, entityType);
+    }
+
+    @Override
+    public Promise<Void> put(String uri) {
+        return this.req(uri).put();
+    }
+
+    @Override
+    public Promise<Void> put(String uri, Object payload) {
+        return this.req(uri).payload(payload).put();
+    }
+
+    @Override
+    public <T> Promise<T> put(String uri, Object payload, Class<T> entityType) {
+        return this.req(uri).payload(payload).put(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<C> collectionType,
+                                                                Class<T> entityType) {
+        return this.req(uri).payload(payload).put(collectionType, entityType);
+    }
+
+    @Override
+    public <T> Promise<T> put(String uri, Class<T> entityType) {
+        return this.req(uri).put(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<C> collectionType,
+                                                                Class<T> entityType) {
+        return this.req(uri).put(collectionType, entityType);
+    }
+
+    @Override
+    public Promise<Void> delete(String uri) {
+        return this.req(uri).delete();
+    }
+
+    @Override
+    public <T> Promise<T> delete(String uri, Class<T> entityType) {
+        return this.req(uri).delete(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<C> collectionType,
+                                                                   Class<T> entityType) {
+        return this.req(uri).delete(collectionType, entityType);
+    }
+
+    @Override
+    public Promise<Void> patch(String uri) {
+        return this.req(uri).patch();
+    }
+
+    @Override
+    public Promise<Void> patch(String uri, Object payload) {
+        return this.req(uri).payload(payload).patch();
+    }
+
+    @Override
+    public <T> Promise<T> patch(String uri, Object payload, Class<T> entityType) {
+        return this.req(uri).payload(payload).patch(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<C> collectionType,
+                                                                  Class<T> entityType) {
+        return this.req(uri).payload(payload).patch(collectionType, entityType);
+    }
+
+    @Override
+    public <T> Promise<T> patch(String uri, Class<T> entityType) {
+        return this.req(uri).patch(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<C> collectionType,
+                                                                  Class<T> entityType) {
+        return this.req(uri).patch(collectionType, entityType);
+    }
+
+    @Override
+    public Promise<Void> options(String uri) {
+        return this.req(uri).options();
+    }
+
+    @Override
+    public <T> Promise<T> options(String uri, Class<T> entityType) {
+        return this.req(uri).options(entityType);
+    }
+
+    @Override
+    public <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<C> collectionType,
+                                                                    Class<T> entityType) {
+        return this.req(uri).options(collectionType, entityType);
+    }
+
+    @Override
+    public Promise<Headers> head(String uri) {
+        return this.req(uri).head();
+    }
+
     //===================================================================
     // Session configuration
     //===================================================================
 
-    public abstract PersistentStore getStore();
+    public PersistentStore getStore() {
+        return store;
+    }
 
-    public abstract <T> T getInstance(Class<T> type);
+    public void setRequestSerializer(RequestSerializer requestSerializer) {
+        defaults.setRequestSerializer(requestSerializer);
+        requestProcessor.setRequestSerializer(requestSerializer);
+    }
 
-    public abstract <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType);
+    public RequestSerializer getRequestSerializer() {
+        return defaults.getRequestSerializer();
+    }
 
-    public abstract <T> Serializer<T> getSerializer(Class<T> type, String mediaType);
+    public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
+        defaults.setResponseDeserializer(responseDeserializer);
+        responseProcessor.setResponseDeserializer(responseDeserializer);
+    }
 
-    public abstract <T> Provider<T> getProvider(Class<T> type);
+    public ResponseDeserializer getResponseDeserializer() {
+        return defaults.getResponseDeserializer();
+    }
+
+    public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) {
+        return serializerManager.getSerializer(type, mediaType);
+    }
+
+    public <T> Deserializer<T> getDeserializer(Class<T> type, String mediaType) {
+        return serializerManager.getDeserializer(type, mediaType);
+    }
+
+    public <T> Provider<T> getProvider(Class<T> type) {
+        return providerManager.get(type);
+    }
+
+    public <T> T getInstance(Class<T> type) {
+        Provider<T> provider = providerManager.get(type);
+        if (provider == null) {
+            throw new RuntimeException("There's no Provider registered for this class.");
+        }
+        return provider.getInstance();
+    }
+
+    @Override
+    public void reset() {
+        defaults.reset();
+    }
+
+    @Override
+    public void setMediaType(String mediaType) {
+        defaults.setMediaType(mediaType);
+    }
+
+    @Override
+    public String getMediaType() {
+        return defaults.getMediaType();
+    }
+
+    @Override
+    public void setAuth(Auth auth) {
+        defaults.setAuth(auth);
+    }
+
+    @Override
+    public void setAuth(Auth.Provider authProvider) {
+        defaults.setAuth(authProvider);
+    }
+
+    @Override
+    public Auth getAuth() {
+        return defaults.getAuth();
+    }
+
+    @Override
+    public void setTimeout(int timeoutMillis) {
+        defaults.setTimeout(timeoutMillis);
+    }
+
+    @Override
+    public int getTimeout() {
+        return defaults.getTimeout();
+    }
+
+    @Override
+    public void setDelay(int delayMillis) {
+        defaults.setDelay(delayMillis);
+    }
+
+    @Override
+    public int getDelay() {
+        return defaults.getDelay();
+    }
+
+    @Override
+    public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
+        defaults.setPolling(strategy, intervalMillis, limit);
+    }
+
+    @Override
+    public boolean isPolling() {
+        return defaults.isPolling();
+    }
+
+    @Override
+    public int getPollingInterval() {
+        return defaults.getPollingInterval();
+    }
+
+    @Override
+    public int getPollingLimit() {
+        return defaults.getPollingLimit();
+    }
+
+    @Override
+    public PollingStrategy getPollingStrategy() {
+        return defaults.getPollingStrategy();
+    }
+
+    @Override
+    public void putHeader(Header header) {
+        defaults.putHeader(header);
+    }
+
+    @Override
+    public void setHeader(String headerName, String headerValue) {
+        defaults.setHeader(headerName, headerValue);
+    }
+
+    @Override
+    public Headers getHeaders() {
+        return defaults.getHeaders();
+    }
+
+    @Override
+    public String getHeader(String headerName) {
+        return defaults.getHeader(headerName);
+    }
+
+    @Override
+    public Header popHeader(String headerName) {
+        return defaults.popHeader(headerName);
+    }
+
+    @Override
+    public <T> Registration register(Deserializer<T> deserializer) {
+        return serializerManager.register(deserializer);
+    }
+
+    @Override
+    public <T> Registration register(Serializer<T> serializer) {
+        return serializerManager.register(serializer);
+    }
+
+    @Override
+    public Registration register(RequestFilter requestFilter) {
+        return filterManager.register(requestFilter);
+    }
+
+    @Override
+    public Registration register(RequestFilter.Provider provider) {
+        return filterManager.register(provider);
+    }
+
+    @Override
+    public Registration register(ResponseFilter responseFilter) {
+        return filterManager.register(responseFilter);
+    }
+
+    @Override
+    public Registration register(ResponseFilter.Provider provider) {
+        return filterManager.register(provider);
+    }
+
+    @Override
+    public Registration register(RequestInterceptor requestInterceptor) {
+        return interceptorManager.register(requestInterceptor);
+    }
+
+    @Override
+    public Registration register(RequestInterceptor.Provider provider) {
+        return interceptorManager.register(provider);
+    }
+
+    @Override
+    public Registration register(ResponseInterceptor responseInterceptor) {
+        return interceptorManager.register(responseInterceptor);
+    }
+
+    @Override
+    public Registration register(ResponseInterceptor.Provider provider) {
+        return interceptorManager.register(provider);
+    }
+
+    @Override
+    public <T> Registration register(Class<T> type, Provider<T> provider) {
+        return providerManager.register(type, provider);
+    }
+
+    @Override
+    public <T> Registration register(TypeProvider<T> provider) {
+        return providerManager.register(provider);
+    }
 
     /**
      * Register a {@link SerializationModule}.
@@ -68,7 +550,28 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
      *
      * @return The {@link Registration} object, capable of cancelling this registration
      */
-    public abstract Registration register(SerializationModule serializationModule);
+    public Registration register(SerializationModule serializationModule) {
+        final int length = serializationModule.getSerializers().size() + serializationModule.getTypeProviders().size();
+        final Registration[] registrations = new Registration[length];
+        int i = -1;
+
+        for (Serializer<?> serializer : serializationModule.getSerializers()) {
+            registrations[++i] = register(serializer);
+        }
+
+        for (TypeProvider<?> provider : serializationModule.getTypeProviders()) {
+            registrations[++i] = register(provider);
+        }
+
+        return new Registration() {
+            @Override
+            public void cancel() {
+                for (Registration registration : registrations) {
+                    registration.cancel();
+                }
+            }
+        };
+    }
 
     /**
      * A client service useful to communicate with REST like resources.
@@ -82,79 +585,36 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
      * @param <C>           Container type
      * @return              A ResourceService of the Resource Type
      */
-    public abstract <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
-                                                                                     Class<R> resourceType,
-                                                                                     Class<I> idType,
-                                                                                     Class<C> collectionType);
+    public <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
+                                                                            Class<R> resourceType,
+                                                                            Class<I> idType,
+                                                                            Class<C> collectionType) {
+        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, collectionType);
+    }
 
     //===================================================================
-    // Request factory methods
+    // Internal methods
     //===================================================================
 
-    /**
-     * Start building a request with the given uri string.
-     *
-     * @param uri   The uri of the request.
-     *
-     * @return  The request builder.
-     */
-    public abstract RequestInvoker req(String uri);
+    protected RequestDefaultsImpl getDefaults() {
+        return defaults;
+    }
 
-    /**
-     * Start building a request with the given Uri.
-     *
-     * @param uri   The uri of the request.
-     *
-     * @return  The request builder.
-     */
-    public abstract RequestInvoker req(Uri uri);
+    private RequestInvoker createRequest(Uri uri) {
+        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStore(store), requestDispatcher);
 
-    /**
-     * Start building a request with the given Link.
-     *
-     * @param link   The link to request.
-     *
-     * @return  The request builder.
-     */
-    public abstract RequestInvoker req(Link link);
+        defaults.apply(request);
 
-    /**
-     * Build a new web resource target.
-     *
-     * @param uri  Stringified URI of the target resource. May contain URI template parameters.
-     *             Must not be {@code null}.
-     *
-     * @return  Web resource target bound to the provided URI.
-     */
-    public abstract WebTarget target(String uri);
+        return request;
+    }
 
-    /**
-     * Build a new web resource target.
-     *
-     * @param uri  Web resource URI represented. Must not be {@code null}.
-     *
-     * @return  Web resource target bound to the provided URI.
-     */
-    public abstract WebTarget target(Uri uri);
+    private WebTarget createWebTarget(Uri uri) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
+                deferredFactory, uri, new VolatileStore(store), RequestDefaultsImpl.copy(defaults));
+    }
 
-    /**
-     * Build a new web resource target.
-     *
-     * @param uriBuilder  Web resource URI represented as URI builder. Must not be {@code null}.
-     *
-     * @return  Web resource target bound to the provided URI.
-     */
-    public abstract WebTarget target(UriBuilder uriBuilder);
-
-    /**
-     * Build a new web resource target.
-     *
-     * @param link  Link to a web resource. Must not be {@code null}.
-     *
-     * @return  Web resource target bound to the link web resource.
-     */
-    public abstract WebTarget target(Link link);
-
-    protected abstract RequestDefaultsImpl getDefaults();
-
+    private WebTarget createWebTarget(UriBuilder uriBuilder) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
+                deferredFactory, uriBuilder, new VolatileStore(store), RequestDefaultsImpl.copy(defaults));
+    }
 }

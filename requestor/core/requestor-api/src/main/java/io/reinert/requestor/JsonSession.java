@@ -27,6 +27,14 @@ import io.reinert.requestor.serialization.json.OverlaySerializer;
  */
 public class JsonSession extends CleanSession {
 
+    public JsonSession() {
+        super();
+    }
+
+    public JsonSession(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
+        super(requestDispatcherFactory, deferredFactory);
+    }
+
     protected void configure() {
         super.configure();
 

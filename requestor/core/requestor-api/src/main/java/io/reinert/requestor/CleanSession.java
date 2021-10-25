@@ -23,7 +23,15 @@ import io.reinert.requestor.serialization.misc.VoidSerializer;
  *
  * @author Danilo Reinert
  */
-public class CleanSession extends SessionImpl {
+public class CleanSession extends Session {
+
+    public CleanSession() {
+        super();
+    }
+
+    public CleanSession(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
+        super(requestDispatcherFactory, deferredFactory);
+    }
 
     protected void configure() {
         register(VoidSerializer.getInstance());
