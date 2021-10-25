@@ -123,11 +123,6 @@ public class RequestDefaultsImpl implements RequestDefaults {
     }
 
     @Override
-    public void setPolling(PollingStrategy strategy, int intervalMillis) {
-        pollingOptions.startPolling(strategy, intervalMillis, 0);
-    }
-
-    @Override
     public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
         pollingOptions.startPolling(strategy, intervalMillis, limit);
     }

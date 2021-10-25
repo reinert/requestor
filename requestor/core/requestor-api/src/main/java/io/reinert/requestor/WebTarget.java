@@ -186,11 +186,6 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     @Override
-    public void setPolling(PollingStrategy strategy, int intervalMillis) {
-        defaults.setPolling(strategy, intervalMillis);
-    }
-
-    @Override
     public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
         defaults.setPolling(strategy, intervalMillis, limit);
     }
