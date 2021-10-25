@@ -15,9 +15,11 @@
  */
 package io.reinert.requestor.examples.showcase;
 
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
+import io.reinert.requestor.JsonSession;
 import io.reinert.requestor.Session;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
@@ -31,19 +33,102 @@ import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.ui.SendingRequests;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 
-public interface ShowcaseClientFactory {
-    EventBus getEventBus();
-    PlaceController getPlaceController();
-    Session getSession();
-    Home getHome();
-    GettingStarted getGettingStarted();
-    Requesting getRequesting();
-    Form getForm();
-    BuildingRequests getBuildingRequests();
-    SendingRequests getSendingRequests();
-    Auth getAuth();
-    BinaryData getBinaryData();
-    Filters getFilters();
-    Interceptors getInterceptors();
-    Serialization getSerialization();
+public class ShowcaseClientFactory {
+
+    private final EventBus eventBus = new SimpleEventBus();
+    private final PlaceController placeController = new PlaceController(eventBus);
+    private Session session;
+    private Home home;
+    private GettingStarted gettingStarted;
+    private Requesting requesting;
+    private BuildingRequests buildingRequests;
+    private SendingRequests sendingRequests;
+    private Form form;
+    private BinaryData binaryData;
+    private Auth auth;
+    private Filters filters;
+    private Interceptors interceptors;
+    private Serialization serialization;
+
+    public EventBus getEventBus() {
+        return eventBus;
+    }
+
+    public PlaceController getPlaceController() {
+        return placeController;
+    }
+
+    public Session getSession() {
+        if (session == null) {
+            session = new JsonSession(new ShowcaseDeferredFactory());
+            session.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
+        }
+        return session;
+    }
+
+    public Home getHome() {
+        if (home == null)
+            home = new Home();
+        return home;
+    }
+
+    public GettingStarted getGettingStarted() {
+        if (gettingStarted == null)
+            gettingStarted = new GettingStarted();
+        return gettingStarted;
+    }
+
+    public Requesting getRequesting() {
+        if (requesting == null)
+            requesting = new Requesting();
+        return requesting;
+    }
+
+    public BuildingRequests getBuildingRequests() {
+        if (buildingRequests == null)
+            buildingRequests = new BuildingRequests();
+        return buildingRequests;
+    }
+
+    public SendingRequests getSendingRequests() {
+        if (sendingRequests == null)
+            sendingRequests = new SendingRequests();
+        return sendingRequests;
+    }
+
+    public BinaryData getBinaryData() {
+        if (binaryData == null)
+            binaryData = new BinaryData();
+        return binaryData;
+    }
+
+    public Auth getAuth() {
+        if (auth == null)
+            auth = new Auth();
+        return auth;
+    }
+
+    public Form getForm() {
+        if (form == null)
+            form = new Form();
+        return form;
+    }
+
+    public Serialization getSerialization() {
+        if (serialization == null)
+            serialization = new Serialization();
+        return serialization;
+    }
+
+    public Filters getFilters() {
+        if (filters == null)
+            filters = new Filters();
+        return filters;
+    }
+
+    public Interceptors getInterceptors() {
+        if (interceptors == null)
+            interceptors = new Interceptors();
+        return interceptors;
+    }
 }

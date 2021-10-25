@@ -40,7 +40,7 @@ import io.reinert.requestor.examples.showcase.ui.loading.Loading;
  */
 public class Showcase implements EntryPoint {
 
-    public static final ShowcaseClientFactory CLIENT_FACTORY = new ShowcaseClientFactoryImpl();
+    public static final ShowcaseClientFactory CLIENT_FACTORY = new ShowcaseClientFactory();
 
     private final Place defaultPlace = new HomePlace();
 
