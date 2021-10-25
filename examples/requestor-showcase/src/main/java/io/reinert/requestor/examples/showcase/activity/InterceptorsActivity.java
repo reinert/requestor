@@ -18,8 +18,8 @@ package io.reinert.requestor.examples.showcase.activity;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.Registration;
 import io.reinert.requestor.RequestInterceptor;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.Response;
@@ -60,7 +60,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
     @Override
     public void onRequestInterceptorButtonClick() {
         // Add the interceptor and hold the registration
-        final HandlerRegistration registration = requestor.register(new RequestInterceptor() {
+        final Registration registration = requestor.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
                 final String json = request.getSerializedPayload().getString();
@@ -83,7 +83,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                 .load(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
-                        registration.removeHandler(); // cancel interceptor registration
+                        registration.cancel(); // cancel interceptor registration
                     }
                 });
     }
@@ -91,7 +91,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
     @Override
     public void onResponseInterceptorButtonClick() {
         // Add the interceptor and hold the registration
-        final HandlerRegistration registration = requestor.register(new ResponseInterceptor() {
+        final Registration registration = requestor.register(new ResponseInterceptor() {
             @Override
             public void intercept(SerializedResponseInProcess response) {
                 final String json = response.getSerializedPayload().getString();
@@ -114,7 +114,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                 .load(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
-                        registration.removeHandler(); // cancel interceptor registration
+                        registration.cancel(); // cancel interceptor registration
                     }
                 });
     }

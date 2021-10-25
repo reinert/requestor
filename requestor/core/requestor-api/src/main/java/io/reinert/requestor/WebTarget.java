@@ -18,8 +18,6 @@ package io.reinert.requestor;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
@@ -98,42 +96,42 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     @Override
-    public HandlerRegistration register(RequestFilter requestFilter) {
+    public Registration register(RequestFilter requestFilter) {
         return filterManager.register(requestFilter);
     }
 
     @Override
-    public HandlerRegistration register(RequestFilter.Provider provider) {
+    public Registration register(RequestFilter.Provider provider) {
         return filterManager.register(provider);
     }
 
     @Override
-    public HandlerRegistration register(ResponseFilter responseFilter) {
+    public Registration register(ResponseFilter responseFilter) {
         return filterManager.register(responseFilter);
     }
 
     @Override
-    public HandlerRegistration register(ResponseFilter.Provider provider) {
+    public Registration register(ResponseFilter.Provider provider) {
         return filterManager.register(provider);
     }
 
     @Override
-    public HandlerRegistration register(RequestInterceptor requestInterceptor) {
+    public Registration register(RequestInterceptor requestInterceptor) {
         return interceptorManager.register(requestInterceptor);
     }
 
     @Override
-    public HandlerRegistration register(RequestInterceptor.Provider provider) {
+    public Registration register(RequestInterceptor.Provider provider) {
         return interceptorManager.register(provider);
     }
 
     @Override
-    public HandlerRegistration register(ResponseInterceptor responseInterceptor) {
+    public Registration register(ResponseInterceptor responseInterceptor) {
         return interceptorManager.register(responseInterceptor);
     }
 
     @Override
-    public HandlerRegistration register(ResponseInterceptor.Provider provider) {
+    public Registration register(ResponseInterceptor.Provider provider) {
         return interceptorManager.register(provider);
     }
 

@@ -18,7 +18,6 @@ package io.reinert.requestor;
 import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
@@ -75,9 +74,9 @@ public abstract class Requestor implements SerializerManager, FilterManager, Int
      *
      * @param serializationModule  The module containing one or many generated serializer
      *
-     * @return The {@link HandlerRegistration} object, capable of cancelling this registration
+     * @return The {@link Registration} object, capable of cancelling this registration
      */
-    public abstract HandlerRegistration register(SerializationModule serializationModule);
+    public abstract Registration register(SerializationModule serializationModule);
 
     /**
      * A client service useful to communicate with REST like resources.

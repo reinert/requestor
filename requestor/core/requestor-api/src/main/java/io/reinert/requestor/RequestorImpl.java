@@ -18,7 +18,6 @@ package io.reinert.requestor;
 import java.util.Collection;
 
 import com.google.gwt.core.client.GWT;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.serialization.Deserializer;
@@ -439,69 +438,69 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public <T> HandlerRegistration register(Deserializer<T> deserializer) {
+    public <T> Registration register(Deserializer<T> deserializer) {
         return serializerManager.register(deserializer);
     }
 
     @Override
-    public <T> HandlerRegistration register(Serializer<T> serializer) {
+    public <T> Registration register(Serializer<T> serializer) {
         return serializerManager.register(serializer);
     }
 
     @Override
-    public HandlerRegistration register(RequestFilter requestFilter) {
+    public Registration register(RequestFilter requestFilter) {
         return filterManager.register(requestFilter);
     }
 
     @Override
-    public HandlerRegistration register(RequestFilter.Provider provider) {
+    public Registration register(RequestFilter.Provider provider) {
         return filterManager.register(provider);
     }
 
     @Override
-    public HandlerRegistration register(ResponseFilter responseFilter) {
+    public Registration register(ResponseFilter responseFilter) {
         return filterManager.register(responseFilter);
     }
 
     @Override
-    public HandlerRegistration register(ResponseFilter.Provider provider) {
+    public Registration register(ResponseFilter.Provider provider) {
         return filterManager.register(provider);
     }
 
     @Override
-    public HandlerRegistration register(RequestInterceptor requestInterceptor) {
+    public Registration register(RequestInterceptor requestInterceptor) {
         return interceptorManager.register(requestInterceptor);
     }
 
     @Override
-    public HandlerRegistration register(RequestInterceptor.Provider provider) {
+    public Registration register(RequestInterceptor.Provider provider) {
         return interceptorManager.register(provider);
     }
 
     @Override
-    public HandlerRegistration register(ResponseInterceptor responseInterceptor) {
+    public Registration register(ResponseInterceptor responseInterceptor) {
         return interceptorManager.register(responseInterceptor);
     }
 
     @Override
-    public HandlerRegistration register(ResponseInterceptor.Provider provider) {
+    public Registration register(ResponseInterceptor.Provider provider) {
         return interceptorManager.register(provider);
     }
 
     @Override
-    public <T> HandlerRegistration register(Class<T> type, Provider<T> provider) {
+    public <T> Registration register(Class<T> type, Provider<T> provider) {
         return providerManager.register(type, provider);
     }
 
     @Override
-    public <T> HandlerRegistration register(TypeProvider<T> provider) {
+    public <T> Registration register(TypeProvider<T> provider) {
         return providerManager.register(provider);
     }
 
     @Override
-    public HandlerRegistration register(SerializationModule serializationModule) {
+    public Registration register(SerializationModule serializationModule) {
         final int length = serializationModule.getSerializers().size() + serializationModule.getTypeProviders().size();
-        final HandlerRegistration[] registrations = new HandlerRegistration[length];
+        final Registration[] registrations = new Registration[length];
         int i = -1;
 
         for (Serializer<?> serializer : serializationModule.getSerializers()) {
@@ -512,11 +511,11 @@ public class RequestorImpl extends Requestor {
             registrations[++i] = register(provider);
         }
 
-        return new HandlerRegistration() {
+        return new Registration() {
             @Override
-            public void removeHandler() {
-                for (HandlerRegistration registration : registrations) {
-                    registration.removeHandler();
+            public void cancel() {
+                for (Registration registration : registrations) {
+                    registration.cancel();
                 }
             }
         };

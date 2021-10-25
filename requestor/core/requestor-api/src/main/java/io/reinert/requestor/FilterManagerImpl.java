@@ -20,8 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-
 /**
  * A manager for {@link RequestFilter} and {@link ResponseFilter}.
  *
@@ -56,7 +54,7 @@ class FilterManagerImpl implements FilterManager {
     }
 
     @Override
-    public HandlerRegistration register(final RequestFilter requestFilter) {
+    public Registration register(final RequestFilter requestFilter) {
         return register(new RequestFilter.Provider() {
             @Override
             public RequestFilter getInstance() {
@@ -66,20 +64,20 @@ class FilterManagerImpl implements FilterManager {
     }
 
     @Override
-    public HandlerRegistration register(final RequestFilter.Provider provider) {
+    public Registration register(final RequestFilter.Provider provider) {
         requestFilters.add(provider);
         updateRequestFiltersCopy(); // getRequestFilters returns this copy
 
-        return new HandlerRegistration() {
+        return new Registration() {
             @Override
-            public void removeHandler() {
+            public void cancel() {
                 removeRequestFilter(provider);
             }
         };
     }
 
     @Override
-    public HandlerRegistration register(final ResponseFilter responseFilter) {
+    public Registration register(final ResponseFilter responseFilter) {
         return register(new ResponseFilter.Provider() {
             @Override
             public ResponseFilter getInstance() {
@@ -89,13 +87,13 @@ class FilterManagerImpl implements FilterManager {
     }
 
     @Override
-    public HandlerRegistration register(final ResponseFilter.Provider provider) {
+    public Registration register(final ResponseFilter.Provider provider) {
         responseFilters.add(provider);
         updateResponseFiltersCopy(); // getResponseFilters returns this copy
 
-        return new HandlerRegistration() {
+        return new Registration() {
             @Override
-            public void removeHandler() {
+            public void cancel() {
                 removeResponseFilter(provider);
             }
         };

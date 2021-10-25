@@ -20,8 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-
 /**
  * A manager for {@link io.reinert.requestor.RequestInterceptor} and {@link io.reinert.requestor.ResponseInterceptor}.
  *
@@ -58,7 +56,7 @@ class InterceptorManagerImpl implements InterceptorManager {
     }
 
     @Override
-    public HandlerRegistration register(final RequestInterceptor requestInterceptor) {
+    public Registration register(final RequestInterceptor requestInterceptor) {
         return register(new RequestInterceptor.Provider() {
             @Override
             public RequestInterceptor getInstance() {
@@ -68,20 +66,20 @@ class InterceptorManagerImpl implements InterceptorManager {
     }
 
     @Override
-    public HandlerRegistration register(final RequestInterceptor.Provider provider) {
+    public Registration register(final RequestInterceptor.Provider provider) {
         requestInterceptors.add(provider);
         updateRequestInterceptorsCopy(); // getRequestInterceptors returns this copy
 
-        return new HandlerRegistration() {
+        return new Registration() {
             @Override
-            public void removeHandler() {
+            public void cancel() {
                 removeRequestInterceptor(provider);
             }
         };
     }
 
     @Override
-    public HandlerRegistration register(final ResponseInterceptor responseInterceptor) {
+    public Registration register(final ResponseInterceptor responseInterceptor) {
         return register(new ResponseInterceptor.Provider() {
             @Override
             public ResponseInterceptor getInstance() {
@@ -91,13 +89,13 @@ class InterceptorManagerImpl implements InterceptorManager {
     }
 
     @Override
-    public HandlerRegistration register(final ResponseInterceptor.Provider provider) {
+    public Registration register(final ResponseInterceptor.Provider provider) {
         responseInterceptors.add(provider);
         updateResponseInterceptorsCopy(); // getResponseInterceptors returns this copy
 
-        return new HandlerRegistration() {
+        return new Registration() {
             @Override
-            public void removeHandler() {
+            public void cancel() {
                 removeResponseInterceptor(provider);
             }
         };

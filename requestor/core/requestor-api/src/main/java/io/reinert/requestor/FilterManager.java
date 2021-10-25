@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-
 /**
  * A container of {@link RequestFilter} and {@link ResponseFilter}.
  *
@@ -29,21 +27,21 @@ public interface FilterManager {
      *
      * @param requestFilter  the request filter to be registered
      *
-     * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
+     * @return  the {@link Registration} object, capable of cancelling this registration
      */
-    HandlerRegistration register(RequestFilter requestFilter);
+    Registration register(RequestFilter requestFilter);
 
-    HandlerRegistration register(RequestFilter.Provider provider);
+    Registration register(RequestFilter.Provider provider);
 
     /**
      * Register a response filter.
      *
      * @param responseFilter  the response filter to be registered
      *
-     * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
+     * @return  the {@link Registration} object, capable of cancelling this registration
      */
-    HandlerRegistration register(ResponseFilter responseFilter);
+    Registration register(ResponseFilter responseFilter);
 
-    HandlerRegistration register(ResponseFilter.Provider provider);
+    Registration register(ResponseFilter.Provider provider);
 
 }

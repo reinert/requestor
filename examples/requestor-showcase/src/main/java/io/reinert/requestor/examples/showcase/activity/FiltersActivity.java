@@ -17,8 +17,8 @@ package io.reinert.requestor.examples.showcase.activity;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.Registration;
 import io.reinert.requestor.RequestFilter;
 import io.reinert.requestor.RequestInProcess;
 import io.reinert.requestor.Requestor;
@@ -59,7 +59,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
     @Override
     public void onRequestFilterButtonClick() {
         // Add the filter and hold the registration
-        final HandlerRegistration requestFilterRegistration = requestor.register(new RequestFilter() {
+        final Registration requestFilterRegistration = requestor.register(new RequestFilter() {
             @Override
             public void filter(RequestInProcess request) {
                 request.setHeader("A-Request-Filter-Header", "It Works!");
@@ -78,7 +78,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
                 .load(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
-                        requestFilterRegistration.removeHandler(); // cancel filter registration
+                        requestFilterRegistration.cancel(); // cancel filter registration
                     }
                 });
     }
@@ -86,7 +86,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
     @Override
     public void onResponseFilterButtonClick() {
         // Add the filter and hold the registration
-        final HandlerRegistration responseFilterRegistration = requestor.register(new ResponseFilter() {
+        final Registration responseFilterRegistration = requestor.register(new ResponseFilter() {
             @Override
             public void filter(ResponseInProcess response) {
                 response.setHeader("A-Response-Filter-Header", "It Works!");
@@ -107,7 +107,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
                 .load(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
-                        responseFilterRegistration.removeHandler(); // cancel filter registration
+                        responseFilterRegistration.cancel(); // cancel filter registration
                     }
                 });
     }

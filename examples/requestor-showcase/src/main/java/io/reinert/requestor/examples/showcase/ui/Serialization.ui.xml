@@ -209,7 +209,7 @@
       </div>
 
       <p>
-        <em>Note: #addDeserializer returns a HandlerRegistration instance which enables you to later cancel the registration.</em>
+        <em>Note: #addDeserializer returns a Registration instance which enables you to later cancel the registration.</em>
       </p>
     </div>
 
@@ -300,7 +300,7 @@
       </div>
 
       <p>
-        <em>Note: #addSerializer returns a HandlerRegistration instance which enables you to later cancel the registration.</em>
+        <em>Note: #addSerializer returns a Registration instance which enables you to later cancel the registration.</em>
       </p>
     </div>
 

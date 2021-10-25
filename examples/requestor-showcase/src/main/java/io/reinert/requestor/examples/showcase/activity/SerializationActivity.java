@@ -22,8 +22,8 @@ import java.util.List;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 
+import io.reinert.requestor.Registration;
 import io.reinert.requestor.Requestor;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
@@ -40,8 +40,8 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     private final Serialization view;
     private final Requestor requestor;
 
-    private HandlerRegistration xmlSerializerRegistration;
-    private HandlerRegistration jsonSerializerRegistration;
+    private Registration xmlSerializerRegistration;
+    private Registration jsonSerializerRegistration;
 
     public SerializationActivity(String section, Serialization view, Requestor requestor) {
         super(section);
@@ -65,8 +65,8 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     @Override
     public void onStop() {
         view.setHandler(null);
-        xmlSerializerRegistration.removeHandler();
-        jsonSerializerRegistration.removeHandler();
+        xmlSerializerRegistration.cancel();
+        jsonSerializerRegistration.cancel();
     }
 
     @Override

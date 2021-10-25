@@ -25,8 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-
 /**
  * Manager of instance providers.
  *
@@ -41,20 +39,20 @@ class ProviderManagerImpl implements ProviderManager {
     }
 
     @Override
-    public <T> HandlerRegistration register(Class<T> type, Provider<T> provider) {
+    public <T> Registration register(Class<T> type, Provider<T> provider) {
         final String typeName = type.getCanonicalName();
         providers.put(typeName, provider);
 
-        return new HandlerRegistration() {
+        return new Registration() {
             @Override
-            public void removeHandler() {
+            public void cancel() {
                 providers.remove(typeName);
             }
         };
     }
 
     @Override
-    public <T> HandlerRegistration register(TypeProvider<T> provider) {
+    public <T> Registration register(TypeProvider<T> provider) {
         return register(provider.getType(), provider);
     }
 

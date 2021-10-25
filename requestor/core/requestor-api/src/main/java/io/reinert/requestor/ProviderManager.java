@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-
 /**
  * A container of {@link Provider}.
  *
@@ -30,17 +28,17 @@ public interface ProviderManager {
      * @param type      the type related to the provider
      * @param provider  the provider to register
      *
-     * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
+     * @return  the {@link Registration} object, capable of cancelling this registration
      */
-    <T> HandlerRegistration register(Class<T> type, Provider<T> provider);
+    <T> Registration register(Class<T> type, Provider<T> provider);
 
     /**
      * Register a {@link TypeProvider}.
      *
      * @param provider  the provider to register
      *
-     * @return  the {@link HandlerRegistration} object, capable of cancelling this registration
+     * @return  the {@link Registration} object, capable of cancelling this registration
      */
-    <T> HandlerRegistration register(TypeProvider<T> provider);
+    <T> Registration register(TypeProvider<T> provider);
 
 }

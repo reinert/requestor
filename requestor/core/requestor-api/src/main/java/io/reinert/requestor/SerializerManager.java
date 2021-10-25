@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
 
@@ -32,16 +30,16 @@ public interface SerializerManager {
      *
      * @param deserializer the deserializer to register
      *
-     * @return the {@link HandlerRegistration} object, capable of cancelling this registration
+     * @return the {@link Registration} object, capable of cancelling this registration
      */
-    <T> HandlerRegistration register(Deserializer<T> deserializer);
+    <T> Registration register(Deserializer<T> deserializer);
 
     /**
      * Register a {@link Serializer}.
      *
      * @param serializer the serializer to register
      *
-     * @return the {@link HandlerRegistration} object, capable of cancelling this registration
+     * @return the {@link Registration} object, capable of cancelling this registration
      */
-    <T> HandlerRegistration register(Serializer<T> serializer);
+    <T> Registration register(Serializer<T> serializer);
 }
