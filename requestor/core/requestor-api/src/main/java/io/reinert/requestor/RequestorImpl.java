@@ -418,13 +418,8 @@ public class RequestorImpl extends Requestor {
     }
 
     @Override
-    public Store getStore() {
+    public PersistentStore getStore() {
         return store;
-    }
-
-    @Override
-    public void clearStore() {
-        store.clear();
     }
 
     @Override
