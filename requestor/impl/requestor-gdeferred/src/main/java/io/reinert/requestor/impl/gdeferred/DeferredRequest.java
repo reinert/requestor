@@ -45,7 +45,8 @@ import io.reinert.requestor.callback.TimeoutCallback;
  */
 public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
-    private static Logger LOGGER = Logger.getLogger(DeferredRequest.class.getName());
+    private static final Logger logger = Logger.getLogger(DeferredRequest.class.getName());
+    private static DeferredRequestFactory factory;
 
     private final RequestorDeferred<Response, RequestException, RequestProgress> deferred;
     private HttpConnection connection;
@@ -57,6 +58,11 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     protected DeferredRequest(RequestorDeferred<Response, RequestException, RequestProgress> deferred) {
         this.deferred = deferred;
+    }
+
+    public static Deferred.Factory getFactory() {
+        if (factory == null) factory = new DeferredRequestFactory();
+        return factory;
     }
 
     //===================================================================

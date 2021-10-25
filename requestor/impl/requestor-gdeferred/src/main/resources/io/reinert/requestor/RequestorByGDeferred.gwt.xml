@@ -21,7 +21,7 @@
 
   <source path="" excludes="rebind/**/*"/>
 
-  <replace-with class="io.reinert.requestor.impl.gdeferred.DeferredFactoryImpl">
+  <replace-with class="io.reinert.requestor.impl.gdeferred.DeferredRequestFactory">
     <when-type-is class="io.reinert.requestor.Deferred.Factory"/>
   </replace-with>
 </module>
