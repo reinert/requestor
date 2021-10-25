@@ -31,8 +31,12 @@ public class JsonSession extends CleanSession {
         super();
     }
 
-    public JsonSession(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
-        super(requestDispatcherFactory, deferredFactory);
+    public JsonSession(DeferredFactory deferredFactory) {
+        super(deferredFactory);
+    }
+
+    public JsonSession(DeferredFactory deferredFactory, RequestDispatcherFactory requestDispatcherFactory) {
+        super(deferredFactory, requestDispatcherFactory);
     }
 
     protected void configure() {

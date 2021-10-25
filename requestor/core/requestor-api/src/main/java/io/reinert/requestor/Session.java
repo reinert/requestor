@@ -64,11 +64,14 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     private final RequestDispatcher requestDispatcher;
 
     public Session() {
-        this(GWT.<RequestDispatcherFactory>create(RequestDispatcherFactory.class),
-             GWT.<DeferredFactory>create(DeferredFactory.class));
+        this(GWT.<DeferredFactory>create(DeferredFactory.class));
     }
 
-    public Session(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
+    public Session(DeferredFactory deferredFactory) {
+        this(deferredFactory, new XhrRequestDispatcherFactory());
+    }
+
+    public Session(DeferredFactory deferredFactory, RequestDispatcherFactory requestDispatcherFactory) {
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
 
@@ -83,7 +86,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
         requestDispatcher = requestDispatcherFactory.getRequestDispatcher(requestProcessor, responseProcessor,
                 deferredFactory);
 
-        // register generated serializer to the requestor
+        // register generated serializer to the session
         GeneratedModulesBinder.bind(serializerManager, providerManager);
 
         // perform initial set-up by user

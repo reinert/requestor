@@ -15,11 +15,26 @@
  */
 package io.reinert.requestor.autobean;
 
+import io.reinert.requestor.DeferredFactory;
 import io.reinert.requestor.JsonSession;
+import io.reinert.requestor.RequestDispatcherFactory;
 
 /**
  * A session that handles AutoBeans.
  *
  * @author Danilo Reinert
  */
-public class AutoBeanSession extends JsonSession { }
+public class AutoBeanSession extends JsonSession {
+
+    public AutoBeanSession() {
+        super();
+    }
+
+    public AutoBeanSession(DeferredFactory deferredFactory) {
+        super(deferredFactory);
+    }
+
+    public AutoBeanSession(DeferredFactory deferredFactory, RequestDispatcherFactory requestDispatcherFactory) {
+        super(deferredFactory, requestDispatcherFactory);
+    }
+}

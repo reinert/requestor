@@ -29,8 +29,12 @@ public class CleanSession extends Session {
         super();
     }
 
-    public CleanSession(RequestDispatcherFactory requestDispatcherFactory, DeferredFactory deferredFactory) {
-        super(requestDispatcherFactory, deferredFactory);
+    public CleanSession(DeferredFactory deferredFactory) {
+        super(deferredFactory);
+    }
+
+    public CleanSession(DeferredFactory deferredFactory, RequestDispatcherFactory requestDispatcherFactory) {
+        super(deferredFactory, requestDispatcherFactory);
     }
 
     protected void configure() {
