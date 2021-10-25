@@ -34,6 +34,7 @@ public class VolatileStore implements Store {
     }
 
     VolatileStore(Store store) {
+        if (store == null) throw new NullPointerException("Store cannot be null");
         this.persistentStore = store;
     }
 
@@ -45,7 +46,7 @@ public class VolatileStore implements Store {
             data = (T) localDataMap.get(key);
         }
 
-        if (data == null) {
+        if (data == null && persistentStore != null) {
             data = persistentStore.get(key);
         }
 
@@ -53,7 +54,7 @@ public class VolatileStore implements Store {
     }
 
     public void put(String key, Object value, boolean sessionPersistent) {
-        if (sessionPersistent) persistentStore.put(key, value, true);
+        if (sessionPersistent && persistentStore != null) persistentStore.put(key, value, true);
         ensureDataMap().put(key, value);
     }
 
@@ -62,7 +63,7 @@ public class VolatileStore implements Store {
     }
 
     public boolean has(String key) {
-        boolean has = persistentStore.has(key);
+        boolean has =  persistentStore != null && persistentStore.has(key);
 
         if (has) return true;
 
@@ -79,7 +80,7 @@ public class VolatileStore implements Store {
             data = (T) localDataMap.remove(key);
         }
 
-        if (data == null) {
+        if (data == null && persistentStore != null) {
             data = persistentStore.get(key);
         }
 
