@@ -415,7 +415,7 @@ See example below:
 
 ```java
 // An ArrayList was requested, but the get method returned a Promise<Collection<Book>>
-Promise<Collection<Book>> promise = requestor.req("/server/books").get(Book.class, ArrayList.class);
+Promise<Collection<Book>> promise = requestor.req("/server/books").get(ArrayList.class, Book.class);
 
 // Even though, you can pass a PayloadCallback<List<Book>> and it will be automatically typecasted
 promise.success(new PayloadCallback<List<Book>>() {
@@ -429,7 +429,7 @@ promise.success(new PayloadCallback<List<Book>>() {
 
 ```java
 // An ArrayList was requested, but the get method returned a Promise<Collection<Book>>
-Promise<Collection<Book>> promise = requestor.req("/server/books").get(Book.class, ArrayList.class);
+Promise<Collection<Book>> promise = requestor.req("/server/books").get(ArrayList.class, Book.class);
 
 // The payload parameter in callback is a Collection<Book>
 promise.success( books -> books.get(0) ); // COMPILATION ERROR: books is Collection<Book> and .get belongs to List
@@ -598,7 +598,7 @@ public class BookService extends AbstractService {
         Uri uri = getUriBuilder()
                 .queryParam("author", authors) // append ?author={author} to the root path
                 .build();
-       return request(uri).get(Book.class, List.class);
+       return request(uri).get(List.class, Book.class);
     }
 
     public Promise<Book> getBookById(Integer id) {
