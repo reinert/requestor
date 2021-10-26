@@ -65,28 +65,39 @@ In case you want to know more details of how it works, see [Requesting Fluent AP
 
 Meet all the request options available in the [Request Options](#request-options) section.
 
-### **💡 Set up your client session**
-The Requestor object is a client **SESSION** where you can configure default request parameters.
-Also, you can save and retrieve any data by key through the **Store**.
+### 💡 Set up your Session
+Requestor provides you a totally configurable client `Session`.
+There you can configure default request options that will be initially applied to all you requests.
+Also, you can manage a data `Store` saving and retrieving any object by key.
 Finally, you can reset the session state at anytime.
 
 ```java
-Session session = new CleanSession();
+Session session = new JsonSession();
+
+session.getStore().put("userInfo", userInfo);
+
+// Set all requests to have 10s timeout and 'application/json' Content-Type
 session.setTimeout(10000);
 session.setContentType("aplication/json");
-session.setAuth(new BasicAuth("username", "password"));
 
-// Now all requests will have 10s timeout, 'application/json' Content-Type and the BasicAuth
 
+// Perform login, save user info, and authenticate all subsequent requests
+session.post("/login", credentials, UserInfo.class)
+        .success(userInfo -> {
+            session.getStore().put("userInfo", userInfo);
+            session.setAuth(new BearerAuth(userInfo.getToken()));
+        });
+//...
+        
+// Make authenticated requests
 session.post("/api/books", book);
-...
+//...
 
 // Clear the session if desired
 session.reset();
 
 // Now all requests will have the default parameters
 session.post("/api/books", book);
-...
 ```
 
 
@@ -118,7 +129,7 @@ bookService.get(123).success(books -> render(books));
 bookService.put(123, book).success(updatedBook -> render(updatedBook));
 
 // DELETE the book of ID 123 from '/api/books/123' (returns void)
-bookService.delete(123).success(() -> showSuccess('Book was deleted.'));
+bookService.delete(123).success(() -> showSuccess("Book was deleted."));
 ```
 
 Although Requestor provides this ready-to-use REST client, you may find more useful to extend `AbstractService` class and implement your own service clients.
@@ -164,9 +175,14 @@ Requestor precisely models each entity in the HTTP client side context to enable
 It values good **code readability and maintainability** for the user by providing carefully designed interfaces and abstractions that others can extend and add its own logic with **low or zero integration effort**.
 Workarounds and hacks are not welcome here. You should be able to implement your requirements keeping **high cohesion around all your application**.
 
+Additionally, Requestor was crafted from the client perspective instead of the server's (like other rest libraries were thought).
+In that fashion, you'll have a more consistent and intuitive experience with the task of consuming an HTTP service while coding.
+
 Besides, we value **code traceability**. So code generation is the last option in design decisions.
-Whenever a new issue arises, we strive to come up with a good design solution that allows the user to **write less code** and achieve the desired results.
-If something proves to be inevitably repetitive on the user side, then code generation is used to save the user from repetitive work.
+Whenever a new requirement arises, we strive to come up with a good design solution that allows the user to **write less code** and achieve the desired results.
+If something proves to be inevitably repetitive on the user side, after achieving the best possible design, then code generation is used to save the user from repetitive work.
+Still, leveraging Requestor's components you'll probably automate most of your work by using fundamental objected oriented techniques like *abstraction* and *composition*.
+This way you'll be benefited with a better comprehension of what's going on and have full control of your coding flow.
 
 Requestor was inspired in many successful HTTP Client APIs in other ecosystems like Python Requests, Angular HttpClient, Ruby Http.rb and JAX-RS Client.
 
@@ -533,7 +549,7 @@ The installation procedure is pretty much the same.
 Then inherit the `AutoBeanExt` GWT module in your gwt.xml file:
 
 ```xml
-<inherits name="io.reinert.requestor.gwtjackson.AutoBeanExt"/>
+<inherits name="io.reinert.requestor.autobean.AutoBeanExt"/>
 ```
 
 ### Custom
@@ -570,7 +586,8 @@ Then inherit the `AutoBeanExt` GWT module in your gwt.xml file:
 ## REST
 
 As stated before, Requestor provides the [RestService](#looking-for-some-rest) to handle basic CRUD operations against a REST resource.
-But you are likely to implement your app's abstract service class by extending the AbstractService with the peculiarities of your server API to avoid code repetition.
+But you are likely to implement one service client for each resource you need to consume extending from `AbstractService` class.
+**AbstractService** is a **resource oriented client** that enables you to gracefully customize the interaction with a resource.
 
 🧐 It's worth noting that ***AbstractService is a branch session derived from the main session***.
 Hence, the default parameters defined in the main session are also applied in your AbstractService.
@@ -628,8 +645,8 @@ Now use your service client:
 // It's a good practice to use Session object as a singleton
 Session session = getMySession();
 
-// Create your service passing the Requestor instance.
-// The service then takes advantage of all the configurations present in the Requestor session
+// Create your service passing the session instance.
+// The service then takes advantage of all the configurations present in the session
 BookService bookService = new BookService(session);
 
 // POST a new book to /api/books
@@ -649,40 +666,47 @@ bookService.updateBook(123, updatedBook).success( () -> showSucessMsg() ).fail(.
 bookService.deleteBook(123).success( () -> showSucessMsg() ).fail(...);
 ```
 
-### Create your own Abstract Service
+### Create your app's AbstractService
 
-👌 It's a good practice to *handle the errors inside your service*, so you don't have to always set fail callbacks.
-Check the `applyErrorCallbacks` method below. It adds some predefined callbacks to promises:
+👌 It's handful to *handle the errors inside your service*, so you don't have to always set fail callbacks.
+Therefore, it's a good practice to implement your app's AbstractService and extend the client services from it. 
+This way, you can handle all non-happy paths in one place only. As example, check the `applyErrorCallbacks` method below.
+It adds some predefined callbacks to promises:
 
 ```java
-public class MyBookService extends AbstractService {
+public abstract class MyAppService<R> extends AbstractService {
 
-    MyPlaceManager myPlaceManager;
+    final Class<R> resourceClass;
+    final EventBus eventBus;
     
-    // Construct you Service with any other object that will allow you to properly handle errors
-    public MyBookService(Session session, MyPlaceManager myPlaceManager) {
-        super(session, "/api/books");
-        this.myPlaceManager = myPlaceManager;
+    // Construct your Service with any other object that will allow you to properly handle errors
+    public MyAppService(Session session, String uri, Class<R> resourceClass, EventBus eventBus) {
+        super(session, uri);
+        this.resourceClass = resourceClass;
+        this.eventBus = eventBus;
     }
 
-    public Promise<Book> createBook(Book book) {
+    // Implement the basic operations common to every resource...
+    public Promise<R> create(R r) {
         Uri uri = getUriBuilder().build();
         // add the error handling callbacks in the promise returned by the post method
-        Promise<Book> promise = request(uri).payload(book).post(Book.class);
+        Promise<R> promise = request(uri).payload(r).post(resourceClass);
         return applyErrorCallbacks(promise);
     }
     
     // Implement all your service calls following the same pattern...
-
     private <T> Promise<T> applyErrorCallbacks(Promise<T> promise) {
         return promise
-                .status(404, response -> goToNotFound(response.getRequest().getUri()))
-                .status(500, response -> goToServerError(response))
-                .timeout(t -> showTimeoutMessage(t))
+                .status(404, response -> handleNotFound(response.getRequest().getUri()))
+                .status(500, response -> handleServerError(response))
+                .timeout(t -> handleTimeout(t))
                 .abort(e -> log(e));
     }
 
-    // Implement other methods...
+    // Implement supporting methods...
+    private void handleNotFound(Uri ui) {
+        eventBus.fireEvent(new NotFoundEvent(uri));
+    }
 }
 ```
 
