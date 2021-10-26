@@ -15,7 +15,9 @@
  */
 package io.reinert.requestor;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 
@@ -84,7 +86,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
         // register generated serializer to the session
         GeneratedModulesBinder.bind(serializerManager, providerManager);
 
-        // perform initial set-up by user
+        // perform initial set-up by implementations
         configure();
     }
 
@@ -481,6 +483,38 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
         return defaults.popHeader(headerName);
     }
 
+    /**
+     * Register a {@link SerializationModule}.
+     *
+     * @param serializationModule  The module containing one or many generated serializer
+     *
+     * @return The {@link Registration} object, capable of cancelling this registration
+     */
+    public Registration register(SerializationModule serializationModule) {
+        final List<Registration> registrations = new ArrayList<Registration>();
+
+        if (serializationModule.getSerializers() != null) {
+            for (Serializer<?> serializer : serializationModule.getSerializers()) {
+                registrations.add(register(serializer));
+            }
+        }
+
+        if (serializationModule.getTypeProviders() != null) {
+            for (TypeProvider<?> provider : serializationModule.getTypeProviders()) {
+                registrations.add(register(provider));
+            }
+        }
+
+        return new Registration() {
+            @Override
+            public void cancel() {
+                for (Registration registration : registrations) {
+                    registration.cancel();
+                }
+            }
+        };
+    }
+
     @Override
     public <T> Registration register(Deserializer<T> deserializer) {
         return serializerManager.register(deserializer);
@@ -539,36 +573,6 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     @Override
     public <T> Registration register(TypeProvider<T> provider) {
         return providerManager.register(provider);
-    }
-
-    /**
-     * Register a {@link SerializationModule}.
-     *
-     * @param serializationModule  The module containing one or many generated serializer
-     *
-     * @return The {@link Registration} object, capable of cancelling this registration
-     */
-    public Registration register(SerializationModule serializationModule) {
-        final int length = serializationModule.getSerializers().size() + serializationModule.getTypeProviders().size();
-        final Registration[] registrations = new Registration[length];
-        int i = -1;
-
-        for (Serializer<?> serializer : serializationModule.getSerializers()) {
-            registrations[++i] = register(serializer);
-        }
-
-        for (TypeProvider<?> provider : serializationModule.getTypeProviders()) {
-            registrations[++i] = register(provider);
-        }
-
-        return new Registration() {
-            @Override
-            public void cancel() {
-                for (Registration registration : registrations) {
-                    registration.cancel();
-                }
-            }
-        };
     }
 
     /**
