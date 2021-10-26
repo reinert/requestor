@@ -36,7 +36,7 @@ Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L))
 r.post("/api/books", book).success( () -> showSuccessMsg() ).fail( () -> showErrorMsg() );
 ```
 
-GET a collection of an object:
+GET a collection of objects:
 
 ```java
 r.get("/api/books", List.class, Book.class).success( books -> renderTable(books) );
@@ -61,7 +61,7 @@ requestor.req("/api/books/1") // Start building the request
 
 In case you want to know more details of how it works, see [Requesting Fluent API](#requesting-fluent-api) section.
 
-To know all the request options available see [Request Options](#request-options) section.
+Meet all the request options available in the [Request Options](#request-options) section.
 
 ### **💡 Set up your client session**
 The Requestor object is a client **SESSION** where you can configure default request parameters.
