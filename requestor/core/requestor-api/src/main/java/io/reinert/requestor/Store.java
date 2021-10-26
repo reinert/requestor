@@ -17,17 +17,63 @@ package io.reinert.requestor;
 
 /**
  * A place to save/retrieve any object by key.
+ *
+ * @author Danilo Reinert
  */
 public interface Store {
 
+    /**
+     * Queries an object associated with the given key.
+     *
+     * @param key The key associated with the data
+     * @param <T> The type to typecast the object returned
+     * @return The object associated with the key. <code>Null</code> otherwise.
+     */
     <T> T get(String key);
 
+    /**
+     * Inserts the value into the store associated with the key.
+     * Being a request scope store (volatile), the data will be available during the request/response cycle only.
+     *
+     * @param key   A key to associate the data
+     * @param value The data to be persisted
+     */
     void put(String key, Object value);
 
+    /**
+     * Inserts the value into the store associated with the key.
+     * Being a request scope store (volatile), the data will be available during the request/response cycle only.
+     * If you want to persist it in the session lifecycle, then set the boolean param to <code>True</code>.
+     *
+     * @param key   A key to associate the data
+     * @param value The data to be persisted
+     * @param sessionPersistent Whether the data should be persisted in the session scope or not
+     */
     void put(String key, Object value, boolean sessionPersistent);
 
+    /**
+     * Checks if there's any data associated with the given key.
+     *
+     * @param key The key associated with the data
+     * @return <code>True</code> if there's any data associated with the key. <code>False</code> otherwise.
+     */
     boolean has(String key);
 
-    <T> T pop(String key);
+    /**
+     * Removes the data associated with this key.
+     * Being a request scope store (volatile), only the data that was added in the request/response cycle is erased.
+     * Being a session scope store (persistent), any data in the store is erased.
+     *
+     * @param key The key associated with the data
+     * @return <code>True</code> if any data was removed. <code>False</code> otherwise.
+     */
+    boolean remove(String key);
+
+    /**
+     * Clears the data associated with this Store.
+     * Being a request scope store (volatile), only the data that was added in the request/response cycle is erased.
+     * Being a session scope store (persistent), any data in the store is erased.
+     */
+    void clear();
 
 }

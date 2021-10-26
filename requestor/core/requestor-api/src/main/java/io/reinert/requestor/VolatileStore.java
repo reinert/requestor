@@ -18,7 +18,7 @@ package io.reinert.requestor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VolatileStore implements Store {
+class VolatileStore implements Store {
 
     private final Store persistentStore;
     private Map<String, Object> localDataMap;
@@ -39,6 +39,7 @@ public class VolatileStore implements Store {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public <T> T get(String key) {
         T data = null;
 
@@ -53,15 +54,18 @@ public class VolatileStore implements Store {
         return data;
     }
 
+    @Override
     public void put(String key, Object value, boolean sessionPersistent) {
         if (sessionPersistent && persistentStore != null) persistentStore.put(key, value, true);
         ensureDataMap().put(key, value);
     }
 
+    @Override
     public void put(String key, Object value) {
         this.put(key, value, false);
     }
 
+    @Override
     public boolean has(String key) {
         boolean has =  persistentStore != null && persistentStore.has(key);
 
@@ -72,21 +76,16 @@ public class VolatileStore implements Store {
         return localDataMap.containsKey(key);
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T pop(String key) {
-        T data = null;
-
+    @Override
+    public boolean remove(String key) {
         if (localDataMap != null) {
-            data = (T) localDataMap.remove(key);
+            return localDataMap.remove(key) != null;
         }
 
-        if (data == null && persistentStore != null) {
-            data = persistentStore.get(key);
-        }
-
-        return data;
+        return false;
     }
 
+    @Override
     public void clear() {
         if (localDataMap != null) localDataMap.clear();
     }

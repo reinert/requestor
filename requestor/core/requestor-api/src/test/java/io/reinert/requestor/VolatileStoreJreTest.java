@@ -51,20 +51,20 @@ public class VolatileStoreJreTest {
     }
 
     @Test
-    public void pop_SetValueInParent_ShouldReturnSetValueAndKeepIt() {
+    public void remove_SetValueInParent_ShouldKeepIt() {
         // Given
         VolatileStore volatileStore = new VolatileStore(store);
 
         // When
-        int returned = volatileStore.pop(KEY);
+        boolean removed = volatileStore.remove(KEY);
 
         // Then
-        assertEquals(VALUE, returned);
+        assertFalse(removed);
         assertTrue(volatileStore.has(KEY));
     }
 
     @Test
-    public void pop_SetValue_ShouldReturnSetValueAndRemoveIt() {
+    public void remove_SetValue_ShouldRemoveIt() {
         int expected = 2;
         String key = "key2";
 
@@ -73,15 +73,15 @@ public class VolatileStoreJreTest {
         volatileStore.put(key, expected);
 
         // When
-        int returned = volatileStore.pop(key);
+        boolean returned = volatileStore.remove(key);
 
         // Then
-        assertEquals(expected, returned);
+        assertTrue(returned);
         assertFalse(volatileStore.has(key));
     }
 
     @Test
-    public void pop_SetValueOverridingParent_ShouldReturnLocalSetValueAndKeepParentValue() {
+    public void remove_SetValueOverridingParent_ShouldRemoveLocalAndKeepParentValue() {
         int localExpected = 2;
 
         // Given
@@ -89,17 +89,17 @@ public class VolatileStoreJreTest {
         volatileStore.put(KEY, localExpected);
 
         // When
-        int returned = volatileStore.pop(KEY);
-        int parentValue = volatileStore.pop(KEY);
+        boolean removed = volatileStore.remove(KEY);
+        boolean parentRemoved = volatileStore.remove(KEY);
 
         // Then
-        assertEquals(localExpected, returned);
-        assertEquals(VALUE, parentValue);
+        assertTrue(removed);
+        assertFalse(parentRemoved);
         assertTrue(volatileStore.has(KEY));
     }
 
     @Test
-    public void pop_SetValueOverridingVolatileParentAsPersistent_ShouldReturnLocalSetValueAndKeepParentValue() {
+    public void remove_SetValueOverridingVolatileParentAsPersistent_ShouldRemoveLocalAndKeepParentValue() {
         int parentExpected = 2;
         int localExpected = 3;
 
@@ -111,12 +111,12 @@ public class VolatileStoreJreTest {
         volatileStore.put(KEY, localExpected);
 
         // When
-        int returned = volatileStore.pop(KEY);
-        int parentValue = volatileStore.pop(KEY);
+        boolean removed = volatileStore.remove(KEY);
+        boolean parentRemoved = volatileStore.remove(KEY);
 
         // Then
-        assertEquals(localExpected, returned);
-        assertEquals(parentExpected, parentValue);
+        assertTrue(removed);
+        assertFalse(parentRemoved);
         assertTrue(volatileParent.has(KEY));
     }
 }

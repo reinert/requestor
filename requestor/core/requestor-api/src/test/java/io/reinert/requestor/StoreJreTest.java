@@ -45,18 +45,18 @@ public class StoreJreTest {
     }
 
     @Test
-    public void pop_SetValue_ShouldReturnSetValueAndRemoveIt() {
-        int expected = 1;
+    public void remove_SetValue_ShouldRemoveIt() {
+        boolean expected = true;
         String key = "key";
 
         // Given
         store.put(key, expected);
 
         // When
-        int returned = store.pop(key);
+        boolean removed = store.remove(key);
 
         // Then
-        assertEquals(expected, returned);
+        assertTrue(removed);
         assertFalse(store.has(key));
     }
 }

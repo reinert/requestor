@@ -18,7 +18,7 @@ package io.reinert.requestor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersistentStore implements Store {
+class PersistentStore implements Store {
 
     private final Map<String, Object> dataMap;
 
@@ -26,8 +26,8 @@ public class PersistentStore implements Store {
         this.dataMap = new HashMap<String, Object>();
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public <T> T get(String key) {
         return (T) dataMap.get(key);
     }
@@ -48,11 +48,11 @@ public class PersistentStore implements Store {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T pop(String key) {
-        return (T) dataMap.remove(key);
+    public boolean remove(String key) {
+        return dataMap.remove(key) != null;
     }
 
+    @Override
     public void clear() {
         dataMap.clear();
     }

@@ -341,7 +341,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     // Session configuration
     //===================================================================
 
-    public PersistentStore getStore() {
+    public Store getStore() {
         return store;
     }
 
