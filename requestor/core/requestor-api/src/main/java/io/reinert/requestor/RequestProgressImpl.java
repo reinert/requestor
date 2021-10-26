@@ -20,7 +20,7 @@ package io.reinert.requestor;
  *
  * @author Danilo Reinert
  */
-public class RequestProgressImpl implements RequestProgress {
+class RequestProgressImpl implements RequestProgress {
 
     private final ProgressEvent requestProgress;
 

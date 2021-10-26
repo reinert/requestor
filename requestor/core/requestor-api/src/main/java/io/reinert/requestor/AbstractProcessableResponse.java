@@ -19,7 +19,7 @@ import io.reinert.requestor.header.Header;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
 
-public abstract class AbstractProcessableResponse implements ProcessableResponse {
+abstract class AbstractProcessableResponse implements ProcessableResponse {
 
     protected final ProcessableResponse response;
 

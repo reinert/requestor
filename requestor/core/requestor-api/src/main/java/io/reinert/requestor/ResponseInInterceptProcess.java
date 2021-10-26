@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-public class ResponseInInterceptProcess extends AbstractProcessableResponse {
+class ResponseInInterceptProcess extends AbstractProcessableResponse {
 
     private final ResponseInterceptor interceptor;
 

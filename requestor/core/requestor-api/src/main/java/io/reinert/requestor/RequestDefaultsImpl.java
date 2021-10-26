@@ -17,7 +17,7 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.header.Header;
 
-public class RequestDefaultsImpl implements RequestDefaults {
+class RequestDefaultsImpl implements RequestDefaults {
 
     private String mediaType;
     private Auth.Provider authProvider;

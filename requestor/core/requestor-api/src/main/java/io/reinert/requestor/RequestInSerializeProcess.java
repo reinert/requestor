@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-public class RequestInSerializeProcess extends AbstractProcessableRequest {
+class RequestInSerializeProcess extends AbstractProcessableRequest {
 
     private final SerializationEngine serializationEngine;
     private final RequestSerializer requestSerializer;

@@ -19,7 +19,7 @@ import io.reinert.requestor.header.Header;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.uri.Uri;
 
-public abstract class AbstractProcessableRequest implements ProcessableRequest {
+abstract class AbstractProcessableRequest implements ProcessableRequest {
 
     protected final ProcessableRequest request;
 

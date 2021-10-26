@@ -22,7 +22,7 @@ import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
 import io.reinert.requestor.uri.Uri;
 
-public class RequestInAuthProcess<R> implements ProcessableRequest {
+class RequestInAuthProcess<R> implements ProcessableRequest {
 
     private static final Logger LOGGER = Logger.getLogger(RequestInAuthProcess.class.getName());
 

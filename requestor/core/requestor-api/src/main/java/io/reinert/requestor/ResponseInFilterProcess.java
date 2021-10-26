@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-public class ResponseInFilterProcess extends AbstractProcessableResponse {
+class ResponseInFilterProcess extends AbstractProcessableResponse {
 
     private final ResponseFilter filter;
 
