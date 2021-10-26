@@ -25,25 +25,27 @@ GWT3 and J2CL support is planned without breaking API compatibility.
 Make a GET request and deserialize the response body as String:
 
 ```java
-Requestor r = Requestor.newInstance();
-r.get("http://httpbin.org/ip", String.class).success( Window::alert );
+Session s = new JsonSession();
+s.get("http://httpbin.org/ip", String.class).success( Window::alert );
 ```
 
 Make a POST request sending a serialized object in the payload:
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
-r.post("/api/books", book).success( () -> showSuccessMsg() ).fail( () -> showErrorMsg() );
+s.post("/api/books", book).success( () -> showSuccessMsg() ).fail( () -> showErrorMsg() );
 ```
 
 GET a collection of objects:
 
 ```java
-r.get("/api/books", List.class, Book.class).success( books -> renderTable(books) );
+s.get("/api/books", List.class, Book.class).success( books -> renderTable(books) );
 ```
 
-The above examples are shortcuts in Requestor class to make quick requests.
+The above examples are shortcuts in Session class to make quick requests.
 Additionally, you can access the fluent API to build and send more complex requests.
+
+Note: In order to have auto-serialization working check the [Serialization](#serialization) section.
 
 ### Requesting Fluent API *(briefing)*
 
@@ -53,10 +55,10 @@ Requesting involves three steps:
 3) Finally, by calling any invoke method you receive a Promise, which allows you to **chain callbacks** nicely.   
 
 ```java
-requestor.req("/api/books/1") // Start building the request
-         .timeout(10000) // Set the request options
-         .get(Book.class) // Invoke an HTTP method informing the expected type
-         .success(book -> view.render(book)); // Add callbacks to the promise
+session.req("/api/books/1") // Start building the request
+       .timeout(10000) // Set the request options
+       .get(Book.class) // Invoke an HTTP method informing the expected type
+       .success(book -> view.render(book)); // Add callbacks to the promise
 ```
 
 In case you want to know more details of how it works, see [Requesting Fluent API](#requesting-fluent-api) section.
@@ -69,21 +71,21 @@ Also, you can save and retrieve any data by key through the **Store**.
 Finally, you can reset the session state at anytime.
 
 ```java
-Requestor r = Requestor.newInstance();
-r.setTimeout(10000);
-r.setContentType("aplication/json");
-r.setAuth(new BasicAuth("username", "password"));
+Session session = new CleanSession();
+session.setTimeout(10000);
+session.setContentType("aplication/json");
+session.setAuth(new BasicAuth("username", "password"));
 
 // Now all requests will have 10s timeout, 'application/json' Content-Type and the BasicAuth
 
-r.post("/api/books", book);
+session.post("/api/books", book);
 ...
 
 // Clear the session if desired
-r.reset();
+session.reset();
 
 // Now all requests will have the default parameters
-r.post("/api/books", book);
+session.post("/api/books", book);
 ...
 ```
 
@@ -91,10 +93,10 @@ r.post("/api/books", book);
 ### Looking for some REST?
 
 Requestor offers a REST client, so you can perform basic CRUD operations against a resource.
-Create a new `RestService` by calling `requestor.newRestService( <uri>, <entityClass>, <idClass>, <collectionClass> )`.
+Create a new `RestService` by calling `session.newRestService( <uri>, <entityClass>, <idClass>, <collectionClass> )`.
 
 ```java
-bookService = requestor.newRestService("/api/books", Book.class, Integer.class, List.class);
+bookService = session.newRestService("/api/books", Book.class, Integer.class, List.class);
 
 // Configure your service to always set Content-Type and Accept headers as 'application/json'
 bookService.setMediaType("application/json");
@@ -147,7 +149,7 @@ Then, make requestor available to your GWT project by importing the implementati
 
 Requestor is primarily focused on the HTTP Client API.
 Hence, **requestor-core** declares a Promise interface, but doesn't implement it.
-The implementation is delegated to **requestor-impl**'s. Thus, a **requestor-impl** integrates **requestor-core** to some promise library.
+The implementation is delegated to **requestor-impl**s. Thus, a **requestor-impl** integrates **requestor-core** to some promise library.
 
 Currently, there's one impl available: **requestor-gdeferred**. It binds requestor with [gdeferred](https://github.com/reinert/gdeferred) promise API.
 Furthermore, an impl integrating **requestor-core** with [elemental2](https://github.com/google/elemental2) promise API is on the way.
@@ -185,7 +187,7 @@ Requestor's Fluent API exposes many chaining methods to properly configure your 
 Suppose you start building the request below:
 
 ```java
-RequestInvoker req = requestor.req("/api/books/");
+RequestInvoker req = session.req("/api/books/");
 ```
 
 ### *payload*
@@ -206,7 +208,7 @@ is capable of supplying the request with the required credentials and later send
 
 ```java
 req.auth( new BasicAuth("username", "password") );
-req.auth( new BearerAuth("a-token") );
+req.auth( new BearerAuth("a-secret-token") );
 req.auth( new MyOwnAuth("whatever") );
 ```
 
@@ -291,23 +293,23 @@ req.delay(2000).poll( PollingStrategy.SHORT, 3000 );
 Furthermore, if you didn't set a *polling limit*, you can manually stop the polling by calling `request.stopPolling()`.
 
 ```java
-requestor.req("/api/books/")
-        .poll(PollingStrategy.LONG)
-        .get()
-        .load(new ResponseCallback() {
-            public void execute(Response response) {
-                Request request = response.getRequest();
+session.req("/api/books/")
+       .poll(PollingStrategy.LONG)
+       .get()
+       .load(new ResponseCallback() {
+           public void execute(Response response) {
+               Request request = response.getRequest();
 
-                if (request.getPollingCounter() == 3) {
-                    request.stopPolling(); // Stop polling after receving the third response
-                }
-            }
-        });
+               if (request.getPollingCounter() == 3) {
+                   request.stopPolling(); // Stop polling after receving the third response
+               }
+           }
+       });
 ```
 
 
 It's worth noting that each new dispatched request will pass through all the **request/response processing**.
-Thereby, you'll have every polling request always up to date with your filters, serializers, interceptors and auths.
+Thereby, you'll have every polling request always up to date with your filters, serializers and interceptors.
 
 ## Promises
 
@@ -345,7 +347,7 @@ Check how you can use them below:
 
 ```java
 // You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
-requestor.get('/httpbin.org/ip', String.class).success(new PayloadCallback<String>() {
+session.get('/httpbin.org/ip', String.class).success(new PayloadCallback<String>() {
     public void execute(String ip) {
         // This is executed if the request was successful (status = 2xx)
         view.showIp(ip);
@@ -415,7 +417,7 @@ See example below:
 
 ```java
 // An ArrayList was requested, but the get method returned a Promise<Collection<Book>>
-Promise<Collection<Book>> promise = requestor.req("/server/books").get(ArrayList.class, Book.class);
+Promise<Collection<Book>> promise = session.req("/server/books").get(ArrayList.class, Book.class);
 
 // Even though, you can pass a PayloadCallback<List<Book>> and it will be automatically typecasted
 promise.success(new PayloadCallback<List<Book>>() {
@@ -429,7 +431,7 @@ promise.success(new PayloadCallback<List<Book>>() {
 
 ```java
 // An ArrayList was requested, but the get method returned a Promise<Collection<Book>>
-Promise<Collection<Book>> promise = requestor.req("/server/books").get(ArrayList.class, Book.class);
+Promise<Collection<Book>> promise = session.req("/server/books").get(ArrayList.class, Book.class);
 
 // The payload parameter in callback is a Collection<Book>
 promise.success( books -> books.get(0) ); // COMPILATION ERROR: books is Collection<Book> and .get belongs to List
@@ -447,7 +449,7 @@ Besides providing serialization and deserialization logic, the `Serializer<T>` i
 This way, you can have *multiple Serializers for the same type handling different media types*, e.g., json and xml.
 Requestor's serialization engine is smart enough to match the appropriate Serializer according to the request/response's Content-Type.
 
-Serialization and deserialization is enabled by registering a `Serializer<T>` instance in the requestor [session](#session).
+Serialization and deserialization is enabled by registering a `Serializer<T>` instance in the [session](#session).
 If you only need the deserialization part then you can register a `Deserializer<T>` implementation.
 
 ```java
@@ -470,7 +472,7 @@ but you can declare other media types, even wildcard types like "\*/json" or "\*
 interface MySerializationModule extends SerializationModule { }
 ```
 
-And that's it. Now you'll have auto generated Serializers for Author and Book classes registered in your requestor session.
+And that's it. Now you'll have auto generated Serializers for Author and Book classes registered in your Session.
 
 In order to install requestor-gwtjackson extension add the following to your pom.xml:
 
@@ -570,8 +572,8 @@ Then inherit the `AutoBeanExt` GWT module in your gwt.xml file:
 As stated before, Requestor provides the [RestService](#looking-for-some-rest) to handle basic CRUD operations against a REST resource.
 But you are likely to implement your app's abstract service class by extending the AbstractService with the peculiarities of your server API to avoid code repetition.
 
-🧐 It's worth noting that ***AbstractService is a branch session derived from the main session*** (Requestor).
-Then, the default parameters defined in the main session are also applied in your AbstractService.
+🧐 It's worth noting that ***AbstractService is a branch session derived from the main session***.
+Hence, the default parameters defined in the main session are also applied in your AbstractService.
 Everything you set as a default in an AbstractService will only affect that service and will have preference over those defined in the main session.
 
 ### Extending AbstractService
@@ -584,8 +586,8 @@ implement your calls with little coding. See example below:
 ```java
 public class BookService extends AbstractService {
 
-    public BookService(Requestor requestor) {
-        super(requestor, "/api/books"); // Provide the root path of the REST resource
+    public BookService(Session session) {
+        super(session, "/api/books"); // Provide the root path of the REST resource
     }
 
     public Promise<Book> createBook(Book book) {
@@ -623,12 +625,12 @@ public class BookService extends AbstractService {
 Now use your service client:
 
 ```java
-// It's a good practice to use Requestor object as a singleton since it's your main client session
-Requestor requestor = getMyRequestor();
+// It's a good practice to use Session object as a singleton
+Session session = getMySession();
 
 // Create your service passing the Requestor instance.
 // The service then takes advantage of all the configurations present in the Requestor session
-BookService bookService = new BookService(requestor);
+BookService bookService = new BookService(session);
 
 // POST a new book to /api/books
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
@@ -658,8 +660,8 @@ public class MyBookService extends AbstractService {
     MyPlaceManager myPlaceManager;
     
     // Construct you Service with any other object that will allow you to properly handle errors
-    public MyBookService(Requestor requestor, MyPlaceManager myPlaceManager) {
-        super(requestor, "/api/books");
+    public MyBookService(Session session, MyPlaceManager myPlaceManager) {
+        super(session, "/api/books");
         this.myPlaceManager = myPlaceManager;
     }
 
@@ -691,8 +693,8 @@ Use the above example as inspiration as also the [RestService](https://github.co
 ## Requesting Fluent API
 
 The Fluent API was designed to provide an enjoyable coding experience while requesting through a chainable interface. Here how it works:
-1. Requestor is your client session, thus it's the starting point when requesting.
-2. It exposes the `req` method that returns a `RequestInvoker`, which has request building and invoking capabilities.
+1. Your client `Session` is the starting point when requesting.
+2. It exposes the `req( <uri> )` method that returns a `RequestInvoker`, which has request building and invoking capabilities.
 3. `RequestInvoker` implements the chainable `RequestBuilder` interface, which allows you to set the request options.
 4. Also, `RequestInvoker` implements the `Invoker` interface, which allows you to send the request by calling one of the HTTP Methods.
 5. When invoking the request, you also need to specify the class type you expect as the response payload.
@@ -709,7 +711,7 @@ In summary, these are the three requesting steps:
 // 1. Build your request
 //========================================
 
-RequestInvoker req = requestor.req("/api/books")
+RequestInvoker req = session.req("/api/books")
         .timeout(10000) // Set the request timeout in milliseconds
         .delay(2000) // Set the request delay in milliseconds (wait 2s before sending the request)
         .contentType("aplication/json") // Set the Content-Type header
@@ -771,7 +773,7 @@ Joining the three parts together you can write a clean code like below.
 
 ```java
 // Post a book to the server and retrieve the created entity
-requestor.req("/api/books")
+session.req("/api/books")
     .payload(book)
     .post(Book.class)
     .success(book -> view.render(book))
