@@ -414,6 +414,11 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     @Override
+    public Auth.Provider getAuthProvider() {
+        return defaults.getAuthProvider();
+    }
+
+    @Override
     public void setTimeout(int timeoutMillis) {
         defaults.setTimeout(timeoutMillis);
     }

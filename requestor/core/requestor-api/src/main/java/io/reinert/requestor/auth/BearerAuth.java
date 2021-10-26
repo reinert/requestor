@@ -40,9 +40,9 @@ public class BearerAuth implements Auth {
     }
 
     @Override
-    public void auth(PreparedRequest preparedRequest) {
-        preparedRequest.setHeader("Authorization", "Bearer " + token);
-        preparedRequest.setWithCredentials(withCredentials);
-        preparedRequest.send();
+    public void auth(PreparedRequest request) {
+        request.setHeader("Authorization", "Bearer " + token);
+        request.setWithCredentials(withCredentials);
+        request.send();
     }
 }

@@ -95,9 +95,11 @@ class RequestDefaultsImpl implements RequestDefaults {
 
     @Override
     public Auth getAuth() {
+        if (authProvider == null) return null;
         return authProvider.getInstance();
     }
 
+    @Override
     public Auth.Provider getAuthProvider() {
         return authProvider;
     }
@@ -198,10 +200,8 @@ class RequestDefaultsImpl implements RequestDefaults {
 
     public void apply(RequestBuilder request) {
         if (mediaType != null) {
-            if (request.getContentType() == null)
-                request.contentType(mediaType);
-            if (request.getAccept() == null)
-                request.accept(mediaType);
+            request.contentType(mediaType);
+            request.accept(mediaType);
         }
 
         if (authProvider != null) {

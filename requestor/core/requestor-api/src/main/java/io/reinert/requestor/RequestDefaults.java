@@ -44,6 +44,8 @@ public interface RequestDefaults extends HasHeaders {
 
     Auth getAuth();
 
+    Auth.Provider getAuthProvider();
+
     void setTimeout(int timeoutMillis);
 
     int getTimeout();

@@ -43,15 +43,15 @@ public class BasicAuth implements Auth {
     }
 
     @Override
-    public void auth(PreparedRequest preparedRequest) {
+    public void auth(PreparedRequest request) {
         try {
-            preparedRequest.setHeader("Authorization", "Basic " + btoa(user + ":" + password));
+            request.setHeader("Authorization", "Basic " + btoa(user + ":" + password));
         } catch (JavaScriptException e) {
             throw new UnsupportedOperationException("It was not possible to encode credentials using browser's " +
                     "native btoa. The browser does not support this operation.", e);
         }
-        preparedRequest.setWithCredentials(withCredentials);
-        preparedRequest.send();
+        request.setWithCredentials(withCredentials);
+        request.send();
     }
 
     private static native String btoa(String str) /*-{

@@ -143,7 +143,7 @@ public abstract class RequestDispatcher {
                 try {
                     // Process and send the request
                     if (skipAuth) {
-                        requestInAuthProcess.setAuth(PassThroughAuth.getInstance());
+                        requestInAuthProcess.setAuth((Auth.Provider) null);
                     }
 
                     if (skipProcessing) {

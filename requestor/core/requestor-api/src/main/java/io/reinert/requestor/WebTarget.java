@@ -166,6 +166,11 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     }
 
     @Override
+    public Auth.Provider getAuthProvider() {
+        return defaults.getAuthProvider();
+    }
+
+    @Override
     public void setTimeout(int timeoutMillis) {
         defaults.setTimeout(timeoutMillis);
     }

@@ -41,8 +41,15 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
 
     @Override
     public void process() {
-        Auth auth = request.getAuth();
-        auth.auth(new PreparedRequestImpl<R>(dispatcher, this, deferred, responsePayloadType));
+        final Auth auth = request.getAuth();
+        final PreparedRequestImpl<R> preparedRequest = new PreparedRequestImpl<R>(dispatcher, this, deferred,
+                responsePayloadType);
+
+        if (auth == null) {
+            preparedRequest.send();
+        } else {
+            auth.auth(preparedRequest);
+        }
     }
 
     @Override

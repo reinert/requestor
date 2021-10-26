@@ -57,7 +57,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
         this.store = store;
         this.headers = headers != null ? headers : new Headers();
-        this.authProvider = authProvider != null ? authProvider : PassThroughAuth.getProvider();
+        this.authProvider = authProvider;
         this.httpMethod = httpMethod;
         this.timeout = timeout;
         this.delay = delay;
@@ -163,6 +163,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
 
     @Override
     public Auth getAuth() {
+        if (authProvider == null) return null;
         return authProvider.getInstance();
     }
 

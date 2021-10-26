@@ -26,8 +26,8 @@ import io.reinert.requestor.PreparedRequest;
 public class CorsAuth implements Auth {
 
     @Override
-    public void auth(PreparedRequest preparedRequest) {
-        preparedRequest.setWithCredentials(true);
-        preparedRequest.send();
+    public void auth(PreparedRequest request) {
+        request.setWithCredentials(true);
+        request.send();
     }
 }
