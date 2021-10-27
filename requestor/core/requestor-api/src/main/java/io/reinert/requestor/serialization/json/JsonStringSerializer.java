@@ -25,14 +25,8 @@ import io.reinert.requestor.serialization.SerializationContext;
  */
 public class JsonStringSerializer extends JsonValueSerializer<String> {
 
-    private static JsonStringSerializer INSTANCE = new JsonStringSerializer();
-
     public JsonStringSerializer() {
         super(String.class);
-    }
-
-    public static JsonStringSerializer getInstance() {
-        return INSTANCE;
     }
 
     @Override

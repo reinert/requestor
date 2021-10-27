@@ -31,7 +31,7 @@ import io.reinert.requestor.serialization.json.OverlaySerializer;
  */
 public class OverlaySerializerGwtTest extends GWTTestCase {
 
-    private final OverlaySerializer serializer = OverlaySerializer.getInstance();
+    private final OverlaySerializer serializer = new OverlaySerializer();
 
     @Override
     public String getModuleName() {

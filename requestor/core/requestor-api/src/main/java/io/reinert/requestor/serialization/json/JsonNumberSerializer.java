@@ -35,14 +35,8 @@ public class JsonNumberSerializer extends JsonValueSerializer<Number> implements
     private static final Class<?>[] IMPL_CLASSES = new Class<?>[]{Byte.class, Short.class, Integer.class,
             Double.class, Long.class, BigInteger.class, BigDecimal.class};
 
-    private static JsonNumberSerializer INSTANCE = new JsonNumberSerializer();
-
     public JsonNumberSerializer() {
         super(Number.class);
-    }
-
-    public static JsonNumberSerializer getInstance() {
-        return INSTANCE;
     }
 
     @Override

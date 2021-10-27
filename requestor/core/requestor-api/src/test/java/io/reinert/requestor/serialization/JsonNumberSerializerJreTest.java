@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
  */
 public class JsonNumberSerializerJreTest {
 
-    private final JsonNumberSerializer serializer = JsonNumberSerializer.getInstance();
+    private final JsonNumberSerializer serializer = new JsonNumberSerializer();
 
     @Test
     public void serialize_Number_ShouldReturnNumberAsString() throws Exception {

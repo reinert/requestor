@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.serialization.json.JsonBooleanSerializer;
 import io.reinert.requestor.serialization.json.JsonNumberSerializer;
 import io.reinert.requestor.serialization.json.JsonStringSerializer;
@@ -42,10 +43,30 @@ public class JsonSession extends CleanSession {
     protected void configure() {
         super.configure();
 
-        register(JsonStringSerializer.getInstance());
-        register(JsonNumberSerializer.getInstance());
-        register(JsonBooleanSerializer.getInstance());
-        register(OverlaySerializer.getInstance());
+        register(new SerializerProvider() {
+            @Override
+            public Serializer<?> getInstance() {
+                return new JsonStringSerializer();
+            }
+        });
+        register(new SerializerProvider() {
+            @Override
+            public Serializer<?> getInstance() {
+                return new JsonNumberSerializer();
+            }
+        });
+        register(new SerializerProvider() {
+            @Override
+            public Serializer<?> getInstance() {
+                return new JsonBooleanSerializer();
+            }
+        });
+        register(new SerializerProvider() {
+            @Override
+            public Serializer<?> getInstance() {
+                return new OverlaySerializer();
+            }
+        });
 
         setMediaType("application/json");
     }

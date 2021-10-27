@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class JsonBooleanSerializerJreTest {
 
-    private final JsonBooleanSerializer serializer = JsonBooleanSerializer.getInstance();
+    private final JsonBooleanSerializer serializer = new JsonBooleanSerializer();
 
     @Test
     public void deserializeCollection() throws Exception {

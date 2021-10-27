@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class JsonStringSerializerJreTest {
 
-    private final JsonStringSerializer serializer = JsonStringSerializer.getInstance();
+    private final JsonStringSerializer serializer = new JsonStringSerializer();
 
     @Test
     public void deserializeCollection() throws Exception {

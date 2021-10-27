@@ -25,14 +25,8 @@ import io.reinert.requestor.serialization.SerializationContext;
  */
 public class JsonBooleanSerializer extends JsonValueSerializer<Boolean> {
 
-    private static JsonBooleanSerializer INSTANCE = new JsonBooleanSerializer();
-
     public JsonBooleanSerializer() {
         super(Boolean.class);
-    }
-
-    public static JsonBooleanSerializer getInstance() {
-        return INSTANCE;
     }
 
     @Override

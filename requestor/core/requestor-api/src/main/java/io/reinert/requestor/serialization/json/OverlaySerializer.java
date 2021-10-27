@@ -34,12 +34,6 @@ public class OverlaySerializer implements Serializer<JavaScriptObject> {
 
     public static boolean USE_SAFE_EVAL = true;
 
-    private static OverlaySerializer INSTANCE = new OverlaySerializer();
-
-    public static OverlaySerializer getInstance() {
-        return INSTANCE;
-    }
-
     @Override
     public Class<JavaScriptObject> handledType() {
         return JavaScriptObject.class;
@@ -56,7 +50,6 @@ public class OverlaySerializer implements Serializer<JavaScriptObject> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <C extends Collection<JavaScriptObject>> C deserialize(Class<C> collectionType, String response,
                                                                   DeserializationContext context) {
         JsArray<JavaScriptObject> jsArray = eval(response);
