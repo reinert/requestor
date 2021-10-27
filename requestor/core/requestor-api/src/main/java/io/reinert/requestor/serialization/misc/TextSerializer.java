@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.serialization.misc;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import io.reinert.requestor.serialization.DeserializationContext;
@@ -30,7 +31,7 @@ public class TextSerializer implements Serializer<String> {
 
     public static String SEPARATOR = "\n";
 
-    public static String[] MEDIA_TYPE_PATTERNS = new String[]{"text/plain", "*/*"};
+    public static String[] MEDIA_TYPE_PATTERNS = new String[]{"*/*"};
 
     private static final TextSerializer INSTANCE = new TextSerializer();
 
@@ -81,7 +82,7 @@ public class TextSerializer implements Serializer<String> {
     public <C extends Collection<String>> C deserialize(Class<C> collectionType, String response,
                                                         DeserializationContext context) {
         final C col = context.getInstance(collectionType);
-        col.add(response);
+        col.addAll(Arrays.asList(response.split(SEPARATOR)));
         return col;
     }
 }

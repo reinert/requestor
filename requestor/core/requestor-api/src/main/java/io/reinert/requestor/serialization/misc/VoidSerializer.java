@@ -31,7 +31,7 @@ public class VoidSerializer implements Serializer<Void> {
 
     public static final String[] MEDIA_TYPE_PATTERNS = new String[] {"*/*"};
 
-    private static VoidSerializer INSTANCE = new VoidSerializer();
+    private static final VoidSerializer INSTANCE = new VoidSerializer();
 
     public static VoidSerializer getInstance() {
         return INSTANCE;
