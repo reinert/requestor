@@ -20,9 +20,9 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
+class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
 
-    private static Logger LOGGER = Logger.getLogger("io.reinert.requestor.XMLHttpRequest");
+    private static final Logger logger = Logger.getLogger("io.reinert.requestor.XmlHttpRequest");
 
     public static class Upload extends JavaScriptObject {
 
@@ -38,7 +38,7 @@ class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         }-*/;
     }
 
-    protected XMLHttpRequest() {
+    protected XmlHttpRequest() {
     }
 
     /**
@@ -71,7 +71,7 @@ class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
 
     public final void setOnProgress(ProgressHandler handler) {
         if (!setOnProgressNative(handler)) {
-            LOGGER.log(Level.SEVERE, "Set OnProgress failed: XHR onprogress handler not supported by the browser.");
+            logger.log(Level.SEVERE, "Set OnProgress failed: XHR onprogress handler not supported by the browser.");
         }
     }
 
@@ -90,7 +90,7 @@ class XMLHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         if (upload != null) {
             upload.setOnProgress(handler);
         } else {
-            LOGGER.log(Level.SEVERE, "Set UploadOnProgress failed: XHR upload property not supported by the browser.");
+            logger.log(Level.SEVERE, "Set UploadOnProgress failed: XHR upload property not supported by the browser.");
         }
     }
 

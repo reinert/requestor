@@ -44,7 +44,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         final ResponseType responseType = request.getResponseType();
 
         // Create XMLHttpRequest
-        final XMLHttpRequest xmlHttpRequest = (XMLHttpRequest) XMLHttpRequest.create();
+        final XmlHttpRequest xmlHttpRequest = (XmlHttpRequest) XmlHttpRequest.create();
 
         // Open XMLHttpRequest
         try {
@@ -81,9 +81,9 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         // Properly configure XMLHttpRequest's onreadystatechange
         xmlHttpRequest.setOnReadyStateChange(new ReadyStateChangeHandler() {
             public void onReadyStateChange(com.google.gwt.xhr.client.XMLHttpRequest xhr) {
-                if (xhr.getReadyState() == XMLHttpRequest.DONE) {
+                if (xhr.getReadyState() == XmlHttpRequest.DONE) {
                     xhr.clearOnReadyStateChange();
-                    ((XMLHttpRequest) xhr).clearOnProgress();
+                    ((XmlHttpRequest) xhr).clearOnProgress();
                     gwtRequest.fireOnResponseReceived(callback);
                 }
             }
@@ -139,7 +139,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
     }
 
     private <D> RequestCallback getRequestCallback(final Request request,
-                                                   final XMLHttpRequest xhr,
+                                                   final XmlHttpRequest xhr,
                                                    final Deferred<D> deferred,
                                                    final PayloadType payloadType) {
         return new RequestCallback() {
@@ -185,7 +185,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         };
     }
 
-    private void setHeaders(Headers headers, XMLHttpRequest xmlHttpRequest) throws JavaScriptException {
+    private void setHeaders(Headers headers, XmlHttpRequest xmlHttpRequest) throws JavaScriptException {
         if (headers != null && headers.size() > 0) {
             for (Header header : headers) {
                 if (header != null) xmlHttpRequest.setRequestHeader(header.getName(), header.getValue());
