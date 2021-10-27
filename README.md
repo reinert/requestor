@@ -1,23 +1,26 @@
 # Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor) [![Gitter](https://img.shields.io/badge/Gitter-Join%20Chat-blue.svg?style=flat)](https://gitter.im/reinert/requestor)
 
-A powerful HTTP Client API for bulletproof GWT SPAs.
+**Request like a boss.** 😎
 
-Requestor offers a plenty of carefully designed features that enables you to manage the HTTP communication process through all your application:
-* **Requesting Fluent API** - *makes you feel so good!* 😌
-* **Promises** - chain callbacks neatly
-* **Serialization** - serialize and deserialize payloads integrating any library
-* **Authentication** - ready-to-use authentication mechanisms
-* **Request/Response Async Hooking** - filter and intercept requests and responses
-* **HTTP Polling** - make long or short polling with a single command
-* **Client Session** - set default parameters to all requests
-* **Data Store** - store auxiliary data both in session and request scope
-* **Links API** - navigate through an API interacting with its links (HATEOAS for real)
-* **Headers API** - build and parse complex headers easily
-* **URI API** - build and parse complex URIs easily
-* **Binary Data** - upload and download files tracking the progress
+*Ask more. Do less. Keep track of everything.*
 
-It supports GWT 2.9 and Java 8+ while maintains backwards compatibility with GWT 2.7 and Java 1.5.
-GWT3 and J2CL support is planned without breaking API compatibility.
+Requestor is a powerful HTTP Client API for cutting-edge GWT apps. It offers plenty of carefully
+designed features that enable developers to rule the application communication process smoothly:
+* **Requesting Fluent API** - code as you think, read as you code.
+* **Promises** - chain callbacks to different results and statuses.
+* **Serialization** - serialize and deserialize payloads integrating any library.
+* **Authentication** - make complex async authentication procedures in a breeze.
+* **Request/Response Hooking** - asynchronously filter and intercept requests and responses.
+* **HTTP Polling** - make long or short polling with a single command.
+* **Client Session** - set default options to all requests.
+* **Data Store** - save and retrieve data both in session and request scope.
+* **Links API** - navigate through an API interacting with its links (HATEOAS for real).
+* **Headers API** - directly create and parse complex headers.
+* **URI API** - build and parse complicated URIs easily.
+* **Binary Data** - upload and download files tracking the progress.
+
+It supports GWT 2.9 and Java 8+ while maintaining backward compatibility with GWT 2.7 and Java 1.5.
+In addition, GWT3 and J2CL support are in the roadmap without breaking API compatibility.
 
 
 ## Preview
@@ -65,7 +68,7 @@ In case you want to know more details of how it works, see [Requesting Fluent AP
 
 Meet all the request options available in the [Request Options](#request-options) section.
 
-### 💡 Set up your Session
+### ⚙️ Set up your Session
 Requestor provides you a totally configurable client `Session`.
 There you can configure default request options that will be initially applied to all you requests.
 Also, you can manage a data `Store` saving and retrieving any object by key.
@@ -73,8 +76,6 @@ Finally, you can reset the session state at anytime.
 
 ```java
 Session session = new JsonSession();
-
-session.getStore().put("userInfo", userInfo);
 
 // Set all requests to have 10s timeout and 'application/json' Content-Type
 session.setTimeout(10000);
@@ -101,7 +102,7 @@ session.post("/api/books", book);
 ```
 
 
-### Looking for some REST?
+### Looking for some REST? 😪
 
 Requestor offers a REST client, so you can perform basic CRUD operations against a resource.
 Create a new `RestService` by calling `session.newRestService( <uri>, <entityClass>, <idClass>, <collectionClass> )`.
@@ -119,7 +120,7 @@ bookService.post(book).success(createdBook -> render(createdBook));
 // GET all books from '/api/books'
 bookService.get().success(books -> render(books));
 
-// GET all books of author Richardson and year 2006 from '/api/books?author=Richardson&year=2006'
+// GET books from '/api/books?author=Richardson&year=2006'
 bookService.get("author", "Richardson", "year", 2006).success(books -> render(books));
 
 // GET the book of ID 123 from '/api/books/123'
@@ -170,30 +171,33 @@ Furthermore, an impl integrating **requestor-core** with [elemental2](https://gi
 
 
 ## Yet another REST Client library for GWT?
-*No. Not at all.* Requestor is an **HTTP Client API**, intended to provide several features related to HTTP communication. It's scope is broader than popular (and often misunderstood) REST patterns.
-Requestor precisely models each entity in the HTTP client side context to enable its users to handle any requirement in this boundary.
-It values good **code readability and maintainability** for the user by providing carefully designed interfaces and abstractions that others can extend and add its own logic with **low or zero integration effort**.
-Workarounds and hacks are not welcome here. You should be able to implement your requirements keeping **high cohesion around all your application**.
+*No. Not at all*. Requestor is an **HTTP Client API** intended to provide several features related to HTTP communication.
+Its scope is broader than popular (and often misunderstood) REST patterns. Requestor precisely models each entity in the
+HTTP client-side context to enable its users to handle any requirement in this boundary. It values good **code readability
+and maintainability** for the user by providing carefully designed interfaces and abstractions that others can extend and
+add their logic with **low or zero integration effort**. Workarounds and hacks are not welcome here. Developers should be able
+to implement their requirements keeping **high cohesion** through all their codebase.
 
 Additionally, Requestor was crafted from the client perspective instead of the server's (like other rest libraries were thought).
-In that fashion, you'll have a more consistent and intuitive experience with the task of consuming an HTTP service while coding.
+In that fashion, developers have a more **consistent and intuitive experience** consuming HTTP services while coding.
 
-Besides, we value **code traceability**. So code generation is the last option in design decisions.
-Whenever a new requirement arises, we strive to come up with a good design solution that allows the user to **write less code** and achieve the desired results.
-If something proves to be inevitably repetitive on the user side, after achieving the best possible design, then code generation is used to save the user from repetitive work.
-Still, leveraging Requestor's components you'll probably automate most of your work by using fundamental objected oriented techniques like *abstraction* and *composition*.
-This way you'll be benefited with a better comprehension of what's going on and have full control of your coding flow.
+Besides, we value **code traceability**. So code generation is the last option in design decisions. Whenever a new requirement appears,
+we strive to develop a good design solution that allows the user to write less code and achieve the desired results. If something proves
+to be inevitably repetitive on the user side, after achieving the best possible solution, then code generation is used to save the user
+from repetitive work. Still, leveraging Requestor's components, people will probably automate most of their work using fundamental
+object-oriented techniques like abstraction and composition. This way, they will better comprehend what is going on and have complete
+control of the coding flow.
 
-Requestor was inspired in many successful HTTP Client APIs in other ecosystems like Python Requests, Angular HttpClient, Ruby Http.rb and JAX-RS Client.
+Requestor was inspired by successful HTTP Client APIs in other ecosystems like Python Requests, Angular HttpClient, Ruby Http.rb, and JAX-RS Client.
 
-With Requestor, you can:
+With Requestor, we can:
 * Quickly make offhand requests writing as little code as possible.
-* Communicate with different HTTP APIs keeping the same client communication pattern, thus improving your code base maintainability.
-* Handle multiple media types (json and xml for instance) for the same java type without hacks.
-* Deserialize different types according to the response status, allowing you to properly model error messages in you app.
-* Navigate through discoverable REST API links, full leveraging HATEOAS.
+* Communicate with different HTTP APIs keeping the same client communication pattern, thus improving the codebase maintainability.
+* Handle multiple media types (JSON and XML, for instance) for the same java type without hacks.
+* Deserialize different types according to the response status, properly modeling error messages in our app.
+* Navigate through discoverable REST API links, fully leveraging HATEOAS.
 * Build different and complex queries on demand, not having to map each possible iteration with Server APIs previously.
-* Add new logic requirements not needing to change existing classes, but instead creating new small units, avoiding code conflict between co-workers.
+* Add new logic requirements not needing to change existing classes, instead of creating new small units, avoiding code conflict between co-workers.
 
 
 ## Request Options
@@ -852,7 +856,7 @@ delReq.success((payload, response) -> { // Response returned 2xx
     String hostHeader = response.getHeader("Host"); // Get the Host header
     String contentType = response.getContentType(); // Get the Content-Type header
     Link undoLink = response.getLink("undo"); // Get the 'undo' relation of the Link header
-    // Store and access any object by key in session or request scope (more on this later)
+    // Store and access any object by key in session or request scope
     Store store = response.getStore();
 });
 
