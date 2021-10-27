@@ -521,13 +521,23 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     @Override
-    public <T> Registration register(Deserializer<T> deserializer) {
+    public Registration register(Deserializer<?> deserializer) {
         return serializerManager.register(deserializer);
     }
 
     @Override
-    public <T> Registration register(Serializer<T> serializer) {
+    public Registration register(DeserializerProvider deserializerProvider) {
+        return serializerManager.register(deserializerProvider);
+    }
+
+    @Override
+    public Registration register(Serializer<?> serializer) {
         return serializerManager.register(serializer);
+    }
+
+    @Override
+    public Registration register(SerializerProvider serializerProvider) {
+        return serializerManager.register(serializerProvider);
     }
 
     @Override

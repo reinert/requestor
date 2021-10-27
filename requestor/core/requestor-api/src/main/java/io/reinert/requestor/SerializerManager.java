@@ -32,7 +32,9 @@ public interface SerializerManager {
      *
      * @return the {@link Registration} object, capable of cancelling this registration
      */
-    <T> Registration register(Deserializer<T> deserializer);
+    Registration register(Deserializer<?> deserializer);
+
+    Registration register(DeserializerProvider deserializerProvider);
 
     /**
      * Register a {@link Serializer}.
@@ -41,5 +43,7 @@ public interface SerializerManager {
      *
      * @return the {@link Registration} object, capable of cancelling this registration
      */
-    <T> Registration register(Serializer<T> serializer);
+    Registration register(Serializer<?> serializer);
+
+    Registration register(SerializerProvider serializerProvider);
 }

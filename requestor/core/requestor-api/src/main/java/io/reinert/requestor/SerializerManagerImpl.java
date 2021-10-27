@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,13 +50,22 @@ class SerializerManagerImpl implements SerializerManager {
     /**
      * Register a deserializer of the given type.
      *
-     * @param deserializer  The deserializer of T.
-     * @param <T>           The type of the object to be deserialized.
+     * @param deserializer  The deserializer.
      *
-     * @return  The {@link com.google.web.bindery.event.shared.Registration} object,
-     *          capable of cancelling this Registration to the {@link SerializerManagerImpl}.
+     * @return  The {@link Registration} object, capable of cancelling this Registration to the
+     *          {@link SerializerManagerImpl}.
      */
-    public <T> Registration register(Deserializer<T> deserializer) {
+    public Registration register(final Deserializer<?> deserializer) {
+        return register(new DeserializerProvider() {
+            @Override
+            public Deserializer<?> getInstance() {
+                return deserializer;
+            }
+        });
+    }
+
+    @Override
+    public Registration register(DeserializerProvider deserializer) {
         // Register deserializer only
         return registerDeserializer(deserializer);
     }
@@ -64,16 +73,25 @@ class SerializerManagerImpl implements SerializerManager {
     /**
      * Register a serializer of the given type.
      *
-     * @param serializer  The serializer of T.
-     * @param <T>         The type of the object to be serialized.
+     * @param serializer  The serializer.
      *
      * @return  The {@link Registration} object, capable of cancelling this Registration
      *          to the {@link SerializerManagerImpl}.
      */
-    public <T> Registration register(Serializer<T> serializer) {
+    public Registration register(final Serializer<?> serializer) {
+        return register(new SerializerProvider() {
+            @Override
+            public Serializer<?> getInstance() {
+                return serializer;
+            }
+        });
+    }
+
+    @Override
+    public Registration register(SerializerProvider serializerProvider) {
         // Register both serializer and deserializer
-        final Registration desReg = registerDeserializer(serializer);
-        final Registration serReg = registerSerializer(serializer);
+        final Registration desReg = registerDeserializer(serializerProvider);
+        final Registration serReg = registerSerializer(serializerProvider);
 
         return new Registration() {
             public void cancel() {
@@ -107,10 +125,11 @@ class SerializerManagerImpl implements SerializerManager {
         if (holders != null) {
             for (DeserializerHolder holder : holders) {
                 if (holder.key.matches(key)) {
-                    logger.log(Level.FINE, "Deserializer for type '" + holder.deserializer.handledType() + "' and " +
-                            "media-type '" + Arrays.toString(holder.deserializer.mediaType()) + "' matched: " +
-                            holder.deserializer.getClass().getName());
-                    return (Deserializer<T>) holder.deserializer;
+                    Deserializer<T> deserializer = (Deserializer<T>) holder.deserializerProvider.getInstance();
+                    logger.log(Level.FINE, "Deserializer for type '" + deserializer.handledType() + "' and " +
+                            "media-type '" + Arrays.toString(deserializer.mediaType()) + "' matched: " +
+                            deserializer.getClass().getName());
+                    return deserializer;
                 }
             }
         }
@@ -146,10 +165,11 @@ class SerializerManagerImpl implements SerializerManager {
         if (holders != null) {
             for (SerializerHolder holder : holders) {
                 if (holder.key.matches(key)) {
-                    logger.log(Level.FINE, "Serializer for type '" + holder.serializer.handledType() + "' and " +
-                            "media-type '" + Arrays.toString(holder.serializer.mediaType()) + "' matched: " +
-                            holder.serializer.getClass().getName());
-                    return (Serializer<T>) holder.serializer;
+                    Serializer<T> serializer = (Serializer<T>) holder.serializerProvider.getInstance();
+                    logger.log(Level.FINE, "Serializer for type '" + serializer.handledType() + "' and " +
+                            "media-type '" + Arrays.toString(serializer.mediaType()) + "' matched: " +
+                            serializer.getClass().getName());
+                    return serializer;
                 }
             }
         }
@@ -174,7 +194,8 @@ class SerializerManagerImpl implements SerializerManager {
         return typeName;
     }
 
-    private <T> Registration bindSerializerToType(Serializer<T> serializer, Class<T> type) {
+    private Registration bindSerializerToType(SerializerProvider serializerProvider,
+                                              Class<?> type, String[] mediaType) {
         final String typeName = getClassName(type);
         ArrayList<SerializerHolder> allHolders = serializers.get(typeName);
         if (allHolders == null) {
@@ -182,12 +203,11 @@ class SerializerManagerImpl implements SerializerManager {
             serializers.put(typeName, allHolders);
         }
 
-        final String[] mediaType = serializer.mediaType();
         final SerializerHolder[] currHolders = new SerializerHolder[mediaType.length];
         for (int i = 0; i < mediaType.length; i++) {
             String pattern = mediaType[i];
             final Key key = new Key(typeName, pattern);
-            final SerializerHolder holder = new SerializerHolder(key, serializer);
+            final SerializerHolder holder = new SerializerHolder(key, serializerProvider);
             allHolders.add(holder);
             currHolders[i] = holder;
         }
@@ -204,7 +224,8 @@ class SerializerManagerImpl implements SerializerManager {
         };
     }
 
-    private <T> Registration bindDeserializerToType(Deserializer<T> deserializer, Class<T> type) {
+    private Registration bindDeserializerToType(DeserializerProvider deserializerProvider,
+                                                Class<?> type, String[] mediaTypes) {
         final String typeName = getClassName(type);
         ArrayList<DeserializerHolder> allHolders = deserializers.get(typeName);
         if (allHolders == null) {
@@ -212,12 +233,11 @@ class SerializerManagerImpl implements SerializerManager {
             deserializers.put(typeName, allHolders);
         }
 
-        final String[] accept = deserializer.mediaType();
-        final DeserializerHolder[] currHolders = new DeserializerHolder[accept.length];
-        for (int i = 0; i < accept.length; i++) {
-            final String pattern = accept[i];
+        final DeserializerHolder[] currHolders = new DeserializerHolder[mediaTypes.length];
+        for (int i = 0; i < mediaTypes.length; i++) {
+            final String pattern = mediaTypes[i];
             final Key key = new Key(typeName, pattern);
-            final DeserializerHolder holder = new DeserializerHolder(key, deserializer);
+            final DeserializerHolder holder = new DeserializerHolder(key, deserializerProvider);
             allHolders.add(holder);
             currHolders[i] = holder;
         }
@@ -238,19 +258,21 @@ class SerializerManagerImpl implements SerializerManager {
         if (o == null) throw new NullPointerException(message);
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> Registration registerDeserializer(Deserializer<T> deserializer) {
-        final Registration reg = bindDeserializerToType(deserializer, deserializer.handledType());
+    private Registration registerDeserializer(DeserializerProvider deserializerProvider) {
+        final Deserializer<?> deserializer = deserializerProvider.getInstance();
+
+        final Registration reg = bindDeserializerToType(deserializerProvider,
+                deserializer.handledType(), deserializer.mediaType());
 
         if (deserializer instanceof HandlesSubTypes) {
-            Class[] impls = ((HandlesSubTypes) deserializer).handledSubTypes();
+            Class<?>[] impls = ((HandlesSubTypes) deserializer).handledSubTypes();
 
             final Registration[] regs = new Registration[impls.length + 1];
             regs[0] = reg;
 
             for (int i = 0; i < impls.length; i++) {
-                Class impl = impls[i];
-                regs[i + 1] = bindDeserializerToType(deserializer, impl);
+                Class<?> impl = impls[i];
+                regs[i + 1] = bindDeserializerToType(deserializerProvider, impl, deserializer.mediaType());
             }
 
             return new Registration() {
@@ -265,19 +287,21 @@ class SerializerManagerImpl implements SerializerManager {
         return reg;
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> Registration registerSerializer(Serializer<T> serializer) {
-        final Registration reg = bindSerializerToType(serializer, serializer.handledType());
+    private <T> Registration registerSerializer(SerializerProvider serializerProvider) {
+        final Serializer<?> serializer = serializerProvider.getInstance();
+
+        final Registration reg = bindSerializerToType(serializerProvider, serializer.handledType(),
+                serializer.mediaType());
 
         if (serializer instanceof HandlesSubTypes) {
-            Class[] impls = ((HandlesSubTypes) serializer).handledSubTypes();
+            Class<?>[] impls = ((HandlesSubTypes) serializer).handledSubTypes();
 
             final Registration[] regs = new Registration[impls.length + 1];
             regs[0] = reg;
 
             for (int i = 0; i < impls.length; i++) {
-                Class impl = impls[i];
-                regs[i + 1] = bindSerializerToType(serializer, impl);
+                Class<?> impl = impls[i];
+                regs[i + 1] = bindSerializerToType(serializerProvider, impl, serializer.mediaType());
             }
 
             return new Registration() {
@@ -295,11 +319,11 @@ class SerializerManagerImpl implements SerializerManager {
     private static class DeserializerHolder implements Comparable<DeserializerHolder> {
 
         final Key key;
-        final Deserializer<?> deserializer;
+        final DeserializerProvider deserializerProvider;
 
-        private DeserializerHolder(Key key, Deserializer<?> deserializer) {
+        private DeserializerHolder(Key key, DeserializerProvider deserializerProvider) {
             this.key = key;
-            this.deserializer = deserializer;
+            this.deserializerProvider = deserializerProvider;
         }
 
         @Override
@@ -322,11 +346,11 @@ class SerializerManagerImpl implements SerializerManager {
     private static class SerializerHolder implements Comparable<SerializerHolder> {
 
         final Key key;
-        final Serializer<?> serializer;
+        final SerializerProvider serializerProvider;
 
-        private SerializerHolder(Key key, Serializer<?> serializer) {
+        private SerializerHolder(Key key, SerializerProvider serializer) {
             this.key = key;
-            this.serializer = serializer;
+            this.serializerProvider = serializer;
         }
 
         @Override
