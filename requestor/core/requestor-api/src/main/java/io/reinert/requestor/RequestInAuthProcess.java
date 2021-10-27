@@ -118,26 +118,6 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public void setPollingActive(boolean active) {
-        request.setPollingActive(active);
-    }
-
-    @Override
-    public void setPollingInterval(int intervalMillis) {
-        request.setPollingInterval(intervalMillis);
-    }
-
-    @Override
-    public void setPollingLimit(int pollLimit) {
-        request.setPollingLimit(pollLimit);
-    }
-
-    @Override
-    public void setPollingStrategy(PollingStrategy strategy) {
-        request.setPollingStrategy(strategy);
-    }
-
-    @Override
     public int incrementPollingCounter() {
         return request.incrementPollingCounter();
     }

@@ -323,26 +323,6 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void setPollingActive(boolean active) {
-        pollingOptions.setPollingActive(active);
-    }
-
-    @Override
-    public void setPollingStrategy(PollingStrategy strategy) {
-        pollingOptions.setPollingStrategy(strategy);
-    }
-
-    @Override
-    public void setPollingInterval(int intervalMillis) {
-        pollingOptions.setPollingInterval(intervalMillis);
-    }
-
-    @Override
-    public void setPollingLimit(int pollLimit) {
-        pollingOptions.setPollingLimit(pollLimit);
-    }
-
-    @Override
     public int incrementPollingCounter() {
         return pollingOptions.incrementPollingCounter();
     }
