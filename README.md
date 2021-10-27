@@ -178,10 +178,12 @@ Currently, there is one impl available: **requestor-gdeferred**. It binds reques
 **requestor-core** with [elemental2](https://github.com/google/elemental2) promise API is on the way.
 
 ### Latest Release
+
 0.2.0 (18 Feb 2015)
 
 
 ## Yet another REST Client library for GWT?
+
 *No. Not at all*. Requestor is an **HTTP Client API** intended to provide several features related to HTTP communication.
 Its scope is broader than popular (and often misunderstood) REST patterns. Requestor precisely models each entity in the
 HTTP client-side context to enable its users to handle any requirement in this boundary. It values good **code readability
@@ -346,7 +348,6 @@ session.req("/api/books/")
        });
 ```
 
-
 It is worth noting that each new dispatched request will pass through all the **request/response 
 processing**. Thereby, we will have every polling request always up to date with our filters, 
 serializers, and interceptors.
@@ -486,30 +487,46 @@ promise.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
 Serialization is part of the [Request Processing](#request-processing), and deserialization is 
 part of the [Response Processing](#response-processing).
 
-Requestor exposes the `Serializer<T>` interface responsible for serializing and deserializing a 
+Requestor exposes the `Serializer` interface responsible for serializing and deserializing a 
 specific type while holding the **Media Types** it handles. Therefore, it is possible 
 to have multiple Serializers for the same Java Type handling different Media Types, e.g., JSON and 
 XML. Requestor's serialization engine is smart enough to **match** the appropriate **Serializer** 
 according to the asked class and the request/response's **Content-Type**.
 
-To enable serialization and deserialization, we must register a `Serializer<T>` instance in the
+To enable serialization and deserialization, we must register a `Serializer` instance in the
 [session](#session). Necessitating only the deserialization part, we can register a 
-`Deserializer<T>` implementation.
+`Deserializer` implementation.
 
 ```java
 session.register(new MyTypeSerializer());
 ```
 
-Although we can implement our custom Serializers, we often resort to **auto-serialization** provided
+Additionally, we can register a `Provider` instead of an actual Serializer instance. It is a 
+factory that will provide the Serializer instance on demand. When Requestor's serialization engine 
+matches a serializer according to the class and media type, it asks the Provider for an 
+instance. If this instance is disposable (i.e., it is not living in an outer context), the 
+garbage collector will free up some memory after its usage. See how to register a Serializer 
+Provider:
+
+```java
+register(new SerializerProvider() {
+    @Override
+    public Serializer<?> getInstance() {
+        return new MyTypeSerializer(); // return a disposable instance instead of a reference
+    }
+});
+
+// Lambda syntax
+session.register(MyTypeSerializer::new); // Equivalent to the logic above
+```
+
+**💡 PRO TIP**: Always register your `Serializers` using `Providers` to save memory.
+
+Although we can implement our custom Serializers, we often resort to **AUTO-SERIALIZATION** provided
 by requestor extensions. Currently, there are two available: `requestor-gwtjackson` and
 `requestor-autobeans`.
 
 ### Gwt-Jackson auto-serialization
-
-The `requestor-gwtjackson` extension integrates requestor with gwt-jackson to provide auto serialization. Intending to have the Serializers automatically
-generated you just need to declare a `SerializationModule` with the desired classes you want to serialize. Additionally, you need to specify the
-**Media Types** that the serializers will handle. Since gwt-jackson serializes to json format, you'll probably set "application/json" as a media type,
-but you can declare other media types, even wildcard types like "\*/json" or "\*/\*".
 
 The `requestor-gwtjackson` extension integrates gwt-jackson into requestor to provide auto 
 serialization. Intending to have the Serializers automatically generated, we just need to 
@@ -519,10 +536,6 @@ format, "application/json" is the default media type, but you can declare other 
 wildcard types like "\*/json" or "\*/\*".
 
 ```java
-// 'application/stream+json' matches 'application/*json*'
-// 'application/json+gzip' matches 'application/*json*'
-// 'text/javascript' matches '*/javascript'
-
 @MediaType({"application/*json*", "*/javascript"})
 @JsonSerializationModule({ Author.class, Book.class })
 interface MySerializationModule extends SerializationModule {}
@@ -533,7 +546,7 @@ below will match the auto-generated serializers:
 
 ```java
 // Matches 'application/*json*' to serialize the payload
-session.req("/books").contentType("application/json+gzip").payload(book);
+session.req("/books").contentType("application/json+gzip").payload(book).post();
 
 // Matches 'application/*json*' to deserialize the response's payload
 // assuming the response's content-type was really 'application/stream+json'
@@ -582,6 +595,13 @@ to generate the serializers.
 @MediaType({"application/json", "*/*"})
 @JsonSerializationModule({ Author.class, Book.class })
 interface MySerializationModule extends SerializationModule {}
+```
+
+Additionally, Requestor graciously enables us to create new AutoBean instances directly from the Session by 
+calling `session.getInstance( <Class> )`.
+
+```java
+Book book = session.getInstance(Book.class);
 ```
 
 The installation procedure is pretty much the same.
@@ -660,11 +680,6 @@ session.req("/api/authorized-only")
 ```
 
 You may do any other useful async task, like performing heavy hash processes using *web workers*, before sending the request.
-
-Additionally, Requestor allows you to register an Auth `Provider` instead of the `Auth` instance.
-This is just a **factory** that will create new `Auth` instances for each request. You'll find it
-very useful when you need to implement authentication mechanisms that requires some state management,
-like the `DigestAuth`. Check an example below of how to register an `Auth.Provider`:
 
 Additionally, Requestor allows you to register an Auth `Provider` instead of the `Auth` instance. It's just a **factory**
 that will create new `Auth` instances for each request. You'll find it really valuable when implementing authentication mechanisms
