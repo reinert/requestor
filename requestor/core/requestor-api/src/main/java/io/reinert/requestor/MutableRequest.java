@@ -52,6 +52,11 @@ public interface MutableRequest extends Request, HasHeaders {
      */
     void setAuth(Auth auth);
 
+    /**
+     * Sets the necessary information for authenticating the request against the server.
+     *
+     * @param authProvider The authentication provider
+     */
     void setAuth(Auth.Provider authProvider);
 
     /**

@@ -38,6 +38,11 @@ public interface MutableSerializedResponse extends SerializedResponse, HasHeader
      */
     void setSerializedPayload(SerializedPayload serializedPayload);
 
+    /**
+     * Set the response type expected in the XMLHttpRequest
+     *
+     * @param responseType XMLHttpRequest's response type
+     */
     void setResponseType(ResponseType responseType);
 
 }
