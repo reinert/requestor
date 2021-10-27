@@ -558,6 +558,77 @@ Then inherit the `AutoBeanExt` GWT module in your gwt.xml file:
 #### SubTypes
 
 ## Auth
+
+Requestor provides the `Auth` functional interface to authenticate your requests, responsible for delivering the
+necessary credential data to the request before sending it. Furthermore, the Auth interface, like any other processor,
+is an **async callback**. Therefore, after performing the necessary changes in the request, it requires you to finally
+call `request.send()` actually to dispatch it. Also, you may find it helpful to use the Session's Store to retrieve
+credential info. Check the following simple example:
+
+```java
+session.req("/api/authorized-only")
+        .auth(new Auth() {
+            @Override
+            public void auth(PreparedRequest request) {
+                // Retrieve the token from the Store
+                String userToken = request.getStore().get("userToken");
+                
+                // Provide the credentials in the Authorization header
+                request.setHeader("Authorization", "Bearer " + userToken);
+                
+                // Your request will be hanging forever if you do not call `send`
+                request.send();
+            }
+        }).get().success( /* ... */ );
+```
+
+This is just a simple example of how to perform a usual authentication. Indeed, this logic is already provided to
+you through the [`BearerAuth`](#bearer-token) implementation.
+
+Notice that Auth's async nature will enable you to do complex stuff before actually providing the credential data
+to your request. You can perform other asynchronous tasks before properly configuring the request. If, for instance,
+you need to ping another endpoint to grab some token data, you can easily do it. Check the example below:
+
+```java
+session.req("/api/authorized-only")
+        .auth(request -> {
+            // We are reaching another endpoint sending a password to get an updated token
+            session.post("/api/token", "my-password", String.class)
+                    .success(token -> {
+                        // After receiving the updated token, we set it into the request and send it
+                        request.setHeader("Authorization", "Bearer " + token);
+                        request.send();
+                    });
+        });
+```
+
+You may do any other useful async task, like performing heavy hash processes using *web workers*, before sending the request.
+
+Additionally, Requestor allows you to register an Auth `Provider` instead of the `Auth` instance.
+This is just a **factory** that will create new `Auth` instances for each request. You'll find it
+very useful when you need to implement authentication mechanisms that requires some state management,
+like the `DigestAuth`. Check an example below of how to register an `Auth.Provider`:
+
+Additionally, Requestor allows you to register an Auth `Provider` instead of the `Auth` instance. It's just a **factory**
+that will create new `Auth` instances for each request. You'll find it really valuable when implementing authentication mechanisms
+that require state management, like the `DigestAuth`. Check an example below of how to register an `Auth.Provider`:
+
+```java
+session.req("/api/authorized-only")
+        .auth(new Auth.Provider() {
+            @Override
+            public Auth getInstance() {
+                // Supposing you implemented MyAuth elsewhere
+                return new MyAuth( session.getStore().get("userToken") );
+            }
+        });
+    
+// Lambda syntax
+session.req("/api/authorized-only")
+        .auth( () -> new MyAuth(session.getStore().get("userToken")) );
+```
+
+
 ### Basic
 ### Bearer Token
 ### Digest
