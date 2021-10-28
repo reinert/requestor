@@ -4,8 +4,8 @@
 
 *Ask more. Do less. Keep track of everything.*
 
-Requestor is a powerful HTTP Client API for cutting-edge GWT apps. It offers plenty of carefully
-designed features that enable developers to rule the network communication process smoothly:
+Requestor is a powerful HTTP Client API for cutting-edge Java/GWT client apps. It offers plenty of
+carefully designed features that enable developers to rule the network communication process smoothly:
 * **Requesting Fluent API** - code as you think, read as you code.
 * **Promises** - chain callbacks to different results and statuses.
 * **Serialization** - serialize and deserialize payloads integrating any library.
@@ -191,8 +191,10 @@ and maintainability** for the user by providing carefully designed interfaces an
 add their logic with **low or zero integration effort**. Workarounds and hacks are not welcome here. Developers should be able
 to implement their requirements keeping **high cohesion** through all their codebase.
 
-Additionally, Requestor was crafted from the client perspective instead of the server's (like other rest libraries were thought).
-In that fashion, developers have a more **consistent and intuitive experience** consuming HTTP services while coding.
+Additionally, Requestor was crafted from the Client perspective instead of the Server's (like other rest libraries were thought).
+In that fashion, developers have a more **consistent and intuitive experience** consuming HTTP services while coding. We do not
+need to pre-declare Server API's facades. We can just consume them on demand. This approach empower us to build *micro clients*
+that interact with many different *micro services*.
 
 Besides, we value **code traceability**. So code generation is the last option in design decisions. Whenever a new requirement appears,
 we strive to develop a good design solution that allows the user to write less code and achieve the desired results. If something proves
@@ -315,7 +317,7 @@ There are two PollingStrategy choices: **LONG** or **SHORT**.
 req.poll( PollingStrategy.SHORT, 3000 );
 
 // The next requests are dispatched as soon the responses are received
-req.poll( PollingStrategy.LONG); // Equivalent to req.poll( PollingStrategy.LONG, 0 );
+req.poll( PollingStrategy.LONG); // Same as `req.poll( PollingStrategy.LONG, 0 )`
 
 // The next requests are dispatched 10s after previous responses up to the limit of 5 requests
 req.poll( PollingStrategy.LONG, 10000, 5 );
@@ -329,7 +331,7 @@ In both cases, if we also set the request's delay option, then the subsequent di
 req.delay(2000).poll( PollingStrategy.SHORT, 3000 );
 ```
 
-Furthermore, not setting a *polling limit*, we can manually stop the polling by calling 
+Furthermore, not setting a *polling limit*, we can manually ***stop*** the polling by calling 
 `request.stopPolling()`.
 
 ```java
@@ -452,7 +454,7 @@ session.get('/httpbin.org/ip', String.class).success(new PayloadCallback<String>
 ### Success callbacks and Collections
 
 When requesting, we will always receive a `Promise<Collection<T>>` despite the particular 
-collection type (*List*, *Set*, and so on) we demanded due to a design limitation of the Java 
+collection type (*List*, *Set*, and so on) we asked due to a design limitation of the Java 
 language, which does not allow "generics of generics." Nevertheless, we can declare the 
 collection we demanded in the callback to typecast the result automatically.
 See the example:
@@ -518,7 +520,7 @@ register(new SerializerProvider() {
 });
 
 // Lambda syntax
-session.register(MyTypeSerializer::new); // Equivalent to the logic above
+session.register(MyTypeSerializer::new); // Same as `session.register(() -> new MyTypeSerializer())`
 ```
 
 **💡 PRO TIP**: If you start having too many serializers, consider registering them with `Providers` to save memory.
@@ -648,7 +650,7 @@ session.req("/api/authorized-only")
                 // Your request will be hanging forever if you do not call `send`
                 request.send();
             }
-        }).get().success( /* ... */ );
+        });
 ```
 
 This is an example of how to perform a usual authentication. Indeed, this logic is already provided
@@ -716,51 +718,324 @@ session.setAuth(() -> {
 ```
 
 ### Digest
-
-#TBD
+// TBD
 
 ### CORS
-
-#TBD
+// TBD
 
 ### OAuth2
-
-#TBD
+// TBD
 
 ## Processors (hooking)
 
-One of the library's main features is the ability to introduce **asynchronous hooks** for processing requests and responses. These are called **Processors**. Furthermore, it is essential to note that each processor kind has a specific capacity that differentiates it from others. Thus, it helps us to organize our application's communication processing stack better.
+One of the library's main features is the ability to introduce ***asynchronous hooks*** to 
+process requests and responses. These middlewares are called **Processors**. Furthermore, it is 
+essential to note that each processor kind has a specific capacity that differentiates it from 
+others. Thus, it helps us to organize our application's communication processing stack better.
 
-The processing cycle works as follows:
-1. Request Filtering
-2. Request Serialization
-3. Request Interception
-4. Request Authentication
-5. Response Interception
-6. Response Deserialization
-7. Response Filtering
+The request and response processing are include in the **REQUEST LIFECYCLE** as follows:
+1. User builds and invokes a new **Request** through the **Session**
+2. Request is processed by `RequestFilters`
+3. Request is processed by `RequestSerializer` and serialized
+4. Request is processed by `RequestInterceptors`
+5. Request is processed by `Auth` and *sent* to network
+6. **Response** is *received* from network
+7. Response is processed by `ResponseInterceptors`
+8. Response is processed by `ResponseDeserializer` and deserialized
+9. Response is processed by `ResponseFilters`
+10. User receives the processed Response though the **Promise**
 
-These are the distinguishing features for each kind of processor:
+All processors are able to manipulate the request/response, but they have the following 
+distinguishing characteristic according to its kind:
 * **Filters** - they can modify the *deserialized* payload
 * **Serializers / Deserializers** - they perform payload serialization and deserialization
 * **Interceptors** - they can modify the *serialized* payload
 
-## Request Processing
-### Filter
-### Serialize
-### Intercept
-### Authenticate
+We can register as many **Filters** and **Interceptors** as we want in a **Session**. They are 
+executed in the same order they were registered.
 
-## Response Processing
-### Intercept
-### Deserialize
-### Filter
+Regarding the **Auth**, there is only one available *per* ***Request***. We can register a default 
+Auth in the Session using `session.setAuth(<Auth>)`, but we can override it when building a request.
+Refer to the [Auth](#auth) section for more details.
+
+As for the **RequestSerializer** and **ResponseDeserializer**, there is only one available *per* 
+***Session***. They resort to the **SerializationEngine** to perform serialization and 
+deserialization. The engine holds the registered **Serializers** and is responsible for 
+de/serializing objects according to the *class* and *media type*.
+
+### RequestFilter
+
+A `RequestFilter` hooks an undergoing deserialized request (`RequestInProcess`) to modify it, even 
+its payload, or perform any other action that fits the business requirements triggered by a new
+request. As any other **Processor**, the **RequestFilter** is ***asynchronous***, so we must call
+`request.proceed()` to move the request forward in the request processing.
+
+We can add a `RequestFilter` to the **Session** by calling `session.register(<RequestFilter>)`. 
+
+```java
+session.register(new RequestFilter() {
+    @Override
+    public void filter(RequestInProcess request) {
+        // Access the Store bounded to this request/response lifecycle
+        String encoding = request.getStore().get("encoding");
+
+        // Modify the request headers
+        request.setHeader("Accept-Encoding", encoding);
+
+        // Modify any other request option, including the payload
+        request.setPayload(null);
+
+        // Call proceed otherwise the request hangs forever
+        request.proceed();
+    }
+});
+```
+
+In addition to registering a **RequestFilter** instance, we can instead register a `Provider` to 
+create new filter instances for each new request. This is useful if a filter relies on some 
+internal state that should not be shared among other request lifecycles. See how to register it:
+
+```java
+session.register(new RequestFilter.Provider() {
+    @Override
+    public RequestFilter getInstance() {
+        // Supossing you implemented MyRequestFilter elsewhere
+        return new MyRequestFilter();
+    }
+});
+
+// Lambda syntax
+session.register(MyRequestFilter::new); // Same as `session.register(() -> new MyRequestFilter())`
+```
+
+Besides proceeding with the request, we can alternatively ***abort*** it by calling
+`request.abort(<MockResponse>|<RequestException>)`. Check below:
+
+```java
+session.register(new RequestFilter() {
+    @Override
+    public void filter(RequestInProcess request) {
+        // Abort the request with a fake response
+        request.abort(new MockResponse(Status.BAD_REQUEST));
+    }
+});
+```
+
+If we abort with `MockResponse` then **load** callbacks are triggered,
+as well **success** and **status** depending on the response status code.
+Otherwise, if the request is aborted with `RequestException`, then **abort** 
+callbacks are triggered.
+
+### RequestSerializer
+
+A `RequestSerializer` receives a `SerializableRequestInProcess` along with the
+`SerializationEngine`. It is supposed to serialize the request and proceed with
+the request processing. The engine uses the registered **Serializers** to serialize 
+the request matching the payload object *class* and the request's *content-type*.
+
+There is only one `RequestSerializer` per Session, and it can be set with
+`session.setRequestSerializer(<RequestSerializer>)`. Check the default implementation below:
+
+```java
+session.setRequestSerializer(new RequestSerializer() {
+    @Override
+    public void serialize(SerializableRequestInProcess request,
+                          SerializationEngine engine) {
+        // The engine is capable of serializing the request
+        engine.serializeRequest(request);
+        // It's possible to perform any async task during serialization
+        request.proceed();
+    }
+});
+```
+
+### RequestInterceptor
+
+A `RequestInterceptor` hooks an undergoing serialized request (`SerializedRequestInProcess`) to 
+modify it, even its payload, or perform any other action that fits the business requirements 
+triggered by a new request. As any other **Processor**, the **RequestInterceptor** is 
+***asynchronous***, so we must call `request.proceed()` to move the request forward in the 
+request processing.
+
+We can add a `RequestInterceptor` to the **Session** by calling `session.register(<RequestInterceptor>)`. 
+
+```java
+session.register(new RequestInterceptor() {
+    @Override
+    public void intercept(SerializedRequestInProcess request) {
+        // Access the Store bounded to this request lifecycle
+        String encoding = request.getStore().get("encoding");
+
+        // Modify the request headers
+        request.setHeader("Accept-Encoding", encoding);
+
+        // Modify any other request option, including the serialized payload
+        String json = request.getSerializedPayload().getString();
+        SerializedPayload jsonp = SerializedPayload.fromText(")]}',\\n" + json);
+        request.setSerializedPayload(jsonp);
+
+        // Call proceed otherwise the request hangs forever
+        request.proceed();
+    }
+});
+```
+
+In addition to registering a **RequestInterceptor** instance, we can instead register a `Provider` to 
+create new interceptor instances for each new request. This is useful if an interceptor relies 
+on some internal state that should not be shared among other request lifecycles. See how to 
+register it:
+
+```java
+session.register(new RequestInterceptor.Provider() {
+    @Override
+    public RequestInterceptor getInstance() {
+        // Supossing you implemented MyRequestInterceptor elsewhere
+        return new MyRequestInterceptor();
+    }
+});
+
+// Lambda syntax
+session.register(MyRequestInterceptor::new); // Same as `session.register(() -> new MyRequestInterceptor())`
+```
+
+Besides proceeding with the request, we can alternatively ***abort*** it by calling
+`request.abort(<MockResponse>|<RequestException>)`. Check below:
+
+```java
+session.register(new RequestInterceptor() {
+    @Override
+    public void interceptor(SerializedRequestInProcess request) {
+        // Abort the request with an exception
+        request.abort(new RequestException(request, "Manually aborted"));
+    }
+});
+```
+
+If we abort with `MockResponse` then **load** callbacks are triggered,
+as well **success** and **status** depending on the response status code.
+Otherwise, if the request is aborted with `RequestException`, then **abort** 
+callbacks are triggered.
+
+### ResponseInterceptor
+
+A `ResponseInterceptor` hooks an incoming serialized response (`SerializedResponseInProcess`) to
+modify it, even its serialized payload, or perform any other action that fits the business 
+requirements triggered by a new response. As any other **Processor**, the **ResponseInterceptor**
+is ***asynchronous***, so we must call `response.proceed()` to move the response forward in the
+response processing.
+
+We can add a `ResponseInterceptor` to the **Session** by calling `session.register(<ResponseInterceptor>)`.
+
+```java
+session.register(new ResponseInterceptor() {
+    @Override
+    public void intercept(SerializedResponseInProcess response) {
+        // Modify the response headers
+        response.putHeader(new ContentTypeHeader("application/json"));
+
+        // Modify any other response option, including the serialized payload
+        String jsonp = response.getSerializedPayload().getString();
+        SerializedPayload json = SerializedPayload.fromText(jsonp.substring(8));
+        response.setSerializedPayload(json);
+
+        // Call proceed otherwise the response hangs forever
+        response.proceed();
+    }
+});
+```
+
+In addition to registering a **ResponseInterceptor** instance, we can instead register a `Provider` to
+create new interceptor instances for each new response. This is useful if an interceptor relies 
+on some internal state that should not be shared among other request lifecycles. See how to 
+register it:
+
+```java
+session.register(new ResponseInterceptor.Provider() {
+    @Override
+    public ResponseInterceptor getInstance() {
+        // Supossing you implemented MyResponseInterceptor elsewhere
+        return new MyResponseInterceptor();
+    }
+});
+
+// Lambda syntax
+session.register(MyResponseInterceptor::new); // Same as `session.register(() -> new MyResponseInterceptor())`
+```
+
+### ResponseDeserializer
+
+A `ResponseDeserializer` receives a `DeserializableResponseInProcess` along with the
+`SerializationEngine`. It is supposed to deserialize the response and proceed with
+the response processing. The engine uses the registered **Deserializers** to deserialize
+the response matching the asked payload *class* and the response's *content-type*.
+
+There is only one `ResponseDeserializer` per Session, and it can be set with
+`session.setResponseDeserializer(<ResponseDeserializer>)`. Check the default implementation below:
+
+```java
+session.setResponseDeserializer(new ResponseDeserializer() {
+    @Override
+    public void deserialize(DeserializableResponseInProcess response,
+                            SerializationEngine engine) {
+        // The engine is capable of deserializing the response
+        engine.serializeResponse(response);
+        // It's possible to perform any async task during deserialization
+        response.proceed();
+    }
+});
+```
+
+### ResponseFilter
+
+A `ResponseFilter` hooks an incoming deserialized response (`ResponseInProcess`) to
+modify it, even its serialized payload, or perform any other action that fits the business
+requirements triggered by a new response. As any other **Processor**, the **ResponseFilter**
+is ***asynchronous***, so we must call `response.proceed()` to move the response forward in the
+response processing.
+
+We can add a `ResponseFilter` to the **Session** by calling `session.register(<ResponseFilter>)`.
+
+```java
+session.register(new ResponseFilter() {
+    @Override
+    public void filter(ResponseInProcess response) {
+        // Modify the response headers
+        response.putHeader(new ContentTypeHeader("application/json"));
+
+        // Modify any other response option, including the serialized payload
+        String jsonp = response.getSerializedPayload().getString();
+        SerializedPayload json = SerializedPayload.fromText(jsonp.substring(8));
+        response.setSerializedPayload(json);
+
+        // Call proceed otherwise the response hangs forever
+        response.proceed();
+    }
+});
+```
+
+In addition to registering a **ResponseFilter** instance, we can instead register a `Provider` to
+create new filter instances for each new response. This is useful if a filter relies
+on some internal state that should not be shared among other request lifecycles. See how to
+register it:
+
+```java
+session.register(new ResponseFilter.Provider() {
+    @Override
+    public ResponseFilter getInstance() {
+        // Supossing you implemented MyResponseFilter elsewhere
+        return new MyResponseFilter();
+    }
+});
+
+// Lambda syntax
+session.register(MyResponseFilter::new); // Same as `session.register(() -> new MyResponseFilter())`
+```
 
 ## Session
+// TBD
 
-## Data Store
-### Session Store
-### Request Store
+## Store
+// TBD
 
 
 ## REST
@@ -941,11 +1216,11 @@ Promise<Void> delReq = req.delete();
 
 // PUT, PATCH, HEAD and OPTIONS are also available but were omitted for didactic purposes
 
-        
+
 //========================================
 // 3. Chain callbacks
 //======================================== 
-// This is executed if the request was successful
+
 // You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
 postReq.success(payload -> showSuccess(payload)) // Response was 2xx and body was deserialized as Integer
        .fail(response -> showError(response.getStatus())) // Response was unsuccessful (status ≠ 2xx)

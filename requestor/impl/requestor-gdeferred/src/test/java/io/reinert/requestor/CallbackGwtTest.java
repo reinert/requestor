@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -88,33 +89,33 @@ public class CallbackGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-//    public void testListSuccessCallback() {
-//        // GET /books
-//        final Uri uri = uriBuilder.build();
-//        requestor.req(uri).get(Book.class, List.class).success(new ListSuccessCallback<Book>() {
-//            public void onSuccess(List<Book> result) {
-//                assertNotNull(result);
-//                assertFalse(result.isEmpty());
-//
-//                finishTest();
-//            }
-//        });
-//        delayTestFinish(TIMEOUT);
-//    }
+    public void testListSuccessCallback() {
+        // GET /books
+        final Uri uri = uriBuilder.build();
+        session.req(uri).get(List.class, Book.class).success(new PayloadCallback<List<Book>>() {
+            public void execute(List<Book> result) {
+                assertNotNull(result);
+                assertFalse(result.isEmpty());
 
-//    public void testSetSuccessCallback() {
-//        // GET /books
-//        final Uri uri = uriBuilder.build();
-//        requestor.req(uri).get(Book.class, Set.class).success(new SetSuccessCallback<Book>() {
-//            public void onSuccess(Set<Book> result) {
-//                assertNotNull(result);
-//                assertFalse(result.isEmpty());
-//
-//                finishTest();
-//            }
-//        });
-//        delayTestFinish(TIMEOUT);
-//    }
+                finishTest();
+            }
+        });
+        delayTestFinish(TIMEOUT);
+    }
+
+    public void testSetSuccessCallback() {
+        // GET /books
+        final Uri uri = uriBuilder.build();
+        session.req(uri).get(Set.class, Book.class).success(new PayloadCallback<Set<Book>>() {
+            public void execute(Set<Book> result) {
+                assertNotNull(result);
+                assertFalse(result.isEmpty());
+
+                finishTest();
+            }
+        });
+        delayTestFinish(TIMEOUT);
+    }
 
     //=========================================================================
     // ERROR CALLBACKS
