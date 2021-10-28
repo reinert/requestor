@@ -22,7 +22,7 @@ package io.reinert.requestor;
  */
 public interface RequestInProcess extends MutableRequest, InProcess {
 
-    void abort(RawResponse response);
+    void abort(MockResponse response);
 
     void abort(RequestException error);
 

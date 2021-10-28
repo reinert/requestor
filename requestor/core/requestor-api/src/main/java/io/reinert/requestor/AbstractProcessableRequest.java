@@ -203,7 +203,7 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public final void abort(RawResponse response) {
+    public final void abort(MockResponse response) {
         request.abort(response);
     }
 

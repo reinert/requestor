@@ -149,7 +149,8 @@ public class XhrRequestDispatcher extends RequestDispatcher {
 
                 SerializedPayload serializedPayload = null;
 
-                if (responseType.isEmpty() || responseType.equalsIgnoreCase(ResponseType.TEXT.getValue())) {
+                if (responseType == null || responseType.isEmpty() ||
+                        responseType.equalsIgnoreCase(ResponseType.TEXT.getValue())) {
                     serializedPayload = SerializedPayload.fromText(xhr.getResponseText());
                 } else if (responseType.equalsIgnoreCase(ResponseType.BLOB.getValue())) {
                     serializedPayload = SerializedPayload.fromBlob(xhr.getResponse());

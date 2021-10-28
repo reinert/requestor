@@ -53,8 +53,12 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public void abort(RawResponse response) {
-        dispatcher.evalResponse(response);
+    public void abort(MockResponse response) {
+        final RawResponse rawResponse = new RawResponse(request, response.getStatus(),
+                response.getHeaders(), response.getResponseType(), responsePayloadType,
+                response.getSerializedPayload(), deferred);
+
+        dispatcher.evalResponse(rawResponse);
     }
 
     @Override

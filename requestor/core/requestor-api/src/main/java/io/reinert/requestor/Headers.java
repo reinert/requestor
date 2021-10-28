@@ -65,7 +65,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
         }
     }
 
-    static Headers copy(Headers headers) {
+    public static Headers copy(Headers headers) {
         if (headers.isEmpty()) {
             return new Headers();
         }
