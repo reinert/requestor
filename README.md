@@ -78,7 +78,7 @@ Meet all the request options available in the [Request Options](#request-options
 
 ### ⚙️ Set up your Session
 
-Requestor provides a configurable client `Session`. There we *set default request options* 
+Requestor features a configurable client `Session`. There we *set default request options* 
 that apply to all requests. Also, we are able to *cache and share data* through the `Store`. 
 Eventually, we can *reset the session state* at any time.
 
@@ -182,9 +182,9 @@ Currently, there is one impl available: **requestor-gdeferred**. It binds reques
 0.2.0 (18 Feb 2015)
 
 
-## Yet another REST Client library for GWT?
+## Yet another REST Client library?
 
-*No. Not at all*. Requestor is an **HTTP Client API** intended to provide several features related to HTTP communication.
+*No. Not at all*. Requestor is an **HTTP Client API** intended to provide several features related to network communication.
 Its scope is broader than popular (and often misunderstood) REST patterns. Requestor precisely models each entity in the
 HTTP client-side context to enable its users to handle any requirement in this boundary. It values good **code readability
 and maintainability** for the user by providing carefully designed interfaces and abstractions that others can extend and
@@ -196,9 +196,9 @@ In that fashion, developers have a more **consistent and intuitive experience** 
 
 Besides, we value **code traceability**. So code generation is the last option in design decisions. Whenever a new requirement appears,
 we strive to develop a good design solution that allows the user to write less code and achieve the desired results. If something proves
-to be inevitably repetitive on the user side, after achieving the best possible solution, then code generation is used to save the user
+to be inevitably repetitive on the user side, after reaching the best possible design, then code generation is used to save the user
 from repetitive work. Still, leveraging Requestor's components, people will probably automate most of their work using fundamental
-object-oriented techniques like abstraction and composition. This way, they will better comprehend what is going on and have complete
+object-oriented techniques like inheritance and composition. This way, they will better comprehend what is going on and have complete
 control of the coding flow.
 
 Requestor was inspired by successful HTTP Client APIs in other ecosystems like Python Requests, Angular HttpClient, Ruby Http.rb, and JAX-RS Client.
@@ -373,6 +373,7 @@ available callbacks:
   * **progress**( requestProgress -> {} )
     * executed many times while the request is being sent
     * features the *requestProgress* that enables tracking the download progress
+    * 
   * **upProgress**( requestProgress -> {} )
     * executed many times while the response is being received
     * features the *requestProgress* that enables tracking the upload progress
@@ -520,10 +521,10 @@ register(new SerializerProvider() {
 session.register(MyTypeSerializer::new); // Equivalent to the logic above
 ```
 
-**💡 PRO TIP**: Always register your `Serializers` using `Providers` to save memory.
+**💡 PRO TIP**: If you start having too many serializers, consider registering them with `Providers` to save memory.
 
-Although we can implement our custom Serializers, we often resort to **AUTO-SERIALIZATION** provided
-by requestor extensions. Currently, there are two available: `requestor-gwtjackson` and
+Although it is possible to implement our custom Serializers, we often resort to **AUTO-SERIALIZATION**
+provided by requestor extensions. Currently, there are two available: `requestor-gwtjackson` and
 `requestor-autobeans`.
 
 ### Gwt-Jackson auto-serialization
@@ -597,8 +598,8 @@ to generate the serializers.
 interface MySerializationModule extends SerializationModule {}
 ```
 
-Additionally, Requestor graciously enables us to create new AutoBean instances directly from the Session by 
-calling `session.getInstance( <Class> )`.
+Further, Requestor graciously enables us to create new AutoBean instances directly from the 
+Session by calling `session.getInstance(<Class>)`.
 
 ```java
 Book book = session.getInstance(Book.class);
@@ -609,11 +610,6 @@ The installation procedure is pretty much the same.
 ```xml
 <dependencies>
   ...
-  <dependency>
-    <groupId>com.github.nmorel.gwtjackson</groupId>
-    <artifactId>gwt-jackson</artifactId>
-    <version>${gwtjackson.version}</version>
-  </dependency>
   <dependency>
     <groupId>io.reinert.requestor.ext</groupId>
     <artifactId>requestor-autobean</artifactId>
@@ -636,11 +632,7 @@ Then inherit the `AutoBeanExt` GWT module in your gwt.xml file:
 
 ## Auth
 
-Requestor provides the `Auth` functional interface to authenticate your requests, responsible for delivering the
-necessary credential data to the request before sending it. Furthermore, the Auth interface, like any other processor,
-is an **async callback**. Therefore, after performing the necessary changes in the request, it requires you to finally
-call `request.send()` actually to dispatch it. Also, you may find it helpful to use the Session's Store to retrieve
-credential info. Check the following simple example:
+Requestor features the `Auth` functional interface responsible for authenticating the requests as the last step in the [Request Processing](#request-processing). It delivers the credentials to the request and ultimately sends it. Like any other processor, the Auth interface is an **async callback**. Therefore, after performing the necessary changes in the request, it must call `request.send()` to really send it. Moreover, we may find it advantageous to use the Session's Store to retrieve credential info. Check the following example:
 
 ```java
 session.req("/api/authorized-only")
@@ -659,12 +651,12 @@ session.req("/api/authorized-only")
         }).get().success( /* ... */ );
 ```
 
-This is just a simple example of how to perform a usual authentication. Indeed, this logic is already provided to
-you through the [`BearerAuth`](#bearer-token) implementation.
+This is an example of how to perform a usual authentication. Indeed, this logic is already provided
+by the [`BearerAuth`](#bearer-token) implementation.
 
-Notice that Auth's async nature will enable you to do complex stuff before actually providing the credential data
-to your request. You can perform other asynchronous tasks before properly configuring the request. If, for instance,
-you need to ping another endpoint to grab some token data, you can easily do it. Check the example below:
+Notice that Auth's async nature enables us to do complex stuff before actually providing the credential data
+to the request. We can perform other asynchronous tasks before properly configuring the request. If, for instance,
+we need to ping another endpoint to grab some token data, we can easily do it. Check the example below:
 
 ```java
 session.req("/api/authorized-only")
@@ -679,34 +671,79 @@ session.req("/api/authorized-only")
         });
 ```
 
-You may do any other useful async task, like performing heavy hash processes using *web workers*, before sending the request.
+We may do any other useful async task, like performing heavy hash processes using *web workers*, before sending the request.
 
-Additionally, Requestor allows you to register an Auth `Provider` instead of the `Auth` instance. It's just a **factory**
-that will create new `Auth` instances for each request. You'll find it really valuable when implementing authentication mechanisms
-that require state management, like the `DigestAuth`. Check an example below of how to register an `Auth.Provider`:
+Additionally, Requestor allows us to register an Auth `Provider` instead of the `Auth` instance. The Provider is a **factory**
+that returns an `Auth` instance for each request. It is really valuable when implementing authentication mechanisms
+that require state management, like the `DigestAuth`. Check an example below of how to register an `Auth.Provider` in
+the Session:
 
 ```java
-session.req("/api/authorized-only")
-        .auth(new Auth.Provider() {
-            @Override
-            public Auth getInstance() {
-                // Supposing you implemented MyAuth elsewhere
-                return new MyAuth( session.getStore().get("userToken") );
-            }
-        });
+session.setAuth(new Auth.Provider() {
+    @Override
+    public Auth getInstance() {
+        // Supposing you implemented MyAuth elsewhere
+        return new MyAuth( session.getStore().get("userToken") );
+    }
+});
     
 // Lambda syntax
-session.req("/api/authorized-only")
-        .auth( () -> new MyAuth(session.getStore().get("userToken")) );
+session.setAuth( () -> new MyAuth(session.getStore().get("userToken")) );
 ```
 
 
 ### Basic
+
+In order to facilitate our development, Requestor provides standard Auth implementations. For instance, the `BasicAuth` performs the **basic access authentication** by putting a header field in the form of `Authorization: Basic <credentials>`, where credentials is the Base64 encoding of `username` and `password` joined by a single colon `:`. It might be helpful to retrieve credentials data from the Session Store, like in the following example:
+
+```java
+User user = session.getStore().get("user");
+
+session.req("/api/authorized-only")
+        .auth(new BasicAuth( user.getUsername(), user.getPassword() ));
+```
+
 ### Bearer Token
+
+Correspondingly, the `BearerAuth` performs the **bearer token authentication** by adding a header to the request in the form of `Authorization: Bearer <token>`.
+See how you can enable this Auth in your Session to all requests using a `Provider`:
+
+```java
+session.setAuth(() -> {
+    UserInfo userInfo = session.getStore().get("userInfo");
+    return new BearerAuth(user.getToken());
+});
+```
+
 ### Digest
+
+#TBD
+
 ### CORS
+
+#TBD
+
 ### OAuth2
-### Custom
+
+#TBD
+
+## Processors (hooking)
+
+One of the library's main features is the ability to introduce **asynchronous hooks** for processing requests and responses. These are called **Processors**. Furthermore, it is essential to note that each processor kind has a specific capacity that differentiates it from others. Thus, it helps us to organize our application's communication processing stack better.
+
+The processing cycle works as follows:
+1. Request Filtering
+2. Request Serialization
+3. Request Interception
+4. Request Authentication
+5. Response Interception
+6. Response Deserialization
+7. Response Filtering
+
+These are the distinguishing features for each kind of processor:
+* **Filters** - they can modify the *deserialized* payload
+* **Serializers / Deserializers** - they perform payload serialization and deserialization
+* **Interceptors** - they can modify the *serialized* payload
 
 ## Request Processing
 ### Filter
