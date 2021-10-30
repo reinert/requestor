@@ -148,7 +148,8 @@ bookService.delete(123).success(() -> showSuccess("Book was deleted."));
 Although Requestor provides this generic REST client, extending the `AbstractService` class and 
 implementing our service clients is more beneficial. `AbstractService` affords the advantage of
 little coding while empowering complete control of the requesting logic. Consequently, it 
-improves the testing capabilities and bug tracking. See more details in the [REST](#rest) section.
+improves the testing capabilities and bug tracking. See more details in the [Service](#service) 
+section.
 
 
 ## Installation
@@ -1165,31 +1166,141 @@ Session session = new CleanSession(new AppDeferredFactory());
 
 
 ## Store
-// TBD
+
+Requestor provides a place where we can save and retrieve objects by key: the `Store`. There are two different kinds of Store: `SessionStore` and `TransientStore`. The [Session](#session) features a long-living `SessionStore` where we can save and retrieve objects by key during the Session's life. On top of that, whenever we create a new **Request** or **Service**, we have access to a new short-living `TransientStore` to manage data during the component's lifecycle.
+
+The `TransientStore` envelopes a `Store` (be it Transient or Session) to expose access to its data. Thus, whenever the Transient Store is queried, it first tries to retrieve data from its local storage. Not succeeding, it queries the underlying Store. When saving data, we can ask the Transient Store to save it locally or delegate it to the wrapped Store. Finally, when deleting, we are able to remove only locally saved data. We cannot delete data persisted in the underlying Store from the Transient Store.
+
+### Session Store
+
+The Session Store is available throughout the Session's life. We access it by calling `session.getStore()`. With the Store, we can put, get and remove objects by key.
+
+```java
+Store store = session.getStore();
+
+// Save an object in the store
+store.save("key", anyObject);
+
+// Check if there's an object with that key
+boolean isSaved = store.has("key");
+
+// Get an object from the store
+// Automatically typecasts to the requested type
+AnyType object = store.get("key");
+
+// Remove the object from the store
+boolean isDeleted = store.delete("key");
+```
+
+### Request Store
+
+The Request Store is a `TransientStore` available during the [Request Lifecycle](#processors-hooking) and accessed within the [Processors](#processors-hooking) either by `request.getStore()` or by `response.getStore()`.
+
+Having a transient **Request Store** is helpful to share information among **Processors** without cluttering the deriving **Session Store** or **Service Store**.
+
+The Request Store provides access to the deriving Store's data. We can even persist data from the Request Store into the underlying Store (by setting the boolean `persist` param to true when saving), though we cannot delete data from it.
+
+When we call `store.get(<key>)`, the Request Store first tries to retrieve the associated object from the request scope storage. Not finding, it queries the deriving Store. Also, the result is automatically typecasted to the requested type.
+
+```java
+Store store = request.getStore();
+
+// Get an object from the store or the deriving store
+// Automatically typecasts the result
+AnyType object = store.get("key");
+```
+
+To save an object locally, we call `store.save(<key>, <object>)`. Differently, to save an object in the deriving Store, we need to call `store.save(<key>, <object>, <persit=true>)`.
+
+```java
+Store store = request.getStore();
+
+// Save an object in request scope only
+store.save("key", anyObject);
+
+// Save an object in the deriving store
+store.save("key", anyObject, true);
+```
+
+To delete a local record, we call `store.delete(<key>)`. We cannot delete records from the deriving Store.
+
+```java
+Store store = request.getStore();
+
+// Save an object in the deriving store
+store.delete("key");
+```
+
+### Service Store
+
+The Service Store is a `TransientStore` derived from the Session Store.
+
+Having a **Service Store** is helpful to share information among the requests that originated from that Service.
+
+The Service Store provides access to the deriving Session Store's data. We can even persist data from the Service Store into the underlying Store (by setting the boolean `persist` param to true when saving), though we cannot delete Session's data from it.
+
+When we call `store.get(<key>)`, the Service Store first tries to retrieve the associated object from the service scope storage. Not finding, it queries the underlying Session Store. Also, the result is automatically typecasted to the requested type.
+
+```java
+Store store = service.getStore();
+
+// Get an object from the store or the deriving session store
+// Automatically typecasts the result
+AnyType object = store.get("key");
+```
+
+To save an object locally, we call `store.save(<key>, <object>)`. Differently, to save an object in the deriving Session Store, we need to call `store.save(<key>, <object>, <persit=true>)`.
+
+```java
+Store store = request.getStore();
+
+// Save an object in request scope only
+store.save("key", anyObject);
+
+// Save an object in the deriving session store
+store.save("key", anyObject, true);
+```
+
+To delete a local record, we call `store.delete(<key>)`. We cannot delete records from the deriving Session Store.
+
+```java
+Store store = request.getStore();
+
+// Save an object in the deriving store
+store.delete("key");
+```
 
 
-## REST
+## Service
 
-As stated before, Requestor provides the [RestService](#looking-for-some-rest) to handle basic CRUD operations against a REST resource.
-But you are likely to implement one service client for each resource you need to consume extending from `AbstractService` class.
-**AbstractService** is a **resource oriented client** that enables you to gracefully customize the interaction with a resource.
+Requestor introduces the **Service** concept to represent a ***subject-oriented client***. It 
+means that a Service should bind together closely related network operations according to some 
+criteria. In this sense, if we are consuming a REST API, we can build *Entity- or 
+Resource-oriented* Services. Analogously, when consuming RPC APIs, we can create *Feature- or 
+Group-oriented* Services.
 
-🧐 It's worth noting that ***AbstractService is a branch session derived from the main session***.
-Hence, the default parameters defined in the main session are also applied in your AbstractService.
-Everything you set as a default in an AbstractService will only affect that service and will have preference over those defined in the main session.
+The `Service` is a **session branch** derived from the main [Session](#session) that holds local 
+configurations but residually leverages the main's. Within this coordinated context, we can 
+define configurations only related to the target subject without cluttering the main context. In 
+other words, the Service's [Request Options](#request-options) and the [Store](#store) are 
+independent of the Session's and have preferential usage over it.
+
+In order to create a **Service**, we need to extend the `AbstractService` class and implement 
+the network operations related to the server API's subject.
 
 ### Extending AbstractService
 
-Requestor has a design principle of favoring good code design to code generation.
-All the pieces were well modeled, so you can easily extend the basic types and create you own client services easily.
-Thus, to create a client service related to a server side REST resource, you can extend the `AbstractService` class and
-implement your calls with little coding. See example below:
+Requestor follows a design principle of favoring good code design to code generation.
+In this sense, a great effort is made in crafting classes that can cohesively be extended or 
+composed into new richer components, so the user can quickly build the functionalities he needs.
+Thus, to create a client service related to a server subject, we can extend the 
+`AbstractService` class and implement our calls, like below:
 
 ```java
 public class BookService extends AbstractService {
 
     public BookService(Session session) {
-        super(session, "/api/books"); // Provide the root path of the REST resource
+        super(session, "/api/books"); // Provide the root path of the REST resource or RPC group
     }
 
     public Promise<Book> createBook(Book book) {
@@ -1224,7 +1335,7 @@ public class BookService extends AbstractService {
 }
 ```
 
-Now use your service client:
+Now, use the service:
 
 ```java
 // It's a good practice to use Session object as a singleton
@@ -1251,31 +1362,31 @@ bookService.updateBook(123, updatedBook).success( () -> showSucessMsg() ).fail(.
 bookService.deleteBook(123).success( () -> showSucessMsg() ).fail(...);
 ```
 
-### Create your app's AbstractService
+### Creating the app's abstract Service
 
-👌 It's handful to *handle the errors inside your service*, so you don't have to always set fail callbacks.
-Therefore, it's a good practice to implement your app's AbstractService and extend the client services from it. 
-This way, you can handle all non-happy paths in one place only. As example, check the `applyErrorCallbacks` method below.
-It adds some predefined callbacks to promises:
+👌 It is helpful to handle the errors inside the Service, so we do not always have to set fail callbacks.
+Therefore, we recommend implementing an app's abstract Service and extending the client services from it.
+This way, it is feasible handle all non-happy paths in one place only. For example, check the 
+`applyErrorCallbacks` method below. It adds some predefined callbacks to promises:
 
 ```java
-public abstract class MyAppService<R> extends AbstractService {
+public abstract class MyAppService<E> extends AbstractService {
 
-    final Class<R> resourceClass;
+    final Class<E> entityClass;
     final EventBus eventBus;
     
     // Construct your Service with any other object that will allow you to properly handle errors
-    public MyAppService(Session session, String uri, Class<R> resourceClass, EventBus eventBus) {
+    public MyAppService(Session session, String uri, Class<E> entityClass, EventBus eventBus) {
         super(session, uri);
-        this.resourceClass = resourceClass;
+        this.entityClass = entityClass;
         this.eventBus = eventBus;
     }
 
     // Implement the basic operations common to every resource...
-    public Promise<R> create(R r) {
+    public Promise<E> create(E e) {
         Uri uri = getUriBuilder().build();
         // add the error handling callbacks in the promise returned by the post method
-        Promise<R> promise = request(uri).payload(r).post(resourceClass);
+        Promise<E> promise = request(uri).payload(e).post(entityClass);
         return applyErrorCallbacks(promise);
     }
     
@@ -1311,13 +1422,13 @@ The Fluent API was designed to provide an enjoyable coding experience while requ
 7. The `Promise<T>` interface enables callback chaining, so you can handle different results neatly.
 
 In summary, these are the three requesting steps:
-1. Build your request
+1. Build the request
 2. Invoke an HTTP method
 3. Chain callbacks
 
 ```java
 //========================================
-// 1. Build your request
+// 1. Build the request
 //========================================
 
 RequestInvoker req = session.req("/api/books")
