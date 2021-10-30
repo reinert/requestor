@@ -18,11 +18,11 @@ package io.reinert.requestor;
 import java.util.HashMap;
 import java.util.Map;
 
-class PersistentStore implements Store {
+class SessionStore implements Store {
 
     private final Map<String, Object> dataMap;
 
-    PersistentStore() {
+    SessionStore() {
         this.dataMap = new HashMap<String, Object>();
     }
 
@@ -33,13 +33,13 @@ class PersistentStore implements Store {
     }
 
     @Override
-    public void put(String key, Object value) {
+    public void save(String key, Object value) {
         dataMap.put(key, value);
     }
 
     @Override
-    public void put(String key, Object value, boolean sessionPersistent) {
-        put(key, value);
+    public void save(String key, Object value, boolean persist) {
+        save(key, value);
     }
 
     @Override
@@ -48,7 +48,7 @@ class PersistentStore implements Store {
     }
 
     @Override
-    public boolean remove(String key) {
+    public boolean delete(String key) {
         return dataMap.remove(key) != null;
     }
 

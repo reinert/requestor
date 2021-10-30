@@ -29,7 +29,7 @@ public class AbstractService implements RequestDefaults {
     public AbstractService(Session session, String resourceUri) {
         this.session = session;
         this.defaults = RequestDefaultsImpl.copy(session.getDefaults());
-        this.store = new VolatileStore(session.getStore());
+        this.store = new TransientStore(session.getStore());
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 

@@ -18,24 +18,24 @@ package io.reinert.requestor;
 import java.util.HashMap;
 import java.util.Map;
 
-class VolatileStore implements Store {
+class TransientStore implements Store {
 
-    private final Store persistentStore;
+    private final Store underStore;
     private Map<String, Object> localDataMap;
 
-    public static VolatileStore copy(VolatileStore volatileStore) {
-        VolatileStore store = new VolatileStore(volatileStore.persistentStore);
+    public static TransientStore copy(TransientStore transientStore) {
+        TransientStore store = new TransientStore(transientStore.underStore);
 
-        if (volatileStore.localDataMap != null) {
-            store.localDataMap = new HashMap<String, Object>(volatileStore.localDataMap);
+        if (transientStore.localDataMap != null) {
+            store.localDataMap = new HashMap<String, Object>(transientStore.localDataMap);
         }
 
         return store;
     }
 
-    VolatileStore(Store store) {
+    TransientStore(Store store) {
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
-        this.persistentStore = store;
+        this.underStore = store;
     }
 
     @SuppressWarnings("unchecked")
@@ -47,27 +47,31 @@ class VolatileStore implements Store {
             data = (T) localDataMap.get(key);
         }
 
-        if (data == null && persistentStore != null) {
-            data = persistentStore.get(key);
+        if (data == null) {
+            data = underStore.get(key);
         }
 
         return data;
     }
 
     @Override
-    public void put(String key, Object value, boolean sessionPersistent) {
-        if (sessionPersistent && persistentStore != null) persistentStore.put(key, value, true);
-        ensureDataMap().put(key, value);
+    public void save(String key, Object value, boolean persist) {
+        if (persist) {
+            // If we'd want to go further in the chain, we'd call save(key, value, true)
+            underStore.save(key, value);
+        } else {
+            ensureDataMap().put(key, value);
+        }
     }
 
     @Override
-    public void put(String key, Object value) {
-        this.put(key, value, false);
+    public void save(String key, Object value) {
+        this.save(key, value, false);
     }
 
     @Override
     public boolean has(String key) {
-        boolean has =  persistentStore != null && persistentStore.has(key);
+        boolean has = underStore.has(key);
 
         if (has) return true;
 
@@ -77,7 +81,7 @@ class VolatileStore implements Store {
     }
 
     @Override
-    public boolean remove(String key) {
+    public boolean delete(String key) {
         if (localDataMap != null) {
             return localDataMap.remove(key) != null;
         }

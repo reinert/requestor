@@ -25,42 +25,42 @@ import static org.junit.Assert.assertTrue;
 /**
  * Unit tests of {@link SerializerManagerImpl}.
  */
-public class VolatileStoreJreTest {
+public class TransientStoreJreTest {
 
     private static final String KEY = "key";
     private static final int VALUE = 1;
 
-    private final PersistentStore store = new PersistentStore();
+    private final SessionStore store = new SessionStore();
 
     @Before
     public void setUp() {
-        store.put(KEY, VALUE);
+        store.save(KEY, VALUE);
     }
 
     @Test
     public void get_SetValueInParent_ShouldReturnSetValue() {
         // Given
-        VolatileStore volatileStore = new VolatileStore(store);
+        TransientStore transientStore = new TransientStore(store);
 
         // When
-        int returned = volatileStore.get(KEY);
+        int returned = transientStore.get(KEY);
 
         // Then
         assertEquals(VALUE, returned);
-        assertTrue(volatileStore.has(KEY));
+        assertTrue(transientStore.has(KEY));
     }
 
     @Test
     public void remove_SetValueInParent_ShouldKeepIt() {
         // Given
-        VolatileStore volatileStore = new VolatileStore(store);
+        TransientStore transientStore = new TransientStore(store);
 
         // When
-        boolean removed = volatileStore.remove(KEY);
+        boolean removed = transientStore.delete(KEY);
 
         // Then
         assertFalse(removed);
-        assertTrue(volatileStore.has(KEY));
+        assertTrue(transientStore.has(KEY));
     }
 
     @Test
@@ -69,15 +69,15 @@ public class VolatileStoreJreTest {
         String key = "key2";
 
         // Given
-        VolatileStore volatileStore = new VolatileStore(store);
-        volatileStore.put(key, expected);
+        TransientStore transientStore = new TransientStore(store);
+        transientStore.save(key, expected);
 
         // When
-        boolean returned = volatileStore.remove(key);
+        boolean returned = transientStore.delete(key);
 
         // Then
         assertTrue(returned);
-        assertFalse(volatileStore.has(key));
+        assertFalse(transientStore.has(key));
     }
 
     @Test
@@ -85,17 +85,17 @@ public class VolatileStoreJreTest {
         int localExpected = 2;
 
         // Given
-        VolatileStore volatileStore = new VolatileStore(store);
-        volatileStore.put(KEY, localExpected);
+        TransientStore transientStore = new TransientStore(store);
+        transientStore.save(KEY, localExpected);
 
         // When
-        boolean removed = volatileStore.remove(KEY);
-        boolean parentRemoved = volatileStore.remove(KEY);
+        boolean removed = transientStore.delete(KEY);
+        boolean parentRemoved = transientStore.delete(KEY);
 
         // Then
         assertTrue(removed);
         assertFalse(parentRemoved);
-        assertTrue(volatileStore.has(KEY));
+        assertTrue(transientStore.has(KEY));
     }
 
     @Test
@@ -104,15 +104,15 @@ public class VolatileStoreJreTest {
         int localExpected = 3;
 
         // Given
-        VolatileStore volatileParent = new VolatileStore(store);
-        volatileParent.put(KEY, parentExpected);
+        TransientStore volatileParent = new TransientStore(store);
+        volatileParent.save(KEY, parentExpected);
 
-        VolatileStore volatileStore = new VolatileStore(volatileParent);
-        volatileStore.put(KEY, localExpected);
+        TransientStore transientStore = new TransientStore(volatileParent);
+        transientStore.save(KEY, localExpected);
 
         // When
-        boolean removed = volatileStore.remove(KEY);
-        boolean parentRemoved = volatileStore.remove(KEY);
+        boolean removed = transientStore.delete(KEY);
+        boolean parentRemoved = transientStore.delete(KEY);
 
         // Then
         assertTrue(removed);

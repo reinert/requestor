@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class StoreJreTest {
 
-    private final Store store = new PersistentStore();
+    private final Store store = new SessionStore();
 
     @Test
     public void get_SetValue_ShouldReturnSetValueAndKeepIt() {
@@ -34,7 +34,7 @@ public class StoreJreTest {
         String key = "key";
 
         // Given
-        store.put(key, expected);
+        store.save(key, expected);
 
         // When
         int returned = store.get(key);
@@ -50,10 +50,10 @@ public class StoreJreTest {
         String key = "key";
 
         // Given
-        store.put(key, expected);
+        store.save(key, expected);
 
         // When
-        boolean removed = store.remove(key);
+        boolean removed = store.delete(key);
 
         // Then
         assertTrue(removed);

@@ -49,7 +49,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         session.register(new ResponseInterceptor() {
             @Override
             public void intercept(SerializedResponseInProcess response) {
-                response.getStore().put(storeKey, expectedStoreValue);
+                response.getStore().save(storeKey, expectedStoreValue);
                 response.setHeader("Test", "test");
                 response.proceed();
             }
@@ -75,7 +75,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         session.register(new ResponseInterceptor() {
             @Override
             public void intercept(SerializedResponseInProcess response) {
-                response.getStore().put(storeKey, expectedStoreValue);
+                response.getStore().save(storeKey, expectedStoreValue);
                 response.proceed();
             }
         });
@@ -119,7 +119,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
             @Override
             public void intercept(SerializedResponseInProcess response) {
                 assertEquals("test", response.getHeader("Test"));
-                response.getStore().put(storeKey, expectedStoreValue);
+                response.getStore().save(storeKey, expectedStoreValue);
                 response.proceed();
             }
         });
@@ -157,7 +157,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         session.register(new ResponseInterceptor() {
             @Override
             public void intercept(SerializedResponseInProcess response) {
-                response.getStore().put(storeKey, expectedStoreValue);
+                response.getStore().save(storeKey, expectedStoreValue);
                 response.proceed();
             }
         });
@@ -168,7 +168,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
                 new Timer() {
                     public void run() {
                         assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                        response.getStore().put(storeKey2, expectedStoreValue2);
+                        response.getStore().save(storeKey2, expectedStoreValue2);
                         response.proceed();
                     }
                 }.schedule(500);

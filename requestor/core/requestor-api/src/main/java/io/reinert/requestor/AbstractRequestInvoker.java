@@ -32,7 +32,7 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
 
     protected final RequestDispatcher dispatcher;
 
-    public AbstractRequestInvoker(Uri uri, VolatileStore store, RequestDispatcher dispatcher) {
+    public AbstractRequestInvoker(Uri uri, TransientStore store, RequestDispatcher dispatcher) {
         super(uri, store);
 
         this.dispatcher = dispatcher;

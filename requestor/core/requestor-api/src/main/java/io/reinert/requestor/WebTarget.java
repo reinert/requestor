@@ -40,32 +40,35 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     private final Deferred.Factory deferredFactory;
     private final FilterManagerImpl filterManager;
     private final InterceptorManagerImpl interceptorManager;
-    private final VolatileStore store;
+    private final TransientStore store;
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
     private final RequestDispatcher requestDispatcher;
     private final UriBuilder uriBuilder;
     private Uri uri;
 
-    WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
-              SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
-              Deferred.Factory deferredFactory, Uri uri, VolatileStore store, RequestDefaultsImpl defaults) {
-        this(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, UriBuilder.fromUri(uri), uri, store, defaults);
+    public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
+                                   SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
+                                   Deferred.Factory deferredFactory, SessionStore store, RequestDefaultsImpl defaults,
+                                   Uri uri) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
+                deferredFactory, new TransientStore(store), RequestDefaultsImpl.copy(defaults), uri,
+                uri == null ? UriBuilder.newInstance() : UriBuilder.fromUri(uri));
     }
 
-    WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
-              SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
-              Deferred.Factory deferredFactory, UriBuilder builder, VolatileStore store,
-              RequestDefaultsImpl defaults) {
-        this(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, builder, null, store, defaults);
+    public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
+                                   SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
+                                   Deferred.Factory deferredFactory, SessionStore store, RequestDefaultsImpl defaults,
+                                   UriBuilder uriBuilder) {
+        return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
+                deferredFactory, new TransientStore(store), RequestDefaultsImpl.copy(defaults),null,
+                uriBuilder);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
-                      Deferred.Factory deferredFactory, UriBuilder uriBuilder, Uri uri, VolatileStore store,
-                      RequestDefaultsImpl defaults) {
+                      Deferred.Factory deferredFactory, TransientStore store,
+                      RequestDefaultsImpl defaults, Uri uri, UriBuilder uriBuilder) {
         this.serializationEngine = serializationEngine;
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
@@ -493,7 +496,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     private WebTarget newWebTarget(UriBuilder copy) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, copy, VolatileStore.copy(store), RequestDefaultsImpl.copy(defaults));
+                deferredFactory, TransientStore.copy(store), RequestDefaultsImpl.copy(defaults),null, copy);
     }
 
     private UriBuilder cloneUriBuilder() {
@@ -502,7 +505,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvokerImpl request =
-                new RequestInvokerImpl(uri, new VolatileStore(store), requestDispatcher);
+                new RequestInvokerImpl(uri, new TransientStore(store), requestDispatcher);
         defaults.apply(request);
         return request;
     }

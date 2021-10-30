@@ -53,7 +53,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
         DirectInvoker, RequestDefaults {
 
     private final RequestDefaultsImpl defaults = new RequestDefaultsImpl();
-    private final PersistentStore store = new PersistentStore();
+    private final SessionStore store = new SessionStore();
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
@@ -618,7 +618,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, new VolatileStore(store),
+        final RequestInvoker request = new RequestInvokerImpl(uri, new TransientStore(store),
                 requestDispatcherFactory.newRequestDispatcher(requestProcessor, responseProcessor, deferredFactory));
 
         defaults.apply(request);
@@ -627,12 +627,12 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     private WebTarget createWebTarget(Uri uri) {
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, uri, new VolatileStore(store), RequestDefaultsImpl.copy(defaults));
+        return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
+                deferredFactory, store, defaults, uri);
     }
 
     private WebTarget createWebTarget(UriBuilder uriBuilder) {
-        return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, uriBuilder, new VolatileStore(store), RequestDefaultsImpl.copy(defaults));
+        return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
+                deferredFactory, store, defaults, uriBuilder);
     }
 }

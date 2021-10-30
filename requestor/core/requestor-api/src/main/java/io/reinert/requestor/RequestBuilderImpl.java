@@ -34,7 +34,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private static final Logger logger = Logger.getLogger(RequestBuilderImpl.class.getName());
 
     private Uri uri;
-    private VolatileStore store;
+    private TransientStore store;
     private Headers headers;
     private Auth.Provider authProvider;
     private HttpMethod httpMethod;
@@ -45,11 +45,11 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private SerializedPayload serializedPayload;
     private boolean serialized;
 
-    public RequestBuilderImpl(Uri uri, VolatileStore store) {
+    public RequestBuilderImpl(Uri uri, TransientStore store) {
         this(uri, store, null, null, null, 0, 0, null, null, null, false);
     }
 
-    public RequestBuilderImpl(Uri uri, VolatileStore store, Headers headers, Auth.Provider authProvider,
+    public RequestBuilderImpl(Uri uri, TransientStore store, Headers headers, Auth.Provider authProvider,
                               HttpMethod httpMethod, int timeout, int delay, PollingOptions pollingOptions,
                               Object payload, SerializedPayload serializedPayload, boolean serialized) {
         if (uri == null) throw new IllegalArgumentException("Uri cannot be null");
@@ -168,7 +168,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public VolatileStore getStore() {
+    public TransientStore getStore() {
         return store;
     }
 
@@ -370,7 +370,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     protected RequestBuilderImpl build() {
         return new RequestBuilderImpl(
                 Uri.copy(uri),
-                VolatileStore.copy(store),
+                TransientStore.copy(store),
                 Headers.copy(headers),
                 authProvider,
                 httpMethod,
