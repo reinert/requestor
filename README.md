@@ -28,21 +28,21 @@ In addition, GWT3 and J2CL support are in the roadmap without breaking API compa
 Make a GET request and deserialize the response body as String:
 
 ```java
-Session s = new JsonSession();
-s.get("http://httpbin.org/ip", String.class).success( Window::alert );
+Session session = new JsonSession();
+session.get("http://httpbin.org/ip", String.class).success( Window::alert );
 ```
 
 Make a POST request sending a serialized object in the payload:
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
-s.post("/api/books", book).success( () -> showSuccessMsg() ).fail( () -> showErrorMsg() );
+session.post("/api/books", book).success( () -> showSuccessMsg() ).fail( () -> showErrorMsg() );
 ```
 
 GET a collection of objects:
 
 ```java
-s.get("/api/books", List.class, Book.class).success( books -> renderTable(books) );
+session.get("/api/books", List.class, Book.class).success( books -> renderTable(books) );
 ```
 
 The above examples are shortcuts in Session class to make quick requests.
@@ -228,7 +228,7 @@ RequestInvoker req = session.req("/api/books/");
 ### *payload*
 
 Set an object as the request payload. This object is then serialized into the HTTP message's body
-as part of the [request processing](#request-processing) after its invocation.
+as part of the [request processing](#processors-hooking) after its invocation.
 
 ```java
 req.payload( "a simple string" );
@@ -350,8 +350,9 @@ session.req("/api/books/")
        });
 ```
 
-It is worth noting that each new dispatched request will pass through all the **request/response 
-processing**. Thereby, we will have every polling request always up to date with our filters, 
+It is worth noting that each new dispatched request will pass through all the [request/response 
+processing cycle](#processors-hooking). Thereby, we will have every polling request always up 
+to date with our filters, 
 serializers, and interceptors.
 
 ## Promises
@@ -375,7 +376,6 @@ available callbacks:
   * **progress**( requestProgress -> {} )
     * executed many times while the request is being sent
     * features the *requestProgress* that enables tracking the download progress
-    * 
   * **upProgress**( requestProgress -> {} )
     * executed many times while the response is being received
     * features the *requestProgress* that enables tracking the upload progress
@@ -487,8 +487,8 @@ promise.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
 
 ## Serialization
 
-Serialization is part of the [Request Processing](#request-processing), and deserialization is 
-part of the [Response Processing](#response-processing).
+Serialization is part of the [Request Processing](#processors-hooking), and deserialization is 
+part of the [Response Processing](#processors-hooking).
 
 Requestor exposes the `Serializer` interface responsible for serializing and deserializing a 
 specific type while holding the **Media Types** it handles. Therefore, it is possible 
@@ -1032,7 +1032,137 @@ session.register(MyResponseFilter::new); // Same as `session.register(() -> new 
 ```
 
 ## Session
-// TBD
+
+Requestor is a session-based HTTP client. It means that a **Session** ties every configuration and action a user can take related to communication. Thus, the `Session` object is the baseline of every communication process in the application. What is better, Requestor does not restrict its users to having only one global Session. We can have ***as many sessions as it makes sense*** according to our business requirements. For example, if we are building a modern client app, we may communicate with different microservices. It may be reasonable to have one Session for each microservice with different configurations. This flexibility promotes a much more **reliable and maintainable code** since we can isolate different business logics in their own context, avoiding runtime conflicts and undesirable multi-path coding.
+
+To instantiate a new `Session`, we must call one of its implementations. Requestor provides two: `CleanSession` and `JsonSession`, the latter having a predefined configuration for JSON-based communication. Additionally, we can implement our Session subclass, including the configurations that fit our requirements.
+
+```java
+Session session = new CleanSession();
+```
+
+Besides allowing registration of many [Processors](#processors-hooking), the Session admits setting many default request options. Along with that, it is possible to reset the Session state.
+
+```java
+session.reset()
+```
+
+This method will reset all the Session's request options to their default values.
+
+### Default request options
+
+Below are the available options.
+
+#### Media-Type
+
+This session configuration will be applied to every request's Content-Type and Accept headers.
+
+```java
+session.setMediaType("application/json");
+```
+
+#### Auth
+
+This session configuration will be applied to every request's [`auth`](#auth) option. We can either register and [`Auth`](#auth-1) instance or a [`Provider`]
+
+```java
+// The same Auth instance will be used by all requests
+session.setAuth( new BearerAuth(session.getStore().get("token")) );
+
+// By setting a Provider, each request will have a new Auth instance
+// Helpful to restrict the Auth's internal state to the request lifecycle
+session.setAuth( () -> new BearerAuth(session.getStore().get("token")) );
+```
+
+#### Timeout
+
+This session configuration will be applied to every request's [`timeout`](#timeout) option.
+
+```java
+// Every request will have a timeout of 20s
+session.setTimeout(20000);
+```
+
+#### Delay
+
+This session configuration will be applied to every request's [`delay`](#delay) option.
+
+```java
+// Every request will have a delay of 3s
+session.setDelay(3000);
+```
+
+#### Polling
+
+This session configuration will be applied to every request's [`poll`](#poll) option.
+
+```java
+// Every request will be long polling for 5 times
+session.setPolling(PollingStrategy.LONG, 0, 5);
+```
+
+### Requesting
+
+The Session is the starting point to build requests. We access the request builder by calling `session.req(<Uri>)`. Since the builder is also an invoker, we can call an invoke method any time to send the request. The invoke methods are named according to the respective HTTP methods they claim. All those methods are chainable, as demonstrated below:
+
+```java
+// Start requesting informing the URI
+RequestInvoker req = session.req("/api/book/1")
+
+// Set up the request
+req = req.timeout(5000)
+
+// Invoke the request
+Promise<Book> promise = req.get(Book.class);
+
+// All together
+Promise<Book> promise = session.req("/api/book/1")
+        .timeout(5000)
+        .get(Book.class);
+```
+
+In order to better understand the requesting mechanics, refer to the [Requesting Fluent API](#requesting-fluent-api) section.
+
+In addition to the fluent request builder and invoker exposed by the `req` method, the Session features **direct invoker methods** that quickly dispatch requests.
+
+```java
+Book book = new Book("Clean Code", "Robert C. Martin");
+
+// Same as `session.req("/api/books").payload(book).post(Book.class)`
+Promise<Book> promise = session.post("/api/books", book, Book.class);
+```
+
+### Deferred Factory
+
+Another convenient feature is the possibility of instantiating a Session with a customized `Deferred.Factory`. This factory provides `Deferred` instances to the request dispatcher, returning a `Promise` to the Session's user. Thus, we can immediately add some global callbacks to keep our code DRY when generating a Deferred instance.
+
+The example below demonstrates a customized Deferred Factory that fires a `ShowLoadingEvent` right before the request is sent and fires a `HideLoadingEvent` once the request gets [loaded](#promises) or [aborted](#promises).
+
+```java
+class AppDeferredFactory implements Deferred.Factory {
+
+    @Override
+    public <T> Deferred<T> newDeferred() {
+        final DeferredRequest<T> deferred = new DeferredRequest<T>();
+
+        // Show loading widget before sending the request
+        APP_FACTORY.getEventBus().fireEvent(new ShowLoadingEvent());
+
+        // Hide loading widget on load or abort
+        deferred.load(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()))
+                .abort(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()));
+
+        return deferred;
+    }
+}
+```
+
+Therefore, we can instantiate our Session with this customized Deferred Factory, as demonstrated below:
+
+```java
+Session session = new CleanSession(new AppDeferredFactory());
+```
+
 
 ## Store
 // TBD
