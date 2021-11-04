@@ -644,7 +644,7 @@ Then inherit the `AutoBeanExt` GWT module in your gwt.xml file:
 #### XML
 #### SubTypes
 
-## Auth
+## Authentication
 
 Requestor features the `Auth` functional interface responsible for authenticating the requests as the last step in the [Request Processing](#request-processing). It delivers the credentials to the request and ultimately sends it. Like any other processor, the Auth interface is an **async callback**. Therefore, after performing the necessary changes in the request, it must call `request.send()` to really send it. Moreover, we may find it advantageous to use the Session's Store to retrieve credential info. Check the following example:
 
@@ -775,7 +775,7 @@ As for the **RequestSerializer** and **ResponseDeserializer**, there is only one
 deserialization. The engine holds the registered **Serializers** and is responsible for 
 de/serializing objects according to the *class* and *media type*.
 
-### RequestFilter
+### Request Filter
 
 A `RequestFilter` hooks an undergoing deserialized request (`RequestInProcess`) to modify it, even 
 its payload, or perform any other action that fits the business requirements triggered by a new
@@ -838,7 +838,7 @@ as well **success** and **status** depending on the response status code.
 Otherwise, if the request is aborted with `RequestException`, then **abort** 
 callbacks are triggered.
 
-### RequestSerializer
+### Request Serializer
 
 A `RequestSerializer` receives a `SerializableRequestInProcess` along with the
 `SerializationEngine`. It is supposed to serialize the request and proceed with
@@ -861,7 +861,7 @@ session.setRequestSerializer(new RequestSerializer() {
 });
 ```
 
-### RequestInterceptor
+### Request Interceptor
 
 A `RequestInterceptor` hooks an undergoing serialized request (`SerializedRequestInProcess`) to 
 modify it, even its payload, or perform any other action that fits the business requirements 
@@ -928,7 +928,7 @@ as well **success** and **status** depending on the response status code.
 Otherwise, if the request is aborted with `RequestException`, then **abort** 
 callbacks are triggered.
 
-### ResponseInterceptor
+### Response Interceptor
 
 A `ResponseInterceptor` hooks an incoming serialized response (`SerializedResponseInProcess`) to
 modify it, even its serialized payload, or perform any other action that fits the business 
@@ -974,7 +974,7 @@ session.register(new ResponseInterceptor.Provider() {
 session.register(MyResponseInterceptor::new); // Same as `session.register(() -> new MyResponseInterceptor())`
 ```
 
-### ResponseDeserializer
+### Response Deserializer
 
 A `ResponseDeserializer` receives a `DeserializableResponseInProcess` along with the
 `SerializationEngine`. It is supposed to deserialize the response and proceed with
@@ -997,7 +997,7 @@ session.setResponseDeserializer(new ResponseDeserializer() {
 });
 ```
 
-### ResponseFilter
+### Response Filter
 
 A `ResponseFilter` hooks an incoming deserialized response (`ResponseInProcess`) to
 modify it, even its serialized payload, or perform any other action that fits the business
@@ -1375,7 +1375,7 @@ bookService.deleteBook(123).success( () -> showSucessMsg() ).fail(...);
 
 ### Creating the app's abstract Service
 
-👌 It is helpful to handle the errors inside the Service, so we do not always have to set fail callbacks.
+It is helpful to handle the errors inside the Service, so we do not always have to set fail callbacks.
 Therefore, we recommend implementing an app's abstract Service and extending the client services from it.
 This way, it is feasible handle all non-happy paths in one place only. For example, check the 
 `applyErrorCallbacks` method below. It adds some predefined callbacks to promises:
