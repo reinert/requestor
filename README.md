@@ -1252,7 +1252,7 @@ AnyType object = store.get("key");
 To save an object locally, we call `store.save(<key>, <object>)`. Differently, to save an object in the deriving Session Store, we need to call `store.save(<key>, <object>, <persit=true>)`.
 
 ```java
-Store store = request.getStore();
+Store store = service.getStore();
 
 // Save an object in request scope only
 store.save("key", anyObject);
@@ -1264,7 +1264,7 @@ store.save("key", anyObject, true);
 To delete a local record, we call `store.delete(<key>)`. We cannot delete records from the deriving Session Store.
 
 ```java
-Store store = request.getStore();
+Store store = service.getStore();
 
 // Save an object in the deriving store
 store.delete("key");
@@ -1412,14 +1412,14 @@ Use the above example as inspiration as also the [RestService](https://github.co
 
 ## Requesting Fluent API
 
-The Fluent API was designed to provide an enjoyable coding experience while requesting through a chainable interface. Here how it works:
-1. Your client `Session` is the starting point when requesting.
-2. It exposes the `req( <uri> )` method that returns a `RequestInvoker`, which has request building and invoking capabilities.
-3. `RequestInvoker` implements the chainable `RequestBuilder` interface, which allows you to set the request options.
-4. Also, `RequestInvoker` implements the `Invoker` interface, which allows you to send the request by calling one of the HTTP Methods.
-5. When invoking the request, you also need to specify the class type you expect as the response payload.
-6. The request invoke methods return a `Promise<T>` according to the expected type you specified.
-7. The `Promise<T>` interface enables callback chaining, so you can handle different results neatly.
+The Fluent API was designed to provide an enjoyable coding experience while requesting through a chainable interface. Here is how it works:
+1. The client `Session` is the starting point when requesting.
+2. It exposes the `req(<uri>)` method that returns a `RequestInvoker`, which has request building and invoking capabilities.
+3. `RequestInvoker` implements the chainable `RequestBuilder` interface, which allows us to set the request options.
+4. Further, `RequestInvoker` implements the `Invoker` interface, which allows us to send the request by calling one of the HTTP Methods.
+5. When invoking the request, we also need to specify the class type we expect as the response payload.
+6. The request invoking methods return a `Promise<T>` according to the expected type we specified.
+7. The `Promise<T>` interface enables callback chaining so that we can handle different results neatly.
 
 In summary, these are the three requesting steps:
 1. Build the request
