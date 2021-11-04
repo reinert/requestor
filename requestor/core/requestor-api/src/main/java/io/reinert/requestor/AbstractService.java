@@ -19,7 +19,7 @@ import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
-public class AbstractService implements HasRequestOptions {
+public class AbstractService implements Service {
 
     private final Session session;
     private final RequestOptions options;
@@ -138,6 +138,12 @@ public class AbstractService implements HasRequestOptions {
         return options.popHeader(headerName);
     }
 
+    @Override
+    public Session getSession() {
+        return session;
+    }
+
+    @Override
     public Store getStore() {
         return store;
     }
