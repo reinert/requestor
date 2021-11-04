@@ -117,6 +117,28 @@ public class RestServiceGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
+    public void testPatchBook() {
+        // PATCH /books/2
+        final Integer id = 2;
+        final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
+
+        bookService.patch(id, book).success(new PayloadResponseCallback<Book>() {
+            @Override
+            public void execute(Book returnedBook, Response response) {
+                assertNotNull(response);
+
+                // The server should return a 201 status code
+                assertEquals(Status.OK, response.getStatus());
+
+                // Check if the return book has an ID
+                assertEquals(book, returnedBook);
+
+                finishTest();
+            }
+        });
+        delayTestFinish(TIMEOUT);
+    }
+
     public void testPutBook() {
         // PUT /books/2
         final Integer id = 2;

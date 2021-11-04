@@ -65,6 +65,15 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
     }
 
     @Override
+    public Promise<R> patch(I id, R resource, String... fields) {
+        final UriBuilder reqUriBuilder = getUriBuilder();
+
+        reqUriBuilder.segment(id);
+
+        return request(reqUriBuilder.build()).payload(resource, fields).patch(resourceType);
+    }
+
+    @Override
     public Promise<R> put(I id, R resource) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 

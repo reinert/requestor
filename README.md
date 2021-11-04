@@ -141,6 +141,9 @@ bookService.get(123).success(books -> render(books));
 // PUT a book in the resource with ID 123 from '/api/books/123' and receive the updated book
 bookService.put(123, book).success(updatedBook -> render(updatedBook));
 
+// PATCH book's title and year in '/api/books/123' and receive the updated book
+bookService.patch(123, book, "title", "year").success(updatedBook -> render(updatedBook));
+
 // DELETE the book of ID 123 from '/api/books/123' (returns void)
 bookService.delete(123).success(() -> showSuccess("Book was deleted."));
 ```
