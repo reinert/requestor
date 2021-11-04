@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor;
 
-public interface RequestDefaults extends HasHeaders {
+public interface HasRequestOptions extends HasHeaders {
 
     /**
      * Resets all defaults (mediaType, auth, timeout and headers).

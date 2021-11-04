@@ -30,11 +30,11 @@ import io.reinert.requestor.uri.UriBuilderException;
  *
  * @author Danilo Reinert
  */
-public class WebTarget implements FilterManager, InterceptorManager, RequestDefaults {
+public class WebTarget implements FilterManager, InterceptorManager, HasRequestOptions {
 
     private static final String COULD_NOT_BUILD_THE_URI = "Could not build the URI.";
 
-    private final RequestDefaultsImpl defaults;
+    private final RequestOptions options;
     private final SerializationEngine serializationEngine;
     private final RequestDispatcher.Factory requestDispatcherFactory;
     private final Deferred.Factory deferredFactory;
@@ -49,43 +49,43 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                                    SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
-                                   Deferred.Factory deferredFactory, SessionStore store, RequestDefaultsImpl defaults,
+                                   Deferred.Factory deferredFactory, SessionStore store, RequestOptions defaults,
                                    Uri uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredFactory, new TransientStore(store), RequestDefaultsImpl.copy(defaults), uri,
+                deferredFactory, new TransientStore(store), RequestOptions.copy(defaults), uri,
                 uri == null ? UriBuilder.newInstance() : UriBuilder.fromUri(uri));
     }
 
     public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                                    SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
-                                   Deferred.Factory deferredFactory, SessionStore store, RequestDefaultsImpl defaults,
+                                   Deferred.Factory deferredFactory, SessionStore store, RequestOptions defaults,
                                    UriBuilder uriBuilder) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredFactory, new TransientStore(store), RequestDefaultsImpl.copy(defaults),null,
+                deferredFactory, new TransientStore(store), RequestOptions.copy(defaults),null,
                 uriBuilder);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
                       Deferred.Factory deferredFactory, TransientStore store,
-                      RequestDefaultsImpl defaults, Uri uri, UriBuilder uriBuilder) {
+                      RequestOptions options, Uri uri, UriBuilder uriBuilder) {
         this.serializationEngine = serializationEngine;
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredFactory = deferredFactory;
         this.filterManager = new FilterManagerImpl(filterManager);
         this.interceptorManager = new InterceptorManagerImpl(interceptorManager);
         this.store = store;
-        this.defaults = defaults;
+        this.options = options;
 
         this.requestProcessor = new RequestProcessor(
                 serializationEngine,
-                defaults.getRequestSerializer(),
+                options.getRequestSerializer(),
                 this.filterManager,
                 this.interceptorManager);
 
         this.responseProcessor = new ResponseProcessor(
                 serializationEngine,
-                defaults.getResponseDeserializer(),
+                options.getResponseDeserializer(),
                 this.filterManager,
                 this.interceptorManager);
 
@@ -140,125 +140,125 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     @Override
     public void reset() {
-        defaults.reset();
+        options.reset();
     }
 
     @Override
     public void setMediaType(String mediaType) {
-        defaults.setMediaType(mediaType);
+        options.setMediaType(mediaType);
     }
 
     @Override
     public String getMediaType() {
-        return defaults.getMediaType();
+        return options.getMediaType();
     }
 
     @Override
     public void setAuth(Auth auth) {
-        defaults.setAuth(auth);
+        options.setAuth(auth);
     }
 
     @Override
     public void setAuth(Auth.Provider authProvider) {
-        defaults.setAuth(authProvider);
+        options.setAuth(authProvider);
     }
 
     @Override
     public Auth getAuth() {
-        return defaults.getAuth();
+        return options.getAuth();
     }
 
     @Override
     public Auth.Provider getAuthProvider() {
-        return defaults.getAuthProvider();
+        return options.getAuthProvider();
     }
 
     @Override
     public void setTimeout(int timeoutMillis) {
-        defaults.setTimeout(timeoutMillis);
+        options.setTimeout(timeoutMillis);
     }
 
     @Override
     public int getTimeout() {
-        return defaults.getTimeout();
+        return options.getTimeout();
     }
 
     @Override
     public void setDelay(int delayMillis) {
-        defaults.setDelay(delayMillis);
+        options.setDelay(delayMillis);
     }
 
     @Override
     public int getDelay() {
-        return defaults.getDelay();
+        return options.getDelay();
     }
 
     @Override
     public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
-        defaults.setPolling(strategy, intervalMillis, limit);
+        options.setPolling(strategy, intervalMillis, limit);
     }
 
     @Override
     public boolean isPolling() {
-        return defaults.isPolling();
+        return options.isPolling();
     }
 
     @Override
     public int getPollingInterval() {
-        return defaults.getPollingInterval();
+        return options.getPollingInterval();
     }
 
     @Override
     public int getPollingLimit() {
-        return defaults.getPollingLimit();
+        return options.getPollingLimit();
     }
 
     @Override
     public PollingStrategy getPollingStrategy() {
-        return defaults.getPollingStrategy();
+        return options.getPollingStrategy();
     }
 
     @Override
     public void putHeader(Header header) {
-        defaults.putHeader(header);
+        options.putHeader(header);
     }
 
     @Override
     public void setHeader(String headerName, String headerValue) {
-        defaults.setHeader(headerName, headerValue);
+        options.setHeader(headerName, headerValue);
     }
 
     @Override
     public Headers getHeaders() {
-        return defaults.getHeaders();
+        return options.getHeaders();
     }
 
     @Override
     public String getHeader(String headerName) {
-        return defaults.getHeader(headerName);
+        return options.getHeader(headerName);
     }
 
     @Override
     public Header popHeader(String headerName) {
-        return defaults.popHeader(headerName);
+        return options.popHeader(headerName);
     }
 
     public void setRequestSerializer(RequestSerializer requestSerializer) {
-        defaults.setRequestSerializer(requestSerializer);
+        options.setRequestSerializer(requestSerializer);
         requestProcessor.setRequestSerializer(requestSerializer);
     }
 
     public RequestSerializer getRequestSerializer() {
-        return defaults.getRequestSerializer();
+        return options.getRequestSerializer();
     }
 
     public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
-        defaults.setResponseDeserializer(responseDeserializer);
+        options.setResponseDeserializer(responseDeserializer);
         responseProcessor.setResponseDeserializer(responseDeserializer);
     }
 
     public ResponseDeserializer getResponseDeserializer() {
-        return defaults.getResponseDeserializer();
+        return options.getResponseDeserializer();
     }
 
     /**
@@ -496,7 +496,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
 
     private WebTarget newWebTarget(UriBuilder copy) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, TransientStore.copy(store), RequestDefaultsImpl.copy(defaults),null, copy);
+                deferredFactory, TransientStore.copy(store), RequestOptions.copy(options),null, copy);
     }
 
     private UriBuilder cloneUriBuilder() {
@@ -506,7 +506,7 @@ public class WebTarget implements FilterManager, InterceptorManager, RequestDefa
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvokerImpl request =
                 new RequestInvokerImpl(uri, new TransientStore(store), requestDispatcher);
-        defaults.apply(request);
+        options.apply(request);
         return request;
     }
 }

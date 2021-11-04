@@ -19,123 +19,123 @@ import io.reinert.requestor.header.Header;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 
-public class AbstractService implements RequestDefaults {
+public class AbstractService implements HasRequestOptions {
 
     private final Session session;
-    private final RequestDefaultsImpl defaults;
+    private final RequestOptions options;
     private final Store store;
     private final UriBuilder uriBuilder;
 
     public AbstractService(Session session, String resourceUri) {
         this.session = session;
-        this.defaults = RequestDefaultsImpl.copy(session.getDefaults());
+        this.options = RequestOptions.copy(session.getRequestOptions());
         this.store = new TransientStore(session.getStore());
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 
     @Override
     public void reset() {
-        defaults.reset();
+        options.reset();
     }
 
     @Override
     public void setMediaType(String mediaType) {
-        defaults.setMediaType(mediaType);
+        options.setMediaType(mediaType);
     }
 
     @Override
     public String getMediaType() {
-        return defaults.getMediaType();
+        return options.getMediaType();
     }
 
     @Override
     public void setAuth(Auth auth) {
-        defaults.setAuth(auth);
+        options.setAuth(auth);
     }
 
     @Override
     public void setAuth(Auth.Provider authProvider) {
-        defaults.setAuth(authProvider);
+        options.setAuth(authProvider);
     }
 
     @Override
     public Auth getAuth() {
-        return defaults.getAuth();
+        return options.getAuth();
     }
 
     @Override
     public Auth.Provider getAuthProvider() {
-        return defaults.getAuthProvider();
+        return options.getAuthProvider();
     }
 
     @Override
     public void setTimeout(int timeoutMillis) {
-        defaults.setTimeout(timeoutMillis);
+        options.setTimeout(timeoutMillis);
     }
 
     @Override
     public int getTimeout() {
-        return defaults.getTimeout();
+        return options.getTimeout();
     }
 
     @Override
     public void setDelay(int delayMillis) {
-        defaults.setDelay(delayMillis);
+        options.setDelay(delayMillis);
     }
 
     @Override
     public int getDelay() {
-        return defaults.getDelay();
+        return options.getDelay();
     }
 
     @Override
     public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
-        defaults.setPolling(strategy, intervalMillis, limit);
+        options.setPolling(strategy, intervalMillis, limit);
     }
 
     @Override
     public boolean isPolling() {
-        return defaults.isPolling();
+        return options.isPolling();
     }
 
     @Override
     public int getPollingInterval() {
-        return defaults.getPollingInterval();
+        return options.getPollingInterval();
     }
 
     @Override
     public int getPollingLimit() {
-        return defaults.getPollingLimit();
+        return options.getPollingLimit();
     }
 
     @Override
     public PollingStrategy getPollingStrategy() {
-        return defaults.getPollingStrategy();
+        return options.getPollingStrategy();
     }
 
     @Override
     public void putHeader(Header header) {
-        defaults.putHeader(header);
+        options.putHeader(header);
     }
 
     @Override
     public void setHeader(String headerName, String headerValue) {
-        defaults.setHeader(headerName, headerValue);
+        options.setHeader(headerName, headerValue);
     }
 
     @Override
     public Headers getHeaders() {
-        return defaults.getHeaders();
+        return options.getHeaders();
     }
 
     @Override
     public String getHeader(String headerName) {
-        return defaults.getHeader(headerName);
+        return options.getHeader(headerName);
     }
 
     @Override
     public Header popHeader(String headerName) {
-        return defaults.popHeader(headerName);
+        return options.popHeader(headerName);
     }
 
     public Store getStore() {
@@ -176,7 +176,7 @@ public class AbstractService implements RequestDefaults {
 
     protected RequestInvoker request(Uri uri) {
         final RequestInvoker request = session.req(uri);
-        defaults.apply(request);
+        options.apply(request);
         return request;
     }
 }

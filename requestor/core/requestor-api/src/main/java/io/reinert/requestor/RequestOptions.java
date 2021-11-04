@@ -17,7 +17,7 @@ package io.reinert.requestor;
 
 import io.reinert.requestor.header.Header;
 
-class RequestDefaultsImpl implements RequestDefaults {
+class RequestOptions implements HasRequestOptions {
 
     private String mediaType;
     private Auth.Provider authProvider;
@@ -28,16 +28,16 @@ class RequestDefaultsImpl implements RequestDefaults {
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
     private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
 
-    static RequestDefaultsImpl copy(RequestDefaultsImpl defaults) {
-        RequestDefaultsImpl copy = new RequestDefaultsImpl();
-        copy.setMediaType(defaults.mediaType);
-        copy.setAuth(defaults.authProvider);
-        copy.setTimeout(defaults.timeout);
-        copy.setDelay(defaults.delay);
-        copy.pollingOptions = PollingOptions.copy(defaults.pollingOptions);
-        for (Header h : defaults.headers) copy.putHeader(h);
-        copy.setRequestSerializer(defaults.requestSerializer);
-        copy.setResponseDeserializer(defaults.responseDeserializer);
+    static RequestOptions copy(RequestOptions options) {
+        RequestOptions copy = new RequestOptions();
+        copy.setMediaType(options.mediaType);
+        copy.setAuth(options.authProvider);
+        copy.setTimeout(options.timeout);
+        copy.setDelay(options.delay);
+        copy.pollingOptions = PollingOptions.copy(options.pollingOptions);
+        for (Header h : options.headers) copy.putHeader(h);
+        copy.setRequestSerializer(options.requestSerializer);
+        copy.setResponseDeserializer(options.responseDeserializer);
         return copy;
     }
 

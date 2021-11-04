@@ -50,9 +50,9 @@ import io.reinert.requestor.uri.UriBuilder;
  * @author Danilo Reinert
  */
 public abstract class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
-        DirectInvoker, RequestDefaults {
+        DirectInvoker, HasRequestOptions {
 
-    private final RequestDefaultsImpl defaults = new RequestDefaultsImpl();
+    private final RequestOptions options = new RequestOptions();
     private final SessionStore store = new SessionStore();
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
@@ -78,9 +78,9 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
 
         // init processors
         serializationEngine = new SerializationEngine(serializerManager, providerManager);
-        requestProcessor = new RequestProcessor(serializationEngine, defaults.getRequestSerializer(), filterManager,
+        requestProcessor = new RequestProcessor(serializationEngine, options.getRequestSerializer(), filterManager,
                 interceptorManager);
-        responseProcessor = new ResponseProcessor(serializationEngine, defaults.getResponseDeserializer(),
+        responseProcessor = new ResponseProcessor(serializationEngine, options.getResponseDeserializer(),
                 filterManager, interceptorManager);
 
         // register generated serializer to the session
@@ -346,21 +346,21 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     public void setRequestSerializer(RequestSerializer requestSerializer) {
-        defaults.setRequestSerializer(requestSerializer);
+        options.setRequestSerializer(requestSerializer);
         requestProcessor.setRequestSerializer(requestSerializer);
     }
 
     public RequestSerializer getRequestSerializer() {
-        return defaults.getRequestSerializer();
+        return options.getRequestSerializer();
     }
 
     public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
-        defaults.setResponseDeserializer(responseDeserializer);
+        options.setResponseDeserializer(responseDeserializer);
         responseProcessor.setResponseDeserializer(responseDeserializer);
     }
 
     public ResponseDeserializer getResponseDeserializer() {
-        return defaults.getResponseDeserializer();
+        return options.getResponseDeserializer();
     }
 
     public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) {
@@ -385,107 +385,107 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
 
     @Override
     public void reset() {
-        defaults.reset();
+        options.reset();
     }
 
     @Override
     public void setMediaType(String mediaType) {
-        defaults.setMediaType(mediaType);
+        options.setMediaType(mediaType);
     }
 
     @Override
     public String getMediaType() {
-        return defaults.getMediaType();
+        return options.getMediaType();
     }
 
     @Override
     public void setAuth(Auth auth) {
-        defaults.setAuth(auth);
+        options.setAuth(auth);
     }
 
     @Override
     public void setAuth(Auth.Provider authProvider) {
-        defaults.setAuth(authProvider);
+        options.setAuth(authProvider);
     }
 
     @Override
     public Auth getAuth() {
-        return defaults.getAuth();
+        return options.getAuth();
     }
 
     @Override
     public Auth.Provider getAuthProvider() {
-        return defaults.getAuthProvider();
+        return options.getAuthProvider();
     }
 
     @Override
     public void setTimeout(int timeoutMillis) {
-        defaults.setTimeout(timeoutMillis);
+        options.setTimeout(timeoutMillis);
     }
 
     @Override
     public int getTimeout() {
-        return defaults.getTimeout();
+        return options.getTimeout();
     }
 
     @Override
     public void setDelay(int delayMillis) {
-        defaults.setDelay(delayMillis);
+        options.setDelay(delayMillis);
     }
 
     @Override
     public int getDelay() {
-        return defaults.getDelay();
+        return options.getDelay();
     }
 
     @Override
     public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
-        defaults.setPolling(strategy, intervalMillis, limit);
+        options.setPolling(strategy, intervalMillis, limit);
     }
 
     @Override
     public boolean isPolling() {
-        return defaults.isPolling();
+        return options.isPolling();
     }
 
     @Override
     public int getPollingInterval() {
-        return defaults.getPollingInterval();
+        return options.getPollingInterval();
     }
 
     @Override
     public int getPollingLimit() {
-        return defaults.getPollingLimit();
+        return options.getPollingLimit();
     }
 
     @Override
     public PollingStrategy getPollingStrategy() {
-        return defaults.getPollingStrategy();
+        return options.getPollingStrategy();
     }
 
     @Override
     public void putHeader(Header header) {
-        defaults.putHeader(header);
+        options.putHeader(header);
     }
 
     @Override
     public void setHeader(String headerName, String headerValue) {
-        defaults.setHeader(headerName, headerValue);
+        options.setHeader(headerName, headerValue);
     }
 
     @Override
     public Headers getHeaders() {
-        return defaults.getHeaders();
+        return options.getHeaders();
     }
 
     @Override
     public String getHeader(String headerName) {
-        return defaults.getHeader(headerName);
+        return options.getHeader(headerName);
     }
 
     @Override
     public Header popHeader(String headerName) {
-        return defaults.popHeader(headerName);
+        return options.popHeader(headerName);
     }
 
     /**
@@ -613,26 +613,26 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     // Internal methods
     //===================================================================
 
-    protected RequestDefaultsImpl getDefaults() {
-        return defaults;
+    protected RequestOptions getRequestOptions() {
+        return options;
     }
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, new TransientStore(store),
                 requestDispatcherFactory.newRequestDispatcher(requestProcessor, responseProcessor, deferredFactory));
 
-        defaults.apply(request);
+        options.apply(request);
 
         return request;
     }
 
     private WebTarget createWebTarget(Uri uri) {
         return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, store, defaults, uri);
+                deferredFactory, store, options, uri);
     }
 
     private WebTarget createWebTarget(UriBuilder uriBuilder) {
         return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, store, defaults, uriBuilder);
+                deferredFactory, store, options, uriBuilder);
     }
 }
