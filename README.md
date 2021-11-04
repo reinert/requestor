@@ -12,8 +12,9 @@ carefully designed features that enable developers to rule the network communica
 * **Authentication** - make complex async authentication procedures in a breeze.
 * **Request/Response Hooking** - asynchronously filter and intercept requests and responses.
 * **HTTP Polling** - make long or short polling with a single command.
-* **Client Session** - set default options to all requests.
-* **Data Store** - save and retrieve data both in session and request scope.
+* **Session** - set default options to all requests.
+* **Store** - save and retrieve data both in session and request scope.
+* **Service** - break down the API consumption into smaller independent contexts.
 * **Links API** - navigate through an API interacting with its links (HATEOAS for real).
 * **Headers API** - directly create and parse complex headers.
 * **URI API** - build and parse complicated URIs easily.
@@ -45,10 +46,10 @@ GET a collection of objects:
 session.get("/api/books", List.class, Book.class).success( books -> renderTable(books) );
 ```
 
+**Note**: Check the [Serialization](#serialization) section to enable ***auto-serialization***.
+
 The above examples are shortcuts in Session class to make quick requests.
 Additionally, you can access the fluent API to build and send more complex requests.
-
-**Note**: Check the [Serialization](#serialization) section to enable ***auto-serialization***.
 
 ### Requesting Fluent API *(briefing)*
 
