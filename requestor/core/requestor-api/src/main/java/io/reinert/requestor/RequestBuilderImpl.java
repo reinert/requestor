@@ -21,6 +21,7 @@ import io.reinert.requestor.header.AcceptHeader;
 import io.reinert.requestor.header.ContentTypeHeader;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
+import io.reinert.requestor.payload.Payload;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.uri.Uri;
 
@@ -41,7 +42,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     private int timeout;
     private int delay;
     private PollingOptions pollingOptions;
-    private Object payload;
+    private Payload payload;
     private SerializedPayload serializedPayload;
     private boolean serialized;
 
@@ -51,7 +52,8 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
 
     public RequestBuilderImpl(Uri uri, TransientStore store, Headers headers, Auth.Provider authProvider,
                               HttpMethod httpMethod, int timeout, int delay, PollingOptions pollingOptions,
-                              Object payload, SerializedPayload serializedPayload, boolean serialized) {
+                              Payload payload, SerializedPayload serializedPayload,
+                              boolean serialized) {
         if (uri == null) throw new IllegalArgumentException("Uri cannot be null");
         this.uri = uri;
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
@@ -62,7 +64,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
         this.timeout = timeout;
         this.delay = delay;
         this.pollingOptions = pollingOptions != null ? pollingOptions : new PollingOptions();
-        this.payload = payload;
+        this.payload = payload != null ? payload : Payload.EMPTY_PAYLOAD;
         this.serializedPayload = serializedPayload;
         this.serialized = serialized;
     }
@@ -92,7 +94,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public Object getPayload() {
+    public Payload getPayload() {
         return payload;
     }
 
@@ -201,8 +203,8 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public RequestBuilder payload(Object payload) {
-        this.payload = payload;
+    public RequestBuilder payload(Object payload, String... fields) {
+        this.payload = new Payload(payload, fields);
         return this;
     }
 
@@ -328,12 +330,12 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void setPayload(Object payload) {
+    public void setPayload(Object payload, String... fields) {
         if (serialized) {
             logger.warning("Setting a deserialized payload in an already serialized request.");
         }
 
-        this.payload = payload;
+        this.payload = new Payload(payload, fields);
     }
 
     @Override

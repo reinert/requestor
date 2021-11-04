@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.Payload;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
 import io.reinert.requestor.uri.Uri;
@@ -116,7 +117,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public Object getPayload() {
+    public Payload getPayload() {
         return request.getPayload();
     }
 

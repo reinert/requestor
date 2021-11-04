@@ -237,6 +237,14 @@ req.payload( new Book("RESTful Web Services", "Leonard Richardson", new Date(117
 req.payload( Arrays.asList(book1, book2, book3) );
 ```
 
+Optionally, we can specify the fields we want to be serialized. In this case, the Serializer
+must implement the required logic to filter the informed fields during serialization.
+
+```java
+Book book = new Book("RESTful Web Services", "Leonard Richardson", new Date(1179795600000L);
+req.payload( book, "title", "author" ); // Inform the serializer to filter title and author only
+```
+
 ### *auth*
 
 Set an `Auth` implementation to properly authenticate your request. This async functional interface

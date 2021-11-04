@@ -90,8 +90,9 @@ public interface MutableRequest extends Request, HasHeaders {
      * Input a payload to be serialized and then sent in the HTTP request body.
      *
      * @param payload The payload of the request
+     * @param fields  The fields to be serialized
      */
-    void setPayload(Object payload);
+    void setPayload(Object payload, String... fields);
 
     /**
      * Sets the HTTP method of the request.

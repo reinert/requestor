@@ -54,6 +54,6 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     RequestInvoker poll(PollingStrategy strategy, int intervalMillis, int limit);
 
     @Override
-    RequestInvoker payload(Object payload) throws IllegalArgumentException;
+    RequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
 }

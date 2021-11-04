@@ -16,6 +16,7 @@
 package io.reinert.requestor;
 
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.Payload;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.uri.Uri;
 
@@ -83,8 +84,8 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public void setPayload(Object payload) {
-        request.setPayload(payload);
+    public void setPayload(Object payload, String... fields) {
+        request.setPayload(payload, fields);
     }
 
     @Override
@@ -128,7 +129,7 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public Object getPayload() {
+    public Payload getPayload() {
         return request.getPayload();
     }
 

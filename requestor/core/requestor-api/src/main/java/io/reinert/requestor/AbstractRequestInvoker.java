@@ -73,8 +73,8 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     }
 
     @Override
-    public RequestInvoker payload(Object payload) {
-        super.payload(payload);
+    public RequestInvoker payload(Object payload, String... fields) {
+        super.payload(payload, fields);
         return this;
     }
 

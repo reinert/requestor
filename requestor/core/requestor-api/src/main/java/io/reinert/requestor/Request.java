@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.payload.Payload;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.uri.Uri;
 
@@ -35,7 +36,7 @@ public interface Request {
 
     HttpMethod getMethod();
 
-    Object getPayload();
+    Payload getPayload();
 
     SerializedPayload getSerializedPayload();
 

@@ -18,6 +18,7 @@ package io.reinert.requestor;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.Payload;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
 import io.reinert.requestor.uri.Uri;
@@ -125,9 +126,10 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     public int incrementPollingCounter() {
         return request.incrementPollingCounter();
     }
+
     @Override
-    public final void setPayload(Object payload) {
-        request.setPayload(payload);
+    public final void setPayload(Object payload, String... fields) {
+        request.setPayload(payload, fields);
     }
 
     @Override
@@ -171,7 +173,7 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public final Object getPayload() {
+    public final Payload getPayload() {
         return request.getPayload();
     }
 

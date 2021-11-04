@@ -96,10 +96,11 @@ public interface RequestBuilder extends Request {
      * If no serializer was found by matching these two factors, then a exception is thrown.
      *
      * @param payload The payload of the request
+     * @param fields  The fields to be serialized
      *
      * @return This building request
      */
-    RequestBuilder payload(Object payload);
+    RequestBuilder payload(Object payload, String... fields);
 
     /**
      * Sets the number of milliseconds to wait for a request to complete.

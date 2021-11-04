@@ -130,7 +130,7 @@ class SerializationEngine {
     }
 
     public void serializeRequest(SerializableRequest request) {
-        Object payload = request.getPayload();
+        Object payload = request.getPayload().getObject();
 
         if (payload instanceof FormData &&
                 !FormDataSerializerUrlEncoded.MEDIA_TYPE.equalsIgnoreCase(request.getContentType())) {
@@ -169,14 +169,16 @@ class SerializationEngine {
 
                     Serializer<?> serializer = serializerManager.getSerializer(type, mediaType);
                     checkSerializerNotNull(request, type, serializer);
-                    body = serializer.serialize(c, new HttpSerializationContext(request, collectionType, type));
+                    body = serializer.serialize(c, new HttpSerializationContext(request, collectionType, type,
+                            request.getPayload().getFields()));
                 }
             } else {
                 final Class<?> type = payload.getClass();
                 @SuppressWarnings("unchecked")
                 Serializer<Object> serializer = (Serializer<Object>) serializerManager.getSerializer(type, mediaType);
                 checkSerializerNotNull(request, payload.getClass(), serializer);
-                body = serializer.serialize(payload, new HttpSerializationContext(request, type));
+                body = serializer.serialize(payload, new HttpSerializationContext(request, type,
+                        request.getPayload().getFields()));
             }
         }
 
