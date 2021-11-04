@@ -6,19 +6,19 @@
 
 Requestor is a powerful HTTP Client API for cutting-edge Java/GWT client apps. It offers plenty of
 carefully designed features that enable developers to rule the network communication process smoothly:
-* **Requesting Fluent API** - code as you think, read as you code.
-* **Promises** - chain callbacks to different results and statuses.
-* **Serialization** - serialize and deserialize payloads integrating any library.
-* **Authentication** - make complex async authentication procedures in a breeze.
-* **Request/Response Hooking** - asynchronously filter and intercept requests and responses.
-* **HTTP Polling** - make long or short polling with a single command.
-* **Session** - set default options to all requests.
-* **Store** - save and retrieve data both in session and request scope.
-* **Service** - break down the API consumption into smaller independent contexts.
-* **Links API** - navigate through an API interacting with its links (HATEOAS for real).
-* **Headers API** - directly create and parse complex headers.
-* **URI API** - build and parse complicated URIs easily.
-* **Binary Data** - upload and download files tracking the progress.
+* [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
+* [**Promises**](#promises) - chain callbacks to different results and statuses.
+* [**Serialization**](#serialization) - serialize and deserialize payloads integrating any library.
+* [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
+* [**Request/Response Hooking**](#processors-hooking) - asynchronously filter and intercept requests and responses.
+* [**HTTP Polling**](#poll) - make long or short polling with a single command.
+* [**Session**](#session) - set default options to all requests.
+* [**Store**](#store) - save and retrieve data both in session and request scope.
+* [**Service**](#service) - break down the API consumption into smaller independent contexts.
+* [**Links API**](#links-api-hateoas) - navigate through an API interacting with its links (HATEOAS for real).
+* [**Headers API**](#headers-api) - directly create and parse complex headers.
+* [**URI API**](#uri-api) - build and parse complicated URIs easily.
+* [**Binary Data**](#binary-data) - upload and download files tracking the progress.
 
 It supports GWT 2.9 and Java 8+ while maintaining backward compatibility with GWT 2.7 and Java 1.5.
 In addition, GWT3 and J2CL support are in the roadmap without breaking API compatibility.
