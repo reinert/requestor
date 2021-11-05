@@ -40,19 +40,17 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     private final Request request;
     private Object payload;
     private SerializedPayload serializedPayload;
-    private ResponseType responseType;
     private boolean deserialized = false;
     private final PayloadType payloadType;
     private final Deferred<?> deferred;
 
-    public RawResponse(Request request, HttpStatus status, Headers headers, ResponseType responseType,
-                       PayloadType payloadType, SerializedPayload serializedPayload, Deferred<?> deferred) {
+    public RawResponse(Request request, HttpStatus status, Headers headers, PayloadType payloadType,
+                       SerializedPayload serializedPayload, Deferred<?> deferred) {
         this.request = request;
         if (headers == null) throw new IllegalArgumentException("Headers cannot be null");
         this.headers = headers;
         this.linkHeader = (LinkHeader) headers.get("Link");
         this.status = status;
-        this.responseType = responseType;
         this.payloadType = payloadType;
         this.serializedPayload = serializedPayload;
         this.deferred = deferred;
@@ -129,11 +127,6 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public ResponseType getResponseType() {
-        return responseType;
-    }
-
-    @Override
     public Request getRequest() {
         return request;
     }
@@ -151,7 +144,6 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
                 ", status=" + status +
                 ", payload=" + (payload != null ? payload : "null") +
                 ", serializedPayload=" + (serializedPayload != null ? serializedPayload : "null") +
-                ", responseType=" + responseType +
                 '}';
     }
 
@@ -177,11 +169,6 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     @Override
     public void setContentType(String contentType) {
         headers.add(new ContentTypeHeader(contentType));
-    }
-
-    @Override
-    public void setResponseType(ResponseType responseType) {
-        this.responseType = responseType;
     }
 
     @Override

@@ -27,7 +27,6 @@ public class MockResponse {
 
     private final HttpStatus status;
     private final Headers headers;
-    private final ResponseType responseType;
     private final SerializedPayload serializedPayload;
 
     public MockResponse(HttpStatus status) {
@@ -43,14 +42,12 @@ public class MockResponse {
     }
 
     public MockResponse(HttpStatus status, Headers headers) {
-        this(status, headers, ResponseType.DEFAULT, null);
+        this(status, headers, null);
     }
 
-    public MockResponse(HttpStatus status, Headers headers, ResponseType responseType,
-                        SerializedPayload serializedPayload) {
+    public MockResponse(HttpStatus status, Headers headers, SerializedPayload serializedPayload) {
         this.status = status;
         this.headers = headers;
-        this.responseType = responseType;
         this.serializedPayload = serializedPayload;
     }
 
@@ -60,10 +57,6 @@ public class MockResponse {
 
     public Headers getHeaders() {
         return headers;
-    }
-
-    public ResponseType getResponseType() {
-        return responseType;
     }
 
     public SerializedPayload getSerializedPayload() {

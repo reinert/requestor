@@ -93,13 +93,6 @@ public interface SerializedResponse {
     PayloadType getPayloadType();
 
     /**
-     * Returns the response type.
-     *
-     * @return the response type
-     */
-    ResponseType getResponseType();
-
-    /**
      * Returns the request that originated this response.
      *
      * @return  the original request

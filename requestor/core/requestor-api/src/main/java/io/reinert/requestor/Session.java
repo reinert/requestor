@@ -69,7 +69,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     public Session(Deferred.Factory deferredFactory) {
-        this(deferredFactory, new XhrRequestDispatcherFactory());
+        this(deferredFactory, GWT.<RequestDispatcher.Factory>create(RequestDispatcher.Factory.class));
     }
 
     public Session(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {

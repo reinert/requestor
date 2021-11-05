@@ -15,11 +15,43 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.payload.type.PayloadType;
+import io.reinert.requestor.type.ArrayBuffer;
+import io.reinert.requestor.type.Blob;
+import io.reinert.requestor.type.Document;
+import io.reinert.requestor.type.Json;
+
 public class ResponseDeserializerImpl implements ResponseDeserializer {
     @Override
     public void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine) {
         if (isSuccessful(response)) {
-            serializationEngine.deserializeResponse(response);
+            final PayloadType payloadType = response.getPayloadType();
+            final Class<?> type = payloadType.getType();
+
+            Object result = null;
+
+            if (SerializedPayload.class == type) {
+                result = response.getSerializedPayload();
+            } else if (Blob.class == type) {
+                result = new Blob(response.getSerializedPayload().getObject());
+            } else if (ArrayBuffer.class == type) {
+                result = new ArrayBuffer(response.getSerializedPayload().getObject());
+            } else if (Document.class == type) {
+                result = new Document(response.getSerializedPayload().getObject());
+            } else if (Json.class == type) {
+                result = new Json(response.getSerializedPayload().getObject());
+            } else if (Response.class == type || SerializedResponse.class == type || RawResponse.class == type) {
+                result = response.getRawResponse();
+            } else if (Headers.class == type) {
+                result = response.getHeaders();
+            }
+
+            if (result != null) {
+                response.deserializePayload(result);
+            } else {
+                serializationEngine.deserializeResponse(response);
+            }
         } else {
             // TODO: deserialize by statusCode
             response.deserializePayload(response.getSerializedPayload());

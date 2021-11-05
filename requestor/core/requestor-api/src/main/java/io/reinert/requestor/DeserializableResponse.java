@@ -21,8 +21,6 @@ public interface DeserializableResponse extends SerializedResponse {
 
     void setContentType(String mediaType);
 
-    void setResponseType(ResponseType responseType);
-
     Response getRawResponse();
 
 }

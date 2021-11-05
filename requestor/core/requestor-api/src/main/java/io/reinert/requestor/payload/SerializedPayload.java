@@ -17,6 +17,8 @@ package io.reinert.requestor.payload;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import io.reinert.requestor.ResponseType;
+
 /**
  * Represents an HTTP payload.
  * It envelopes a String or a JavaScriptObject.
@@ -25,35 +27,40 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class SerializedPayload {
 
-    private String string;
-    private JavaScriptObject javaScriptObject;
+    private final String string;
+    private final JavaScriptObject javaScriptObject;
+    private final ResponseType responseType;
 
-    protected SerializedPayload(String string) {
+    protected SerializedPayload(String string, ResponseType responseType) {
         this.string = string;
+        this.javaScriptObject = null;
+        this.responseType = responseType;
     }
 
-    protected SerializedPayload(JavaScriptObject javaScriptObject) {
+    protected SerializedPayload(JavaScriptObject javaScriptObject, ResponseType responseType) {
+        this.string = null;
         this.javaScriptObject = javaScriptObject;
+        this.responseType = responseType;
     }
 
     public static SerializedPayload fromText(String text) {
-        return new SerializedPayload(text);
+        return new SerializedPayload(text, ResponseType.TEXT);
     }
 
     public static SerializedPayload fromBlob(JavaScriptObject blob) {
-        return new SerializedPayload(blob);
+        return new SerializedPayload(blob, ResponseType.BLOB);
     }
 
     public static SerializedPayload fromDocument(JavaScriptObject document) {
-        return new SerializedPayload(document);
+        return new SerializedPayload(document, ResponseType.DOCUMENT);
     }
 
     public static SerializedPayload fromJson(JavaScriptObject json) {
-        return new SerializedPayload(json);
+        return new SerializedPayload(json, ResponseType.JSON);
     }
 
     public static SerializedPayload fromFormData(JavaScriptObject formData) {
-        return new SerializedPayload(formData);
+        return new SerializedPayload(formData, ResponseType.DEFAULT);
     }
 
     /**
@@ -90,6 +97,10 @@ public class SerializedPayload {
     @SuppressWarnings("unchecked")
     public <J extends JavaScriptObject> J getObject() {
         return (J) javaScriptObject;
+    }
+
+    public ResponseType getResponseType() {
+        return responseType;
     }
 
     @Override

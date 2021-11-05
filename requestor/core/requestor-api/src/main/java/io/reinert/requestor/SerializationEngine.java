@@ -20,11 +20,6 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
-import io.reinert.requestor.form.FormData;
-import io.reinert.requestor.form.FormDataOverlay;
-import io.reinert.requestor.form.FormDataSerializerUrlEncoded;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.CollectionPayloadType;
 import io.reinert.requestor.payload.type.CompositePayloadType;
@@ -35,10 +30,6 @@ import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.SerializationException;
 import io.reinert.requestor.serialization.Serializer;
-import io.reinert.requestor.type.ArrayBuffer;
-import io.reinert.requestor.type.Blob;
-import io.reinert.requestor.type.Document;
-import io.reinert.requestor.type.Json;
 
 /**
  * Responsible for performing managed de/serialization.
@@ -47,7 +38,7 @@ import io.reinert.requestor.type.Json;
  */
 class SerializationEngine {
 
-    private static Logger logger = Logger.getLogger(SerializationEngine.class.getName());
+    private static final Logger logger = Logger.getLogger(SerializationEngine.class.getName());
 
     private final SerializerManagerImpl serializerManager;
     private final ProviderManagerImpl providerManager;
@@ -63,35 +54,6 @@ class SerializationEngine {
         final Class<?> type = payloadType.getType();
 
         Object result = null;
-
-        // Special types that skip regular deserialization
-        if (SerializedPayload.class == type) {
-            result = response.getSerializedPayload();
-        } else if (Blob.class == type) {
-            result = new Blob(response.getSerializedPayload().getObject());
-        } else if (ArrayBuffer.class == type) {
-            result = new ArrayBuffer(response.getSerializedPayload().getObject());
-        } else if (Document.class == type) {
-            result = new Document(response.getSerializedPayload().getObject());
-        } else if (Json.class == type) {
-            result = new Json(response.getSerializedPayload().getObject());
-        } else if (Response.class == type || SerializedResponse.class == type || RawResponse.class == type) {
-            result = response.getRawResponse();
-        } else if (Headers.class == type) {
-            result = response.getHeaders();
-        }
-
-        if (result != null) {
-            response.deserializePayload(result);
-            return;
-        }
-
-        // Regular deserialization process
-        final ResponseType responseType = response.getResponseType();
-        if (responseType != ResponseType.DEFAULT && responseType != ResponseType.TEXT) {
-            throw new SerializationException("Deserialization of '" + responseType +
-                    "' response type is not supported yet.");
-        }
 
         if (payloadType instanceof DictionaryPayloadType || payloadType instanceof CompositePayloadType) {
             throw new SerializationException("Deserialization of " + payloadType.getClass().getName() +
@@ -131,13 +93,6 @@ class SerializationEngine {
 
     public void serializeRequest(SerializableRequest request) {
         Object payload = request.getPayload().getObject();
-
-        if (payload instanceof FormData &&
-                !FormDataSerializerUrlEncoded.MEDIA_TYPE.equalsIgnoreCase(request.getContentType())) {
-            request.serializePayload(getFormDataSerializedPayload((FormData) payload));
-
-            return;
-        }
 
         if (payload instanceof SerializedPayload) {
             request.serializePayload((SerializedPayload) payload);
@@ -183,22 +138,6 @@ class SerializationEngine {
         }
 
         request.serializePayload(SerializedPayload.fromText(body));
-    }
-
-    private SerializedPayload getFormDataSerializedPayload(FormData formData) {
-        if (formData.getFormElement() != null)
-            return SerializedPayload.fromFormData(FormDataOverlay.create(formData.getFormElement()));
-
-        FormDataOverlay overlay = FormDataOverlay.create();
-        for (FormData.Param param : formData) {
-            final Object value = param.getValue();
-            if (value instanceof String) {
-                overlay.append(param.getName(), (String) value);
-            } else {
-                overlay.append(param.getName(), (JavaScriptObject) value, param.getFileName());
-            }
-        }
-        return SerializedPayload.fromFormData(overlay);
     }
 
     private String getRequestMediaType(SerializableRequest request) {

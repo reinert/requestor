@@ -48,11 +48,6 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public void setResponseType(ResponseType responseType) {
-        response.setResponseType(responseType);
-    }
-
-    @Override
     public void setPayload(Object payload) {
         response.setPayload(payload);
     }
@@ -125,11 +120,6 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     @Override
     public PayloadType getPayloadType() {
         return response.getPayloadType();
-    }
-
-    @Override
-    public ResponseType getResponseType() {
-        return response.getResponseType();
     }
 
     @Override
