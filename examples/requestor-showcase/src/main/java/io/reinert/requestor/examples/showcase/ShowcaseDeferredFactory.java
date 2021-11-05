@@ -26,7 +26,7 @@ import io.reinert.requestor.callback.ExceptionCallback;
 import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.loading.event.HideLoadingEvent;
 import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
-import io.reinert.requestor.impl.gdeferred.DeferredRequest;
+import io.reinert.requestor.DeferredRequest;
 
 /**
  * Factory that creates a deferred with a preset fail callback.

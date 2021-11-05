@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.impl.gdeferred;
-
-import io.reinert.requestor.Deferred;
+package io.reinert.requestor;
 
 /**
  * Implementation of DeferredRequestFactory returning a GDeferredRequest.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.impl.gdeferred;
+package io.reinert.requestor;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -21,16 +21,6 @@ import java.util.logging.Logger;
 import io.reinert.gdeferred.DoneCallback;
 import io.reinert.gdeferred.FailCallback;
 import io.reinert.gdeferred.impl.RequestorDeferred;
-import io.reinert.requestor.Deferred;
-import io.reinert.requestor.HttpConnection;
-import io.reinert.requestor.IncompatibleTypeException;
-import io.reinert.requestor.Promise;
-import io.reinert.requestor.RequestException;
-import io.reinert.requestor.RequestProgress;
-import io.reinert.requestor.RequestTimeoutException;
-import io.reinert.requestor.Response;
-import io.reinert.requestor.Status;
-import io.reinert.requestor.StatusFamily;
 import io.reinert.requestor.callback.ExceptionCallback;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.PayloadResponseCallback;
