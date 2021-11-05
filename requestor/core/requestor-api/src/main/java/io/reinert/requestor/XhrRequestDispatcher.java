@@ -20,6 +20,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
 import io.reinert.requestor.header.Header;
+import io.reinert.requestor.payload.SerializedJsPayload;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
 
@@ -113,10 +114,15 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         // Send the request
         try {
             if (serializedPayload != null) {
-                if (serializedPayload.isString()) {
-                    xmlHttpRequest.send(serializedPayload.getString());
+                if (serializedPayload instanceof SerializedJsPayload) {
+                    SerializedJsPayload gwtPayload = (SerializedJsPayload) serializedPayload;
+                    if (gwtPayload.isString()) {
+                        xmlHttpRequest.send(gwtPayload.getString());
+                    } else {
+                        xmlHttpRequest.send(gwtPayload.getObject());
+                    }
                 } else {
-                    xmlHttpRequest.send(serializedPayload.getObject());
+                    xmlHttpRequest.send(serializedPayload.getString());
                 }
             } else {
                 xmlHttpRequest.send();
@@ -147,17 +153,17 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                                            com.google.gwt.http.client.Response gwtResponse) {
                 final String responseType = xhr.getResponseType();
 
-                SerializedPayload serializedPayload = null;
+                SerializedJsPayload serializedPayload = null;
 
                 if (responseType == null || responseType.isEmpty() ||
                         responseType.equalsIgnoreCase(ResponseType.TEXT.getValue())) {
-                    serializedPayload = SerializedPayload.fromText(xhr.getResponseText());
+                    serializedPayload = SerializedJsPayload.fromText(xhr.getResponseText());
                 } else if (responseType.equalsIgnoreCase(ResponseType.BLOB.getValue())) {
-                    serializedPayload = SerializedPayload.fromBlob(xhr.getResponse());
+                    serializedPayload = SerializedJsPayload.fromBlob(xhr.getResponse());
                 } else if (responseType.equalsIgnoreCase(ResponseType.DOCUMENT.getValue())) {
-                    serializedPayload = SerializedPayload.fromDocument(xhr.getResponse());
+                    serializedPayload = SerializedJsPayload.fromDocument(xhr.getResponse());
                 } else if (responseType.equalsIgnoreCase(ResponseType.JSON.getValue())) {
-                    serializedPayload = SerializedPayload.fromJson(xhr.getResponse());
+                    serializedPayload = SerializedJsPayload.fromJson(xhr.getResponse());
                 }
 
 //                ResponseType.of(responseType)

@@ -15,10 +15,6 @@
  */
 package io.reinert.requestor.payload;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
-import io.reinert.requestor.ResponseType;
-
 /**
  * Represents an HTTP payload.
  * It envelopes a String or a JavaScriptObject.
@@ -28,39 +24,9 @@ import io.reinert.requestor.ResponseType;
 public class SerializedPayload {
 
     private final String string;
-    private final JavaScriptObject javaScriptObject;
-    private final ResponseType responseType;
 
-    protected SerializedPayload(String string, ResponseType responseType) {
+    public SerializedPayload(String string) {
         this.string = string;
-        this.javaScriptObject = null;
-        this.responseType = responseType;
-    }
-
-    protected SerializedPayload(JavaScriptObject javaScriptObject, ResponseType responseType) {
-        this.string = null;
-        this.javaScriptObject = javaScriptObject;
-        this.responseType = responseType;
-    }
-
-    public static SerializedPayload fromText(String text) {
-        return new SerializedPayload(text, ResponseType.TEXT);
-    }
-
-    public static SerializedPayload fromBlob(JavaScriptObject blob) {
-        return new SerializedPayload(blob, ResponseType.BLOB);
-    }
-
-    public static SerializedPayload fromDocument(JavaScriptObject document) {
-        return new SerializedPayload(document, ResponseType.DOCUMENT);
-    }
-
-    public static SerializedPayload fromJson(JavaScriptObject json) {
-        return new SerializedPayload(json, ResponseType.JSON);
-    }
-
-    public static SerializedPayload fromFormData(JavaScriptObject formData) {
-        return new SerializedPayload(formData, ResponseType.DEFAULT);
     }
 
     /**
@@ -69,11 +35,7 @@ public class SerializedPayload {
      * @return true if this payload is empty
      */
     public boolean isEmpty() {
-        return (string == null || string.isEmpty()) && javaScriptObject == null;
-    }
-
-    public boolean isString() {
-        return string != null;
+        return string == null || string.isEmpty();
     }
 
     /**
@@ -84,31 +46,4 @@ public class SerializedPayload {
     public String getString() {
         return string;
     }
-
-    public boolean isObject() {
-        return javaScriptObject != null;
-    }
-
-    /**
-     * Returns the javascript value if this payload is of JavaScriptObject type.
-     *
-     * @return The payload as JavaScriptObject
-     */
-    @SuppressWarnings("unchecked")
-    public <J extends JavaScriptObject> J getObject() {
-        return (J) javaScriptObject;
-    }
-
-    public ResponseType getResponseType() {
-        return responseType;
-    }
-
-    @Override
-    public String toString() {
-        return javaScriptObject != null ? stringify(javaScriptObject) : string;
-    }
-
-    private static native String stringify(JavaScriptObject jso) /*-{
-        return JSON.stringify(jso);
-    }-*/;
 }

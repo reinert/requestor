@@ -17,6 +17,7 @@ package io.reinert.requestor;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import io.reinert.requestor.payload.SerializedJsPayload;
 import io.reinert.requestor.payload.SerializedPayload;
 
 public class RequestSerializerImpl implements RequestSerializer {
@@ -36,7 +37,7 @@ public class RequestSerializerImpl implements RequestSerializer {
 
     private SerializedPayload getFormDataSerializedPayload(FormData formData) {
         if (formData.getFormElement() != null)
-            return SerializedPayload.fromFormData(FormDataOverlay.create(formData.getFormElement()));
+            return SerializedJsPayload.fromFormData(FormDataOverlay.create(formData.getFormElement()));
 
         FormDataOverlay overlay = FormDataOverlay.create();
         for (FormData.Param param : formData) {
@@ -47,6 +48,6 @@ public class RequestSerializerImpl implements RequestSerializer {
                 overlay.append(param.getName(), (JavaScriptObject) value, param.getFileName());
             }
         }
-        return SerializedPayload.fromFormData(overlay);
+        return SerializedJsPayload.fromFormData(overlay);
     }
 }

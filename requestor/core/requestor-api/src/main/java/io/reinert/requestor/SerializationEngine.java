@@ -137,7 +137,7 @@ class SerializationEngine {
             }
         }
 
-        request.serializePayload(SerializedPayload.fromText(body));
+        request.serializePayload(new SerializedPayload(body));
     }
 
     private String getRequestMediaType(SerializableRequest request) {

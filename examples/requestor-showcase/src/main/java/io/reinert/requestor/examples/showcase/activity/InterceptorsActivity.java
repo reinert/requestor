@@ -66,7 +66,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                 final String json = request.getSerializedPayload().getString();
                 if (json != null) {
                     // add ")]}',\n" to the beginning of JSONs
-                    request.setSerializedPayload(SerializedPayload.fromText(")]}',\\n" + json));
+                    request.setSerializedPayload(new SerializedPayload(")]}',\\n" + json));
                 }
                 request.proceed();
             }
@@ -97,7 +97,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                 final String json = response.getSerializedPayload().getString();
                 if (json != null) {
                     // remove first 6 chars )]}',\n
-                    response.setSerializedPayload(SerializedPayload.fromText(json.substring(6)));
+                    response.setSerializedPayload(new SerializedPayload(json.substring(6)));
                 }
                 response.proceed();
             }

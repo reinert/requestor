@@ -28,7 +28,7 @@ import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ProgressCallback;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.payload.SerializedJsPayload;
 import io.reinert.requestor.type.Blob;
 
 public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.Handler {
@@ -47,7 +47,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
         view.setSendProgressStatus(0);
         view.setSendText(null);
         session.req("http://httpbin.org/post")
-                .payload(SerializedPayload.fromBlob(file))
+                .payload(SerializedJsPayload.fromBlob(file))
                 .post(String.class)
                 .success(new PayloadCallback<String>() {
                     @Override

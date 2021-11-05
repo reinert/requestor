@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.payload.SerializedJsPayload;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
 import io.reinert.requestor.type.ArrayBuffer;
@@ -34,13 +35,13 @@ public class ResponseDeserializerImpl implements ResponseDeserializer {
             if (SerializedPayload.class == type) {
                 result = response.getSerializedPayload();
             } else if (Blob.class == type) {
-                result = new Blob(response.getSerializedPayload().getObject());
+                result = new Blob(((SerializedJsPayload) response.getSerializedPayload()).getObject());
             } else if (ArrayBuffer.class == type) {
-                result = new ArrayBuffer(response.getSerializedPayload().getObject());
+                result = new ArrayBuffer(((SerializedJsPayload) response.getSerializedPayload()).getObject());
             } else if (Document.class == type) {
-                result = new Document(response.getSerializedPayload().getObject());
+                result = new Document(((SerializedJsPayload) response.getSerializedPayload()).getObject());
             } else if (Json.class == type) {
-                result = new Json(response.getSerializedPayload().getObject());
+                result = new Json(((SerializedJsPayload) response.getSerializedPayload()).getObject());
             } else if (Response.class == type || SerializedResponse.class == type || RawResponse.class == type) {
                 result = response.getRawResponse();
             } else if (Headers.class == type) {
