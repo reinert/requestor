@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.rebind;
+package io.reinert.requestor.gwtjackson;
 
 import java.io.PrintWriter;
 import java.util.ArrayDeque;
@@ -32,8 +32,8 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
-import io.reinert.requestor.JsonSerializationModule;
 import io.reinert.requestor.SerializationModule;
+import io.reinert.requestor.annotations.JsonSerializationModule;
 
 /**
  * Generator for GeneratedModules that instantiates all serializers for classes declared in
@@ -41,11 +41,11 @@ import io.reinert.requestor.SerializationModule;
  *
  * @author Danilo Reinert
  */
-public class GeneratedModulesGenerator extends Generator {
+public class GeneratedJsonModulesGenerator extends Generator {
 
     static final String SERIALIZATION_MODULE_FULL_NAME = SerializationModule.class.getName();
 
-    private static final Logger LOGGER = Logger.getLogger(GeneratedModulesGenerator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GeneratedJsonModulesGenerator.class.getName());
 
     private final StringBuilder sourceLog = new StringBuilder();
 

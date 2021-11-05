@@ -40,8 +40,8 @@ import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 
-import io.reinert.requestor.JsonSerializationModule;
-import io.reinert.requestor.MediaType;
+import io.reinert.requestor.annotations.AutoBeanSerializationModule;
+import io.reinert.requestor.annotations.MediaType;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
@@ -54,7 +54,8 @@ import io.reinert.requestor.serialization.json.JsonRecordReader;
 import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
 /**
- * Generator for {@link io.reinert.requestor.JsonSerializationModule} annotated types powered by GWT AutoBean Framework.
+ * Generator for {@link io.reinert.requestor.annotations.AutoBeanSerializationModule} annotated types
+ * powered by GWT AutoBean Framework.
  *
  * @author Danilo Reinert
  */
@@ -91,8 +92,8 @@ public class AutoBeanModulesGenerator extends Generator {
                 null);
 
         for (JClassType moduleType : serializationModuleType.getSubtypes()) {
-            final JsonSerializationModule serializationModuleAnn =
-                    moduleType.getAnnotation(JsonSerializationModule.class);
+            final AutoBeanSerializationModule serializationModuleAnn =
+                    moduleType.getAnnotation(AutoBeanSerializationModule.class);
             if (serializationModuleAnn != null && serializationModuleAnn.value().length > 0) {
                 generateModule(treeLogger, ctx, moduleType, serializationModuleAnn);
             }
@@ -102,7 +103,7 @@ public class AutoBeanModulesGenerator extends Generator {
     }
 
     public void generateModule(TreeLogger treeLogger, GeneratorContext ctx,
-                               JClassType moduleType, JsonSerializationModule serializationModuleAnn) {
+                               JClassType moduleType, AutoBeanSerializationModule serializationModuleAnn) {
         final TypeOracle typeOracle = ctx.getTypeOracle();
 
         final SourceWriter sourceWriter = getSourceWriter(treeLogger, ctx, moduleType);
@@ -163,7 +164,7 @@ public class AutoBeanModulesGenerator extends Generator {
         return mediaTypes;
     }
 
-    private ArrayDeque<JClassType> getJTypes(TypeOracle oracle, JsonSerializationModule serializationModuleAnn) {
+    private ArrayDeque<JClassType> getJTypes(TypeOracle oracle, AutoBeanSerializationModule serializationModuleAnn) {
         ArrayDeque<JClassType> types = new ArrayDeque<JClassType>();
         for (Class<?> cls : serializationModuleAnn.value()) {
             types.add(oracle.findType(cls.getCanonicalName()));

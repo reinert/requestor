@@ -21,6 +21,8 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.annotations.JsonSerializationModule;
+import io.reinert.requestor.annotations.MediaType;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.Serializer;
 

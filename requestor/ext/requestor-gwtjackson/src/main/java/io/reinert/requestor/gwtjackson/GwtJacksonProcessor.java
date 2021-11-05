@@ -32,7 +32,7 @@ import javax.lang.model.element.TypeElement;
 
 import com.google.auto.service.AutoService;
 
-import io.reinert.requestor.JsonSerializationModule;
+import io.reinert.requestor.annotations.JsonSerializationModule;
 import io.reinert.requestor.gwtjackson.codegen.TypeInfo;
 import io.reinert.requestor.gwtjackson.processing.ProcessingException;
 import io.reinert.requestor.gwtjackson.processing.ProcessingLogger;

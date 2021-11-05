@@ -32,8 +32,8 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
-import io.reinert.requestor.JsonSerializationModule;
 import io.reinert.requestor.SerializationModule;
+import io.reinert.requestor.annotations.AutoBeanSerializationModule;
 
 /**
  * Generator for GeneratedModules.
@@ -85,8 +85,8 @@ public class GeneratedAutoBeanModulesGenerator extends Generator {
             ArrayDeque<JClassType> nonEmptyModules = new ArrayDeque<JClassType>();
 
             for (JClassType moduleType : serializationModuleType.getSubtypes()) {
-                final JsonSerializationModule serializationModuleAnn =
-                        moduleType.getAnnotation(JsonSerializationModule.class);
+                final AutoBeanSerializationModule serializationModuleAnn =
+                        moduleType.getAnnotation(AutoBeanSerializationModule.class);
 
                 if (serializationModuleAnn != null && serializationModuleAnn.value().length > 0) {
                     nonEmptyModules.add(moduleType);

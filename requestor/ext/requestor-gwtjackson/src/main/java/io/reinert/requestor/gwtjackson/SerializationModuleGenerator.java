@@ -35,9 +35,9 @@ import com.google.auto.common.MoreElements;
 import com.google.common.base.Optional;
 import com.squareup.javapoet.JavaFile;
 
-import io.reinert.requestor.JsonSerializationModule;
-import io.reinert.requestor.MediaType;
 import io.reinert.requestor.SerializationModule;
+import io.reinert.requestor.annotations.JsonSerializationModule;
+import io.reinert.requestor.annotations.MediaType;
 import io.reinert.requestor.gwtjackson.codegen.TypeInfo;
 import io.reinert.requestor.gwtjackson.processing.ProcessingException;
 import io.reinert.requestor.gwtjackson.processing.ProcessingLogger;

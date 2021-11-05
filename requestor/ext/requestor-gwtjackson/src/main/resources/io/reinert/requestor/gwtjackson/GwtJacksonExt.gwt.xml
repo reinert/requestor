@@ -19,7 +19,7 @@
 
   <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
 
-  <generate-with class="io.reinert.requestor.rebind.GeneratedModulesGenerator">
+  <generate-with class="io.reinert.requestor.gwtjackson.GeneratedJsonModulesGenerator">
     <when-type-is class="io.reinert.requestor.GeneratedModules"/>
   </generate-with>
 

@@ -20,6 +20,8 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.annotations.AutoBeanSerializationModule;
+import io.reinert.requestor.annotations.MediaType;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.Serializer;
@@ -42,7 +44,7 @@ public class AutoBeanGeneratorGwtTest extends GWTTestCase {
     }
 
     @MediaType({APP_JSON, JAVASCRIPT})
-    @JsonSerializationModule(Animal.class)
+    @AutoBeanSerializationModule(Animal.class)
     interface TestSerializationModule extends SerializationModule { }
 
     private SerializerManagerImpl serializerManager;
