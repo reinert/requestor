@@ -17,9 +17,6 @@ package io.reinert.requestor;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.form.FormData;
-import io.reinert.requestor.form.FormDataOverlay;
-import io.reinert.requestor.form.FormDataSerializerUrlEncoded;
 import io.reinert.requestor.payload.SerializedPayload;
 
 public class RequestSerializerImpl implements RequestSerializer {

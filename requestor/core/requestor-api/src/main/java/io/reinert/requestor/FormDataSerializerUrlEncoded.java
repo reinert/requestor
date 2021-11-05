@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.form;
+package io.reinert.requestor;
 
 import java.util.Collection;
 import java.util.logging.Level;
@@ -35,7 +35,7 @@ import io.reinert.requestor.serialization.Serializer;
  *
  * @author Danilo Reinert
  */
-public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
+class FormDataSerializerUrlEncoded implements Serializer<FormData> {
 
     public static final String MEDIA_TYPE = "application/x-www-form-urlencoded";
 

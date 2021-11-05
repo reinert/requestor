@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.reinert.requestor.form.FormDataSerializerUrlEncoded;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.SerializationException;

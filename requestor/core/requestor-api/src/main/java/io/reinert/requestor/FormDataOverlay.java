@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.form;
+package io.reinert.requestor;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.FormElement;
