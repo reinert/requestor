@@ -16,7 +16,6 @@
   -->
 <module>
   <inherits name="com.google.gwt.http.HTTP"/>
-  <inherits name="com.google.gwt.user.UI"/>
 
   <source path="" excludes="rebind/**/*"/>
 

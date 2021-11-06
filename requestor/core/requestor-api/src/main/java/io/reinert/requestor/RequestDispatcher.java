@@ -18,7 +18,6 @@ package io.reinert.requestor;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.user.client.Timer;
 
 import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.payload.type.PayloadType;
@@ -34,6 +33,10 @@ public abstract class RequestDispatcher {
         RequestDispatcher newRequestDispatcher(RequestProcessor requestProcessor,
                                                ResponseProcessor responseProcessor,
                                                Deferred.Factory deferredFactory);
+    }
+
+    private interface Runnable {
+        void run();
     }
 
     private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());
@@ -138,9 +141,8 @@ public abstract class RequestDispatcher {
 
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request, responsePayloadType,
                 this, deferred);
-
-        // TODO: switch by a native Timer to avoid importing GWT UI module
-        new Timer() {
+        setNativeTimeout(new Runnable() {
+            @Override
             public void run() {
                 try {
                     // Process and send the request
@@ -163,7 +165,7 @@ public abstract class RequestDispatcher {
                             " request. See previous exception.", e));
                 }
             }
-        }.schedule(request.getDelay());
+        }, request.getDelay());
     }
 
     private <T> ResponseCallback getLongPollingCallback(final MutableSerializedRequest request,
@@ -183,15 +185,14 @@ public abstract class RequestDispatcher {
     private <T> void schedulePollingRequest(final MutableSerializedRequest nextRequest,
                                             final PayloadType responsePayloadType,
                                             final Deferred<T> deferred) {
-        // TODO: switch by a native Timer to avoid importing GWT UI module
-        new Timer() {
+        setNativeTimeout(new Runnable() {
             @Override
             public void run() {
                 if (nextRequest.isPolling()) {
                     scheduleDispatch(nextRequest, responsePayloadType, deferred.getUnresolvedCopy(),false, false);
                 }
             }
-        }.schedule(nextRequest.getPollingInterval());
+        }, nextRequest.getPollingInterval());
     }
 
     protected boolean isLongPolling(MutableSerializedRequest request) {
@@ -202,4 +203,10 @@ public abstract class RequestDispatcher {
         return request.isPolling() &&
                 request.getPollingStrategy() == PollingStrategy.SHORT;
     }
+
+    private native void setNativeTimeout(Runnable runnable, int delay) /*-{
+        setTimeout($entry(function() {
+            runnable.@io.reinert.requestor.RequestDispatcher.Runnable::run()();
+        }), delay);
+    }-*/;
 }
