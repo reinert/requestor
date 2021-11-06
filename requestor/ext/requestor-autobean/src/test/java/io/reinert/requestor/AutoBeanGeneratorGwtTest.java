@@ -22,6 +22,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.annotations.MediaType;
+import io.reinert.requestor.autobean.AutoBeanSession;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
 import io.reinert.requestor.serialization.Serializer;
@@ -47,8 +48,7 @@ public class AutoBeanGeneratorGwtTest extends GWTTestCase {
     @AutoBeanSerializationModule(Animal.class)
     interface TestSerializationModule extends SerializationModule { }
 
-    private SerializerManagerImpl serializerManager;
-    private ProviderManagerImpl providerManager;
+    private Session session;
 
     @Override
     public String getModuleName() {
@@ -57,16 +57,11 @@ public class AutoBeanGeneratorGwtTest extends GWTTestCase {
 
     @Override
     public void gwtSetUp() throws Exception {
-        serializerManager = new SerializerManagerImpl();
-        providerManager = new ProviderManagerImpl();
-        GeneratedModulesBinder.bind(serializerManager, providerManager);
+        session = new AutoBeanSession();
     }
 
     public void testProviderShouldBeAvailableByProviderManager() {
-        final Provider<Animal> animalProvider = providerManager.get(Animal.class);
-        assertNotNull(animalProvider);
-
-        Animal animal = animalProvider.getInstance();
+        Animal animal = session.getInstance(Animal.class);
         assertNotNull(animal);
 
         animal.setAge(2);
@@ -76,52 +71,52 @@ public class AutoBeanGeneratorGwtTest extends GWTTestCase {
     }
 
     public void testSerializerShouldBeAvailableBySerializerManager() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application" +
+                "/json");
         assertNotNull(serializer);
     }
 
     public void testDeserializerShouldBeAvailableBySerializerManager() {
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class,
+                "application/json");
         assertNotNull(deserializer);
     }
 
     // This test will prevent us to every time test the same behaviour for both Serializer and Deserializer
     // (since they are the same)
     public void testSerializerAndDeserializerShouldBeTheSameInstance() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class, "application/json");
         assertSame(serializer, deserializer);
     }
 
     public void testSerializerShouldSupportMediaTypeValuesFromJsonAnnotation() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
         assertTrue(Arrays.equals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType()));
     }
 
     public void testSerializerShouldHandleAnnotatedType() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
         assertEquals(Animal.class, serializer.handledType());
     }
 
-    @SuppressWarnings("null")
     public void testSerializerShouldHandleAutoBeanProxyTypeAsImpl() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
 
         assertTrue(serializer instanceof HandlesSubTypes);
 
         // We test if runtime class name contains generated class name, since in runtime '$1' is appended to the end of
         // the class name. SerializerManagerImpl already handle this issue for matching.
-        final Animal autoBeanInstance = providerManager.get(Animal.class).getInstance();
+        final Animal autoBeanInstance = session.getInstance(Animal.class);
         final String autoBeanRunTimeClassName = autoBeanInstance.getClass().getName();
         final String autoBeanGeneratedClassName = ((HandlesSubTypes) serializer).handledSubTypes()[0].getName();
         assertTrue(autoBeanRunTimeClassName.contains(autoBeanGeneratedClassName));
     }
 
-    @SuppressWarnings("null")
     public void testSingleDeserialization() {
         // Given
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
-        final Animal expected = providerManager.get(Animal.class).getInstance();
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class, "application/json");
+        final Animal expected = session.getInstance(Animal.class);
         expected.setName("Stuart");
         expected.setAge(3);
 
@@ -134,16 +129,15 @@ public class AutoBeanGeneratorGwtTest extends GWTTestCase {
         assertTrue(isEqual(expected, output));
     }
 
-    @SuppressWarnings({"null", "unchecked"})
+    @SuppressWarnings("unchecked")
     public void testDeserializationAsList() {
         // Given
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
-        final Provider<Animal> animalProvider = providerManager.get(Animal.class);
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class, "application/json");
 
-        final Animal a0 = animalProvider.getInstance();
+        final Animal a0 = session.getInstance(Animal.class);
         a0.setName("Stuart");
         a0.setAge(3);
-        final Animal a1 = animalProvider.getInstance();
+        final Animal a1 = session.getInstance(Animal.class);
         a1.setName("March");
         a1.setAge(5);
 
@@ -157,14 +151,13 @@ public class AutoBeanGeneratorGwtTest extends GWTTestCase {
         assertTrue(isEqual(a1, output.get(1)));
     }
 
-    @SuppressWarnings("null")
     public void testSingleSerialization() {
         // Given
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
 
         final String expected = "{\"name\":\"Stuart\",\"age\":3}";
 
-        final Animal input = providerManager.get(Animal.class).getInstance();
+        final Animal input = session.getInstance(Animal.class);
         input.setName("Stuart");
         input.setAge(3);
 
@@ -175,18 +168,16 @@ public class AutoBeanGeneratorGwtTest extends GWTTestCase {
         assertEquals(expected, output);
     }
 
-    @SuppressWarnings({"null", "unchecked"})
     public void testSerializationAsList() {
         // Given
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
-        final Provider<Animal> animalProvider = providerManager.get(Animal.class);
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
 
         final String expected = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
 
-        final Animal a0 = animalProvider.getInstance();
+        final Animal a0 = session.getInstance(Animal.class);
         a0.setName("Stuart");
         a0.setAge(3);
-        final Animal a1 = animalProvider.getInstance();
+        final Animal a1 = session.getInstance(Animal.class);
         a1.setName("March");
         a1.setAge(5);
         List<Animal> input = Arrays.asList(a0, a1);

@@ -15,9 +15,14 @@
  */
 package io.reinert.requestor.autobean;
 
+import com.google.gwt.core.client.GWT;
+
 import io.reinert.requestor.Deferred;
 import io.reinert.requestor.GwtSession;
 import io.reinert.requestor.RequestDispatcher;
+import io.reinert.requestor.SerializationModule;
+import io.reinert.requestor.TypeProvider;
+import io.reinert.requestor.serialization.Serializer;
 
 /**
  * A session that handles AutoBeans.
@@ -25,6 +30,8 @@ import io.reinert.requestor.RequestDispatcher;
  * @author Danilo Reinert
  */
 public class AutoBeanSession extends GwtSession {
+
+    private static AutoBeanGeneratedModules generatedModules;
 
     public AutoBeanSession() {
         super();
@@ -36,5 +43,24 @@ public class AutoBeanSession extends GwtSession {
 
     public AutoBeanSession(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         super(deferredFactory, requestDispatcherFactory);
+    }
+
+    @Override
+    protected void configure() {
+        super.configure();
+
+        if (generatedModules == null) {
+            generatedModules = GWT.create(AutoBeanGeneratedModules.class);
+        }
+
+        for (SerializationModule serializationModule : generatedModules.getSerializationModules()) {
+            for (Serializer<?> serializer : serializationModule.getSerializers()) {
+                register(serializer);
+            }
+
+            for (TypeProvider<?> provider : serializationModule.getTypeProviders()) {
+                register(provider);
+            }
+        }
     }
 }

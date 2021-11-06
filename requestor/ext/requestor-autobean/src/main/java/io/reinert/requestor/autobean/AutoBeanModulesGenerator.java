@@ -40,6 +40,8 @@ import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 
+import io.reinert.requestor.SerializationModule;
+import io.reinert.requestor.TypeProvider;
 import io.reinert.requestor.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.annotations.MediaType;
 import io.reinert.requestor.serialization.DeserializationContext;
@@ -474,6 +476,10 @@ public class AutoBeanModulesGenerator extends Generator {
                 AutoBeanCodex.class.getCanonicalName(),
                 AutoBeanFactory.class.getCanonicalName(),
                 AutoBeanUtils.class.getCanonicalName(),
+                // io.reinert.requestor
+                SerializationModule.class.getCanonicalName(),
+                Serializer.class.getCanonicalName(),
+                TypeProvider.class.getCanonicalName(),
                 // io.reinert.requestor.serialization
                 DeserializationContext.class.getCanonicalName(),
                 Deserializer.class.getCanonicalName(),

@@ -42,6 +42,7 @@ public class GwtSession extends Session {
         super(deferredFactory, requestDispatcherFactory);
     }
 
+    @Override
     protected void configure() {
         setRequestSerializer(new GwtRequestSerializer());
         setResponseDeserializer(new GwtResponseDeserializer());

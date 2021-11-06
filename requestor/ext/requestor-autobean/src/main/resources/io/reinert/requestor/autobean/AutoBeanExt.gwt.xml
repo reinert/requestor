@@ -19,8 +19,8 @@
 
   <inherits name="com.google.web.bindery.autobean.AutoBean"/>
 
-  <generate-with class="io.reinert.requestor.autobean.GeneratedAutoBeanModulesGenerator">
-    <when-type-is class="io.reinert.requestor.GeneratedModules"/>
+  <generate-with class="io.reinert.requestor.autobean.AutoBeanGeneratedModulesGenerator">
+    <when-type-is class="io.reinert.requestor.autobean.AutoBeanGeneratedModules"/>
   </generate-with>
 
   <source path="" excludes="*Generator.java"/>

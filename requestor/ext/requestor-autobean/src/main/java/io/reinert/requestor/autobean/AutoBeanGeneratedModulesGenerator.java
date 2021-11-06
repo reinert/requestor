@@ -36,15 +36,15 @@ import io.reinert.requestor.SerializationModule;
 import io.reinert.requestor.annotations.AutoBeanSerializationModule;
 
 /**
- * Generator for GeneratedModules.
+ * Generator for AutoBeanGeneratedModules.
  *
  * @author Danilo Reinert
  */
-public class GeneratedAutoBeanModulesGenerator extends Generator {
+public class AutoBeanGeneratedModulesGenerator extends Generator {
 
     static final String SERIALIZATION_MODULE_FULL_NAME = SerializationModule.class.getName();
 
-    private static final Logger LOGGER = Logger.getLogger(GeneratedAutoBeanModulesGenerator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AutoBeanGeneratedModulesGenerator.class.getName());
 
     private final StringBuilder sourceLog = new StringBuilder();
     private final AutoBeanModulesGenerator autoBeanGenerator = new AutoBeanModulesGenerator();
@@ -67,7 +67,7 @@ public class GeneratedAutoBeanModulesGenerator extends Generator {
         }
 
         // TODO: check if type was already generated and reuse it
-        TreeLogger treeLogger = logger.branch(TreeLogger.INFO, "Generating GeneratedModules...", null);
+        TreeLogger treeLogger = logger.branch(TreeLogger.INFO, "Generating AutoBeanGeneratedModules...", null);
 
         final SourceWriter sourceWriter = getSourceWriter(treeLogger, ctx, generatedModulesType);
 
@@ -138,6 +138,7 @@ public class GeneratedAutoBeanModulesGenerator extends Generator {
                 new ClassSourceFileComposerFactory(packageName, getTypeImplName(type));
 
         composerFactory.addImport(GWT.class.getCanonicalName());
+        composerFactory.addImport(SerializationModule.class.getCanonicalName());
 
         composerFactory.addImplementedInterface(type.getErasedType().getQualifiedSourceName());
 
