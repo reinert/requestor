@@ -31,7 +31,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorByGDeferredTest";
+        return "io.reinert.requestor.RequestorGwtTest";
     }
 
     @Override

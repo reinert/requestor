@@ -21,9 +21,9 @@ import com.google.gwt.user.client.Timer;
 import io.reinert.requestor.callback.ResponseCallback;
 
 /**
- * Integration tests of {@link ResponseFilter}.
+ * Integration tests of {@link RequestFilter}.
  */
-public class ResponseFilterGwtTest extends GWTTestCase {
+public class RequestFilterGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
 
@@ -31,7 +31,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorByGDeferredTest";
+        return "io.reinert.requestor.RequestorGwtTest";
     }
 
     @Override
@@ -46,12 +46,12 @@ public class ResponseFilterGwtTest extends GWTTestCase {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(ResponseInProcess response) {
-                response.getStore().save(storeKey, expectedStoreValue);
-                response.setHeader("Test", "test");
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                request.getStore().save(storeKey, expectedStoreValue);
+                request.setHeader("Test", "test");
+                request.proceed();
             }
         });
 
@@ -60,7 +60,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertEquals("test", response.getHeader("Test"));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
         });
@@ -72,21 +72,21 @@ public class ResponseFilterGwtTest extends GWTTestCase {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(ResponseInProcess response) {
-                response.getStore().save(storeKey, expectedStoreValue);
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                request.getStore().save(storeKey, expectedStoreValue);
+                request.proceed();
             }
         });
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(ResponseInProcess response) {
+            public void filter(RequestInProcess request) {
                 // Test previous filter
-                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                response.setHeader("Test", "test");
-                response.proceed();
+                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                request.setHeader("Test", "test");
+                request.proceed();
             }
         });
 
@@ -95,7 +95,7 @@ public class ResponseFilterGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertEquals("test", response.getHeader("Test"));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
         });
@@ -107,30 +107,30 @@ public class ResponseFilterGwtTest extends GWTTestCase {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(ResponseInProcess response) {
-                response.setHeader("Test", "test");
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                request.setHeader("Test", "test");
+                request.proceed();
             }
         });
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(ResponseInProcess response) {
-                assertEquals("test", response.getHeader("Test"));
-                response.getStore().save(storeKey, expectedStoreValue);
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                assertEquals("test", request.getHeader("Test"));
+                request.getStore().save(storeKey, expectedStoreValue);
+                request.proceed();
             }
         });
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(ResponseInProcess response) {
-                assertEquals("test", response.getHeader("Test"));
-                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                response.setHeader("Test2", "test2");
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                assertEquals("test", request.getHeader("Test"));
+                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                request.setHeader("Test2", "test2");
+                request.proceed();
             }
         });
 
@@ -138,9 +138,9 @@ public class ResponseFilterGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals("test", response.getHeader("Test"));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertEquals("test2", response.getHeader("Test2"));
+                assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
         });
@@ -154,45 +154,45 @@ public class ResponseFilterGwtTest extends GWTTestCase {
         final String storeKey2 = "testData2";
         final String expectedStoreValue2 = "testData2";
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(ResponseInProcess response) {
-                response.getStore().save(storeKey, expectedStoreValue);
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                request.getStore().save(storeKey, expectedStoreValue);
+                request.proceed();
             }
         });
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(final ResponseInProcess response) {
+            public void filter(final RequestInProcess request) {
                 new Timer() {
                     public void run() {
-                        assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                        response.getStore().save(storeKey2, expectedStoreValue2);
-                        response.proceed();
+                        assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                        request.getStore().save(storeKey2, expectedStoreValue2);
+                        request.proceed();
                     }
                 }.schedule(500);
             }
         });
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(ResponseInProcess response) {
+            public void filter(RequestInProcess request) {
                 // Test previous filter
-                assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
-                response.setHeader("Test", "test");
-                response.proceed();
+                assertEquals(expectedStoreValue2, request.getStore().get(storeKey2));
+                request.setHeader("Test", "test");
+                request.proceed();
             }
         });
 
-        session.register(new ResponseFilter() {
+        session.register(new RequestFilter() {
             @Override
-            public void filter(final ResponseInProcess response) {
+            public void filter(final RequestInProcess request) {
                 new Timer() {
                     @Override
                     public void run() {
-                        response.setHeader("Test2", "test2");
-                        response.proceed();
+                        request.setHeader("Test2", "test2");
+                        request.proceed();
                     }
                 }.schedule(500);
             }
@@ -204,8 +204,8 @@ public class ResponseFilterGwtTest extends GWTTestCase {
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
-                assertEquals("test", response.getHeader("Test"));
-                assertEquals("test2", response.getHeader("Test2"));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
+                assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
         });

@@ -30,6 +30,6 @@
   <artifactId>requestor-impl-parent</artifactId>
 
   <modules>
-    <module>requestor-gdeferred</module>
+    <module>requestor-gwt</module>
   </modules>
 </project>

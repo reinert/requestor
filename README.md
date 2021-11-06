@@ -163,7 +163,7 @@ Add the following requestor impl dependency to your POM.
 ```xml
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
-    <artifactId>requestor-gdeferred</artifactId>
+    <artifactId>requestor-gwt</artifactId>
     <version>0.2.0</version>
 </dependency>
 ```
@@ -171,14 +171,14 @@ Add the following requestor impl dependency to your POM.
 Then, make requestor available to your GWT project by importing the implementation's module.
 
 ```xml
-<inherits name="io.reinert.requestor.RequestorByGDeferred"/>
+<inherits name="io.reinert.requestor.RequestorGwt"/>
 ```
 
 Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** declares a Promise 
 interface, but does not implement it. The implementation is delegated to **requestor-impl**s. 
 Thus, a **requestor-impl** integrates **requestor-core** to some promise library.
 
-Currently, there is one impl available: **requestor-gdeferred**. It binds requestor with 
+Currently, there is one impl available: **requestor-gwt**. It binds requestor with 
 [gdeferred](https://github.com/reinert/gdeferred) promise API. Furthermore, an impl integrating 
 **requestor-core** with [elemental2](https://github.com/google/elemental2) promise API is on the way.
 
@@ -1578,7 +1578,7 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
   ...
   <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
-    <artifactId>requestor-gdeferred</artifactId>
+    <artifactId>requestor-gwt</artifactId>
     <version>0.3.0-SNAPSHOT</version>
   </dependency>
   ...

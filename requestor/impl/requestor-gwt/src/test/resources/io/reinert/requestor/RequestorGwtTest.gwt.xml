@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.RequestorByGDeferred"/>
+  <inherits name="io.reinert.requestor.RequestorGwt"/>
 
   <!-- required by BookXmlSerializer -->
   <inherits name="com.google.gwt.xml.XML"/>

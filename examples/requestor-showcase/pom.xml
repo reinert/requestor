@@ -49,7 +49,7 @@
     </dependency>
     <dependency>
       <groupId>io.reinert.requestor.impl</groupId>
-      <artifactId>requestor-gdeferred</artifactId>
+      <artifactId>requestor-gwt</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

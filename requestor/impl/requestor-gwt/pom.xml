@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-~ Copyright 2021 Danilo Reinert
+~ Copyright 2014 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -20,33 +20,26 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.reinert.requestor.ext</groupId>
-    <artifactId>requestor-ext-parent</artifactId>
+    <groupId>io.reinert.requestor.impl</groupId>
+    <artifactId>requestor-impl-parent</artifactId>
     <version>0.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>requestor-autobean</artifactId>
+  <artifactId>requestor-gwt</artifactId>
 
   <dependencies>
-    <!-- Requestor dependencies -->
+    <!-- GDeferred dependencies -->
     <dependency>
-      <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-annotations</artifactId>
-      <version>${project.version}</version>
+      <groupId>io.reinert.gdeferred</groupId>
+      <artifactId>gdeferred</artifactId>
+      <version>${gdeferred.version}</version>
     </dependency>
 
+    <!-- Requestor dependencies -->
     <dependency>
       <groupId>io.reinert.requestor.core</groupId>
       <artifactId>requestor-api</artifactId>
       <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.reinert.requestor.impl</groupId>
-      <artifactId>requestor-gwt</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
     </dependency>
 
     <!-- GWT dependencies -->
@@ -63,16 +56,15 @@
 
     <!-- Test dependencies -->
     <dependency>
+      <groupId>com.google.gwt.gwtmockito</groupId>
+      <artifactId>gwtmockito</artifactId>
+      <version>${gwtmockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.reinert.gdeferred</groupId>
-      <artifactId>gdeferred</artifactId>
-      <version>${gdeferred.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -91,12 +83,6 @@
 
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven-jar-plugin.version}</version>
-      </plugin>
-
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <executions>
@@ -107,7 +93,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <module>io.reinert.requestor.autobean.AutoBeanExtTest</module>
+              <module>io.reinert.requestor.RequestorGwtTest</module>
             </configuration>
           </execution>
         </executions>
