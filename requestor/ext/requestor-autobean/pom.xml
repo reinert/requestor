@@ -107,7 +107,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <module>io.reinert.requestor.autobean.AutoBeanExtTest</module>
+              <module>io.reinert.requestor.autobean.RequestorAutoBeanTest</module>
             </configuration>
           </execution>
         </executions>

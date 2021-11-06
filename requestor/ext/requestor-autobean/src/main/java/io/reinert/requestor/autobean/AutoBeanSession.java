@@ -31,7 +31,7 @@ import io.reinert.requestor.serialization.Serializer;
  */
 public class AutoBeanSession extends GwtSession {
 
-    private static AutoBeanGeneratedModules generatedModules;
+    private static SerializationModule[] generatedModules;
 
     public AutoBeanSession() {
         super();
@@ -50,10 +50,11 @@ public class AutoBeanSession extends GwtSession {
         super.configure();
 
         if (generatedModules == null) {
-            generatedModules = GWT.create(AutoBeanGeneratedModules.class);
+            AutoBeanGeneratedModules generatedModulesProvider = GWT.create(AutoBeanGeneratedModules.class);
+            generatedModules = generatedModulesProvider.getSerializationModules();
         }
 
-        for (SerializationModule serializationModule : generatedModules.getSerializationModules()) {
+        for (SerializationModule serializationModule : generatedModules) {
             for (Serializer<?> serializer : serializationModule.getSerializers()) {
                 register(serializer);
             }

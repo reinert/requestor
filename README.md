@@ -634,10 +634,10 @@ The installation procedure is pretty much the same.
 </dependencies>
 ```
 
-Then inherit the `AutoBeanExt` GWT module in your gwt.xml file:
+Then inherit the `RequestorAutoBean` GWT module in your gwt.xml file:
 
 ```xml
-<inherits name="io.reinert.requestor.autobean.AutoBeanExt"/>
+<inherits name="io.reinert.requestor.autobean.RequestorAutoBean"/>
 ```
 
 ### Custom

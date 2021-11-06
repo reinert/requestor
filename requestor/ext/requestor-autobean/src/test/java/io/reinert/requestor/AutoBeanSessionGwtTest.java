@@ -32,7 +32,7 @@ import io.reinert.requestor.serialization.Serializer;
  *
  * @author Danilo Reinert
  */
-public class AutoBeanGeneratorGwtTest extends GWTTestCase {
+public class AutoBeanSessionGwtTest extends GWTTestCase {
 
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";
@@ -52,7 +52,7 @@ public class AutoBeanGeneratorGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.autobean.AutoBeanExtTest";
+        return "io.reinert.requestor.autobean.RequestorAutoBeanTest";
     }
 
     @Override

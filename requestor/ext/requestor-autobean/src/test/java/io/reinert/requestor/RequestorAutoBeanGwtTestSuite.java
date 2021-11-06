@@ -20,13 +20,13 @@ import com.google.gwt.junit.tools.GWTTestSuite;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class AutoBeanExtGwtTestSuite extends GWTTestSuite {
+public class RequestorAutoBeanGwtTestSuite extends GWTTestSuite {
 
     public static Test suite() {
         TestSuite suite = new TestSuite("Requestor AutoBean GWT Test Suite");
 
         // Serialization
-        suite.addTestSuite(AutoBeanGeneratorGwtTest.class);
+        suite.addTestSuite(AutoBeanSessionGwtTest.class);
 
         return suite;
     }

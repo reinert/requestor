@@ -15,5 +15,5 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.autobean.AutoBeanExt"/>
+  <inherits name="io.reinert.requestor.autobean.RequestorAutoBean"/>
 </module>
