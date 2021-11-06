@@ -15,27 +15,24 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.core.client.Callback;
-
+import io.reinert.requestor.callback.DualCallback;
 import io.reinert.requestor.callback.ResponseCallback;
 
 /**
  * Use it in the case you want to create a special deferred executing a single callback.
  *
- * @param <T> Type of the resolved object
- *
  * @author Danilo Reinert
  */
-class CallbackDeferred<T> implements Deferred<T> {
+class CallbackDeferred implements Deferred<Response> {
 
-    private final Callback<T, Throwable> callback;
+    private final DualCallback callback;
     private ResponseCallback resolveCallback;
 
-    protected CallbackDeferred(Callback<T, Throwable> callback) {
+    protected CallbackDeferred(DualCallback callback) {
         this.callback = callback;
     }
 
-    private CallbackDeferred(Callback<T, Throwable> callback, ResponseCallback resolveCallback) {
+    private CallbackDeferred(DualCallback callback, ResponseCallback resolveCallback) {
         this.callback = callback;
         this.resolveCallback = resolveCallback;
     }
@@ -44,23 +41,14 @@ class CallbackDeferred<T> implements Deferred<T> {
         resolveCallback = responseCallback;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void resolve(Response response) {
-        try {
-            T payload = (T) response.getPayload();
-            if (resolveCallback != null) resolveCallback.execute(response);
-            callback.onSuccess(payload);
-        } catch (ClassCastException e) {
-            throw new IncompatibleTypeException("Cannot cast " +
-                    response.getPayload().getClass().getName() + " to " +
-                    response.getPayloadType().getType().getName() + ".", e);
-        }
+        callback.onLoad(response);
     }
 
     @Override
-    public void reject(RequestException error) {
-        callback.onFailure(error);
+    public void reject(RequestException exception) {
+        callback.onAbort(exception);
     }
 
     @Override
@@ -81,12 +69,12 @@ class CallbackDeferred<T> implements Deferred<T> {
     }
 
     @Override
-    public Promise<T> getPromise() {
+    public Promise<Response> getPromise() {
         return null;
     }
 
     @Override
-    public Deferred<T> getUnresolvedCopy() {
-        return new CallbackDeferred<T>(callback, resolveCallback);
+    public Deferred<Response> getUnresolvedCopy() {
+        return new CallbackDeferred(callback, resolveCallback);
     }
 }

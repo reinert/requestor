@@ -17,10 +17,10 @@ package io.reinert.requestor;
 
 import java.util.logging.Logger;
 
-import com.google.gwt.core.client.Callback;
-
+import io.reinert.requestor.callback.DualCallback;
 import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.payload.type.PayloadType;
+import io.reinert.requestor.payload.type.SinglePayloadType;
 
 /**
  * This class dispatches the requests and return promises.
@@ -114,13 +114,12 @@ public abstract class RequestDispatcher {
      * Sends the request with the respective callback bypassing request processing.
      *
      * @param request               The built request
-     * @param responsePayloadType   The expected PayloadType of the response payload
      * @param callback              The callback to be executed when done
      * @param <T>                   The expected type of the response payload
      */
-    public <T> void dispatch(MutableSerializedRequest request, PayloadType responsePayloadType,
-                             boolean skipAuth, Callback<T, Throwable> callback) {
-        final CallbackDeferred<T> deferred = new CallbackDeferred<T>(callback);
+    public <T> void dispatch(MutableSerializedRequest request, boolean skipAuth, DualCallback callback) {
+        final CallbackDeferred deferred = new CallbackDeferred(callback);
+        final PayloadType responsePayloadType = new SinglePayloadType<Response>(Response.class);
 
         if (isLongPolling(request)) {
             deferred.onResolve(getLongPollingCallback(request, responsePayloadType, deferred));

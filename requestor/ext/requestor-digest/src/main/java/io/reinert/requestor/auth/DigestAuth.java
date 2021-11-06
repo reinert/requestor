@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.auth;
 
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.i18n.client.NumberFormat;
 
@@ -28,10 +27,10 @@ import io.reinert.requestor.RawResponse;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
+import io.reinert.requestor.callback.DualCallback;
 import io.reinert.requestor.header.Header;
 import io.reinert.requestor.header.SimpleHeader;
 import io.reinert.requestor.payload.SerializedPayload;
-import io.reinert.requestor.payload.type.SinglePayloadType;
 import io.reinert.requestor.uri.Uri;
 
 /**
@@ -138,17 +137,16 @@ public class DigestAuth implements Auth {
 
     private void sendAttemptRequest(final PreparedRequest originalRequest, MutableSerializedRequest attemptRequest,
                                     final RequestDispatcher dispatcher) {
-        dispatcher.dispatch(attemptRequest, new SinglePayloadType(RawResponse.class), true,
-                new Callback<RawResponse, Throwable>() {
+        dispatcher.dispatch(attemptRequest, true, new DualCallback() {
             @Override
-            public void onFailure(Throwable error) {
+            public void onAbort(RequestException error) {
                 resetChallengeCalls();
                 originalRequest.abort(new RequestException(originalRequest, "Unable to authenticate request using" +
                         " DigestAuth. See previous log.", error));
             }
 
             @Override
-            public void onSuccess(RawResponse response) {
+            public void onLoad(Response response) {
                 if (contains(EXPECTED_CODES, response.getStatusCode())) {
                     // If the error response code is expected, then continue trying to authenticate
                     attempt(originalRequest, response, dispatcher);
@@ -159,7 +157,7 @@ public class DigestAuth implements Auth {
 
                 if (isSuccessful(response)) {
                     // If the attempt succeeded, then abort the original request with the successful response
-                    originalRequest.abort(response);
+                    originalRequest.abort((RawResponse) response);
                     return;
                 }
 
