@@ -29,7 +29,7 @@ In addition, GWT3 and J2CL support are in the roadmap without breaking API compa
 Make a GET request and deserialize the response body as String:
 
 ```java
-Session session = new JsonSession();
+Session session = new GwtSession();
 session.get("http://httpbin.org/ip", String.class).success( Window::alert );
 ```
 
@@ -84,7 +84,7 @@ that apply to all requests. Also, we are able to *cache and share data* through 
 Eventually, we can *reset the session state* at any time.
 
 ```java
-Session session = new JsonSession();
+Session session = new GwtSession();
 
 // Set all requests to have 10s timeout and 'application/json' Content-Type
 session.setTimeout(10000);
@@ -1048,7 +1048,7 @@ session.register(MyResponseFilter::new); // Same as `session.register(() -> new 
 
 Requestor is a session-based HTTP client. It means that a **Session** ties every configuration and action a user can take related to communication. Thus, the `Session` object is the baseline of every communication process in the application. What is better, Requestor does not restrict its users to having only one global Session. We can have ***as many sessions as it makes sense*** according to our business requirements. For example, if we are building a modern client app, we may communicate with different microservices. It may be reasonable to have one Session for each microservice with different configurations. This flexibility promotes a much more **reliable and maintainable code** since we can isolate different business logics in their own context, avoiding runtime conflicts and undesirable multi-path coding.
 
-To instantiate a new `Session`, we must call one of its implementations. Requestor provides two: `CleanSession` and `JsonSession`, the latter having a predefined configuration for JSON-based communication. Additionally, we can implement our Session subclass, including the configurations that fit our requirements.
+To instantiate a new `Session`, we must call one of its implementations. Requestor provides two: `CleanSession` and `GwtSession`, the latter having a predefined configuration for JSON-based communication. Additionally, we can implement our Session subclass, including the configurations that fit our requirements.
 
 ```java
 Session session = new CleanSession();

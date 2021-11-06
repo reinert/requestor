@@ -28,17 +28,17 @@ import io.reinert.requestor.serialization.misc.VoidSerializer;
  *
  * @author Danilo Reinert
  */
-public class JsonSession extends Session {
+public class GwtSession extends Session {
 
-    public JsonSession() {
+    public GwtSession() {
         super();
     }
 
-    public JsonSession(Deferred.Factory deferredFactory) {
+    public GwtSession(Deferred.Factory deferredFactory) {
         super(deferredFactory);
     }
 
-    public JsonSession(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
+    public GwtSession(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         super(deferredFactory, requestDispatcherFactory);
     }
 

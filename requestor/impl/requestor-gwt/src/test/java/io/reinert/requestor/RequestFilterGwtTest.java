@@ -38,7 +38,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        session = new JsonSession();
+        session = new GwtSession();
         session.setMediaType("application/json");
     }
 

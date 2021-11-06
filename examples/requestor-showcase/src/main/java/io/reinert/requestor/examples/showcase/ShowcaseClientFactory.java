@@ -19,7 +19,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
-import io.reinert.requestor.JsonSession;
+import io.reinert.requestor.GwtSession;
 import io.reinert.requestor.Session;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
@@ -60,7 +60,7 @@ public class ShowcaseClientFactory {
 
     public Session getSession() {
         if (session == null) {
-            session = new JsonSession(new ShowcaseDeferredFactory());
+            session = new GwtSession(new ShowcaseDeferredFactory());
             session.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
         }
         return session;

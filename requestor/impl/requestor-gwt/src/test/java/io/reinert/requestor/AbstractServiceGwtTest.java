@@ -84,7 +84,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        Session session = new JsonSession();
+        Session session = new GwtSession();
 
         session.register(BookJsonSerializer.getInstance());
 

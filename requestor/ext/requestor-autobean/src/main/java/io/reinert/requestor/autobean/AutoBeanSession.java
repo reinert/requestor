@@ -16,7 +16,7 @@
 package io.reinert.requestor.autobean;
 
 import io.reinert.requestor.Deferred;
-import io.reinert.requestor.JsonSession;
+import io.reinert.requestor.GwtSession;
 import io.reinert.requestor.RequestDispatcher;
 
 /**
@@ -24,7 +24,7 @@ import io.reinert.requestor.RequestDispatcher;
  *
  * @author Danilo Reinert
  */
-public class AutoBeanSession extends JsonSession {
+public class AutoBeanSession extends GwtSession {
 
     public AutoBeanSession() {
         super();
