@@ -15,12 +15,12 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="io.reinert.requestor.RequestorApi"/>
+  <inherits name="io.reinert.requestor.RequestorGwt"/>
 
   <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
 
-  <generate-with class="io.reinert.requestor.gwtjackson.GeneratedJsonModulesGenerator">
-    <when-type-is class="io.reinert.requestor.GeneratedModules"/>
+  <generate-with class="io.reinert.requestor.gwtjackson.JsonGeneratedModulesGenerator">
+    <when-type-is class="io.reinert.requestor.json.JsonGeneratedModules"/>
   </generate-with>
 
   <source path="" excludes="**/*"/>

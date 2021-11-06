@@ -41,11 +41,11 @@ import io.reinert.requestor.annotations.JsonSerializationModule;
  *
  * @author Danilo Reinert
  */
-public class GeneratedJsonModulesGenerator extends Generator {
+public class JsonGeneratedModulesGenerator extends Generator {
 
     static final String SERIALIZATION_MODULE_FULL_NAME = SerializationModule.class.getName();
 
-    private static final Logger LOGGER = Logger.getLogger(GeneratedJsonModulesGenerator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(JsonGeneratedModulesGenerator.class.getName());
 
     private final StringBuilder sourceLog = new StringBuilder();
 
@@ -137,6 +137,7 @@ public class GeneratedJsonModulesGenerator extends Generator {
                 new ClassSourceFileComposerFactory(packageName, getTypeImplName(type));
 
         composerFactory.addImport(GWT.class.getCanonicalName());
+        composerFactory.addImport(SerializationModule.class.getCanonicalName());
 
         composerFactory.addImplementedInterface(type.getErasedType().getQualifiedSourceName());
 
