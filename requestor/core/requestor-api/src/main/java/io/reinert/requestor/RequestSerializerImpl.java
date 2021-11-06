@@ -15,39 +15,10 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
-import io.reinert.requestor.payload.SerializedJsPayload;
-import io.reinert.requestor.payload.SerializedPayload;
-
 public class RequestSerializerImpl implements RequestSerializer {
     @Override
     public void serialize(SerializableRequestInProcess request, SerializationEngine serializationEngine) {
-        Object payload = request.getPayload().getObject();
-
-        if (payload instanceof FormData &&
-                !FormDataSerializerUrlEncoded.MEDIA_TYPE.equalsIgnoreCase(request.getContentType())) {
-            request.serializePayload(getFormDataSerializedPayload((FormData) payload));
-        } else {
-            serializationEngine.serializeRequest(request);
-        }
-
+        serializationEngine.serializeRequest(request);
         request.proceed();
-    }
-
-    private SerializedPayload getFormDataSerializedPayload(FormData formData) {
-        if (formData.getFormElement() != null)
-            return SerializedJsPayload.fromFormData(FormDataOverlay.create(formData.getFormElement()));
-
-        FormDataOverlay overlay = FormDataOverlay.create();
-        for (FormData.Param param : formData) {
-            final Object value = param.getValue();
-            if (value instanceof String) {
-                overlay.append(param.getName(), (String) value);
-            } else {
-                overlay.append(param.getName(), (JavaScriptObject) value, param.getFileName());
-            }
-        }
-        return SerializedJsPayload.fromFormData(overlay);
     }
 }

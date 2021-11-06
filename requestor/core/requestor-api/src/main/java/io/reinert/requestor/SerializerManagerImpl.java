@@ -35,16 +35,12 @@ import io.reinert.requestor.serialization.Serializer;
  */
 class SerializerManagerImpl implements SerializerManager {
 
-    private static Logger logger = Logger.getLogger(SerializerManagerImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(SerializerManagerImpl.class.getName());
 
     private final Map<String, ArrayList<DeserializerHolder>> deserializers = new HashMap<String,
             ArrayList<DeserializerHolder>>();
     private final Map<String, ArrayList<SerializerHolder>> serializers = new HashMap<String,
             ArrayList<SerializerHolder>>();
-
-    public SerializerManagerImpl() {
-        register(new FormDataSerializerUrlEncoded());
-    }
 
     /**
      * Register a deserializer of the given type.
@@ -134,8 +130,7 @@ class SerializerManagerImpl implements SerializerManager {
         }
 
         logger.log(Level.WARNING, "There is no Deserializer registered for " + type.getName() +
-                " and media-type " + mediaType + ". If you're relying on auto-generated deserializers," +
-                " please make sure you imported the correct GWT Module.");
+                " and media-type " + mediaType + ".");
 
         return null;
     }
@@ -174,8 +169,7 @@ class SerializerManagerImpl implements SerializerManager {
         }
 
         logger.log(Level.WARNING, "There is no Serializer registered for type " + type.getName() +
-                " and media-type " + mediaType + ". If you're relying on auto-generated serializers," +
-                " please make sure you imported the correct GWT Module.");
+                " and media-type " + mediaType + ".");
 
         return null;
     }

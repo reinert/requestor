@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor;
 
+import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.serialization.misc.TextSerializer;
 import io.reinert.requestor.serialization.misc.VoidSerializer;
 
@@ -40,5 +41,11 @@ public class CleanSession extends Session {
     protected void configure() {
         register(VoidSerializer.getInstance());
         register(TextSerializer.getInstance());
+        register(new SerializerProvider() {
+            @Override
+            public Serializer<?> getInstance() {
+                return new FormDataSerializerUrlEncoded();
+            }
+        });
     }
 }

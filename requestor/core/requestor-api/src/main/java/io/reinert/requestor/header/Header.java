@@ -21,20 +21,20 @@ import java.util.List;
 /**
  * Represents a HTTP Header.
  */
-public abstract class Header extends com.google.gwt.http.client.Header {
+public abstract class Header {
 
     /**
-     * Factory method useful to create headers from original GWT {@link com.google.gwt.http.client.Response}.
+     * Factory method useful to create headers from original response header.
      * <p></p>
      * It should be used by {@link io.reinert.requestor.RequestDispatcher} impls when receiving responses.
      *
-     * @param rawHeader  The original GWT header
+     * @param name  The original header name
+     * @param value The original header value
      *
      * @return  The parsed header
      */
-    public static Header fromRawHeader(com.google.gwt.http.client.Header rawHeader) {
-        final String name = rawHeader.getName().toUpperCase();
-        final String value = rawHeader.getValue();
+    public static Header fromRawHeader(String name, String value) {
+        name = name.toUpperCase();
 
         if ("ACCEPT".equals(name))
             return new AcceptHeader(parseHeaderValueAsElements(value));
@@ -83,6 +83,10 @@ public abstract class Header extends com.google.gwt.http.client.Header {
         }
         return parsedElements;
     }
+
+    public abstract String getName();
+
+    public abstract String getValue();
 
     private static List<String> splitEscapingQuotes(char sep, String value) {
         final ArrayList<String> split = new ArrayList<String>();

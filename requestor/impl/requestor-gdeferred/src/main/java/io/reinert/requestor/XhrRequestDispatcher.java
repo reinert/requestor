@@ -42,7 +42,6 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();
         final SerializedPayload serializedPayload = request.getSerializedPayload();
-        final ResponseType responseType = request.getResponseType();
 
         // Create XMLHttpRequest
         final XmlHttpRequest xmlHttpRequest = (XmlHttpRequest) XmlHttpRequest.create();
@@ -70,7 +69,10 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         }
 
         // Set responseType
-        xmlHttpRequest.setResponseType(responseType.getValue());
+        PayloadType responsePayloadType = request.getResponsePayloadType();
+        if (responsePayloadType != null) {
+            xmlHttpRequest.setResponseType(ResponseType.of(responsePayloadType.getType()).getValue());
+        }
 
         // Create RequestCallback
         final RequestCallback callback = getRequestCallback(request, xmlHttpRequest, deferred, payloadType);
@@ -171,7 +173,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                 final RawResponse response = new RawResponse(
                         request,
                         Status.of(gwtResponse.getStatusCode()),
-                        new Headers(gwtResponse.getHeaders()),
+                        toHeaders(gwtResponse.getHeaders()),
                         payloadType,
                         serializedPayload,
                         deferred);
@@ -199,5 +201,15 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                 if (header != null) xmlHttpRequest.setRequestHeader(header.getName(), header.getValue());
             }
         }
+    }
+
+    private Headers toHeaders(com.google.gwt.http.client.Header[] headers) {
+        final Headers h = new Headers();
+        if (headers.length > 0) {
+            for (final com.google.gwt.http.client.Header header : headers) {
+                h.add(Header.fromRawHeader(header.getName(), header.getValue()));
+            }
+        }
+        return h;
     }
 }

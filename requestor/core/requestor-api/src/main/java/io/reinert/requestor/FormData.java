@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.FormElement;
-
 /**
  * Represents FormData interface.
  *
@@ -29,29 +26,14 @@ import com.google.gwt.dom.client.FormElement;
  */
 public class FormData implements Iterable<FormData.Param> {
 
-    private final FormElement formElement;
     private final ArrayList<Param> params;
 
-    private FormData(ArrayList<Param> params) {
-        this.formElement = null;
+    protected FormData(ArrayList<Param> params) {
         this.params = params;
-    }
-
-    private FormData(FormElement formElement) {
-        this.formElement = formElement;
-        this.params = null;
-    }
-
-    public static FormData wrap(FormElement formElement) {
-        return new FormData(formElement);
     }
 
     public static FormData.Builder builder() {
         return new FormData.Builder();
-    }
-
-    public FormElement getFormElement() {
-        return formElement;
     }
 
     @Override
@@ -93,7 +75,7 @@ public class FormData implements Iterable<FormData.Param> {
             return this;
         }
 
-        public Builder append(String name, JavaScriptObject file, String fileName) {
+        public Builder append(String name, Object file, String fileName) {
             params.add(new Param(name, file, fileName));
             return this;
         }
@@ -106,7 +88,7 @@ public class FormData implements Iterable<FormData.Param> {
     public static class Param {
 
         private String name;
-        private JavaScriptObject jsoValue;
+        private Object jsoValue;
         private String stringValue;
         private String fileName;
 
@@ -115,7 +97,7 @@ public class FormData implements Iterable<FormData.Param> {
             this.stringValue = value;
         }
 
-        public Param(String name, JavaScriptObject value, String fileName) {
+        public Param(String name, Object value, String fileName) {
             this.name = name;
             this.jsoValue = value;
             this.fileName = fileName;

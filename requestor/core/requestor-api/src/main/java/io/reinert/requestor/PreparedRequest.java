@@ -33,8 +33,6 @@ public interface PreparedRequest extends Request, HasHeaders {
 
     PayloadType getResponsePayloadType();
 
-    ResponseType getResponseType();
-
     RequestDispatcher getDispatcher();
 
     Deferred<?> getDeferred();

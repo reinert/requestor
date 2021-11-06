@@ -15,6 +15,8 @@
   ~ limitations under the License.
   -->
 <module>
+  <inherits name="com.google.gwt.http.HTTP"/>
+
   <inherits name="io.reinert.requestor.RequestorApi"/>
 
   <inherits name="io.reinert.gdeferred.GDeferred"/>

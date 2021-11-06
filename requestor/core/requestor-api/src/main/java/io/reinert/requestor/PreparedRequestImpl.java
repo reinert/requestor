@@ -32,7 +32,6 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     private final MutableSerializedRequest request;
     private final Deferred<R> deferred;
     private final PayloadType responsePayloadType;
-    private final ResponseType responseType;
     private final UriWithQueryBuilder uri;
 
     private boolean withCredentials;
@@ -44,13 +43,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     private PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
-                                PayloadType responsePayloadType, boolean withCredentials,
-                                boolean sent) {
+                                PayloadType responsePayloadType, boolean withCredentials, boolean sent) {
         this.dispatcher = dispatcher;
         this.request = request;
         this.deferred = deferred;
         this.responsePayloadType = responsePayloadType;
-        this.responseType = ResponseType.of(responsePayloadType.getType());
         this.withCredentials = withCredentials;
         this.sent = sent;
         this.uri = new UriWithQueryBuilder(request.getUri());
@@ -174,11 +171,6 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public PayloadType getResponsePayloadType() {
         return responsePayloadType;
-    }
-
-    @Override
-    public ResponseType getResponseType() {
-        return responseType;
     }
 
     @Override

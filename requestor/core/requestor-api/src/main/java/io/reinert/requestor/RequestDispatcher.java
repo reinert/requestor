@@ -127,9 +127,11 @@ public abstract class RequestDispatcher {
         scheduleDispatch(request, responsePayloadType, deferred, true, skipAuth);
     }
 
-    private <T> void scheduleDispatch(final MutableSerializedRequest request, final PayloadType responsePayloadType,
-                                      final Deferred<T> deferred, final boolean skipProcessing,
-                                      final boolean skipAuth) {
+    protected <T> void scheduleDispatch(final MutableSerializedRequest request,
+                                        final PayloadType responsePayloadType,
+                                        final Deferred<T> deferred,
+                                        final boolean skipProcessing,
+                                        final boolean skipAuth) {
         request.incrementPollingCounter();
 
         final MutableSerializedRequest nextRequest = isShortPolling(request) ? request.copy() : null;
@@ -192,11 +194,11 @@ public abstract class RequestDispatcher {
         }.schedule(nextRequest.getPollingInterval());
     }
 
-    private boolean isLongPolling(MutableSerializedRequest request) {
+    protected boolean isLongPolling(MutableSerializedRequest request) {
         return request.isPolling() && request.getPollingStrategy() == PollingStrategy.LONG;
     }
 
-    private boolean isShortPolling(MutableSerializedRequest request) {
+    protected boolean isShortPolling(MutableSerializedRequest request) {
         return request.isPolling() &&
                 request.getPollingStrategy() == PollingStrategy.SHORT;
     }

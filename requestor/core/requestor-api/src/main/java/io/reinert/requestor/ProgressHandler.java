@@ -16,7 +16,7 @@
 package io.reinert.requestor;
 
 /**
- * A progress callback for an {@link com.google.gwt.xhr.client.XMLHttpRequest} object.
+ * A progress callback for an XMLHttpRequest object.
  */
 interface ProgressHandler {
 

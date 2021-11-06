@@ -47,7 +47,7 @@ public class CallbackGwtTest extends GWTTestCase {
 
         uriBuilder = UriBuilder.fromUri("https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
 
-        session = new CleanSession();
+        session = new JsonSession();
 
         session.register(BookJsonSerializer.getInstance());
 

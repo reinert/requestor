@@ -93,7 +93,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <module>io.reinert.requestor.impl.gdeferred.RequestorByGDeferred</module>
+              <module>io.reinert.requestor.RequestorByGDeferredTest</module>
             </configuration>
           </execution>
         </executions>

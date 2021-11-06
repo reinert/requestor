@@ -20,5 +20,7 @@
   <!-- required by BookXmlSerializer -->
   <inherits name="com.google.gwt.xml.XML"/>
 
-  <source path=""/>
+  <source path="">
+    <exclude name="**/*JreTest*" />
+  </source>
 </module>

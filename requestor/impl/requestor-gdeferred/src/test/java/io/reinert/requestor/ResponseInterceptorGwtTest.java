@@ -38,7 +38,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        session = new CleanSession();
+        session = new JsonSession();
         session.setMediaType("application/json");
     }
 

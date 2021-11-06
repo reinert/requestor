@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,16 @@
  */
 package io.reinert.requestor;
 
-public interface ProgressEvent {
+import com.google.gwt.core.client.JavaScriptObject;
 
-    boolean lengthComputable();
+final class JsProgressEvent extends JavaScriptObject implements ProgressEvent {
+
+    protected JsProgressEvent() {
+    }
+
+    public native boolean lengthComputable() /*-{
+        return this.lengthComputable || false;
+    }-*/;
 
     /**
      * Returns the loaded amount of the request.
@@ -25,7 +32,9 @@ public interface ProgressEvent {
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    double loaded();
+    public native double loaded() /*-{
+        return this.loaded || 0.0;
+    }-*/;
 
     /**
      * Returns the total amount of the request.
@@ -33,5 +42,7 @@ public interface ProgressEvent {
      *
      * @return The total amount if available, 0 otherwise
      */
-    double total();
+    public native double total() /*-{
+        return this.total || 0.0;
+    }-*/;
 }

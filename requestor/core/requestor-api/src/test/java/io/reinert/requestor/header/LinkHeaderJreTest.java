@@ -36,20 +36,9 @@ public class LinkHeaderJreTest extends UriJreTestBase {
 
     @Test
     public void testMultipleValue() {
-        final com.google.gwt.http.client.Header input = new com.google.gwt.http.client.Header() {
-            @Override
-            public String getName() {
-                return "Link";
-            }
-
-            @Override
-            public String getValue() {
-                return "</TheBook/chapter2>; rel=\"previous\"; title*=UTF-8'de'letztes%20Kapitel, "
-                        + "</TheBook/chapter4>; rel=\"next\"; title*=UTF-8'de'n%c3%a4chstes%20Kapitel";
-            }
-        };
-
-        final LinkHeader output = (LinkHeader) Header.fromRawHeader(input);
+        final LinkHeader output = (LinkHeader) Header.fromRawHeader("Link",
+                "</TheBook/chapter2>; rel=\"previous\"; title*=UTF-8'de'letztes%20Kapitel, "
+                + "</TheBook/chapter4>; rel=\"next\"; title*=UTF-8'de'n%c3%a4chstes%20Kapitel");
         assertEquals("</TheBook/chapter2>; rel=\"previous\"; title*=UTF-8'de'letztes%20Kapitel, "
                 + "</TheBook/chapter4>; rel=\"next\"; title*=UTF-8'de'n%c3%a4chstes%20Kapitel", output.getValue());
 

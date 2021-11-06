@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,27 @@
  */
 package io.reinert.requestor;
 
-import com.google.gwt.junit.tools.GWTTestSuite;
+import com.google.gwt.dom.client.FormElement;
 
-import io.reinert.requestor.serialization.OverlaySerializerGwtTest;
+/**
+ * Represents FormData interface.
+ *
+ * @author Danilo Reinert
+ */
+public class JsFormData extends FormData {
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+    private final FormElement formElement;
 
-public class RequestorGwtTestSuite extends GWTTestSuite {
+    private JsFormData(FormElement formElement) {
+        super(null);
+        this.formElement = formElement;
+    }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Requestor GWT Test Suite");
+    public static JsFormData wrap(FormElement formElement) {
+        return new JsFormData(formElement);
+    }
 
-        // Serialization
-        suite.addTestSuite(OverlaySerializerGwtTest.class);
-
-        return suite;
+    public FormElement getFormElement() {
+        return formElement;
     }
 }

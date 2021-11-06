@@ -35,7 +35,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     @Override
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
-        session = new CleanSession();
+        session = new JsonSession();
     }
 
     public void testResponseTypeAsHeaders() {

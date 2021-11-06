@@ -20,13 +20,15 @@ import io.reinert.requestor.serialization.json.JsonBooleanSerializer;
 import io.reinert.requestor.serialization.json.JsonNumberSerializer;
 import io.reinert.requestor.serialization.json.JsonStringSerializer;
 import io.reinert.requestor.serialization.json.OverlaySerializer;
+import io.reinert.requestor.serialization.misc.TextSerializer;
+import io.reinert.requestor.serialization.misc.VoidSerializer;
 
 /**
  * A session that handles json data.
  *
  * @author Danilo Reinert
  */
-public class JsonSession extends CleanSession {
+public class JsonSession extends Session {
 
     public JsonSession() {
         super();
@@ -41,8 +43,18 @@ public class JsonSession extends CleanSession {
     }
 
     protected void configure() {
-        super.configure();
+        setRequestSerializer(new GwtRequestSerializer());
+        setResponseDeserializer(new GwtResponseDeserializer());
 
+        register(VoidSerializer.getInstance());
+        register(TextSerializer.getInstance());
+
+        register(new SerializerProvider() {
+            @Override
+            public Serializer<?> getInstance() {
+                return new GwtFormDataSerializerUrlEncoded();
+            }
+        });
         register(new SerializerProvider() {
             @Override
             public Serializer<?> getInstance() {

@@ -34,6 +34,10 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
 
     private Map<String, Header> headers;
 
+    public Headers() {
+        headers = null;
+    }
+
     public Headers(Iterable<Header> headers) {
         if (headers != null) {
             final Iterator<Header> iterator = headers.iterator();
@@ -56,15 +60,6 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
         }
     }
 
-    public Headers(com.google.gwt.http.client.Header... headers) {
-        if (headers.length > 0) {
-            ensureHeaders();
-            for (final com.google.gwt.http.client.Header header : headers) {
-                this.headers.put(formatKey(header.getName()), Header.fromRawHeader(header));
-            }
-        }
-    }
-
     public static Headers copy(Headers headers) {
         if (headers.isEmpty()) {
             return new Headers();
@@ -73,7 +68,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
         return new Headers(headers);
     }
 
-    private static String formatKey(String headerName) {
+    protected static String formatKey(String headerName) {
         return headerName.toLowerCase();
     }
 

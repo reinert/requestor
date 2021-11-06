@@ -21,9 +21,6 @@
     <when-type-is class="io.reinert.requestor.uri.Buckets"/>
   </replace-with>
 
-  <!-- required by BookXmlSerializer -->
-  <inherits name="com.google.gwt.xml.XML"/>
-
   <source path="">
     <exclude name="rebind/**/*" />
     <exclude name="uri/UrlCodecMock.java" />
