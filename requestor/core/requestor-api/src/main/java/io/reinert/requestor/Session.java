@@ -83,9 +83,6 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
         responseProcessor = new ResponseProcessor(serializationEngine, options.getResponseDeserializer(),
                 filterManager, interceptorManager);
 
-        // register generated serializer to the session
-        GeneratedModulesBinder.bind(serializerManager, providerManager);
-
         // perform initial set-up by implementations
         configure();
     }
