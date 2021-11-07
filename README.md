@@ -595,10 +595,10 @@ In order to install requestor-gwtjackson extension, add the following dependency
 </dependencies>
 ```
 
-Then inherit the `GwtJacksonExt` GWT module in your gwt.xml file:
+Then inherit the `RequestorGwtJackson` GWT module in your gwt.xml file:
 
 ```xml
-<inherits name="io.reinert.requestor.gwtjackson.GwtJacksonExt"/>
+<inherits name="io.reinert.requestor.gwtjackson.RequestorGwtJackson"/>
 ```
 
 ### AutoBean auto-serialization

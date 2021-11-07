@@ -32,7 +32,7 @@ import io.reinert.requestor.serialization.Serializer;
  *
  * @author Danilo Reinert
  */
-public class GwtJacksonModuleGwtTest extends GWTTestCase {
+public class JsonSessionGwtTest extends GWTTestCase {
 
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";
@@ -45,7 +45,7 @@ public class GwtJacksonModuleGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.GwtJacksonExtTest";
+        return "io.reinert.requestor.RequestorGwtJacksonTest";
     }
 
     @Override
