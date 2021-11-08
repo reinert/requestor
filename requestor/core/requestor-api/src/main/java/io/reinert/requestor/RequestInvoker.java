@@ -48,6 +48,9 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     RequestInvoker delay(int delayMillis);
 
     @Override
+    RequestInvoker poll(PollingStrategy strategy);
+
+    @Override
     RequestInvoker poll(PollingStrategy strategy, int intervalMillis);
 
     @Override
