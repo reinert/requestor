@@ -33,8 +33,8 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public final void putHeader(Header header) {
-        response.putHeader(header);
+    public final void setHeader(Header header) {
+        response.setHeader(header);
     }
 
     @Override
@@ -43,8 +43,8 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public final Header popHeader(String name) {
-        return response.popHeader(name);
+    public final Header delHeader(String name) {
+        return response.delHeader(name);
     }
 
     @Override

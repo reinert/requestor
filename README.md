@@ -944,7 +944,7 @@ session.register(new ResponseInterceptor() {
     @Override
     public void intercept(SerializedResponseInProcess response) {
         // Modify the response headers
-        response.putHeader(new ContentTypeHeader("application/json"));
+        response.setHeader(new ContentTypeHeader("application/json"));
 
         // Modify any other response option, including the serialized payload
         String jsonp = response.getSerializedPayload().getString();
@@ -1013,7 +1013,7 @@ session.register(new ResponseFilter() {
     @Override
     public void filter(ResponseInProcess response) {
         // Modify the response headers
-        response.putHeader(new ContentTypeHeader("application/json"));
+        response.setHeader(new ContentTypeHeader("application/json"));
 
         // Modify any other response option, including the serialized payload
         String jsonp = response.getSerializedPayload().getString();

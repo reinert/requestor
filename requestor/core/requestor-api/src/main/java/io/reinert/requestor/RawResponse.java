@@ -172,7 +172,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public void putHeader(Header header) {
+    public void setHeader(Header header) {
         headers.add(header);
     }
 
@@ -182,7 +182,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public Header popHeader(String headerName) {
+    public Header delHeader(String headerName) {
         return headers.pop(headerName);
     }
 

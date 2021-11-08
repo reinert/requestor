@@ -290,12 +290,12 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public void putHeader(Header header) {
+    public void setHeader(Header header) {
         headers.add(header);
     }
 
     @Override
-    public Header popHeader(String name) {
+    public Header delHeader(String name) {
         return headers.pop(name);
     }
 

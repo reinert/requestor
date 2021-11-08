@@ -35,7 +35,7 @@ class RequestOptions implements HasRequestOptions {
         copy.setTimeout(options.timeout);
         copy.setDelay(options.delay);
         copy.pollingOptions = PollingOptions.copy(options.pollingOptions);
-        for (Header h : options.headers) copy.putHeader(h);
+        for (Header h : options.headers) copy.setHeader(h);
         copy.setRequestSerializer(options.requestSerializer);
         copy.setResponseDeserializer(options.responseDeserializer);
         return copy;
@@ -150,7 +150,7 @@ class RequestOptions implements HasRequestOptions {
     }
 
     @Override
-    public void putHeader(Header header) {
+    public void setHeader(Header header) {
         if (header != null && mediaType != null) {
             if ("content-type".equalsIgnoreCase(header.getName()) || "accept".equalsIgnoreCase(header.getName())) {
                 throw new IllegalStateException(
@@ -178,7 +178,7 @@ class RequestOptions implements HasRequestOptions {
     }
 
     @Override
-    public Header popHeader(String headerName) {
+    public Header delHeader(String headerName) {
         return headers.pop(headerName);
     }
 

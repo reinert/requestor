@@ -461,8 +461,8 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     @Override
-    public void putHeader(Header header) {
-        options.putHeader(header);
+    public void setHeader(Header header) {
+        options.setHeader(header);
     }
 
     @Override
@@ -481,8 +481,8 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     @Override
-    public Header popHeader(String headerName) {
-        return options.popHeader(headerName);
+    public Header delHeader(String headerName) {
+        return options.delHeader(headerName);
     }
 
     /**

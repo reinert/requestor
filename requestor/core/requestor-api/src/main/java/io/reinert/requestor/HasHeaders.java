@@ -12,7 +12,7 @@ public interface HasHeaders {
      *
      * @param header    The header to be inserted
      */
-    void putHeader(Header header);
+    void setHeader(Header header);
 
     void setHeader(String headerName, String headerValue);
 
@@ -22,5 +22,5 @@ public interface HasHeaders {
      * @param headerName    The name of the header
      * @return  The removed header instance, if it exists
      */
-    Header popHeader(String headerName);
+    Header delHeader(String headerName);
 }

@@ -199,8 +199,8 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public void putHeader(Header header) {
-        request.putHeader(header);
+    public void setHeader(Header header) {
+        request.setHeader(header);
     }
 
     @Override
@@ -209,8 +209,8 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public Header popHeader(String headerName) {
-        return request.popHeader(headerName);
+    public Header delHeader(String headerName) {
+        return request.delHeader(headerName);
     }
 
     @Override
