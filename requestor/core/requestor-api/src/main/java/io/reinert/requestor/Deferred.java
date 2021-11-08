@@ -16,9 +16,9 @@
 package io.reinert.requestor;
 
 /**
- * A deferred object capable of resolving/rejecting promises.
+ * A deferred object capable of resolving/rejecting requests.
  *
- * @param <T> The type of the promise value
+ * @param <T> The expected type in the invoked request
  *
  * @author Danilo Reinert
  */

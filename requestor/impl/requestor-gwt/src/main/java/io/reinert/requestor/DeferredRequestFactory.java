@@ -21,6 +21,6 @@ package io.reinert.requestor;
 public class DeferredRequestFactory implements Deferred.Factory {
 
     public <T> Deferred<T> newDeferred() {
-        return new DeferredRequest<T>();
+        return new GwtDeferred<T>();
     }
 }

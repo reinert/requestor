@@ -29,24 +29,24 @@ import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.callback.TimeoutCallback;
 
 /**
- * DeferredRequest implementation of GDeferred.
+ * DeferredRequest implementation using GDeferred.
  *
  * @param <T> Expected type in Promise#done.
  */
-public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
+public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
 
-    private static final Logger logger = Logger.getLogger(DeferredRequest.class.getName());
+    private static final Logger logger = Logger.getLogger(GwtDeferred.class.getName());
     private static DeferredRequestFactory factory;
 
     private final RequestorDeferred<Response, RequestException, RequestProgress> deferred;
     private HttpConnection connection;
     private ArrayList<ProgressCallback> uploadProgressCallbacks;
 
-    public DeferredRequest() {
+    public GwtDeferred() {
         this(new RequestorDeferred<Response, RequestException, RequestProgress>());
     }
 
-    protected DeferredRequest(RequestorDeferred<Response, RequestException, RequestProgress> deferred) {
+    protected GwtDeferred(RequestorDeferred<Response, RequestException, RequestProgress> deferred) {
         this.deferred = deferred;
     }
 
@@ -241,7 +241,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     @Override
     public Deferred<T> getUnresolvedCopy() {
-        DeferredRequest<T> copy = new DeferredRequest<T>(this.deferred.getUnresolvedCopy());
+        GwtDeferred<T> copy = new GwtDeferred<T>(this.deferred.getUnresolvedCopy());
         if (this.uploadProgressCallbacks != null) {
             copy.uploadProgressCallbacks = new ArrayList<ProgressCallback>();
             copy.uploadProgressCallbacks.addAll(this.uploadProgressCallbacks);
