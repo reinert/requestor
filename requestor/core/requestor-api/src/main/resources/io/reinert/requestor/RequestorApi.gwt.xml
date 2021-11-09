@@ -17,22 +17,14 @@
 <module>
   <inherits name="com.google.gwt.http.HTTP"/>
 
-  <source path="" excludes="rebind/**/*"/>
-
-  <replace-with class="io.reinert.requestor.uri.BucketsImpl">
-    <when-type-is class="io.reinert.requestor.uri.Buckets"/>
-  </replace-with>
-
   <replace-with class="io.reinert.requestor.uri.UriBuilderImpl">
     <when-type-is class="io.reinert.requestor.uri.UriBuilder"/>
-  </replace-with>
-
-  <replace-with class="io.reinert.requestor.uri.UrlCodecImpl">
-    <when-type-is class="io.reinert.requestor.uri.UrlCodec"/>
   </replace-with>
 
   <replace-with class="io.reinert.requestor.XhrRequestDispatcherFactory">
     <when-type-is class="io.reinert.requestor.RequestDispatcher.Factory"/>
   </replace-with>
+
+  <source path="" excludes="rebind/**/*"/>
 </module>
 
