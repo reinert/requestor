@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.uri;
 
-import com.google.gwt.http.client.URL;
-
 /**
  * Class that defines how multiple values will be appended to the URI along with its param name.
  *
@@ -26,6 +24,8 @@ public abstract class MultivaluedParamComposition {
 
     public static final MultivaluedParamComposition REPEATED_PARAM = new RepeatedParamStrategy();
     public static final MultivaluedParamComposition COMMA_SEPARATED_VALUE = new CommaSeparatedValueStrategy();
+
+    private static final UriCodec uriCodec = UriCodec.getInstance();
 
     /**
      * Construct URI part from gives values.
@@ -77,7 +77,7 @@ public abstract class MultivaluedParamComposition {
                 assertNotNullOrEmpty(value, "Parameter value of *" + name
                         + "* null or empty. You must inform a valid value");
 
-                uriPart += sep + URL.encodeQueryString(name) + "=" + URL.encodeQueryString(value);
+                uriPart += sep + uriCodec.encodeQueryString(name) + "=" + uriCodec.encodeQueryString(value);
                 sep = separator;
             }
             return uriPart;
@@ -102,13 +102,13 @@ public abstract class MultivaluedParamComposition {
         @Override
         public String asUriPart(String separator, String name, String... values) {
             assertNotNullOrEmpty(name, "Parameter name cannot be null or empty.");
-            String uriPart = URL.encodeQueryString(name) + "=";
+            String uriPart = uriCodec.encodeQueryString(name) + "=";
             String sep = "";
             for (String value : values) {
                 assertNotNullOrEmpty(value, "Parameter value of *" + name
                         + "* null or empty. You must inform a valid value");
 
-                uriPart += sep + URL.encodeQueryString(value);
+                uriPart += sep + uriCodec.encodeQueryString(value);
                 sep = ",";
             }
             return uriPart;

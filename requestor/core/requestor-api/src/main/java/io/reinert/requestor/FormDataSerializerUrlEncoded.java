@@ -19,11 +19,10 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gwt.http.client.URL;
-
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.uri.UriCodec;
 
 /**
  * FormDataSerializer that serialize the {@link FormData} into chained URL encoded key-value pairs.
@@ -35,6 +34,7 @@ public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
     public static final String MEDIA_TYPE = "application/x-www-form-urlencoded";
 
     private static final Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());
+    private static final UriCodec uriCodec = UriCodec.getInstance();
 
     @Override
     public Class<FormData> handledType() {
@@ -82,6 +82,6 @@ public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
     }
 
     protected String encode(String value) {
-        return URL.encodeQueryString(value);
+        return uriCodec.encodeQueryString(value);
     }
 }

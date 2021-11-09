@@ -17,7 +17,7 @@ package io.reinert.requestor.uri;
 
 import java.util.Map;
 
-import com.google.gwt.core.shared.GWT;
+import com.google.gwt.core.client.GWT;
 
 /**
  * Utility class for building URIs from their components.
