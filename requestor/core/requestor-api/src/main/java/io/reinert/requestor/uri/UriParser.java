@@ -28,7 +28,7 @@ import com.google.gwt.core.client.GWT;
 public class UriParser {
 
     private UriImpl uri;
-    private UrlCodec urlCodec;
+    private UriCodec uriCodec;
     private String scheme;
     private String user;
     private String password;
@@ -41,7 +41,7 @@ public class UriParser {
     private String uriString;
 
     private UriParser() {
-        this.urlCodec = UrlCodec.getInstance();
+        this.uriCodec = UriCodec.getInstance();
     }
 
     public UriImpl getUri() {
@@ -74,7 +74,7 @@ public class UriParser {
         pos = parsedUri.indexOf('#');
         if (pos > -1) {
             // Check last char
-            fragment = parsedUri.length() - pos == 1 ? null : urlCodec.decode(parsedUri.substring(pos + 1));
+            fragment = parsedUri.length() - pos == 1 ? null : uriCodec.decode(parsedUri.substring(pos + 1));
             // Remove parsed part from parsing uri
             parsedUri = parsedUri.substring(0, pos);
         }
@@ -113,7 +113,7 @@ public class UriParser {
         for (String segment : rawSegments) {
             if (!segment.isEmpty()) {
                 String[] matrixParts = segment.split(";");
-                final String parsedSegment = urlCodec.decode(matrixParts[0]);
+                final String parsedSegment = uriCodec.decode(matrixParts[0]);
                 parsedSegments.add(parsedSegment);
                 if (matrixParts.length > 1) {
                     if (matrixParams == null) {
@@ -124,9 +124,9 @@ public class UriParser {
                     for (int i = 1; i < matrixParts.length; i++) {
                         String[] matrixElements = matrixParts[i].split("=");
                         if (matrixElements.length == 1) {
-                            buckets.add(urlCodec.decode(matrixElements[0]), null);
+                            buckets.add(uriCodec.decode(matrixElements[0]), null);
                         } else {
-                            buckets.add(urlCodec.decode(matrixElements[0]), urlCodec.decode(matrixElements[1]));
+                            buckets.add(uriCodec.decode(matrixElements[0]), uriCodec.decode(matrixElements[1]));
                         }
                     }
                 }
@@ -150,8 +150,8 @@ public class UriParser {
         // authority@ must come before /path
         if (pos > -1 && (pathDivider == -1 || pos < pathDivider)) {
             String[] t = uri.substring(0, pos).split(":");
-            user = !t[0].isEmpty() ? urlCodec.decode(t[0]) : null;
-            password = t.length > 1 && !t[1].isEmpty() ? urlCodec.decode(t[1]) : null;
+            user = !t[0].isEmpty() ? uriCodec.decode(t[0]) : null;
+            password = t.length > 1 && !t[1].isEmpty() ? uriCodec.decode(t[1]) : null;
             uri = uri.substring(pos + 1);
         } else {
             user = null;
@@ -186,9 +186,9 @@ public class UriParser {
         String name, value;
         for (final String pair : pairs) {
             p = pair.split("=");
-            name = urlCodec.decodeQueryString(p[0]);
+            name = uriCodec.decodeQueryString(p[0]);
             // no "=" is null according to http://dvcs.w3.org/hg/url/raw-file/tip/Overview.html#collect-url-parameters
-            value = p.length > 1 && !p[1].isEmpty() ? urlCodec.decodeQueryString(p[1]) : null;
+            value = p.length > 1 && !p[1].isEmpty() ? uriCodec.decodeQueryString(p[1]) : null;
             queryParams.add(name, value);
         }
     }

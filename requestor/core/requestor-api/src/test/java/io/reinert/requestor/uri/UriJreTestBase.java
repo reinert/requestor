@@ -29,10 +29,10 @@ public class UriJreTestBase {
 
     @Before
     public void setUp() {
-        GwtMockito.useProviderForType(UrlCodec.class, new FakeProvider<UrlCodec>() {
+        GwtMockito.useProviderForType(UriCodec.class, new FakeProvider<UriCodec>() {
             @Override
-            public UrlCodec getFake(Class<?> aClass) {
-                return new UrlCodecMock();
+            public UriCodec getFake(Class<?> aClass) {
+                return new UriCodecMock();
             }
         });
         GwtMockito.useProviderForType(Buckets.class, new FakeProvider<Buckets>() {

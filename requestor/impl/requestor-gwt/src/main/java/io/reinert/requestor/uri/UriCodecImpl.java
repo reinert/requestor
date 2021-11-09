@@ -18,9 +18,9 @@ package io.reinert.requestor.uri;
 import com.google.gwt.http.client.URL;
 
 /**
- * Default UrlCodec impl delegating to {@link URL} class.
+ * Default UriCodec impl delegating to {@link URL} class.
  */
-class UrlCodecImpl extends UrlCodec {
+class UriCodecImpl extends UriCodec {
 
     @Override
     public String decode(String encodedURL) {

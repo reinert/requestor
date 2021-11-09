@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reinert.requestor.uri.Uri;
-import io.reinert.requestor.uri.UrlCodec;
+import io.reinert.requestor.uri.UriCodec;
 
 /**
  * Wraps an already built Uri and provides a query builder to enhance the uri's query.
@@ -64,7 +64,7 @@ class UriWithQueryBuilder {
 
     private void ensureUriUpdated() {
         if (queryParams != null && !queryParams.isEmpty()) {
-            final UrlCodec codec = UrlCodec.getInstance();
+            final UriCodec codec = UriCodec.getInstance();
             String addQuery = "";
             String and = "";
             for (String paramName : queryParams.keySet()) {

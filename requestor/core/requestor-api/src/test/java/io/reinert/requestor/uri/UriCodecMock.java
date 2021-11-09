@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-class UrlCodecMock extends UrlCodec {
+class UriCodecMock extends UriCodec {
 
     @Override
     public String decode(String encodedURL) {

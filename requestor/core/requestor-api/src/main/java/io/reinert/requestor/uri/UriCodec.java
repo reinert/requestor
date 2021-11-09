@@ -20,12 +20,12 @@ import com.google.gwt.core.client.GWT;
 /**
  *  Utility class for encoding and decoding URL parts.
  */
-public abstract class UrlCodec {
+public abstract class UriCodec {
 
-    private static UrlCodec INSTANCE;
+    private static UriCodec INSTANCE;
 
-    public static UrlCodec getInstance() {
-        if (INSTANCE == null) INSTANCE = GWT.create(UrlCodec.class);
+    public static UriCodec getInstance() {
+        if (INSTANCE == null) INSTANCE = GWT.create(UriCodec.class);
         return INSTANCE;
     }
 
