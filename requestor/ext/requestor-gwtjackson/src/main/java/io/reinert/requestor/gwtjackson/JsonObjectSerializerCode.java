@@ -28,6 +28,7 @@ import com.github.nmorel.gwtjackson.client.exception.JsonSerializationException;
 import com.google.gwt.core.client.GWT;
 import com.squareup.javapoet.CodeBlock;
 
+import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
 import io.reinert.requestor.gwtjackson.codegen.FieldAssembler;
 import io.reinert.requestor.gwtjackson.codegen.InnerTypeAssembler;
 import io.reinert.requestor.gwtjackson.meta.gwtjackson.ObjectMapperMeta;
@@ -37,7 +38,6 @@ import io.reinert.requestor.gwtjackson.meta.requestor.DeserializationContextMeta
 import io.reinert.requestor.gwtjackson.meta.requestor.SerializationContextMeta;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 import io.reinert.requestor.serialization.UnableToSerializeException;
-import io.reinert.requestor.serialization.json.JsonObjectSerializer;
 
 class JsonObjectSerializerCode {
 

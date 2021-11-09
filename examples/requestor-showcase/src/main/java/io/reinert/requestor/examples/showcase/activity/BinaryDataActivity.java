@@ -28,8 +28,8 @@ import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ProgressCallback;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.payload.SerializedJsPayload;
-import io.reinert.requestor.type.Blob;
+import io.reinert.requestor.gwt.payload.SerializedJsPayload;
+import io.reinert.requestor.gwt.type.Blob;
 
 public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.Handler {
 

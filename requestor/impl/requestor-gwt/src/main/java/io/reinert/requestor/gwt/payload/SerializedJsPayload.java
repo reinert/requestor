@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.payload;
+package io.reinert.requestor.gwt.payload;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.ResponseType;
+import io.reinert.requestor.gwt.ResponseType;
+import io.reinert.requestor.payload.SerializedPayload;
 
 /**
  * Represents an HTTP payload.

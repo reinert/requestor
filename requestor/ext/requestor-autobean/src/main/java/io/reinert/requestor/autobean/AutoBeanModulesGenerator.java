@@ -44,6 +44,9 @@ import io.reinert.requestor.SerializationModule;
 import io.reinert.requestor.TypeProvider;
 import io.reinert.requestor.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.annotations.MediaType;
+import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
+import io.reinert.requestor.gwt.serialization.JsonRecordReader;
+import io.reinert.requestor.gwt.serialization.JsonRecordWriter;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.Deserializer;
 import io.reinert.requestor.serialization.HandlesSubTypes;
@@ -51,9 +54,6 @@ import io.reinert.requestor.serialization.SerializationContext;
 import io.reinert.requestor.serialization.Serializer;
 import io.reinert.requestor.serialization.UnableToDeserializeException;
 import io.reinert.requestor.serialization.UnableToSerializeException;
-import io.reinert.requestor.serialization.json.JsonObjectSerializer;
-import io.reinert.requestor.serialization.json.JsonRecordReader;
-import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
 /**
  * Generator for {@link io.reinert.requestor.annotations.AutoBeanSerializationModule} annotated types

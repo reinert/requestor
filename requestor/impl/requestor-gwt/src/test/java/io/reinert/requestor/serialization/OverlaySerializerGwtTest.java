@@ -23,8 +23,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.serialization.json.JsonSerializer;
-import io.reinert.requestor.serialization.json.OverlaySerializer;
+import io.reinert.requestor.gwt.serialization.JsonSerializer;
+import io.reinert.requestor.gwt.serialization.OverlaySerializer;
 
 /**
  * Unit tests of {@link OverlaySerializer}.

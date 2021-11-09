@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import io.reinert.requestor.serialization.json.JsonBooleanSerializer;
+import io.reinert.requestor.gwt.serialization.JsonBooleanSerializer;
 
 import org.junit.Test;
 import org.mockito.Mockito;

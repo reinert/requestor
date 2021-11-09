@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt.type;
 
-/**
- * Implementation of DeferredRequestFactory returning a GDeferredRequest.
- */
-public class DeferredRequestFactory implements Deferred.Factory {
+import com.google.gwt.core.client.JavaScriptObject;
 
-    public <T> Deferred<T> newDeferred() {
-        return new GwtDeferred<T>();
+public class NativeType {
+
+    private final JavaScriptObject jso;
+
+    public NativeType(JavaScriptObject jso) {
+        this.jso = jso;
+    }
+
+    public JavaScriptObject asJavaScriptObject() {
+        return jso;
     }
 }

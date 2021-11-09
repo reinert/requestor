@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.type;
+package io.reinert.requestor.gwt.type;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class Json extends NativeType {
+public class Blob extends NativeType {
 
-    public Json(JavaScriptObject jso) {
+    public Blob(JavaScriptObject jso) {
         super(jso);
     }
 }

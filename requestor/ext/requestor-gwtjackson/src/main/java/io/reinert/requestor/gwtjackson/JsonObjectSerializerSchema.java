@@ -38,6 +38,8 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import io.reinert.requestor.gwt.serialization.JsonRecordReader;
+import io.reinert.requestor.gwt.serialization.JsonRecordWriter;
 import io.reinert.requestor.gwtjackson.codegen.FieldAssembler;
 import io.reinert.requestor.gwtjackson.codegen.InnerTypeAssembler;
 import io.reinert.requestor.gwtjackson.codegen.MethodAssembler;
@@ -45,8 +47,6 @@ import io.reinert.requestor.gwtjackson.codegen.TypeInfo;
 import io.reinert.requestor.gwtjackson.meta.requestor.JsonObjectSerializerMeta;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.json.JsonRecordReader;
-import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
 class JsonObjectSerializerSchema {
 

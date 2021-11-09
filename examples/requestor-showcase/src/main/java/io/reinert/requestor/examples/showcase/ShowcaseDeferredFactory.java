@@ -19,7 +19,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 import io.reinert.requestor.Deferred;
-import io.reinert.requestor.GwtDeferred;
 import io.reinert.requestor.RequestException;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.Status;
@@ -27,6 +26,7 @@ import io.reinert.requestor.callback.ExceptionCallback;
 import io.reinert.requestor.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.loading.event.HideLoadingEvent;
 import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
+import io.reinert.requestor.gwt.GwtDeferred;
 
 /**
  * Factory that creates a deferred with a preset fail callback.

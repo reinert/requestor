@@ -19,8 +19,9 @@ import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
+import io.reinert.requestor.gwt.ResponseType;
+import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 import io.reinert.requestor.header.Header;
-import io.reinert.requestor.payload.SerializedJsPayload;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
 

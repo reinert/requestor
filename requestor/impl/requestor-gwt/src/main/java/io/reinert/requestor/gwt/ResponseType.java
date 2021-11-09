@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
-import io.reinert.requestor.type.ArrayBuffer;
-import io.reinert.requestor.type.Blob;
-import io.reinert.requestor.type.Document;
-import io.reinert.requestor.type.Json;
+import io.reinert.requestor.gwt.type.ArrayBuffer;
+import io.reinert.requestor.gwt.type.Blob;
+import io.reinert.requestor.gwt.type.Document;
+import io.reinert.requestor.gwt.type.Json;
 
 /**
  * The type of response expected from the XMLHttpRequest.

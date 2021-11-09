@@ -13,15 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
-import io.reinert.requestor.payload.SerializedJsPayload;
+import io.reinert.requestor.DeserializableResponseInProcess;
+import io.reinert.requestor.Headers;
+import io.reinert.requestor.RawResponse;
+import io.reinert.requestor.Response;
+import io.reinert.requestor.ResponseDeserializer;
+import io.reinert.requestor.SerializationEngine;
+import io.reinert.requestor.SerializedResponse;
+import io.reinert.requestor.gwt.payload.SerializedJsPayload;
+import io.reinert.requestor.gwt.type.ArrayBuffer;
+import io.reinert.requestor.gwt.type.Blob;
+import io.reinert.requestor.gwt.type.Document;
+import io.reinert.requestor.gwt.type.Json;
 import io.reinert.requestor.payload.SerializedPayload;
 import io.reinert.requestor.payload.type.PayloadType;
-import io.reinert.requestor.type.ArrayBuffer;
-import io.reinert.requestor.type.Blob;
-import io.reinert.requestor.type.Document;
-import io.reinert.requestor.type.Json;
 
 public class GwtResponseDeserializer implements ResponseDeserializer {
     @Override

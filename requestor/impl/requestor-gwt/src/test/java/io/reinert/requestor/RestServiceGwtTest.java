@@ -23,6 +23,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.PayloadResponseCallback;
+import io.reinert.requestor.gwt.GwtSession;
 
 /**
  * Integration tests of {@link RestService}.

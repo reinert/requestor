@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import io.reinert.requestor.serialization.json.JsonNumberSerializer;
+import io.reinert.requestor.gwt.serialization.JsonNumberSerializer;
 
 import org.junit.Test;
 

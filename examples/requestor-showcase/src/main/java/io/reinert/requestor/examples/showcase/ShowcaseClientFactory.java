@@ -19,7 +19,6 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
-import io.reinert.requestor.GwtSession;
 import io.reinert.requestor.Session;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
@@ -32,6 +31,7 @@ import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.ui.SendingRequests;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
+import io.reinert.requestor.gwt.GwtSession;
 
 public class ShowcaseClientFactory {
 

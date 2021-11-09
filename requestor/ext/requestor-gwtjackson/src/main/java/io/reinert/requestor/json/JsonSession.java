@@ -18,10 +18,10 @@ package io.reinert.requestor.json;
 import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.Deferred;
-import io.reinert.requestor.GwtSession;
 import io.reinert.requestor.RequestDispatcher;
 import io.reinert.requestor.SerializationModule;
 import io.reinert.requestor.TypeProvider;
+import io.reinert.requestor.gwt.GwtSession;
 import io.reinert.requestor.serialization.Serializer;
 
 /**

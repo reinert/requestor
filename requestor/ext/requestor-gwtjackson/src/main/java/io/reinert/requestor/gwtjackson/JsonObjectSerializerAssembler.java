@@ -21,9 +21,9 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
 import io.reinert.requestor.gwtjackson.codegen.TypeAssembler;
 import io.reinert.requestor.gwtjackson.codegen.TypeInfo;
-import io.reinert.requestor.serialization.json.JsonObjectSerializer;
 
 public class JsonObjectSerializerAssembler extends TypeAssembler {
 

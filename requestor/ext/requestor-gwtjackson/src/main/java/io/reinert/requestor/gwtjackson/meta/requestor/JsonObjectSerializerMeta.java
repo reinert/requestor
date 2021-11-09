@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.gwtjackson.meta.requestor;
 
-import io.reinert.requestor.serialization.json.JsonObjectSerializer;
+import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
 
 /**
  * Metadata for {@link JsonObjectSerializer}.

@@ -23,6 +23,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ResponseCallback;
+import io.reinert.requestor.gwt.GwtSession;
 import io.reinert.requestor.uri.Uri;
 import io.reinert.requestor.uri.UriBuilder;
 

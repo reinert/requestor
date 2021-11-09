@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
+import io.reinert.requestor.Deferred;
+import io.reinert.requestor.RequestDispatcher;
+import io.reinert.requestor.SerializerProvider;
+import io.reinert.requestor.Session;
+import io.reinert.requestor.gwt.serialization.JsonBooleanSerializer;
+import io.reinert.requestor.gwt.serialization.JsonNumberSerializer;
+import io.reinert.requestor.gwt.serialization.JsonStringSerializer;
+import io.reinert.requestor.gwt.serialization.OverlaySerializer;
 import io.reinert.requestor.serialization.Serializer;
-import io.reinert.requestor.serialization.json.JsonBooleanSerializer;
-import io.reinert.requestor.serialization.json.JsonNumberSerializer;
-import io.reinert.requestor.serialization.json.JsonStringSerializer;
-import io.reinert.requestor.serialization.json.OverlaySerializer;
 import io.reinert.requestor.serialization.misc.TextSerializer;
 import io.reinert.requestor.serialization.misc.VoidSerializer;
 

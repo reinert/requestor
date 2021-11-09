@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
 import java.util.Collection;
 import java.util.logging.Level;
@@ -25,6 +25,8 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.NodeCollection;
 import com.google.gwt.http.client.URL;
 
+import io.reinert.requestor.FormData;
+import io.reinert.requestor.FormDataSerializerUrlEncoded;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
 

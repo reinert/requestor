@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.uri;
 
+// TODO: replace by a HashMap on usages
 interface Buckets {
 
     void add(String key, int value);

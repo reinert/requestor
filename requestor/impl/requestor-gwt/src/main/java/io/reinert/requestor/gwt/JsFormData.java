@@ -13,13 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.type;
+package io.reinert.requestor.gwt;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.FormElement;
 
-public class Blob extends NativeType {
+import io.reinert.requestor.FormData;
 
-    public Blob(JavaScriptObject jso) {
-        super(jso);
+/**
+ * Represents FormData interface.
+ *
+ * @author Danilo Reinert
+ */
+public class JsFormData extends FormData {
+
+    private final FormElement formElement;
+
+    private JsFormData(FormElement formElement) {
+        super(null);
+        this.formElement = formElement;
+    }
+
+    public static JsFormData wrap(FormElement formElement) {
+        return new JsFormData(formElement);
+    }
+
+    public FormElement getFormElement() {
+        return formElement;
     }
 }

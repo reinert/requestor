@@ -18,6 +18,7 @@ package io.reinert.requestor;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.gwt.GwtSession;
 import io.reinert.requestor.payload.SerializedPayload;
 
 /**

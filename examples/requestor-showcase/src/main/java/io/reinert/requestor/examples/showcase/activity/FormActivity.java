@@ -22,12 +22,12 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.FormData;
-import io.reinert.requestor.JsFormData;
 import io.reinert.requestor.Response;
 import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
+import io.reinert.requestor.gwt.JsFormData;
 
 public class FormActivity extends ShowcaseActivity implements Form.Handler {
 

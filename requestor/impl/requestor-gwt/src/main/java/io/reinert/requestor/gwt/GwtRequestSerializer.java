@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.payload.SerializedJsPayload;
+import io.reinert.requestor.FormData;
+import io.reinert.requestor.FormDataSerializerUrlEncoded;
+import io.reinert.requestor.RequestSerializer;
+import io.reinert.requestor.SerializableRequestInProcess;
+import io.reinert.requestor.SerializationEngine;
+import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 import io.reinert.requestor.payload.SerializedPayload;
 
 public class GwtRequestSerializer implements RequestSerializer {

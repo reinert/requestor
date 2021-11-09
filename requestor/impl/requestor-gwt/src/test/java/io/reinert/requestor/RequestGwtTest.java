@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.callback.ResponseCallback;
+import io.reinert.requestor.gwt.GwtSession;
 
 /**
  * Integration tests of {@link RequestFilter}.

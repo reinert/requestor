@@ -13,31 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.serialization.json;
+package io.reinert.requestor.gwt.serialization;
 
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
 
 /**
- * Serializer of JSON strings.
+ * Serializer of JSON booleans.
  *
  * @author Danilo Reinert
  */
-public class JsonStringSerializer extends JsonValueSerializer<String> {
+public class JsonBooleanSerializer extends JsonValueSerializer<Boolean> {
 
-    public JsonStringSerializer() {
-        super(String.class);
+    public JsonBooleanSerializer() {
+        super(Boolean.class);
     }
 
     @Override
-    public String deserialize(String response, DeserializationContext context) {
-        if (response.startsWith("\"") && response.endsWith("\""))
-            return response.substring(1, response.length() - 1);
-        return response;
+    public Boolean deserialize(String response, DeserializationContext context) {
+        return Boolean.valueOf(response);
     }
 
     @Override
-    public String serialize(String s, SerializationContext context) {
-        return "\"" + s + "\"";
+    public String serialize(Boolean b, SerializationContext context) {
+        return String.valueOf(b);
     }
 }

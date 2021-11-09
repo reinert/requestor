@@ -17,11 +17,11 @@ package io.reinert.requestor;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
+import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
+import io.reinert.requestor.gwt.serialization.JsonRecordReader;
+import io.reinert.requestor.gwt.serialization.JsonRecordWriter;
 import io.reinert.requestor.serialization.DeserializationContext;
 import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.json.JsonObjectSerializer;
-import io.reinert.requestor.serialization.json.JsonRecordReader;
-import io.reinert.requestor.serialization.json.JsonRecordWriter;
 
 /**
  * Custom JSON Serializer for {@link Book}.

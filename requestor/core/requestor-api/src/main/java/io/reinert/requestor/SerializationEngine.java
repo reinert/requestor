@@ -36,7 +36,7 @@ import io.reinert.requestor.serialization.Serializer;
  *
  * @author Danilo Reinert
  */
-class SerializationEngine {
+public class SerializationEngine {
 
     private static final Logger logger = Logger.getLogger(SerializationEngine.class.getName());
 
