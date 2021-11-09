@@ -35,7 +35,7 @@ public class OverlaySerializerGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorApiTest";
+        return "io.reinert.requestor.RequestorGwtTest";
     }
 
     @SuppressWarnings("unchecked")
