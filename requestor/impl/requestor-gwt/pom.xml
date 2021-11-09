@@ -93,7 +93,7 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <module>io.reinert.requestor.RequestorGwtTest</module>
+              <module>io.reinert.requestor.gwt.RequestorGwtTest</module>
             </configuration>
           </execution>
         </executions>

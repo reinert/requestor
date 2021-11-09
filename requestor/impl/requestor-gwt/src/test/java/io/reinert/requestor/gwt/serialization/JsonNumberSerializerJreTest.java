@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.serialization;
+package io.reinert.requestor.gwt.serialization;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -22,7 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import io.reinert.requestor.gwt.serialization.JsonNumberSerializer;
+import io.reinert.requestor.serialization.DeserializationContext;
+import io.reinert.requestor.serialization.UnableToDeserializeException;
 
 import org.junit.Test;
 

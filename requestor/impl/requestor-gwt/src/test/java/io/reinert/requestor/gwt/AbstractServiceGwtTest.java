@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
 import java.util.Collection;
 import java.util.Date;
@@ -21,10 +21,17 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.AbstractService;
+import io.reinert.requestor.Promise;
+import io.reinert.requestor.Response;
+import io.reinert.requestor.RestService;
+import io.reinert.requestor.Session;
+import io.reinert.requestor.Status;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.ResponseCallback;
-import io.reinert.requestor.gwt.GwtSession;
 import io.reinert.requestor.uri.Uri;
+
+import junit.framework.TestCase;
 
 /**
  * Integration tests of {@link RestService}.
@@ -78,7 +85,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorGwtTest";
+        return "io.reinert.requestor.gwt.RequestorGwtTest";
     }
 
     @Override
@@ -164,7 +171,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
                 assertNotNull(response);
 
                 // The server should return a 200 status code
-                assertEquals(Status.OK, response.getStatus());
+                TestCase.assertEquals(Status.OK, response.getStatus());
 
                 finishTest();
             }

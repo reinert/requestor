@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 
+import io.reinert.requestor.RequestFilter;
+import io.reinert.requestor.RequestInProcess;
+import io.reinert.requestor.Response;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.ResponseCallback;
-import io.reinert.requestor.gwt.GwtSession;
 
 /**
- * Integration tests of {@link ResponseInterceptor}.
+ * Integration tests of {@link RequestFilter}.
  */
-public class ResponseInterceptorGwtTest extends GWTTestCase {
+public class RequestFilterGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
 
@@ -32,7 +35,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorGwtTest";
+        return "io.reinert.requestor.gwt.RequestorGwtTest";
     }
 
     @Override
@@ -43,16 +46,16 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         session.setMediaType("application/json");
     }
 
-    public void testOneInterceptor() {
+    public void testOneFilter() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(SerializedResponseInProcess response) {
-                response.getStore().save(storeKey, expectedStoreValue);
-                response.setHeader("Test", "test");
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                request.getStore().save(storeKey, expectedStoreValue);
+                request.setHeader("Test", "test");
+                request.proceed();
             }
         });
 
@@ -61,7 +64,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertEquals("test", response.getHeader("Test"));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
         });
@@ -69,25 +72,25 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testTwoInterceptors() {
+    public void testTwoFilters() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(SerializedResponseInProcess response) {
-                response.getStore().save(storeKey, expectedStoreValue);
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                request.getStore().save(storeKey, expectedStoreValue);
+                request.proceed();
             }
         });
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(SerializedResponseInProcess response) {
-                // Test previous intercept
-                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                response.setHeader("Test", "test");
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                // Test previous filter
+                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                request.setHeader("Test", "test");
+                request.proceed();
             }
         });
 
@@ -96,7 +99,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertEquals("test", response.getHeader("Test"));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
         });
@@ -104,44 +107,44 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testThreeInterceptors() {
+    public void testThreeFilters() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(SerializedResponseInProcess response) {
-                response.setHeader("Test", "test");
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                request.setHeader("Test", "test");
+                request.proceed();
             }
         });
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(SerializedResponseInProcess response) {
-                assertEquals("test", response.getHeader("Test"));
-                response.getStore().save(storeKey, expectedStoreValue);
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                assertEquals("test", request.getHeader("Test"));
+                request.getStore().save(storeKey, expectedStoreValue);
+                request.proceed();
             }
         });
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(SerializedResponseInProcess response) {
-                assertEquals("test", response.getHeader("Test"));
-                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                response.setHeader("Test2", "test2");
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                assertEquals("test", request.getHeader("Test"));
+                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                request.setHeader("Test2", "test2");
+                request.proceed();
             }
         });
 
-        session.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals("test", response.getHeader("Test"));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertEquals("test2", response.getHeader("Test2"));
+                assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
         });
@@ -149,64 +152,64 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testAsyncInterceptors() {
+    public void testAsyncFilters() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
         final String storeKey2 = "testData2";
         final String expectedStoreValue2 = "testData2";
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(SerializedResponseInProcess response) {
-                response.getStore().save(storeKey, expectedStoreValue);
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                request.getStore().save(storeKey, expectedStoreValue);
+                request.proceed();
             }
         });
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(final SerializedResponseInProcess response) {
+            public void filter(final RequestInProcess request) {
                 new Timer() {
                     public void run() {
-                        assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                        response.getStore().save(storeKey2, expectedStoreValue2);
-                        response.proceed();
+                        assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                        request.getStore().save(storeKey2, expectedStoreValue2);
+                        request.proceed();
                     }
                 }.schedule(500);
             }
         });
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(SerializedResponseInProcess response) {
-                // Test previous intercept
-                assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
-                response.setHeader("Test", "test");
-                response.proceed();
+            public void filter(RequestInProcess request) {
+                // Test previous filter
+                assertEquals(expectedStoreValue2, request.getStore().get(storeKey2));
+                request.setHeader("Test", "test");
+                request.proceed();
             }
         });
 
-        session.register(new ResponseInterceptor() {
+        session.register(new RequestFilter() {
             @Override
-            public void intercept(final SerializedResponseInProcess response) {
+            public void filter(final RequestInProcess request) {
                 new Timer() {
                     @Override
                     public void run() {
-                        response.setHeader("Test2", "test2");
-                        response.proceed();
+                        request.setHeader("Test2", "test2");
+                        request.proceed();
                     }
                 }.schedule(500);
             }
         });
 
-        session.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
-                assertEquals("test", response.getHeader("Test"));
-                assertEquals("test2", response.getHeader("Test2"));
+                assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
+                assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
         });

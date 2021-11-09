@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 
+import io.reinert.requestor.RequestInterceptor;
+import io.reinert.requestor.Response;
+import io.reinert.requestor.SerializedRequestInProcess;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.ResponseCallback;
-import io.reinert.requestor.gwt.GwtSession;
 
 /**
- * Integration tests of {@link RequestFilter}.
+ * Integration tests of {@link RequestInterceptor}.
  */
-public class RequestFilterGwtTest extends GWTTestCase {
+public class RequestInterceptorGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
 
@@ -32,7 +35,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorGwtTest";
+        return "io.reinert.requestor.gwt.RequestorGwtTest";
     }
 
     @Override
@@ -43,13 +46,13 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.setMediaType("application/json");
     }
 
-    public void testOneFilter() {
+    public void testOneInterceptor() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
+            public void intercept(SerializedRequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.setHeader("Test", "test");
                 request.proceed();
@@ -69,22 +72,22 @@ public class RequestFilterGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testTwoFilters() {
+    public void testTwoInterceptors() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
+            public void intercept(SerializedRequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.proceed();
             }
         });
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                // Test previous filter
+            public void intercept(SerializedRequestInProcess request) {
+                // Test previous intercept
                 assertEquals(expectedStoreValue, request.getStore().get(storeKey));
                 request.setHeader("Test", "test");
                 request.proceed();
@@ -104,38 +107,35 @@ public class RequestFilterGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testThreeFilters() {
+    public void testThreeInterceptors() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
+            public void intercept(SerializedRequestInProcess request) {
                 request.setHeader("Test", "test");
                 request.proceed();
             }
         });
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                assertEquals("test", request.getHeader("Test"));
+            public void intercept(SerializedRequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.proceed();
             }
         });
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                assertEquals("test", request.getHeader("Test"));
-                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+            public void intercept(SerializedRequestInProcess request) {
                 request.setHeader("Test2", "test2");
                 request.proceed();
             }
         });
 
-        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -149,23 +149,23 @@ public class RequestFilterGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-    public void testAsyncFilters() {
+    public void testAsyncInterceptors() {
         final String storeKey = "testData";
         final String expectedStoreValue = "testData";
         final String storeKey2 = "testData2";
         final String expectedStoreValue2 = "testData2";
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
+            public void intercept(SerializedRequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.proceed();
             }
         });
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(final RequestInProcess request) {
+            public void intercept(final SerializedRequestInProcess request) {
                 new Timer() {
                     public void run() {
                         assertEquals(expectedStoreValue, request.getStore().get(storeKey));
@@ -176,19 +176,19 @@ public class RequestFilterGwtTest extends GWTTestCase {
             }
         });
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(RequestInProcess request) {
-                // Test previous filter
+            public void intercept(SerializedRequestInProcess request) {
+                // Test previous intercept
                 assertEquals(expectedStoreValue2, request.getStore().get(storeKey2));
                 request.setHeader("Test", "test");
                 request.proceed();
             }
         });
 
-        session.register(new RequestFilter() {
+        session.register(new RequestInterceptor() {
             @Override
-            public void filter(final RequestInProcess request) {
+            public void intercept(final SerializedRequestInProcess request) {
                 new Timer() {
                     @Override
                     public void run() {
@@ -199,7 +199,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
             }
         });
 
-        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());

@@ -171,7 +171,7 @@ Add the following requestor impl dependency to your POM.
 Then, make requestor available to your GWT project by importing the implementation's module.
 
 ```xml
-<inherits name="io.reinert.requestor.RequestorGwt"/>
+<inherits name="io.reinert.requestor.gwt.RequestorGwt"/>
 ```
 
 Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** declares a Promise 

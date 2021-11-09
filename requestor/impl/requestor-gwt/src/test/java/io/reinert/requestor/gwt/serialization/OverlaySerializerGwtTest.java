@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.serialization;
+package io.reinert.requestor.gwt.serialization;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +23,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.gwt.serialization.JsonSerializer;
-import io.reinert.requestor.gwt.serialization.OverlaySerializer;
+import io.reinert.requestor.serialization.DeserializationContext;
 
 /**
  * Unit tests of {@link OverlaySerializer}.
@@ -35,7 +34,7 @@ public class OverlaySerializerGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorGwtTest";
+        return "io.reinert.requestor.gwt.RequestorGwtTest";
     }
 
     @SuppressWarnings("unchecked")

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
 import java.util.Collection;
 import java.util.Date;
@@ -21,9 +21,14 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.Response;
+import io.reinert.requestor.RestService;
+import io.reinert.requestor.Session;
+import io.reinert.requestor.Status;
 import io.reinert.requestor.callback.PayloadCallback;
 import io.reinert.requestor.callback.PayloadResponseCallback;
-import io.reinert.requestor.gwt.GwtSession;
+
+import junit.framework.TestCase;
 
 /**
  * Integration tests of {@link RestService}.
@@ -37,7 +42,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorGwtTest";
+        return "io.reinert.requestor.gwt.RequestorGwtTest";
     }
 
     @Override
@@ -70,7 +75,7 @@ public class RestServiceGwtTest extends GWTTestCase {
                 assertNotNull(response);
 
                 // The server should return a 201 status code
-                assertEquals(Status.CREATED, response.getStatus());
+                TestCase.assertEquals(Status.CREATED, response.getStatus());
 
                 // Check if the return book has an ID
                 assertNotNull(returnedBook.getId());

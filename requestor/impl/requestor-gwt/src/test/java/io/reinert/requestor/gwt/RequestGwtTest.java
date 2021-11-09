@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor;
+package io.reinert.requestor.gwt;
 
 import java.util.logging.Logger;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.PollingStrategy;
+import io.reinert.requestor.RequestFilter;
+import io.reinert.requestor.Response;
+import io.reinert.requestor.Session;
 import io.reinert.requestor.callback.ResponseCallback;
-import io.reinert.requestor.gwt.GwtSession;
 
 /**
  * Integration tests of {@link RequestFilter}.
@@ -34,7 +37,7 @@ public class RequestGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorGwtTest";
+        return "io.reinert.requestor.gwt.RequestorGwtTest";
     }
 
     @Override

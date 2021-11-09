@@ -112,7 +112,7 @@
       <div class="highlight">
         <pre ui:field="gwtModule" class="xml">
           <code>
-            &lt;inherits name=&quot;io.reinert.requestor.RequestorGwt&quot;/&gt;
+            &lt;inherits name=&quot;io.reinert.requestor.gwt.RequestorGwt&quot;/&gt;
           </code>
         </pre>
       </div>
