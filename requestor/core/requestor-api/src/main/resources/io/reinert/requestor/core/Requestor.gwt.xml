@@ -21,6 +21,10 @@
     <when-type-is class="io.reinert.requestor.core.uri.UriBuilder"/>
   </replace-with>
 
+  <replace-with class="io.reinert.requestor.core.deferred.DeferredRequestFactory">
+    <when-type-is class="io.reinert.requestor.core.Deferred.Factory"/>
+  </replace-with>
+
   <source path=""/>
 </module>
 
