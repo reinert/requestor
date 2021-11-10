@@ -17,11 +17,11 @@ package io.reinert.requestor.gwt.test;
 
 import java.util.Date;
 
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
 import io.reinert.requestor.gwt.serialization.JsonRecordReader;
 import io.reinert.requestor.gwt.serialization.JsonRecordWriter;
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.SerializationContext;
 
 /**
  * Custom JSON Serializer for {@link Book}.

@@ -18,10 +18,10 @@ package io.reinert.requestor.gwt.serialization;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.HandlesSubTypes;
-import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.UnableToDeserializeException;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.HandlesSubTypes;
+import io.reinert.requestor.core.serialization.SerializationContext;
+import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 
 /**
  * Serializer of JSON numbers.

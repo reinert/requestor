@@ -25,10 +25,10 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.NodeCollection;
 import com.google.gwt.http.client.URL;
 
-import io.reinert.requestor.FormData;
-import io.reinert.requestor.FormDataSerializerUrlEncoded;
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.core.FormData;
+import io.reinert.requestor.core.FormDataSerializerUrlEncoded;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.SerializationContext;
 
 /**
  * FormDataSerializer that serialize the {@link FormData} into chained URL encoded key-value pairs.

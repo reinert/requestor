@@ -17,7 +17,7 @@ package io.reinert.requestor.gwt;
 
 import com.google.gwt.dom.client.FormElement;
 
-import io.reinert.requestor.FormData;
+import io.reinert.requestor.core.FormData;
 
 /**
  * Represents FormData interface.

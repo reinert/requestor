@@ -15,20 +15,20 @@
  */
 package io.reinert.requestor.gwt;
 
-import io.reinert.requestor.DeserializableResponseInProcess;
-import io.reinert.requestor.Headers;
-import io.reinert.requestor.RawResponse;
-import io.reinert.requestor.Response;
-import io.reinert.requestor.ResponseDeserializer;
-import io.reinert.requestor.SerializationEngine;
-import io.reinert.requestor.SerializedResponse;
+import io.reinert.requestor.core.DeserializableResponseInProcess;
+import io.reinert.requestor.core.Headers;
+import io.reinert.requestor.core.RawResponse;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.ResponseDeserializer;
+import io.reinert.requestor.core.SerializationEngine;
+import io.reinert.requestor.core.SerializedResponse;
+import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 import io.reinert.requestor.gwt.type.ArrayBuffer;
 import io.reinert.requestor.gwt.type.Blob;
 import io.reinert.requestor.gwt.type.Document;
 import io.reinert.requestor.gwt.type.Json;
-import io.reinert.requestor.payload.SerializedPayload;
-import io.reinert.requestor.payload.type.PayloadType;
 
 public class GwtResponseDeserializer implements ResponseDeserializer {
     @Override

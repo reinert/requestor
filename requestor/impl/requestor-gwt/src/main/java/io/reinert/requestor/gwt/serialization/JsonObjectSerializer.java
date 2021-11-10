@@ -21,9 +21,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsonUtils;
 
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.UnableToDeserializeException;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.SerializationContext;
+import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 
 /**
  * Base class for all Serializers that manipulates serialized JSON objects.

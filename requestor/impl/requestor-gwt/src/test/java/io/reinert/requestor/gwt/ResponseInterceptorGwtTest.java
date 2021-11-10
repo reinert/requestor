@@ -18,11 +18,11 @@ package io.reinert.requestor.gwt;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 
-import io.reinert.requestor.Response;
-import io.reinert.requestor.ResponseInterceptor;
-import io.reinert.requestor.SerializedResponseInProcess;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.ResponseCallback;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.ResponseInterceptor;
+import io.reinert.requestor.core.SerializedResponseInProcess;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.ResponseCallback;
 
 /**
  * Integration tests of {@link ResponseInterceptor}.

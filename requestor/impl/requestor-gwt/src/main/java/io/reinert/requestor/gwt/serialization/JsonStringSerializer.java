@@ -15,8 +15,8 @@
  */
 package io.reinert.requestor.gwt.serialization;
 
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.SerializationContext;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.SerializationContext;
 
 /**
  * Serializer of JSON strings.

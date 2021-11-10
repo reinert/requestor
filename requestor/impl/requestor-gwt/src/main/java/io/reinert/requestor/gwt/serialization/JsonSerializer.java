@@ -19,8 +19,8 @@ import java.util.Collection;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.Serializer;
+import io.reinert.requestor.core.serialization.SerializationContext;
+import io.reinert.requestor.core.serialization.Serializer;
 
 /**
  * Base class for all Serializers that manipulates serialized JSON.

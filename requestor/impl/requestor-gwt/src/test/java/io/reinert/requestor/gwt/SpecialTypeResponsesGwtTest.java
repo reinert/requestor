@@ -17,13 +17,13 @@ package io.reinert.requestor.gwt;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.Headers;
-import io.reinert.requestor.RawResponse;
-import io.reinert.requestor.Response;
-import io.reinert.requestor.SerializedResponse;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.PayloadCallback;
-import io.reinert.requestor.payload.SerializedPayload;
+import io.reinert.requestor.core.Headers;
+import io.reinert.requestor.core.RawResponse;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.SerializedResponse;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.payload.SerializedPayload;
 
 /**
  * Integration tests for deserializing special types like Headers, RawResponse, SerializedResponse and Response.

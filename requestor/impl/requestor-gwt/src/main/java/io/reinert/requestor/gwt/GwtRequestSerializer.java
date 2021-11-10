@@ -17,13 +17,13 @@ package io.reinert.requestor.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.FormData;
-import io.reinert.requestor.FormDataSerializerUrlEncoded;
-import io.reinert.requestor.RequestSerializer;
-import io.reinert.requestor.SerializableRequestInProcess;
-import io.reinert.requestor.SerializationEngine;
+import io.reinert.requestor.core.FormData;
+import io.reinert.requestor.core.FormDataSerializerUrlEncoded;
+import io.reinert.requestor.core.RequestSerializer;
+import io.reinert.requestor.core.SerializableRequestInProcess;
+import io.reinert.requestor.core.SerializationEngine;
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.gwt.payload.SerializedJsPayload;
-import io.reinert.requestor.payload.SerializedPayload;
 
 public class GwtRequestSerializer implements RequestSerializer {
     @Override

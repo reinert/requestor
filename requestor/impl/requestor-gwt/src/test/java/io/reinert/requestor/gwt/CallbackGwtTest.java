@@ -21,13 +21,13 @@ import java.util.Set;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.Response;
-import io.reinert.requestor.RestService;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.PayloadCallback;
-import io.reinert.requestor.callback.ResponseCallback;
-import io.reinert.requestor.uri.Uri;
-import io.reinert.requestor.uri.UriBuilder;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.RestService;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.uri.Uri;
+import io.reinert.requestor.core.uri.UriBuilder;
 
 /**
  * Integration tests of {@link RestService}.

@@ -25,10 +25,10 @@ import com.google.gwt.xml.client.Text;
 import com.google.gwt.xml.client.XMLParser;
 import com.google.gwt.xml.client.impl.DOMParseException;
 
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.Serializer;
-import io.reinert.requestor.serialization.UnableToDeserializeException;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.SerializationContext;
+import io.reinert.requestor.core.serialization.Serializer;
+import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 
 /**
  * Custom XML Serializer for {@link Book}.

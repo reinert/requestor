@@ -15,17 +15,17 @@
  */
 package io.reinert.requestor.gwt;
 
-import io.reinert.requestor.Deferred;
-import io.reinert.requestor.RequestDispatcher;
-import io.reinert.requestor.SerializerProvider;
-import io.reinert.requestor.Session;
+import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.RequestDispatcher;
+import io.reinert.requestor.core.SerializerProvider;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.serialization.Serializer;
+import io.reinert.requestor.core.serialization.misc.TextSerializer;
+import io.reinert.requestor.core.serialization.misc.VoidSerializer;
 import io.reinert.requestor.gwt.serialization.JsonBooleanSerializer;
 import io.reinert.requestor.gwt.serialization.JsonNumberSerializer;
 import io.reinert.requestor.gwt.serialization.JsonStringSerializer;
 import io.reinert.requestor.gwt.serialization.OverlaySerializer;
-import io.reinert.requestor.serialization.Serializer;
-import io.reinert.requestor.serialization.misc.TextSerializer;
-import io.reinert.requestor.serialization.misc.VoidSerializer;
 
 /**
  * A session that handles json data.

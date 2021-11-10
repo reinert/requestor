@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import io.reinert.requestor.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.DeserializationContext;
 
 import org.junit.Test;
 import org.mockito.Mockito;

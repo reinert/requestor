@@ -23,7 +23,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.DeserializationContext;
 
 /**
  * Unit tests of {@link OverlaySerializer}.

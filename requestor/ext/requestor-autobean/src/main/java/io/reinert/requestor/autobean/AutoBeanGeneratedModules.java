@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.autobean;
 
-import io.reinert.requestor.SerializationModule;
+import io.reinert.requestor.core.SerializationModule;
 
 interface AutoBeanGeneratedModules {
     SerializationModule[] getSerializationModules();

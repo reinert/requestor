@@ -21,22 +21,22 @@ import java.util.logging.Logger;
 import io.reinert.gdeferred.DoneCallback;
 import io.reinert.gdeferred.FailCallback;
 import io.reinert.gdeferred.impl.RequestorDeferred;
-import io.reinert.requestor.Deferred;
-import io.reinert.requestor.HttpConnection;
-import io.reinert.requestor.IncompatibleTypeException;
-import io.reinert.requestor.Promise;
-import io.reinert.requestor.RequestException;
-import io.reinert.requestor.RequestProgress;
-import io.reinert.requestor.RequestTimeoutException;
-import io.reinert.requestor.Response;
-import io.reinert.requestor.Status;
-import io.reinert.requestor.StatusFamily;
-import io.reinert.requestor.callback.ExceptionCallback;
-import io.reinert.requestor.callback.PayloadCallback;
-import io.reinert.requestor.callback.PayloadResponseCallback;
-import io.reinert.requestor.callback.ProgressCallback;
-import io.reinert.requestor.callback.ResponseCallback;
-import io.reinert.requestor.callback.TimeoutCallback;
+import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.HttpConnection;
+import io.reinert.requestor.core.IncompatibleTypeException;
+import io.reinert.requestor.core.Promise;
+import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestProgress;
+import io.reinert.requestor.core.RequestTimeoutException;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.Status;
+import io.reinert.requestor.core.StatusFamily;
+import io.reinert.requestor.core.callback.ExceptionCallback;
+import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.callback.PayloadResponseCallback;
+import io.reinert.requestor.core.callback.ProgressCallback;
+import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.callback.TimeoutCallback;
 
 /**
  * DeferredRequest implementation using GDeferred.

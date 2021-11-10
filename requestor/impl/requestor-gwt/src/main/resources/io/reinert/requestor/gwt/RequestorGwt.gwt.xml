@@ -19,19 +19,23 @@
 
   <inherits name="io.reinert.gdeferred.GDeferred"/>
 
-  <inherits name="io.reinert.requestor.Requestor"/>
+  <inherits name="io.reinert.requestor.core.Requestor"/>
 
-  <replace-with class="io.reinert.requestor.uri.BucketsImpl">
-    <when-type-is class="io.reinert.requestor.uri.Buckets"/>
+  <replace-with class="io.reinert.requestor.core.uri.BucketsImpl">
+    <when-type-is class="io.reinert.requestor.core.uri.Buckets"/>
   </replace-with>
 
-  <replace-with class="io.reinert.requestor.uri.UriCodecImpl">
-    <when-type-is class="io.reinert.requestor.uri.UriCodec"/>
+  <replace-with class="io.reinert.requestor.core.uri.UriCodecImpl">
+    <when-type-is class="io.reinert.requestor.core.uri.UriCodec"/>
+  </replace-with>
+
+  <replace-with class="io.reinert.requestor.core.XhrRequestDispatcherFactory">
+    <when-type-is class="io.reinert.requestor.core.RequestDispatcher.Factory"/>
+  </replace-with>
+
+  <replace-with class="io.reinert.requestor.gwt.DeferredRequestFactory">
+    <when-type-is class="io.reinert.requestor.core.Deferred.Factory"/>
   </replace-with>
 
   <source path="" excludes="rebind/**/*"/>
-
-  <replace-with class="io.reinert.requestor.gwt.DeferredRequestFactory">
-    <when-type-is class="io.reinert.requestor.Deferred.Factory"/>
-  </replace-with>
 </module>

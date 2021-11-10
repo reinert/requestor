@@ -17,8 +17,8 @@ package io.reinert.requestor.gwt.serialization;
 
 import java.util.Collection;
 
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.UnableToDeserializeException;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 
 /**
  * Base class for all Serializer that manipulates serialized JSON simple values.

@@ -19,11 +19,11 @@ import java.util.logging.Logger;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.PollingStrategy;
-import io.reinert.requestor.RequestFilter;
-import io.reinert.requestor.Response;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.ResponseCallback;
+import io.reinert.requestor.core.PollingStrategy;
+import io.reinert.requestor.core.RequestFilter;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.ResponseCallback;
 
 /**
  * Integration tests of {@link RequestFilter}.

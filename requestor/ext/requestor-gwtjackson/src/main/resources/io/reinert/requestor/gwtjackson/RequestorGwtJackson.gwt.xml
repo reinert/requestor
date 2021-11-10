@@ -19,9 +19,9 @@
 
   <inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>
 
-  <generate-with class="io.reinert.requestor.gwtjackson.JsonGeneratedModulesGenerator">
-    <when-type-is class="io.reinert.requestor.json.JsonGeneratedModules"/>
+  <generate-with class="io.reinert.requestor.gwtjackson.rebind.JsonGeneratedModulesGenerator">
+    <when-type-is class="io.reinert.requestor.gwtjackson.JsonGeneratedModules"/>
   </generate-with>
 
-  <source path="" excludes="**/*"/>
+  <source path="" excludes="rebind/**/*"/>
 </module>

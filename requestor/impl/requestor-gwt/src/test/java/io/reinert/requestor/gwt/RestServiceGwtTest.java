@@ -21,12 +21,12 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.Response;
-import io.reinert.requestor.RestService;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.Status;
-import io.reinert.requestor.callback.PayloadCallback;
-import io.reinert.requestor.callback.PayloadResponseCallback;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.RestService;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.Status;
+import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.callback.PayloadResponseCallback;
 
 import junit.framework.TestCase;
 

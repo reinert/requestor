@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.UnableToDeserializeException;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 
 import org.junit.Test;
 

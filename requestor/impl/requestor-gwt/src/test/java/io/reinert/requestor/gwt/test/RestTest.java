@@ -24,7 +24,7 @@ public class RestTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "io.reinert.requestor.RequestorTest";
+        return "io.reinert.requestor.core.RequestorTest";
     }
 
 //    public void testCreate() {

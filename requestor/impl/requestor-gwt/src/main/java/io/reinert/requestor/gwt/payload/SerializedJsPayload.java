@@ -17,8 +17,8 @@ package io.reinert.requestor.gwt.payload;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.gwt.ResponseType;
-import io.reinert.requestor.payload.SerializedPayload;
 
 /**
  * Represents an HTTP payload.

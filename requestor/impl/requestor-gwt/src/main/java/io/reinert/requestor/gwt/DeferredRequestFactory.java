@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.gwt;
 
-import io.reinert.requestor.Deferred;
+import io.reinert.requestor.core.Deferred;
 
 /**
  * Implementation of DeferredRequestFactory returning a GDeferredRequest.

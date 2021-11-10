@@ -17,12 +17,12 @@ package io.reinert.requestor.autobean;
 
 import com.google.gwt.core.client.GWT;
 
-import io.reinert.requestor.Deferred;
-import io.reinert.requestor.RequestDispatcher;
-import io.reinert.requestor.SerializationModule;
-import io.reinert.requestor.TypeProvider;
+import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.RequestDispatcher;
+import io.reinert.requestor.core.SerializationModule;
+import io.reinert.requestor.core.TypeProvider;
+import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.gwt.GwtSession;
-import io.reinert.requestor.serialization.Serializer;
 
 /**
  * A session that handles AutoBeans.

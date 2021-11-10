@@ -40,23 +40,23 @@ import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 
-import io.reinert.requestor.SerializationModule;
-import io.reinert.requestor.TypeProvider;
-import io.reinert.requestor.annotations.AutoBeanSerializationModule;
-import io.reinert.requestor.annotations.MediaType;
+import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
+import io.reinert.requestor.core.SerializationModule;
+import io.reinert.requestor.core.TypeProvider;
+import io.reinert.requestor.core.annotations.MediaType;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.Deserializer;
+import io.reinert.requestor.core.serialization.HandlesSubTypes;
+import io.reinert.requestor.core.serialization.SerializationContext;
+import io.reinert.requestor.core.serialization.Serializer;
+import io.reinert.requestor.core.serialization.UnableToDeserializeException;
+import io.reinert.requestor.core.serialization.UnableToSerializeException;
 import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
 import io.reinert.requestor.gwt.serialization.JsonRecordReader;
 import io.reinert.requestor.gwt.serialization.JsonRecordWriter;
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.Deserializer;
-import io.reinert.requestor.serialization.HandlesSubTypes;
-import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.Serializer;
-import io.reinert.requestor.serialization.UnableToDeserializeException;
-import io.reinert.requestor.serialization.UnableToSerializeException;
 
 /**
- * Generator for {@link io.reinert.requestor.annotations.AutoBeanSerializationModule} annotated types
+ * Generator for {@link AutoBeanSerializationModule} annotated types
  * powered by GWT AutoBean Framework.
  *
  * @author Danilo Reinert

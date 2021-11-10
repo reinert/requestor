@@ -32,8 +32,8 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
-import io.reinert.requestor.SerializationModule;
-import io.reinert.requestor.annotations.AutoBeanSerializationModule;
+import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
+import io.reinert.requestor.core.SerializationModule;
 
 /**
  * Generator for AutoBeanGeneratedModules.
