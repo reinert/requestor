@@ -30,8 +30,8 @@
   <dependencies>
     <!-- Requestor dependencies -->
     <dependency>
-      <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-api</artifactId>
+      <groupId>io.reinert.requestor.impl</groupId>
+      <artifactId>requestor-gwt</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -68,12 +68,5 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
   </build>
 </project>

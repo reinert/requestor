@@ -24,7 +24,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
  *
  * @author jasonhall@google.com (Jason Hall)
  */
-public abstract class Auth {
+abstract class Auth {
 
     /**
      * Instance of the {@link Auth} to use in a GWT application.

@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.auth;
+package io.reinert.requestor.oauth2;
 
-import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.oauth2.TokenInfo;
+import io.reinert.requestor.core.PreparedRequest;
 
 /**
  * OAuth2 authentication through the

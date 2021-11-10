@@ -20,7 +20,7 @@ package io.reinert.requestor.oauth2;
  *
  * @author jasonhall@google.com (Jason Hall)
  */
-public class AuthRequest {
+class AuthRequest {
 
     private final String authUrl;
     private final String clientId;

@@ -19,7 +19,7 @@ package io.reinert.requestor.oauth2;
 /**
  * Encapsulates information of an access token, its token type and when it will expire.
  */
-public class TokenInfo {
+class TokenInfo {
 
     private String tokenType;
     private String accessToken;

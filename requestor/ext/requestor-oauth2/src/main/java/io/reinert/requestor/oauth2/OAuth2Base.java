@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.auth;
+package io.reinert.requestor.oauth2;
 
 import com.google.gwt.core.client.Callback;
 
-import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.RequestException;
-import io.reinert.requestor.oauth2.Auth;
-import io.reinert.requestor.oauth2.AuthRequest;
-import io.reinert.requestor.oauth2.TokenInfo;
+import io.reinert.requestor.core.PreparedRequest;
+import io.reinert.requestor.core.RequestException;
 
 /**
  * OAuth2 authentication.
  *
  * @author Danilo Reinert
  */
-public abstract class OAuth2Base implements io.reinert.requestor.Auth {
+public abstract class OAuth2Base implements io.reinert.requestor.core.Auth {
 
     private static final Auth AUTH = Auth.get();
 
