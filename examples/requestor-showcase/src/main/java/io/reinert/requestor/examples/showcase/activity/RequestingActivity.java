@@ -18,10 +18,10 @@ package io.reinert.requestor.examples.showcase.activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.Headers;
-import io.reinert.requestor.Promise;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.core.Headers;
+import io.reinert.requestor.core.Promise;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;

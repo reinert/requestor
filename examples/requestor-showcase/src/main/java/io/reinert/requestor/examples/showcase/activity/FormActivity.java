@@ -21,10 +21,10 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.FormData;
-import io.reinert.requestor.Response;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.core.FormData;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.gwt.JsFormData;

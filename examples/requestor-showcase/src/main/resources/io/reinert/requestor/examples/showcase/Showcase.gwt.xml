@@ -28,6 +28,7 @@
     <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
 
     <inherits name="io.reinert.requestor.gwt.RequestorGwt"/>
+    <inherits name="io.reinert.requestor.oauth2.RequestorOAuth2"/>
 
     <source path=""/>
 

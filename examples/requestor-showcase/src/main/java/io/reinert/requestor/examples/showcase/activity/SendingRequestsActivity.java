@@ -18,7 +18,7 @@ package io.reinert.requestor.examples.showcase.activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.Session;
+import io.reinert.requestor.core.Session;
 import io.reinert.requestor.examples.showcase.ui.SendingRequests;
 import io.reinert.requestor.examples.showcase.util.Page;
 

@@ -17,7 +17,7 @@ package io.reinert.requestor.examples.showcase.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.header.Header;
+import io.reinert.requestor.core.header.Header;
 
 public class Util {
 

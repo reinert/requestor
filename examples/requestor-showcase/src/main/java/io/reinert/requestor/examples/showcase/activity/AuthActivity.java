@@ -20,21 +20,21 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.PreparedRequest;
-import io.reinert.requestor.Response;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.auth.BasicAuth;
-import io.reinert.requestor.auth.DigestAuth;
-import io.reinert.requestor.auth.OAuth2ByHeader;
-import io.reinert.requestor.auth.OAuth2ByQueryParam;
-import io.reinert.requestor.callback.PayloadCallback;
-import io.reinert.requestor.callback.ResponseCallback;
+import io.reinert.requestor.core.PreparedRequest;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.auth.BasicAuth;
+import io.reinert.requestor.core.auth.DigestAuth;
+import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
+import io.reinert.requestor.oauth2.OAuth2ByHeader;
+import io.reinert.requestor.oauth2.OAuth2ByQueryParam;
 
 public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
-    private static class MyAuth implements io.reinert.requestor.Auth {
+    private static class MyAuth implements io.reinert.requestor.core.Auth {
 
         private final String key;
 

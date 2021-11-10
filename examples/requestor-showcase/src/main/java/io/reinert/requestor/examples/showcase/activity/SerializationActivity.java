@@ -23,17 +23,17 @@ import java.util.List;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.Registration;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.PayloadCallback;
+import io.reinert.requestor.core.Registration;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.serialization.DeserializationContext;
+import io.reinert.requestor.core.serialization.SerializationContext;
+import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
 import io.reinert.requestor.gwt.serialization.JsonRecordReader;
 import io.reinert.requestor.gwt.serialization.JsonRecordWriter;
-import io.reinert.requestor.serialization.DeserializationContext;
-import io.reinert.requestor.serialization.SerializationContext;
-import io.reinert.requestor.serialization.Serializer;
 
 public class SerializationActivity extends ShowcaseActivity implements Serialization.Handler {
 

@@ -19,18 +19,18 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.Registration;
-import io.reinert.requestor.RequestInterceptor;
-import io.reinert.requestor.Response;
-import io.reinert.requestor.ResponseInterceptor;
-import io.reinert.requestor.SerializedRequestInProcess;
-import io.reinert.requestor.SerializedResponseInProcess;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.PayloadCallback;
-import io.reinert.requestor.callback.ResponseCallback;
+import io.reinert.requestor.core.Registration;
+import io.reinert.requestor.core.RequestInterceptor;
+import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.ResponseInterceptor;
+import io.reinert.requestor.core.SerializedRequestInProcess;
+import io.reinert.requestor.core.SerializedResponseInProcess;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.payload.SerializedPayload;
 
 public class InterceptorsActivity extends ShowcaseActivity implements Interceptors.Handler {
 

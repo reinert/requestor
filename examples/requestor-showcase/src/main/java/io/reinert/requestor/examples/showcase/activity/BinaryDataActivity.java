@@ -22,10 +22,10 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.RequestProgress;
-import io.reinert.requestor.Session;
-import io.reinert.requestor.callback.PayloadCallback;
-import io.reinert.requestor.callback.ProgressCallback;
+import io.reinert.requestor.core.RequestProgress;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.callback.ProgressCallback;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.gwt.payload.SerializedJsPayload;
