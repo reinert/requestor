@@ -20,24 +20,24 @@ package io.reinert.requestor.core;
  */
 public class RequestException extends RuntimeException {
 
-    private final Request request;
+    private final RequestOptions requestOptions;
 
-    public RequestException(Request request, String message) {
+    public RequestException(RequestOptions requestOptions, String message) {
         super(message);
-        this.request = request;
+        this.requestOptions = requestOptions;
     }
 
-    public RequestException(Request request, Throwable cause) {
+    public RequestException(RequestOptions requestOptions, Throwable cause) {
         super(cause);
-        this.request = request;
+        this.requestOptions = requestOptions;
     }
 
-    public RequestException(Request request, String message, Throwable cause) {
+    public RequestException(RequestOptions requestOptions, String message, Throwable cause) {
         super(message, cause);
-        this.request = request;
+        this.requestOptions = requestOptions;
     }
 
-    public Request getRequest() {
-        return request;
+    public RequestOptions getRequestOptions() {
+        return requestOptions;
     }
 }

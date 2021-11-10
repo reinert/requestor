@@ -25,21 +25,21 @@ import io.reinert.requestor.core.serialization.UnableToDeserializeException;
  */
 public class HttpDeserializationContext extends DeserializationContext {
 
-    private final Request request;
+    private final RequestOptions requestOptions;
     private final SerializedResponse response;
     private final ProviderManagerImpl providerManager;
 
-    protected HttpDeserializationContext(Request request, SerializedResponse response,
+    protected HttpDeserializationContext(RequestOptions requestOptions, SerializedResponse response,
                                          ProviderManagerImpl providerManager, Class<?> requestedType) {
-        this(request, response, providerManager, requestedType, null);
+        this(requestOptions, response, providerManager, requestedType, null);
     }
 
-    protected HttpDeserializationContext(Request request, SerializedResponse response,
+    protected HttpDeserializationContext(RequestOptions requestOptions, SerializedResponse response,
                                          ProviderManagerImpl providerManager, Class<?> requestedType,
                                          Class<?> parametrizedType) {
         super(requestedType, parametrizedType);
 
-        this.request = request;
+        this.requestOptions = requestOptions;
         this.response = response;
         this.providerManager = providerManager;
     }
@@ -52,8 +52,8 @@ public class HttpDeserializationContext extends DeserializationContext {
         return provider.getInstance();
     }
 
-    public Request getRequest() {
-        return request;
+    public RequestOptions getRequestOptions() {
+        return requestOptions;
     }
 
     public SerializedResponse getResponse() {

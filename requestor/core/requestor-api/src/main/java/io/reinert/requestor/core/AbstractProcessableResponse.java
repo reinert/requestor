@@ -123,8 +123,8 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public Request getRequest() {
-        return response.getRequest();
+    public RequestOptions getRequestOptions() {
+        return response.getRequestOptions();
     }
 
     @Override

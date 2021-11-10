@@ -26,13 +26,13 @@ public class RequestTimeoutException extends RequestException {
     private final int timeoutMillis;
 
     /**
-     * Constructs a timeout exception for the given {@link Request}.
+     * Constructs a timeout exception for the given {@link RequestOptions}.
      *
-     * @param request       the request which timed out
+     * @param requestOptions       the request which timed out
      * @param timeoutMillis the number of milliseconds which expired
      */
-    public RequestTimeoutException(Request request, int timeoutMillis) {
-        super(request, formatMessage(timeoutMillis));
+    public RequestTimeoutException(RequestOptions requestOptions, int timeoutMillis) {
+        super(requestOptions, formatMessage(timeoutMillis));
         this.timeoutMillis = timeoutMillis;
     }
 

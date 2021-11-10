@@ -49,7 +49,7 @@ public class SerializationEngine {
     }
 
     public void deserializeResponse(DeserializableResponse response) {
-        final Request request = response.getRequest();
+        final RequestOptions requestOptions = response.getRequestOptions();
         final PayloadType payloadType = response.getPayloadType();
         final Class<?> type = payloadType.getType();
 
@@ -64,29 +64,29 @@ public class SerializationEngine {
             CollectionPayloadType<?> collectionPayloadType = (CollectionPayloadType<?>) payloadType;
             Class<? extends Collection> collectionType = collectionPayloadType.getType();
             Class<?> parametrizedType = collectionPayloadType.getParametrizedPayloadType().getType();
-            result = deserializePayload(request, response, parametrizedType, collectionType);
+            result = deserializePayload(requestOptions, response, parametrizedType, collectionType);
         } else if (payloadType instanceof SinglePayloadType) {
-            result = deserializePayload(request, response, type);
+            result = deserializePayload(requestOptions, response, type);
         }
 
         response.deserializePayload(result);
     }
 
-    public <T, C extends Collection<T>> C deserializePayload(Request request, SerializedResponse response,
+    public <T, C extends Collection<T>> C deserializePayload(RequestOptions requestOptions, SerializedResponse response,
                                                              Class<T> entityType, Class<C> collectionType) {
-        final String mediaType = getResponseMediaType(request, response);
+        final String mediaType = getResponseMediaType(requestOptions, response);
         final Deserializer<T> deserializer = serializerManager.getDeserializer(entityType, mediaType);
         checkDeserializerNotNull(response, entityType, deserializer);
-        final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager,
+        final DeserializationContext context = new HttpDeserializationContext(requestOptions, response, providerManager,
                 entityType);
         return deserializer.deserialize(collectionType, response.getSerializedPayload().getString(), context);
     }
 
-    public <T> T deserializePayload(Request request, SerializedResponse response, Class<T> type) {
-        final String mediaType = getResponseMediaType(request, response);
+    public <T> T deserializePayload(RequestOptions requestOptions, SerializedResponse response, Class<T> type) {
+        final String mediaType = getResponseMediaType(requestOptions, response);
         final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
-        final DeserializationContext context = new HttpDeserializationContext(request, response, providerManager,
+        final DeserializationContext context = new HttpDeserializationContext(requestOptions, response, providerManager,
                 type);
         return deserializer.deserialize(response.getSerializedPayload().getString(), context);
     }
@@ -152,11 +152,11 @@ public class SerializationEngine {
         return mediaType;
     }
 
-    private String getResponseMediaType(Request request, SerializedResponse response) {
+    private String getResponseMediaType(RequestOptions requestOptions, SerializedResponse response) {
         String medaType = response.getContentType();
         if (medaType == null || medaType.isEmpty()) {
             medaType = "*/*";
-            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + request.getUri()
+            logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + requestOptions.getUri()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");
         } else {
             medaType = extractMediaTypeFromContentType(medaType);
@@ -175,10 +175,10 @@ public class SerializationEngine {
         }
     }
 
-    private void checkSerializerNotNull(Request request, Class<?> type, Serializer<?> serializer) {
+    private void checkSerializerNotNull(RequestOptions requestOptions, Class<?> type, Serializer<?> serializer) {
         if (serializer == null) {
             throw new SerializationException("Could not find Serializer for class '" + type.getName() + "' and " +
-                    "media-type '" + request.getContentType() + "'.");
+                    "media-type '" + requestOptions.getContentType() + "'.");
         }
     }
 

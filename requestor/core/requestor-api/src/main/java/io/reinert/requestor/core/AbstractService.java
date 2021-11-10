@@ -22,13 +22,13 @@ import io.reinert.requestor.core.uri.UriBuilder;
 public class AbstractService implements Service {
 
     private final Session session;
-    private final RequestOptions options;
+    private final RequestOptionsHolder options;
     private final Store store;
     private final UriBuilder uriBuilder;
 
     public AbstractService(Session session, String resourceUri) {
         this.session = session;
-        this.options = RequestOptions.copy(session.getRequestOptions());
+        this.options = RequestOptionsHolder.copy(session.getRequestOptions());
         this.store = new TransientStore(session.getStore());
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }

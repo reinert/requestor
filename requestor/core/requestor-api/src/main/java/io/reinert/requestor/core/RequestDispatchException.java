@@ -16,15 +16,15 @@
 package io.reinert.requestor.core;
 
 /**
- * Exception for dispatching {@link Request}s.
+ * Exception for dispatching {@link RequestOptions}s.
  */
 public class RequestDispatchException extends RequestException {
 
-    public RequestDispatchException(Request request, String s) {
-        super(request, s);
+    public RequestDispatchException(RequestOptions requestOptions, String s) {
+        super(requestOptions, s);
     }
 
-    public RequestDispatchException(Request request, String s, Throwable throwable) {
-        super(request, s, throwable);
+    public RequestDispatchException(RequestOptions requestOptions, String s, Throwable throwable) {
+        super(requestOptions, s, throwable);
     }
 }

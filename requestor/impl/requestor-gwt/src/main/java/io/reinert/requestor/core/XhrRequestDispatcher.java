@@ -147,7 +147,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         };
     }
 
-    private <D> RequestCallback getRequestCallback(final Request request,
+    private <D> RequestCallback getRequestCallback(final RequestOptions requestOptions,
                                                    final XmlHttpRequest xhr,
                                                    final Deferred<D> deferred,
                                                    final PayloadType payloadType) {
@@ -172,7 +172,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
 //                ResponseType.of(responseType)
 
                 final RawResponse response = new RawResponse(
-                        request,
+                        requestOptions,
                         Status.of(gwtResponse.getStatusCode()),
                         toHeaders(gwtResponse.getHeaders()),
                         payloadType,
@@ -187,10 +187,10 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     // reject as timeout
                     com.google.gwt.http.client.RequestTimeoutException e =
                             (com.google.gwt.http.client.RequestTimeoutException) exception;
-                    deferred.reject(new RequestTimeoutException(request, e.getTimeoutMillis()));
+                    deferred.reject(new RequestTimeoutException(requestOptions, e.getTimeoutMillis()));
                 } else {
                     // reject as generic request exception
-                    deferred.reject(new RequestException(request, exception));
+                    deferred.reject(new RequestException(requestOptions, exception));
                 }
             }
         };

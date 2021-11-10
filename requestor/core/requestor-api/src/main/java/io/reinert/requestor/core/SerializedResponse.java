@@ -97,7 +97,7 @@ public interface SerializedResponse {
      *
      * @return  the original request
      */
-    Request getRequest();
+    RequestOptions getRequestOptions();
 
     /**
      * Returns the store of this request/response cycle.

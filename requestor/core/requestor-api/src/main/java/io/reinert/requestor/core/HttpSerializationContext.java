@@ -24,22 +24,22 @@ import io.reinert.requestor.core.serialization.SerializationContext;
  */
 public class HttpSerializationContext extends SerializationContext {
 
-    private final Request request;
+    private final RequestOptions requestOptions;
 
-    protected HttpSerializationContext(Request request, Class<?> requestedType, String... fields) {
+    protected HttpSerializationContext(RequestOptions requestOptions, Class<?> requestedType, String... fields) {
         super(requestedType, fields);
 
-        this.request = request;
+        this.requestOptions = requestOptions;
     }
 
-    protected HttpSerializationContext(Request request, Class<?> requestedType, Class<?> parametrizedType,
+    protected HttpSerializationContext(RequestOptions requestOptions, Class<?> requestedType, Class<?> parametrizedType,
                                        String... fields) {
         super(requestedType, parametrizedType, fields);
 
-        this.request = request;
+        this.requestOptions = requestOptions;
     }
 
-    public Request getRequest() {
-        return request;
+    public RequestOptions getRequestOptions() {
+        return requestOptions;
     }
 }

@@ -22,7 +22,7 @@ import io.reinert.requestor.core.uri.Uri;
  *
  * @author Danilo Reinert
  */
-public interface MutableRequest extends Request, HasHeaders {
+public interface MutableRequest extends RequestOptions, HasHeaders {
 
     /**
      * Set the URI of this request.

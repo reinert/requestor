@@ -17,7 +17,7 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
 
-public interface SerializableRequest extends Request {
+public interface SerializableRequest extends RequestOptions {
 
     void serializePayload(SerializedPayload serializedPayload);
 

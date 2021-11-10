@@ -30,8 +30,8 @@ public class UnsuccessfulResponseException extends RequestException {
      *
      * @param response The response received from request.
      */
-    public UnsuccessfulResponseException(Request request, Response response) {
-        super(request, "The response was received but the status code was not from 'Success' class (2xx).");
+    public UnsuccessfulResponseException(RequestOptions requestOptions, Response response) {
+        super(requestOptions, "The response was received but the status code was not from 'Success' class (2xx).");
         this.response = response;
     }
 

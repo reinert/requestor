@@ -37,16 +37,16 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     private final Headers headers;
     private final LinkHeader linkHeader;
     private final HttpStatus status;
-    private final Request request;
+    private final RequestOptions requestOptions;
     private Object payload;
     private SerializedPayload serializedPayload;
     private boolean deserialized = false;
     private final PayloadType payloadType;
     private final Deferred<?> deferred;
 
-    public RawResponse(Request request, HttpStatus status, Headers headers, PayloadType payloadType,
+    public RawResponse(RequestOptions requestOptions, HttpStatus status, Headers headers, PayloadType payloadType,
                        SerializedPayload serializedPayload, Deferred<?> deferred) {
-        this.request = request;
+        this.requestOptions = requestOptions;
         if (headers == null) throw new IllegalArgumentException("Headers cannot be null");
         this.headers = headers;
         this.linkHeader = (LinkHeader) headers.get("Link");
@@ -127,13 +127,13 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public Request getRequest() {
-        return request;
+    public RequestOptions getRequestOptions() {
+        return requestOptions;
     }
 
     @Override
     public Store getStore() {
-        return request.getStore();
+        return requestOptions.getStore();
     }
 
     @Override

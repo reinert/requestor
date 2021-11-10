@@ -15,214 +15,51 @@
  */
 package io.reinert.requestor.core;
 
-import io.reinert.requestor.core.header.Header;
+import io.reinert.requestor.core.payload.Payload;
+import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.uri.Uri;
 
-class RequestOptions implements HasRequestOptions {
+/**
+ * Represents a HTTP Request.
+ *
+ * @author Danilo Reinert
+ */
+public interface RequestOptions {
 
-    private String mediaType;
-    private Auth.Provider authProvider;
-    private int timeout;
-    private int delay;
-    private PollingOptions pollingOptions = new PollingOptions();
-    private final Headers headers = new Headers();
-    private RequestSerializer requestSerializer = new RequestSerializerImpl();
-    private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
+    String getAccept();
 
-    static RequestOptions copy(RequestOptions options) {
-        RequestOptions copy = new RequestOptions();
-        copy.setMediaType(options.mediaType);
-        copy.setAuth(options.authProvider);
-        copy.setTimeout(options.timeout);
-        copy.setDelay(options.delay);
-        copy.pollingOptions = PollingOptions.copy(options.pollingOptions);
-        for (Header h : options.headers) copy.setHeader(h);
-        copy.setRequestSerializer(options.requestSerializer);
-        copy.setResponseDeserializer(options.responseDeserializer);
-        return copy;
-    }
+    String getContentType();
 
-    static void validateMediaType(String mediaType) {
-        int i = mediaType.indexOf('/');
-        if (i == -1 || i != mediaType.lastIndexOf('/')) {
-            throw new IllegalArgumentException("Media-type must follow the pattern {type}/{subtype}");
-        }
-    }
+    Headers getHeaders();
 
-    @Override
-    public void reset() {
-        mediaType = null;
-        authProvider = null;
-        timeout = 0;
-        delay = 0;
-        pollingOptions.reset();
-        headers.clear();
-    }
+    String getHeader(String name);
 
-    @Override
-    public void setMediaType(String mediaType) {
-        if (mediaType != null) {
-            validateMediaType(mediaType);
+    HttpMethod getMethod();
 
-            if (headers.containsKey("Content-Type") || headers.containsKey("Accept")) {
-                throw new IllegalStateException(
-                        "You cannot set mediaType while having a Content-Type or Accept header set." +
-                                " Please remove Content-Type and Accept headers before setting a mediaType.");
-            }
-        }
-        this.mediaType = mediaType;
-    }
+    Payload getPayload();
 
-    @Override
-    public String getMediaType() {
-        return mediaType;
-    }
+    SerializedPayload getSerializedPayload();
 
-    @Override
-    public void setAuth(final Auth auth) {
-        Auth.Provider provider = (auth == null) ? null : new Auth.Provider() {
-            @Override
-            public Auth getInstance() {
-                return auth;
-            }
-        };
-        setAuth(provider);
-    }
+    int getTimeout();
 
-    @Override
-    public void setAuth(Auth.Provider authProvider) {
-        this.authProvider = authProvider;
-    }
+    int getDelay();
 
-    @Override
-    public Auth getAuth() {
-        if (authProvider == null) return null;
-        return authProvider.getInstance();
-    }
+    boolean isPolling();
 
-    @Override
-    public Auth.Provider getAuthProvider() {
-        return authProvider;
-    }
+    int getPollingInterval();
 
-    @Override
-    public void setTimeout(int timeoutMillis) {
-        this.timeout = timeoutMillis;
-    }
+    int getPollingLimit();
 
-    @Override
-    public int getTimeout() {
-        return timeout;
-    }
+    int getPollingCounter();
 
-    @Override
-    public void setDelay(int delayMillis) {
-        delay = delayMillis;
-    }
+    PollingStrategy getPollingStrategy();
 
-    @Override
-    public int getDelay() {
-        return delay;
-    }
+    void stopPolling(); // The request is polled one more time after stopPoll is called
 
-    @Override
-    public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
-        pollingOptions.startPolling(strategy, intervalMillis, limit);
-    }
+    Uri getUri();
 
-    @Override
-    public boolean isPolling() {
-        return pollingOptions.isPolling();
-    }
+    Auth getAuth();
 
-    @Override
-    public int getPollingInterval() {
-        return pollingOptions.getPollingInterval();
-    }
+    Store getStore();
 
-    @Override
-    public int getPollingLimit() {
-        return pollingOptions.getPollingLimit();
-    }
-
-    @Override
-    public PollingStrategy getPollingStrategy() {
-        return pollingOptions.getPollingStrategy();
-    }
-
-    @Override
-    public void setHeader(Header header) {
-        if (header != null && mediaType != null) {
-            if ("content-type".equalsIgnoreCase(header.getName()) || "accept".equalsIgnoreCase(header.getName())) {
-                throw new IllegalStateException(
-                        "You cannot set a Content-Type or Accept header while having a default mediaType set." +
-                                " Please make sure to set mediaType to null before adding such headers." +
-                                " Currently, mediaType is set to \"" + mediaType + "\".");
-            }
-        }
-        headers.add(header);
-    }
-
-    @Override
-    public void setHeader(String headerName, String headerValue) {
-        headers.set(headerName, headerValue);
-    }
-
-    @Override
-    public Headers getHeaders() {
-        return headers;
-    }
-
-    @Override
-    public String getHeader(String headerName) {
-        return headers.getValue(headerName);
-    }
-
-    @Override
-    public Header delHeader(String headerName) {
-        return headers.pop(headerName);
-    }
-
-    public void setRequestSerializer(RequestSerializer requestSerializer) {
-        this.requestSerializer = requestSerializer;
-    }
-
-    public RequestSerializer getRequestSerializer() {
-        return requestSerializer;
-    }
-
-    public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
-        this.responseDeserializer = responseDeserializer;
-    }
-
-    public ResponseDeserializer getResponseDeserializer() {
-        return responseDeserializer;
-    }
-
-    public void apply(RequestBuilder request) {
-        if (mediaType != null) {
-            request.contentType(mediaType);
-            request.accept(mediaType);
-        }
-
-        if (authProvider != null) {
-            request.auth(authProvider);
-        }
-
-        if (timeout > 0) {
-            request.timeout(timeout);
-        }
-
-        if (delay > 0) {
-            request.delay(delay);
-        }
-
-        if (pollingOptions.isPolling()) {
-            request.poll(pollingOptions.getPollingStrategy(), pollingOptions.getPollingInterval(),
-                    pollingOptions.getPollingLimit());
-        }
-
-        for (Header h : headers) {
-            request.header(h);
-        }
-    }
 }

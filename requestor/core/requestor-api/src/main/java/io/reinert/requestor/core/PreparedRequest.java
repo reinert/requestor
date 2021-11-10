@@ -27,7 +27,7 @@ import io.reinert.requestor.core.payload.type.PayloadType;
  *
  * @author Danilo Reinert
  */
-public interface PreparedRequest extends Request, HasHeaders {
+public interface PreparedRequest extends RequestOptions, HasHeaders {
 
     boolean isWithCredentials();
 

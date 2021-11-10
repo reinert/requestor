@@ -52,7 +52,7 @@ import io.reinert.requestor.core.uri.UriBuilder;
 public abstract class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
         DirectInvoker, HasRequestOptions {
 
-    private final RequestOptions options = new RequestOptions();
+    private final RequestOptionsHolder options = new RequestOptionsHolder();
     private final SessionStore store = new SessionStore();
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
@@ -610,7 +610,7 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     // Internal methods
     //===================================================================
 
-    protected RequestOptions getRequestOptions() {
+    protected RequestOptionsHolder getRequestOptions() {
         return options;
     }
 

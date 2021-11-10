@@ -22,7 +22,7 @@ import io.reinert.requestor.core.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface RequestBuilder extends Request {
+public interface RequestBuilder extends RequestOptions {
 
     /**
      * Set the content type of this request.
