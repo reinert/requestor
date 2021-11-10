@@ -108,7 +108,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
     public void testPostBooks() {
         final Book book = new Book(null, "RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
 
-        bookService.createBook(book).success(new PayloadCallback<Book>() {
+        bookService.createBook(book).onSuccess(new PayloadCallback<Book>() {
             @Override
             public void execute(final Book created) {
                 assertNotNull(created);
@@ -123,7 +123,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     public void testGetBooks() {
         // GET /books
-        bookService.getBooks().success(new PayloadCallback<Collection<Book>>() {
+        bookService.getBooks().onSuccess(new PayloadCallback<Collection<Book>>() {
             public void execute(Collection<Book> books) {
                 assertNotNull(books);
                 assertFalse(books.isEmpty());
@@ -135,7 +135,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     public void testGetBooksWithParams() {
         // GET /books?author=Leonard
-        bookService.getBooks("Leonard").success(new PayloadCallback<Collection<Book>>() {
+        bookService.getBooks("Leonard").onSuccess(new PayloadCallback<Collection<Book>>() {
             @Override
             public void execute(Collection<Book> books) {
                 assertNotNull(books);
@@ -152,7 +152,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     public void testGetBookById() {
         // GET /books/1
-        bookService.getBookById(1).success(new PayloadCallback<Book>() {
+        bookService.getBookById(1).onSuccess(new PayloadCallback<Book>() {
             public void execute(Book result) {
                 assertNotNull(result);
                 finishTest();
@@ -166,7 +166,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
         final Integer id = 2;
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
-        bookService.updateBook(id, book).status(200, new ResponseCallback() {
+        bookService.updateBook(id, book).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
 
@@ -181,7 +181,7 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
     private void manualTestDeleteBook(Integer createdId) {
         // DELETE /books/{createdId}
-        bookService.deleteBook(createdId).status(200, new ResponseCallback() {
+        bookService.deleteBook(createdId).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
 

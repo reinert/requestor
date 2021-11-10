@@ -73,7 +73,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onXmlObjectGet() {
         session.req("http://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08")
                 .get(MyObject.class)
-                .success(new PayloadCallback<MyObject>() {
+                .onSuccess(new PayloadCallback<MyObject>() {
                     @Override
                     public void execute(MyObject result) {
                         view.setSingleXmlGetText(result.toString());
@@ -85,7 +85,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onXmlCollectionGet() {
         session.req("http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09")
                 .get(List.class, MyObject.class)
-                .success(new PayloadCallback<List<MyObject>>() {
+                .onSuccess(new PayloadCallback<List<MyObject>>() {
                     @Override
                     public void execute(List<MyObject> result) {
                         view.setCollectionXmlGetText(Arrays.toString(result.toArray()));
@@ -99,7 +99,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                 .contentType("application/xml")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setSingleXmlPostText(result);
@@ -115,7 +115,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),
                         new MyObject("Ipsum", 210, new Date(1420070400000L))))
                 .post(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setCollectionXmlPostText(result);
@@ -127,7 +127,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onJsonObjectGet() {
             session.req("http://www.mocky.io/v2/54aa93c307b5f2671021ba0c")
                     .get(MyObject.class)
-                    .success(new PayloadCallback<MyObject>() {
+                    .onSuccess(new PayloadCallback<MyObject>() {
                         @Override
                         public void execute(MyObject result) {
                             view.setSingleJsonGetText(result.toString());
@@ -139,7 +139,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     public void onJsonCollectionGet() {
         session.req("http://www.mocky.io/v2/54aa937407b5f2601021ba0b")
                 .get(List.class, MyObject.class)
-                .success(new PayloadCallback<List<MyObject>>() {
+                .onSuccess(new PayloadCallback<List<MyObject>>() {
                     @Override
                     public void execute(List<MyObject> result) {
                         view.setCollectionJsonGetText(Arrays.toString(result.toArray()));
@@ -153,7 +153,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                 .contentType("application/json")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setSingleJsonPostText(result);
@@ -169,7 +169,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),
                         new MyObject("Ipsum", 210, new Date(1420070400000L))))
                 .post(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setCollectionJsonPostText(result);

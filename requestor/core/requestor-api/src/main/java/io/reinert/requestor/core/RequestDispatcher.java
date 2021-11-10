@@ -99,7 +99,7 @@ public abstract class RequestDispatcher {
         Promise<T> promise = deferred.getPromise();
 
         if (isLongPolling(request)) {
-            promise.load(getLongPollingCallback(request, responsePayloadType, deferred));
+            promise.onLoad(getLongPollingCallback(request, responsePayloadType, deferred));
         }
 
         scheduleDispatch(request, responsePayloadType, deferred, false, false);

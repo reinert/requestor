@@ -49,7 +49,7 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testStopShortPolling() {
-        session.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500).get().status(200,
+        session.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500).get().onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         // The request can be sent one more time after stopPolling is called in SHORT strategy
@@ -67,7 +67,7 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testStopLongPolling() {
-        session.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 500).get().status(200,
+        session.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 500).get().onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         assertTrue(response.getRequest().getPollingCounter() <= 2);
@@ -83,7 +83,7 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testShortPollingLimit() {
-        session.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500, 3).get().status(200,
+        session.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500, 3).get().onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         assertTrue(response.getRequest().getPollingCounter() <= 3);
@@ -98,7 +98,7 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testLongPollingLimit() {
-        session.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 0, 3).get().status(200,
+        session.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 0, 3).get().onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         assertTrue(response.getRequest().getPollingCounter() <= 3);

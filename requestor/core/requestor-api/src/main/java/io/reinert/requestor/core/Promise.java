@@ -31,26 +31,26 @@ import io.reinert.requestor.core.callback.TimeoutCallback;
  */
 public interface Promise<T> {
 
-    Promise<T> abort(ExceptionCallback callback);
+    Promise<T> onAbort(ExceptionCallback callback);
 
-    Promise<T> load(ResponseCallback callback);
+    Promise<T> onLoad(ResponseCallback callback);
 
-    Promise<T> fail(ResponseCallback callback);
+    Promise<T> onFail(ResponseCallback callback);
 
-    Promise<T> progress(ProgressCallback callback);
+    Promise<T> onProgress(ProgressCallback callback);
 
-    Promise<T> status(int statusCode, ResponseCallback callback);
+    Promise<T> onStatus(int statusCode, ResponseCallback callback);
 
-    Promise<T> status(Status status, ResponseCallback callback);
+    Promise<T> onStatus(Status status, ResponseCallback callback);
 
-    Promise<T> status(StatusFamily family, ResponseCallback callback);
+    Promise<T> onStatus(StatusFamily family, ResponseCallback callback);
 
-    <E extends T> Promise<T> success(PayloadCallback<E> callback);
+    <E extends T> Promise<T> onSuccess(PayloadCallback<E> callback);
 
-    <E extends T> Promise<T> success(PayloadResponseCallback<E> callback);
+    <E extends T> Promise<T> onSuccess(PayloadResponseCallback<E> callback);
 
-    Promise<T> timeout(TimeoutCallback callback);
+    Promise<T> onTimeout(TimeoutCallback callback);
 
-    Promise<T> upProgress(ProgressCallback callback);
+    Promise<T> onUpProgress(ProgressCallback callback);
 
 }

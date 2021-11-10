@@ -61,7 +61,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
         session.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
-                .success(new PayloadCallback<Response>() {
+                .onSuccess(new PayloadCallback<Response>() {
                     @Override
                     public void execute(Response response) {
                         // the payload is parsed as string by default
@@ -88,7 +88,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
         session.req("http://httpbin.org/post")
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
-                .success(new PayloadCallback<Response>() {
+                .onSuccess(new PayloadCallback<Response>() {
                     @Override
                     public void execute(Response response) {
                         // the payload is parsed as string by default
@@ -116,7 +116,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                 .payload(formData)
                 .contentType("application/x-www-form-urlencoded")
                 .post(Response.class) // retrieve the raw response
-                .success(new PayloadCallback<Response>() {
+                .onSuccess(new PayloadCallback<Response>() {
                     @Override
                     public void execute(Response response) {
                         // the payload is parsed as string by default

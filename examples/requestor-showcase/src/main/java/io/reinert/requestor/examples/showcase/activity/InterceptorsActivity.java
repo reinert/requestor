@@ -75,12 +75,12 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         // Perform the request
         JavaScriptObject json = getMessageJson("Session is awesome!");
         session.req("http://httpbin.org/post").payload(json).post(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     public void execute(String result) {
                         view.setRequestInterceptorText(result);
                     }
                 })
-                .load(new ResponseCallback() {
+                .onLoad(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
                         registration.cancel(); // cancel interceptor registration
@@ -105,13 +105,13 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
 
         // Perform the response
         session.req("http://www.mocky.io/v2/54a3ec74fd145c6c0195e912").get(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String response) {
                         view.setResponseInterceptorText(response);
                     }
                 })
-                .load(new ResponseCallback() {
+                .onLoad(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
                         registration.cancel(); // cancel interceptor registration

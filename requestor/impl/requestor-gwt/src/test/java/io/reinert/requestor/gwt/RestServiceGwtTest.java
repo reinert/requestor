@@ -69,7 +69,7 @@ public class RestServiceGwtTest extends GWTTestCase {
     public void testPostBooks() {
         Book book = new Book(null, "RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
 
-        bookService.post(book).success(new PayloadResponseCallback<Book>() {
+        bookService.post(book).onSuccess(new PayloadResponseCallback<Book>() {
             @Override
             public void execute(Book returnedBook, Response response) {
                 assertNotNull(response);
@@ -89,7 +89,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBooks() {
         // GET /books
-        bookService.get().success(new PayloadCallback<Collection<Book>>() {
+        bookService.get().onSuccess(new PayloadCallback<Collection<Book>>() {
             public void execute(Collection<Book> result) {
                 assertNotNull(result);
                 assertFalse(result.isEmpty());
@@ -101,7 +101,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBooksWithParams() {
         // GET /books?id=20
-        bookService.get("id", "20").success(new PayloadCallback<Collection<Book>>() {
+        bookService.get("id", "20").onSuccess(new PayloadCallback<Collection<Book>>() {
             @Override
             public void execute(Collection<Book> result) {
                 assertNotNull(result);
@@ -114,7 +114,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBook() {
         // GET /books/1
-        bookService.get(1).success(new PayloadCallback<Book>() {
+        bookService.get(1).onSuccess(new PayloadCallback<Book>() {
             public void execute(Book result) {
                 assertNotNull(result);
                 finishTest();
@@ -128,7 +128,7 @@ public class RestServiceGwtTest extends GWTTestCase {
         final Integer id = 2;
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
-        bookService.patch(id, book).success(new PayloadResponseCallback<Book>() {
+        bookService.patch(id, book).onSuccess(new PayloadResponseCallback<Book>() {
             @Override
             public void execute(Book returnedBook, Response response) {
                 assertNotNull(response);
@@ -150,7 +150,7 @@ public class RestServiceGwtTest extends GWTTestCase {
         final Integer id = 2;
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
-        bookService.put(id, book).success(new PayloadResponseCallback<Book>() {
+        bookService.put(id, book).onSuccess(new PayloadResponseCallback<Book>() {
             @Override
             public void execute(Book returnedBook, Response response) {
                 assertNotNull(response);
@@ -169,7 +169,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     private void manualTestDeleteBook(Integer createdId) {
         // DELETE /books/{createdId}
-        bookService.delete(createdId).success(new PayloadResponseCallback<Void>() {
+        bookService.delete(createdId).onSuccess(new PayloadResponseCallback<Void>() {
             @Override
             public void execute(Void unused, Response response) {
                 assertNotNull(response);

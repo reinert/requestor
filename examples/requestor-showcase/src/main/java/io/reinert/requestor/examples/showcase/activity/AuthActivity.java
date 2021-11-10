@@ -66,13 +66,13 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         session.req("http://httpbin.org/basic-auth/" + user + "/" + password)
                 .auth(new BasicAuth(user, password))
                 .get(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setBasicText(result);
                     }
                 })
-                .fail(new ResponseCallback() {
+                .onFail(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
                         GWT.log("Authentication failed.");
@@ -85,13 +85,13 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         session.req("http://httpbin.org/digest-auth/" + qop + '/' + user + '/' + password)
                 .auth(new DigestAuth(user, password, true))
                 .get(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setDigestText(result);
                     }
                 })
-                .fail(new ResponseCallback() {
+                .onFail(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
                         GWT.log("Authentication failed.");
@@ -104,7 +104,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         session.req("http://httpbin.org/headers")
                 .auth(new MyAuth(key))
                 .get(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setCustomText(result);
@@ -121,7 +121,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         session.req(profilePictureEndpoint)
                 .auth(new OAuth2ByHeader(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
-                .success(new PayloadCallback<JavaScriptObject>() {
+                .onSuccess(new PayloadCallback<JavaScriptObject>() {
                     @Override
                     public void execute(JavaScriptObject result) {
                         final JavaScriptObject image = getObject(result, "image");
@@ -140,7 +140,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         session.req(profilePictureEndpoint)
                 .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
-                .success(new PayloadCallback<JavaScriptObject>() {
+                .onSuccess(new PayloadCallback<JavaScriptObject>() {
                     @Override
                     public void execute(JavaScriptObject result) {
                         final JavaScriptObject data = getObject(result, "data");
@@ -159,7 +159,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
         session.req(profilePictureEndpoint)
                 .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
                 .get(JavaScriptObject.class)
-                .success(new PayloadCallback<JavaScriptObject>() {
+                .onSuccess(new PayloadCallback<JavaScriptObject>() {
                     @Override
                     public void execute(JavaScriptObject result) {
                         final String userId = getObject(result, "id");

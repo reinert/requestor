@@ -40,7 +40,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
     @Override
     public void onGetIpButtonClick() {
         Promise<String> promise = (Promise<String>) session.req("http://httpbin.org/ip").get(String.class);
-        promise.success(new PayloadCallback<String>() {
+        promise.onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setIpText(result);
@@ -50,7 +50,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onPostButtonClick() {
-        session.req("http://httpbin.org/post").post(String.class).success(new PayloadCallback<String>() {
+        session.req("http://httpbin.org/post").post(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setPostText(result);
@@ -60,7 +60,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onPutButtonClick() {
-        session.req("http://httpbin.org/put").put(String.class).success(new PayloadCallback<String>() {
+        session.req("http://httpbin.org/put").put(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setPutText(result);
@@ -70,7 +70,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onDeleteButtonClick() {
-        session.req("http://httpbin.org/delete").delete(String.class).success(new PayloadCallback<String>() {
+        session.req("http://httpbin.org/delete").delete(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setDeleteText(result);
@@ -80,7 +80,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onHeadButtonClick() {
-        session.req("http://httpbin.org/headers").head().success(new PayloadCallback<Headers>() {
+        session.req("http://httpbin.org/headers").head().onSuccess(new PayloadCallback<Headers>() {
             @Override
             public void execute(Headers result) {
                 view.setHeadText(Util.formatHeaders(result));
@@ -90,7 +90,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onOptionsButtonClick() {
-        session.req("http://httpbin.org/get").options(Headers.class).success(new PayloadCallback<Headers>() {
+        session.req("http://httpbin.org/get").options(Headers.class).onSuccess(new PayloadCallback<Headers>() {
             @Override
             public void execute(Headers result) {
                 view.setOptionsText(Util.formatHeaders(result));
@@ -100,7 +100,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onPatchButtonClick() {
-        session.req("http://httpbin.org/patch").patch(String.class).success(new PayloadCallback<String>() {
+        session.req("http://httpbin.org/patch").patch(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setPatchText(result);

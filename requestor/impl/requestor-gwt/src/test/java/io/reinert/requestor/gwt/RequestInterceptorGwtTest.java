@@ -59,7 +59,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -94,7 +94,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        session.req("https://httpbin.org/get").get(String.class).status(200, new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -135,7 +135,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        session.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).onLoad(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
@@ -199,7 +199,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             }
         });
 
-        session.req("https://httpbin.org/get").get(String.class).load(new ResponseCallback() {
+        session.req("https://httpbin.org/get").get(String.class).onLoad(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());

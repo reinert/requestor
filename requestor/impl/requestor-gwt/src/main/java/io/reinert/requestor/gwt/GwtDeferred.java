@@ -70,7 +70,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     //===================================================================
 
     @Override
-    public Promise<T> abort(final ExceptionCallback callback) {
+    public Promise<T> onAbort(final ExceptionCallback callback) {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 callback.execute(e);
@@ -80,7 +80,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> load(final ResponseCallback callback) {
+    public Promise<T> onLoad(final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 callback.execute(response);
@@ -90,7 +90,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> fail(final ResponseCallback callback) {
+    public Promise<T> onFail(final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (!isSuccessful(response)) callback.execute(response);
@@ -100,7 +100,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> progress(final ProgressCallback callback) {
+    public Promise<T> onProgress(final ProgressCallback callback) {
         deferred.progress(new io.reinert.gdeferred.ProgressCallback<RequestProgress>() {
             public void onProgress(RequestProgress progress) {
                 callback.execute(progress);
@@ -110,7 +110,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> status(final int statusCode, final ResponseCallback callback) {
+    public Promise<T> onStatus(final int statusCode, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (response.getStatusCode() == statusCode)
@@ -121,7 +121,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> status(final Status status, final ResponseCallback callback) {
+    public Promise<T> onStatus(final Status status, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (response.getStatusCode() == status.getStatusCode())
@@ -132,7 +132,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> status(final StatusFamily family, final ResponseCallback callback) {
+    public Promise<T> onStatus(final StatusFamily family, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (StatusFamily.of(response.getStatusCode()) == family)
@@ -144,7 +144,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <E extends T> Promise<T> success(final PayloadCallback<E> callback) {
+    public <E extends T> Promise<T> onSuccess(final PayloadCallback<E> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
@@ -163,7 +163,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <E extends T> Promise<T> success(final PayloadResponseCallback<E> callback) {
+    public <E extends T> Promise<T> onSuccess(final PayloadResponseCallback<E> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
@@ -181,7 +181,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> upProgress(ProgressCallback callback) {
+    public Promise<T> onUpProgress(ProgressCallback callback) {
         if (uploadProgressCallbacks == null)
             uploadProgressCallbacks = new ArrayList<ProgressCallback>();
 
@@ -190,7 +190,7 @@ public class GwtDeferred<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> timeout(final TimeoutCallback callback) {
+    public Promise<T> onTimeout(final TimeoutCallback callback) {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestTimeoutException) {

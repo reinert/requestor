@@ -40,7 +40,7 @@ class ShowcaseDeferredFactory implements Deferred.Factory {
         // Show loading widget
         Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferred);
 
-        deferred.fail(new ResponseCallback() {
+        deferred.onFail(new ResponseCallback() {
             @Override
             public void execute(Response response) {
                 if (Status.UNAUTHORIZED.is(response.getStatusCode())) {
@@ -53,12 +53,12 @@ class ShowcaseDeferredFactory implements Deferred.Factory {
                             + "\". See browser's network for more details.");
                 }
             }
-        }).load(new ResponseCallback() {
+        }).onLoad(new ResponseCallback() {
             public void execute(Response response) {
                 // Hide loading widget
                 Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);
             }
-        }).abort(new ExceptionCallback() {
+        }).onAbort(new ExceptionCallback() {
             public void execute(RequestException exception) {
                 // Hide loading widget
                 Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);

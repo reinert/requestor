@@ -69,13 +69,13 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
         // Perform the request
         session.req("http://httpbin.org/headers").get(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setRequestFilterText(result);
                     }
                 })
-                .load(new ResponseCallback() {
+                .onLoad(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
                         requestFilterRegistration.cancel(); // cancel filter registration
@@ -96,7 +96,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
         // Perform the response
         session.req("http://httpbin.org/headers").get(String.class)
-                .status(200, new ResponseCallback() {
+                .onStatus(200, new ResponseCallback() {
                     public void execute(Response response) {
                         view.setResponseFilterText(
                                 Util.formatHeaders(response.getHeaders()),
@@ -104,7 +104,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
                         );
                     }
                 })
-                .load(new ResponseCallback() {
+                .onLoad(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
                         responseFilterRegistration.cancel(); // cancel filter registration

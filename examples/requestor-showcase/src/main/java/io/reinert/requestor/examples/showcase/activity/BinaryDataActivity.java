@@ -49,20 +49,20 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
         session.req("http://httpbin.org/post")
                 .payload(SerializedJsPayload.fromBlob(file))
                 .post(String.class)
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setSendText(result);
                     }
                 })
-                .upProgress(new ProgressCallback() {
+                .onUpProgress(new ProgressCallback() {
                     @Override
                     public void execute(RequestProgress progress) {
                         if (progress.isLengthComputable())
                             view.setSendProgressStatus(progress.getCompletedFraction(100));
                     }
                 })
-                .success(new PayloadCallback<String>() {
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
                     public void execute(String result) {
                         view.setSendProgressStatus(100);
@@ -74,14 +74,14 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
     public void onRetrieveButtonClick(String url) {
         session.req(url)
                 .get(Blob.class)
-                .progress(new ProgressCallback() {
+                .onProgress(new ProgressCallback() {
                     @Override
                     public void execute(RequestProgress progress) {
                         if (progress.isLengthComputable())
                             view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
                     }
                 })
-                .success(new PayloadCallback<Blob>() {
+                .onSuccess(new PayloadCallback<Blob>() {
                     @Override
                     public void execute(Blob result) {
                         view.setRetrieveProgressStatus(100);
