@@ -20,10 +20,10 @@ import com.google.gwt.junit.tools.GWTTestSuite;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class RequestorGDeferredGwtTestSuite extends GWTTestSuite {
+public class RequestorGwtTestSuite extends GWTTestSuite {
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("Requestor GDeferred GWT Test Suite");
+        TestSuite suite = new TestSuite("Requestor GWT Test Suite");
 
         suite.addTestSuite(CallbackGwtTest.class);
 

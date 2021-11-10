@@ -68,13 +68,6 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>io.reinert.gdeferred</groupId>
-      <artifactId>gdeferred</artifactId>
-      <version>${gdeferred.version}</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>

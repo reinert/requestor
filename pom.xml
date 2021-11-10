@@ -62,7 +62,6 @@
 
     <!-- GWT -->
     <gwt.version>2.9.0</gwt.version>
-    <gdeferred.version>0.9.0</gdeferred.version>
     <gwtjackson.version>0.15.4</gwtjackson.version>
 
     <!-- Java -->
@@ -136,12 +135,6 @@
   <dependencyManagement>
     <dependencies>
       <!-- Custom dependencies -->
-      <dependency>
-        <groupId>io.reinert.gdeferred</groupId>
-        <artifactId>gdeferred</artifactId>
-        <version>${gdeferred.version}</version>
-        <scope>provided</scope>
-      </dependency>
       <dependency>
         <groupId>com.github.nmorel.gwtjackson</groupId>
         <artifactId>gwt-jackson</artifactId>

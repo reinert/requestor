@@ -18,7 +18,7 @@ package io.reinert.requestor.core.deferred;
 import io.reinert.requestor.core.Deferred;
 
 /**
- * Implementation of DeferredRequestFactory returning a GDeferredRequest.
+ * Implementation of DeferredRequestFactory returning a DeferredRequest.
  */
 public class DeferredRequestFactory implements Deferred.Factory {
 

@@ -43,11 +43,6 @@
       <!--<optional>true</optional>-->
     <!--</dependency>-->
     <dependency>
-      <groupId>io.reinert.gdeferred</groupId>
-      <artifactId>gdeferred</artifactId>
-      <version>${gdeferred.version}</version>
-    </dependency>
-    <dependency>
       <groupId>io.reinert.requestor.impl</groupId>
       <artifactId>requestor-gwt</artifactId>
       <version>${project.version}</version>

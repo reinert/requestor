@@ -24,9 +24,9 @@ import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.deferred.DeferredRequest;
 import io.reinert.requestor.examples.showcase.ui.loading.event.HideLoadingEvent;
 import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
-import io.reinert.requestor.gwt.GwtDeferred;
 
 /**
  * Factory that creates a deferred with a preset fail callback.
@@ -35,7 +35,7 @@ class ShowcaseDeferredFactory implements Deferred.Factory {
 
     @Override
     public <T> Deferred<T> newDeferred() {
-        final GwtDeferred<T> deferred = new GwtDeferred<T>();
+        final DeferredRequest<T> deferred = new DeferredRequest<T>();
 
         // Show loading widget
         Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferred);
