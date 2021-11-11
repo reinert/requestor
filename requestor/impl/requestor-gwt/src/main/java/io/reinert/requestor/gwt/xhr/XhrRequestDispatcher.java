@@ -33,7 +33,6 @@ import io.reinert.requestor.core.RequestDispatchException;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestOptions;
-import io.reinert.requestor.core.RequestPermissionException;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.RequestProgressImpl;
 import io.reinert.requestor.core.RequestTimeoutException;

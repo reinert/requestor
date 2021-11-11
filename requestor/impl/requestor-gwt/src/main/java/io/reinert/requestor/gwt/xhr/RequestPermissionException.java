@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core;
+package io.reinert.requestor.gwt.xhr;
+
+import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestOptions;
 
 /**
  * Exception thrown when attempts to make a request to a URL which violates the <a
