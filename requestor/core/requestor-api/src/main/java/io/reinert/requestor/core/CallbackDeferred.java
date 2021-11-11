@@ -64,11 +64,6 @@ class CallbackDeferred implements Deferred<Response> {
     }
 
     @Override
-    public HttpConnection getHttpConnection() {
-        return null;
-    }
-
-    @Override
     public Request<Response> getRequest() {
         return null;
     }

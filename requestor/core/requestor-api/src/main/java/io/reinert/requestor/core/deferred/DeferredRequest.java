@@ -164,6 +164,11 @@ public class DeferredRequest<T> implements Deferred<T>, Request<T> {
     //===================================================================
 
     @Override
+    public HttpConnection getHttpConnection() {
+        return connection;
+    }
+
+    @Override
     public Request<T> onAbort(final ExceptionCallback callback) {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
@@ -328,11 +333,6 @@ public class DeferredRequest<T> implements Deferred<T>, Request<T> {
     @Override
     public void setHttpConnection(HttpConnection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public HttpConnection getHttpConnection() {
-        return connection;
     }
 
     public Request<T> getRequest() {
