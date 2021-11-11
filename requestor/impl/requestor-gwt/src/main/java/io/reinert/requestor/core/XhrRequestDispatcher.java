@@ -38,7 +38,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
     }
 
     @Override
-    protected <D> void send(PreparedRequest request, final Deferred<D> deferred, PayloadType payloadType) {
+    protected <D> void send(final PreparedRequest request, final Deferred<D> deferred, PayloadType payloadType) {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();
@@ -90,6 +90,14 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     ((XmlHttpRequest) xhr).clearOnProgress();
                     gwtRequest.fireOnResponseReceived(callback);
                 }
+            }
+        });
+
+        // Set XMLHttpRequest's onerror if available binding to request's error
+        xmlHttpRequest.setOnError(new ProgressHandler() {
+            @Override
+            public void onProgress(ProgressEvent progress) {
+                deferred.notifyError(new NetworkErrorException(request, new RequestProgressImpl(progress)));
             }
         });
 

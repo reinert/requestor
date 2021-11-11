@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,5 +100,23 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
 
     public final native Upload getUpload() /*-{
         return this.upload || null;
+    }-*/;
+
+    public final void setOnError(ProgressHandler handler) {
+        if (!setOnErrorNative(handler)) {
+            logger.log(Level.SEVERE, "Set onError failed: XHR onerror handler not supported by the browser.");
+        }
+    }
+
+    public final native boolean setOnErrorNative(ProgressHandler handler) /*-{
+        if ("onerror" in this) {
+            this.onerror = $entry(function(e) {
+                // CHECKSTYLE:OFF
+                handler.@io.reinert.requestor.core.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
+                // CHECKSTYLE:ON
+            });
+            return true;
+        }
+        return false;
     }-*/;
 }
