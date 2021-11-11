@@ -21,10 +21,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import io.reinert.requestor.core.Deferred;
-
 /**
- * Abstract implementation of {@link Deferred}.
+ * Abstract implementation of Deferred.
  *
  * @param <D> The type of the result received when the promise is done
  * @param <F> The type of the result received when the promise failed

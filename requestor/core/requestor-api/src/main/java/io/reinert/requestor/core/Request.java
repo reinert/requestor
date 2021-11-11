@@ -16,10 +16,14 @@
 package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.callback.ExceptionCallback;
+import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
+import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
 import io.reinert.requestor.core.callback.ProgressCallback;
+import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 
 /**
@@ -35,24 +39,44 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onAbort(ExceptionCallback callback);
 
+    Request<T> onAbort(ExceptionRequestCallback<T> callback);
+
     Request<T> onLoad(ResponseCallback callback);
+
+    Request<T> onLoad(ResponseRequestCallback<T> callback);
 
     Request<T> onFail(ResponseCallback callback);
 
+    Request<T> onFail(ResponseRequestCallback<T> callback);
+
     Request<T> onProgress(ProgressCallback callback);
+
+    Request<T> onProgress(ProgressRequestCallback<T> callback);
 
     Request<T> onStatus(int statusCode, ResponseCallback callback);
 
+    Request<T> onStatus(int statusCode, ResponseRequestCallback<T> callback);
+
     Request<T> onStatus(Status status, ResponseCallback callback);
 
+    Request<T> onStatus(Status status, ResponseRequestCallback<T> callback);
+
     Request<T> onStatus(StatusFamily family, ResponseCallback callback);
+
+    Request<T> onStatus(StatusFamily family, ResponseRequestCallback<T> callback);
 
     <E extends T> Request<T> onSuccess(PayloadCallback<E> callback);
 
     <E extends T> Request<T> onSuccess(PayloadResponseCallback<E> callback);
 
+    <E extends T> Request<T> onSuccess(PayloadResponseRequestCallback<E> callback);
+
     Request<T> onTimeout(TimeoutCallback callback);
 
+    Request<T> onTimeout(ExceptionRequestCallback<T> callback);
+
     Request<T> onUpProgress(ProgressCallback callback);
+
+    Request<T> onUpProgress(ProgressRequestCallback<T> callback);
 
 }

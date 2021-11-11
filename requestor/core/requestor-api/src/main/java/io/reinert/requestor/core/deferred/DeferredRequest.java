@@ -34,9 +34,13 @@ import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
 import io.reinert.requestor.core.Store;
 import io.reinert.requestor.core.callback.ExceptionCallback;
+import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
+import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
+import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
@@ -179,10 +183,32 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     }
 
     @Override
+    public PollingRequest<T> onAbort(final ExceptionRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.fail(new FailCallback<RequestException>() {
+            public void onFail(RequestException e) {
+                callback.execute(e, request);
+            }
+        });
+        return this;
+    }
+
+    @Override
     public PollingRequest<T> onLoad(final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 callback.execute(response);
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onLoad(final ResponseRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                callback.execute(response, request);
             }
         });
         return this;
@@ -199,6 +225,17 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     }
 
     @Override
+    public PollingRequest<T> onFail(final ResponseRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (!isSuccessful(response)) callback.execute(response, request);
+            }
+        });
+        return this;
+    }
+
+    @Override
     public PollingRequest<T> onProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
         deferred.progress(new ProgressCallback<RequestProgress>() {
             public void onProgress(RequestProgress progress) {
@@ -209,11 +246,32 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     }
 
     @Override
+    public PollingRequest<T> onProgress(final ProgressRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.progress(new ProgressCallback<RequestProgress>() {
+            public void onProgress(RequestProgress progress) {
+                callback.execute(progress, request);
+            }
+        });
+        return this;
+    }
+
+    @Override
     public PollingRequest<T> onStatus(final int statusCode, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (response.getStatusCode() == statusCode)
-                    callback.execute(response);
+                if (response.getStatusCode() == statusCode) callback.execute(response);
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onStatus(final int statusCode, final ResponseRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (response.getStatusCode() == statusCode) callback.execute(response, request);
             }
         });
         return this;
@@ -223,8 +281,18 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     public PollingRequest<T> onStatus(final Status status, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (response.getStatusCode() == status.getStatusCode())
-                    callback.execute(response);
+                if (response.getStatusCode() == status.getStatusCode()) callback.execute(response);
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onStatus(final Status status, final ResponseRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (response.getStatusCode() == status.getStatusCode()) callback.execute(response, request);
             }
         });
         return this;
@@ -234,8 +302,18 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     public PollingRequest<T> onStatus(final StatusFamily family, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (StatusFamily.of(response.getStatusCode()) == family)
-                    callback.execute(response);
+                if (StatusFamily.of(response.getStatusCode()) == family) callback.execute(response);
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onStatus(final StatusFamily family, final ResponseRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (StatusFamily.of(response.getStatusCode()) == family) callback.execute(response, request);
             }
         });
         return this;
@@ -279,11 +357,21 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public PollingRequest<T> onUpProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
-        deferred.upProgress(new ProgressCallback<RequestProgress>() {
-            public void onProgress(RequestProgress progress) {
-                callback.execute(progress);
+    public <E extends T> PollingRequest<T> onSuccess(final PayloadResponseRequestCallback<E> callback) {
+        final PollingRequest<E> request = (PollingRequest<E>) this;
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (isSuccessful(response)) {
+                    try {
+                        callback.execute((E) response.getPayload(), response, request);
+                    } catch (ClassCastException e) {
+                        throw new IncompatibleTypeException("Cannot cast " +
+                                response.getPayload().getClass().getName() + " to " +
+                                response.getPayloadType().getType().getName() + ".", e);
+                    }
+                }
             }
         });
         return this;
@@ -297,6 +385,41 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
                     RequestTimeoutException timeoutException = (RequestTimeoutException) e;
                     callback.execute(timeoutException);
                 }
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onTimeout(final ExceptionRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.fail(new FailCallback<RequestException>() {
+            public void onFail(RequestException e) {
+                if (e instanceof RequestTimeoutException) {
+                    RequestTimeoutException timeoutException = (RequestTimeoutException) e;
+                    callback.execute(timeoutException, request);
+                }
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onUpProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
+        deferred.upProgress(new ProgressCallback<RequestProgress>() {
+            public void onProgress(RequestProgress progress) {
+                callback.execute(progress);
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onUpProgress(final ProgressRequestCallback<T> callback) {
+        final PollingRequest<T> request = this;
+        deferred.upProgress(new ProgressCallback<RequestProgress>() {
+            public void onProgress(RequestProgress progress) {
+                callback.execute(progress, request);
             }
         });
         return this;

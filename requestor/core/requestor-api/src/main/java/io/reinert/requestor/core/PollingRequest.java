@@ -16,10 +16,14 @@
 package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.callback.ExceptionCallback;
+import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
+import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
 import io.reinert.requestor.core.callback.ProgressCallback;
+import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 
 /**
@@ -35,22 +39,43 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onAbort(ExceptionCallback callback);
 
     @Override
+    PollingRequest<T> onAbort(ExceptionRequestCallback<T> callback);
+
+    @Override
     PollingRequest<T> onLoad(ResponseCallback callback);
+
+    @Override
+    PollingRequest<T> onLoad(ResponseRequestCallback<T> callback);
 
     @Override
     PollingRequest<T> onFail(ResponseCallback callback);
 
     @Override
+    PollingRequest<T> onFail(ResponseRequestCallback<T> callback);
+
+    @Override
     PollingRequest<T> onProgress(ProgressCallback callback);
+
+    @Override
+    PollingRequest<T> onProgress(ProgressRequestCallback<T> callback);
 
     @Override
     PollingRequest<T> onStatus(int statusCode, ResponseCallback callback);
 
     @Override
+    PollingRequest<T> onStatus(int statusCode, ResponseRequestCallback<T> callback);
+
+    @Override
     PollingRequest<T> onStatus(Status status, ResponseCallback callback);
 
     @Override
+    PollingRequest<T> onStatus(Status status, ResponseRequestCallback<T> callback);
+
+    @Override
     PollingRequest<T> onStatus(StatusFamily family, ResponseCallback callback);
+
+    @Override
+    PollingRequest<T> onStatus(StatusFamily family, ResponseRequestCallback<T> callback);
 
     @Override
     <E extends T> PollingRequest<T> onSuccess(PayloadCallback<E> callback);
@@ -59,7 +84,16 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     <E extends T> PollingRequest<T> onSuccess(PayloadResponseCallback<E> callback);
 
     @Override
+    <E extends T> PollingRequest<T> onSuccess(PayloadResponseRequestCallback<E> callback);
+
+    @Override
     PollingRequest<T> onTimeout(TimeoutCallback callback);
+
+    @Override
+    PollingRequest<T> onTimeout(ExceptionRequestCallback<T> callback);
+
+    @Override
+    PollingRequest<T> onUpProgress(ProgressRequestCallback<T> callback);
 
     @Override
     PollingRequest<T> onUpProgress(ProgressCallback callback);
