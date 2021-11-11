@@ -40,6 +40,4 @@ public interface Deferred<T> {
 
     PollingRequest<T> getRequest();
 
-    Deferred<T> getUnresolvedCopy();
-
 }

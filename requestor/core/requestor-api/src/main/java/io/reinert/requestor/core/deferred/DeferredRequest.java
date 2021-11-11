@@ -462,11 +462,6 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
         return this;
     }
 
-    @Override
-    public Deferred<T> getUnresolvedCopy() {
-        return new DeferredRequest<T>(serializedRequest, deferred.getUnresolvedCopy());
-    }
-
     //===================================================================
     // Internal methods
     //===================================================================

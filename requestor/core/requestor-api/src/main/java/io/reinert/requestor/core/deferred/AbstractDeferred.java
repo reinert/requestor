@@ -34,7 +34,6 @@ abstract class AbstractDeferred<D, F, P> {
 
     protected F rejectResult;
     protected D resolveResult;
-    protected State state = State.PENDING;
 
     protected final List<DoneCallback<D>> doneCallbacks;
     protected final List<FailCallback<F>> failCallbacks;
@@ -58,26 +57,12 @@ abstract class AbstractDeferred<D, F, P> {
 
     public AbstractDeferred<D, F, P> done(DoneCallback<D> callback) {
         doneCallbacks.add(callback);
-        if (isResolved()) triggerDone(callback, resolveResult);
         return this;
     }
 
     public AbstractDeferred<D, F, P> fail(FailCallback<F> callback) {
         failCallbacks.add(callback);
-        if (isRejected()) triggerFail(callback, rejectResult);
         return this;
-    }
-
-    public boolean isPending() {
-        return state == State.PENDING;
-    }
-
-    public boolean isRejected() {
-        return state == State.REJECTED;
-    }
-
-    public boolean isResolved() {
-        return state == State.RESOLVED;
     }
 
     public AbstractDeferred<D, F, P> progress(ProgressCallback<P> callback) {
@@ -88,10 +73,6 @@ abstract class AbstractDeferred<D, F, P> {
     public AbstractDeferred<D, F, P> upProgress(ProgressCallback<P> callback) {
         getProgressCallbacks().add(callback);
         return this;
-    }
-
-    public State state() {
-        return state;
     }
 
     protected List<DoneCallback<D>> getDoneCallbacks() {

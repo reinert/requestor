@@ -68,9 +68,4 @@ class CallbackDeferred implements Deferred<Response> {
     public PollingRequest<Response> getRequest() {
         return null;
     }
-
-    @Override
-    public Deferred<Response> getUnresolvedCopy() {
-        return new CallbackDeferred(callback, resolveCallback);
-    }
 }

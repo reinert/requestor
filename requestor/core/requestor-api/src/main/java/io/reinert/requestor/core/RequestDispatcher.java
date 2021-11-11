@@ -188,7 +188,7 @@ public abstract class RequestDispatcher {
             @Override
             public void run() {
                 if (nextRequest.isPolling()) {
-                    scheduleDispatch(nextRequest, responsePayloadType, deferred.getUnresolvedCopy(),false, false);
+                    scheduleDispatch(nextRequest, responsePayloadType, deferred,false, false);
                 }
             }
         }, nextRequest.getPollingInterval());
