@@ -21,11 +21,17 @@ import java.util.Set;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestFilter;
+import io.reinert.requestor.core.RequestInProcess;
+import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.RestService;
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.uri.Uri;
 import io.reinert.requestor.core.uri.UriBuilder;
 
@@ -234,4 +240,55 @@ public class CallbackGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
+    //=========================================================================
+    // EXCEPTION CALLBACKS
+    //=========================================================================
+
+    public void testAbortCallback() {
+        session.register(new RequestFilter() {
+            public void filter(RequestInProcess request) {
+                throw new RuntimeException();
+            }
+        });
+
+        session.req("http://httpbin.org/status/200").get(String.class)
+                .onTimeout(new TimeoutCallback() {
+                    public void execute(RequestTimeoutException timeoutException) {
+                        fail();
+                    }
+                }).onAbort(new ExceptionCallback() {
+                    public void execute(RequestException exception) {
+                        assertNotNull(exception);
+
+                        finishTest();
+                    }
+                }).onLoad(new ResponseCallback() {
+                    public void execute(Response response) {
+                        fail();
+                    }
+                });
+        delayTestFinish(TIMEOUT);
+    }
+
+      // This test must fail with RequestException
+//    public void testNoAbortCallback() {
+//        session.register(new RequestFilter() {
+//            public void filter(RequestInProcess request) {
+//                throw new RuntimeException();
+//            }
+//        });
+//
+//        session.req("http://httpbin.org/status/200").get(String.class)
+//                .onTimeout(new TimeoutCallback() {
+//                    public void execute(RequestTimeoutException timeoutException) {
+//                        fail();
+//                    }
+//                }).onLoad(new ResponseCallback() {
+//                    public void execute(Response response) {
+//                        fail();
+//                    }
+//                });
+//
+//        delayTestFinish(TIMEOUT);
+//    }
 }
