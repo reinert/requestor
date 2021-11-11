@@ -17,9 +17,13 @@ package io.reinert.requestor.core.deferred;
 
 import java.util.logging.Logger;
 
+import io.reinert.requestor.core.Auth;
 import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.HttpConnection;
+import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.IncompatibleTypeException;
+import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestProgress;
@@ -34,6 +38,9 @@ import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
+import io.reinert.requestor.core.payload.Payload;
+import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.uri.Uri;
 
 /**
  * Default Deferred implementation.
@@ -59,13 +66,102 @@ public class DeferredRequest<T> implements Deferred<T>, Request<T> {
     }
 
     //===================================================================
-    // Request
+    // SerializedRequest
     //===================================================================
+
+    @Override
+    public String getAccept() {
+        return serializedRequest.getAccept();
+    }
+
+    @Override
+    public String getContentType() {
+        return serializedRequest.getContentType();
+    }
+
+    @Override
+    public Headers getHeaders() {
+        return serializedRequest.getHeaders();
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return serializedRequest.getHeader(name);
+    }
+
+    @Override
+    public HttpMethod getMethod() {
+        return serializedRequest.getMethod();
+    }
+
+    @Override
+    public Payload getPayload() {
+        return serializedRequest.getPayload();
+    }
+
+    @Override
+    public int getTimeout() {
+        return serializedRequest.getTimeout();
+    }
+
+    @Override
+    public int getDelay() {
+        return serializedRequest.getDelay();
+    }
+
+    @Override
+    public boolean isPolling() {
+        return serializedRequest.isPolling();
+    }
+
+    @Override
+    public int getPollingInterval() {
+        return serializedRequest.getPollingInterval();
+    }
+
+    @Override
+    public int getPollingLimit() {
+        return serializedRequest.getPollingLimit();
+    }
+
+    @Override
+    public int getPollingCounter() {
+        return serializedRequest.getPollingCounter();
+    }
+
+    @Override
+    public PollingStrategy getPollingStrategy() {
+        return serializedRequest.getPollingStrategy();
+    }
+
+    @Override
+    public void stopPolling() {
+        serializedRequest.stopPolling();
+    }
+
+    @Override
+    public Uri getUri() {
+        return serializedRequest.getUri();
+    }
+
+    @Override
+    public Auth getAuth() {
+        return serializedRequest.getAuth();
+    }
+
+    @Override
+    public SerializedPayload getSerializedPayload() {
+        return serializedRequest.getSerializedPayload();
+    }
 
     @Override
     public Store getStore() {
         return serializedRequest.getStore();
     }
+
+    //===================================================================
+    // Request
+    //===================================================================
 
     @Override
     public Request<T> onAbort(final ExceptionCallback callback) {

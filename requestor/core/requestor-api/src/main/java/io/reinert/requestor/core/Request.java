@@ -29,9 +29,7 @@ import io.reinert.requestor.core.callback.TimeoutCallback;
  *
  * @author Danilo Reinert
  */
-public interface Request<T> {
-
-    Store getStore();
+public interface Request<T> extends SerializedRequest {
 
     Request<T> onAbort(ExceptionCallback callback);
 
