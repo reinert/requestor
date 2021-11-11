@@ -27,7 +27,7 @@ import io.reinert.requestor.core.payload.type.PayloadType;
  *
  * @author Danilo Reinert
  */
-public interface PreparedRequest extends RequestOptions, HasHeaders {
+public interface PreparedRequest extends SerializedRequest, HasHeaders {
 
     boolean isWithCredentials();
 
@@ -36,8 +36,6 @@ public interface PreparedRequest extends RequestOptions, HasHeaders {
     RequestDispatcher getDispatcher();
 
     Deferred<?> getDeferred();
-
-    Store getStore();
 
     void setWithCredentials(boolean withCredentials);
 

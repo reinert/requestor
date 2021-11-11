@@ -17,20 +17,15 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
 
-public interface MutableSerializedRequest extends MutableRequest, SerializedRequest {
+/**
+ * Represents a HTTP Request with the body already serialized.
+ *
+ * @author Danilo Reinert
+ */
+public interface SerializedRequest extends RequestOptions {
 
-    /**
-     * Sets the payload serialized to be sent in the HTTP request body.
-     *
-     * @param serializedPayload The payload of the request
-     */
-    void setSerializedPayload(SerializedPayload serializedPayload);
+    SerializedPayload getSerializedPayload();
 
-    /**
-     * Copy the request keeping references to the store and polling states.
-     *
-     * @return a copy of this request
-     */
-    MutableSerializedRequest copy();
+    Store getStore();
 
 }

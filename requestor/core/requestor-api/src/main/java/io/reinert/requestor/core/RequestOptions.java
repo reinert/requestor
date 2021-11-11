@@ -16,11 +16,10 @@
 package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.Payload;
-import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.uri.Uri;
 
 /**
- * Represents a HTTP Request.
+ * Provides the request configuration.
  *
  * @author Danilo Reinert
  */
@@ -37,8 +36,6 @@ public interface RequestOptions {
     HttpMethod getMethod();
 
     Payload getPayload();
-
-    SerializedPayload getSerializedPayload();
 
     int getTimeout();
 

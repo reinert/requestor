@@ -20,12 +20,12 @@ import java.util.logging.Logger;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.IncompatibleTypeException;
-import io.reinert.requestor.core.MutableSerializedRequest;
 import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestProgress;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.SerializedRequest;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
 import io.reinert.requestor.core.Store;
@@ -44,17 +44,17 @@ public class DeferredRequest<T> implements Deferred<T>, Request<T> {
 
     private static final Logger logger = Logger.getLogger(DeferredRequest.class.getName());
 
-    private final MutableSerializedRequest request;
+    private final SerializedRequest serializedRequest;
     private final DeferredObject<Response, RequestException, RequestProgress> deferred;
     private HttpConnection connection;
 
-    public DeferredRequest(MutableSerializedRequest request) {
-        this(request, new DeferredObject<Response, RequestException, RequestProgress>());
+    public DeferredRequest(SerializedRequest serializedRequest) {
+        this(serializedRequest, new DeferredObject<Response, RequestException, RequestProgress>());
     }
 
-    protected DeferredRequest(MutableSerializedRequest request,
+    protected DeferredRequest(SerializedRequest serializedRequest,
                               DeferredObject<Response, RequestException, RequestProgress> deferred) {
-        this.request = request;
+        this.serializedRequest = serializedRequest;
         this.deferred = deferred;
     }
 
@@ -64,7 +64,7 @@ public class DeferredRequest<T> implements Deferred<T>, Request<T> {
 
     @Override
     public Store getStore() {
-        return request.getStore();
+        return serializedRequest.getStore();
     }
 
     @Override
@@ -239,22 +239,21 @@ public class DeferredRequest<T> implements Deferred<T>, Request<T> {
         return connection;
     }
 
-    @Override
     public Request<T> getRequest() {
         return this;
     }
 
     @Override
     public Deferred<T> getUnresolvedCopy() {
-        return new DeferredRequest<T>(request, deferred.getUnresolvedCopy());
+        return new DeferredRequest<T>(serializedRequest, deferred.getUnresolvedCopy());
     }
 
     //===================================================================
     // Internal methods
     //===================================================================
 
-    protected MutableSerializedRequest getSerializedRequest() {
-        return request;
+    protected SerializedRequest getSerializedRequest() {
+        return serializedRequest;
     }
 
     private boolean isSuccessful(Response response) {

@@ -16,14 +16,14 @@
 package io.reinert.requestor.core.deferred;
 
 import io.reinert.requestor.core.Deferred;
-import io.reinert.requestor.core.MutableSerializedRequest;
+import io.reinert.requestor.core.SerializedRequest;
 
 /**
  * Implementation of DeferredRequestFactory returning a DeferredRequest.
  */
 public class DeferredRequestFactory implements Deferred.Factory {
 
-    public <T> Deferred<T> newDeferred(MutableSerializedRequest serializedRequest) {
+    public <T> Deferred<T> newDeferred(SerializedRequest serializedRequest) {
         return new DeferredRequest<T>(serializedRequest);
     }
 }
