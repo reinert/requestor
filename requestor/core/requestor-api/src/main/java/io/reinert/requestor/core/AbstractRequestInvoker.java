@@ -28,7 +28,7 @@ import io.reinert.requestor.core.uri.Uri;
  *
  * @author Danilo Reinert
  */
-abstract class AbstractRequestInvoker extends RequestBuilderImpl implements RequestInvoker {
+abstract class AbstractRequestInvoker extends RequestBuilderImpl implements PollingRequestInvoker {
 
     protected final RequestDispatcher dispatcher;
 
@@ -43,67 +43,67 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     //===================================================================
 
     @Override
-    public RequestInvoker accept(String mediaType) {
+    public AbstractRequestInvoker accept(String mediaType) {
         super.accept(mediaType);
         return this;
     }
 
     @Override
-    public RequestInvoker contentType(String mediaType) {
+    public AbstractRequestInvoker contentType(String mediaType) {
         super.contentType(mediaType);
         return this;
     }
 
     @Override
-    public RequestInvoker header(String header, String value) {
+    public AbstractRequestInvoker header(String header, String value) {
         super.header(header, value);
         return this;
     }
 
     @Override
-    public RequestInvoker header(Header header) {
+    public AbstractRequestInvoker header(Header header) {
         super.header(header);
         return this;
     }
 
     @Override
-    public RequestInvoker auth(Auth auth) {
+    public AbstractRequestInvoker auth(Auth auth) {
         super.auth(auth);
         return this;
     }
 
     @Override
-    public RequestInvoker payload(Object payload, String... fields) {
+    public AbstractRequestInvoker payload(Object payload, String... fields) {
         super.payload(payload, fields);
         return this;
     }
 
     @Override
-    public RequestInvoker timeout(int timeoutMillis) {
+    public AbstractRequestInvoker timeout(int timeoutMillis) {
         super.timeout(timeoutMillis);
         return this;
     }
 
     @Override
-    public RequestInvoker delay(int delayMillis) {
+    public AbstractRequestInvoker delay(int delayMillis) {
         super.delay(delayMillis);
         return this;
     }
 
     @Override
-    public RequestInvoker poll(PollingStrategy strategy) {
+    public AbstractRequestInvoker poll(PollingStrategy strategy) {
         super.poll(strategy);
         return this;
     }
 
     @Override
-    public RequestInvoker poll(PollingStrategy strategy, int intervalMillis) {
+    public AbstractRequestInvoker poll(PollingStrategy strategy, int intervalMillis) {
         super.poll(strategy, intervalMillis);
         return this;
     }
 
     @Override
-    public RequestInvoker poll(PollingStrategy strategy, int intervalMillis, int limit) {
+    public AbstractRequestInvoker poll(PollingStrategy strategy, int intervalMillis, int limit) {
         super.poll(strategy, intervalMillis, limit);
         return this;
     }
@@ -112,14 +112,14 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     // Internal methods
     //===================================================================
 
-    protected <T> Request<T> send(HttpMethod method, Class<T> entityType) {
+    protected <T> PollingRequest<T> send(HttpMethod method, Class<T> entityType) {
         setMethod(method);
         return dispatcher.dispatch(build(), new SinglePayloadType<T>(entityType));
     }
 
-    protected <T, C extends Collection<T>> Request<Collection<T>> send(HttpMethod method,
-                                                                       Class<T> entityType,
-                                                                       Class<C> collectionType) {
+    protected <T, C extends Collection<T>> PollingRequest<Collection<T>> send(HttpMethod method,
+                                                                              Class<T> entityType,
+                                                                              Class<C> collectionType) {
         setMethod(method);
         return dispatcher.dispatch(build(), new CollectionPayloadType<T>(collectionType,
                 new SinglePayloadType<T>(entityType)));

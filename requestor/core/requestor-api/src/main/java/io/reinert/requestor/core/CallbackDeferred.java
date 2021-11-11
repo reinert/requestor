@@ -64,7 +64,7 @@ class CallbackDeferred implements Deferred<Response> {
     }
 
     @Override
-    public Request<Response> getRequest() {
+    public PollingRequest<Response> getRequest() {
         return null;
     }
 

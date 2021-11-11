@@ -41,18 +41,6 @@ public interface RequestOptions {
 
     int getDelay();
 
-    boolean isPolling();
-
-    int getPollingInterval();
-
-    int getPollingLimit();
-
-    int getPollingCounter();
-
-    PollingStrategy getPollingStrategy();
-
-    void stopPolling(); // The request is polled one more time after stopPoll is called
-
     Uri getUri();
 
     Auth getAuth();

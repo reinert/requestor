@@ -38,7 +38,7 @@ public interface Deferred<T> {
 
     void setHttpConnection(HttpConnection connection);
 
-    Request<T> getRequest();
+    PollingRequest<T> getRequest();
 
     Deferred<T> getUnresolvedCopy();
 

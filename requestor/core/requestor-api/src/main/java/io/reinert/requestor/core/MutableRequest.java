@@ -22,7 +22,7 @@ import io.reinert.requestor.core.uri.Uri;
  *
  * @author Danilo Reinert
  */
-public interface MutableRequest extends RequestOptions, HasHeaders {
+public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOptions {
 
     /**
      * Returns the request-scope store available in this request/response lifecycle.

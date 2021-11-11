@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.RequestFilter;
 import io.reinert.requestor.core.Response;
@@ -49,15 +50,20 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testStopShortPolling() {
-        session.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500).get().onStatus(200,
+        final PollingRequest<Void> request =
+                session.req("https://httpbin.org/get")
+                        .poll(PollingStrategy.SHORT, 500)
+                        .get();
+
+        request.onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
                         // The request can be sent one more time after stopPolling is called in SHORT strategy
                         // depending on the time to receive the responses
-                        assertTrue(response.getRequestOptions().getPollingCounter() <= 3);
+                        assertTrue(request.getPollingCounter() <= 3);
 
-                        if (response.getRequestOptions().getPollingCounter() == 2) {
-                            response.getRequestOptions().stopPolling();
+                        if (request.getPollingCounter() == 2) {
+                            request.stopPolling();
                             finishTest();
                         }
                     }
@@ -67,13 +73,18 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testStopLongPolling() {
-        session.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 500).get().onStatus(200,
+        final PollingRequest<Void> request =
+                session.req("https://httpbin.org/get")
+                        .poll(PollingStrategy.LONG, 500)
+                        .get();
+
+        request.onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
-                        assertTrue(response.getRequestOptions().getPollingCounter() <= 2);
+                        assertTrue(request.getPollingCounter() <= 2);
 
-                        if (response.getRequestOptions().getPollingCounter() == 2) {
-                            response.getRequestOptions().stopPolling();
+                        if (request.getPollingCounter() == 2) {
+                            request.stopPolling();
                             finishTest();
                         }
                     }
@@ -83,12 +94,17 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testShortPollingLimit() {
-        session.req("https://httpbin.org/get").poll(PollingStrategy.SHORT, 500, 3).get().onStatus(200,
+        final PollingRequest<Void> request =
+                session.req("https://httpbin.org/get")
+                        .poll(PollingStrategy.SHORT, 500, 3)
+                        .get();
+
+        request.onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
-                        assertTrue(response.getRequestOptions().getPollingCounter() <= 3);
+                        assertTrue(request.getPollingCounter() <= 3);
 
-                        if (response.getRequestOptions().getPollingCounter() == 3) {
+                        if (request.getPollingCounter() == 3) {
                             finishTest();
                         }
                     }
@@ -98,12 +114,17 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testLongPollingLimit() {
-        session.req("https://httpbin.org/get").poll(PollingStrategy.LONG, 0, 3).get().onStatus(200,
+        final PollingRequest<Void> request =
+                session.req("https://httpbin.org/get")
+                        .poll(PollingStrategy.LONG, 0, 3)
+                        .get();
+
+        request.onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
-                        assertTrue(response.getRequestOptions().getPollingCounter() <= 3);
+                        assertTrue(request.getPollingCounter() <= 3);
 
-                        if (response.getRequestOptions().getPollingCounter() == 3) {
+                        if (request.getPollingCounter() == 3) {
                             finishTest();
                         }
                     }

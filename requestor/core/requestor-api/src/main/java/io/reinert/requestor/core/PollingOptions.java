@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.core;
 
-class PollingOptions {
+class PollingOptions implements HasPollingOptions {
 
     private boolean pollingActive;
     private int pollingInterval;

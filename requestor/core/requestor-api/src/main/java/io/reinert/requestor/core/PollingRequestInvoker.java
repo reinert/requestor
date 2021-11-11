@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,28 +24,28 @@ import io.reinert.requestor.core.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface RequestInvoker extends RequestBuilder, Invoker {
+public interface PollingRequestInvoker extends PollingRequestBuilder, PollingInvoker, RequestInvoker {
 
     @Override
-    RequestInvoker contentType(String mediaType);
+    PollingRequestInvoker contentType(String mediaType);
 
     @Override
-    RequestInvoker accept(String mediaType);
+    PollingRequestInvoker accept(String mediaType);
 
     @Override
-    RequestInvoker header(String header, String value);
+    PollingRequestInvoker header(String header, String value);
 
     @Override
-    RequestInvoker header(Header header);
+    PollingRequestInvoker header(Header header);
 
     @Override
-    RequestInvoker auth(Auth auth);
+    PollingRequestInvoker auth(Auth auth);
 
     @Override
-    RequestInvoker timeout(int timeoutMillis);
+    PollingRequestInvoker timeout(int timeoutMillis);
 
     @Override
-    RequestInvoker delay(int delayMillis);
+    PollingRequestInvoker delay(int delayMillis);
 
     @Override
     PollingRequestInvoker poll(PollingStrategy strategy);
@@ -57,6 +57,6 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     PollingRequestInvoker poll(PollingStrategy strategy, int intervalMillis, int limit);
 
     @Override
-    RequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
+    PollingRequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
 }

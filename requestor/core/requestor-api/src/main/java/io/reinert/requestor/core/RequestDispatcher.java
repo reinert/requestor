@@ -93,10 +93,10 @@ public abstract class RequestDispatcher {
      *
      * @return                      The request for the dispatched request
      */
-    public <T> Request<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
+    public <T> PollingRequest<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
         Deferred<T> deferred = deferredFactory.newDeferred(request);
 
-        Request<T> deferredRequest = deferred.getRequest();
+        PollingRequest<T> deferredRequest = deferred.getRequest();
 
         if (isLongPolling(request)) {
             deferredRequest.onLoad(getLongPollingCallback(request, responsePayloadType, deferred));

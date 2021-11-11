@@ -22,7 +22,7 @@ import io.reinert.requestor.core.payload.SerializedPayload;
  *
  * @author Danilo Reinert
  */
-public interface SerializedRequest extends RequestOptions {
+public interface SerializedRequest extends RequestOptions, HasPollingOptions {
 
     SerializedPayload getSerializedPayload();
 

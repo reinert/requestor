@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,11 @@ package io.reinert.requestor.core;
 import io.reinert.requestor.core.header.Header;
 
 /**
- * A fluent request builder.
+ * A polling request builder.
  *
  * @author Danilo Reinert
  */
-public interface RequestBuilder extends RequestOptions {
+public interface PollingRequestBuilder extends RequestBuilder, HasPollingOptions {
 
     /**
      * Set the content type of this request.
@@ -31,7 +31,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder contentType(String mediaType);
+    PollingRequestBuilder contentType(String mediaType);
 
     /**
      * Set the content type accepted for the response.
@@ -40,7 +40,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder accept(String mediaType);
+    PollingRequestBuilder accept(String mediaType);
 
     /**
      * Sets a request header with the given name and value.
@@ -56,7 +56,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder header(String header, String value);
+    PollingRequestBuilder header(String header, String value);
 
     /**
      * Sets a request header.
@@ -68,7 +68,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder header(Header header);
+    PollingRequestBuilder header(Header header);
 
     /**
      * Sets the necessary information for authenticating the request against the server.
@@ -77,7 +77,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder auth(Auth auth);
+    PollingRequestBuilder auth(Auth auth);
 
     /**
      * Sets the necessary information for authenticating the request against the server.
@@ -86,7 +86,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder auth(Auth.Provider authProvider);
+    PollingRequestBuilder auth(Auth.Provider authProvider);
 
     /**
      * Input a object to be sent in the HTTP Request payload.
@@ -100,7 +100,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder payload(Object payload, String... fields);
+    PollingRequestBuilder payload(Object payload, String... fields);
 
     /**
      * Sets the number of milliseconds to wait for a request to complete.
@@ -119,7 +119,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder timeout(int timeoutMillis);
+    PollingRequestBuilder timeout(int timeoutMillis);
 
     /**
      * Delay the request dispatching in milliseconds.
@@ -133,75 +133,6 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder delay(int delayMillis);
-
-    /**
-     * Poll the request according to the specified strategy with no interval.
-     * <p></p>
-     *
-     * The poll strategy determines whether the next request should be triggered after sending the
-     * previous one (SHORT) or after receiving its response (LONG).
-     * <p></p>
-     *
-     * If delay is also set, then the time window between each request will be poll + delay.
-     * <p></p>
-     *
-     * Negative aren't allowed.
-     * So if a value less than zero is passed, it is ignored.
-     * <p></p>
-     *
-     * @param strategy          The polling strategy
-     *
-     * @return This building request
-     */
-    PollingRequestBuilder poll(PollingStrategy strategy);
-
-    /**
-     * Poll the request according to the specified interval in milliseconds.
-     * <p></p>
-     *
-     * The poll strategy determines whether the next request should be triggered after sending the
-     * previous one (SHORT) or after receiving its response (LONG).
-     * <p></p>
-     *
-     * If delay is also set, then the time window between each request will be poll + delay.
-     * <p></p>
-     *
-     * Negative aren't allowed.
-     * So if a value less than zero is passed, it is ignored.
-     * <p></p>
-     *
-     * @param strategy          The polling strategy
-     * @param intervalMillis    The time in milliseconds to poll the request
-     *
-     * @return This building request
-     */
-    PollingRequestBuilder poll(PollingStrategy strategy, int intervalMillis);
-
-    /**
-     * Poll the request dispatching in a regular period of time in milliseconds for a limited number of times.
-     * <p></p>
-     *
-     * The poll strategy determines whether the next request should be triggered after sending the
-     * previous one (SHORT) or after receiving its response (LONG).
-     * <p></p>
-     *
-     * The request will automatically stop polling after being called for the limit number of times.
-     * <p></p>
-     *
-     * If delay is also set, then the time window between each request will be pollInterval + delay.
-     * <p></p>
-     *
-     * Negative aren't allowed.
-     * So if a value less than zero is passed, it is ignored.
-     * <p></p>
-     *
-     * @param strategy          The polling strategy
-     * @param intervalMillis    The time in milliseconds to poll the request
-     * @param limit             Maximum number of times the request will be polled
-     *
-     * @return This building request
-     */
-    PollingRequestBuilder poll(PollingStrategy strategy, int intervalMillis, int limit);
+    PollingRequestBuilder delay(int delayMillis);
 
 }

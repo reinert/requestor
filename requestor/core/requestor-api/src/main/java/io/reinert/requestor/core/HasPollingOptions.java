@@ -15,6 +15,18 @@
  */
 package io.reinert.requestor.core;
 
-public interface ProcessableRequest extends HasPollingOptions, SerializedRequestInProcess,
-        SerializableRequestInProcess, Processable {
+public interface HasPollingOptions {
+
+    boolean isPolling();
+
+    int getPollingInterval();
+
+    int getPollingLimit();
+
+    int getPollingCounter();
+
+    PollingStrategy getPollingStrategy();
+
+    void stopPolling(); // The request may be polled one more time after stopPolling is called
+
 }

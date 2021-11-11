@@ -38,97 +38,99 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     //===================================================================
 
     @Override
-    public Request<Void> get() {
+    public PollingRequest<Void> get() {
         return send(HttpMethod.GET, Void.class);
     }
 
     @Override
-    public <T> Request<T> get(Class<T> entityType) {
+    public <T> PollingRequest<T> get(Class<T> entityType) {
         return send(HttpMethod.GET, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Request<Collection<T>> get(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> PollingRequest<Collection<T>> get(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.GET, entityType, collectionType);
     }
 
     @Override
-    public Request<Void> post() {
+    public PollingRequest<Void> post() {
         return send(HttpMethod.POST, Void.class);
     }
 
     @Override
-    public <T> Request<T> post(Class<T> entityType) {
+    public <T> PollingRequest<T> post(Class<T> entityType) {
         return send(HttpMethod.POST, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Request<Collection<T>> post(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> PollingRequest<Collection<T>> post(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.POST, entityType, collectionType);
     }
 
     @Override
-    public Request<Void> put() {
+    public PollingRequest<Void> put() {
         return send(HttpMethod.PUT, Void.class);
     }
 
     @Override
-    public <T> Request<T> put(Class<T> entityType) {
+    public <T> PollingRequest<T> put(Class<T> entityType) {
         return send(HttpMethod.PUT, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Request<Collection<T>> put(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> PollingRequest<Collection<T>> put(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.PUT, entityType, collectionType);
     }
 
     @Override
-    public Request<Void> delete() {
+    public PollingRequest<Void> delete() {
         return send(HttpMethod.DELETE, Void.class);
     }
 
     @Override
-    public <T> Request<T> delete(Class<T> entityType) {
+    public <T> PollingRequest<T> delete(Class<T> entityType) {
         return send(HttpMethod.DELETE, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Request<Collection<T>> delete(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> PollingRequest<Collection<T>> delete(Class<C> collectionType,
+                                                                          Class<T> entityType) {
         return send(HttpMethod.DELETE, entityType, collectionType);
     }
 
     @Override
-    public Request<Void> patch() {
+    public PollingRequest<Void> patch() {
         return send(HttpMethod.PATCH, Void.class);
     }
 
     @Override
-    public <T> Request<T> patch(Class<T> entityType) {
+    public <T> PollingRequest<T> patch(Class<T> entityType) {
         return send(HttpMethod.PATCH, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Request<Collection<T>> patch(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> PollingRequest<Collection<T>> patch(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.PATCH, entityType, collectionType);
     }
 
     @Override
-    public Request<Void> options() {
+    public PollingRequest<Void> options() {
         return send(HttpMethod.OPTIONS, Void.class);
     }
 
     @Override
-    public <T> Request<T> options(Class<T> entityType) {
+    public <T> PollingRequest<T> options(Class<T> entityType) {
         return send(HttpMethod.OPTIONS, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Request<Collection<T>> options(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> PollingRequest<Collection<T>> options(Class<C> collectionType,
+                                                                           Class<T> entityType) {
         return send(HttpMethod.OPTIONS, entityType, collectionType);
     }
 
     @Override
-    public Request<Headers> head() {
+    public PollingRequest<Headers> head() {
         return send(HttpMethod.HEAD, Headers.class);
     }
 }

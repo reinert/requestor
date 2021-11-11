@@ -30,7 +30,7 @@ import io.reinert.requestor.core.uri.Uri;
  *
  * @author Danilo Reinert
  */
-class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, SerializableRequest {
+class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequest, SerializableRequest {
 
     private static final Logger logger = Logger.getLogger(RequestBuilderImpl.class.getName());
 
@@ -179,67 +179,67 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     //===================================================================
 
     @Override
-    public RequestBuilder accept(String mediaType) {
+    public RequestBuilderImpl accept(String mediaType) {
         headers.add(new AcceptHeader(mediaType));
         return this;
     }
 
     @Override
-    public RequestBuilder contentType(String mediaType) {
+    public RequestBuilderImpl contentType(String mediaType) {
         headers.add(new ContentTypeHeader(mediaType));
         return this;
     }
 
     @Override
-    public RequestBuilder header(String header, String value) {
+    public RequestBuilderImpl header(String header, String value) {
         headers.set(header, value);
         return this;
     }
 
     @Override
-    public RequestBuilder header(Header header) {
+    public RequestBuilderImpl header(Header header) {
         headers.add(header);
         return this;
     }
 
     @Override
-    public RequestBuilder payload(Object payload, String... fields) {
+    public RequestBuilderImpl payload(Object payload, String... fields) {
         this.payload = new Payload(payload, fields);
         return this;
     }
 
     @Override
-    public RequestBuilder delay(int delayMillis) {
+    public RequestBuilderImpl delay(int delayMillis) {
         if (delayMillis > 0) delay = delayMillis;
         return this;
     }
 
     @Override
-    public RequestBuilder poll(PollingStrategy strategy) {
+    public RequestBuilderImpl poll(PollingStrategy strategy) {
         pollingOptions.startPolling(strategy, 0, 0);
         return this;
     }
 
     @Override
-    public RequestBuilder poll(PollingStrategy strategy, int intervalMillis) {
+    public RequestBuilderImpl poll(PollingStrategy strategy, int intervalMillis) {
         pollingOptions.startPolling(strategy, intervalMillis, 0);
         return this;
     }
 
     @Override
-    public RequestBuilder poll(PollingStrategy strategy, int intervalMillis, int limit) {
+    public RequestBuilderImpl poll(PollingStrategy strategy, int intervalMillis, int limit) {
         pollingOptions.startPolling(strategy, intervalMillis, limit);
         return this;
     }
 
     @Override
-    public RequestBuilder timeout(int timeoutMillis) {
+    public RequestBuilderImpl timeout(int timeoutMillis) {
         if (timeoutMillis > 0) timeout = timeoutMillis;
         return this;
     }
 
     @Override
-    public RequestBuilder auth(final Auth auth) {
+    public RequestBuilderImpl auth(final Auth auth) {
         if (auth == null) {
             throw new IllegalArgumentException("Auth cannot be null.");
         }
@@ -252,7 +252,7 @@ class RequestBuilderImpl implements RequestBuilder, MutableSerializedRequest, Se
     }
 
     @Override
-    public RequestBuilder auth(Auth.Provider authProvider) {
+    public RequestBuilderImpl auth(Auth.Provider authProvider) {
         if (authProvider == null) {
             throw new IllegalArgumentException("Auth provider cannot be null.");
         }
