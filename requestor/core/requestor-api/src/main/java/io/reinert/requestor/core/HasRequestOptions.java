@@ -56,8 +56,6 @@ public interface HasRequestOptions extends HasHeaders {
 
     void setPolling(PollingStrategy strategy, int intervalMillis, int limit);
 
-    boolean isPolling();
-
     int getPollingInterval();
 
     int getPollingLimit();

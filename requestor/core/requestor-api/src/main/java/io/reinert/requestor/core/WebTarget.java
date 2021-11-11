@@ -199,11 +199,6 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
     }
 
     @Override
-    public boolean isPolling() {
-        return options.isPolling();
-    }
-
-    @Override
     public int getPollingInterval() {
         return options.getPollingInterval();
     }

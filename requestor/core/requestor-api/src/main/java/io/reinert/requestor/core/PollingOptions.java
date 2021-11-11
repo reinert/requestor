@@ -21,7 +21,7 @@ class PollingOptions implements HasPollingOptions {
     private int pollingInterval;
     private int pollingLimit;
     private int pollingCounter;
-    private PollingStrategy pollingStrategy = PollingStrategy.SHORT;
+    private PollingStrategy pollingStrategy;
 
     public boolean isPolling() {
         return pollingActive;
@@ -88,11 +88,12 @@ class PollingOptions implements HasPollingOptions {
     }
 
     public void startPolling(PollingStrategy strategy, int pollingInterval, int pollingLimit) {
-        this.pollingActive = true;
+        if (strategy == null) throw new IllegalArgumentException("PollingStrategy cannot be null");
+        this.pollingStrategy = strategy;
         this.pollingInterval = pollingInterval;
         this.pollingLimit = pollingLimit;
         this.pollingCounter = 0;
-        this.pollingStrategy = strategy;
+        this.pollingActive = true;
     }
 
     public void stopPolling() {

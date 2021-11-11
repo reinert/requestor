@@ -94,11 +94,6 @@ public class AbstractService implements Service {
     }
 
     @Override
-    public boolean isPolling() {
-        return options.isPolling();
-    }
-
-    @Override
     public int getPollingInterval() {
         return options.getPollingInterval();
     }

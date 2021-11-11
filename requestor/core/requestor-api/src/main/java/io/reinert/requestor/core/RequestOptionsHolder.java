@@ -130,11 +130,6 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
-    public boolean isPolling() {
-        return pollingOptions.isPolling();
-    }
-
-    @Override
     public int getPollingInterval() {
         return pollingOptions.getPollingInterval();
     }

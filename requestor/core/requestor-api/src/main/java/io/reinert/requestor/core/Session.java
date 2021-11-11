@@ -441,11 +441,6 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     }
 
     @Override
-    public boolean isPolling() {
-        return options.isPolling();
-    }
-
-    @Override
     public int getPollingInterval() {
         return options.getPollingInterval();
     }
