@@ -119,4 +119,22 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         }
         return false;
     }-*/;
+
+    public final void setOnAbort(ProgressHandler handler) {
+        if (!setOnErrorNative(handler)) {
+            logger.log(Level.SEVERE, "Set onError failed: XHR onerror handler not supported by the browser.");
+        }
+    }
+
+    public final native boolean setOnAbortNative(ProgressHandler handler) /*-{
+        if ("onabort" in this) {
+            this.onerror = $entry(function(e) {
+                // CHECKSTYLE:OFF
+                handler.@io.reinert.requestor.gwt.xhr.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
+                // CHECKSTYLE:ON
+            });
+            return true;
+        }
+        return false;
+    }-*/;
 }

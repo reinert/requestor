@@ -70,9 +70,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         try {
             xmlHttpRequest.open(httpMethod.getValue(), url);
         } catch (JavaScriptException e) {
-            RequestPermissionException requestPermissionException = new RequestPermissionException(request, url);
-            requestPermissionException.initCause(new RequestException(request, e.getMessage()));
-            deferred.notifyError(requestPermissionException);
+            deferred.notifyError(new RequestPermissionException(request, url, e));
             return;
         }
 
@@ -82,9 +80,9 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         // Fulfill headers
         try {
             setHeaders(headers, xmlHttpRequest);
-        } catch (JavaScriptException e) {
+        } catch (JavaScriptException e)  {
             deferred.notifyError(new RequestException(request, "Could not manipulate the XHR headers: " +
-                    e.getMessage()));
+                    e.getMessage(), e));
             return;
         }
 
@@ -109,6 +107,14 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     ((XmlHttpRequest) xhr).clearOnProgress();
                     gwtRequest.fireOnResponseReceived(callback);
                 }
+            }
+        });
+
+        // Set XMLHttpRequest's onabort if available binding to request's error
+        xmlHttpRequest.setOnAbort(new ProgressHandler() {
+            @Override
+            public void onProgress(ProgressEvent progress) {
+                deferred.notifyError(new NetworkErrorException(request, new RequestProgressImpl(progress)));
             }
         });
 
