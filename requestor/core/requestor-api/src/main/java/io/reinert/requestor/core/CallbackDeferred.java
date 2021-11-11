@@ -43,6 +43,7 @@ class CallbackDeferred implements Deferred<Response> {
 
     @Override
     public void resolve(Response response) {
+        if (resolveCallback != null) resolveCallback.execute(response);
         callback.onLoad(response);
     }
 
