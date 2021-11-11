@@ -436,10 +436,6 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
 
     @Override
     public void notifyError(RequestException error) {
-        // If the http connection is still opened, then close it
-        if (connection != null && connection.isPending())
-            connection.cancel();
-
         deferred.reject(error);
     }
 
