@@ -25,7 +25,7 @@ package io.reinert.requestor.core;
 public interface Deferred<T> {
 
     interface Factory {
-        <T> Deferred<T> newDeferred();
+        <T> Deferred<T> newDeferred(MutableSerializedRequest serializedRequest);
     }
 
     void resolve(Response response);

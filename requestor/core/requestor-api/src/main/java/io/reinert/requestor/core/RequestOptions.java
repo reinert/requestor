@@ -60,6 +60,4 @@ public interface RequestOptions {
 
     Auth getAuth();
 
-    Store getStore();
-
 }

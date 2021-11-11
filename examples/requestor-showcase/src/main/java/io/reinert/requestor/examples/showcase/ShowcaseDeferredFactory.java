@@ -19,6 +19,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.MutableSerializedRequest;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Status;
@@ -34,8 +35,8 @@ import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
 class ShowcaseDeferredFactory implements Deferred.Factory {
 
     @Override
-    public <T> Deferred<T> newDeferred() {
-        final DeferredRequest<T> deferred = new DeferredRequest<T>();
+    public <T> Deferred<T> newDeferred(MutableSerializedRequest serializedRequest) {
+        final DeferredRequest<T> deferred = new DeferredRequest<T>(serializedRequest);
 
         // Show loading widget
         Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferred);

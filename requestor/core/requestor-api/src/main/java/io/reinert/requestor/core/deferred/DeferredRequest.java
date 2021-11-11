@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.IncompatibleTypeException;
+import io.reinert.requestor.core.MutableSerializedRequest;
 import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestProgress;
@@ -27,6 +28,7 @@ import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
+import io.reinert.requestor.core.Store;
 import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
@@ -42,20 +44,28 @@ public class DeferredRequest<T> implements Deferred<T>, Request<T> {
 
     private static final Logger logger = Logger.getLogger(DeferredRequest.class.getName());
 
+    private final MutableSerializedRequest request;
     private final DeferredObject<Response, RequestException, RequestProgress> deferred;
     private HttpConnection connection;
 
-    public DeferredRequest() {
-        this(new DeferredObject<Response, RequestException, RequestProgress>());
+    public DeferredRequest(MutableSerializedRequest request) {
+        this(request, new DeferredObject<Response, RequestException, RequestProgress>());
     }
 
-    protected DeferredRequest(DeferredObject<Response, RequestException, RequestProgress> deferred) {
+    protected DeferredRequest(MutableSerializedRequest request,
+                              DeferredObject<Response, RequestException, RequestProgress> deferred) {
+        this.request = request;
         this.deferred = deferred;
     }
 
     //===================================================================
     // Request
     //===================================================================
+
+    @Override
+    public Store getStore() {
+        return request.getStore();
+    }
 
     @Override
     public Request<T> onAbort(final ExceptionCallback callback) {
@@ -236,12 +246,16 @@ public class DeferredRequest<T> implements Deferred<T>, Request<T> {
 
     @Override
     public Deferred<T> getUnresolvedCopy() {
-        return new DeferredRequest<T>(deferred.getUnresolvedCopy());
+        return new DeferredRequest<T>(request, deferred.getUnresolvedCopy());
     }
 
     //===================================================================
     // Internal methods
     //===================================================================
+
+    protected MutableSerializedRequest getSerializedRequest() {
+        return request;
+    }
 
     private boolean isSuccessful(Response response) {
         return response.getStatusCode() / 100 == 2;

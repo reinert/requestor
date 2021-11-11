@@ -133,7 +133,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
 
     @Override
     public Store getStore() {
-        return requestOptions.getStore();
+        return deferred.getRequest().getStore();
     }
 
     @Override

@@ -31,6 +31,8 @@ import io.reinert.requestor.core.callback.TimeoutCallback;
  */
 public interface Request<T> {
 
+    Store getStore();
+
     Request<T> onAbort(ExceptionCallback callback);
 
     Request<T> onLoad(ResponseCallback callback);

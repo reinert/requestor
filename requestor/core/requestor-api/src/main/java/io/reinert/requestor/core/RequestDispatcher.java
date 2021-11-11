@@ -94,7 +94,7 @@ public abstract class RequestDispatcher {
      * @return                      The request for the dispatched request
      */
     public <T> Request<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
-        Deferred<T> deferred = deferredFactory.newDeferred();
+        Deferred<T> deferred = deferredFactory.newDeferred(request);
 
         Request<T> deferredRequest = deferred.getRequest();
 

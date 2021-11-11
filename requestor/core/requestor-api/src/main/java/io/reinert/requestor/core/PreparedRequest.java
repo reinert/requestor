@@ -37,6 +37,8 @@ public interface PreparedRequest extends RequestOptions, HasHeaders {
 
     Deferred<?> getDeferred();
 
+    Store getStore();
+
     void setWithCredentials(boolean withCredentials);
 
     void setQueryParam(String name, String... values);

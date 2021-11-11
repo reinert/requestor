@@ -22,6 +22,8 @@ package io.reinert.requestor.core;
  */
 public interface InProcess {
 
+    Store getStore();
+
     void proceed();
 
 }

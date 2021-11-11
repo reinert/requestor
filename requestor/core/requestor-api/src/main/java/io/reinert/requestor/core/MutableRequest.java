@@ -24,6 +24,8 @@ import io.reinert.requestor.core.uri.Uri;
  */
 public interface MutableRequest extends RequestOptions, HasHeaders {
 
+    Store getStore();
+
     /**
      * Set the URI of this request.
      *
