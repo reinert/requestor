@@ -193,7 +193,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
 
     @Override
     public void process() {
-        deferred.resolve(this);
+        deferred.notifyResponse(this);
     }
 
     @Override

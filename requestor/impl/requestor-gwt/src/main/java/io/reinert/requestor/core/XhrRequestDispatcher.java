@@ -53,7 +53,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         } catch (JavaScriptException e) {
             RequestPermissionException requestPermissionException = new RequestPermissionException(request, url);
             requestPermissionException.initCause(new RequestException(request, e.getMessage()));
-            deferred.reject(requestPermissionException);
+            deferred.notifyError(requestPermissionException);
             return;
         }
 
@@ -64,7 +64,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         try {
             setHeaders(headers, xmlHttpRequest);
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestException(request, "Could not manipulate the XHR headers: " +
+            deferred.notifyError(new RequestException(request, "Could not manipulate the XHR headers: " +
                     e.getMessage()));
             return;
         }
@@ -129,7 +129,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                 xmlHttpRequest.send();
             }
         } catch (JavaScriptException e) {
-            deferred.reject(new RequestDispatchException(request, "Could not send the XHR: " + e.getMessage()));
+            deferred.notifyError(new RequestDispatchException(request, "Could not send the XHR: " + e.getMessage()));
         }
     }
 
@@ -185,10 +185,10 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     // reject as timeout
                     com.google.gwt.http.client.RequestTimeoutException e =
                             (com.google.gwt.http.client.RequestTimeoutException) exception;
-                    deferred.reject(new RequestTimeoutException(requestOptions, e.getTimeoutMillis()));
+                    deferred.notifyError(new RequestTimeoutException(requestOptions, e.getTimeoutMillis()));
                 } else {
                     // reject as generic request exception
-                    deferred.reject(new RequestException(requestOptions, exception));
+                    deferred.notifyError(new RequestException(requestOptions, exception));
                 }
             }
         };

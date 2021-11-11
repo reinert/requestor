@@ -70,7 +70,7 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     }
 
     //===================================================================
-    // SerializedRequest
+    // PollingRequest
     //===================================================================
 
     @Override
@@ -430,12 +430,12 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     //===================================================================
 
     @Override
-    public void resolve(final Response response) {
+    public void notifyResponse(final Response response) {
         deferred.resolve(response);
     }
 
     @Override
-    public void reject(RequestException error) {
+    public void notifyError(RequestException error) {
         // If the http connection is still opened, then close it
         if (connection != null && connection.isPending())
             connection.cancel();

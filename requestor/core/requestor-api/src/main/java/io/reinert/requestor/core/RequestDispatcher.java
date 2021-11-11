@@ -61,7 +61,7 @@ public abstract class RequestDispatcher {
      * {@link Deferred#notifyDownload(RequestProgress)} and
      * {@link Deferred#notifyUpload(RequestProgress)}.
      * <p></p>
-     * All possible exceptions should be caught and sent to {@link Deferred#reject(RequestException)}
+     * All possible exceptions should be caught and sent to {@link Deferred#notifyError(RequestException)}
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.
      *
@@ -160,8 +160,8 @@ public abstract class RequestDispatcher {
                         schedulePollingRequest(nextRequest, responsePayloadType, deferred);
                     }
                 } catch (Exception e) {
-                    deferred.reject(new RequestException(requestInAuthProcess, "An error occurred before sending the" +
-                            " request. See previous exception.", e));
+                    deferred.notifyError(new RequestException(requestInAuthProcess,
+                            "An error occurred before sending the request. See previous exception.", e));
                 }
             }
         }, request.getDelay());

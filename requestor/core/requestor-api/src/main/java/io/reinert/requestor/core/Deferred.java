@@ -28,9 +28,9 @@ public interface Deferred<T> {
         <T> Deferred<T> newDeferred(SerializedRequest serializedRequest);
     }
 
-    void resolve(Response response);
+    void notifyResponse(Response response);
 
-    void reject(RequestException error);
+    void notifyError(RequestException error);
 
     void notifyDownload(RequestProgress progress);
 

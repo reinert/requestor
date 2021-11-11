@@ -68,7 +68,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
         if (sent)
             throw new IllegalStateException("PreparedRequest couldn't be aborted: Request has already been sent.");
 
-        deferred.reject(error);
+        deferred.notifyError(error);
 
         sent = true;
     }
@@ -81,7 +81,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
         try {
             dispatcher.send(this, deferred, responsePayloadType);
         } catch (Exception e) {
-            deferred.reject(new RequestDispatchException(request,
+            deferred.notifyError(new RequestDispatchException(request,
                     "Some non-caught exception occurred while dispatching the request", e));
         }
 
