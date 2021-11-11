@@ -25,6 +25,7 @@ import io.reinert.requestor.core.RequestFilter;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.core.callback.ResponseRequestCallback;
 
 /**
  * Integration tests of {@link RequestFilter}.
@@ -94,14 +95,11 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testShortPollingLimit() {
-        final PollingRequest<Void> request =
-                session.req("https://httpbin.org/get")
-                        .poll(PollingStrategy.SHORT, 500, 3)
-                        .get();
-
-        request.onStatus(200,
-                new ResponseCallback() {
-                    public void execute(Response response) {
+        session.req("https://httpbin.org/get")
+                .poll(PollingStrategy.SHORT, 500, 3)
+                .get()
+                .onStatus(200, new ResponseRequestCallback<Void>() {
+                    public void execute(Response response, PollingRequest<Void> request) {
                         assertTrue(request.getPollingCounter() <= 3);
 
                         if (request.getPollingCounter() == 3) {
@@ -114,14 +112,11 @@ public class RequestGwtTest extends GWTTestCase {
     }
 
     public void testLongPollingLimit() {
-        final PollingRequest<Void> request =
-                session.req("https://httpbin.org/get")
-                        .poll(PollingStrategy.LONG, 0, 3)
-                        .get();
-
-        request.onStatus(200,
-                new ResponseCallback() {
-                    public void execute(Response response) {
+        session.req("https://httpbin.org/get")
+                .poll(PollingStrategy.LONG, 0, 3)
+                .get()
+                .onStatus(200, new ResponseRequestCallback<Void>() {
+                    public void execute(Response response, PollingRequest<Void> request) {
                         assertTrue(request.getPollingCounter() <= 3);
 
                         if (request.getPollingCounter() == 3) {
