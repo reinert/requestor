@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core;
+package io.reinert.requestor.gwt.xhr;
 
 import com.google.gwt.core.client.JavaScriptObject;
+
+import io.reinert.requestor.core.ProgressEvent;
 
 final class JsProgressEvent extends JavaScriptObject implements ProgressEvent {
 

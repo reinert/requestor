@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core;
+package io.reinert.requestor.gwt.xhr;
+
+import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestOptions;
+import io.reinert.requestor.core.RequestProgress;
 
 /**
  * Thrown to indicate that an HTTP request has timed out.

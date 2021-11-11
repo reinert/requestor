@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core;
+package io.reinert.requestor.gwt.xhr;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +33,7 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
             if ("onprogress" in this) {
                 this.onprogress = $entry(function(e) {
                     // CHECKSTYLE:OFF
-                    handler.@io.reinert.requestor.core.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
+                    handler.@io.reinert.requestor.gwt.xhr.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
                     // CHECKSTYLE:ON
                 });
             }
@@ -81,7 +81,7 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         if ("onprogress" in this) {
             this.onprogress = $entry(function(e) {
                 // CHECKSTYLE:OFF
-                handler.@io.reinert.requestor.core.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
+                handler.@io.reinert.requestor.gwt.xhr.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
                 // CHECKSTYLE:ON
             });
             return true;
@@ -112,7 +112,7 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         if ("onerror" in this) {
             this.onerror = $entry(function(e) {
                 // CHECKSTYLE:OFF
-                handler.@io.reinert.requestor.core.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
+                handler.@io.reinert.requestor.gwt.xhr.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
                 // CHECKSTYLE:ON
             });
             return true;

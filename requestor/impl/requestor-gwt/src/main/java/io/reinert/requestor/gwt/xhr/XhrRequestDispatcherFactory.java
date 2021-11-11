@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core;
+package io.reinert.requestor.gwt.xhr;
+
+import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.RequestDispatcher;
+import io.reinert.requestor.core.RequestProcessor;
+import io.reinert.requestor.core.ResponseProcessor;
 
 /**
  * Default implementation for {@link RequestDispatcher.Factory}.

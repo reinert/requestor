@@ -22,7 +22,7 @@ import java.util.ListIterator;
  *
  * @author Danilo Reinert
  */
-class RequestProcessor {
+public class RequestProcessor {
 
     private final SerializationEngine serializationEngine;
     private RequestSerializer requestSerializer;

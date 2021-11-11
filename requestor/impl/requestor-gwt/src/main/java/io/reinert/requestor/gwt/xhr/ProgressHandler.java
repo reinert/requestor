@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core;
+package io.reinert.requestor.gwt.xhr;
+
+import io.reinert.requestor.core.ProgressEvent;
 
 /**
  * A progress callback for an XMLHttpRequest object.
