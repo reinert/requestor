@@ -16,6 +16,7 @@
   -->
 <module>
   <inherits name="com.google.gwt.http.HTTP"/>
+  <inherits name="com.google.gwt.dom.DOM"/>
 
   <inherits name="io.reinert.requestor.core.Requestor"/>
 
