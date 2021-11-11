@@ -24,17 +24,17 @@ import java.util.Collection;
  */
 public interface RestInvoker<R, I> {
 
-    Promise<Collection<R>> get(Object... params);
+    Request<Collection<R>> get(Object... params);
 
-    Promise<R> get(I id);
+    Request<R> get(I id);
 
-    Promise<R> post(R resource);
+    Request<R> post(R resource);
 
-    Promise<R> patch(I id, R resource, String... fields);
+    Request<R> patch(I id, R resource, String... fields);
 
-    Promise<R> put(I id, R resource);
+    Request<R> put(I id, R resource);
 
-    Promise<Void> delete(I id);
+    Request<Void> delete(I id);
 
     RequestInvoker req();
 

@@ -24,62 +24,62 @@ import java.util.Collection;
  */
 public interface DirectInvoker {
 
-    Promise<Void> get(String uri);
+    Request<Void> get(String uri);
 
-    <T> Promise<T> get(String uri, Class<T> entityType);
+    <T> Request<T> get(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> get(String uri, Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> post(String uri);
+    Request<Void> post(String uri);
 
-    Promise<Void> post(String uri, Object payload);
+    Request<Void> post(String uri, Object payload);
 
-    <T> Promise<T> post(String uri, Object payload, Class<T> entityType);
+    <T> Request<T> post(String uri, Object payload, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<C> collectionType,
+    <T, C extends Collection> Request<Collection<T>> post(String uri, Object payload, Class<C> collectionType,
                                                           Class<T> entityType);
 
-    <T> Promise<T> post(String uri, Class<T> entityType);
+    <T> Request<T> post(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> post(String uri, Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> put(String uri);
+    Request<Void> put(String uri);
 
-    Promise<Void> put(String uri, Object payload);
+    Request<Void> put(String uri, Object payload);
 
-    <T> Promise<T> put(String uri, Object payload, Class<T> entityType);
+    <T> Request<T> put(String uri, Object payload, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<C> collectionType,
+    <T, C extends Collection> Request<Collection<T>> put(String uri, Object payload, Class<C> collectionType,
                                                          Class<T> entityType);
 
-    <T> Promise<T> put(String uri, Class<T> entityType);
+    <T> Request<T> put(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> put(String uri, Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> delete(String uri);
+    Request<Void> delete(String uri);
 
-    <T> Promise<T> delete(String uri, Class<T> entityType);
+    <T> Request<T> delete(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> delete(String uri, Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> patch(String uri);
+    Request<Void> patch(String uri);
 
-    Promise<Void> patch(String uri, Object payload);
+    Request<Void> patch(String uri, Object payload);
 
-    <T> Promise<T> patch(String uri, Object payload, Class<T> entityType);
+    <T> Request<T> patch(String uri, Object payload, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<C> collectionType,
+    <T, C extends Collection> Request<Collection<T>> patch(String uri, Object payload, Class<C> collectionType,
                                                            Class<T> entityType);
 
-    <T> Promise<T> patch(String uri, Class<T> entityType);
+    <T> Request<T> patch(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> patch(String uri, Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> options(String uri);
+    Request<Void> options(String uri);
 
-    <T> Promise<T> options(String uri, Class<T> entityType);
+    <T> Request<T> options(String uri, Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> options(String uri, Class<C> collectionType, Class<T> entityType);
 
-    Promise<Headers> head(String uri);
+    Request<Headers> head(String uri);
 }

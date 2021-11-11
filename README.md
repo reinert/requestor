@@ -68,7 +68,7 @@ session.req("/api/books/1")             // 0. Start building the request
        .timeout(10000)                  // 1. Set the request options
        .header("ETag", "33a64df5") 
        .get(Book.class)                 // 2. Invoke an HTTP method with the expected type
-       .success(book -> render(book))   // 3. Add callbacks to the promise
+       .success(book -> render(book))   // 3. Add callbacks to the request
        .fail(response -> log(response));
 ```
 
@@ -474,10 +474,10 @@ See the example:
 
 ```java
 // An ArrayList was requested, but the get method returned a Promise<Collection<Book>>
-Promise<Collection<Book>> promise = session.req("/server/books").get(ArrayList.class, Book.class);
+Promise<Collection<Book>> request = session.req("/server/books").get(ArrayList.class, Book.class);
 
 // Even though we can declare a List<Book> as the callback's parameterized type
-promise.success(new PayloadCallback<List<Book>>() {
+request.success(new PayloadCallback<List<Book>>() {
     public void execute(List<Book> payload) {
         ...
     }
@@ -489,13 +489,13 @@ the signature to access it. Check below:
 
 ```java
 // An ArrayList was requested, but the get method returned a Promise<Collection<Book>>
-Promise<Collection<Book>> promise = session.req("/server/books").get(ArrayList.class, Book.class);
+Promise<Collection<Book>> request = session.req("/server/books").get(ArrayList.class, Book.class);
 
 // The payload parameter in callback is a Collection<Book>
-promise.success( books -> books.get(0) ); // COMPILATION ERROR: books is Collection<Book> and .get belongs to List
+request.success( books -> books.get(0) ); // COMPILATION ERROR: books is Collection<Book> and .get belongs to List
 
 // You can explicitly declare the type in lambda signature to typecast
-promise.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
+request.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
 ```
 
 ## Serialization
@@ -1126,10 +1126,10 @@ RequestInvoker req = session.req("/api/book/1")
 req = req.timeout(5000)
 
 // Invoke the request
-Promise<Book> promise = req.get(Book.class);
+Request<Book> request = req.get(Book.class);
 
 // All together
-Promise<Book> promise = session.req("/api/book/1")
+Request<Book> request = session.req("/api/book/1")
         .timeout(5000)
         .get(Book.class);
 ```
@@ -1142,7 +1142,7 @@ In addition to the fluent request builder and invoker exposed by the `req` metho
 Book book = new Book("Clean Code", "Robert C. Martin");
 
 // Same as `session.req("/api/books").payload(book).post(Book.class)`
-Promise<Book> promise = session.post("/api/books", book, Book.class);
+Request<Book> request = session.post("/api/books", book, Book.class);
 ```
 
 ### Deferred Factory
@@ -1395,16 +1395,16 @@ public abstract class MyAppService<E> extends AbstractService {
     }
 
     // Implement the basic operations common to every resource...
-    public Promise<E> create(E e) {
+    public Request<E> create(E e) {
         Uri uri = getUriBuilder().build();
-        // add the error handling callbacks in the promise returned by the post method
-        Promise<E> promise = request(uri).payload(e).post(entityClass);
-        return applyErrorCallbacks(promise);
+        // add the error handling callbacks in the request returned by the post method
+        Request<E> request = request(uri).payload(e).post(entityClass);
+        return applyErrorCallbacks(request);
     }
     
     // Implement all your service calls following the same pattern...
-    private <T> Promise<T> applyErrorCallbacks(Promise<T> promise) {
-        return promise
+    private <T> Request<T> applyErrorCallbacks(Request<T> request) {
+        return request
                 .status(404, response -> handleNotFound(response.getRequest().getUri()))
                 .status(500, response -> handleServerError(response))
                 .timeout(t -> handleTimeout(t))
@@ -1459,13 +1459,13 @@ RequestInvoker req = session.req("/api/books")
 //========================================
 
 // Send a POST request expecting an Integer as response
-Promise<Integer> postReq = req.post(Integer.class);
+Request<Integer> postReq = req.post(Integer.class);
 
 // Send a GET request expecting a Set of Books as response
-Promise<Collection<Book>> getReq = req.get(Set.class, Book.class);
+Request<Collection<Book>> getReq = req.get(Set.class, Book.class);
 
 // Send a DELETE request ignoring the response body
-Promise<Void> delReq = req.delete();
+Request<Void> delReq = req.delete();
 
 // PUT, PATCH, HEAD and OPTIONS are also available but were omitted for didactic purposes
 

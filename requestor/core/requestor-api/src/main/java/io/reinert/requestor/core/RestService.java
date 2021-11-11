@@ -36,7 +36,7 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
     }
 
     @Override
-    public Promise<Collection<R>> get(Object... params) {
+    public Request<Collection<R>> get(Object... params) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
         if (asMatrixParam) {
@@ -49,7 +49,7 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
     }
 
     @Override
-    public Promise<R> get(I id) {
+    public Request<R> get(I id) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
@@ -58,14 +58,14 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
     }
 
     @Override
-    public Promise<R> post(R resource) {
+    public Request<R> post(R resource) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
         return request(reqUriBuilder.build()).payload(resource).post(resourceType);
     }
 
     @Override
-    public Promise<R> patch(I id, R resource, String... fields) {
+    public Request<R> patch(I id, R resource, String... fields) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
@@ -74,7 +74,7 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
     }
 
     @Override
-    public Promise<R> put(I id, R resource) {
+    public Request<R> put(I id, R resource) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);
@@ -83,7 +83,7 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
     }
 
     @Override
-    public Promise<Void> delete(I id) {
+    public Request<Void> delete(I id) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
         reqUriBuilder.segment(id);

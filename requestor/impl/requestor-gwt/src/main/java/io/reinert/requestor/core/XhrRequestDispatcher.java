@@ -93,20 +93,18 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             }
         });
 
-        // Set XMLHttpRequest's onprogress if available binding to promise's progress
+        // Set XMLHttpRequest's onprogress if available binding to request's progress
         xmlHttpRequest.setOnProgress(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                // TODO(reinert): should we check if the promise is pending before notifying to avoid exceptions?
                 deferred.notifyDownload(new RequestProgressImpl(progress));
             }
         });
 
-        // Set XMLHttpRequest's upload onprogress if available binding to promise's progress
+        // Set XMLHttpRequest's upload onprogress if available binding to request's progress
         xmlHttpRequest.setUploadOnProgress(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                // TODO(reinert): should we check if the promise is pending before notifying to avoid exceptions?
                 deferred.notifyUpload(new RequestProgressImpl(progress));
             }
         });

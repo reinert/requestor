@@ -69,7 +69,7 @@ class CallbackDeferred implements Deferred<Response> {
     }
 
     @Override
-    public Promise<Response> getPromise() {
+    public Request<Response> getRequest() {
         return null;
     }
 

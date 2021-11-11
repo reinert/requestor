@@ -23,34 +23,34 @@ import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 
 /**
- * A Promise for requests.
+ * An observable Request.
  *
  * @param <T> The type of successful result
  *
  * @author Danilo Reinert
  */
-public interface Promise<T> {
+public interface Request<T> {
 
-    Promise<T> onAbort(ExceptionCallback callback);
+    Request<T> onAbort(ExceptionCallback callback);
 
-    Promise<T> onLoad(ResponseCallback callback);
+    Request<T> onLoad(ResponseCallback callback);
 
-    Promise<T> onFail(ResponseCallback callback);
+    Request<T> onFail(ResponseCallback callback);
 
-    Promise<T> onProgress(ProgressCallback callback);
+    Request<T> onProgress(ProgressCallback callback);
 
-    Promise<T> onStatus(int statusCode, ResponseCallback callback);
+    Request<T> onStatus(int statusCode, ResponseCallback callback);
 
-    Promise<T> onStatus(Status status, ResponseCallback callback);
+    Request<T> onStatus(Status status, ResponseCallback callback);
 
-    Promise<T> onStatus(StatusFamily family, ResponseCallback callback);
+    Request<T> onStatus(StatusFamily family, ResponseCallback callback);
 
-    <E extends T> Promise<T> onSuccess(PayloadCallback<E> callback);
+    <E extends T> Request<T> onSuccess(PayloadCallback<E> callback);
 
-    <E extends T> Promise<T> onSuccess(PayloadResponseCallback<E> callback);
+    <E extends T> Request<T> onSuccess(PayloadResponseCallback<E> callback);
 
-    Promise<T> onTimeout(TimeoutCallback callback);
+    Request<T> onTimeout(TimeoutCallback callback);
 
-    Promise<T> onUpProgress(ProgressCallback callback);
+    Request<T> onUpProgress(ProgressCallback callback);
 
 }

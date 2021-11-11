@@ -68,7 +68,7 @@ public abstract class RequestDispatcher {
      * @param request               The request to be sent
      * @param deferred              The deferred to resolve or reject when completed
      * @param responsePayloadType   The type of the expected response payload
-     * @param <R>                   The expected type of the promise
+     * @param <R>                   The expected type of the request
      */
     protected abstract <R> void send(PreparedRequest request, Deferred<R> deferred,
                                      PayloadType responsePayloadType);
@@ -85,21 +85,21 @@ public abstract class RequestDispatcher {
     }
 
     /**
-     * Sends the request and return an instance of {@link Promise} expecting a sole result.
+     * Sends the request and return an instance of {@link Request} expecting a sole result.
      *
      * @param request               The built request
      * @param responsePayloadType   The class instance of the expected type in response payload
      * @param <T>                   The expected type in response payload
      *
-     * @return                      The promise for the dispatched request
+     * @return                      The request for the dispatched request
      */
-    public <T> Promise<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
+    public <T> Request<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
         Deferred<T> deferred = deferredFactory.newDeferred();
 
-        Promise<T> promise = deferred.getPromise();
+        Request<T> deferredRequest = deferred.getRequest();
 
         if (isLongPolling(request)) {
-            promise.onLoad(getLongPollingCallback(request, responsePayloadType, deferred));
+            deferredRequest.onLoad(getLongPollingCallback(request, responsePayloadType, deferred));
         }
 
         scheduleDispatch(request, responsePayloadType, deferred, false, false);
@@ -107,7 +107,7 @@ public abstract class RequestDispatcher {
         logger.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
                 request.getDelay() + "ms.");
 
-        return promise;
+        return deferredRequest;
     }
 
     /**

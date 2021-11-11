@@ -62,7 +62,7 @@ public interface MutableRequest extends RequestOptions, HasHeaders {
     /**
      * Sets the number of milliseconds to wait for a request to complete.
      *
-     * Should the request timeout, registered RejectedCallbacks will be called in the returning Promise.
+     * Should the request timeout, registered RejectedCallbacks will be called in the returning Request.
      * The callback method will receive an instance of the {@link RequestTimeoutException} class as its
      * {@link Throwable} argument.
      * <p></p>

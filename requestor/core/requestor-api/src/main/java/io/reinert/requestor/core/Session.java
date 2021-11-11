@@ -186,151 +186,151 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     //===================================================================
 
     @Override
-    public Promise<Void> get(String uri) {
+    public Request<Void> get(String uri) {
         return this.req(uri).get();
     }
 
     @Override
-    public <T> Promise<T> get(String uri, Class<T> entityType) {
+    public <T> Request<T> get(String uri, Class<T> entityType) {
         return this.req(uri).get(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> get(String uri, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> get(String uri, Class<C> collectionType,
                                                                 Class<T> entityType) {
         return this.req(uri).get(collectionType, entityType);
     }
 
     @Override
-    public Promise<Void> post(String uri) {
+    public Request<Void> post(String uri) {
         return this.req(uri).post();
     }
 
     @Override
-    public Promise<Void> post(String uri, Object payload) {
+    public Request<Void> post(String uri, Object payload) {
         return this.req(uri).payload(payload).post();
     }
 
     @Override
-    public <T> Promise<T> post(String uri, Object payload, Class<T> entityType) {
+    public <T> Request<T> post(String uri, Object payload, Class<T> entityType) {
         return this.req(uri).payload(payload).post(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Object payload, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> post(String uri, Object payload, Class<C> collectionType,
                                                                  Class<T> entityType) {
         return this.req(uri).payload(payload).post(collectionType, entityType);
     }
 
     @Override
-    public <T> Promise<T> post(String uri, Class<T> entityType) {
+    public <T> Request<T> post(String uri, Class<T> entityType) {
         return this.req(uri).post(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(String uri, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> post(String uri, Class<C> collectionType,
                                                                  Class<T> entityType) {
         return this.req(uri).post(collectionType, entityType);
     }
 
     @Override
-    public Promise<Void> put(String uri) {
+    public Request<Void> put(String uri) {
         return this.req(uri).put();
     }
 
     @Override
-    public Promise<Void> put(String uri, Object payload) {
+    public Request<Void> put(String uri, Object payload) {
         return this.req(uri).payload(payload).put();
     }
 
     @Override
-    public <T> Promise<T> put(String uri, Object payload, Class<T> entityType) {
+    public <T> Request<T> put(String uri, Object payload, Class<T> entityType) {
         return this.req(uri).payload(payload).put(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Object payload, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> put(String uri, Object payload, Class<C> collectionType,
                                                                 Class<T> entityType) {
         return this.req(uri).payload(payload).put(collectionType, entityType);
     }
 
     @Override
-    public <T> Promise<T> put(String uri, Class<T> entityType) {
+    public <T> Request<T> put(String uri, Class<T> entityType) {
         return this.req(uri).put(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(String uri, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> put(String uri, Class<C> collectionType,
                                                                 Class<T> entityType) {
         return this.req(uri).put(collectionType, entityType);
     }
 
     @Override
-    public Promise<Void> delete(String uri) {
+    public Request<Void> delete(String uri) {
         return this.req(uri).delete();
     }
 
     @Override
-    public <T> Promise<T> delete(String uri, Class<T> entityType) {
+    public <T> Request<T> delete(String uri, Class<T> entityType) {
         return this.req(uri).delete(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> delete(String uri, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> delete(String uri, Class<C> collectionType,
                                                                    Class<T> entityType) {
         return this.req(uri).delete(collectionType, entityType);
     }
 
     @Override
-    public Promise<Void> patch(String uri) {
+    public Request<Void> patch(String uri) {
         return this.req(uri).patch();
     }
 
     @Override
-    public Promise<Void> patch(String uri, Object payload) {
+    public Request<Void> patch(String uri, Object payload) {
         return this.req(uri).payload(payload).patch();
     }
 
     @Override
-    public <T> Promise<T> patch(String uri, Object payload, Class<T> entityType) {
+    public <T> Request<T> patch(String uri, Object payload, Class<T> entityType) {
         return this.req(uri).payload(payload).patch(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Object payload, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> patch(String uri, Object payload, Class<C> collectionType,
                                                                   Class<T> entityType) {
         return this.req(uri).payload(payload).patch(collectionType, entityType);
     }
 
     @Override
-    public <T> Promise<T> patch(String uri, Class<T> entityType) {
+    public <T> Request<T> patch(String uri, Class<T> entityType) {
         return this.req(uri).patch(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(String uri, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> patch(String uri, Class<C> collectionType,
                                                                   Class<T> entityType) {
         return this.req(uri).patch(collectionType, entityType);
     }
 
     @Override
-    public Promise<Void> options(String uri) {
+    public Request<Void> options(String uri) {
         return this.req(uri).options();
     }
 
     @Override
-    public <T> Promise<T> options(String uri, Class<T> entityType) {
+    public <T> Request<T> options(String uri, Class<T> entityType) {
         return this.req(uri).options(entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> options(String uri, Class<C> collectionType,
+    public <T, C extends Collection> Request<Collection<T>> options(String uri, Class<C> collectionType,
                                                                     Class<T> entityType) {
         return this.req(uri).options(collectionType, entityType);
     }
 
     @Override
-    public Promise<Headers> head(String uri) {
+    public Request<Headers> head(String uri) {
         return this.req(uri).head();
     }
 

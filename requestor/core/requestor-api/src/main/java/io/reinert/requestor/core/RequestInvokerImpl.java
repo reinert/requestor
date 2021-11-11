@@ -38,97 +38,97 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     //===================================================================
 
     @Override
-    public Promise<Void> get() {
+    public Request<Void> get() {
         return send(HttpMethod.GET, Void.class);
     }
 
     @Override
-    public <T> Promise<T> get(Class<T> entityType) {
+    public <T> Request<T> get(Class<T> entityType) {
         return send(HttpMethod.GET, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> get(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> Request<Collection<T>> get(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.GET, entityType, collectionType);
     }
 
     @Override
-    public Promise<Void> post() {
+    public Request<Void> post() {
         return send(HttpMethod.POST, Void.class);
     }
 
     @Override
-    public <T> Promise<T> post(Class<T> entityType) {
+    public <T> Request<T> post(Class<T> entityType) {
         return send(HttpMethod.POST, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> post(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> Request<Collection<T>> post(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.POST, entityType, collectionType);
     }
 
     @Override
-    public Promise<Void> put() {
+    public Request<Void> put() {
         return send(HttpMethod.PUT, Void.class);
     }
 
     @Override
-    public <T> Promise<T> put(Class<T> entityType) {
+    public <T> Request<T> put(Class<T> entityType) {
         return send(HttpMethod.PUT, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> put(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> Request<Collection<T>> put(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.PUT, entityType, collectionType);
     }
 
     @Override
-    public Promise<Void> delete() {
+    public Request<Void> delete() {
         return send(HttpMethod.DELETE, Void.class);
     }
 
     @Override
-    public <T> Promise<T> delete(Class<T> entityType) {
+    public <T> Request<T> delete(Class<T> entityType) {
         return send(HttpMethod.DELETE, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> delete(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> Request<Collection<T>> delete(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.DELETE, entityType, collectionType);
     }
 
     @Override
-    public Promise<Void> patch() {
+    public Request<Void> patch() {
         return send(HttpMethod.PATCH, Void.class);
     }
 
     @Override
-    public <T> Promise<T> patch(Class<T> entityType) {
+    public <T> Request<T> patch(Class<T> entityType) {
         return send(HttpMethod.PATCH, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> patch(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> Request<Collection<T>> patch(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.PATCH, entityType, collectionType);
     }
 
     @Override
-    public Promise<Void> options() {
+    public Request<Void> options() {
         return send(HttpMethod.OPTIONS, Void.class);
     }
 
     @Override
-    public <T> Promise<T> options(Class<T> entityType) {
+    public <T> Request<T> options(Class<T> entityType) {
         return send(HttpMethod.OPTIONS, entityType);
     }
 
     @Override
-    public <T, C extends Collection> Promise<Collection<T>> options(Class<C> collectionType, Class<T> entityType) {
+    public <T, C extends Collection> Request<Collection<T>> options(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.OPTIONS, entityType, collectionType);
     }
 
     @Override
-    public Promise<Headers> head() {
+    public Request<Headers> head() {
         return send(HttpMethod.HEAD, Headers.class);
     }
 }

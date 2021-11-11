@@ -40,7 +40,7 @@ public interface Deferred<T> {
 
     HttpConnection getHttpConnection();
 
-    Promise<T> getPromise();
+    Request<T> getRequest();
 
     Deferred<T> getUnresolvedCopy();
 

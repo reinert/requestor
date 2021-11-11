@@ -161,7 +161,7 @@ public class DigestAuth implements Auth {
                     return;
                 }
 
-                // Otherwise, throw an AuthException and reject the promise with it
+                // Otherwise, throw an AuthException and abort the request with it
                 throw new AuthException("The server returned a not expected status code: " + response.getStatusCode());
             }
         });

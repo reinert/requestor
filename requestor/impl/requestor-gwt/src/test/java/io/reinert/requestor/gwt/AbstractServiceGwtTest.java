@@ -22,7 +22,7 @@ import java.util.List;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.core.AbstractService;
-import io.reinert.requestor.core.Promise;
+import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.RestService;
 import io.reinert.requestor.core.Session;
@@ -44,33 +44,33 @@ public class AbstractServiceGwtTest extends GWTTestCase {
             super(session, "https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
         }
 
-        public Promise<Collection<Book>> getBooks(String... authors) {
+        public Request<Collection<Book>> getBooks(String... authors) {
             Uri uri = getUriBuilder()
                     .queryParam("author", authors) // append ?author={author}
                     .build();
             return request(uri).get(List.class, Book.class);
         }
 
-        public Promise<Book> getBookById(Integer id) {
+        public Request<Book> getBookById(Integer id) {
             Uri uri = getUriBuilder()
                     .segment(id) // add a path segment with the book id like /api/books/123
                     .build();
             return request(uri).get(Book.class);
         }
 
-        public Promise<Book> createBook(Book book) {
+        public Request<Book> createBook(Book book) {
             Uri uri = getUriBuilder().build();
             return request(uri).payload(book).post(Book.class);
         }
 
-        public Promise<Void> updateBook(Integer id, Book book) {
+        public Request<Void> updateBook(Integer id, Book book) {
             Uri uri = getUriBuilder()
                     .segment(id) // add a path segment with the book id like /api/books/123
                     .build();
             return request(uri).payload(book).put();
         }
 
-        public Promise<Void> deleteBook(Integer id) {
+        public Request<Void> deleteBook(Integer id) {
             Uri uri = getUriBuilder()
                     .segment(id) // add a path segment with the book id like /api/books/123
                     .build();

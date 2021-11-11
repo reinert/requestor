@@ -19,7 +19,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.core.Headers;
-import io.reinert.requestor.core.Promise;
+import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
@@ -39,8 +39,8 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onGetIpButtonClick() {
-        Promise<String> promise = (Promise<String>) session.req("http://httpbin.org/ip").get(String.class);
-        promise.onSuccess(new PayloadCallback<String>() {
+        Request<String> request = (Request<String>) session.req("http://httpbin.org/ip").get(String.class);
+        request.onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setIpText(result);

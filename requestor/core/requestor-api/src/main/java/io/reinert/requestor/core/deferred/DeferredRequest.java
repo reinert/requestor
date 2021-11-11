@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.IncompatibleTypeException;
-import io.reinert.requestor.core.Promise;
+import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestProgress;
 import io.reinert.requestor.core.RequestTimeoutException;
@@ -36,9 +36,9 @@ import io.reinert.requestor.core.callback.TimeoutCallback;
 /**
  * Default Deferred implementation.
  *
- * @param <T> Expected type in Promise#done.
+ * @param <T> Expected type in Request#done.
  */
-public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
+public class DeferredRequest<T> implements Deferred<T>, Request<T> {
 
     private static final Logger logger = Logger.getLogger(DeferredRequest.class.getName());
 
@@ -54,11 +54,11 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     //===================================================================
-    // Promise
+    // Request
     //===================================================================
 
     @Override
-    public Promise<T> onAbort(final ExceptionCallback callback) {
+    public Request<T> onAbort(final ExceptionCallback callback) {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 callback.execute(e);
@@ -68,7 +68,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> onLoad(final ResponseCallback callback) {
+    public Request<T> onLoad(final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 callback.execute(response);
@@ -78,7 +78,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> onFail(final ResponseCallback callback) {
+    public Request<T> onFail(final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (!isSuccessful(response)) callback.execute(response);
@@ -88,7 +88,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> onProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public Request<T> onProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
         deferred.progress(new ProgressCallback<RequestProgress>() {
             public void onProgress(RequestProgress progress) {
                 callback.execute(progress);
@@ -98,7 +98,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> onStatus(final int statusCode, final ResponseCallback callback) {
+    public Request<T> onStatus(final int statusCode, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (response.getStatusCode() == statusCode)
@@ -109,7 +109,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> onStatus(final Status status, final ResponseCallback callback) {
+    public Request<T> onStatus(final Status status, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (response.getStatusCode() == status.getStatusCode())
@@ -120,7 +120,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> onStatus(final StatusFamily family, final ResponseCallback callback) {
+    public Request<T> onStatus(final StatusFamily family, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (StatusFamily.of(response.getStatusCode()) == family)
@@ -132,7 +132,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <E extends T> Promise<T> onSuccess(final PayloadCallback<E> callback) {
+    public <E extends T> Request<T> onSuccess(final PayloadCallback<E> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
@@ -151,7 +151,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <E extends T> Promise<T> onSuccess(final PayloadResponseCallback<E> callback) {
+    public <E extends T> Request<T> onSuccess(final PayloadResponseCallback<E> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
@@ -169,7 +169,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> onUpProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public Request<T> onUpProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
         deferred.upProgress(new ProgressCallback<RequestProgress>() {
             public void onProgress(RequestProgress progress) {
                 callback.execute(progress);
@@ -179,7 +179,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> onTimeout(final TimeoutCallback callback) {
+    public Request<T> onTimeout(final TimeoutCallback callback) {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestTimeoutException) {
@@ -230,7 +230,7 @@ public class DeferredRequest<T> implements Deferred<T>, Promise<T> {
     }
 
     @Override
-    public Promise<T> getPromise() {
+    public Request<T> getRequest() {
         return this;
     }
 

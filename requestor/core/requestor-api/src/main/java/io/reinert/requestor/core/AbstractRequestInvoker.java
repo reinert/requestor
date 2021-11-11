@@ -112,12 +112,12 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Requ
     // Internal methods
     //===================================================================
 
-    protected <T> Promise<T> send(HttpMethod method, Class<T> entityType) {
+    protected <T> Request<T> send(HttpMethod method, Class<T> entityType) {
         setMethod(method);
         return dispatcher.dispatch(build(), new SinglePayloadType<T>(entityType));
     }
 
-    protected <T, C extends Collection<T>> Promise<Collection<T>> send(HttpMethod method,
+    protected <T, C extends Collection<T>> Request<Collection<T>> send(HttpMethod method,
                                                                        Class<T> entityType,
                                                                        Class<C> collectionType) {
         setMethod(method);

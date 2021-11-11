@@ -26,41 +26,41 @@ import java.util.Collection;
  */
 public interface Invoker {
 
-    Promise<Void> get();
+    Request<Void> get();
 
-    <T> Promise<T> get(Class<T> entityType);
+    <T> Request<T> get(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> get(Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> get(Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> post();
+    Request<Void> post();
 
-    <T> Promise<T> post(Class<T> entityType);
+    <T> Request<T> post(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> post(Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> post(Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> put();
+    Request<Void> put();
 
-    <T> Promise<T> put(Class<T> entityType);
+    <T> Request<T> put(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> put(Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> put(Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> delete();
+    Request<Void> delete();
 
-    <T> Promise<T> delete(Class<T> entityType);
+    <T> Request<T> delete(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> delete(Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> delete(Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> patch();
+    Request<Void> patch();
 
-    <T> Promise<T> patch(Class<T> entityType);
+    <T> Request<T> patch(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> patch(Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> patch(Class<C> collectionType, Class<T> entityType);
 
-    Promise<Void> options();
+    Request<Void> options();
 
-    <T> Promise<T> options(Class<T> entityType);
+    <T> Request<T> options(Class<T> entityType);
 
-    <T, C extends Collection> Promise<Collection<T>> options(Class<C> collectionType, Class<T> entityType);
+    <T, C extends Collection> Request<Collection<T>> options(Class<C> collectionType, Class<T> entityType);
 
-    Promise<Headers> head();
+    Request<Headers> head();
 }
