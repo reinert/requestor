@@ -7,10 +7,10 @@
 Requestor is a powerful HTTP Client API for cutting-edge Java/GWT client apps. It offers plenty of
 carefully designed features that enable developers to rule the network communication process smoothly:
 * [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
-* [**Promises**](#promises) - chain callbacks to different results and statuses.
+* [**Event-Driven Callbacks**](#event-driven-callbacks) - chain callbacks for different results and statuses.
 * [**Serialization**](#serialization) - serialize and deserialize payloads integrating any library.
 * [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
-* [**Request/Response Hooking**](#processors-hooking) - asynchronously filter and intercept requests and responses.
+* [**Request/Response Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
 * [**HTTP Polling**](#poll) - make long or short polling with a single command.
 * [**Session**](#session) - set default options to all requests.
 * [**Store**](#store) - save and retrieve data both in session and request scope.
@@ -30,20 +30,20 @@ Make a GET request and deserialize the response body as String:
 
 ```java
 Session session = new GwtSession();
-session.get("http://httpbin.org/ip", String.class).success( Window::alert );
+session.get("http://httpbin.org/ip", String.class).onSuccess( Window::alert );
 ```
 
 Make a POST request sending a serialized object in the payload:
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
-session.post("/api/books", book).success( () -> showSuccessMsg() ).fail( () -> showErrorMsg() );
+session.post("/api/books", book).onSuccess( () -> showSuccessMsg() ).onFail( () -> showErrorMsg() );
 ```
 
 GET a collection of objects:
 
 ```java
-session.get("/api/books", List.class, Book.class).success( books -> renderTable(books) );
+session.get("/api/books", List.class, Book.class).onSuccess( books -> renderTable(books) );
 ```
 
 **Note**: Check the [Serialization](#serialization) section to enable ***auto-serialization***.
@@ -59,17 +59,17 @@ Requesting involves three steps:
 2) Following, we must **call one of the invoke methods**, represented by the corresponding HTTP 
    methods (*get*, *post*, *put*, and so on). In this action, we specify the type we expect to 
    receive in the response payload.
-3) Finally, we receive a Promise instance, which allows us to **chain callbacks** according to 
+3) Finally, we receive a Request instance, which allows us to **chain callbacks** according to 
    different outcomes.
 
 
 ```java
-session.req("/api/books/1")             // 0. Start building the request
-       .timeout(10000)                  // 1. Set the request options
+session.req("/api/books/1")              // 0. Start building the request
+       .timeout(10000)                   // 1. Set the request options
        .header("ETag", "33a64df5") 
-       .get(Book.class)                 // 2. Invoke an HTTP method with the expected type
-       .success(book -> render(book))   // 3. Add callbacks to the request
-       .fail(response -> log(response));
+       .get(Book.class)                  // 2. Invoke an HTTP method with the expected type
+       .onSuccess(book -> render(book))  // 3. Add callbacks to the request
+       .onFail(response -> log(response));
 ```
 
 See the [Requesting Fluent API](#requesting-fluent-api) section to know more details of how it 
@@ -93,7 +93,7 @@ session.setContentType("aplication/json");
 
 // Perform login, save user info, and authenticate all subsequent requests
 session.post("/login", credentials, UserInfo.class)
-        .success(userInfo -> {
+        .onSuccess(userInfo -> {
             session.getStore().put("userInfo", userInfo);
             session.setAuth(new BearerAuth(userInfo.getToken()));
         });
@@ -128,25 +128,25 @@ bookService.setMediaType("application/json");
 
 // POST a book to '/api/books' and receive the created book from server
 Book book = new Book("RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
-bookService.post(book).success(createdBook -> render(createdBook));
+bookService.post(book).onSuccess(createdBook -> render(createdBook));
 
 // GET all books from '/api/books'
-bookService.get().success(books -> render(books));
+bookService.get().onSuccess(books -> render(books));
 
 // GET books from '/api/books?author=Richardson&year=2006'
-bookService.get("author", "Richardson", "year", 2006).success(books -> render(books));
+bookService.get("author", "Richardson", "year", 2006).onSuccess(books -> render(books));
 
 // GET the book of ID 123 from '/api/books/123'
-bookService.get(123).success(books -> render(books));
+bookService.get(123).onSuccess(books -> render(books));
 
 // PUT a book in the resource with ID 123 from '/api/books/123' and receive the updated book
-bookService.put(123, book).success(updatedBook -> render(updatedBook));
+bookService.put(123, book).onSuccess(updatedBook -> render(updatedBook));
 
 // PATCH book's title and year in '/api/books/123' and receive the updated book
-bookService.patch(123, book, "title", "year").success(updatedBook -> render(updatedBook));
+bookService.patch(123, book, "title", "year").onSuccess(updatedBook -> render(updatedBook));
 
 // DELETE the book of ID 123 from '/api/books/123' (returns void)
-bookService.delete(123).success(() -> showSuccess("Book was deleted."));
+bookService.delete(123).onSuccess(() -> showSuccess("Book was deleted."));
 ```
 
 Although Requestor provides this generic REST client, extending the `AbstractService` class and 
@@ -174,13 +174,11 @@ Then, make requestor available to your GWT project by importing the implementati
 <inherits name="io.reinert.requestor.gwt.RequestorGwt"/>
 ```
 
-Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** declares a Promise 
-interface, but does not implement it. The implementation is delegated to **requestor-impl**s. 
-Thus, a **requestor-impl** integrates **requestor-core** to some promise library.
+Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** provides most of the
+features but delegates some internals, like the network operation, to the implementations.
 
-Currently, there is one impl available: **requestor-gwt**. It binds requestor with 
-[gdeferred](https://github.com/reinert/gdeferred) promise API. Furthermore, an impl integrating 
-**requestor-core** with [elemental2](https://github.com/google/elemental2) promise API is on the way.
+Currently, there is one impl available: **requestor-gwt**. It implements requestor for the 
+GWT enviroment. Furthermore, implementations for the Java/Android and J2CL are planned.
 
 ### Latest Release
 
@@ -233,7 +231,7 @@ RequestInvoker req = session.req("/api/books/");
 ### *payload*
 
 Set an object as the request payload. This object is then serialized into the HTTP message's body
-as part of the [request processing](#processors-hooking) after its invocation.
+as part of the [request processing](#processors-middlewares) after its invocation.
 
 ```java
 req.payload( "a simple string" );
@@ -351,11 +349,9 @@ Furthermore, not setting a *polling limit*, we can manually ***stop*** the polli
 session.req("/api/books/")
        .poll(PollingStrategy.LONG)
        .get()
-       .load(new ResponseCallback() {
+       .onLoad(new ResponseRequestCallback() {
            @Override
-           public void execute(Response response) {
-               Request request = response.getRequest();
-
+           public void execute(Response response, PollingRequest<Void> request) {
                if (request.getPollingCounter() == 3) {
                    request.stopPolling(); // Stop polling after receving the third response
                }
@@ -364,38 +360,38 @@ session.req("/api/books/")
 ```
 
 It is worth noting that each new dispatched request will pass through all the [request/response 
-processing cycle](#processors-hooking). Thereby, we will have every polling request always up 
+processing cycle](#processors-middlewares). Thereby, we will have every polling request always up 
 to date with our filters, 
 serializers, and interceptors.
 
-## Promises
+## Event-Driven Callbacks
 
-Requestor declares its own Promise contract coherent with the requesting domain.
+Requestor declares its own Request contract coherent with the requesting domain.
 
-A `Promise<T>` gives access to the response body as `T` if it is successful (2xx). Check the 
+A `Request<T>` gives access to the response body as `T` if it is successful (2xx). Check the 
 available callbacks:
-  * **success**( payload [, response ] -> {} )
+  * **onSuccess**( payload [, response [, request]] -> {} )
     * executed when the response *is successful* (status = 2xx)
     * features the *deserialized payload* and the *response* (optional)
-  * **fail**( response -> {} )
+  * **onFail**( response [, request] -> {} )
     * executed if the response *is unsuccessful* (status ≠ 2xx)
     * features the *response*
-  * **load**( response -> {} )
+  * **onLoad**( response [, request] -> {} )
     * executed if the response *is completed*, regardless of *success or failure*
     * features the *response*
-  * **status**( statusCode|statusFamily, response -> {} )
+  * **onStatus**( statusCode|statusFamily, (response [, request]) -> {} )
     * executed when the response *returned the given status code/family*
     * features the *response*
-  * **progress**( requestProgress -> {} )
+  * **onProgress**( progress [, request] -> {} )
     * executed many times while the request is being sent
-    * features the *requestProgress* that enables tracking the download progress
-  * **upProgress**( requestProgress -> {} )
+    * features the *progress* that enables tracking the download progress
+  * **onUpProgress**( progress [, request] -> {} )
     * executed many times while the response is being received
-    * features the *requestProgress* that enables tracking the upload progress
-  * **timeout**( timeoutException -> {} )
+    * features the *progress* that enables tracking the upload progress
+  * **onTimeout**( timeoutException [, request] -> {} )
     * executed when a timeout occurs
     * features the *timeoutException* including the *request*
-  * **abort**( requestException -> {} )
+  * **onAbort**( requestException [, request] -> {} )
     * executed if the request *could not be performed* due to any exception (even timeout)
     * features the original *exception*
 
@@ -403,54 +399,54 @@ Check how you can use them below:
 
 ```java
 // You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
-session.get('/httpbin.org/ip', String.class).success(new PayloadCallback<String>() {
+session.get('/httpbin.org/ip', String.class).onSuccess(new PayloadCallback<String>() {
     public void execute(String ip) {
         // This is executed if the request was successful (status = 2xx)
         view.showIp(ip);
     }
-}).success(new PayloadResponseCallback<String>() {
+}).onSuccess(new PayloadResponseCallback<String>() {
     public void execute(String ip, Response r) {
         Window.alert("Response status was " + r.getStatus.toString());
     }
-}).fail(new ResponseCallback() {
+}).onFail(new ResponseCallback() {
     public void execute(Response r) {
         // This is executed if the request was unsuccessful (status ≠ 2xx)
         view.showError("Request failed. Server message: " + r.getPayload().toString());
     }
-}).load(new ResponseCallback() {
+}).onLoad(new ResponseCallback() {
     public void execute(Response r) {
         // This is always executed, regardless of success or failure
         Window.alert("Response status was " + r.getStatus.toString());
     }
-}).status(429, new ResponseCallback() {
+}).onStatus(429, new ResponseCallback() {
     public void execute(Response r) {
         // This is executed if the response status code 429
         view.showError("Too many requests. Please try again in a few seconds.");
     }
-}).status(StatusFamily.SERVER_ERROR, new ResponseCallback() {
+}).onStatus(StatusFamily.SERVER_ERROR, new ResponseCallback() {
     public void execute(Response r) {
         // This is executed if the response status code was 5xx (server error)
         view.showError("Request failed. Server message: " + r.getPayload().toString());
     }
-}).progress(new ProgressCallback() {
+}).onProgress(new ProgressCallback() {
     public void execute(RequestProgress progress) {
         // This is executed many times while the response is being received
         if (progress.isLengthComputable())
             view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );
     }
-}).upProgress(new ProgressCallback() {
+}).onUpProgress(new ProgressCallback() {
     public void execute(RequestProgress progress) {
         // This is executed many times while the request is being sent
         if (progress.isLengthComputable())
           // getCompletedFraction(int factor) calculates (loaded/total)*factor
           view.setUploadProgress(progress.getCompletedFraction(100));
     }
-}).timeout(new TimeoutCallback() {
+}).onTimeout(new TimeoutCallback() {
     public void execute(TimeoutException e) {
         // This is executed if the request could not be performed due to timeout
         view.showError("Request timed out: " + e.getMessage());
     }
-}).fail(new ExceptionCallback() {
+}).onAbort(new ExceptionCallback() {
     public void execute(RequestException e) {
         // This is executed if the request could not be performed due to any exception thrown before sending   
         if (t instanceof TimeoutException) {
@@ -466,18 +462,18 @@ session.get('/httpbin.org/ip', String.class).success(new PayloadCallback<String>
 
 ### Success callbacks and Collections
 
-When requesting, we will always receive a `Promise<Collection<T>>` despite the particular 
+When requesting, we will always receive a `Request<Collection<T>>` despite the particular 
 collection type (*List*, *Set*, and so on) we asked due to a design limitation of the Java 
 language, which does not allow "generics of generics." Nevertheless, we can declare the 
 collection we demanded in the callback to typecast the result automatically.
 See the example:
 
 ```java
-// An ArrayList was requested, but the get method returned a Promise<Collection<Book>>
-Promise<Collection<Book>> request = session.req("/server/books").get(ArrayList.class, Book.class);
+// An ArrayList was requested, but the get method returned a Request<Collection<Book>>
+Request<Collection<Book>> request = session.req("/server/books").get(ArrayList.class, Book.class);
 
 // Even though we can declare a List<Book> as the callback's parameterized type
-request.success(new PayloadCallback<List<Book>>() {
+request.onSuccess(new PayloadCallback<List<Book>>() {
     public void execute(List<Book> payload) {
         ...
     }
@@ -488,20 +484,20 @@ request.success(new PayloadCallback<List<Book>>() {
 the signature to access it. Check below:
 
 ```java
-// An ArrayList was requested, but the get method returned a Promise<Collection<Book>>
-Promise<Collection<Book>> request = session.req("/server/books").get(ArrayList.class, Book.class);
+// An ArrayList was requested, but the get method returned a Request<Collection<Book>>
+Request<Collection<Book>> request = session.req("/server/books").get(ArrayList.class, Book.class);
 
 // The payload parameter in callback is a Collection<Book>
-request.success( books -> books.get(0) ); // COMPILATION ERROR: books is Collection<Book> and .get belongs to List
+request.onSuccess( books -> books.get(0) ); // COMPILATION ERROR: books is Collection<Book> and .get belongs to List
 
 // You can explicitly declare the type in lambda signature to typecast
-request.success( (List<Book> books) -> books.get(0) ); // OK: Now it works
+request.onSuccess( (List<Book> books) -> books.get(0) ); // OK: Now it works
 ```
 
 ## Serialization
 
-Serialization is part of the [Request Processing](#processors-hooking), and deserialization is 
-part of the [Response Processing](#processors-hooking).
+Serialization is part of the [Request Processing](#processors-middlewares), and deserialization is 
+part of the [Response Processing](#processors-middlewares).
 
 Requestor exposes the `Serializer` interface responsible for serializing and deserializing a 
 specific type while holding the **Media Types** it handles. Therefore, it is possible 
@@ -678,7 +674,7 @@ session.req("/api/authorized-only")
         .auth(request -> {
             // We are reaching another endpoint sending a password to get an updated token
             session.post("/api/token", "my-password", String.class)
-                    .success(token -> {
+                    .onSuccess(token -> {
                         // After receiving the updated token, we set it into the request and send it
                         request.setHeader("Authorization", "Bearer " + token);
                         request.send();
@@ -739,7 +735,7 @@ session.setAuth(() -> {
 ### OAuth2
 // TBD
 
-## Processors (hooking)
+## Processors (middlewares)
 
 One of the library's main features is the ability to introduce ***asynchronous hooks*** to 
 process requests and responses. These middlewares are called **Processors**. Furthermore, it is 
@@ -756,7 +752,7 @@ The request and response processing are include in the **REQUEST LIFECYCLE** as 
 7. Response is processed by `ResponseInterceptors`
 8. Response is processed by `ResponseDeserializer` and deserialized
 9. Response is processed by `ResponseFilters`
-10. User receives the processed Response though the **Promise**
+10. User receives the processed Response
 
 All processors are able to manipulate the request/response, but they have the following 
 distinguishing characteristic according to its kind:
@@ -822,7 +818,7 @@ session.register(MyRequestFilter::new); // Same as `session.register(() -> new M
 ```
 
 Besides proceeding with the request, we can alternatively ***abort*** it by calling
-`request.abort(<MockResponse>|<RequestException>)`. Check below:
+`request.onAbort(<MockResponse>|<RequestException>)`. Check below:
 
 ```java
 session.register(new RequestFilter() {
@@ -912,7 +908,7 @@ session.register(MyRequestInterceptor::new); // Same as `session.register(() -> 
 ```
 
 Besides proceeding with the request, we can alternatively ***abort*** it by calling
-`request.abort(<MockResponse>|<RequestException>)`. Check below:
+`request.onAbort(<MockResponse>|<RequestException>)`. Check below:
 
 ```java
 session.register(new RequestInterceptor() {
@@ -1054,7 +1050,7 @@ To instantiate a new `Session`, we must call one of its implementations. Request
 Session session = new CleanSession();
 ```
 
-Besides allowing registration of many [Processors](#processors-hooking), the Session admits setting many default request options. Along with that, it is possible to reset the Session state.
+Besides allowing registration of many [Processors](#processors-middlewares), the Session admits setting many default request options. Along with that, it is possible to reset the Session state.
 
 ```java
 session.reset()
@@ -1105,15 +1101,6 @@ This session configuration will be applied to every request's [`delay`](#delay) 
 session.setDelay(3000);
 ```
 
-#### Polling
-
-This session configuration will be applied to every request's [`poll`](#poll) option.
-
-```java
-// Every request will be long polling for 5 times
-session.setPolling(PollingStrategy.LONG, 0, 5);
-```
-
 ### Requesting
 
 The Session is the starting point to build requests. We access the request builder by calling `session.req(<Uri>)`. Since the builder is also an invoker, we can call an invoke method any time to send the request. The invoke methods are named according to the respective HTTP methods they claim. All those methods are chainable, as demonstrated below:
@@ -1147,23 +1134,23 @@ Request<Book> request = session.post("/api/books", book, Book.class);
 
 ### Deferred Factory
 
-Another convenient feature is the possibility of instantiating a Session with a customized `Deferred.Factory`. This factory provides `Deferred` instances to the request dispatcher, returning a `Promise` to the Session's user. Thus, we can immediately add some global callbacks to keep our code DRY when generating a Deferred instance.
+Another convenient feature is the possibility of instantiating a Session with a customized `Deferred.Factory`. This factory provides `Deferred` instances to the request dispatcher, returning a `Request` to the Session's user. Thus, we can immediately add some global callbacks to keep our code DRY when generating a Deferred instance.
 
-The example below demonstrates a customized Deferred Factory that fires a `ShowLoadingEvent` right before the request is sent and fires a `HideLoadingEvent` once the request gets [loaded](#promises) or [aborted](#promises).
+The example below demonstrates a customized Deferred Factory that fires a `ShowLoadingEvent` right before the request is sent and fires a `HideLoadingEvent` once the request gets [loaded](#event-driven-callbacks) or [aborted](#event-driven-callbacks).
 
 ```java
 class AppDeferredFactory implements Deferred.Factory {
 
     @Override
-    public <T> Deferred<T> newDeferred() {
-        final DeferredRequest<T> deferred = new DeferredRequest<T>();
+    public <T> Deferred<T> newDeferred(SerializedRequest request) {
+        final DeferredRequest<T> deferred = new DeferredRequest<T>(request);
 
         // Show loading widget before sending the request
         APP_FACTORY.getEventBus().fireEvent(new ShowLoadingEvent());
 
         // Hide loading widget on load or abort
-        deferred.load(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()))
-                .abort(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()));
+        deferred.onLoad(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()))
+                .onAbort(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()));
 
         return deferred;
     }
@@ -1206,7 +1193,7 @@ boolean isDeleted = store.delete("key");
 
 ### Request Store
 
-The Request Store is a `TransientStore` available during the [Request Lifecycle](#processors-hooking) and accessed within the [Processors](#processors-hooking) either by `request.getStore()` or by `response.getStore()`.
+The Request Store is a `TransientStore` available during the [Request Lifecycle](#processors-middlewares) and accessed within the [Processors](#processors-middlewares) either by `request.getStore()` or by `response.getStore()`.
 
 Having a transient **Request Store** is helpful to share information among **Processors** without cluttering the deriving **Session Store** or **Service Store**.
 
@@ -1315,32 +1302,32 @@ public class BookService extends AbstractService {
         super(session, "/api/books"); // Provide the root path of the REST resource or RPC group
     }
 
-    public Promise<Book> createBook(Book book) {
+    public Request<Book> createBook(Book book) {
        Uri uri = getUriBuilder() // get UriBuilder provided by the parent
                .build(); // The UriBuilder starts in the root path, so here we built /api/books uri 
        return request(uri).payload(book).post(Book.class);
     }
    
-    public Promise<Collection<Book>> getBooks(String... authors) {
+    public Request<Collection<Book>> getBooks(String... authors) {
         Uri uri = getUriBuilder()
                 .queryParam("author", authors) // append ?author={author} to the root path
                 .build();
        return request(uri).get(List.class, Book.class);
     }
 
-    public Promise<Book> getBookById(Integer id) {
+    public Request<Book> getBookById(Integer id) {
         Uri uri = getUriBuilder()
                 .segment(id) // add a path segment with the book id like /api/books/123
                 .build();
         return request(uri).get(Book.class);
     }
 
-    public Promise<Void> updateBook(Integer id, Book book) {
+    public Request<Void> updateBook(Integer id, Book book) {
         Uri uri = getUriBuilder().segment(id).build();
         return request(uri).payload(book).put();
     }
 
-    public Promise<Void> deleteBook(Integer id) {
+    public Request<Void> deleteBook(Integer id) {
         Uri uri = getUriBuilder().segment(id).build();
         return request(uri).delete();
     }
@@ -1359,19 +1346,19 @@ BookService bookService = new BookService(session);
 
 // POST a new book to /api/books
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
-bookService.createBook(book).success( createdBook -> showBook(createdBook) ).fail(...);
+bookService.createBook(book).onSuccess( createdBook -> showBook(createdBook) ).onFail(...);
 
 // GET all books from /api/books?author=Martin
-bookService.getBooks("Martin").success( books -> showBooks(books) ).fail(...);
+bookService.getBooks("Martin").onSuccess( books -> showBooks(books) ).onFail(...);
 
 // GET the book of id 123 from /api/books/123
-bookService.getBookById(123).success( book -> showBook(book) ).fail(...);
+bookService.getBookById(123).onSuccess( book -> showBook(book) ).onFail(...);
 
 // PUT a book to /api/books/123
-bookService.updateBook(123, updatedBook).success( () -> showSucessMsg() ).fail(...);
+bookService.updateBook(123, updatedBook).onSuccess( () -> showSucessMsg() ).onFail(...);
 
 // DELETE the resource /api/books/123
-bookService.deleteBook(123).success( () -> showSucessMsg() ).fail(...);
+bookService.deleteBook(123).onSuccess( () -> showSucessMsg() ).onFail(...);
 ```
 
 ### Creating the app's abstract Service
@@ -1379,7 +1366,7 @@ bookService.deleteBook(123).success( () -> showSucessMsg() ).fail(...);
 It is helpful to handle the errors inside the Service, so we do not always have to set fail callbacks.
 Therefore, we recommend implementing an app's abstract Service and extending the client services from it.
 This way, it is feasible handle all non-happy paths in one place only. For example, check the 
-`applyErrorCallbacks` method below. It adds some predefined callbacks to promises:
+`applyErrorCallbacks` method below. It adds some predefined callbacks to requests:
 
 ```java
 public abstract class MyAppService<E> extends AbstractService {
@@ -1388,8 +1375,8 @@ public abstract class MyAppService<E> extends AbstractService {
     final EventBus eventBus;
     
     // Construct your Service with any other object that will allow you to properly handle errors
-    public MyAppService(Session session, String uri, Class<E> entityClass, EventBus eventBus) {
-        super(session, uri);
+    public MyAppService(Session session, String baseUri, Class<E> entityClass, EventBus eventBus) {
+        super(session, baseUri);
         this.entityClass = entityClass;
         this.eventBus = eventBus;
     }
@@ -1405,10 +1392,10 @@ public abstract class MyAppService<E> extends AbstractService {
     // Implement all your service calls following the same pattern...
     private <T> Request<T> applyErrorCallbacks(Request<T> request) {
         return request
-                .status(404, response -> handleNotFound(response.getRequest().getUri()))
-                .status(500, response -> handleServerError(response))
-                .timeout(t -> handleTimeout(t))
-                .abort(e -> log(e));
+                .onStatus(404, response -> handleNotFound(request.getUri()))
+                .onStatus(500, response -> handleServerError(response))
+                .onTimeout(t -> handleTimeout(t))
+                .onAbort(e -> log(e));
     }
 
     // Implement supporting methods...
@@ -1430,8 +1417,8 @@ The Fluent API was designed to provide an enjoyable coding experience while requ
 3. `RequestInvoker` implements the chainable `RequestBuilder` interface, which allows us to set the request options.
 4. Further, `RequestInvoker` implements the `Invoker` interface, which allows us to send the request by calling one of the HTTP Methods.
 5. When invoking the request, we also need to specify the class type we expect as the response payload.
-6. The request invoking methods return a `Promise<T>` according to the expected type we specified.
-7. The `Promise<T>` interface enables callback chaining so that we can handle different results neatly.
+6. The request invoking methods return a `Request<T>` according to the expected type we specified.
+7. The `Request<T>` interface enables callback chaining so that we can handle different results neatly.
 
 In summary, these are the three requesting steps:
 1. Build the request
@@ -1451,7 +1438,6 @@ RequestInvoker req = session.req("/api/books")
         .header("Accept-Encoding", "gzip") // Set a custom header 
         .auth(new BasicAuth("username", "password")) // Set the authentication (more on this later)
         .payload(book); // Set the payload to be serialized in the request body
-        .poll(PollingStrategy.SHORT, 5000, 10) // Poll the request each 5s up to 10 times
 
 
 //========================================
@@ -1475,15 +1461,15 @@ Request<Void> delReq = req.delete();
 //======================================== 
 
 // You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
-postReq.success(payload -> showSuccess(payload)) // Response was 2xx and body was deserialized as Integer
-       .fail(response -> showError(response.getStatus())) // Response was unsuccessful (status ≠ 2xx)
-       .abort(exception -> log(exception)); // Request was not performed
+postReq.onSuccess(payload -> showSuccess(payload)) // Response was 2xx and body was deserialized as Integer
+       .onFail(response -> showError(response.getStatus())) // Response was unsuccessful (status ≠ 2xx)
+       .onAbort(exception -> log(exception)); // Request was not performed
 
 // If you requested a collection of objects, you can retrieve the deserialized payload as well:
-getReq.success(books -> renderTable(books)); // Response was deserialized into a Set of Book objects
+getReq.onSuccess(books -> renderTable(books)); // Response was deserialized into a Set of Book objects
 
 // If you want to access the Response in success, declare an additional argument in the callback
-delReq.success((payload, response) -> { // Response returned 2xx
+delReq.onSuccess((payload, response) -> { // Response returned 2xx
     HttpStatus status = response.getStatus(); // Get the response status
     Headers headers = response.getHeaders(); // Get all headers so you can iterate on them
     String hostHeader = response.getHeader("Host"); // Get the Host header
@@ -1494,10 +1480,10 @@ delReq.success((payload, response) -> { // Response returned 2xx
 });
 
 // You can even deal with specific responses status codes and timeout events
-delReq.status(400, response -> alert("Response was 400: " + response.getStatus().getReasonPhrase()))
-      .status(429, response -> alert("Response was 429: " + response.getStatus().getReasonPhrase()))
-      .status(500, response -> alert("Response was 500: " + response.getStatus().getReasonPhrase()))
-      .timeout(e -> alert("Request timed out in " + e.getTimeoutMillis()/1000 + "s."));
+delReq.onStatus(400, response -> alert("Response was 400: " + response.getStatus().getReasonPhrase()))
+      .onStatus(429, response -> alert("Response was 429: " + response.getStatus().getReasonPhrase()))
+      .onStatus(500, response -> alert("Response was 500: " + response.getStatus().getReasonPhrase()))
+      .onTimeout(e -> alert("Request timed out in " + e.getTimeoutMillis() / 1000 + "s."));
 ```
 
 ### **❤️ Write beautiful code**
@@ -1508,8 +1494,8 @@ Joining the three parts together you can write a clean code like below.
 session.req("/api/books")
     .payload(book)
     .post(Book.class)
-    .success(book -> view.render(book))
-    .fail(Notifications::showError);
+    .onSuccess(book -> view.render(book))
+    .onFail(Notifications::showError);
 ```
 
 
