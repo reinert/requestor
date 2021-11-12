@@ -1139,9 +1139,9 @@ session.reset()
 
 This method will reset all the Session's request options to their default values.
 
-### Default request options
+### Session's Request Options
 
-Below are the available options.
+The same request options made available by the `Session` are also provided by in any [`Service`](#service).
 
 #### Media-Type
 
@@ -1151,9 +1151,25 @@ This session configuration will be applied to every request's Content-Type and A
 session.setMediaType("application/json");
 ```
 
+#### Headers
+
+We can set any header to be shared among all session's requests.
+
+```java
+// Set a header into the session
+session.setHeader("Accept-Encoding", "gzip");
+
+// Get a header from the session
+Header header = session.getHeader("Accept-Encoding");
+
+// Remove a header from the session
+boolean removed = session.delHeader("Accept-Encoding");
+```
+
 #### Auth
 
-This session configuration will be applied to every request's [`auth`](#auth) option. We can either register and [`Auth`](#auth-1) instance or a [`Provider`]
+This session configuration will be applied to every request's [`auth`](#auth) option. We can 
+either register an `Auth` instance or a `Provider`.
 
 ```java
 // The same Auth instance will be used by all requests
