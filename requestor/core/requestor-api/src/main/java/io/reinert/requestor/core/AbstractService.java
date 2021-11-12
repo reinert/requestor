@@ -89,26 +89,6 @@ public class AbstractService implements Service {
     }
 
     @Override
-    public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
-        options.setPolling(strategy, intervalMillis, limit);
-    }
-
-    @Override
-    public int getPollingInterval() {
-        return options.getPollingInterval();
-    }
-
-    @Override
-    public int getPollingLimit() {
-        return options.getPollingLimit();
-    }
-
-    @Override
-    public PollingStrategy getPollingStrategy() {
-        return options.getPollingStrategy();
-    }
-
-    @Override
     public void setHeader(Header header) {
         options.setHeader(header);
     }

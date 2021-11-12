@@ -23,7 +23,6 @@ class RequestOptionsHolder implements HasRequestOptions {
     private Auth.Provider authProvider;
     private int timeout;
     private int delay;
-    private PollingOptions pollingOptions = new PollingOptions();
     private final Headers headers = new Headers();
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
     private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
@@ -34,7 +33,6 @@ class RequestOptionsHolder implements HasRequestOptions {
         copy.setAuth(options.authProvider);
         copy.setTimeout(options.timeout);
         copy.setDelay(options.delay);
-        copy.pollingOptions = PollingOptions.copy(options.pollingOptions);
         for (Header h : options.headers) copy.setHeader(h);
         copy.setRequestSerializer(options.requestSerializer);
         copy.setResponseDeserializer(options.responseDeserializer);
@@ -54,7 +52,6 @@ class RequestOptionsHolder implements HasRequestOptions {
         authProvider = null;
         timeout = 0;
         delay = 0;
-        pollingOptions.reset();
         headers.clear();
     }
 
@@ -125,26 +122,6 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
-    public void setPolling(PollingStrategy strategy, int intervalMillis, int limit) {
-        pollingOptions.startPolling(strategy, intervalMillis, limit);
-    }
-
-    @Override
-    public int getPollingInterval() {
-        return pollingOptions.getPollingInterval();
-    }
-
-    @Override
-    public int getPollingLimit() {
-        return pollingOptions.getPollingLimit();
-    }
-
-    @Override
-    public PollingStrategy getPollingStrategy() {
-        return pollingOptions.getPollingStrategy();
-    }
-
-    @Override
     public void setHeader(Header header) {
         if (header != null && mediaType != null) {
             if ("content-type".equalsIgnoreCase(header.getName()) || "accept".equalsIgnoreCase(header.getName())) {
@@ -209,11 +186,6 @@ class RequestOptionsHolder implements HasRequestOptions {
 
         if (delay > 0) {
             request.delay(delay);
-        }
-
-        if (pollingOptions.isPolling()) {
-            request.poll(pollingOptions.getPollingStrategy(), pollingOptions.getPollingInterval(),
-                    pollingOptions.getPollingLimit());
         }
 
         for (Header h : headers) {
