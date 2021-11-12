@@ -576,7 +576,6 @@ In order to install requestor-gwtjackson extension, add the following dependency
 
 ```xml
 <dependencies>
-  ...
   <dependency>
     <groupId>com.github.nmorel.gwtjackson</groupId>
     <artifactId>gwt-jackson</artifactId>
@@ -587,7 +586,6 @@ In order to install requestor-gwtjackson extension, add the following dependency
     <artifactId>requestor-gwtjackson</artifactId>
     <version>${requestor.version}</version>
   <dependency>
-  ...
 </dependencies>
 ```
 
@@ -620,13 +618,11 @@ The installation procedure is pretty much the same.
 
 ```xml
 <dependencies>
-  ...
   <dependency>
     <groupId>io.reinert.requestor.ext</groupId>
     <artifactId>requestor-autobean</artifactId>
     <version>${requestor.version}</version>
   <dependency>
-  ...
 </dependencies>
 ```
 
@@ -714,6 +710,9 @@ session.req("/api/authorized-only")
         .auth(new BasicAuth( user.getUsername(), user.getPassword() ));
 ```
 
+BasicAuth optionally accepts a third boolean param called `withCredentials`. It will instruct the 
+browser to allow cross-site requests.
+
 ### Bearer Token
 
 Correspondingly, the `BearerAuth` performs the **bearer token authentication** by adding a header to the request in the form of `Authorization: Bearer <token>`.
@@ -726,14 +725,96 @@ session.setAuth(() -> {
 });
 ```
 
+BearerAuth optionally accepts a second boolean param called `withCredentials`. It will instruct the
+browser to allow cross-site requests.
+
 ### Digest
-// TBD
+Requestor provides a ready-to-use `DigestAuth` supporting **qop** (*auth* or *auth-int*) and 
+**md5** algorithm. It is made available by the `requestor-digest` extension.
+
+To enable Digest authentication, first install the extension dependency:
+
+```xml
+<dependency>
+  <groupId>io.reinert.requestor.ext</groupId>
+  <artifactId>requestor-digest</artifactId>
+  <version>${requestor.version}</version>
+</dependency>
+```
+
+Then, instantiate `DigestAuth` in the requests, sessions or services passing the `username` and 
+`password`. Optionally, there is a third boolean `withCredentials` param to make cross-site 
+requests:
+
+```java
+String username = "username";
+String password = "password";
+boolean withCredentials = true;
+
+session.req("/api/protected") 
+        .auth(new DigestAuth(user, password, withCredentials))
+        .get();
+```
+
+When registering `DigestAuth` in the [Session](#session) or [Service](#service), it is recommended 
+to do it through a `Provider` to avoid sharing the internal Auth state between requests:
+
+```java
+// register a Provider of DigestAuth in the session
+Store store = session.getStore();
+session.setAuth(() -> new DigestAuth(store.get("username"), store.get("password")));
+```
 
 ### CORS
-// TBD
+When we need to hit external public endpoints, browsers requires us to set `withCredentials` 
+request param to true. Requestor offers the `CorsAuth` authenticator that does it 
+automatically to us.
+
+```java
+session.req("https://external-domain.com") 
+        .auth(new CorsAuth()) 
+        .get(); 
+```
+
 
 ### OAuth2
-// TBD
+Requestor provides client-side OAuth2 authenticators supporting both *header* and *url query param* 
+strategies. It is made available by the `requestor-oauth2` extension.
+
+To enable OAuth2 authentication, first install the extension dependency:
+
+```xml
+<dependency>
+  <groupId>io.reinert.requestor.ext</groupId>
+  <artifactId>requestor-oauth2</artifactId>
+  <version>${requestor.version}</version>
+</dependency>
+```
+
+Next, inherit the `RequestorOAuth2` GWT module in your gwt.xml file:
+
+```xml
+<inherits name="io.reinert.requestor.oauth2.RequestorOAuth2"/>
+```
+
+Then, according to the required authorization strategy we can either instantiate 
+`OAuth2ByHeader` or the `OAuth2ByQueryParam` passing the `authUrl` and the `appClientId`.
+Optionally, we can also inform a sequence of `scopes`: 
+
+```java
+session.req("https://domain.com/oauth2") 
+        .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope1, scope2, ...))
+        .get(); 
+```
+
+When registering an OAuth2 Auth in a [Session](#session) or in a [Service](#service), it is 
+recommended to do it through a `Provider` to avoid sharing the internal Auth state between requests:
+
+```java
+// register a Provider of OAuth2ByHeader in the session
+Store store = session.getStore();
+session.setAuth(() -> new OAuth2ByHeader(store.get("authUrl"), store.get("appClientId")));
+```
 
 ## Processors (middlewares)
 
