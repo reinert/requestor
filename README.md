@@ -15,7 +15,7 @@ carefully designed features that enable developers to rule the network communica
 * [**Session**](#session) - set default options to all requests.
 * [**Store**](#store) - save and retrieve data both in session and request scope.
 * [**Service**](#service) - break down the API consumption into smaller independent contexts.
-* [**Links API**](#links-api-hateoas) - navigate through an API interacting with its links (HATEOAS for real).
+* [**Links**](#links-hateoas) - navigate through an API interacting with its links (HATEOAS for real).
 * [**Headers API**](#headers-api) - directly create and parse complex headers.
 * [**URI API**](#uri-api) - build and parse complicated URIs easily.
 * [**Binary Data**](#binary-data) - upload and download files tracking the progress.
@@ -1683,14 +1683,80 @@ session.req("/api/books")
 ```
 
 
-## Links API (HATEOAS)
-### Get a Link
-### Navigate into a Link
-### Use cases
-#### Pagination
-#### Transactions
-#### Undo Operations
+## Links (HATEOAS)
 
+Requestor's `Response` afford helpful methods to easily grab links from the HTTP Link Header by 
+their relations (`rel` attribute).
+
+According to the [RFC 5988](https://tools.ietf.org/html/rfc5988), a link element has the following 
+attributes: *anchor*, *media*, *hrefLang*, *rel*, *rev*, *title* and *type*. We can access all 
+those attributes, and also the properly formed *uri*, through the `Link` interface.
+
+A regular Link Header carries many Link elements, which are normally identified by their relations,
+in the following manner:
+
+```text
+   Link: </TheBook/index>; rel="index"; title="Index"; hreflang="en"; type="text/html",
+         </TheBook/foreword>; rel="foreword"; title="Foreword"; hreflang="en"; type="text/html",
+         </TheBook/chapter4>; rel="next"; title="Next Chapter"; hreflang="en"; type="text/html",
+         </TheBook/chapter2>; rel="previous"; title="Previous Chapter"; hreflang="en"; type="text/html",
+         
+```
+
+In order to get a specific `Link` from a `Response`, we can call `response.getLink(<rel>)`:
+
+```java
+// Get a link by its rel attribute
+Link indexLink = response.getLink("index");
+
+// Get the link title
+String title = indexLink.getTitle();
+
+// Get the link hrefLang
+String lang = indexLink.getHrefLang();
+
+// Get the link type
+String type = indexLink.getType();
+
+// Get the parsed link URI
+Uri uri = indexLink.getUri();
+```
+
+We can also iterate over all links of a `Response` with `response.getLinks()`:
+
+```java
+for (Link link : response.getLinks()) {
+    view.addLink(link);
+}
+```
+
+Finally, when requesting, we can directly use the link by calling `session.req(<link>)`:
+
+```java
+Request<Void> nextRequest = session.req( response.getLink("next") ).get();
+```
+
+The proper usage of links is the key to enter the wonderland of leveraging *hypermedia as the 
+engine of application state* (HATEOAS). Requestor encourages its users to heavily rely on links 
+when interacting with HTTP APIs and let the server app dictate the paths that the client can take.   
+
+There are some common scenarios that the usage of links reveals to be really valuable like 
+**pagination** (*next*, *previous*, *first*, and *last* links), **distributed transactions** 
+(*next* and *rollback* links) and **reversible commands** (*undo* link). 
+
+See the pagination example below:
+
+```java
+// Supposing we correctly rendered the links in our view
+void onLinkClicked(Link link) {
+    session.req(link)
+            .get(Document.class)
+            .onSuccess((content, response) -> {
+                view.renderContent(content);
+                view.renderLinks(response.getLinks());
+            });    
+}
+```
 
 ## Headers API
 ### The Headers type
