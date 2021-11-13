@@ -632,10 +632,97 @@ Then inherit the `RequestorAutoBean` GWT module in your gwt.xml file:
 <inherits name="io.reinert.requestor.autobean.RequestorAutoBean"/>
 ```
 
-### Custom
-#### JSON
-#### XML
-#### SubTypes
+### Implementing a Serializer
+
+Besides auto-serialization, Requestor's users can also write their own custom serializers. Check 
+the following sample of a raw handwritten `Serializer`.
+
+```java
+class BookXmlSerializer implements Serializer<Book> {
+
+    @Override
+    public Class<Book> handledType() {
+        return Book.class;
+    }
+
+    @Override
+    public String[] mediaType() {
+        // Return an array of media-type patterns; wildcards are accepted
+        return new String[]{ "*/xml*" };
+    }
+
+    @Override
+    public String serialize(Book book, SerializationContext ctx) {
+        return "<book><title>" + book.getTitle() + "</title>"
+                + "<author>" + book.getAuthor() + "</author>"
+                + "<pubDate>" + book.getPubDate().getTime() + "</pubDate></book>";
+    }
+
+    @Override
+    public String serialize(Collection<Book> books, SerializationContext ctx) {
+        StringBuilder sb = new StringBuilder("<array>");
+        for (Book b : books) sb.append(serialize(b, ctx));
+        return sb.append("</array>").toString();
+    }
+
+    @Override
+    public Book deserialize(String response, DeserializationContext ctx) {
+        int titleStart = response.indexOf("<title>") + 7;
+        int titleEnd = response.indexOf("</title>", titleStart);
+        String title = response.substring(titleStart, titleEnd);
+
+        int authorStart = response.indexOf("<author>", titleEnd) + 8;
+        int authorEnd = response.indexOf("</author>", authorStart);
+        int author = Integer.parseInt(response.substring(authorStart, authorEnd));
+
+        int pubDateStart = response.indexOf("<pubDate>", authorEnd) + 9;
+        int pubDateEnd = response.indexOf("</pubDate>", pubDateStart);
+        Date pubDate = new Date(Long.parseLong(response.substring(pubDateStart, pubDateEnd)));
+
+        return new Book(title, author, pubDate);
+    }
+
+    @Override
+    public <C extends Collection<Book>> C deserialize(Class<C> collectionType, String response, DeserializationContext ctx) {
+        C collection = ctx.getInstance(collectionType);
+
+        int cursor = response.indexOf("<book>");
+        while (cursor != -1) {
+            int cursorEnd = response.indexOf("</book>", cursor);
+            collection.add(deserialize(response.substring(cursor + 6, cursorEnd), ctx));
+            cursor = response.indexOf("<book>", cursorEnd);
+        }
+
+        return collection;
+    }
+}
+```
+
+#### Inheritance
+
+Additionally, when the `Serializer` should handle sub-types of the target type, we can extend 
+the `HandlesSubTypes` interface and implement the `handledSubTypes` method, like below: 
+
+
+```java
+// Implement the HandlesSubTypes interface
+class BookXmlSerializer implements Serializer<Book>, HandlesSubTypes {
+
+    @Override
+    public Class<Book> handledType() {
+        return Book.class;
+    }
+
+    @Override
+    public Class<?>[] handledSubTypes() {
+        // Return other types that this serializer handles
+        return new Class<?>[]{ AudioBook.class, HardBook.class };
+    }
+    
+    // rest of the serializer ...
+}
+```
+
 
 ## Authentication
 
