@@ -10,14 +10,14 @@ carefully designed features that enable developers to rule the network communica
 * [**Event-Driven Callbacks**](#event-driven-callbacks) - chain callbacks for different results and statuses.
 * [**Serialization**](#serialization) - serialize and deserialize payloads integrating any library.
 * [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
-* [**Request/Response Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
+* [**Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
 * [**HTTP Polling**](#poll) - make long or short polling with a single command.
 * [**Session**](#session) - set default options to all requests.
 * [**Store**](#store) - save and retrieve data both in session and request scope.
-* [**Service**](#service) - break down the API consumption into smaller independent contexts.
+* [**Services**](#services) - break down the API consumption into smaller independent contexts.
 * [**Links**](#links-hateoas) - navigate through an API interacting with its links (HATEOAS for real).
-* [**Headers API**](#headers-api) - directly create and parse complex headers.
-* [**URI API**](#uri-api) - build and parse complicated URIs easily.
+* [**Headers**](#headers-api) - directly create and parse complex headers.
+* [**URIs**](#uri) - build and parse complicated URIs easily.
 * [**Binary Data**](#binary-data) - upload and download files tracking the progress.
 
 It supports GWT 2.9 and Java 8+ while maintaining backward compatibility with GWT 2.7 and Java 1.5.
@@ -152,7 +152,7 @@ bookService.delete(123).onSuccess(() -> showSuccess("Book was deleted."));
 Although Requestor provides this generic REST client, extending the `AbstractService` class and 
 implementing our service clients is more beneficial. `AbstractService` affords the advantage of
 little coding while empowering complete control of the requesting logic. Consequently, it 
-improves the testing capabilities and bug tracking. See more details in the [Service](#service) 
+improves the testing capabilities and bug tracking. See more details in the [Service](#services) 
 section.
 
 
@@ -366,10 +366,12 @@ serializers, and interceptors.
 
 ## Event-Driven Callbacks
 
-Requestor declares its own Request contract coherent with the requesting domain.
+After invoking a request, we receive a `Request<T>` instance. It is a deferred object that 
+enables us to chain callbacks to handle all possible results of the request call. Besides that, 
+we can also access all request options that formed this request.
 
-A `Request<T>` gives access to the response body as `T` if it is successful (2xx). Check the 
-available callbacks:
+A `Request<T>` gives access to the response body as `T` if it resolves successfully (2xx). Check 
+the available callbacks:
   * **onSuccess**( payload [, response [, request]] -> {} )
     * executed when the response *is successful* (status = 2xx)
     * features the *deserialized payload* and the *response* (optional)
@@ -395,7 +397,7 @@ available callbacks:
     * executed if the request *could not be performed* due to any exception (even timeout)
     * features the original *exception*
 
-Check how you can use them below:
+See how you can use them below:
 
 ```java
 // You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
@@ -843,7 +845,7 @@ session.req("/api/protected")
         .get();
 ```
 
-When registering `DigestAuth` in the [Session](#session) or [Service](#service), it is recommended 
+When registering `DigestAuth` in the [Session](#session) or [Service](#services), it is recommended 
 to do it through a `Provider` to avoid sharing the internal Auth state between requests:
 
 ```java
@@ -894,7 +896,7 @@ session.req("https://domain.com/oauth2")
         .get(); 
 ```
 
-When registering an OAuth2 Auth in a [Session](#session) or in a [Service](#service), it is 
+When registering an OAuth2 Auth in a [Session](#session) or in a [Service](#services), it is 
 recommended to do it through a `Provider` to avoid sharing the internal Auth state between requests:
 
 ```java
@@ -1228,7 +1230,7 @@ This method will reset all the Session's request options to their default values
 
 ### Session's Request Options
 
-The same request options made available by the `Session` are also provided by in any [`Service`](#service).
+The same request options made available by the `Session` are also provided by in any [`Service`](#services).
 
 #### Media-Type
 
@@ -1454,7 +1456,7 @@ store.delete("key");
 ```
 
 
-## Service
+## Services
 
 Requestor introduces the **Service** concept to represent a ***subject-oriented client***. It 
 means that a Service should bind together closely related network operations according to some 
@@ -1593,6 +1595,103 @@ public abstract class MyAppService<E> extends AbstractService {
 Use the above example as inspiration as also the [RestService](https://github.com/reinert/requestor/blob/master/requestor/core/requestor-api/src/main/java/io/reinert/requestor/RestService.java) class.
 
 
+## Links (HATEOAS)
+
+Requestor's `Response` afford helpful methods to easily grab links from the HTTP Link Header by 
+their relations (`rel` attribute).
+
+According to the [RFC 5988](https://tools.ietf.org/html/rfc5988), a link element has the following 
+attributes: *anchor*, *media*, *hrefLang*, *rel*, *rev*, *title* and *type*. We can access all 
+those attributes, and also the properly formed *uri*, through the `Link` interface.
+
+A regular Link Header carries many Link elements, which are normally identified by their relations,
+in the following manner:
+
+```text
+Link: </the-book/index>; rel="index"; title="Index"; hreflang="en"; type="text/html",
+      </the-book/foreword>; rel="foreword"; title="Foreword"; hreflang="en"; type="text/html",
+      </the-book/chapter4>; rel="next"; title="Next Chapter"; hreflang="en"; type="text/html",
+      </the-book/chapter2>; rel="previous"; title="Previous Chapter"; hreflang="en"; type="text/html"
+```
+
+In order to get a specific `Link` from a `Response`, we can call `response.getLink(<rel>)`:
+
+```java
+// Get a link by its rel attribute
+Link indexLink = response.getLink("index");
+
+// Get the link title
+String title = indexLink.getTitle();
+
+// Get the link hrefLang
+String lang = indexLink.getHrefLang();
+
+// Get the link type
+String type = indexLink.getType();
+
+// Get the parsed link URI
+Uri uri = indexLink.getUri();
+```
+
+We can also iterate over all links of a `Response` with `response.getLinks()`:
+
+```java
+for (Link link : response.getLinks()) {
+    view.addLink(link);
+}
+```
+
+Finally, when requesting, we can directly use the link by calling `session.req(<link>)`:
+
+```java
+Request<Void> nextRequest = session.req( response.getLink("next") ).get();
+```
+
+The proper usage of links is the key to enter the wonderland of leveraging *hypermedia as the 
+engine of application state* (HATEOAS). Requestor encourages its users to heavily rely on links 
+when interacting with HTTP APIs and let the server app dictate the paths that the client can take.   
+
+There are some common scenarios that the usage of links reveals to be really valuable like 
+**pagination** (*next*, *previous*, *first*, and *last* links), **distributed transactions** 
+(*next* and *rollback* links) and **reversible commands** (*undo* link). 
+
+See the pagination example below:
+
+```java
+// Supposing we correctly rendered the links in our view
+void onLinkClicked(Link link) {
+    session.req(link)
+            .get(Document.class)
+            .onSuccess((content, response) -> {
+                view.renderContent(content);
+                view.renderLinks(response.getLinks());
+            });    
+}
+```
+
+## Headers
+### The Headers type
+### Existing Header types
+### Extending Header types
+
+
+## URI
+### The URI type
+### Building URIs
+#### UriProxy
+### Parsing URIs
+
+
+## Binary Data
+### Upload
+### Download
+
+
+## Form Data
+### Native FormData dispatching
+### Url Encoded serialization
+
+
 ## Requesting Fluent API
 
 The Fluent API was designed to provide an enjoyable coding experience while requesting through a chainable interface. Here is how it works:
@@ -1676,117 +1775,18 @@ Joining the three parts together you can write a clean code like below.
 ```java
 // Post a book to the server and retrieve the created entity
 session.req("/api/books")
-    .payload(book)
-    .post(Book.class)
-    .onSuccess(book -> view.render(book))
-    .onFail(Notifications::showError);
+       .payload(book)
+       .post(Book.class)
+       .onSuccess(book -> view.render(book))
+       .onFail(Notifications::showError);
 ```
 
 
-## Links (HATEOAS)
-
-Requestor's `Response` afford helpful methods to easily grab links from the HTTP Link Header by 
-their relations (`rel` attribute).
-
-According to the [RFC 5988](https://tools.ietf.org/html/rfc5988), a link element has the following 
-attributes: *anchor*, *media*, *hrefLang*, *rel*, *rev*, *title* and *type*. We can access all 
-those attributes, and also the properly formed *uri*, through the `Link` interface.
-
-A regular Link Header carries many Link elements, which are normally identified by their relations,
-in the following manner:
-
-```text
-   Link: </TheBook/index>; rel="index"; title="Index"; hreflang="en"; type="text/html",
-         </TheBook/foreword>; rel="foreword"; title="Foreword"; hreflang="en"; type="text/html",
-         </TheBook/chapter4>; rel="next"; title="Next Chapter"; hreflang="en"; type="text/html",
-         </TheBook/chapter2>; rel="previous"; title="Previous Chapter"; hreflang="en"; type="text/html",
-         
-```
-
-In order to get a specific `Link` from a `Response`, we can call `response.getLink(<rel>)`:
-
-```java
-// Get a link by its rel attribute
-Link indexLink = response.getLink("index");
-
-// Get the link title
-String title = indexLink.getTitle();
-
-// Get the link hrefLang
-String lang = indexLink.getHrefLang();
-
-// Get the link type
-String type = indexLink.getType();
-
-// Get the parsed link URI
-Uri uri = indexLink.getUri();
-```
-
-We can also iterate over all links of a `Response` with `response.getLinks()`:
-
-```java
-for (Link link : response.getLinks()) {
-    view.addLink(link);
-}
-```
-
-Finally, when requesting, we can directly use the link by calling `session.req(<link>)`:
-
-```java
-Request<Void> nextRequest = session.req( response.getLink("next") ).get();
-```
-
-The proper usage of links is the key to enter the wonderland of leveraging *hypermedia as the 
-engine of application state* (HATEOAS). Requestor encourages its users to heavily rely on links 
-when interacting with HTTP APIs and let the server app dictate the paths that the client can take.   
-
-There are some common scenarios that the usage of links reveals to be really valuable like 
-**pagination** (*next*, *previous*, *first*, and *last* links), **distributed transactions** 
-(*next* and *rollback* links) and **reversible commands** (*undo* link). 
-
-See the pagination example below:
-
-```java
-// Supposing we correctly rendered the links in our view
-void onLinkClicked(Link link) {
-    session.req(link)
-            .get(Document.class)
-            .onSuccess((content, response) -> {
-                view.renderContent(content);
-                view.renderLinks(response.getLinks());
-            });    
-}
-```
-
-## Headers API
-### The Headers type
-### Existing Header types
-### Extending Header types
-
-
-## URI API
-### The URI type
-### Building URIs
-#### UriProxy
-### Parsing URIs
-
-
-## Binary Data
-### Upload
-### Download
-
-
-## Form Data
-### Native FormData dispatching
-### Url Encoded serialization
-
-
-## Examples
+## Showcase App
 * [Showcase (Latest Release)](http://reinert.github.io/requestor/latest/examples/showcase)
 * [Showcase (0.3.0-SNAPSHOT)](http://reinert.github.io/requestor/0.3.0-SNAPSHOT/examples/showcase)
 
 ## Documentation
-* [Wiki](https://github.com/reinert/requestor/wiki)
 * [Javadoc](http://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
 * [Project Site (Latest Release)](https://reinert.github.io/requestor/latest)
 * [Project Site (0.3.0-SNAPSHOT)](https://reinert.github.io/requestor/0.3.0-SNAPSHOT)
