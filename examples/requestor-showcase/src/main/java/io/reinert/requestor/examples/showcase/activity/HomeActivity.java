@@ -32,8 +32,8 @@ public class HomeActivity extends AbstractActivity {
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        Page.setTitle("Session", true);
-        Page.setDescription("Requesting made easy for GWT.", true);
+        Page.setTitle("Requestor", true);
+        Page.setDescription("Request like a boss. \uD83D\uDE0E", true);
         panel.setWidget(home);
     }
 }

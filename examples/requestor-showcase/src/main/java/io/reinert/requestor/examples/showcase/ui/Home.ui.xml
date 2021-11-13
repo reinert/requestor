@@ -19,12 +19,11 @@
   <g:HTMLPanel>
     <h1 class="requestor-showcase-featurette-title text-center">Simple and complete</h1>
     <p class="lead text-center">
-      Requestor cares for the beauty and simplicity of your code while strictly focuses on the extensibility of its API.
+      Requestor cares for the beauty and simplicity of your code while empowers complex network communication.
     </p>
-    <p>
-      This showcase application aims to expose most of the features provided by Requestor API.
-      Some of them, though, cannot be shown in the same application because the configuration is made via deferred binding.
-      Still, you'll get a feeling of what Requestor is capable of. Welcome and enjoy!
+    <p class="text-center">
+      This showcase application aims to expose some of the features provided by Requestor API.
+      Welcome and enjoy!
     </p>
   </g:HTMLPanel>
 </ui:UiBinder>

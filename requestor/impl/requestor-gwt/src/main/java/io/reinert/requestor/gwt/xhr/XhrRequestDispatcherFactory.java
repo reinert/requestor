@@ -21,7 +21,7 @@ import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.ResponseProcessor;
 
 /**
- * Default implementation for {@link RequestDispatcher.Factory}.
+ * GWT implementation for {@link io.reinert.requestor.core.RequestDispatcher.Factory} powered by XMLHttpRequest.
  *
  * @author Danilo Reinert
  */

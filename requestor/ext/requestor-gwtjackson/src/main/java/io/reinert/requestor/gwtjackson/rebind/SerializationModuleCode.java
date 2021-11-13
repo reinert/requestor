@@ -24,6 +24,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.WildcardTypeName;
 
+import io.reinert.requestor.core.TypeProvider;
 import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler;
 
@@ -39,14 +40,18 @@ class SerializationModuleCode {
     }
 
     CodeBlock serializerListField() {
-        final TypeName arrayListTypeName = ParameterizedTypeName.get(ClassName.get(ArrayList.class),
-                ParameterizedTypeName.get(ClassName.get(Serializer.class),
-                        WildcardTypeName.subtypeOf(ClassName.OBJECT)));
+        final TypeName arrayListTypeName = ParameterizedTypeName.get(
+                ClassName.get(ArrayList.class),
+                ParameterizedTypeName.get(
+                        ClassName.get(Serializer.class),
+                        WildcardTypeName.subtypeOf(ClassName.OBJECT)
+                )
+        );
         return CodeBlock.builder().add("new $T()", arrayListTypeName).build();
     }
 
     CodeBlock typeProvidersListField() {
-        return CodeBlock.builder().add("$T.emptyList()", Collections.class).build();
+        return CodeBlock.builder().add("$T.<$T<?>>emptyList()", Collections.class, TypeProvider.class).build();
     }
 
     CodeBlock constructor() {

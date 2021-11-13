@@ -21,7 +21,7 @@ import com.google.gwt.dom.client.Element;
 public final class Page {
 
     public static void setTitle(String title) {
-        setPageElementText("page-title", title, false);
+        setPageElementText("page-title", title, true);
     }
 
     public static void setTitle(String title, boolean alignCenter) {
@@ -29,7 +29,7 @@ public final class Page {
     }
 
     public static void setDescription(String description) {
-        setPageElementText("page-description", description, false);
+        setPageElementText("page-description", description, true);
     }
 
     public static void setDescription(String description, boolean alignCenter) {
