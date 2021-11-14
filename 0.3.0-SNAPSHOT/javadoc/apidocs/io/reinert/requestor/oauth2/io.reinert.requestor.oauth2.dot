@@ -9,23 +9,27 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.oauth2.TokenInfo
-	c2389 [label=<<table title="io.reinert.requestor.oauth2.TokenInfo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TokenInfo.html">
+	// io.reinert.requestor.oauth2.OAuth2ByQueryParam
+	c3960 [label=<<table title="io.reinert.requestor.oauth2.OAuth2ByQueryParam" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OAuth2ByQueryParam.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> TokenInfo </td></tr>
+<tr><td align="center" balign="center"> OAuth2ByQueryParam </td></tr>
 		</table></td></tr>
-		</table>>, URL="./TokenInfo.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.oauth2.AuthRequest
-	c2390 [label=<<table title="io.reinert.requestor.oauth2.AuthRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AuthRequest.html">
+		</table>>, URL="./OAuth2ByQueryParam.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.oauth2.OAuth2ByHeader
+	c3961 [label=<<table title="io.reinert.requestor.oauth2.OAuth2ByHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OAuth2ByHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> AuthRequest </td></tr>
+<tr><td align="center" balign="center"> OAuth2ByHeader </td></tr>
 		</table></td></tr>
-		</table>>, URL="./AuthRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.oauth2.Auth
-	c2391 [label=<<table title="io.reinert.requestor.oauth2.Auth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Auth.html">
+		</table>>, URL="./OAuth2ByHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.oauth2.OAuth2Base
+	c3962 [label=<<table title="io.reinert.requestor.oauth2.OAuth2Base" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OAuth2Base.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Auth </font></td></tr>
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> OAuth2Base </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="./Auth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./OAuth2Base.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.oauth2.OAuth2ByQueryParam extends io.reinert.requestor.oauth2.OAuth2Base
+	c3962:p -> c3960:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.oauth2.OAuth2ByHeader extends io.reinert.requestor.oauth2.OAuth2Base
+	c3962:p -> c3961:p [dir=back,arrowtail=empty];
 }
 

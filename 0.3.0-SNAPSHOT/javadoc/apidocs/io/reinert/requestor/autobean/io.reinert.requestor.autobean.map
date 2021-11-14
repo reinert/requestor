@@ -1,6 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./GeneratedAutoBeanModulesGenerator.html" title="io.reinert.requestor.autobean.GeneratedAutoBeanModulesGenerator" alt="" coords="16,17,287,42"/>
-<area shape="rect" id="node1" href="./GeneratedAutoBeanModulesGenerator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,297,53"/>
+<area shape="rect" id="node1_0" href="./AutoBeanGeneratedModulesGenerator.html" title="io.reinert.requestor.autobean.AutoBeanGeneratedModulesGenerator" alt="" coords="16,17,287,42"/>
+<area shape="rect" id="node1" href="./AutoBeanGeneratedModulesGenerator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,297,53"/>
 <area shape="rect" id="node2_1" href="./AutoBeanModulesGenerator.html" title="io.reinert.requestor.autobean.AutoBeanModulesGenerator" alt="" coords="333,17,535,42"/>
 <area shape="rect" id="node2" href="./AutoBeanModulesGenerator.html" title="&lt;TABLE&gt;" alt="" coords="322,5,546,53"/>
+<area shape="rect" id="node3_2" href="./AutoBeanSession.html" title="io.reinert.requestor.autobean.AutoBeanSession" alt="" coords="580,17,712,42"/>
+<area shape="rect" id="node3" href="./AutoBeanSession.html" title="&lt;TABLE&gt;" alt="" coords="569,5,723,53"/>
 </map>

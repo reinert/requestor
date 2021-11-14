@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./DigestAuth.html" title="io.reinert.requestor.core.auth.DigestAuth" alt="" coords="16,17,108,42"/>
+<area shape="rect" id="node1" href="./DigestAuth.html" title="&lt;TABLE&gt;" alt="" coords="5,5,119,53"/>
+<area shape="rect" id="node2_1" href="./BearerAuth.html" title="io.reinert.requestor.core.auth.BearerAuth" alt="" coords="153,17,245,42"/>
+<area shape="rect" id="node2" href="./BearerAuth.html" title="&lt;TABLE&gt;" alt="" coords="143,5,256,53"/>
+<area shape="rect" id="node3_2" href="./BasicAuth.html" title="io.reinert.requestor.core.auth.BasicAuth" alt="" coords="291,17,375,42"/>
+<area shape="rect" id="node3" href="./BasicAuth.html" title="&lt;TABLE&gt;" alt="" coords="280,5,385,53"/>
+<area shape="rect" id="node4_3" href="./CorsAuth.html" title="io.reinert.requestor.core.auth.CorsAuth" alt="" coords="420,17,499,42"/>
+<area shape="rect" id="node4" href="./CorsAuth.html" title="&lt;TABLE&gt;" alt="" coords="409,5,509,53"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../core/Auth.html" title="io.reinert.requestor.core.Auth" alt="" coords="147,11,241,53"/>
+<area shape="rect" id="node1" href="../core/Auth.html" title="&lt;TABLE&gt;" alt="" coords="137,5,251,59"/>
+<area shape="rect" id="node4_1" href="./OAuth2Base.html" title="io.reinert.requestor.oauth2.OAuth2Base" alt="" coords="144,118,244,143"/>
+<area shape="rect" id="node4" href="./OAuth2Base.html" title="&lt;TABLE&gt;" alt="" coords="133,107,255,155"/>
+<area shape="rect" id="node2_2" href="./OAuth2ByQueryParam.html" title="io.reinert.requestor.oauth2.OAuth2ByQueryParam" alt="" coords="16,214,180,239"/>
+<area shape="rect" id="node2" href="./OAuth2ByQueryParam.html" title="&lt;TABLE&gt;" alt="" coords="5,203,191,251"/>
+<area shape="rect" id="node3_3" href="./OAuth2ByHeader.html" title="io.reinert.requestor.oauth2.OAuth2ByHeader" alt="" coords="225,214,357,239"/>
+<area shape="rect" id="node3" href="./OAuth2ByHeader.html" title="&lt;TABLE&gt;" alt="" coords="215,203,368,251"/>
+</map>
