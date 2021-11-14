@@ -113,6 +113,10 @@ public enum Status implements HttpStatus {
             public String getReasonPhrase() {
                 return "";
             }
+
+            public String toString() {
+                return String.valueOf(statusCode);
+            }
         };
     }
 
@@ -158,11 +162,7 @@ public enum Status implements HttpStatus {
 
     @Override
     public String toString() {
-        return "Status{" +
-                "code=" + code +
-                ", reason='" + reason + '\'' +
-                ", family=" + family +
-                '}';
+        return reason + " (" + code + ")";
     }
 
     public boolean is(int statusCode) {
