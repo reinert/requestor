@@ -20,8 +20,14 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.Request;
+import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestInvoker;
+import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.auth.BasicAuth;
+import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Requesting;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
@@ -38,19 +44,39 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
     }
 
     @Override
-    public void onGetIpButtonClick() {
-        Request<String> request = (Request<String>) session.req("http://httpbin.org/ip").get(String.class);
+    public void onRequestButtonClick() {
+        RequestInvoker reqInvoker = session.req("https://httpbin.org/post")
+                .timeout(10000)
+                .delay(50)
+                .contentType("application/json")
+                .accept("text/plain")
+                .header("ETag", "33a64df5")
+                .auth(new BasicAuth("username", "password"))
+                .payload("Hello World!");
+
+        Request<String> request = reqInvoker.post(String.class);
+
         request.onSuccess(new PayloadCallback<String>() {
             @Override
-            public void execute(String result) {
-                view.setIpText(result);
+            public void execute(String body) {
+                view.setResponseText(body);
+            }
+        }).onFail(new ResponseCallback() {
+            @Override
+            public void execute(Response res) {
+                view.setResponseText("Response was unsuccessful due to: " + res.getStatus());
+            }
+        }).onAbort(new ExceptionCallback() {
+            @Override
+            public void execute(RequestException e) {
+                view.setResponseText("Request was interrupted due to: " + e.getMessage());
             }
         });
     }
 
     @Override
     public void onPostButtonClick() {
-        session.req("http://httpbin.org/post").post(String.class).onSuccess(new PayloadCallback<String>() {
+        session.req("https://httpbin.org/post").post(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setPostText(result);
@@ -60,7 +86,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onPutButtonClick() {
-        session.req("http://httpbin.org/put").put(String.class).onSuccess(new PayloadCallback<String>() {
+        session.req("https://httpbin.org/put").put(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setPutText(result);
@@ -69,8 +95,18 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
     }
 
     @Override
+    public void onPatchButtonClick() {
+        session.req("https://httpbin.org/patch").patch(String.class).onSuccess(new PayloadCallback<String>() {
+            @Override
+            public void execute(String result) {
+                view.setPatchText(result);
+            }
+        });
+    }
+
+    @Override
     public void onDeleteButtonClick() {
-        session.req("http://httpbin.org/delete").delete(String.class).onSuccess(new PayloadCallback<String>() {
+        session.req("https://httpbin.org/delete").delete(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setDeleteText(result);
@@ -80,7 +116,7 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onHeadButtonClick() {
-        session.req("http://httpbin.org/headers").head().onSuccess(new PayloadCallback<Headers>() {
+        session.req("https://httpbin.org/headers").head().onSuccess(new PayloadCallback<Headers>() {
             @Override
             public void execute(Headers result) {
                 view.setHeadText(Util.formatHeaders(result));
@@ -90,20 +126,10 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
 
     @Override
     public void onOptionsButtonClick() {
-        session.req("http://httpbin.org/get").options(Headers.class).onSuccess(new PayloadCallback<Headers>() {
+        session.req("https://httpbin.org/anything").options(Headers.class).onSuccess(new PayloadCallback<Headers>() {
             @Override
             public void execute(Headers result) {
                 view.setOptionsText(Util.formatHeaders(result));
-            }
-        });
-    }
-
-    @Override
-    public void onPatchButtonClick() {
-        session.req("http://httpbin.org/patch").patch(String.class).onSuccess(new PayloadCallback<String>() {
-            @Override
-            public void execute(String result) {
-                view.setPatchText(result);
             }
         });
     }

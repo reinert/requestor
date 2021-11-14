@@ -18,55 +18,99 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <g:HTMLPanel>
     <g:HTMLPanel>
-      <h1 class="page-header" id="first-requests-api-introduction">First requests - API introduction</h1>
+      <h1 class="page-header" id="first-requests-api-introduction">Fluent Request API introduction</h1>
       <p class="lead">
-        Requestor was designed with fluent API in order to make it simple to interact with the library.
+        Requestor features a pleasant fluent requesting API that makes this task trivial.
       </p>
 
       <g:HTMLPanel styleName="requestor-showcase-innersection">
-        <p>Let's make a quick request to find out your origin ip.</p>
+        <p>
+          First, we need to call <code>session.req(&lt;uri&gt;)</code> to start building a Request.
+          It returns a <code>RequestInvoker</code> with building and invoking capabilities.
+        </p>
+
         <div class="highlight">
-          <pre ui:field="getIp" class="java">
+          <pre ui:field="callReq" class="java">
             <code>
-              Promise&lt;String&gt; promise = (Promise&lt;String&gt;) requestor.req(&quot;http://httpbin.org/ip&quot;).get(String.class);
+              RequestInvoker reqInvoker = session.req(&quot;https://httpbin.org/post&quot;);
             </code>
           </pre>
         </div>
 
         <p>
-          The <code>req</code> method starts building a request targeted to the given url.
-          <br/>
-          The <code>get</code> method invokes a HTTP GET request and returns a promise.
-          <br/>
-          Now, with the <code>promise</code>, we can register callbacks to handle the future results.
+          Since <code>RequestInvoker</code> inherits from <code>RequestBuilder</code>, we can set the request options.
         </p>
         <div class="highlight">
-          <pre ui:field="promiseIp" class="java">
+          <pre ui:field="buildRequest" class="java">
             <code>
-              promise.success(new SuccessCallback&lt;String&gt;() {
+              reqInvoker.timeout(30000) /* Set the request timeout in milliseconds (ms) */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.delay(50) /* Set the request delay in ms (wait 50ms before sending the request) */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType(&quot;application/json&quot;) /* Set the Content-Type header */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.accept(&quot;text/plain&quot;) /* Set the Accept header */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.header(&quot;ETag&quot;, &quot;33a64df5&quot;) /* Set a custom header */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new BasicAuth(&quot;username&quot;, &quot;password&quot;)) /* Set the authenticator */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(&quot;Hello world!&quot;); /* Set the payload to be serialized in the request body */
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Besides setting the request options, <code>RequestInvoker</code> enables us to invoke the request by calling
+          any of the HTTP Methods (get, post, put, patch, delete, head, options). Further, when invoking the request, we
+          can inform the type we expect the response body to be deserialized and returned.
+        </p>
+        <div class="highlight">
+          <pre ui:field="invokeRequest" class="java">
+            <code>
+              Request&lt;String&gt; request = reqInvoker.post(String.class);
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          After invoking the request, we receive a <code>Request&lt;T&gt;</code>. It is an observable that allows us to
+          bind callbacks to specific request events.
+        </p>
+        <div class="highlight">
+          <pre ui:field="bindCallbacks" class="java">
+            <code>
+              request.onSuccess(body -> view.setResponseText(body))
               <br/>
-              &#32;&#32;&#32;&#32;public void onSuccess(String result) {
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onFail(res -> view.setResponseText("Response was unsuccessful due to: " + res.getStatus()) )
               <br/>
-              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setIpText(result);
-              <br/>
-              &#32;&#32;&#32;&#32;}
-              <br/>
-              });
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onAbort(e -> view.setResponseText("Request was interrupted due to: " + e.getMessage()))
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Putting it all together.
+        </p>
+        <div class="highlight">
+          <pre ui:field="allTogether" class="java">
+            <code>
+              session.req(&quot;https://httpbin.org/post&quot;)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.timeout(30000)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.delay(50)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType(&quot;application/json&quot;)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.accept(&quot;text/plain&quot;)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.header(&quot;ETag&quot;, &quot;33a64df5&quot;)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new BasicAuth(&quot;username&quot;, &quot;password&quot;))
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(&quot;Hello world!&quot;)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(String.class)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(body -> view.setResponseText(body))
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onFail(res -> view.setResponseText("Response was unsuccessful due to: " + res.getStatus()) )
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onAbort(e -> view.setResponseText("Request was interrupted due to: " + e.getMessage()))
             </code>
           </pre>
         </div>
 
         <g:HTMLPanel styleName="action-panel">
           <g:HTMLPanel styleName="action">
-            <g:Button ui:field="getIpButton" styleName="btn">GET</g:Button>
+            <g:Button ui:field="requestButton" styleName="btn">POST</g:Button>
           </g:HTMLPanel>
-          <textarea ui:field="ipTextArea" class="form-control result" rows="3" readonly="readonly"/>
+          <textarea ui:field="responseTextArea" class="form-control result" rows="8" readonly="readonly"/>
         </g:HTMLPanel>
-
-        <p>
-          The parameter <code>String.class</code> indicates we expect a object of this type as result of the
-          request.
-        </p>
       </g:HTMLPanel>
 
       <g:HTMLPanel styleName="requestor-showcase-innersection">
@@ -74,7 +118,7 @@
         <div class="highlight">
           <pre ui:field="postSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/post&quot;).post(String.class).success(new SuccessCallback&lt;String&gt;() {
+              requestor.req(&quot;https://httpbin.org/post&quot;).post(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
               <br/>
               &#32;&#32;&#32;&#32;public void onSuccess(String result) {
               <br/>
@@ -99,7 +143,7 @@
         <div class="highlight">
           <pre ui:field="putSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/put&quot;).put(String.class).success(new SuccessCallback&lt;String&gt;() {
+              requestor.req(&quot;https://httpbin.org/put&quot;).put(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
               <br/>
               &#32;&#32;&#32;&#32;public void onSuccess(String result) {
               <br/>
@@ -120,11 +164,36 @@
       </g:HTMLPanel>
 
       <g:HTMLPanel styleName="requestor-showcase-innersection">
+        <p>PATCH request.</p>
+        <div class="highlight">
+          <pre ui:field="patchSample" class="java">
+            <code>
+              requestor.req(&quot;https://httpbin.org/patch&quot;).patch(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
+              <br/>
+              &#32;&#32;&#32;&#32;public void onSuccess(String result) {
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(result);
+              <br/>
+              &#32;&#32;&#32;&#32;}
+              <br/>
+              });
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="patchButton" styleName="btn">PATCH</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="patchTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
+      </g:HTMLPanel>
+
+      <g:HTMLPanel styleName="requestor-showcase-innersection">
         <p>DELETE request.</p>
         <div class="highlight">
           <pre ui:field="deleteSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/delete&quot;).delete(String.class).success(new SuccessCallback&lt;String&gt;() {
+              requestor.req(&quot;https://httpbin.org/delete&quot;).delete(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
               <br/>
               &#32;&#32;&#32;&#32;public void onSuccess(String result) {
               <br/>
@@ -149,7 +218,7 @@
         <div class="highlight">
           <pre ui:field="headSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/headers&quot;).head().success(new SuccessCallback&lt;Headers&gt;() {
+              requestor.req(&quot;https://httpbin.org/headers&quot;).head().onSuccess(new PayloadCallback&lt;Headers&gt;() {
               <br/>
               &#32;&#32;&#32;&#32;public void onSuccess(Headers result) {
               <br/>
@@ -174,7 +243,7 @@
         <div class="highlight">
           <pre ui:field="optionsSample" class="java">
             <code>
-              requestor.req(&quot;http://httpbin.org/get&quot;).options(Headers.class).success(new SuccessCallback&lt;Headers&gt;() {
+              requestor.req(&quot;https://httpbin.org/get&quot;).options(Headers.class).onSuccess(new PayloadCallback&lt;Headers&gt;() {
               <br/>
               &#32;&#32;&#32;&#32;public void onSuccess(Headers result) {
               <br/>
@@ -191,31 +260,6 @@
             <g:Button ui:field="optionsButton" styleName="btn">OPTIONS</g:Button>
           </g:HTMLPanel>
           <textarea ui:field="optionsTextArea" class="form-control result" rows="3" readonly="readonly"/>
-        </g:HTMLPanel>
-      </g:HTMLPanel>
-
-      <g:HTMLPanel styleName="requestor-showcase-innersection">
-        <p>PATCH request.</p>
-        <div class="highlight">
-          <pre ui:field="patchSample" class="java">
-            <code>
-              requestor.req(&quot;http://httpbin.org/patch&quot;).patch(String.class).success(new SuccessCallback&lt;String&gt;() {
-              <br/>
-              &#32;&#32;&#32;&#32;public void onSuccess(String result) {
-              <br/>
-              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(result);
-              <br/>
-              &#32;&#32;&#32;&#32;}
-              <br/>
-              });
-            </code>
-          </pre>
-        </div>
-        <g:HTMLPanel styleName="action-panel">
-          <g:HTMLPanel styleName="action">
-            <g:Button ui:field="patchButton" styleName="btn">PATCH</g:Button>
-          </g:HTMLPanel>
-          <textarea ui:field="patchTextArea" class="form-control result" rows="3" readonly="readonly"/>
         </g:HTMLPanel>
       </g:HTMLPanel>
     </g:HTMLPanel>

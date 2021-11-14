@@ -30,7 +30,7 @@ import io.reinert.requestor.examples.showcase.util.HighlightJs;
 public class Requesting extends Composite {
 
     public interface Handler {
-        void onGetIpButtonClick();
+        void onRequestButtonClick();
         void onPostButtonClick();
         void onPutButtonClick();
         void onDeleteButtonClick();
@@ -43,25 +43,26 @@ public class Requesting extends Composite {
 
     private static RequestingUiBinder uiBinder = GWT.create(RequestingUiBinder.class);
 
-    @UiField Element getIp, promiseIp, postSample, putSample, deleteSample, headSample, optionsSample, patchSample;
-    @UiField TextAreaElement ipTextArea, postTextArea, putTextArea, deleteTextArea, headTextArea, optionsTextArea,
+    @UiField Element callReq, buildRequest, invokeRequest, bindCallbacks, allTogether, postSample, putSample,
+            deleteSample, headSample, optionsSample, patchSample;
+    @UiField TextAreaElement responseTextArea, postTextArea, putTextArea, deleteTextArea, headTextArea, optionsTextArea,
             patchTextArea;
 
     private Handler handler;
 
     public Requesting() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(getIp, promiseIp, postSample, putSample, deleteSample, headSample, optionsSample,
-                patchSample);
+        HighlightJs.highlightBlock(callReq, buildRequest, invokeRequest, bindCallbacks, allTogether, postSample,
+                putSample, deleteSample, headSample, optionsSample, patchSample);
     }
 
     public void setHandler(Handler handler) {
         this.handler = handler;
     }
 
-    @UiHandler("getIpButton")
+    @UiHandler("requestButton")
     public void onGetIpButtonClick(ClickEvent event) {
-        handler.onGetIpButtonClick();
+        handler.onRequestButtonClick();
     }
 
     @UiHandler("postButton")
@@ -94,8 +95,8 @@ public class Requesting extends Composite {
         handler.onPatchButtonClick();
     }
 
-    public void setIpText(String content) {
-        ipTextArea.setValue(content);
+    public void setResponseText(String content) {
+        responseTextArea.setValue(content);
     }
 
     public void setPostText(String content) {

@@ -190,15 +190,14 @@ h1[id] {
 }
 
 .highlight {
-    padding: 9px 14px;
-    margin-bottom: 14px;
+    margin-bottom: 15px;
     background-color: #f9f2f4;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
 .highlight pre {
-    padding: 0;
+    padding: 10px 5px;
     margin-top: 0;
     margin-bottom: 0;
     word-break: normal;
