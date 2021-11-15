@@ -26,12 +26,12 @@ import io.reinert.requestor.core.PreparedRequest;
  */
 public class BasicAuth implements Auth {
 
-    interface Base64 {
+    public interface Base64 {
         String encode(String text);
     }
 
-    // Implementations must set this
-    static Base64 BASE64 = null;
+    // Requestor implementations must set this
+    public static Base64 BASE64 = null;
 
     private final String user;
     private final String password;

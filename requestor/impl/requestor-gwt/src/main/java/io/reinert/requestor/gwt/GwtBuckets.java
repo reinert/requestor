@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core.uri;
+package io.reinert.requestor.gwt;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
-final class GwtBuckets implements Buckets {
+import io.reinert.requestor.core.uri.Buckets;
 
-    static {
-        Factory.INSTANCE = new Factory() {
-            @Override
-            public Buckets create() {
-                return new GwtBuckets();
-            }
-        };
-    }
+class GwtBuckets implements Buckets {
 
     private final JsBuckets delegate = JavaScriptObject.createObject().cast();
 

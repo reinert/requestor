@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core.uri;
+package io.reinert.requestor.gwt;
 
 import com.google.gwt.http.client.URL;
+
+import io.reinert.requestor.core.uri.UriCodec;
 
 /**
  * Default UriCodec impl delegating to {@link URL} class.
  */
 class GwtUriCodec extends UriCodec {
-
-    static {
-        UriCodec.INSTANCE = new GwtUriCodec();
-    }
 
     @Override
     public String decode(String encodedURL) {

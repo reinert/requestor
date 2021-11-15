@@ -15,11 +15,11 @@
  */
 package io.reinert.requestor.core.uri;
 
-interface Buckets {
+public interface Buckets {
 
     abstract class Factory {
 
-        static Factory INSTANCE = null;
+        public static Factory INSTANCE = null;
 
         static Buckets newBuckets() {
             if (INSTANCE == null) {
@@ -33,7 +33,7 @@ interface Buckets {
             return INSTANCE.create();
         }
 
-        abstract Buckets create();
+        protected abstract Buckets create();
     }
 
     void add(String key, int value);

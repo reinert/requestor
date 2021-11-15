@@ -35,6 +35,10 @@ import io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory;
  */
 public class GwtSession extends Session {
 
+    static {
+        RequestorGwt.init();
+    }
+
     public GwtSession() {
         this(new DeferredFactoryImpl());
     }

@@ -1,0 +1,57 @@
+/*
+ * Copyright 2015-2021 Danilo Reinert
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.reinert.requestor.gwt;
+
+import io.reinert.requestor.core.auth.BasicAuth;
+import io.reinert.requestor.core.uri.Buckets;
+import io.reinert.requestor.core.uri.UriCodec;
+
+/**
+ * This class provides a static initializer for the deferred bindings of Requestor for GWT environment.
+ *
+ * @author Danilo Reinert
+ */
+public class RequestorGwt {
+
+    private static boolean initPending = true;
+
+    /**
+     * Initializes static lazy bindings to proper usage of Requestor in GWT environment.
+     * <p></p>
+     * Call this method in a static block in the app's EntryPoint.
+     */
+    public static void init() {
+        if (initPending) {
+            UriCodec.INSTANCE = new GwtUriCodec();
+
+            Buckets.Factory.INSTANCE = new Buckets.Factory() {
+                @Override
+                protected Buckets create() {
+                    return new GwtBuckets();
+                }
+            };
+
+            BasicAuth.BASE64 = new BasicAuth.Base64() {
+                @Override
+                public native String encode(String text) /*-{
+                    return $wnd.btoa(text);
+                }-*/;
+            };
+
+            initPending = false;
+        }
+    }
+}
