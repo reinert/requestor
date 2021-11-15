@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -234,7 +234,7 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     @Override
-    public UriImpl build(Object... templateValues) {
+    public Uri build(Object... templateValues) {
         List<String> templateParams = new ArrayList<String>();
 
         if (segments != null) {
@@ -259,7 +259,7 @@ public class UriBuilderImpl extends UriBuilder {
     }
 
     @Override
-    public UriImpl build(Map<String, ?> values) {
+    public Uri build(Map<String, ?> values) {
         if (segments != null) {
             for (int i = 0; i < segments.size(); i++) {
                 final String segment = segments.get(i);

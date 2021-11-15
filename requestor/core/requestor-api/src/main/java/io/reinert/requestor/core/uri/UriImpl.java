@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import java.util.Map;
  */
 class UriImpl extends Uri {
 
-    private UriCodec uriCodec;
     private String scheme;
     private String user;
     private String password;
@@ -50,7 +49,6 @@ class UriImpl extends Uri {
     // Used only by UriParser which already has the uri stringified.
     UriImpl(String scheme, String user, String password, String host, int port, String[] pathSegments,
             Map<String, Buckets> matrixParams, Buckets queryParams, String fragment, String uriString) {
-        this.uriCodec = UriCodec.getInstance();
         // TODO: validate?
         this.scheme = scheme;
         this.user = user;
@@ -151,7 +149,8 @@ class UriImpl extends Uri {
     @Override
     public String toString() {
         if (uriString == null) {
-            StringBuilder uri = new StringBuilder();
+            final UriCodec uriCodec = UriCodec.getInstance();
+            final StringBuilder uri = new StringBuilder();
 
             if (scheme != null) {
                 uri.append(scheme).append("://");
@@ -239,7 +238,7 @@ class UriImpl extends Uri {
         if (pathSegments != null && pathSegments.length > 0) {
             for (final String segment : pathSegments) {
                 pathBuilder.append(segment);
-                pathEncodedBuilder.append(uriCodec.encodePathSegment(segment));
+                pathEncodedBuilder.append(UriCodec.getInstance().encodePathSegment(segment));
 
                 // Check if there are matrix params for this segment
                 appendMatrixParams(pathBuilder, pathEncodedBuilder, segment);
@@ -258,6 +257,7 @@ class UriImpl extends Uri {
         if (matrixParams != null) {
             Buckets segmentParams = matrixParams.get(segment);
             if (segmentParams != null) {
+                final UriCodec uriCodec = UriCodec.getInstance();
                 String[] params = segmentParams.getKeys();
                 for (String param : params) {
                     String[] values = segmentParams.get(param);
@@ -287,6 +287,7 @@ class UriImpl extends Uri {
         final StringBuilder queryEncodedBuilder = new StringBuilder();
 
         if (queryParams != null && !queryParams.isEmpty()) {
+            final UriCodec uriCodec = UriCodec.getInstance();
             String[] params = queryParams.getKeys();
             for (String param : params) {
                 final String[] values = queryParams.get(param);

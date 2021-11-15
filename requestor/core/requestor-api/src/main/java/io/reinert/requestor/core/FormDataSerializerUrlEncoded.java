@@ -34,7 +34,6 @@ public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
     public static final String MEDIA_TYPE = "application/x-www-form-urlencoded";
 
     private static final Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());
-    private static final UriCodec uriCodec = UriCodec.getInstance();
 
     @Override
     public Class<FormData> handledType() {
@@ -82,6 +81,6 @@ public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
     }
 
     protected String encode(String value) {
-        return uriCodec.encodeQueryString(value);
+        return UriCodec.getInstance().encodeQueryString(value);
     }
 }

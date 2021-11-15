@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import java.util.Map;
 public class UriParser {
 
     private UriImpl uri;
-    private UriCodec uriCodec;
     private String scheme;
     private String user;
     private String password;
@@ -39,7 +38,6 @@ public class UriParser {
     private String uriString;
 
     private UriParser() {
-        this.uriCodec = UriCodec.getInstance();
     }
 
     public UriImpl getUri() {
@@ -63,6 +61,8 @@ public class UriParser {
         resetParser();
 
         uriString = uri;
+
+        final UriCodec uriCodec = UriCodec.getInstance();
 
         String parsedUri = uri;
         String query;
@@ -130,17 +130,18 @@ public class UriParser {
                 }
             }
         }
-        this.segments = parsedSegments.toArray(new String[parsedSegments.size()]);
+        this.segments = parsedSegments.toArray(new String[0]);
 
         return this;
     }
 
     private String parseAuthority(String uri) {
-        uri = parseUserInfo(uri);
-        return parseHost(uri);
+        return parseHost(parseUserInfo(uri));
     }
 
     private String parseUserInfo(String uri) {
+        final UriCodec uriCodec = UriCodec.getInstance();
+
         // Extract username:password
         int pathDivider = uri.indexOf('/');
         int pos = uri.lastIndexOf('@', pathDivider > -1 ? pathDivider : uri.length() - 1);
@@ -173,6 +174,8 @@ public class UriParser {
     }
 
     private void parseQuery(String query) {
+        final UriCodec uriCodec = UriCodec.getInstance();
+
         // throw out the funky business - "?"[name"="value"&"]+
         query = query.replaceAll("/&+/g", "&").replaceAll("/^\\?*&*|&+$/g", "");
 
