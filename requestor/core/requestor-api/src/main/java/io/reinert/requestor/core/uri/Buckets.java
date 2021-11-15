@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,26 @@
  */
 package io.reinert.requestor.core.uri;
 
-// TODO: replace by a HashMap on usages
 interface Buckets {
+
+    abstract class Factory {
+
+        static Factory INSTANCE = null;
+
+        static Buckets newBuckets() {
+            if (INSTANCE == null) {
+                INSTANCE = new Factory() {
+                    @Override
+                    public Buckets create() {
+                        return new LinkedHashBuckets();
+                    }
+                };
+            }
+            return INSTANCE.create();
+        }
+
+        abstract Buckets create();
+    }
 
     void add(String key, int value);
 
@@ -26,6 +44,8 @@ interface Buckets {
 
     void add(String key, String value);
 
+    Buckets copy();
+
     String[] get(String key);
 
     String[] getKeys();
@@ -34,5 +54,4 @@ interface Buckets {
 
     String[] remove(String key);
 
-    Buckets clone();
 }

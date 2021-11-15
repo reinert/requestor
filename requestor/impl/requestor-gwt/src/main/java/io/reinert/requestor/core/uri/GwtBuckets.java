@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,18 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
-final class BucketsImpl implements Buckets {
+final class GwtBuckets implements Buckets {
 
-    private final BucketsOverlay delegate = JavaScriptObject.createObject().cast();
+    static {
+        Factory.INSTANCE = new Factory() {
+            @Override
+            public Buckets create() {
+                return new GwtBuckets();
+            }
+        };
+    }
+
+    private final JsBuckets delegate = JavaScriptObject.createObject().cast();
 
     @Override
     public void add(String key, int value) {
@@ -54,8 +63,8 @@ final class BucketsImpl implements Buckets {
     }
 
     @Override
-    public Buckets clone() {
-        return delegate.clone();
+    public Buckets copy() {
+        return delegate.copyNative();
     }
 
     @Override
@@ -68,9 +77,9 @@ final class BucketsImpl implements Buckets {
         return delegate.isEmpty();
     }
 
-    private static final class BucketsOverlay extends JavaScriptObject implements Buckets {
+    private static final class JsBuckets extends JavaScriptObject implements Buckets {
 
-        protected BucketsOverlay() {
+        protected JsBuckets() {
         }
 
         @Override
@@ -105,8 +114,8 @@ final class BucketsImpl implements Buckets {
         }
 
         @Override
-        public Buckets clone() {
-            return cloneNative();
+        public Buckets copy() {
+            return copyNative();
         }
 
         @Override
@@ -119,7 +128,7 @@ final class BucketsImpl implements Buckets {
             return getKeysNative().length() == 0;
         }
 
-        public boolean isEquals(BucketsOverlay other) {
+        public boolean isEquals(JsBuckets other) {
             if (super.equals(other))
                 return true;
 
@@ -155,7 +164,7 @@ final class BucketsImpl implements Buckets {
             return bucket;
         }-*/;
 
-        private native BucketsOverlay cloneNative() /*-{
+        private native JsBuckets copyNative() /*-{
             var copy, key, i;
             copy = {};
             for (key in this) {

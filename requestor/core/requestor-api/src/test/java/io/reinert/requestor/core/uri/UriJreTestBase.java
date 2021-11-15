@@ -38,7 +38,7 @@ public class UriJreTestBase {
         GwtMockito.useProviderForType(Buckets.class, new FakeProvider<Buckets>() {
             @Override
             public Buckets getFake(Class<?> aClass) {
-                return new BucketsMock();
+                return new LinkedHashBuckets();
             }
         });
         GwtMockito.useProviderForType(UriBuilder.class, new FakeProvider<UriBuilder>() {

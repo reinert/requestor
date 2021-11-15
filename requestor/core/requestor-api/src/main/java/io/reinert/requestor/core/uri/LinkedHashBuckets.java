@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-class BucketsMock implements Buckets {
+class LinkedHashBuckets implements Buckets {
 
     private final Map<String, List<String>> bucketsMap = new LinkedHashMap<String, List<String>>();
 
@@ -70,8 +70,8 @@ class BucketsMock implements Buckets {
     }
 
     @Override
-    public Buckets clone() {
-        BucketsMock copy = new BucketsMock();
+    public Buckets copy() {
+        LinkedHashBuckets copy = new LinkedHashBuckets();
         for (String key : bucketsMap.keySet()) {
             final String[] values = get(key);
             for (String value : values) {

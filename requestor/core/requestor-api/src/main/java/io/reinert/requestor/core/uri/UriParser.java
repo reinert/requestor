@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
-
 /**
  * Parses a URI.
  */
@@ -119,7 +117,7 @@ public class UriParser {
                     if (matrixParams == null) {
                         matrixParams = new HashMap<String, Buckets>();
                     }
-                    final Buckets buckets = GWT.create(Buckets.class);
+                    final Buckets buckets = Buckets.Factory.newBuckets();
                     matrixParams.put(parsedSegment, buckets);
                     for (int i = 1; i < matrixParts.length; i++) {
                         String[] matrixElements = matrixParts[i].split("=");
@@ -181,7 +179,7 @@ public class UriParser {
         if (query.isEmpty())
             return;
 
-        queryParams = GWT.create(Buckets.class);
+        queryParams = Buckets.Factory.newBuckets();
         String[] p, pairs = query.split("&");
         String name, value;
         for (final String pair : pairs) {

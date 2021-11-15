@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
-
 /**
  * Default implementation of {@link io.reinert.requestor.core.uri.UriBuilder}.
  *
@@ -60,12 +58,12 @@ public class UriBuilderImpl extends UriBuilder {
         }
         uriBuilder.fragment = fragment;
         if (queryParams != null) {
-            uriBuilder.queryParams = queryParams.clone();
+            uriBuilder.queryParams = queryParams.copy();
         }
         if (matrixParams != null) {
             uriBuilder.matrixParams = new HashMap<String, Buckets>();
             for (String key : matrixParams.keySet()) {
-                uriBuilder.matrixParams.put(key, matrixParams.get(key).clone());
+                uriBuilder.matrixParams.put(key, matrixParams.get(key).copy());
             }
         }
 
@@ -154,7 +152,7 @@ public class UriBuilderImpl extends UriBuilder {
 
         Buckets segmentParams = matrixParams.get(segment);
         if (segmentParams == null) {
-            segmentParams = GWT.create(Buckets.class);
+            segmentParams = Buckets.Factory.newBuckets();
             matrixParams.put(segment, segmentParams);
         }
         for (Object value : values) {
@@ -169,7 +167,7 @@ public class UriBuilderImpl extends UriBuilder {
         assertNotNull(name, "Parameter name cannot be null.");
         assertNotNull(values, "Parameter values cannot be null.");
 
-        if (queryParams == null) queryParams = GWT.create(Buckets.class);
+        if (queryParams == null) queryParams = Buckets.Factory.newBuckets();
         for (Object value : values) {
             queryParams.add(name, value != null ? value.toString() : null);
         }
