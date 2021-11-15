@@ -35,18 +35,6 @@
       <version>${project.version}</version>
     </dependency>
 
-    <!-- GWT dependencies -->
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
     <!-- Test dependencies -->
     <dependency>
       <groupId>org.mockito</groupId>

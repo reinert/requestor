@@ -18,7 +18,6 @@ package io.reinert.requestor.gwtjackson;
 import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.core.Deferred;
-import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.TypeProvider;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -41,13 +40,11 @@ public class JsonSession extends GwtSession {
         super(deferredFactory);
     }
 
-    public JsonSession(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
-        super(deferredFactory, requestDispatcherFactory);
-    }
-
     @Override
     protected void configure() {
         super.configure();
+
+        setMediaType("application/json");
 
         if (generatedModules == null) {
             JsonGeneratedModules generatedModulesProvider = GWT.create(JsonGeneratedModules.class);

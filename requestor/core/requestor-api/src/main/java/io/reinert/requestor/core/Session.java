@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.Serializer;
+import io.reinert.requestor.core.serialization.misc.TextSerializer;
+import io.reinert.requestor.core.serialization.misc.VoidSerializer;
 import io.reinert.requestor.core.uri.Uri;
 import io.reinert.requestor.core.uri.UriBuilder;
 
@@ -49,7 +49,7 @@ import io.reinert.requestor.core.uri.UriBuilder;
  *
  * @author Danilo Reinert
  */
-public abstract class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
+public class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
         DirectInvoker, HasRequestOptions {
 
     private final RequestOptionsHolder options = new RequestOptionsHolder();
@@ -64,16 +64,14 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     private final RequestDispatcher.Factory requestDispatcherFactory;
     private final Deferred.Factory deferredFactory;
 
-    public Session() {
-        this(GWT.<Deferred.Factory>create(Deferred.Factory.class));
-    }
-
-    public Session(Deferred.Factory deferredFactory) {
-        this(deferredFactory, GWT.<RequestDispatcher.Factory>create(RequestDispatcher.Factory.class));
-    }
-
     public Session(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
+        if (requestDispatcherFactory == null) {
+            throw new IllegalArgumentException("RequestDispatcher.Factory cannot be null");
+        }
         this.requestDispatcherFactory = requestDispatcherFactory;
+        if (deferredFactory == null) {
+            throw new IllegalArgumentException("Deferred.Factory cannot be null");
+        }
         this.deferredFactory = deferredFactory;
 
         // init processors
@@ -90,7 +88,16 @@ public abstract class Session implements SerializerManager, FilterManager, Inter
     /**
      * Perform initial configuration for the session in construction.
      */
-    protected abstract void configure();
+    protected void configure() {
+        register(VoidSerializer.getInstance());
+        register(TextSerializer.getInstance());
+        register(new SerializerProvider() {
+            @Override
+            public Serializer<?> getInstance() {
+                return new FormDataSerializerUrlEncoded();
+            }
+        });
+    }
 
     //===================================================================
     // Request methods

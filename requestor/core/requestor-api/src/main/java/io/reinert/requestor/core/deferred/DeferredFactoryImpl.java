@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@ import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.SerializedRequest;
 
 /**
- * Implementation of DeferredRequestFactory returning a DeferredRequest.
+ * Implementation of DeferredFactoryImpl returning a DeferredRequest.
  */
-public class DeferredRequestFactory implements Deferred.Factory {
+public class DeferredFactoryImpl implements Deferred.Factory {
 
     public <T> Deferred<T> newDeferred(SerializedRequest serializedRequest) {
         return new DeferredRequest<T>(serializedRequest);

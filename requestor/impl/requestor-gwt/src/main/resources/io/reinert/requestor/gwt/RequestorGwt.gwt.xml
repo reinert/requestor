@@ -20,9 +20,5 @@
 
   <inherits name="io.reinert.requestor.core.Requestor"/>
 
-  <replace-with class="io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory">
-    <when-type-is class="io.reinert.requestor.core.RequestDispatcher.Factory"/>
-  </replace-with>
-
   <source path="" excludes="rebind/**/*"/>
 </module>

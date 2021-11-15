@@ -16,9 +16,9 @@
 package io.reinert.requestor.gwt;
 
 import io.reinert.requestor.core.Deferred;
-import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.SerializerProvider;
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.deferred.DeferredFactoryImpl;
 import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.core.serialization.misc.TextSerializer;
 import io.reinert.requestor.core.serialization.misc.VoidSerializer;
@@ -26,6 +26,7 @@ import io.reinert.requestor.gwt.serialization.JsonBooleanSerializer;
 import io.reinert.requestor.gwt.serialization.JsonNumberSerializer;
 import io.reinert.requestor.gwt.serialization.JsonStringSerializer;
 import io.reinert.requestor.gwt.serialization.OverlaySerializer;
+import io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory;
 
 /**
  * A session that handles json data.
@@ -35,15 +36,11 @@ import io.reinert.requestor.gwt.serialization.OverlaySerializer;
 public class GwtSession extends Session {
 
     public GwtSession() {
-        super();
+        this(new DeferredFactoryImpl());
     }
 
     public GwtSession(Deferred.Factory deferredFactory) {
-        super(deferredFactory);
-    }
-
-    public GwtSession(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
-        super(deferredFactory, requestDispatcherFactory);
+        super(deferredFactory, new XhrRequestDispatcherFactory());
     }
 
     @Override
@@ -84,7 +81,5 @@ public class GwtSession extends Session {
                 return new OverlaySerializer();
             }
         });
-
-        setMediaType("application/json");
     }
 }

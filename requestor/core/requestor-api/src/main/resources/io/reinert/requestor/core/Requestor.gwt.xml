@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2021 Danilo Reinert
+  ~ Copyright 2014-2021 Danilo Reinert
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,12 +15,7 @@
   ~ limitations under the License.
   -->
 <module>
-  <inherits name="com.google.gwt.core.Core"/>
-
-  <replace-with class="io.reinert.requestor.core.deferred.DeferredRequestFactory">
-    <when-type-is class="io.reinert.requestor.core.Deferred.Factory"/>
-  </replace-with>
-
+  <!-- requestor-core is agnostic from any platform, including GWT -->
   <source path=""/>
 </module>
 
