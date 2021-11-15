@@ -17,10 +17,7 @@ package io.reinert.requestor.core.uri;
 
 import java.util.Arrays;
 
-import com.google.gwtmockito.GwtMockitoTestRunner;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -29,8 +26,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Danilo Reinert
  */
-@RunWith(GwtMockitoTestRunner.class)
-public class UriParserJreTest extends UriJreTestBase {
+public class UriParserJreTest {
 
     @Test
     public void testRootPath() {

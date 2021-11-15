@@ -17,22 +17,17 @@ package io.reinert.requestor.core.header;
 
 import java.util.Iterator;
 
-import com.google.gwtmockito.GwtMockitoTestRunner;
-
 import io.reinert.requestor.core.Link;
 import io.reinert.requestor.core.uri.Uri;
-import io.reinert.requestor.core.uri.UriJreTestBase;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author Danilo Reinert
  */
-@RunWith(GwtMockitoTestRunner.class)
-public class LinkHeaderJreTest extends UriJreTestBase {
+public class LinkHeaderJreTest {
 
     @Test
     public void testMultipleValue() {

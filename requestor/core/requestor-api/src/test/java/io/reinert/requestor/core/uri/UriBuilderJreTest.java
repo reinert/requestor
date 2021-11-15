@@ -18,18 +18,14 @@ package io.reinert.requestor.core.uri;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwtmockito.GwtMockitoTestRunner;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author Danilo Reinert
  */
-@RunWith(GwtMockitoTestRunner.class)
-public class UriBuilderJreTest extends UriJreTestBase {
+public class UriBuilderJreTest {
 
     @Test
     public void build_PathOnly_ShouldBuildSuccessfully() {
