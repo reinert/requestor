@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.core.auth;
 
-import com.google.gwt.core.client.JavaScriptException;
-
 import io.reinert.requestor.core.Auth;
 import io.reinert.requestor.core.PreparedRequest;
 
@@ -27,6 +25,13 @@ import io.reinert.requestor.core.PreparedRequest;
  * @author Danilo Reinert
  */
 public class BasicAuth implements Auth {
+
+    interface Base64 {
+        String encode(String text);
+    }
+
+    // Implementations must set this
+    static Base64 BASE64 = null;
 
     private final String user;
     private final String password;
@@ -44,17 +49,12 @@ public class BasicAuth implements Auth {
 
     @Override
     public void auth(PreparedRequest request) {
-        try {
-            request.setHeader("Authorization", "Basic " + btoa(user + ":" + password));
-        } catch (JavaScriptException e) {
-            throw new UnsupportedOperationException("It was not possible to encode credentials using browser's " +
-                    "native btoa. The browser does not support this operation.", e);
+        if (BASE64 == null) {
+            throw new UnsupportedOperationException("BasicAuth is not supported because package-private BASE64" +
+                    " constant is not set. Please, statically assign this variable in io.requestor.core.auth package.");
         }
+        request.setHeader("Authorization", "Basic " + BASE64.encode(user + ":" + password));
         request.setWithCredentials(withCredentials);
         request.send();
     }
-
-    private static native String btoa(String str) /*-{
-        return $wnd.btoa(str);
-    }-*/;
 }
