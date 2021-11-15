@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,11 @@ import com.google.gwt.http.client.URL;
 /**
  * Default UriCodec impl delegating to {@link URL} class.
  */
-class UriCodecImpl extends UriCodec {
+class GwtUriCodec extends UriCodec {
+
+    static {
+        UriCodec.INSTANCE = new GwtUriCodec();
+    }
 
     @Override
     public String decode(String encodedURL) {

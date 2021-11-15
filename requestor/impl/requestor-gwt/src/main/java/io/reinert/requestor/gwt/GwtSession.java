@@ -19,7 +19,6 @@ import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.SerializerProvider;
 import io.reinert.requestor.core.Session;
-import io.reinert.requestor.core.auth.BasicAuth;
 import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.core.serialization.misc.TextSerializer;
 import io.reinert.requestor.core.serialization.misc.VoidSerializer;

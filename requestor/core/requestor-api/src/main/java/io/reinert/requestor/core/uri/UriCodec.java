@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,17 @@
  */
 package io.reinert.requestor.core.uri;
 
-import com.google.gwt.core.client.GWT;
-
 /**
  *  Utility class for encoding and decoding URL parts.
  */
 public abstract class UriCodec {
 
-    private static UriCodec INSTANCE;
+    public static UriCodec INSTANCE = null;
 
     public static UriCodec getInstance() {
-        if (INSTANCE == null) INSTANCE = GWT.create(UriCodec.class);
+        if (INSTANCE == null) {
+            INSTANCE = new NetUriCodec();
+        }
         return INSTANCE;
     }
 

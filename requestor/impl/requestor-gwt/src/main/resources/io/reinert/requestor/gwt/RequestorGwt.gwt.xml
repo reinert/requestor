@@ -20,10 +20,6 @@
 
   <inherits name="io.reinert.requestor.core.Requestor"/>
 
-  <replace-with class="io.reinert.requestor.core.uri.UriCodecImpl">
-    <when-type-is class="io.reinert.requestor.core.uri.UriCodec"/>
-  </replace-with>
-
   <replace-with class="io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory">
     <when-type-is class="io.reinert.requestor.core.RequestDispatcher.Factory"/>
   </replace-with>
