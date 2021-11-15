@@ -17,8 +17,6 @@ package io.reinert.requestor.core.uri;
 
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
-
 /**
  * Utility class for building URIs from their components.
  * <p></p>
@@ -88,7 +86,7 @@ public abstract class UriBuilder {
     }
 
     public static UriBuilder newInstance() {
-        return GWT.create(UriBuilder.class);
+        return new UriBuilderImpl();
     }
 
     /**

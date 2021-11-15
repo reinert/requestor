@@ -17,10 +17,6 @@
 <module>
   <inherits name="com.google.gwt.core.Core"/>
 
-  <replace-with class="io.reinert.requestor.core.uri.UriBuilderImpl">
-    <when-type-is class="io.reinert.requestor.core.uri.UriBuilder"/>
-  </replace-with>
-
   <replace-with class="io.reinert.requestor.core.deferred.DeferredRequestFactory">
     <when-type-is class="io.reinert.requestor.core.Deferred.Factory"/>
   </replace-with>
