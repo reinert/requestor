@@ -57,6 +57,13 @@ public class XhrRequestDispatcher extends RequestDispatcher {
     }
 
     @Override
+    protected native void scheduleRun(Runnable runnable, int delay) /*-{
+        setTimeout($entry(function() {
+            runnable.@java.lang.Runnable::run()();
+        }), delay);
+    }-*/;
+
+    @Override
     protected <D> void send(final PreparedRequest request, final Deferred<D> deferred, PayloadType payloadType) {
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUri().toString();

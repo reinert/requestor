@@ -35,10 +35,6 @@ public abstract class RequestDispatcher {
                                                Deferred.Factory deferredFactory);
     }
 
-    private interface Runnable {
-        void run();
-    }
-
     private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());
 
     private final RequestProcessor requestProcessor;
@@ -51,6 +47,15 @@ public abstract class RequestDispatcher {
         this.responseProcessor = responseProcessor;
         this.deferredFactory = deferredFactory;
     }
+
+    /**
+     * Defers the execution of a {@link Runnable} by the informed delay.
+     * This method is used to schedule the dispatches.
+     *
+     * @param runnable  A callback to be executed later
+     * @param delay     The time to postpone the runnable execution
+     */
+    protected abstract void scheduleRun(Runnable runnable, int delay);
 
     /**
      * Sends the request through the wire and resolves (or rejects) the deferred when completed.
@@ -70,17 +75,15 @@ public abstract class RequestDispatcher {
      * @param responsePayloadType   The type of the expected response payload
      * @param <R>                   The expected type of the request
      */
-    protected abstract <R> void send(PreparedRequest request, Deferred<R> deferred,
-                                     PayloadType responsePayloadType);
+    protected abstract <R> void send(PreparedRequest request, Deferred<R> deferred, PayloadType responsePayloadType);
 
     /**
      * Evaluates the response and resolves the deferred.
      * This method must be called by implementations after the response is received.
      *
      * @param response  The response received from the request
-     * @param <R>       Type of the deferred
      */
-    protected <R> void evalResponse(RawResponse response) {
+    protected void evalResponse(RawResponse response) {
         responseProcessor.process(response);
     }
 
@@ -140,7 +143,7 @@ public abstract class RequestDispatcher {
 
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request, responsePayloadType,
                 this, deferred);
-        setNativeTimeout(new Runnable() {
+        scheduleRun(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -184,7 +187,7 @@ public abstract class RequestDispatcher {
     private <T> void schedulePollingRequest(final MutableSerializedRequest nextRequest,
                                             final PayloadType responsePayloadType,
                                             final Deferred<T> deferred) {
-        setNativeTimeout(new Runnable() {
+        scheduleRun(new Runnable() {
             @Override
             public void run() {
                 if (nextRequest.isPolling()) {
@@ -202,10 +205,4 @@ public abstract class RequestDispatcher {
         return request.isPolling() &&
                 request.getPollingStrategy() == PollingStrategy.SHORT;
     }
-
-    private native void setNativeTimeout(Runnable runnable, int delay) /*-{
-        setTimeout($entry(function() {
-            runnable.@io.reinert.requestor.core.RequestDispatcher.Runnable::run()();
-        }), delay);
-    }-*/;
 }
