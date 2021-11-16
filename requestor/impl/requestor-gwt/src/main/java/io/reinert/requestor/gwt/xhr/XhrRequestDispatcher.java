@@ -29,9 +29,10 @@ import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.PreparedRequest;
 import io.reinert.requestor.core.ProgressEvent;
 import io.reinert.requestor.core.RawResponse;
+import io.reinert.requestor.core.RequestAbortException;
+import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestDispatchException;
 import io.reinert.requestor.core.RequestDispatcher;
-import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.RequestProgressImpl;
@@ -88,7 +89,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         try {
             setHeaders(headers, xmlHttpRequest);
         } catch (JavaScriptException e)  {
-            deferred.notifyError(new RequestException(request, "Could not manipulate the XHR headers: " +
+            deferred.notifyError(new RequestAbortException(request, "Could not manipulate the XHR headers: " +
                     e.getMessage(), e));
             return;
         }
@@ -228,7 +229,8 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     deferred.notifyError(new RequestTimeoutException(requestOptions, e.getTimeoutMillis()));
                 } else {
                     // reject as generic request exception
-                    deferred.notifyError(new RequestException(requestOptions, exception));
+                    deferred.notifyError(new RequestCancelException(requestOptions,
+                            "Request has been cancelled after being sent. See previous exception.", exception));
                 }
             }
         };

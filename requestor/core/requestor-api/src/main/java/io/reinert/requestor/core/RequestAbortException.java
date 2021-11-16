@@ -25,4 +25,8 @@ public class RequestAbortException extends RequestException {
     public RequestAbortException(RequestOptions requestOptions, String message) {
         super(requestOptions, message);
     }
+
+    public RequestAbortException(RequestOptions requestOptions, String message, Throwable cause) {
+        super(requestOptions, message, cause);
+    }
 }

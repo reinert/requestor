@@ -64,7 +64,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public void abort(RequestException error) {
+    public void abort(RequestAbortException error) {
         if (sent)
             throw new IllegalStateException("PreparedRequest couldn't be aborted: Request has already been sent.");
 

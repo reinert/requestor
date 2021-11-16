@@ -24,17 +24,17 @@ public class RequestException extends RuntimeException {
 
     private final RequestOptions requestOptions;
 
-    public RequestException(RequestOptions requestOptions, String message) {
+    protected RequestException(RequestOptions requestOptions, String message) {
         super(message);
         this.requestOptions = requestOptions;
     }
 
-    public RequestException(RequestOptions requestOptions, Throwable cause) {
+    protected RequestException(RequestOptions requestOptions, Throwable cause) {
         super(cause);
         this.requestOptions = requestOptions;
     }
 
-    public RequestException(RequestOptions requestOptions, String message, Throwable cause) {
+    protected RequestException(RequestOptions requestOptions, String message, Throwable cause) {
         super(message, cause);
         this.requestOptions = requestOptions;
     }

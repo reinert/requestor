@@ -18,7 +18,7 @@ package io.reinert.requestor.oauth2;
 import com.google.gwt.core.client.Callback;
 
 import io.reinert.requestor.core.PreparedRequest;
-import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestAbortException;
 
 /**
  * OAuth2 authentication.
@@ -54,7 +54,7 @@ public abstract class OAuth2Base implements io.reinert.requestor.core.Auth {
         AUTH.login(authRequest, new Callback<TokenInfo, Throwable>() {
             @Override
             public void onFailure(Throwable reason) {
-                preparedRequest.abort(new RequestException(preparedRequest,
+                preparedRequest.abort(new RequestAbortException(preparedRequest,
                         "Unable to authorize the request using OAuth2.", reason));
             }
 

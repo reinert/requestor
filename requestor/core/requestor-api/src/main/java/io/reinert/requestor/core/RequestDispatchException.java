@@ -18,7 +18,7 @@ package io.reinert.requestor.core;
 /**
  * Exception for dispatching {@link RequestOptions}s.
  */
-public class RequestDispatchException extends RequestException {
+public class RequestDispatchException extends RequestAbortException {
 
     public RequestDispatchException(RequestOptions requestOptions, String s) {
         super(requestOptions, s);

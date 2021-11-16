@@ -47,6 +47,6 @@ public interface PreparedRequest extends SerializedRequest, HasHeaders {
 
     void abort(RawResponse response);
 
-    void abort(RequestException error);
+    void abort(RequestAbortException error);
 
 }

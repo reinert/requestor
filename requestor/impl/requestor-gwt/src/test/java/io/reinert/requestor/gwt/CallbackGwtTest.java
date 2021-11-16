@@ -256,6 +256,11 @@ public class CallbackGwtTest extends GWTTestCase {
                     public void execute(RequestTimeoutException timeoutException) {
                         fail();
                     }
+                }).onCancel(new ExceptionCallback() {
+                    @Override
+                    public void execute(RequestException exception) {
+                        fail();
+                    }
                 }).onAbort(new ExceptionCallback() {
                     public void execute(RequestException exception) {
                         assertNotNull(exception);
@@ -270,7 +275,7 @@ public class CallbackGwtTest extends GWTTestCase {
         delayTestFinish(TIMEOUT);
     }
 
-      // This test must fail with RequestException
+      // This test must fail with RequestAbortException
 //    public void testNoAbortCallback() {
 //        session.register(new RequestFilter() {
 //            public void filter(RequestInProcess request) {
@@ -281,6 +286,11 @@ public class CallbackGwtTest extends GWTTestCase {
 //        session.req("http://httpbin.org/status/200").get(String.class)
 //                .onTimeout(new TimeoutCallback() {
 //                    public void execute(RequestTimeoutException timeoutException) {
+//                        fail();
+//                    }
+//                }).onCancel(new ExceptionCallback() {
+//                    @Override
+//                    public void execute(RequestException exception) {
 //                        fail();
 //                    }
 //                }).onLoad(new ResponseCallback() {

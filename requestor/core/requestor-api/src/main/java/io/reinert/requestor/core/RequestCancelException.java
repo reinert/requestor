@@ -29,4 +29,8 @@ public class RequestCancelException extends RequestException {
     public RequestCancelException(RequestOptions requestOptions, String message) {
         super(requestOptions, message);
     }
+
+    public RequestCancelException(RequestOptions requestOptions, String message, Throwable cause) {
+        super(requestOptions, message, cause);
+    }
 }

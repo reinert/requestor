@@ -24,6 +24,7 @@ import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.MutableSerializedRequest;
 import io.reinert.requestor.core.PreparedRequest;
 import io.reinert.requestor.core.RawResponse;
+import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.Response;
@@ -141,8 +142,8 @@ public class DigestAuth implements Auth {
             @Override
             public void onError(RequestException error) {
                 resetChallengeCalls();
-                originalRequest.abort(new RequestException(originalRequest, "Unable to authenticate request using" +
-                        " DigestAuth. See previous log.", error));
+                originalRequest.abort(new RequestAbortException(originalRequest, "Unable to authenticate request" +
+                        " using DigestAuth. See previous exception.", error));
             }
 
             @Override

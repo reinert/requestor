@@ -165,7 +165,7 @@ public abstract class RequestDispatcher {
                         schedulePollingRequest(nextRequest, responsePayloadType, deferred);
                     }
                 } catch (Exception e) {
-                    deferred.notifyError(new RequestException(requestInAuthProcess,
+                    deferred.notifyError(new RequestAbortException(requestInAuthProcess,
                             "An error occurred before sending the request. See previous exception.", e));
                 }
             }

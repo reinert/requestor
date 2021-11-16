@@ -15,14 +15,14 @@
  */
 package io.reinert.requestor.gwt.xhr;
 
-import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestOptions;
 
 /**
  * Exception thrown when attempts to make a request to a URL which violates the <a
  * href="http://en.wikipedia.org/wiki/Same_origin_policy">Same-Origin Security Policy</a>.
  */
-public class RequestPermissionException extends RequestException {
+public class RequestPermissionException extends RequestAbortException {
 
     /**
      * URL which caused this exception to be thrown.

@@ -59,12 +59,12 @@ class ShowcaseDeferredFactory implements Deferred.Factory {
                 // Hide loading widget
                 Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);
             }
-        }).onAbort(new ExceptionCallback() {
+        }).onError(new ExceptionCallback() {
             public void execute(RequestException exception) {
                 // Hide loading widget
                 Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);
 
-                GWT.log("The following exception aborted the request.", exception);
+                GWT.log("The following error has occurred while requesting.", exception);
             }
         });
 
