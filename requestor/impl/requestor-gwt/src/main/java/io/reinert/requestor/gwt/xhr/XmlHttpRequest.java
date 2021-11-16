@@ -122,13 +122,13 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
 
     public final void setOnAbort(ProgressHandler handler) {
         if (!setOnErrorNative(handler)) {
-            logger.log(Level.SEVERE, "Set onError failed: XHR onerror handler not supported by the browser.");
+            logger.log(Level.SEVERE, "Set onAbort failed: XHR onabort handler not supported by the browser.");
         }
     }
 
     public final native boolean setOnAbortNative(ProgressHandler handler) /*-{
         if ("onabort" in this) {
-            this.onerror = $entry(function(e) {
+            this.onabort = $entry(function(e) {
                 // CHECKSTYLE:OFF
                 handler.@io.reinert.requestor.gwt.xhr.ProgressHandler::onProgress(Lio/reinert/requestor/core/ProgressEvent;)(e);
                 // CHECKSTYLE:ON
