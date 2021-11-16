@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,13 @@
 package io.reinert.requestor.core;
 
 /**
- * A deferred object capable of resolving/rejecting requests.
- *
- * @param <T> The expected type in the invoked request
+ * Thrown to indicate that a request in process has been aborted before being invoked.
  *
  * @author Danilo Reinert
  */
-public interface Deferred<T> {
+public class RequestAbortException extends RequestException {
 
-    interface Factory {
-        <T> Deferred<T> newDeferred(SerializedRequest serializedRequest);
+    public RequestAbortException(RequestOptions requestOptions, String message) {
+        super(requestOptions, message);
     }
-
-    void abort(RequestAbortException e);
-
-    void notifyResponse(Response response);
-
-    void notifyError(RequestException error);
-
-    void notifyDownload(RequestProgress progress);
-
-    void notifyUpload(RequestProgress progress);
-
-    void setHttpConnection(HttpConnection connection);
-
-    PollingRequest<T> getRequest();
-
 }

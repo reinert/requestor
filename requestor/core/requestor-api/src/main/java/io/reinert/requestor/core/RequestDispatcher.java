@@ -139,6 +139,8 @@ public abstract class RequestDispatcher {
                                       final boolean skipAuth) {
         request.incrementPollingCounter();
 
+        setHttpConnection(request, deferred);
+
         final MutableSerializedRequest nextRequest = isShortPolling(request) ? request.copy() : null;
 
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request, responsePayloadType,
@@ -168,6 +170,20 @@ public abstract class RequestDispatcher {
                 }
             }
         }, request.getDelay());
+    }
+
+    private <T> void setHttpConnection(final MutableSerializedRequest request, final Deferred<T> deferred) {
+        deferred.setHttpConnection(new HttpConnection() {
+            @Override
+            public void cancel() {
+                deferred.abort(new RequestAbortException(request, "Request was cancelled before being sent."));
+            }
+
+            @Override
+            public boolean isPending() {
+                return true;
+            }
+        });
     }
 
     private <T> ResponseCallback getLongPollingCallback(final MutableSerializedRequest request,

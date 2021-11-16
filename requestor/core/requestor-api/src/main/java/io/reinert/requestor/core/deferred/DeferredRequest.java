@@ -25,6 +25,7 @@ import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.IncompatibleTypeException;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
+import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestProgress;
 import io.reinert.requestor.core.RequestTimeoutException;
@@ -60,6 +61,7 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     private HttpConnection connection;
     private boolean noAbortCallbackRegistered = true;
     private boolean noTimeoutCallbackRegistered = true;
+    private boolean aborted = false;
 
     public DeferredRequest(SerializedRequest serializedRequest) {
         this(serializedRequest, new DeferredObject<Response, RequestException, RequestProgress>());
@@ -434,29 +436,45 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     //===================================================================
 
     @Override
+    public void abort(RequestAbortException e) {
+        if (aborted) return;
+
+        aborted = true;
+        deferred.reject(e);
+    }
+
+    @Override
     public void notifyResponse(final Response response) {
+        if (aborted) return;
+
         deferred.resolve(response);
     }
 
     @Override
-    public void notifyError(RequestException error) {
+    public void notifyError(RequestException e) {
+        if (aborted) return;
+
         if (noAbortCallbackRegistered) {
-            if (error instanceof RequestTimeoutException) {
-                if (noTimeoutCallbackRegistered) throw error;
+            if (e instanceof RequestTimeoutException) {
+                if (noTimeoutCallbackRegistered) throw e;
             } else {
-                throw error;
+                throw e;
             }
         }
-        deferred.reject(error);
+        deferred.reject(e);
     }
 
     @Override
     public void notifyDownload(RequestProgress progress) {
+        if (aborted) return;
+
         deferred.notifyDownload(progress);
     }
 
     @Override
     public void notifyUpload(RequestProgress progress) {
+        if (aborted) return;
+
         deferred.notifyUpload(progress);
     }
 
