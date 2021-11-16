@@ -43,6 +43,12 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onAbort(ExceptionRequestCallback<T> callback);
 
     @Override
+    PollingRequest<T> onCancel(ExceptionCallback callback);
+
+    @Override
+    PollingRequest<T> onCancel(ExceptionRequestCallback<T> callback);
+
+    @Override
     PollingRequest<T> onLoad(ResponseCallback callback);
 
     @Override

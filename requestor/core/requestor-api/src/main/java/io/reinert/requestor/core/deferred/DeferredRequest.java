@@ -26,6 +26,7 @@ import io.reinert.requestor.core.IncompatibleTypeException;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.RequestAbortException;
+import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestProgress;
 import io.reinert.requestor.core.RequestTimeoutException;
@@ -43,6 +44,7 @@ import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
+import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.uri.Uri;
@@ -60,6 +62,7 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     private final DeferredObject<Response, RequestException, RequestProgress> deferred;
     private HttpConnection connection;
     private boolean noAbortCallbackRegistered = true;
+    private boolean noCancelCallbackRegistered = true;
     private boolean noTimeoutCallbackRegistered = true;
     private boolean aborted = false;
 
@@ -194,6 +197,33 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 callback.execute(e, request);
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onCancel(final ExceptionCallback callback) {
+        noCancelCallbackRegistered = false;
+        deferred.fail(new FailCallback<RequestException>() {
+            public void onFail(RequestException e) {
+                if (e instanceof RequestCancelException) {
+                    callback.execute(e);
+                }
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onCancel(final ExceptionRequestCallback<T> callback) {
+        noCancelCallbackRegistered = false;
+        final PollingRequest<T> request = this;
+        deferred.fail(new FailCallback<RequestException>() {
+            public void onFail(RequestException e) {
+                if (e instanceof RequestCancelException) {
+                    callback.execute(e, request);
+                }
             }
         });
         return this;
@@ -457,6 +487,8 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
         if (noAbortCallbackRegistered) {
             if (e instanceof RequestTimeoutException) {
                 if (noTimeoutCallbackRegistered) throw e;
+            } else if (e instanceof RequestCancelException) {
+                if (noCancelCallbackRegistered) throw e;
             } else {
                 throw e;
             }

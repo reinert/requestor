@@ -42,6 +42,10 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onAbort(ExceptionRequestCallback<T> callback);
 
+    Request<T> onCancel(ExceptionCallback callback);
+
+    Request<T> onCancel(ExceptionRequestCallback<T> callback);
+
     Request<T> onLoad(ResponseCallback callback);
 
     Request<T> onLoad(ResponseRequestCallback<T> callback);

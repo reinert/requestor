@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.gwt.xhr;
 
-import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProgress;
 
@@ -24,7 +24,7 @@ import io.reinert.requestor.core.RequestProgress;
  *
  * @author Danilo Reinert
  */
-public class NetworkErrorException extends RequestException {
+public class NetworkErrorException extends RequestCancelException {
 
     private final RequestProgress progress;
 

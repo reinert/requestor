@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package io.reinert.requestor.core;
 
 /**
  * Thrown to indicate that an HTTP request has timed out.
+ *
+ * @author Danilo Reinert
  */
 public class RequestTimeoutException extends RequestException {
 
