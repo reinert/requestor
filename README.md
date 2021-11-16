@@ -905,14 +905,14 @@ session.req("https://external-domain.com")
 
 ### OAuth2
 Requestor provides client-side OAuth2 authenticators supporting both *header* and *url query param* 
-strategies. It is made available by the `requestor-oauth2` extension.
+strategies. It is made available by the `requestor-oauth2gwt` extension.
 
 To enable OAuth2 authentication, first install the extension dependency:
 
 ```xml
 <dependency>
   <groupId>io.reinert.requestor.ext</groupId>
-  <artifactId>requestor-oauth2</artifactId>
+  <artifactId>requestor-oauth2gwt</artifactId>
   <version>${requestor.version}</version>
 </dependency>
 ```
@@ -920,7 +920,7 @@ To enable OAuth2 authentication, first install the extension dependency:
 Next, inherit the `RequestorOAuth2` GWT module in your gwt.xml file:
 
 ```xml
-<inherits name="io.reinert.requestor.oauth2.RequestorOAuth2"/>
+<inherits name="io.reinert.requestor.gwt.oauth2.RequestorOAuth2"/>
 ```
 
 Then, according to the required authorization strategy we can either instantiate 

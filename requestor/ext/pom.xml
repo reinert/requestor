@@ -31,7 +31,7 @@
 
   <modules>
     <module>requestor-digest</module>
-    <module>requestor-oauth2</module>
+    <module>requestor-oauth2gwt</module>
     <module>requestor-autobean</module>
     <module>requestor-gwtjackson</module>
   </modules>
