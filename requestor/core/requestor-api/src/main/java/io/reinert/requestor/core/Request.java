@@ -25,6 +25,7 @@ import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
+import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 
 /**
  * An observable Request.
@@ -73,7 +74,7 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onTimeout(TimeoutCallback callback);
 
-    Request<T> onTimeout(ExceptionRequestCallback<T> callback);
+    Request<T> onTimeout(TimeoutRequestCallback<T> callback);
 
     Request<T> onUpProgress(ProgressCallback callback);
 

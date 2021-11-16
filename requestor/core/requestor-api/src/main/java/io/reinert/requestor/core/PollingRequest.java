@@ -25,6 +25,7 @@ import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
+import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 
 /**
  * An observable polling Request.
@@ -90,7 +91,7 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onTimeout(TimeoutCallback callback);
 
     @Override
-    PollingRequest<T> onTimeout(ExceptionRequestCallback<T> callback);
+    PollingRequest<T> onTimeout(TimeoutRequestCallback<T> callback);
 
     @Override
     PollingRequest<T> onUpProgress(ProgressRequestCallback<T> callback);

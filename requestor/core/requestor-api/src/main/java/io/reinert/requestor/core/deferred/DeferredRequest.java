@@ -387,8 +387,7 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestTimeoutException) {
-                    RequestTimeoutException timeoutException = (RequestTimeoutException) e;
-                    callback.execute(timeoutException);
+                    callback.execute((RequestTimeoutException) e);
                 }
             }
         });
@@ -396,14 +395,13 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     }
 
     @Override
-    public PollingRequest<T> onTimeout(final ExceptionRequestCallback<T> callback) {
+    public PollingRequest<T> onTimeout(final TimeoutRequestCallback<T> callback) {
         noTimeoutCallbackRegistered = false;
         final PollingRequest<T> request = this;
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestTimeoutException) {
-                    RequestTimeoutException timeoutException = (RequestTimeoutException) e;
-                    callback.execute(timeoutException, request);
+                    callback.execute((RequestTimeoutException) e, request);
                 }
             }
         });
