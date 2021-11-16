@@ -83,7 +83,7 @@ public abstract class RequestDispatcher {
      *
      * @param response  The response received from the request
      */
-    protected void evalResponse(RawResponse response) {
+    protected final void evalResponse(RawResponse response) {
         responseProcessor.process(response);
     }
 
@@ -132,11 +132,11 @@ public abstract class RequestDispatcher {
         scheduleDispatch(request, responsePayloadType, deferred, true, skipAuth);
     }
 
-    protected <T> void scheduleDispatch(final MutableSerializedRequest request,
-                                        final PayloadType responsePayloadType,
-                                        final Deferred<T> deferred,
-                                        final boolean skipProcessing,
-                                        final boolean skipAuth) {
+    private <T> void scheduleDispatch(final MutableSerializedRequest request,
+                                      final PayloadType responsePayloadType,
+                                      final Deferred<T> deferred,
+                                      final boolean skipProcessing,
+                                      final boolean skipAuth) {
         request.incrementPollingCounter();
 
         final MutableSerializedRequest nextRequest = isShortPolling(request) ? request.copy() : null;
@@ -197,12 +197,11 @@ public abstract class RequestDispatcher {
         }, nextRequest.getPollingInterval());
     }
 
-    protected boolean isLongPolling(MutableSerializedRequest request) {
+    private boolean isLongPolling(MutableSerializedRequest request) {
         return request.isPolling() && request.getPollingStrategy() == PollingStrategy.LONG;
     }
 
-    protected boolean isShortPolling(MutableSerializedRequest request) {
-        return request.isPolling() &&
-                request.getPollingStrategy() == PollingStrategy.SHORT;
+    private boolean isShortPolling(MutableSerializedRequest request) {
+        return request.isPolling() && request.getPollingStrategy() == PollingStrategy.SHORT;
     }
 }
