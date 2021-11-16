@@ -596,7 +596,12 @@ session.req("/authors/1").accept("text/javascript").get(Author.class);
 ```
 
 We do not need to register the auto-generated serializers in our session instance. This 
-is automatically done under the hood.
+is automatically done under the hood if we instantiate a `JsonSession`.
+
+```java
+// All generated serializers will be automatically registered in this session
+Session session = new JsonSession();
+```
 
 In order to install requestor-gwtjackson extension, add the following dependency to your project:
 
@@ -629,8 +634,16 @@ to generate the serializers.
 
 ```java
 @MediaType({"application/json", "*/*"})
-@JsonSerializationModule({ Author.class, Book.class })
+@AutoBeanSerializationModule({ Author.class, Book.class })
 interface MySerializationModule extends SerializationModule {}
+```
+
+We do not need to register the auto-generated serializers in our session instance. This
+is automatically done under the hood if we instantiate an `AutoBeanSession`.
+
+```java
+// All generated serializers will be automatically registered in this session
+Session session = new AutoBeanSession();
 ```
 
 Further, Requestor graciously enables us to create new AutoBean instances directly from the 
@@ -640,7 +653,7 @@ Session by calling `session.getInstance(<Class>)`.
 Book book = session.getInstance(Book.class);
 ```
 
-The installation procedure is pretty much the same.
+The installation procedure is conventional.
 
 ```xml
 <dependencies>
