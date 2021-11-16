@@ -392,9 +392,15 @@ the available callbacks:
     * features the *progress* that enables tracking the upload progress
   * **onTimeout**( timeoutException [, request] -> {} )
     * executed when a timeout occurs
-    * features the *timeoutException* including the *request*
+    * features the *timeoutException*
+  * **onCancel**( requestException [, request] -> {} )
+    * executed if the request was *cancelled after being sent* (either manually by the user or due to network error)
+    * features the *cancelException*
   * **onAbort**( requestException [, request] -> {} )
-    * executed if the request *could not be performed* due to any exception (even timeout)
+    * executed if the request was *aborted before being sent* (either manually by the user or due to any runtime error)
+    * features the *abortException*
+  * **onError**( requestException [, request] -> {} )
+    * generic error callback that is executed if the request *could not get a response overall* due to any reason (aborted, cancelled or timed out)
     * features the original *exception*
 
 See how you can use them below:
@@ -444,23 +450,41 @@ session.get('/httpbin.org/ip', String.class).onSuccess(new PayloadCallback<Strin
           view.setUploadProgress(progress.getCompletedFraction(100));
     }
 }).onTimeout(new TimeoutCallback() {
-    public void execute(TimeoutException e) {
-        // This is executed if the request could not be performed due to timeout
+    public void execute(RequestTimeoutException e) {
+        // This is executed if the request timed out before receiving a response
         view.showError("Request timed out: " + e.getMessage());
+    }
+}).onCancel(new ExceptionCallback() {
+    public void execute(RequestException e) {
+        // This is executed if the request was cancelled after being sent
+        view.showError("Request cancelled: " + e.getMessage());
     }
 }).onAbort(new ExceptionCallback() {
     public void execute(RequestException e) {
-        // This is executed if the request could not be performed due to any exception thrown before sending   
-        if (t instanceof TimeoutException) {
-            // It catches timeouts also
+        // This is executed if the request was aborted before being sent
+        view.showError("Request aborted: " + e.getMessage());
+    }
+}).onError(new ExceptionCallback() {
+    public void execute(RequestException e) {
+        // This is executed if the request could not receive a response overall
+        
+        if (e instanceof RequestTimeoutException) { // Check if it's a timeout error
             view.showError("Request timed out: " + e.getMessage());
-        } else {
-            // Any other exception was thrown while processing the request
-            view.showError("Request could not be sent: " + e.getMessage());
+        }
+        
+        if (e instanceof RequestCancelException) { // Check if it's a cancel error
+            view.showError("Request cancelled: " + e.getMessage());
+        }
+        
+        if (e instanceof RequestAbortException) { // Check if it's an abort error
+            view.showError("Request aborted: " + e.getMessage());
         }
     }
 });
 ```
+
+**NOTE:** If an error occurs, and we did not set a callback for that error kind, than the exception is thrown.
+Thus, the errors are not hidden if we forgot to add handlers for them.
 
 ### Success callbacks and Collections
 
@@ -988,7 +1012,7 @@ session.register(MyRequestFilter::new); // Same as `session.register(() -> new M
 ```
 
 Besides proceeding with the request, we can alternatively ***abort*** it by calling
-`request.onAbort(<MockResponse>|<RequestException>)`. Check below:
+`request.abort(<MockResponse>|<RequestAbortException>)`. Check below:
 
 ```java
 session.register(new RequestFilter() {
@@ -1002,7 +1026,7 @@ session.register(new RequestFilter() {
 
 If we abort with `MockResponse` then **load** callbacks are triggered,
 as well **success** and **status** depending on the response status code.
-Otherwise, if the request is aborted with `RequestException`, then **abort** 
+Otherwise, if the request is aborted with `RequestAbortException`, then **abort** 
 callbacks are triggered.
 
 ### Request Serializer
@@ -1078,7 +1102,7 @@ session.register(MyRequestInterceptor::new); // Same as `session.register(() -> 
 ```
 
 Besides proceeding with the request, we can alternatively ***abort*** it by calling
-`request.onAbort(<MockResponse>|<RequestException>)`. Check below:
+`request.abort(<MockResponse>|<RequestAbortException>)`. Check below:
 
 ```java
 session.register(new RequestInterceptor() {
@@ -1092,7 +1116,7 @@ session.register(new RequestInterceptor() {
 
 If we abort with `MockResponse` then **load** callbacks are triggered,
 as well **success** and **status** depending on the response status code.
-Otherwise, if the request is aborted with `RequestException`, then **abort** 
+Otherwise, if the request is aborted with `RequestAbortException`, then **abort** 
 callbacks are triggered.
 
 ### Response Interceptor
@@ -1336,7 +1360,7 @@ class AppDeferredFactory implements Deferred.Factory {
 
         // Hide loading widget on load or abort
         deferred.onLoad(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()))
-                .onAbort(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()));
+                .onError(() -> APP_FACTORY.getEventBus().fireEvent(new HideLoadingEvent()));
 
         return deferred;
     }
@@ -1581,7 +1605,7 @@ public abstract class MyAppService<E> extends AbstractService {
                 .onStatus(404, response -> handleNotFound(request.getUri()))
                 .onStatus(500, response -> handleServerError(response))
                 .onTimeout(t -> handleTimeout(t))
-                .onAbort(e -> log(e));
+                .onError(e -> log(e));
     }
 
     // Implement supporting methods...
@@ -1746,7 +1770,7 @@ Request<Void> delReq = req.delete();
 // You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
 postReq.onSuccess(payload -> showSuccess(payload)) // Response was 2xx and body was deserialized as Integer
        .onFail(response -> showError(response.getStatus())) // Response was unsuccessful (status ≠ 2xx)
-       .onAbort(exception -> log(exception)); // Request was not performed
+       .onError(exception -> log(exception)); // Request was not performed
 
 // If you requested a collection of objects, you can retrieve the deserialized payload as well:
 getReq.onSuccess(books -> renderTable(books)); // Response was deserialized into a Set of Book objects
