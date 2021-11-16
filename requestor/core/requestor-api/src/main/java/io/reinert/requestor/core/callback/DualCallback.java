@@ -20,7 +20,7 @@ import io.reinert.requestor.core.Response;
 
 public interface DualCallback {
 
-    void onAbort(RequestException exception);
+    void onError(RequestException error);
 
     void onLoad(Response response);
 }

@@ -24,6 +24,6 @@ public interface RequestInProcess extends MutableRequest, InProcess {
 
     void abort(MockResponse response);
 
-    void abort(RequestException error);
+    void abort(RequestAbortException error);
 
 }

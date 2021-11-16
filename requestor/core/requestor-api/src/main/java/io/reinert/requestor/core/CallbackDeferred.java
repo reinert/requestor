@@ -53,7 +53,7 @@ class CallbackDeferred implements Deferred<Response> {
 
     @Override
     public void notifyError(RequestException exception) {
-        callback.onAbort(exception);
+        callback.onError(exception);
     }
 
     @Override

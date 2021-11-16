@@ -209,7 +209,7 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public final void abort(RequestException error) {
+    public final void abort(RequestAbortException error) {
         request.abort(error);
     }
 }

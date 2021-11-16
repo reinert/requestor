@@ -62,7 +62,7 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public void abort(RequestException error) {
+    public void abort(RequestAbortException error) {
         deferred.notifyError(error);
     }
 

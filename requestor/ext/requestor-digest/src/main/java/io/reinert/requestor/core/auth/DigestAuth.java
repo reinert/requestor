@@ -139,7 +139,7 @@ public class DigestAuth implements Auth {
                                     final RequestDispatcher dispatcher) {
         dispatcher.dispatch(attemptRequest, true, new DualCallback() {
             @Override
-            public void onAbort(RequestException error) {
+            public void onError(RequestException error) {
                 resetChallengeCalls();
                 originalRequest.abort(new RequestException(originalRequest, "Unable to authenticate request using" +
                         " DigestAuth. See previous log.", error));
