@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import java.util.HashMap;
  * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">HTTP/1.1 documentation</a>
  * for the complete list. Additional status codes can be added by applications
  * by creating an implementation of {@link HttpStatus}.
+ *
+ * @author Danilo Reinert
  */
 public enum Status implements HttpStatus {
 
@@ -114,6 +116,10 @@ public enum Status implements HttpStatus {
                 return "";
             }
 
+            public String getEventName() {
+                return String.valueOf(statusCode);
+            }
+
             public String toString() {
                 return String.valueOf(statusCode);
             }
@@ -158,6 +164,11 @@ public enum Status implements HttpStatus {
     @Override
     public String getReasonPhrase() {
         return toString();
+    }
+
+    @Override
+    public String getEventName() {
+        return String.valueOf(code);
     }
 
     @Override

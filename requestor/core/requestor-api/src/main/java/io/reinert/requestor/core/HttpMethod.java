@@ -17,6 +17,8 @@ package io.reinert.requestor.core;
 
 /**
  * Represents an HTTP Method.
+ *
+ * @author Danilo Reinert
  */
 public enum HttpMethod {
 

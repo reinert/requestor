@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,31 +16,17 @@
 package io.reinert.requestor.core;
 
 /**
- * Base interface for statuses used in responses.
+ * Represents an event that may occur during a {@link Request}.
  *
  * @author Danilo Reinert
  */
-public interface HttpStatus extends RequestEvent {
+public interface RequestEvent {
 
     /**
-     * Get the associated status code.
+     * Get event name.
      *
-     * @return the status code.
+     * @return the event name.
      */
-    int getStatusCode();
-
-    /**
-     * Get the class of status code.
-     *
-     * @return the class of status code.
-     */
-    StatusFamily getFamily();
-
-    /**
-     * Get the reason phrase.
-     *
-     * @return the reason phrase.
-     */
-    String getReasonPhrase();
+    String getEventName();
 
 }

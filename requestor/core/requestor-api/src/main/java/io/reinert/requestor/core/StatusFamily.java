@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,33 +17,41 @@ package io.reinert.requestor.core;
 
 /**
  * An enumeration representing the class of status code.
+ *
+ * @author Danilo Reinert
  */
-public enum StatusFamily {
+public enum StatusFamily implements RequestEvent {
 
     /**
      * {@code 1xx} HTTP status codes.
      */
-    INFORMATIONAL,
+    INFORMATIONAL("1"),
     /**
      * {@code 2xx} HTTP status codes.
      */
-    SUCCESSFUL,
+    SUCCESSFUL("2"),
     /**
      * {@code 3xx} HTTP status codes.
      */
-    REDIRECTION,
+    REDIRECTION("3"),
     /**
      * {@code 4xx} HTTP status codes.
      */
-    CLIENT_ERROR,
+    CLIENT_ERROR("4"),
     /**
      * {@code 5xx} HTTP status codes.
      */
-    SERVER_ERROR,
+    SERVER_ERROR("5"),
     /**
      * Other, unrecognized HTTP status codes.
      */
-    OTHER;
+    OTHER("6");
+
+    private final String eventName;
+
+    StatusFamily(String eventName) {
+        this.eventName = eventName;
+    }
 
     /**
      * Get the response status family for the status code.
@@ -66,5 +74,10 @@ public enum StatusFamily {
             default:
                 return StatusFamily.OTHER;
         }
+    }
+
+    @Override
+    public String getEventName() {
+        return eventName;
     }
 }
