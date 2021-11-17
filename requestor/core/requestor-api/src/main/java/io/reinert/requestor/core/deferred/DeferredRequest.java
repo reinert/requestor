@@ -65,7 +65,7 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     private boolean noCancelCallbackRegistered = true;
     private boolean noErrorCallbackRegistered = true;
     private boolean noTimeoutCallbackRegistered = true;
-    private boolean aborted = false;
+    private boolean cancelled = false;
 
     public DeferredRequest(SerializedRequest serializedRequest) {
         this(serializedRequest, new DeferredObject<Response, RequestException, RequestProgress>());
@@ -494,23 +494,23 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
     //===================================================================
 
     @Override
-    public void abort(RequestAbortException e) {
-        if (aborted) return;
+    public void cancel(RequestException e) {
+        if (cancelled) return;
 
-        aborted = true;
+        cancelled = true;
         deferred.reject(e);
     }
 
     @Override
     public void notifyResponse(final Response response) {
-        if (aborted) return;
+        if (cancelled) return;
 
         deferred.resolve(response);
     }
 
     @Override
     public void notifyError(RequestException e) {
-        if (aborted) return;
+        if (cancelled) return;
 
         if (noErrorCallbackRegistered) {
             if (e instanceof RequestTimeoutException) {
@@ -528,14 +528,14 @@ public class DeferredRequest<T> implements Deferred<T>, PollingRequest<T> {
 
     @Override
     public void notifyDownload(RequestProgress progress) {
-        if (aborted) return;
+        if (cancelled) return;
 
         deferred.notifyDownload(progress);
     }
 
     @Override
     public void notifyUpload(RequestProgress progress) {
-        if (aborted) return;
+        if (cancelled) return;
 
         deferred.notifyUpload(progress);
     }

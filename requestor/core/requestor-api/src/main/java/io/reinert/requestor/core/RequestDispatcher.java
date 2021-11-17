@@ -176,7 +176,8 @@ public abstract class RequestDispatcher {
         deferred.setHttpConnection(new HttpConnection() {
             @Override
             public void cancel() {
-                deferred.abort(new RequestAbortException(request, "Request was cancelled before being sent."));
+                deferred.cancel(new RequestAbortException(request, "Request was cancelled before being sent through" +
+                        " the HttpConnection."));
             }
 
             @Override

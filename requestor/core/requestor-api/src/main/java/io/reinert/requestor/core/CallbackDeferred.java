@@ -42,7 +42,7 @@ class CallbackDeferred implements Deferred<Response> {
     }
 
     @Override
-    public void abort(RequestAbortException exception) {
+    public void cancel(RequestException exception) {
     }
 
     @Override

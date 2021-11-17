@@ -28,7 +28,7 @@ public interface Deferred<T> {
         <T> Deferred<T> newDeferred(SerializedRequest serializedRequest);
     }
 
-    void abort(RequestAbortException e);
+    void cancel(RequestException e);
 
     void notifyResponse(Response response);
 
