@@ -22,7 +22,7 @@ import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.core.uri.Uri;
 
 /**
- * PreparedRequest implementation that ensures the request is dispatched only once.
+ * PreparedRequest implementation supporting request retries.
  *
  * @author Danilo Reinert
  */
@@ -35,57 +35,40 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     private final UriWithQueryBuilder uri;
 
     private boolean withCredentials;
-    private boolean sent;
 
     public PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
                                PayloadType responsePayloadType) {
-        this(dispatcher, request, deferred, responsePayloadType, false, false);
+        this(dispatcher, request, deferred, responsePayloadType, false);
     }
 
     private PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
-                                PayloadType responsePayloadType, boolean withCredentials, boolean sent) {
+                                PayloadType responsePayloadType, boolean withCredentials) {
         this.dispatcher = dispatcher;
         this.request = request;
         this.deferred = deferred;
         this.responsePayloadType = responsePayloadType;
         this.withCredentials = withCredentials;
-        this.sent = sent;
         this.uri = new UriWithQueryBuilder(request.getUri());
     }
 
     @Override
     public void abort(RawResponse response) {
-        if (sent)
-            throw new IllegalStateException("PreparedRequest couldn't be aborted: Request has already been sent.");
-
         dispatcher.evalResponse(response);
-
-        sent = true;
     }
 
     @Override
     public void abort(RequestAbortException error) {
-        if (sent)
-            throw new IllegalStateException("PreparedRequest couldn't be aborted: Request has already been sent.");
-
         deferred.notifyError(error);
-
-        sent = true;
     }
 
     @Override
     public void send() {
-        if (sent)
-            throw new IllegalStateException("PreparedRequest has already been sent.");
-
         try {
             dispatcher.send(this, deferred, responsePayloadType);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             deferred.notifyError(new RequestDispatchException(request,
                     "Some non-caught exception occurred while dispatching the request", e));
         }
-
-        sent = true;
     }
 
     @Override
