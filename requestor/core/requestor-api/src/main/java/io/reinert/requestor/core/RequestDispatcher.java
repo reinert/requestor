@@ -105,7 +105,7 @@ public abstract class RequestDispatcher implements RunScheduler {
             deferredRequest.onLoad(getLongPollingCallback(request, responsePayloadType, deferred));
         }
 
-        scheduleDispatch(request, responsePayloadType, deferred, false, false);
+        scheduleDispatch(request, responsePayloadType, deferred, false, false, false);
 
         logger.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
                 request.getDelay() + "ms.");
@@ -114,7 +114,7 @@ public abstract class RequestDispatcher implements RunScheduler {
     }
 
     /**
-     * Sends the request with the respective callback bypassing request processing.
+     * Sends the request with the respective callback bypassing request processing and polling.
      *
      * @param request               The built request
      * @param callback              The callback to be executed when done
@@ -124,19 +124,17 @@ public abstract class RequestDispatcher implements RunScheduler {
         final CallbackDeferred deferred = new CallbackDeferred(callback);
         final PayloadType responsePayloadType = new SinglePayloadType<Response>(Response.class);
 
-        if (isLongPolling(request)) {
-            deferred.onResolve(getLongPollingCallback(request, responsePayloadType, deferred));
-        }
-
         // TODO: add a skipAuth option and handle it in RequestInAuthProcess#process and erase the skipAuth flag here.
-        scheduleDispatch(request, responsePayloadType, deferred, true, skipAuth);
+        scheduleDispatch(request, responsePayloadType, deferred, true, skipAuth, true);
     }
 
     private <T> void scheduleDispatch(final MutableSerializedRequest request,
                                       final PayloadType responsePayloadType,
                                       final Deferred<T> deferred,
                                       final boolean skipProcessing,
-                                      final boolean skipAuth) {
+                                      final boolean skipAuth,
+                                      final boolean skipPolling) {
+        // TODO: create pollingOptions outside request?
         request.incrementPollingCounter();
 
         setHttpConnection(request, deferred);
@@ -208,7 +206,7 @@ public abstract class RequestDispatcher implements RunScheduler {
             @Override
             public void run() {
                 if (nextRequest.isPolling()) {
-                    scheduleDispatch(nextRequest, responsePayloadType, deferred,false, false);
+                    scheduleDispatch(nextRequest, responsePayloadType, deferred,false, false, false);
                 }
             }
         }, nextRequest.getPollingInterval());
