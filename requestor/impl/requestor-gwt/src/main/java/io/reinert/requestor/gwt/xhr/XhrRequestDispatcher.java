@@ -58,7 +58,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
     }
 
     @Override
-    protected native void scheduleRun(Runnable runnable, int delay) /*-{
+    public native void scheduleRun(Runnable runnable, int delay) /*-{
         setTimeout($entry(function() {
             runnable.@java.lang.Runnable::run()();
         }), delay);

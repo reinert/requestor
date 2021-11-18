@@ -27,7 +27,7 @@ import io.reinert.requestor.core.payload.type.SinglePayloadType;
  *
  * @author Danilo Reinert
  */
-public abstract class RequestDispatcher {
+public abstract class RequestDispatcher implements RunScheduler {
 
     public interface Factory {
         RequestDispatcher newRequestDispatcher(RequestProcessor requestProcessor,
@@ -41,21 +41,12 @@ public abstract class RequestDispatcher {
     private final ResponseProcessor responseProcessor;
     private final Deferred.Factory deferredFactory;
 
-    public RequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
+    protected RequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
                              Deferred.Factory deferredFactory) {
         this.requestProcessor = requestProcessor;
         this.responseProcessor = responseProcessor;
         this.deferredFactory = deferredFactory;
     }
-
-    /**
-     * Defers the execution of a {@link Runnable} by the informed delay.
-     * This method is used to schedule the dispatches.
-     *
-     * @param runnable  A callback to be executed later
-     * @param delay     The time to postpone the runnable execution
-     */
-    protected abstract void scheduleRun(Runnable runnable, int delay);
 
     /**
      * Sends the request through the wire and resolves (or rejects) the deferred when completed.
@@ -86,6 +77,15 @@ public abstract class RequestDispatcher {
     protected final void evalResponse(RawResponse response) {
         responseProcessor.process(response);
     }
+
+    /**
+     * Defers the execution of a {@link Runnable} by the informed delay.
+     * This method is used to schedule the dispatches.
+     *
+     * @param runnable  A callback to be executed later
+     * @param delay     The time to postpone the runnable execution
+     */
+    public abstract void scheduleRun(Runnable runnable, int delay);
 
     /**
      * Sends the request and return an instance of {@link Request} expecting a sole result.
