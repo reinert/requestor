@@ -18,6 +18,11 @@ package io.reinert.requestor.core;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Responsible for retrying a request.
+ *
+ * @author Danilo Reinert
+ */
 public class RequestRetrier {
 
     private final PreparedRequest preparedRequest;
@@ -30,7 +35,7 @@ public class RequestRetrier {
         this.preparedRequest = preparedRequest;
         this.scheduler = scheduler;
         this.retryOptions = retryOptions;
-        eventsNames = new ArrayList<String>();
+        eventsNames = new ArrayList<String>(retryOptions.getEvents().size());
         for (RequestEvent e : retryOptions.getEvents()) eventsNames.add(e.getEventName());
     }
 
@@ -40,14 +45,6 @@ public class RequestRetrier {
 
     public boolean maybeRetry(RequestException exception) {
         return maybeRetry(getEventsFromException(exception));
-    }
-
-    public List<Integer> getDelays() {
-        return retryOptions.getDelays();
-    }
-
-    public List<RequestEvent> getEvents() {
-        return retryOptions.getEvents();
     }
 
     private List<String> getEventsFromResponse(Response response) {

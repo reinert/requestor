@@ -60,7 +60,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
 
     @Override
     public void abort(RequestAbortException error) {
-        deferred.notifyError(error);
+        deferred.reject(error);
     }
 
     @Override
@@ -68,7 +68,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
         try {
             dispatcher.send(this, deferred, responsePayloadType);
         } catch (RuntimeException e) {
-            deferred.notifyError(new RequestDispatchException(request,
+            deferred.reject(new RequestDispatchException(request,
                     "Some non-caught exception occurred while dispatching the request", e));
         }
     }

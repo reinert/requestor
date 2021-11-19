@@ -59,7 +59,6 @@ public class DeferredRequest<T> implements Deferred<T> {
     private boolean noCancelCallbackRegistered = true;
     private boolean noErrorCallbackRegistered = true;
     private boolean noTimeoutCallbackRegistered = true;
-    private boolean cancelled = false;
 
     protected DeferredRequest(PollingRequest<T> request) {
         this.request = request;
@@ -379,28 +378,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         return deferred.isResolved();
     }
 
-    // TODO: remove and replace usages by reject when duplicating deferred
     @Override
-    public void cancel(RequestException e) {
-        if (cancelled) return;
-
-        cancelled = true;
-        deferred.reject(e);
-    }
-
-    @Override
-    public void notifyResponse(final Response response) {
-        if (cancelled) return;
-
+    public void resolve(final Response response) {
         if (retrier != null && retrier.maybeRetry(response)) return;
 
         deferred.resolve(response);
     }
 
     @Override
-    public void notifyError(RequestException e) {
-        if (cancelled) return;
-
+    public void reject(RequestException e) {
         if (retrier != null && retrier.maybeRetry(e)) return;
 
         if (noErrorCallbackRegistered) {
@@ -420,15 +406,11 @@ public class DeferredRequest<T> implements Deferred<T> {
 
     @Override
     public void notifyDownload(RequestProgress progress) {
-        if (cancelled) return;
-
         deferred.notifyDownload(progress);
     }
 
     @Override
     public void notifyUpload(RequestProgress progress) {
-        if (cancelled) return;
-
         deferred.notifyUpload(progress);
     }
 

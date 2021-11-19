@@ -66,7 +66,7 @@ public abstract class RequestDispatcher implements RunScheduler {
      * {@link Deferred#notifyDownload(RequestProgress)} and
      * {@link Deferred#notifyUpload(RequestProgress)}.
      * <p></p>
-     * All possible exceptions should be caught and sent to {@link Deferred#notifyError(RequestException)}
+     * All possible exceptions should be caught and sent to {@link Deferred#reject(RequestException)}
      * wrapped in a {@link RequestException} or any of its children. This will avoid breaking code flow when some
      * exception occurs.
      *
@@ -168,7 +168,7 @@ public abstract class RequestDispatcher implements RunScheduler {
                     }
                 } catch (Exception e) {
                     // TODO: check if this try-catch block is really necessary
-                    deferred.notifyError(new RequestAbortException(requestInAuthProcess,
+                    deferred.reject(new RequestAbortException(requestInAuthProcess,
                             "An error occurred before sending the request. See previous exception.", e));
                 }
             }
@@ -179,7 +179,7 @@ public abstract class RequestDispatcher implements RunScheduler {
         deferred.setHttpConnection(new HttpConnection() {
             @Override
             public void cancel() {
-                deferred.cancel(new RequestAbortException(request, "Request was cancelled before being sent through" +
+                deferred.reject(new RequestAbortException(request, "Request was cancelled before being sent through" +
                         " the HttpConnection."));
             }
 

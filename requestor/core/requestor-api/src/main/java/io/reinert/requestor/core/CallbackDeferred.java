@@ -58,18 +58,14 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response> {
     }
 
     @Override
-    public void cancel(RequestException exception) {
-    }
-
-    @Override
-    public void notifyResponse(Response response) {
+    public void resolve(Response response) {
         resolved = Boolean.TRUE;
         if (resolveCallback != null) resolveCallback.execute(response);
         callback.onLoad(response);
     }
 
     @Override
-    public void notifyError(RequestException exception) {
+    public void reject(RequestException exception) {
         resolved = Boolean.FALSE;
         callback.onError(exception);
     }

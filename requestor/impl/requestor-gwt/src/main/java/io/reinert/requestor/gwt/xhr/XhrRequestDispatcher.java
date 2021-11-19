@@ -81,7 +81,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         try {
             xmlHttpRequest.open(httpMethod.getValue(), url);
         } catch (JavaScriptException e) {
-            deferred.notifyError(new RequestPermissionException(request, url, e));
+            deferred.reject(new RequestPermissionException(request, url, e));
             return;
         }
 
@@ -92,7 +92,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         try {
             setHeaders(headers, xmlHttpRequest);
         } catch (JavaScriptException e)  {
-            deferred.notifyError(new RequestAbortException(request, "Could not manipulate the XHR headers: " +
+            deferred.reject(new RequestAbortException(request, "Could not manipulate the XHR headers: " +
                     e.getMessage(), e));
             return;
         }
@@ -125,7 +125,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         xmlHttpRequest.setOnAbort(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                deferred.notifyError(new NetworkErrorException(request, new RequestProgressImpl(progress)));
+                deferred.reject(new NetworkErrorException(request, new RequestProgressImpl(progress)));
             }
         });
 
@@ -133,7 +133,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         xmlHttpRequest.setOnError(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                deferred.notifyError(new NetworkErrorException(request, new RequestProgressImpl(progress)));
+                deferred.reject(new NetworkErrorException(request, new RequestProgressImpl(progress)));
             }
         });
 
@@ -173,7 +173,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                 xmlHttpRequest.send();
             }
         } catch (JavaScriptException e) {
-            deferred.notifyError(new RequestDispatchException(request, "Could not send the XHR: " + e.getMessage()));
+            deferred.reject(new RequestDispatchException(request, "Could not send the XHR: " + e.getMessage()));
         }
     }
 
@@ -228,10 +228,10 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     // reject as timeout
                     com.google.gwt.http.client.RequestTimeoutException e =
                             (com.google.gwt.http.client.RequestTimeoutException) exception;
-                    deferred.notifyError(new RequestTimeoutException(requestOptions, e.getTimeoutMillis()));
+                    deferred.reject(new RequestTimeoutException(requestOptions, e.getTimeoutMillis()));
                 } else {
                     // reject as generic request exception
-                    deferred.notifyError(new RequestCancelException(requestOptions,
+                    deferred.reject(new RequestCancelException(requestOptions,
                             "Request has been cancelled after being sent. See previous exception.", exception));
                 }
             }

@@ -30,12 +30,9 @@ public interface Deferred<T> {
 
     boolean isResolved();
 
-    // Check if should have it in pool or just remove it
-    void cancel(RequestException e);
+    void resolve(Response response);
 
-    void notifyResponse(Response response);
-
-    void notifyError(RequestException error);
+    void reject(RequestException error);
 
     void notifyDownload(RequestProgress progress);
 
