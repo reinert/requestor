@@ -74,9 +74,9 @@ public class RetryGwtTest extends GWTTestCase {
                 .onFail(new ResponseRequestCallback<Void>() {
                     public void execute(Response response, PollingRequest<Void> request) {
                         assertEquals(1, request.getRetryCount());
-                        assertTrue(request.getPollingCounter() <= 3);
+                        assertTrue(request.getPollingCount() <= 3);
 
-                        if (request.getPollingCounter() == 3) {
+                        if (request.getPollingCount() == 3) {
                             finishTest();
                         }
                     }
@@ -93,9 +93,9 @@ public class RetryGwtTest extends GWTTestCase {
                 .onFail(new ResponseRequestCallback<Void>() {
                     public void execute(Response response, PollingRequest<Void> request) {
                         assertEquals(1, request.getRetryCount());
-                        assertTrue(request.getPollingCounter() <= 2);
+                        assertTrue(request.getPollingCount() <= 2);
 
-                        if (request.getPollingCounter() == 2) {
+                        if (request.getPollingCount() == 2) {
                             finishTest();
                         }
                     }

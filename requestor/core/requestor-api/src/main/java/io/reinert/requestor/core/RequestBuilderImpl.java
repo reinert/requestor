@@ -148,8 +148,8 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public int getPollingCounter() {
-        return pollingOptions.getPollingCounter();
+    public int getPollingCount() {
+        return pollingOptions.getPollingCount();
     }
 
     @Override
@@ -357,8 +357,8 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public int incrementPollingCounter() {
-        return pollingOptions.incrementPollingCounter();
+    public int incrementPollingCount() {
+        return pollingOptions.incrementPollingCount();
     }
 
     @Override

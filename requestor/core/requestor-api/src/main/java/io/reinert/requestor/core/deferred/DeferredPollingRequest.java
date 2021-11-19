@@ -142,8 +142,8 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public int getPollingCounter() {
-        return serializedRequest.getPollingCounter();
+    public int getPollingCount() {
+        return serializedRequest.getPollingCount();
     }
 
     @Override

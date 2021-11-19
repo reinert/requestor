@@ -93,7 +93,7 @@ public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOp
      *
      * Returns the updated poll counter.
      */
-    int incrementPollingCounter();
+    int incrementPollingCount();
 
     /**
      * Input a payload to be serialized and then sent in the HTTP request body.

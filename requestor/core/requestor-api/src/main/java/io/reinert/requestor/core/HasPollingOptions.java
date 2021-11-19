@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * Represents a type that holds polling options.
+ *
+ * @author Danilo Reinert
+ */
 public interface HasPollingOptions {
 
     boolean isPolling();
@@ -23,7 +28,7 @@ public interface HasPollingOptions {
 
     int getPollingLimit();
 
-    int getPollingCounter();
+    int getPollingCount();
 
     PollingStrategy getPollingStrategy();
 

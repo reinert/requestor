@@ -133,8 +133,8 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public int incrementPollingCounter() {
-        return request.incrementPollingCounter();
+    public int incrementPollingCount() {
+        return request.incrementPollingCount();
     }
 
     @Override
@@ -247,8 +247,8 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public int getPollingCounter() {
-        return request.getPollingCounter();
+    public int getPollingCount() {
+        return request.getPollingCount();
     }
 
     @Override

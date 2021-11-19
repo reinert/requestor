@@ -137,7 +137,7 @@ public abstract class RequestDispatcher implements RunScheduler {
         final Deferred<T> deferred = deferredPool.newDeferred();
 
         // TODO: create pollingOptions outside request?
-        request.incrementPollingCounter();
+        request.incrementPollingCount();
 
         setHttpConnection(request, deferred);
 

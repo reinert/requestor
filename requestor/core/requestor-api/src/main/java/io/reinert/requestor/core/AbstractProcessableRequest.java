@@ -86,8 +86,8 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public int incrementPollingCounter() {
-        return request.incrementPollingCounter();
+    public int incrementPollingCount() {
+        return request.incrementPollingCount();
     }
 
     @Override
@@ -186,8 +186,8 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public int getPollingCounter() {
-        return request.getPollingCounter();
+    public int getPollingCount() {
+        return request.getPollingCount();
     }
 
     @Override

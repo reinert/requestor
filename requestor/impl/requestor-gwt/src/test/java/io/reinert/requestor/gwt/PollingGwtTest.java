@@ -60,9 +60,9 @@ public class PollingGwtTest extends GWTTestCase {
                     public void execute(Response response) {
                         // The request can be sent one more time after stopPolling is called in SHORT strategy
                         // depending on the time to receive the responses
-                        assertTrue(request.getPollingCounter() <= 3);
+                        assertTrue(request.getPollingCount() <= 3);
 
-                        if (request.getPollingCounter() == 2) {
+                        if (request.getPollingCount() == 2) {
                             request.stopPolling();
                             finishTest();
                         }
@@ -81,9 +81,9 @@ public class PollingGwtTest extends GWTTestCase {
         request.onStatus(200,
                 new ResponseCallback() {
                     public void execute(Response response) {
-                        assertTrue(request.getPollingCounter() <= 2);
+                        assertTrue(request.getPollingCount() <= 2);
 
-                        if (request.getPollingCounter() == 2) {
+                        if (request.getPollingCount() == 2) {
                             request.stopPolling();
                             finishTest();
                         }
@@ -99,9 +99,9 @@ public class PollingGwtTest extends GWTTestCase {
                 .get()
                 .onStatus(200, new ResponseRequestCallback<Void>() {
                     public void execute(Response response, PollingRequest<Void> request) {
-                        assertTrue(request.getPollingCounter() <= 3);
+                        assertTrue(request.getPollingCount() <= 3);
 
-                        if (request.getPollingCounter() == 3) {
+                        if (request.getPollingCount() == 3) {
                             finishTest();
                         }
                     }
@@ -116,9 +116,9 @@ public class PollingGwtTest extends GWTTestCase {
                 .get()
                 .onStatus(200, new ResponseRequestCallback<Void>() {
                     public void execute(Response response, PollingRequest<Void> request) {
-                        assertTrue(request.getPollingCounter() <= 3);
+                        assertTrue(request.getPollingCount() <= 3);
 
-                        if (request.getPollingCounter() == 3) {
+                        if (request.getPollingCount() == 3) {
                             finishTest();
                         }
                     }

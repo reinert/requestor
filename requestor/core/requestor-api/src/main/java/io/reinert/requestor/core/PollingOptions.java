@@ -20,7 +20,7 @@ class PollingOptions implements HasPollingOptions {
     private boolean pollingActive;
     private int pollingInterval;
     private int pollingLimit;
-    private int pollingCounter;
+    private int pollingCount;
     private PollingStrategy pollingStrategy;
 
     public boolean isPolling() {
@@ -32,7 +32,7 @@ class PollingOptions implements HasPollingOptions {
         copy.pollingActive = options.pollingActive;
         copy.pollingInterval = options.pollingInterval;
         copy.pollingLimit = options.pollingLimit;
-        copy.pollingCounter = options.pollingCounter;
+        copy.pollingCount = options.pollingCount;
         copy.pollingStrategy = options.pollingStrategy;
         return copy;
     }
@@ -45,8 +45,8 @@ class PollingOptions implements HasPollingOptions {
         return pollingLimit;
     }
 
-    public int getPollingCounter() {
-        return pollingCounter;
+    public int getPollingCount() {
+        return pollingCount;
     }
 
     public PollingStrategy getPollingStrategy() {
@@ -69,21 +69,21 @@ class PollingOptions implements HasPollingOptions {
         this.pollingStrategy = pollingStrategy;
     }
 
-    public int incrementPollingCounter() {
-        pollingCounter++;
+    public int incrementPollingCount() {
+        pollingCount++;
 
         if (pollingLimit > 0) {
-            pollingActive = pollingCounter < pollingLimit;
+            pollingActive = pollingCount < pollingLimit;
         }
 
-        return pollingCounter;
+        return pollingCount;
     }
 
     public void reset() {
         pollingActive = false;
         pollingInterval = 0;
         pollingLimit = 0;
-        pollingCounter = 0;
+        pollingCount = 0;
         pollingStrategy = PollingStrategy.SHORT;
     }
 
@@ -92,7 +92,7 @@ class PollingOptions implements HasPollingOptions {
         this.pollingStrategy = strategy;
         this.pollingInterval = pollingInterval;
         this.pollingLimit = pollingLimit;
-        this.pollingCounter = 0;
+        this.pollingCount = 0;
         this.pollingActive = true;
     }
 

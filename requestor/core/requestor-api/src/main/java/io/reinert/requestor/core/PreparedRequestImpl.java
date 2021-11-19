@@ -149,8 +149,8 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public int getPollingCounter() {
-        return request.getPollingCounter();
+    public int getPollingCount() {
+        return request.getPollingCount();
     }
 
     @Override
