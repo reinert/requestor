@@ -21,19 +21,18 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
-import io.reinert.requestor.core.RequestFilter;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 
 /**
- * Integration tests of {@link RequestFilter}.
+ * Polling tests.
  */
-public class RequestGwtTest extends GWTTestCase {
+public class PollingGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
-    private static final Logger logger = Logger.getLogger(RequestGwtTest.class.getName());
+    private static final Logger logger = Logger.getLogger(PollingGwtTest.class.getName());
 
     private Session session;
 

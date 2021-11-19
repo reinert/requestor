@@ -27,7 +27,9 @@ public class RequestorGwtTestSuite extends GWTTestSuite {
 
         suite.addTestSuite(CallbackGwtTest.class);
 
-        suite.addTestSuite(RequestGwtTest.class);
+        suite.addTestSuite(PollingGwtTest.class);
+
+        suite.addTestSuite(RetryGwtTest.class);
 
         suite.addTestSuite(SpecialTypeResponsesGwtTest.class);
 
