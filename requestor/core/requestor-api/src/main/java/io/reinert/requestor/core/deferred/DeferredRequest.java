@@ -364,6 +364,21 @@ public class DeferredRequest<T> implements Deferred<T> {
     // Deferred
     //===================================================================
 
+    @Override
+    public boolean isPending() {
+        return deferred.isPending();
+    }
+
+    @Override
+    public boolean isRejected() {
+        return deferred.isRejected();
+    }
+
+    @Override
+    public boolean isResolved() {
+        return deferred.isResolved();
+    }
+
     // TODO: remove and replace usages by reject when duplicating deferred
     @Override
     public void cancel(RequestException e) {

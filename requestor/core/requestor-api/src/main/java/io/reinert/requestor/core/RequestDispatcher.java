@@ -49,6 +49,15 @@ public abstract class RequestDispatcher implements RunScheduler {
     }
 
     /**
+     * Defers the execution of a {@link Runnable} by the informed delay.
+     * This method is used to schedule the dispatches.
+     *
+     * @param runnable  A callback to be executed later
+     * @param delay     The time to postpone the runnable execution
+     */
+    public abstract void scheduleRun(Runnable runnable, int delay);
+
+    /**
      * Sends the request through the wire and resolves (or rejects) the deferred when completed.
      * The success result must be a instance of #entityType.
      * <p></p>
@@ -77,15 +86,6 @@ public abstract class RequestDispatcher implements RunScheduler {
     protected final void evalResponse(RawResponse response) {
         responseProcessor.process(response);
     }
-
-    /**
-     * Defers the execution of a {@link Runnable} by the informed delay.
-     * This method is used to schedule the dispatches.
-     *
-     * @param runnable  A callback to be executed later
-     * @param delay     The time to postpone the runnable execution
-     */
-    public abstract void scheduleRun(Runnable runnable, int delay);
 
     /**
      * Sends the request and return an instance of {@link Request} expecting a sole result.

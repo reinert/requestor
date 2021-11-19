@@ -24,6 +24,12 @@ package io.reinert.requestor.core;
  */
 public interface Deferred<T> {
 
+    boolean isPending();
+
+    boolean isRejected();
+
+    boolean isResolved();
+
     // Check if should have it in pool or just remove it
     void cancel(RequestException e);
 

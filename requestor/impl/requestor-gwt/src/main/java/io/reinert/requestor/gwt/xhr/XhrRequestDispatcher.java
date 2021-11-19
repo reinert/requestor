@@ -67,6 +67,8 @@ public class XhrRequestDispatcher extends RequestDispatcher {
 
     @Override
     protected <D> void send(final PreparedRequest request, final Deferred<D> deferred, PayloadType payloadType) {
+        if (!deferred.isPending()) return;
+
         final HttpMethod httpMethod = request.getMethod();
         final String url = request.getUri().toString();
         final Headers headers = request.getHeaders();

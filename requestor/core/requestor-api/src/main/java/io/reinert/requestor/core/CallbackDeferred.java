@@ -27,6 +27,7 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response> {
 
     private final DualCallback callback;
     private ResponseCallback resolveCallback;
+    private Boolean resolved;
 
     protected CallbackDeferred(DualCallback callback) {
         this.callback = callback;
@@ -42,17 +43,34 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response> {
     }
 
     @Override
+    public boolean isPending() {
+        return resolved == null;
+    }
+
+    @Override
+    public boolean isRejected() {
+        return resolved == Boolean.FALSE;
+    }
+
+    @Override
+    public boolean isResolved() {
+        return resolved == Boolean.TRUE;
+    }
+
+    @Override
     public void cancel(RequestException exception) {
     }
 
     @Override
     public void notifyResponse(Response response) {
+        resolved = Boolean.TRUE;
         if (resolveCallback != null) resolveCallback.execute(response);
         callback.onLoad(response);
     }
 
     @Override
     public void notifyError(RequestException exception) {
+        resolved = Boolean.FALSE;
         callback.onError(exception);
     }
 
