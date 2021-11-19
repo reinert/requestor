@@ -144,7 +144,7 @@ public interface RequestBuilder extends RequestOptions {
      *
      * @return This building request
      */
-    RequestBuilder retry(int[] delaysMillis, RequestEvent... events);
+    RequestBuilder retry(int[] delaysMillis, Event... events);
 
     /**
      * Poll the request according to the specified strategy with no interval.

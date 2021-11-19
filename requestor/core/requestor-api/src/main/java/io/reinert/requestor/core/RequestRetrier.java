@@ -36,7 +36,7 @@ public class RequestRetrier {
         this.scheduler = scheduler;
         this.retryOptions = retryOptions;
         eventsNames = new ArrayList<String>(retryOptions.getEvents().size());
-        for (RequestEvent e : retryOptions.getEvents()) eventsNames.add(e.getEventName());
+        for (Event e : retryOptions.getEvents()) eventsNames.add(e.getName());
     }
 
     public int getRetryCount() {

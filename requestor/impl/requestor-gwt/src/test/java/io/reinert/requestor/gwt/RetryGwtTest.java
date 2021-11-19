@@ -20,10 +20,9 @@ import java.util.logging.Logger;
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.core.DelaySequence;
-import io.reinert.requestor.core.Event;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
-import io.reinert.requestor.core.RequestFilter;
+import io.reinert.requestor.core.RequestEvent;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.Status;
@@ -55,7 +54,7 @@ public class RetryGwtTest extends GWTTestCase {
 
     public void testRetry() {
         session.req("https://httpbin.org/status/400")
-                .retry(DelaySequence.fixed(1, 2), Event.FAIL)
+                .retry(DelaySequence.fixed(1, 2), RequestEvent.FAIL)
                 .get()
                 .onFail(new ResponseRequestCallback<Void>() {
                     public void execute(Response response, PollingRequest<Void> request) {

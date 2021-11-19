@@ -81,7 +81,7 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, RequestEvent... events) {
+    public void setRetry(int[] delaysMillis, Event... events) {
         request.setRetry(delaysMillis, events);
     }
 
@@ -161,7 +161,7 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public List<RequestEvent> getRetryEvents() {
+    public List<Event> getRetryEvents() {
         return request.getRetryEvents();
     }
 

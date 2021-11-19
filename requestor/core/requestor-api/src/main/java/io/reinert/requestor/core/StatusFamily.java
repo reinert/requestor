@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public enum StatusFamily implements RequestEvent {
+public enum StatusFamily implements Event {
 
     /**
      * {@code 1xx} HTTP status codes.
@@ -77,7 +77,7 @@ public enum StatusFamily implements RequestEvent {
     }
 
     @Override
-    public String getEventName() {
+    public String getName() {
         return eventName;
     }
 }

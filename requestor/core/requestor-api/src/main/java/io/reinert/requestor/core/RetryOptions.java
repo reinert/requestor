@@ -22,32 +22,32 @@ import java.util.List;
 class RetryOptions {
 
     private List<Integer> delays;
-    private List<RequestEvent> events;
+    private List<Event> events;
 
-    RetryOptions(int[] delaysMillis, RequestEvent[] eventsArray) {
+    RetryOptions(int[] delaysMillis, Event[] eventsArray) {
         delays = new ArrayList<Integer>(delaysMillis.length);
         for (int i = 0; i < delaysMillis.length; i++) delays.add(delaysMillis[i]);
 
-        events = new ArrayList<RequestEvent>(eventsArray.length);
+        events = new ArrayList<Event>(eventsArray.length);
         for (int i = 0; i < eventsArray.length; i++) if (eventsArray[i] != null) events.add(eventsArray[i]);
     }
 
-    RetryOptions(List<Integer> delays, List<RequestEvent> events) {
+    RetryOptions(List<Integer> delays, List<Event> events) {
         this.delays = delays;
         this.events = events;
     }
 
     static RetryOptions copy(RetryOptions options) {
-        return new RetryOptions(new ArrayList<Integer>(options.delays), new ArrayList<RequestEvent>(options.events));
+        return new RetryOptions(new ArrayList<Integer>(options.delays), new ArrayList<Event>(options.events));
     }
 
     public List<Integer> getDelays() {
         return delays != null ? Collections.<Integer>unmodifiableList(delays) : Collections.<Integer>emptyList();
     }
 
-    public List<RequestEvent> getEvents() {
-        return events != null ? Collections.<RequestEvent>unmodifiableList(events) :
-                Collections.<RequestEvent>emptyList();
+    public List<Event> getEvents() {
+        return events != null ? Collections.<Event>unmodifiableList(events) :
+                Collections.<Event>emptyList();
     }
 
     public boolean isEnabled() {

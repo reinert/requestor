@@ -97,7 +97,7 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
     }
 
     @Override
-    public AbstractRequestInvoker retry(int[] delaysMillis, RequestEvent... events) {
+    public AbstractRequestInvoker retry(int[] delaysMillis, Event... events) {
         super.retry(delaysMillis, events);
         return this;
     }

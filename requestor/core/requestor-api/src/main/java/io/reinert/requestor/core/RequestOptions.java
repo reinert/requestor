@@ -45,7 +45,7 @@ public interface RequestOptions {
 
     List<Integer> getRetryDelays();
 
-    List<RequestEvent> getRetryEvents();
+    List<Event> getRetryEvents();
 
     boolean isRetryEnabled();
 

@@ -124,7 +124,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public List<RequestEvent> getRetryEvents() {
+    public List<Event> getRetryEvents() {
         return request.getRetryEvents();
     }
 

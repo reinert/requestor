@@ -16,17 +16,28 @@
 package io.reinert.requestor.core;
 
 /**
- * Represents an event that may occur during a {@link Request}.
+ * An enumeration representing the possible {@link Request} events.
  *
  * @author Danilo Reinert
  */
-public interface RequestEvent {
+public enum RequestEvent implements Event {
 
-    /**
-     * Get event name.
-     *
-     * @return the event name.
-     */
-    String getEventName();
+    SUCCESS("success"),
+    FAIL("fail"),
+    LOAD("load"),
+    TIMEOUT("timeout"),
+    CANCEL("cancel"),
+    ABORT("abort"),
+    ERROR("error");
 
+    private final String eventName;
+
+    RequestEvent(String eventName) {
+        this.eventName = eventName;
+    }
+
+    @Override
+    public String getName() {
+        return eventName;
+    }
 }

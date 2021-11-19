@@ -24,7 +24,7 @@ class RequestOptionsHolder implements HasRequestOptions {
     private int timeout;
     private int delay;
     private int[] retryDelays;
-    private RequestEvent[] retryEvents;
+    private Event[] retryEvents;
     private final Headers headers = new Headers();
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
     private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
@@ -127,7 +127,7 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, RequestEvent... events) {
+    public void setRetry(int[] delaysMillis, Event... events) {
         retryDelays = delaysMillis;
         retryEvents = events;
     }
@@ -138,7 +138,7 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
-    public RequestEvent[] getRetryEvents() {
+    public Event[] getRetryEvents() {
         return retryEvents;
     }
 

@@ -89,7 +89,7 @@ public class AbstractService implements Service {
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, RequestEvent... events) {
+    public void setRetry(int[] delaysMillis, Event... events) {
         options.setRetry(delaysMillis, events);
     }
 
@@ -99,7 +99,7 @@ public class AbstractService implements Service {
     }
 
     @Override
-    public RequestEvent[] getRetryEvents() {
+    public Event[] getRetryEvents() {
         return options.getRetryEvents();
     }
 

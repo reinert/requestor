@@ -116,7 +116,7 @@ public enum Status implements HttpStatus {
                 return "";
             }
 
-            public String getEventName() {
+            public String getName() {
                 return String.valueOf(statusCode);
             }
 
@@ -167,7 +167,7 @@ public enum Status implements HttpStatus {
     }
 
     @Override
-    public String getEventName() {
+    public String getName() {
         return String.valueOf(code);
     }
 

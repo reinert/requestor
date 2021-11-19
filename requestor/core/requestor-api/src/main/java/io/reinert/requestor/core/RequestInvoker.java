@@ -51,7 +51,7 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     RequestInvoker delay(int delayMillis);
 
     @Override
-    RequestInvoker retry(int[] delaysMillis, RequestEvent... events);
+    RequestInvoker retry(int[] delaysMillis, Event... events);
 
     @Override
     RequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;

@@ -86,7 +86,7 @@ public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOp
      */
     void setDelay(int delayMillis);
 
-    void setRetry(int[] delaysMillis, RequestEvent... events);
+    void setRetry(int[] delaysMillis, Event... events);
 
     /**
      * The poll counter is incremented by 1.

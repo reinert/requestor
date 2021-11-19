@@ -144,6 +144,6 @@ public interface PollingRequestBuilder extends RequestBuilder, HasPollingOptions
      *
      * @return This building request
      */
-    PollingRequestBuilder retry(int[] delaysMillis, RequestEvent... events);
+    PollingRequestBuilder retry(int[] delaysMillis, Event... events);
 
 }
