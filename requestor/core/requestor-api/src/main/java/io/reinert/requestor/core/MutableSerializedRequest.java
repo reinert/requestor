@@ -27,10 +27,17 @@ public interface MutableSerializedRequest extends MutableRequest, SerializedRequ
     void setSerializedPayload(SerializedPayload serializedPayload);
 
     /**
-     * Copy the request keeping references to the store and polling states.
+     * Copy the request.
      *
      * @return a copy of this request
      */
     MutableSerializedRequest copy();
+
+    /**
+     * Copy the request keeping references to the store and retry and polling options.
+     *
+     * @return a replica of this request
+     */
+    MutableSerializedRequest replicate();
 
 }

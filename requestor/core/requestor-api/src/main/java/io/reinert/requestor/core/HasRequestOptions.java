@@ -54,4 +54,12 @@ public interface HasRequestOptions extends HasHeaders {
 
     int getDelay();
 
+    void setRetry(int[] delaysMillis, RequestEvent... events);
+
+    int[] getRetryDelays();
+
+    RequestEvent[] getRetryEvents();
+
+    boolean isRetryEnabled();
+
 }

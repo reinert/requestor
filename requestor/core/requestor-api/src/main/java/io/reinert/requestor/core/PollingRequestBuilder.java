@@ -135,4 +135,15 @@ public interface PollingRequestBuilder extends RequestBuilder, HasPollingOptions
      */
     PollingRequestBuilder delay(int delayMillis);
 
+    /**
+     * Set a retry policy for this request.
+     * <p></p>
+     *
+     * @param delaysMillis  The times in milliseconds to wait before each consecutive retry
+     * @param events        The events that will trigger a retry
+     *
+     * @return This building request
+     */
+    PollingRequestBuilder retry(int[] delaysMillis, RequestEvent... events);
+
 }

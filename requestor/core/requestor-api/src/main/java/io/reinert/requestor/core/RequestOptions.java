@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.List;
+
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.uri.Uri;
 
@@ -40,6 +42,12 @@ public interface RequestOptions {
     int getTimeout();
 
     int getDelay();
+
+    List<Integer> getRetryDelays();
+
+    List<RequestEvent> getRetryEvents();
+
+    boolean isRetryEnabled();
 
     Uri getUri();
 

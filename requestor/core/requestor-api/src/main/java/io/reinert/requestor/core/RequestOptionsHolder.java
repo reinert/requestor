@@ -23,6 +23,8 @@ class RequestOptionsHolder implements HasRequestOptions {
     private Auth.Provider authProvider;
     private int timeout;
     private int delay;
+    private int[] retryDelays;
+    private RequestEvent[] retryEvents;
     private final Headers headers = new Headers();
     private RequestSerializer requestSerializer = new RequestSerializerImpl();
     private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
@@ -33,6 +35,7 @@ class RequestOptionsHolder implements HasRequestOptions {
         copy.setAuth(options.authProvider);
         copy.setTimeout(options.timeout);
         copy.setDelay(options.delay);
+        if (options.isRetryEnabled()) copy.setRetry(options.retryDelays, options.retryEvents);
         for (Header h : options.headers) copy.setHeader(h);
         copy.setRequestSerializer(options.requestSerializer);
         copy.setResponseDeserializer(options.responseDeserializer);
@@ -52,6 +55,8 @@ class RequestOptionsHolder implements HasRequestOptions {
         authProvider = null;
         timeout = 0;
         delay = 0;
+        retryDelays = null;
+        retryEvents = null;
         headers.clear();
     }
 
@@ -122,6 +127,27 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
+        retryDelays = delaysMillis;
+        retryEvents = events;
+    }
+
+    @Override
+    public int[] getRetryDelays() {
+        return retryDelays;
+    }
+
+    @Override
+    public RequestEvent[] getRetryEvents() {
+        return retryEvents;
+    }
+
+    @Override
+    public boolean isRetryEnabled() {
+        return retryDelays != null && retryEvents != null;
+    }
+
+    @Override
     public void setHeader(Header header) {
         if (header != null && mediaType != null) {
             if ("content-type".equalsIgnoreCase(header.getName()) || "accept".equalsIgnoreCase(header.getName())) {
@@ -186,6 +212,10 @@ class RequestOptionsHolder implements HasRequestOptions {
 
         if (delay > 0) {
             request.delay(delay);
+        }
+
+        if (isRetryEnabled()) {
+            request.retry(retryDelays, retryEvents);
         }
 
         for (Header h : headers) {

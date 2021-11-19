@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.core.header.Header;
@@ -25,7 +26,7 @@ import io.reinert.requestor.core.uri.Uri;
 
 class RequestInAuthProcess<R> implements ProcessableRequest {
 
-    private static final Logger LOGGER = Logger.getLogger(RequestInAuthProcess.class.getName());
+    private static final Logger logger = Logger.getLogger(RequestInAuthProcess.class.getName());
 
     private final MutableSerializedRequest request;
     private final PayloadType responsePayloadType;
@@ -45,6 +46,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         final Auth auth = request.getAuth();
         final PreparedRequestImpl<R> preparedRequest = new PreparedRequestImpl<R>(dispatcher, this, deferred,
                 responsePayloadType);
+
+        if (request.isRetryEnabled()) {
+            deferred.setRequestRetrier(new RequestRetrier(preparedRequest, dispatcher,
+                    new RetryOptions(request.getRetryDelays(), request.getRetryEvents())));
+        }
 
         if (auth == null) {
             preparedRequest.send();
@@ -122,6 +128,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
+        request.setRetry(delaysMillis, events);
+    }
+
+    @Override
     public int incrementPollingCounter() {
         return request.incrementPollingCounter();
     }
@@ -139,6 +150,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     @Override
     public MutableSerializedRequest copy() {
         return request.copy();
+    }
+
+    @Override
+    public MutableSerializedRequest replicate() {
+        return request.replicate();
     }
 
     @Override
@@ -181,7 +197,7 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         try {
             ((SerializableRequest) request).serializePayload(serializedPayload);
         } catch (ClassCastException e) {
-            LOGGER.warning("Cannot serialize payload. Delegated request is not a SerializableRequest.");
+            logger.warning("Cannot serialize payload. Delegated request is not a SerializableRequest.");
         }
     }
 
@@ -198,6 +214,21 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     @Override
     public int getDelay() {
         return request.getDelay();
+    }
+
+    @Override
+    public List<Integer> getRetryDelays() {
+        return request.getRetryDelays();
+    }
+
+    @Override
+    public List<RequestEvent> getRetryEvents() {
+        return request.getRetryEvents();
+    }
+
+    @Override
+    public boolean isRetryEnabled() {
+        return request.isRetryEnabled();
     }
 
     @Override

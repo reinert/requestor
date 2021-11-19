@@ -26,6 +26,7 @@ import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestProgress;
+import io.reinert.requestor.core.RequestRetrier;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Status;
@@ -53,6 +54,7 @@ public class DeferredRequest<T> implements Deferred<T> {
     private final PollingRequest<T> request;
     private final DeferredObject<Response, RequestException, RequestProgress> deferred;
     private HttpConnection connection;
+    private RequestRetrier retrier;
     private boolean noAbortCallbackRegistered = true;
     private boolean noCancelCallbackRegistered = true;
     private boolean noErrorCallbackRegistered = true;
@@ -362,6 +364,7 @@ public class DeferredRequest<T> implements Deferred<T> {
     // Deferred
     //===================================================================
 
+    // TODO: remove and replace usages by reject when duplicating deferred
     @Override
     public void cancel(RequestException e) {
         if (cancelled) return;
@@ -374,12 +377,16 @@ public class DeferredRequest<T> implements Deferred<T> {
     public void notifyResponse(final Response response) {
         if (cancelled) return;
 
+        if (retrier != null && retrier.maybeRetry(response)) return;
+
         deferred.resolve(response);
     }
 
     @Override
     public void notifyError(RequestException e) {
         if (cancelled) return;
+
+        if (retrier != null && retrier.maybeRetry(e)) return;
 
         if (noErrorCallbackRegistered) {
             if (e instanceof RequestTimeoutException) {
@@ -413,6 +420,11 @@ public class DeferredRequest<T> implements Deferred<T> {
     @Override
     public void setHttpConnection(HttpConnection connection) {
         this.connection = connection;
+    }
+
+    @Override
+    public void setRequestRetrier(RequestRetrier retrier) {
+        this.retrier = retrier;
     }
 
     @Override

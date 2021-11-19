@@ -136,6 +136,17 @@ public interface RequestBuilder extends RequestOptions {
     RequestBuilder delay(int delayMillis);
 
     /**
+     * Set a retry policy for this request.
+     * <p></p>
+     *
+     * @param delaysMillis  The times in milliseconds to wait before each consecutive retry
+     * @param events        The events that will trigger a retry
+     *
+     * @return This building request
+     */
+    RequestBuilder retry(int[] delaysMillis, RequestEvent... events);
+
+    /**
      * Poll the request according to the specified strategy with no interval.
      * <p></p>
      *

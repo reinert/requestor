@@ -37,6 +37,8 @@ public interface Deferred<T> {
 
     void setHttpConnection(HttpConnection connection);
 
+    void setRequestRetrier(RequestRetrier retrier);
+
     Request<T> getRequest();
 
 }

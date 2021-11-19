@@ -69,6 +69,10 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response> {
     }
 
     @Override
+    public void setRequestRetrier(RequestRetrier retrier) {
+    }
+
+    @Override
     public Deferred<Response> newDeferred() {
         return this;
     }

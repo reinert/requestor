@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.List;
+
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
@@ -114,6 +116,21 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public int getDelay() {
         return request.getDelay();
+    }
+
+    @Override
+    public List<Integer> getRetryDelays() {
+        return request.getRetryDelays();
+    }
+
+    @Override
+    public List<RequestEvent> getRetryEvents() {
+        return request.getRetryEvents();
+    }
+
+    @Override
+    public boolean isRetryEnabled() {
+        return request.isRetryEnabled();
     }
 
     @Override

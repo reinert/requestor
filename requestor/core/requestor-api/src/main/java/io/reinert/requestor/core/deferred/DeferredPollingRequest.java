@@ -27,6 +27,7 @@ import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
+import io.reinert.requestor.core.RequestEvent;
 import io.reinert.requestor.core.SerializedRequest;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
@@ -108,6 +109,21 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     @Override
     public int getDelay() {
         return serializedRequest.getDelay();
+    }
+
+    @Override
+    public List<Integer> getRetryDelays() {
+        return serializedRequest.getRetryDelays();
+    }
+
+    @Override
+    public List<RequestEvent> getRetryEvents() {
+        return serializedRequest.getRetryEvents();
+    }
+
+    @Override
+    public boolean isRetryEnabled() {
+        return serializedRequest.isRetryEnabled();
     }
 
     @Override

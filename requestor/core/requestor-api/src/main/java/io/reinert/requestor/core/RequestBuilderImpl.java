@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.core.header.AcceptHeader;
@@ -41,18 +43,19 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private HttpMethod httpMethod;
     private int timeout;
     private int delay;
+    private RetryOptions retryOptions;
     private PollingOptions pollingOptions;
     private Payload payload;
     private SerializedPayload serializedPayload;
     private boolean serialized;
 
     public RequestBuilderImpl(Uri uri, TransientStore store) {
-        this(uri, store, null, null, null, 0, 0, null, null, null, false);
+        this(uri, store, null, null, null, 0, 0, null, null, null, null, false);
     }
 
     public RequestBuilderImpl(Uri uri, TransientStore store, Headers headers, Auth.Provider authProvider,
-                              HttpMethod httpMethod, int timeout, int delay, PollingOptions pollingOptions,
-                              Payload payload, SerializedPayload serializedPayload,
+                              HttpMethod httpMethod, int timeout, int delay, RetryOptions retryOptions,
+                              PollingOptions pollingOptions, Payload payload, SerializedPayload serializedPayload,
                               boolean serialized) {
         if (uri == null) throw new IllegalArgumentException("Uri cannot be null");
         this.uri = uri;
@@ -63,6 +66,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
         this.httpMethod = httpMethod;
         this.timeout = timeout;
         this.delay = delay;
+        this.retryOptions = retryOptions;
         this.pollingOptions = pollingOptions != null ? pollingOptions : new PollingOptions();
         this.payload = payload != null ? payload : Payload.EMPTY_PAYLOAD;
         this.serializedPayload = serializedPayload;
@@ -174,6 +178,21 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
         return store;
     }
 
+    @Override
+    public List<Integer> getRetryDelays() {
+        return retryOptions != null ? retryOptions.getDelays() : Collections.<Integer>emptyList();
+    }
+
+    @Override
+    public List<RequestEvent> getRetryEvents() {
+        return retryOptions != null ? retryOptions.getEvents() : Collections.<RequestEvent>emptyList();
+    }
+
+    @Override
+    public boolean isRetryEnabled() {
+        return retryOptions != null && retryOptions.isEnabled();
+    }
+
     //===================================================================
     // RequestBuilder methods
     //===================================================================
@@ -211,6 +230,14 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public RequestBuilderImpl delay(int delayMillis) {
         if (delayMillis > 0) delay = delayMillis;
+        return this;
+    }
+
+    @Override
+    public RequestBuilderImpl retry(int[] delaysMillis, RequestEvent... events) {
+        if (delaysMillis != null && delaysMillis.length > 0 && events.length > 0) {
+            retryOptions = new RetryOptions(delaysMillis, events);
+        }
         return this;
     }
 
@@ -325,6 +352,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
+        retry(delaysMillis, events);
+    }
+
+    @Override
     public int incrementPollingCounter() {
         return pollingOptions.incrementPollingCounter();
     }
@@ -348,8 +380,30 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
         this.serializedPayload = serializedPayload;
     }
 
+    //===================================================================
+    // MutableSerializedRequest
+    //===================================================================
+
     @Override
     public RequestBuilderImpl copy() {
+        return new RequestBuilderImpl(
+                Uri.copy(uri),
+                TransientStore.copy(store),
+                Headers.copy(headers),
+                authProvider,
+                httpMethod,
+                timeout,
+                delay,
+                retryOptions != null ? RetryOptions.copy(retryOptions) : null,
+                PollingOptions.copy(pollingOptions),
+                payload,
+                serializedPayload,
+                serialized
+        );
+    }
+
+    @Override
+    public RequestBuilderImpl replicate() {
         return new RequestBuilderImpl(
                 Uri.copy(uri),
                 store, // keep store reference
@@ -358,6 +412,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 httpMethod,
                 timeout,
                 delay,
+                retryOptions != null ? RetryOptions.copy(retryOptions) : null,
                 pollingOptions, // keep pollingOptions reference
                 payload,
                 serializedPayload,
@@ -370,18 +425,6 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     //===================================================================
 
     protected RequestBuilderImpl build() {
-        return new RequestBuilderImpl(
-                Uri.copy(uri),
-                TransientStore.copy(store),
-                Headers.copy(headers),
-                authProvider,
-                httpMethod,
-                timeout,
-                delay,
-                PollingOptions.copy(pollingOptions),
-                payload,
-                null,
-                false
-        );
+        return copy();
     }
 }

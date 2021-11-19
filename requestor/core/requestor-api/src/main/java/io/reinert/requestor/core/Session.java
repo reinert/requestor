@@ -443,6 +443,26 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
+        options.setRetry(delaysMillis, events);
+    }
+
+    @Override
+    public int[] getRetryDelays() {
+        return options.getRetryDelays();
+    }
+
+    @Override
+    public RequestEvent[] getRetryEvents() {
+        return options.getRetryEvents();
+    }
+
+    @Override
+    public boolean isRetryEnabled() {
+        return options.isRetryEnabled();
+    }
+
+    @Override
     public void setHeader(Header header) {
         options.setHeader(header);
     }

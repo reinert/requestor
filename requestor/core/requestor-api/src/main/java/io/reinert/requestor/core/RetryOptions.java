@@ -24,16 +24,21 @@ class RetryOptions {
     private List<Integer> delays;
     private List<RequestEvent> events;
 
+    RetryOptions(int[] delaysMillis, RequestEvent[] eventsArray) {
+        delays = new ArrayList<Integer>(delaysMillis.length);
+        for (int i = 0; i < delaysMillis.length; i++) delays.add(delaysMillis[i]);
+
+        events = new ArrayList<RequestEvent>(eventsArray.length);
+        for (int i = 0; i < eventsArray.length; i++) if (eventsArray[i] != null) events.add(eventsArray[i]);
+    }
+
     RetryOptions(List<Integer> delays, List<RequestEvent> events) {
         this.delays = delays;
         this.events = events;
     }
 
     static RetryOptions copy(RetryOptions options) {
-        return new RetryOptions(
-                new ArrayList<Integer>(options.delays != null ? options.delays : Collections.<Integer>emptyList()),
-                new ArrayList<RequestEvent>(options.events != null ? options.events :
-                        Collections.<RequestEvent>emptyList()));
+        return new RetryOptions(new ArrayList<Integer>(options.delays), new ArrayList<RequestEvent>(options.events));
     }
 
     public List<Integer> getDelays() {
@@ -46,14 +51,6 @@ class RetryOptions {
     }
 
     public boolean isEnabled() {
-        return delays != null && delays.size() > 0 && events != null && events.size() > 0;
-    }
-
-    public void setDelays(List<Integer> delays) {
-        this.delays = delays;
-    }
-
-    public void setEvents(List<RequestEvent> events) {
-        this.events = events;
+        return delays.size() > 0 && events.size() > 0;
     }
 }

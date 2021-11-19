@@ -91,6 +91,12 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
     }
 
     @Override
+    public AbstractRequestInvoker retry(int[] delaysMillis, RequestEvent... events) {
+        super.retry(delaysMillis, events);
+        return this;
+    }
+
+    @Override
     public AbstractRequestInvoker poll(PollingStrategy strategy) {
         super.poll(strategy);
         return this;

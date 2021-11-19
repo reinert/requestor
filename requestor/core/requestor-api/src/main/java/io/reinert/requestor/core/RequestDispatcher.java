@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -141,7 +141,8 @@ public abstract class RequestDispatcher implements RunScheduler {
 
         setHttpConnection(request, deferred);
 
-        final MutableSerializedRequest nextRequest = isShortPolling(request) ? request.copy() : null;
+        final MutableSerializedRequest nextRequest =
+                !skipPolling && isShortPolling(request) ? request.replicate() : null;
 
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request, responsePayloadType,
                 this, deferred);
@@ -192,12 +193,12 @@ public abstract class RequestDispatcher implements RunScheduler {
     private <T> ResponseCallback getLongPollingCallback(final MutableSerializedRequest request,
                                                         final PayloadType responsePayloadType,
                                                         final DeferredPool<T> deferredPool) {
-        final MutableSerializedRequest originalRequest = request.copy();
+        final MutableSerializedRequest originalRequest = request.replicate();
         return new ResponseCallback() {
             @Override
             public void execute(Response response) {
                 if (isLongPolling(originalRequest)) {
-                    schedulePollingRequest(originalRequest.copy(), responsePayloadType, deferredPool);
+                    schedulePollingRequest(originalRequest.replicate(), responsePayloadType, deferredPool);
                 }
             }
         };
