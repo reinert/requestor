@@ -15,10 +15,10 @@
  */
 package io.reinert.requestor.gwt;
 
-import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.SerializerProvider;
 import io.reinert.requestor.core.Session;
-import io.reinert.requestor.core.deferred.DeferredFactoryImpl;
+import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.core.serialization.misc.TextSerializer;
 import io.reinert.requestor.core.serialization.misc.VoidSerializer;
@@ -40,11 +40,11 @@ public class GwtSession extends Session {
     }
 
     public GwtSession() {
-        this(new DeferredFactoryImpl());
+        this(new DeferredPoolFactoryImpl());
     }
 
-    public GwtSession(Deferred.Factory deferredFactory) {
-        super(deferredFactory, new XhrRequestDispatcherFactory());
+    public GwtSession(DeferredPool.Factory deferredPoolFactory) {
+        super(deferredPoolFactory, new XhrRequestDispatcherFactory());
     }
 
     @Override

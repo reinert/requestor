@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,20 @@
 package io.reinert.requestor.core;
 
 /**
- * A deferred object capable of resolving/rejecting requests.
+ * A deferred pool capable creating new interconnected deferreds.
  *
  * @param <T> The expected type in the invoked request
  *
  * @author Danilo Reinert
  */
-public interface Deferred<T> {
+public interface DeferredPool<T> {
 
-    // Check if should have it in pool or just remove it
-    void cancel(RequestException e);
+    interface Factory {
+        <T> DeferredPool<T> create(SerializedRequest serializedRequest);
+    }
 
-    void notifyResponse(Response response);
+    Deferred<T> newDeferred();
 
-    void notifyError(RequestException error);
-
-    void notifyDownload(RequestProgress progress);
-
-    void notifyUpload(RequestProgress progress);
-
-    void setHttpConnection(HttpConnection connection);
-
-    Request<T> getRequest();
+    PollingRequest<T> getRequest();
 
 }

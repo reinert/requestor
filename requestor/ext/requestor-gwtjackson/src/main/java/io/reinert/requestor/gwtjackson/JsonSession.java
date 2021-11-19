@@ -17,7 +17,7 @@ package io.reinert.requestor.gwtjackson;
 
 import com.google.gwt.core.client.GWT;
 
-import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.TypeProvider;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -36,8 +36,8 @@ public class JsonSession extends GwtSession {
         super();
     }
 
-    public JsonSession(Deferred.Factory deferredFactory) {
-        super(deferredFactory);
+    public JsonSession(DeferredPool.Factory deferredPoolFactory) {
+        super(deferredPoolFactory);
     }
 
     @Override

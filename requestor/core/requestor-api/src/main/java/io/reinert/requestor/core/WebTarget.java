@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
     private final RequestOptionsHolder options;
     private final SerializationEngine serializationEngine;
     private final RequestDispatcher.Factory requestDispatcherFactory;
-    private final Deferred.Factory deferredFactory;
+    private final DeferredPool.Factory deferredPoolFactory;
     private final FilterManagerImpl filterManager;
     private final InterceptorManagerImpl interceptorManager;
     private final TransientStore store;
@@ -49,29 +49,29 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
     public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                                    SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
-                                   Deferred.Factory deferredFactory, SessionStore store, RequestOptionsHolder defaults,
-                                   Uri uri) {
+                                   DeferredPool.Factory deferredPoolFactory, SessionStore store,
+                                   RequestOptionsHolder options, Uri uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredFactory, new TransientStore(store), RequestOptionsHolder.copy(defaults), uri,
+                deferredPoolFactory, new TransientStore(store), RequestOptionsHolder.copy(options), uri,
                 uri == null ? UriBuilder.newInstance() : UriBuilder.fromUri(uri));
     }
 
     public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                                    SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
-                                   Deferred.Factory deferredFactory, SessionStore store, RequestOptionsHolder defaults,
-                                   UriBuilder uriBuilder) {
+                                   DeferredPool.Factory deferredPoolFactory, SessionStore store,
+                                   RequestOptionsHolder options, UriBuilder uriBuilder) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredFactory, new TransientStore(store), RequestOptionsHolder.copy(defaults),null,
+                deferredPoolFactory, new TransientStore(store), RequestOptionsHolder.copy(options), null,
                 uriBuilder);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
-                      Deferred.Factory deferredFactory, TransientStore store,
+                      DeferredPool.Factory deferredPoolFactory, TransientStore store,
                       RequestOptionsHolder options, Uri uri, UriBuilder uriBuilder) {
         this.serializationEngine = serializationEngine;
         this.requestDispatcherFactory = requestDispatcherFactory;
-        this.deferredFactory = deferredFactory;
+        this.deferredPoolFactory = deferredPoolFactory;
         this.filterManager = new FilterManagerImpl(filterManager);
         this.interceptorManager = new InterceptorManagerImpl(interceptorManager);
         this.store = store;
@@ -92,7 +92,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
         this.requestDispatcher = requestDispatcherFactory.newRequestDispatcher(
                 this.requestProcessor,
                 this.responseProcessor,
-                deferredFactory);
+                deferredPoolFactory);
 
         this.uriBuilder = uriBuilder;
         this.uri = uri;
@@ -471,7 +471,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
     private WebTarget newWebTarget(UriBuilder copy) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, TransientStore.copy(store), RequestOptionsHolder.copy(options),null, copy);
+                deferredPoolFactory, TransientStore.copy(store), RequestOptionsHolder.copy(options),null, copy);
     }
 
     private UriBuilder cloneUriBuilder() {

@@ -32,20 +32,20 @@ public abstract class RequestDispatcher implements RunScheduler {
     public interface Factory {
         RequestDispatcher newRequestDispatcher(RequestProcessor requestProcessor,
                                                ResponseProcessor responseProcessor,
-                                               Deferred.Factory deferredFactory);
+                                               DeferredPool.Factory deferredFactory);
     }
 
     private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());
 
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
-    private final Deferred.Factory deferredFactory;
+    private final DeferredPool.Factory deferredPoolFactory;
 
     protected RequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                             Deferred.Factory deferredFactory) {
+                                DeferredPool.Factory deferredPoolFactory) {
         this.requestProcessor = requestProcessor;
         this.responseProcessor = responseProcessor;
-        this.deferredFactory = deferredFactory;
+        this.deferredPoolFactory = deferredPoolFactory;
     }
 
     /**
@@ -97,15 +97,15 @@ public abstract class RequestDispatcher implements RunScheduler {
      * @return                      The request for the dispatched request
      */
     public <T> PollingRequest<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
-        Deferred<T> deferred = deferredFactory.newDeferred(request);
+        DeferredPool<T> deferredPool = deferredPoolFactory.create(request);
 
-        PollingRequest<T> deferredRequest = deferred.getRequest();
+        PollingRequest<T> deferredRequest = deferredPool.getRequest();
 
         if (isLongPolling(request)) {
-            deferredRequest.onLoad(getLongPollingCallback(request, responsePayloadType, deferred));
+            deferredRequest.onLoad(getLongPollingCallback(request, responsePayloadType, deferredPool));
         }
 
-        scheduleDispatch(request, responsePayloadType, deferred, false, false, false);
+        scheduleDispatch(request, responsePayloadType, deferredPool, false, false, false);
 
         logger.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
                 request.getDelay() + "ms.");
@@ -130,10 +130,12 @@ public abstract class RequestDispatcher implements RunScheduler {
 
     private <T> void scheduleDispatch(final MutableSerializedRequest request,
                                       final PayloadType responsePayloadType,
-                                      final Deferred<T> deferred,
+                                      final DeferredPool<T> deferredPool,
                                       final boolean skipProcessing,
                                       final boolean skipAuth,
                                       final boolean skipPolling) {
+        final Deferred<T> deferred = deferredPool.newDeferred();
+
         // TODO: create pollingOptions outside request?
         request.incrementPollingCounter();
 
@@ -143,6 +145,7 @@ public abstract class RequestDispatcher implements RunScheduler {
 
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request, responsePayloadType,
                 this, deferred);
+
         scheduleRun(new Runnable() {
             @Override
             public void run() {
@@ -160,9 +163,10 @@ public abstract class RequestDispatcher implements RunScheduler {
 
                     // Poll the request
                     if (nextRequest != null) {
-                        schedulePollingRequest(nextRequest, responsePayloadType, deferred);
+                        schedulePollingRequest(nextRequest, responsePayloadType, deferredPool);
                     }
                 } catch (Exception e) {
+                    // TODO: check if this try-catch block is really necessary
                     deferred.notifyError(new RequestAbortException(requestInAuthProcess,
                             "An error occurred before sending the request. See previous exception.", e));
                 }
@@ -187,13 +191,13 @@ public abstract class RequestDispatcher implements RunScheduler {
 
     private <T> ResponseCallback getLongPollingCallback(final MutableSerializedRequest request,
                                                         final PayloadType responsePayloadType,
-                                                        final Deferred<T> deferred) {
+                                                        final DeferredPool<T> deferredPool) {
         final MutableSerializedRequest originalRequest = request.copy();
         return new ResponseCallback() {
             @Override
             public void execute(Response response) {
                 if (isLongPolling(originalRequest)) {
-                    schedulePollingRequest(originalRequest.copy(), responsePayloadType, deferred);
+                    schedulePollingRequest(originalRequest.copy(), responsePayloadType, deferredPool);
                 }
             }
         };
@@ -201,12 +205,12 @@ public abstract class RequestDispatcher implements RunScheduler {
 
     private <T> void schedulePollingRequest(final MutableSerializedRequest nextRequest,
                                             final PayloadType responsePayloadType,
-                                            final Deferred<T> deferred) {
+                                            final DeferredPool<T> deferredPool) {
         scheduleRun(new Runnable() {
             @Override
             public void run() {
                 if (nextRequest.isPolling()) {
-                    scheduleDispatch(nextRequest, responsePayloadType, deferred,false, false, false);
+                    scheduleDispatch(nextRequest, responsePayloadType, deferredPool, false, false, false);
                 }
             }
         }, nextRequest.getPollingInterval());

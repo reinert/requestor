@@ -62,17 +62,17 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     private final ResponseProcessor responseProcessor;
     private final SerializationEngine serializationEngine;
     private final RequestDispatcher.Factory requestDispatcherFactory;
-    private final Deferred.Factory deferredFactory;
+    private final DeferredPool.Factory deferredPoolFactory;
 
-    public Session(Deferred.Factory deferredFactory, RequestDispatcher.Factory requestDispatcherFactory) {
+    public Session(DeferredPool.Factory deferredPoolFactory, RequestDispatcher.Factory requestDispatcherFactory) {
         if (requestDispatcherFactory == null) {
             throw new IllegalArgumentException("RequestDispatcher.Factory cannot be null");
         }
         this.requestDispatcherFactory = requestDispatcherFactory;
-        if (deferredFactory == null) {
+        if (deferredPoolFactory == null) {
             throw new IllegalArgumentException("Deferred.Factory cannot be null");
         }
-        this.deferredFactory = deferredFactory;
+        this.deferredPoolFactory = deferredPoolFactory;
 
         // init processors
         serializationEngine = new SerializationEngine(serializerManager, providerManager);
@@ -598,7 +598,8 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, new TransientStore(store),
-                requestDispatcherFactory.newRequestDispatcher(requestProcessor, responseProcessor, deferredFactory));
+                requestDispatcherFactory.newRequestDispatcher(requestProcessor, responseProcessor,
+                        deferredPoolFactory));
 
         options.apply(request);
 
@@ -607,11 +608,11 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
     private WebTarget createWebTarget(Uri uri) {
         return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, store, options, uri);
+                deferredPoolFactory, store, options, uri);
     }
 
     private WebTarget createWebTarget(UriBuilder uriBuilder) {
         return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredFactory, store, options, uriBuilder);
+                deferredPoolFactory, store, options, uriBuilder);
     }
 }

@@ -15,15 +15,17 @@
  */
 package io.reinert.requestor.core.deferred;
 
-import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.SerializedRequest;
 
 /**
- * Implementation of DeferredFactoryImpl returning a DeferredRequest.
+ * Implementation of {@link DeferredPool.Factory} returning a {@link DeferredPollingRequest}.
+ *
+ * @author Danilo Reinert
  */
-public class DeferredFactoryImpl implements Deferred.Factory {
+public class DeferredPoolFactoryImpl implements DeferredPool.Factory {
 
-    public <T> Deferred<T> newDeferred(SerializedRequest serializedRequest) {
-        return new DeferredRequest<T>(serializedRequest);
+    public <T> DeferredPool<T> create(SerializedRequest serializedRequest) {
+        return new DeferredPollingRequest<T>(serializedRequest);
     }
 }

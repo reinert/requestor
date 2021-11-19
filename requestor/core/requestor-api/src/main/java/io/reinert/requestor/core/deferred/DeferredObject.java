@@ -76,4 +76,8 @@ class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
         triggerDone(resolve);
         return this;
     }
+
+    public DeferredObject<D, F, P> replicate() {
+        return new DeferredObject<D, F, P>(doneCallbacks, failCallbacks, progressCallbacks, upProgressCallbacks);
+    }
 }

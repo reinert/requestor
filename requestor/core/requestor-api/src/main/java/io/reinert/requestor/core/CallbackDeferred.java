@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import io.reinert.requestor.core.callback.ResponseCallback;
  *
  * @author Danilo Reinert
  */
-class CallbackDeferred implements Deferred<Response> {
+class CallbackDeferred implements Deferred<Response>, DeferredPool<Response> {
 
     private final DualCallback callback;
     private ResponseCallback resolveCallback;
@@ -66,6 +66,11 @@ class CallbackDeferred implements Deferred<Response> {
 
     @Override
     public void setHttpConnection(HttpConnection connection) {
+    }
+
+    @Override
+    public Deferred<Response> newDeferred() {
+        return this;
     }
 
     @Override

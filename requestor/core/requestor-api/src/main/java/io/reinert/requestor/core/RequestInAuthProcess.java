@@ -55,8 +55,8 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
 
     @Override
     public void abort(MockResponse response) {
-        final RawResponse rawResponse = new RawResponse(request, response.getStatus(), response.getHeaders(),
-                responsePayloadType, response.getSerializedPayload(), deferred);
+        final RawResponse rawResponse = new RawResponse(deferred, response.getStatus(), response.getHeaders(),
+                responsePayloadType, response.getSerializedPayload());
 
         dispatcher.evalResponse(rawResponse);
     }

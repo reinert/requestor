@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,30 +18,32 @@ package io.reinert.requestor.examples.showcase;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
-import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.SerializedRequest;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
-import io.reinert.requestor.core.deferred.DeferredRequest;
+import io.reinert.requestor.core.deferred.DeferredPollingRequest;
 import io.reinert.requestor.examples.showcase.ui.loading.event.HideLoadingEvent;
 import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
 
 /**
  * Factory that creates a deferred with a preset fail callback.
+ *
+ * @author Danilo Reinert
  */
-class ShowcaseDeferredFactory implements Deferred.Factory {
+class ShowcaseDeferredFactory implements DeferredPool.Factory {
 
     @Override
-    public <T> Deferred<T> newDeferred(SerializedRequest serializedRequest) {
-        final DeferredRequest<T> deferred = new DeferredRequest<T>(serializedRequest);
+    public <T> DeferredPool<T> create(SerializedRequest serializedRequest) {
+        final DeferredPollingRequest<T> deferredPool = new DeferredPollingRequest<T>(serializedRequest);
 
         // Show loading widget
-        Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferred);
+        Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferredPool);
 
-        deferred.onFail(new ResponseCallback() {
+        deferredPool.onFail(new ResponseCallback() {
             @Override
             public void execute(Response response) {
                 if (Status.UNAUTHORIZED.is(response.getStatusCode())) {
@@ -57,17 +59,17 @@ class ShowcaseDeferredFactory implements Deferred.Factory {
         }).onLoad(new ResponseCallback() {
             public void execute(Response response) {
                 // Hide loading widget
-                Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);
+                Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferredPool);
             }
         }).onError(new ExceptionCallback() {
             public void execute(RequestException exception) {
                 // Hide loading widget
-                Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferred);
+                Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferredPool);
 
                 GWT.log("The following error has occurred while requesting.", exception);
             }
         });
 
-        return deferred;
+        return deferredPool;
     }
 }

@@ -23,6 +23,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
 import io.reinert.requestor.core.Deferred;
+import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.HttpMethod;
@@ -53,8 +54,8 @@ import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 public class XhrRequestDispatcher extends RequestDispatcher {
 
     public XhrRequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                                Deferred.Factory deferredFactory) {
-        super(requestProcessor, responseProcessor, deferredFactory);
+                                DeferredPool.Factory deferredPoolFactory) {
+        super(requestProcessor, responseProcessor, deferredPoolFactory);
     }
 
     @Override
@@ -211,12 +212,11 @@ public class XhrRequestDispatcher extends RequestDispatcher {
 //                ResponseType.of(responseType)
 
                 final RawResponse response = new RawResponse(
-                        requestOptions,
+                        deferred,
                         Status.of(gwtResponse.getStatusCode()),
                         toHeaders(gwtResponse.getHeaders()),
                         payloadType,
-                        serializedPayload,
-                        deferred);
+                        serializedPayload);
 
                 evalResponse(response);
             }
