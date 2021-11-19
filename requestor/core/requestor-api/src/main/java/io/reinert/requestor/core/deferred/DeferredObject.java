@@ -33,26 +33,46 @@ class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
 
     //    @Override
     public DeferredObject<D, F, P> notifyDownload(final P progress) {
+        if (!isPending()) {
+            throw new IllegalStateException("Deferred object already finished, cannot notify progress");
+        }
+
         triggerProgress(progress);
         return this;
     }
 
     //    @Override
     public DeferredObject<D, F, P> notifyUpload(final P progress) {
+        if (!isPending()) {
+            throw new IllegalStateException("Deferred object already finished, cannot notify progress");
+        }
+
         triggerUpProgress(progress);
         return this;
     }
 
-//    @Override
+    //    @Override
     public DeferredObject<D, F, P> reject(final F reject) {
+        if (!isPending()) {
+            throw new IllegalStateException("Deferred object already finished, cannot reject again");
+        }
+
+        state = State.REJECTED;
         rejectResult = reject;
+
         triggerFail(reject);
         return this;
     }
 
-//    @Override
+    //    @Override
     public DeferredObject<D, F, P> resolve(final D resolve) {
+        if (!isPending()) {
+            throw new IllegalStateException("Deferred object already finished, cannot resolve again");
+        }
+
+        state = State.RESOLVED;
         resolveResult = resolve;
+
         triggerDone(resolve);
         return this;
     }
