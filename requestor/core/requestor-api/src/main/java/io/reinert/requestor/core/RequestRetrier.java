@@ -39,6 +39,10 @@ public class RequestRetrier {
         for (RequestEvent e : retryOptions.getEvents()) eventsNames.add(e.getEventName());
     }
 
+    public int getRetryCount() {
+        return delayIndex;
+    }
+
     public boolean maybeRetry(Response response) {
         return maybeRetry(getEventsFromResponse(response));
     }

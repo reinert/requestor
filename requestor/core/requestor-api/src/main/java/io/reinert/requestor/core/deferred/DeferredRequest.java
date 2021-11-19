@@ -87,6 +87,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         return connection;
     }
 
+    public int getRetryCount() {
+        if (retrier == null) return 0;
+        return retrier.getRetryCount();
+    }
+
     public DeferredRequest<T> onAbort(final ExceptionCallback callback) {
         noAbortCallbackRegistered = false;
         deferred.fail(new FailCallback<RequestException>() {

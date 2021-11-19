@@ -186,6 +186,11 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
+    public int getRetryCount() {
+        return getLastDeferred().getRetryCount();
+    }
+
+    @Override
     public PollingRequest<T> onAbort(final ExceptionCallback callback) {
         getLastDeferred().onAbort(callback);
         return this;
@@ -293,21 +298,18 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <E extends T> PollingRequest<T> onSuccess(final PayloadCallback<E> callback) {
         getLastDeferred().onSuccess(callback);
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <E extends T> PollingRequest<T> onSuccess(final PayloadResponseCallback<E> callback) {
         getLastDeferred().onSuccess(callback);
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <E extends T> PollingRequest<T> onSuccess(final PayloadResponseRequestCallback<E> callback) {
         getLastDeferred().onSuccess(callback);

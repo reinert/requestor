@@ -38,6 +38,8 @@ public interface Request<T> extends SerializedRequest {
 
     HttpConnection getHttpConnection();
 
+    int getRetryCount();
+
     Request<T> onAbort(ExceptionCallback callback);
 
     Request<T> onAbort(ExceptionRequestCallback<T> callback);
