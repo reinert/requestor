@@ -81,12 +81,12 @@ abstract class AbstractDeferred<D, F, P> {
     }
 
     public AbstractDeferred<D, F, P> progress(ProgressCallback<P> callback) {
-        getUpProgressCallbacks().add(callback);
+        getProgressCallbacks().add(callback);
         return this;
     }
 
     public AbstractDeferred<D, F, P> upProgress(ProgressCallback<P> callback) {
-        getProgressCallbacks().add(callback);
+        getUpProgressCallbacks().add(callback);
         return this;
     }
 
@@ -160,7 +160,7 @@ abstract class AbstractDeferred<D, F, P> {
                 try {
                     triggerProgress(callback, progress);
                 } catch (Exception e) {
-                    log.log(Level.SEVERE, "An uncaught exception occurred in a up ProgressCallback", e);
+                    log.log(Level.SEVERE, "An uncaught exception occurred in a Upload ProgressCallback", e);
                 }
             }
         }
