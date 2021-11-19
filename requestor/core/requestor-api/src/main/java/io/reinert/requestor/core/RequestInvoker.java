@@ -42,10 +42,19 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
     RequestInvoker auth(Auth auth);
 
     @Override
+    RequestInvoker auth(Auth.Provider authProvider);
+
+    @Override
     RequestInvoker timeout(int timeoutMillis);
 
     @Override
     RequestInvoker delay(int delayMillis);
+
+    @Override
+    RequestInvoker retry(int[] delaysMillis, RequestEvent... events);
+
+    @Override
+    RequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
     @Override
     PollingRequestInvoker poll(PollingStrategy strategy);
@@ -55,8 +64,5 @@ public interface RequestInvoker extends RequestBuilder, Invoker {
 
     @Override
     PollingRequestInvoker poll(PollingStrategy strategy, int intervalMillis, int limit);
-
-    @Override
-    RequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
 }

@@ -73,6 +73,12 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
     }
 
     @Override
+    public AbstractRequestInvoker auth(Auth.Provider authProvider) {
+        super.auth(authProvider);
+        return this;
+    }
+
+    @Override
     public AbstractRequestInvoker payload(Object payload, String... fields) {
         super.payload(payload, fields);
         return this;

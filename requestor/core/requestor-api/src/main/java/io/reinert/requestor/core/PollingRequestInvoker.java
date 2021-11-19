@@ -42,10 +42,19 @@ public interface PollingRequestInvoker extends PollingRequestBuilder, PollingInv
     PollingRequestInvoker auth(Auth auth);
 
     @Override
+    PollingRequestInvoker auth(Auth.Provider authProvider);
+
+    @Override
     PollingRequestInvoker timeout(int timeoutMillis);
 
     @Override
     PollingRequestInvoker delay(int delayMillis);
+
+    @Override
+    PollingRequestInvoker retry(int[] delaysMillis, RequestEvent... events);
+
+    @Override
+    PollingRequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
     @Override
     PollingRequestInvoker poll(PollingStrategy strategy);
@@ -55,8 +64,5 @@ public interface PollingRequestInvoker extends PollingRequestBuilder, PollingInv
 
     @Override
     PollingRequestInvoker poll(PollingStrategy strategy, int intervalMillis, int limit);
-
-    @Override
-    PollingRequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
 }
