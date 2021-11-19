@@ -89,7 +89,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
                 this.filterManager,
                 this.interceptorManager);
 
-        this.requestDispatcher = requestDispatcherFactory.newRequestDispatcher(
+        this.requestDispatcher = requestDispatcherFactory.create(
                 this.requestProcessor,
                 this.responseProcessor,
                 deferredPoolFactory);

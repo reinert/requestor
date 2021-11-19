@@ -33,9 +33,9 @@ public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
     private RequestDispatcher requestDispatcher;
 
     @Override
-    public RequestDispatcher newRequestDispatcher(RequestProcessor requestProcessor,
-                                                  ResponseProcessor responseProcessor,
-                                                  DeferredPool.Factory deferredPoolFactory) {
+    public RequestDispatcher create(RequestProcessor requestProcessor,
+                                    ResponseProcessor responseProcessor,
+                                    DeferredPool.Factory deferredPoolFactory) {
         if (this.requestProcessor == requestProcessor &&
                 this.responseProcessor == responseProcessor &&
                 this.deferredPoolFactory == deferredPoolFactory) {

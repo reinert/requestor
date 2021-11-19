@@ -30,9 +30,9 @@ import io.reinert.requestor.core.payload.type.SinglePayloadType;
 public abstract class RequestDispatcher implements RunScheduler {
 
     public interface Factory {
-        RequestDispatcher newRequestDispatcher(RequestProcessor requestProcessor,
-                                               ResponseProcessor responseProcessor,
-                                               DeferredPool.Factory deferredFactory);
+        RequestDispatcher create(RequestProcessor requestProcessor,
+                                 ResponseProcessor responseProcessor,
+                                 DeferredPool.Factory deferredFactory);
     }
 
     private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());

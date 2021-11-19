@@ -618,8 +618,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, new TransientStore(store),
-                requestDispatcherFactory.newRequestDispatcher(requestProcessor, responseProcessor,
-                        deferredPoolFactory));
+                requestDispatcherFactory.create(requestProcessor, responseProcessor, deferredPoolFactory));
 
         options.apply(request);
 
