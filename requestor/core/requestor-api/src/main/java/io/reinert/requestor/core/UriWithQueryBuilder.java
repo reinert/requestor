@@ -30,16 +30,16 @@ import io.reinert.requestor.core.uri.UriCodec;
  *
  * @author Danilo Reinert
  */
-class UriWithQueryBuilder {
+public class UriWithQueryBuilder {
 
     private Uri uri;
     private Map<String, ArrayList<String>> queryParams;
 
-    public UriWithQueryBuilder(Uri uri) {
+    protected UriWithQueryBuilder(Uri uri) {
         this.uri = uri;
     }
 
-    public Uri getUri() {
+    public Uri asUri() {
         ensureUriUpdated();
         return uri;
     }

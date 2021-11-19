@@ -148,7 +148,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
 
     @Override
     public Uri getUri() {
-        return uri.getUri();
+        return uri.asUri();
     }
 
     @Override
