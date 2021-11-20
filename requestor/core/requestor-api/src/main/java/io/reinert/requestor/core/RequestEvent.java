@@ -22,12 +22,33 @@ package io.reinert.requestor.core;
  */
 public enum RequestEvent implements Event {
 
+    /**
+     * Represents a 2xx response.
+     */
     SUCCESS("success"),
+    /**
+     * Represents a non 2xx response.
+     */
     FAIL("fail"),
+    /**
+     * Represents a response received.
+     */
     LOAD("load"),
+    /**
+     * Represents a request timeout with no response.
+     */
     TIMEOUT("timeout"),
+    /**
+     * Represents a request cancel before receiving a response.
+     */
     CANCEL("cancel"),
+    /**
+     * Represents a request abort before sending during the processing cycle.
+     */
     ABORT("abort"),
+    /**
+     * Represents any request errot, combining 'timeout', 'cancel' and 'abort' events.
+     */
     ERROR("error");
 
     private final String eventName;

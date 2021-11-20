@@ -45,7 +45,7 @@ public enum StatusFamily implements Event {
     /**
      * Other, unrecognized HTTP status codes.
      */
-    OTHER("6");
+    OTHER("other");
 
     private final String eventName;
 

@@ -12,6 +12,7 @@ carefully designed features that enable developers to rule the network communica
 * [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
 * [**Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
 * [**HTTP Polling**](#poll) - make long or short polling with a single command.
+* [**Retry**](#retry) - define a retry policy with a single command.
 * [**Session**](#session) - set default options to all requests.
 * [**Store**](#store) - save and retrieve data both in session and request scope.
 * [**Services**](#services) - break down the API consumption into smaller independent contexts.
@@ -283,20 +284,62 @@ req.header( "Accept-Language", "da, en-gb;q=0.8, en;q=0.7" );
 req.header( new QualityFactorHeader("Accept-Language", "da", 1.0, "en-gb", 0.8, "en", 0.7) );
 ```
 
-### *delay*
-
-Set a time in milliseconds to postpone the request sending.
-
-```java
-req.delay( 5000 ); // Delay the request for 5s
-```
-
 ### *timeout*
 
 Set a period in milliseconds in which the request should be timeout.
 
 ```java
 req.timeout( 10000 ); // Timeout after 10s
+```
+
+### *delay*
+
+Set a time in milliseconds to postpone the request sending.
+The [request processing](#processors-middlewares) will happen only after the delay period. 
+
+```java
+req.delay( 5000 ); // Delay the request for 5s
+```
+
+### *retry*
+
+Set a retry policy for the request with two arguments: (1) an array of `delays` in milliseconds and (2) an array of `events`.
+The **delays** array is a sequence of times that Requestor will wait before retrying the request respectively.
+It also indicates the number of retries that will be performed at most. Furthermore, the **events** array is
+a set of events that will trigger a retry. Occurring a request event that is defined in the retry police,
+the [callbacks](#event-driven-callbacks) bound to those events are not executed and a retry is triggered. These callbacks will be executed only
+after all retries defined in the retry police were made and the retry event persisted to occur.
+
+Regarding the `delays` argument, although we can provide an int array manually, we will often resort to the `DelaySequence`.
+It is a factory that provides helpful methods to create sequences of delays according to different criteria.
+* **DelaySequence.arithmetic**( *\<seconds\>, \<limit\>* ) - creates a millis int array with an arithmetic sequence.
+  * Ex: `DelaySequence.arithmetic(20, 3)` generates `int[]{20000, 20000, 20000}` 
+* **DelaySequence.geometric**( *\<initialSeconds\>, \<ratio\>, \<limit\>* ) - creates a millis int array with a geometric sequence.
+    * Ex: `DelaySequence.geometric(3, 2, 4)` generates `int[]{3000, 6000, 12000, 36000}`
+ * **DelaySequence.fixed**( *\<seconds\>...* ) - creates a sequence with the given seconds array multiplied by 1000.
+    * Ex: `DelaySequence.fixed(5, 20, 60)` generates `int[]{5000, 20000, 60000}`
+
+As for the `events` argument, Requestor has a set of pre-defined events in the `RequestEvent` enum, matching the events
+that we can bind [callbacks](#event-driven-callbacks) to. Additionally, any `StatusFamily` or `Status` is also an event.
+Check some examples of events:
+* `RequestEvent.FAIL` - request receives a response with status ≠ 2xx
+* `RequestEvent.TIMEOUT` - request has timed out with no response
+* `RequestEvent.CANCEL` - request has been cancelled before receiving a response
+* `RequestEvent.ABORT` - request has been aborted before sending either manually or due to a runtime exception in the processing cycle
+* `StatusFamily.CLIENT_ERROR` - request receives a response with status = 4xx
+* `StatusFamily.SERVER_ERROR` - request receives a response with status = 5xx
+* `Status.TOO_MANY_REQUESTS` - request receives a response with status = 429
+* `Status.of(429)` - request receives a response with status = 429
+
+```java
+// Set the request to retry on 'timeout' or '429' responses
+req.retry( DelaySequence.geometric(3, 2, 4), RequestEvent.TIMEOUT, Status.TOO_MANY_REQUESTS )
+
+// Set the request to retry on 'cancel' or '429' and '503' responses
+req.retry( DelaySequence.arithmetic(20, 3), RequestEvent.CANCEL, Status.of(429), Status.of(503) )
+
+// Set the request to retry on 'timeout', '4xx' and '529'
+req.retry( DelaySequence.fixed(5, 20, 60), RequestEvent.TIMEOUT, StatusFamily.CLIENT_ERROR, Status.SERVICE_UNAVAILABLE )
 ```
 
 ### *poll*
@@ -361,8 +404,10 @@ session.req("/api/books/")
 
 It is worth noting that each new dispatched request will pass through all the [request/response 
 processing cycle](#processors-middlewares). Thereby, we will have every polling request always up 
-to date with our filters, 
-serializers, and interceptors.
+to date with our filters, serializers, and interceptors.
+
+Finally, if we set a retry police, each dispatched request will execute the retries individually as well,
+before triggering the retry events.
 
 ## Event-Driven Callbacks
 
@@ -1322,6 +1367,15 @@ This session configuration will be applied to every request's [`delay`](#delay) 
 ```java
 // Every request will have a delay of 3s
 session.setDelay(3000);
+```
+
+#### Retry
+
+This session configuration will be applied to every request's [`retry`](#retry) option.
+
+```java
+// Every request will have a retry policy of 5s, 10s and 30s on 429 responses
+session.setRetry(DelaySequence.fixed(5, 10, 30), Status.TOO_MANY_REQUESTS);
 ```
 
 ### Requesting
