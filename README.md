@@ -1296,10 +1296,10 @@ session.register(MyResponseFilter::new); // Same as `session.register(() -> new 
 
 Requestor is a session-based HTTP client. It means that a **Session** ties every configuration and action a user can take related to communication. Thus, the `Session` object is the baseline of every communication process in the application. What is better, Requestor does not restrict its users to having only one global Session. We can have ***as many sessions as it makes sense*** according to our business requirements. For example, if we are building a modern client app, we may communicate with different microservices. It may be reasonable to have one Session for each microservice with different configurations. This flexibility promotes a much more **reliable and maintainable code** since we can isolate different business logics in their own context, avoiding runtime conflicts and undesirable multi-path coding.
 
-To instantiate a new `Session`, we must call one of its implementations. Requestor provides two: `CleanSession` and `GwtSession`, the latter having a predefined configuration for JSON-based communication. Additionally, we can implement our Session subclass, including the configurations that fit our requirements.
+To instantiate a new `Session`, we can call `new Session()`, but Requestor implementations will often provide specific sessions. For instance, **requestor-gwt** has the `GwtSession` with a predefined configuration for JSON-based communication. Additionally, we can implement our Session subclass, including the configurations that fit our requirements.
 
 ```java
-Session session = new CleanSession();
+Session session = new Session();
 ```
 
 Besides allowing registration of many [Processors](#processors-middlewares), the Session admits setting many default request options. Along with that, it is possible to reset the Session state.
@@ -1409,18 +1409,18 @@ Book book = new Book("Clean Code", "Robert C. Martin");
 Request<Book> request = session.post("/api/books", book, Book.class);
 ```
 
-### Deferred Factory
+### DeferredPool Factory
 
-Another convenient feature is the possibility of instantiating a Session with a customized `Deferred.Factory`. This factory provides `Deferred` instances to the request dispatcher, returning a `Request` to the Session's user. Thus, we can immediately add some global callbacks to keep our code DRY when generating a Deferred instance.
+Another convenient feature is the possibility of instantiating a Session with a customized `DeferredPool.Factory`. This factory provides `Deferred` instances to the request dispatcher, returning a `Request` to the Session's user. Thus, we can immediately add some global callbacks to keep our code DRY when generating a Deferred instance.
 
 The example below demonstrates a customized Deferred Factory that fires a `ShowLoadingEvent` right before the request is sent and fires a `HideLoadingEvent` once the request gets [loaded](#event-driven-callbacks) or [aborted](#event-driven-callbacks).
 
 ```java
-class AppDeferredFactory implements Deferred.Factory {
+class AppDeferredPoolFactory implements DeferredPool.Factory {
 
     @Override
-    public <T> Deferred<T> newDeferred(SerializedRequest request) {
-        final DeferredRequest<T> deferred = new DeferredRequest<T>(request);
+    public <T> DeferredPool<T> create(SerializedRequest request) {
+        final DeferredPollingRequest<T> deferred = new DeferredPollingRequest<T>(request);
 
         // Show loading widget before sending the request
         APP_FACTORY.getEventBus().fireEvent(new ShowLoadingEvent());
@@ -1434,10 +1434,10 @@ class AppDeferredFactory implements Deferred.Factory {
 }
 ```
 
-Therefore, we can instantiate our Session with this customized Deferred Factory, as demonstrated below:
+Therefore, we can instantiate our Session with this customized Deferred Pool Factory, as demonstrated below:
 
 ```java
-Session session = new CleanSession(new AppDeferredFactory());
+Session session = new Session(new AppDeferredPoolFactory());
 ```
 
 
@@ -1503,7 +1503,7 @@ To delete a local record, we call `store.delete(<key>)`. We cannot delete record
 ```java
 Store store = request.getStore();
 
-// Save an object in the deriving store
+// Delete the record associated with the given key
 store.delete("key");
 ```
 
@@ -1542,7 +1542,7 @@ To delete a local record, we call `store.delete(<key>)`. We cannot delete record
 ```java
 Store store = service.getStore();
 
-// Save an object in the deriving store
+// Delete the record associated with the given key
 store.delete("key");
 ```
 
@@ -1688,8 +1688,8 @@ Use the above example as inspiration as also the [RestService](https://github.co
 
 ## Links (HATEOAS)
 
-Requestor's `Response` afford helpful methods to easily grab links from the HTTP Link Header by 
-their relations (`rel` attribute).
+Requestor's `Response` interface afford helpful methods to easily grab links from the HTTP Link Header 
+by their relations (`rel` attribute).
 
 According to the [RFC 5988](https://tools.ietf.org/html/rfc5988), a link element has the following 
 attributes: *anchor*, *media*, *hrefLang*, *rel*, *rev*, *title* and *type*. We can access all 
@@ -1874,8 +1874,8 @@ session.req("/api/books")
 
 
 ## Showcase App
-* [Showcase (Latest Release)](http://reinert.github.io/requestor/latest/examples/showcase)
-* [Showcase (0.3.0-SNAPSHOT)](http://reinert.github.io/requestor/0.3.0-SNAPSHOT/examples/showcase)
+* [Showcase (Latest Release)](https://reinert.github.io/requestor/latest/examples/showcase)
+* [Showcase (0.3.0-SNAPSHOT)](https://reinert.github.io/requestor/0.3.0-SNAPSHOT/examples/showcase)
 
 ## Documentation
 * [Javadoc](http://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
