@@ -312,12 +312,12 @@ after all retries defined in the retry police were made and the retry event pers
 
 Regarding the `delays` argument, although we can provide an int array manually, we will often resort to the `DelaySequence`.
 It is a factory that provides helpful methods to create sequences of delays according to different criteria.
-* **DelaySequence.arithmetic**( *\<seconds\>, \<limit\>* ) - creates a millis int array with an arithmetic sequence.
-  * Ex: `DelaySequence.arithmetic(20, 3)` generates `int[]{20000, 20000, 20000}` 
+* **DelaySequence.arithmetic**( *\<initialSeconds\>, \<commonDiff\>, \<limit\>* ) - creates a millis int array with an arithmetic sequence.
+  * Ex: `DelaySequence.arithmetic(5, 20, 3)` generates `int[]{5000, 25000, 45000}` 
 * **DelaySequence.geometric**( *\<initialSeconds\>, \<ratio\>, \<limit\>* ) - creates a millis int array with a geometric sequence.
     * Ex: `DelaySequence.geometric(3, 2, 4)` generates `int[]{3000, 6000, 12000, 36000}`
  * **DelaySequence.fixed**( *\<seconds\>...* ) - creates a sequence with the given seconds array multiplied by 1000.
-    * Ex: `DelaySequence.fixed(5, 20, 60)` generates `int[]{5000, 20000, 60000}`
+    * Ex: `DelaySequence.fixed(5, 15, 45)` generates `int[]{5000, 15000, 45000}`
 
 As for the `events` argument, Requestor has a set of pre-defined events in the `RequestEvent` enum, matching the events
 that we can bind [callbacks](#event-driven-callbacks) to. Additionally, any `StatusFamily` or `Status` is also an event.
@@ -336,10 +336,10 @@ Check some examples of events:
 req.retry( DelaySequence.geometric(3, 2, 4), RequestEvent.TIMEOUT, Status.TOO_MANY_REQUESTS )
 
 // Set the request to retry on 'cancel' or '429' and '503' responses
-req.retry( DelaySequence.arithmetic(20, 3), RequestEvent.CANCEL, Status.of(429), Status.of(503) )
+req.retry( DelaySequence.arithmetic(5, 20, 3), RequestEvent.CANCEL, Status.of(429), Status.of(503) )
 
 // Set the request to retry on 'timeout', '4xx' and '529'
-req.retry( DelaySequence.fixed(5, 20, 60), RequestEvent.TIMEOUT, StatusFamily.CLIENT_ERROR, Status.SERVICE_UNAVAILABLE )
+req.retry( DelaySequence.fixed(5, 15, 45), RequestEvent.TIMEOUT, StatusFamily.CLIENT_ERROR, Status.SERVICE_UNAVAILABLE )
 ```
 
 ### *poll*

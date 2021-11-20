@@ -22,19 +22,57 @@ package io.reinert.requestor.core;
  */
 public class DelaySequence {
 
+    /**
+     * Converts the given seconds array to a milliseconds array.
+     *
+     * @param seconds An array of delays in seconds
+     *
+     * @return The given array converted to milliseconds
+     */
     public static int[] fixed(int... seconds) {
         final int[] sequence = new int[seconds.length];
         for (int i = 0; i < seconds.length; i++) sequence[i] =  seconds[i] * 1000;
         return sequence;
     }
 
-    public static int[] arithmetic(int seconds, int limit) {
-        final int delay = seconds * 1000;
+    /**
+     * Generates a milliseconds arithmetic sequence according to the specified configuration.
+     * <p></p>
+     * In an Arithmetic Sequence the difference between one term and the next is a constant.
+     * <p></p>
+     * Given <code>a = initialSeconds</code> and <code>d = commonDifference</code> the result array will be
+     * {a * 1000, a+d * 1000, a+2d * 1000, ...} until it reaches the <code>limit</code> number of elements.
+     *
+     * @param initialSeconds    The initial value of the arithmetic sequence
+     * @param commonDifference  The common difference between each value in the sequence
+     * @param limit             The number of elements in the sequence
+     *
+     * @return  An array of milliseconds according to the specified arithmetic sequence
+     */
+    public static int[] arithmetic(int initialSeconds, int commonDifference, int limit) {
+        int delay = initialSeconds;
         final int[] sequence = new int[limit];
-        for (int i = 0; i < limit; i++) sequence[i] = delay;
+        for (int i = 0; i < limit; i++) {
+            sequence[i] = delay * 1000;
+            delay += commonDifference;
+        }
         return sequence;
     }
 
+    /**
+     * Generates a milliseconds geometric sequence according to the specified configuration.
+     * <p></p>
+     * In a Geometric Sequence each term is found by multiplying the previous term by a constant.
+     * <p></p>
+     * Given <code>a = initialSeconds</code> and <code>r = ratio</code> the result array will be
+     * {a * 1000, ar * 1000, ar² * 1000, ...} until it reaches the <code>limit</code> number of elements.
+     *
+     * @param initialSeconds    The initial value of the geometric sequence
+     * @param ratio  The common difference between each value in the sequence
+     * @param limit             The number of elements in the sequence
+     *
+     * @return  An array of milliseconds according to the specified geometric sequence
+     */
     public static int[] geometric(int initialSeconds, int ratio, int limit) {
         int delay = initialSeconds;
         final int[] sequence = new int[limit];
