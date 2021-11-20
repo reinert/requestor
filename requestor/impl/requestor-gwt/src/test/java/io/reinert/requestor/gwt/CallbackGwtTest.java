@@ -26,7 +26,6 @@ import io.reinert.requestor.core.RequestFilter;
 import io.reinert.requestor.core.RequestInProcess;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.Response;
-import io.reinert.requestor.core.RestService;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
@@ -36,7 +35,7 @@ import io.reinert.requestor.core.uri.Uri;
 import io.reinert.requestor.core.uri.UriBuilder;
 
 /**
- * Integration tests of {@link RestService}.
+ * Tests for basic request events.
  */
 public class CallbackGwtTest extends GWTTestCase {
 
@@ -257,7 +256,6 @@ public class CallbackGwtTest extends GWTTestCase {
                         fail();
                     }
                 }).onCancel(new ExceptionCallback() {
-                    @Override
                     public void execute(RequestException exception) {
                         fail();
                     }
