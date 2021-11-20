@@ -39,8 +39,7 @@
   </modules>
 
   <properties>
-    <source.jdk>1.6</source.jdk>
-    <target.jdk>1.8</target.jdk>
+    <java.version>5</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -273,8 +272,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
         <configuration>
-          <source>${source.jdk}</source>
-          <target>${target.jdk}</target>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
