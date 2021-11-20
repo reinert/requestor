@@ -21,12 +21,12 @@ import io.reinert.requestor.examples.showcase.place.AuthPlace;
 import io.reinert.requestor.examples.showcase.place.BinaryDataPlace;
 import io.reinert.requestor.examples.showcase.place.BuildingRequestsPlace;
 import io.reinert.requestor.examples.showcase.place.FiltersPlace;
+import io.reinert.requestor.examples.showcase.place.FluentRequestApiPlace;
 import io.reinert.requestor.examples.showcase.place.FormPlace;
 import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
 import io.reinert.requestor.examples.showcase.place.HomePlace;
 import io.reinert.requestor.examples.showcase.place.InterceptorsPlace;
-import io.reinert.requestor.examples.showcase.place.RequestingPlace;
-import io.reinert.requestor.examples.showcase.place.SendingRequestsPlace;
+import io.reinert.requestor.examples.showcase.place.RequestInvokingPlace;
 import io.reinert.requestor.examples.showcase.place.SerializationPlace;
 
 /**
@@ -49,10 +49,10 @@ public enum MenuOption implements HasToken, HasPlace {
     }),
 
     BASIC_USAGE("Basic Usage"),
-    REQUESTING("Requesting", Tokens.REQUESTING_TOKEN, new HasPlace() {
+    FLUENT_REQUEST_API("Fluent Requesting API", Tokens.FLUENT_REQUEST_API_TOKEN, new HasPlace() {
         @Override
         public Place getPlace(String section) {
-            return new RequestingPlace(section);
+            return new FluentRequestApiPlace(section);
         }
     }, BASIC_USAGE),
     BUILDING_REQUESTS("Building Requests", Tokens.BUILDING_REQUESTS_TOKEN, new HasPlace() {
@@ -61,10 +61,10 @@ public enum MenuOption implements HasToken, HasPlace {
             return new BuildingRequestsPlace(section);
         }
     }, BASIC_USAGE),
-    SENDING_REQUESTS("Sending Requests", Tokens.SENDING_REQUESTS_TOKEN, new HasPlace() {
+    REQUEST_INVOKING("Request Invoking", Tokens.REQUEST_INVOKING_TOKEN, new HasPlace() {
         @Override
         public Place getPlace(String section) {
-            return new SendingRequestsPlace(section);
+            return new RequestInvokingPlace(section);
         }
     }, BASIC_USAGE),
 
@@ -112,9 +112,9 @@ public enum MenuOption implements HasToken, HasPlace {
     public static class Tokens {
         public static final String HOME_TOKEN = "home";
         public static final String GETTING_STARTED_TOKEN = "getting-started";
-        public static final String REQUESTING_TOKEN = "requesting";
+        public static final String FLUENT_REQUEST_API_TOKEN = "fluent-requesting-api";
         public static final String BUILDING_REQUESTS_TOKEN = "building-requests";
-        public static final String SENDING_REQUESTS_TOKEN = "sending-requests";
+        public static final String REQUEST_INVOKING_TOKEN = "request-invoking";
         public static final String SERIALIZATION_TOKEN = "serialization";
         public static final String FORM_TOKEN = "form-data";
         public static final String BINARY_DATA_TOKEN = "binary-data";
@@ -126,12 +126,12 @@ public enum MenuOption implements HasToken, HasPlace {
     public static MenuOption of(String token) {
         if (token.equals(Tokens.GETTING_STARTED_TOKEN)) {
             return GETTING_STARTED;
-        } else if (token.equals(Tokens.REQUESTING_TOKEN)) {
-            return REQUESTING;
+        } else if (token.equals(Tokens.FLUENT_REQUEST_API_TOKEN)) {
+            return FLUENT_REQUEST_API;
         } else if (token.equals(Tokens.BUILDING_REQUESTS_TOKEN)) {
             return BUILDING_REQUESTS;
-        } else if (token.equals(Tokens.SENDING_REQUESTS_TOKEN)) {
-            return SENDING_REQUESTS;
+        } else if (token.equals(Tokens.REQUEST_INVOKING_TOKEN)) {
+            return REQUEST_INVOKING;
         } else if (token.equals(Tokens.SERIALIZATION_TOKEN)) {
             return SERIALIZATION;
         } else if (token.equals(Tokens.FORM_TOKEN)) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,59 +19,35 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.core.Headers;
-import io.reinert.requestor.core.Request;
-import io.reinert.requestor.core.RequestException;
-import io.reinert.requestor.core.RequestInvoker;
-import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
-import io.reinert.requestor.core.auth.BasicAuth;
-import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
-import io.reinert.requestor.core.callback.ResponseCallback;
-import io.reinert.requestor.examples.showcase.ui.Requesting;
+import io.reinert.requestor.examples.showcase.ui.RequestInvoking;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
 
-public class RequestingActivity extends ShowcaseActivity implements Requesting.Handler {
+public class RequestInvokingActivity extends ShowcaseActivity implements RequestInvoking.Handler {
 
-    private final Requesting view;
+    private final RequestInvoking view;
     private final Session session;
 
-    public RequestingActivity(String section, Requesting requesting, Session session) {
+    public RequestInvokingActivity(String section, RequestInvoking view, Session session) {
         super(section);
-        this.view = requesting;
+        this.view = view;
         this.session = session;
     }
 
     @Override
-    public void onRequestButtonClick() {
-        RequestInvoker reqInvoker = session.req("https://httpbin.org/post")
-                .timeout(10000)
-                .delay(50)
-                .contentType("application/json")
-                .accept("text/plain")
-                .header("ETag", "33a64df5")
-                .auth(new BasicAuth("username", "password"))
-                .payload("Hello World!");
+    public void start(AcceptsOneWidget panel, EventBus eventBus) {
+        view.setHandler(this);
+        Page.setTitle("Request Invoking");
+        Page.setDescription("Meet the different ways of invoking a request.");
+        panel.setWidget(view);
+        scrollToSection();
+    }
 
-        Request<String> request = reqInvoker.post(String.class);
-
-        request.onSuccess(new PayloadCallback<String>() {
-            @Override
-            public void execute(String body) {
-                view.setResponseText(body);
-            }
-        }).onFail(new ResponseCallback() {
-            @Override
-            public void execute(Response res) {
-                view.setResponseText("Response was unsuccessful due to: " + res.getStatus());
-            }
-        }).onAbort(new ExceptionCallback() {
-            @Override
-            public void execute(RequestException e) {
-                view.setResponseText("Request was interrupted due to: " + e.getMessage());
-            }
-        });
+    @Override
+    public void onStop() {
+        view.setHandler(null);
     }
 
     @Override
@@ -132,19 +108,5 @@ public class RequestingActivity extends ShowcaseActivity implements Requesting.H
                 view.setOptionsText(Util.formatHeaders(result));
             }
         });
-    }
-
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        view.setHandler(this);
-        Page.setTitle("Requesting");
-        Page.setDescription("A quick intro on how to request with Session.");
-        panel.setWidget(view);
-        scrollToSection();
-    }
-
-    @Override
-    public void onStop() {
-        view.setHandler(null);
     }
 }

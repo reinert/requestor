@@ -19,17 +19,17 @@ import com.google.gwt.activity.shared.Activity;
 
 import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
-import io.reinert.requestor.examples.showcase.activity.SendingRequestsActivity;
+import io.reinert.requestor.examples.showcase.activity.RequestInvokingActivity;
 
-public class SendingRequestsPlace extends ShowcasePlace {
+public class RequestInvokingPlace extends ShowcasePlace {
 
-    public SendingRequestsPlace(String section) {
-        super(MenuOption.Tokens.SENDING_REQUESTS_TOKEN, section);
+    public RequestInvokingPlace(String section) {
+        super(MenuOption.Tokens.REQUEST_INVOKING_TOKEN, section);
     }
 
     @Override
     public Activity getActivity() {
-        return new SendingRequestsActivity(getSection(), Showcase.CLIENT_FACTORY.getSendingRequests(),
+        return new RequestInvokingActivity(getSection(), Showcase.CLIENT_FACTORY.getRequestInvoking(),
                 Showcase.CLIENT_FACTORY.getSession());
     }
 }

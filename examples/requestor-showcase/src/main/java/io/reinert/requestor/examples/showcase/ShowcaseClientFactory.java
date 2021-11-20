@@ -24,12 +24,12 @@ import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.ui.Filters;
+import io.reinert.requestor.examples.showcase.ui.FluentRequestApi;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
-import io.reinert.requestor.examples.showcase.ui.Requesting;
-import io.reinert.requestor.examples.showcase.ui.SendingRequests;
+import io.reinert.requestor.examples.showcase.ui.RequestInvoking;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.gwt.GwtSession;
 
@@ -40,9 +40,9 @@ public class ShowcaseClientFactory {
     private Session session;
     private Home home;
     private GettingStarted gettingStarted;
-    private Requesting requesting;
+    private FluentRequestApi requesting;
     private BuildingRequests buildingRequests;
-    private SendingRequests sendingRequests;
+    private RequestInvoking sendingRequests;
     private Form form;
     private BinaryData binaryData;
     private Auth auth;
@@ -78,9 +78,9 @@ public class ShowcaseClientFactory {
         return gettingStarted;
     }
 
-    public Requesting getRequesting() {
+    public FluentRequestApi getFluentRequestApi() {
         if (requesting == null)
-            requesting = new Requesting();
+            requesting = new FluentRequestApi();
         return requesting;
     }
 
@@ -90,9 +90,9 @@ public class ShowcaseClientFactory {
         return buildingRequests;
     }
 
-    public SendingRequests getSendingRequests() {
+    public RequestInvoking getRequestInvoking() {
         if (sendingRequests == null)
-            sendingRequests = new SendingRequests();
+            sendingRequests = new RequestInvoking();
         return sendingRequests;
     }
 

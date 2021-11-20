@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2015 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,9 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 
 import io.reinert.requestor.examples.showcase.util.HighlightJs;
 
-public class Requesting extends Composite {
+public class RequestInvoking extends Composite {
 
     public interface Handler {
-        void onRequestButtonClick();
         void onPostButtonClick();
         void onPutButtonClick();
         void onDeleteButtonClick();
@@ -39,30 +38,25 @@ public class Requesting extends Composite {
         void onPatchButtonClick();
     }
 
-    interface RequestingUiBinder extends UiBinder<HTMLPanel, Requesting> { }
+    interface SendingRequestsUiBinder extends UiBinder<HTMLPanel, RequestInvoking> { }
 
-    private static RequestingUiBinder uiBinder = GWT.create(RequestingUiBinder.class);
-
-    @UiField Element callReq, buildRequest, invokeRequest, bindCallbacks, allTogether, postSample, putSample,
-            deleteSample, headSample, optionsSample, patchSample;
-    @UiField TextAreaElement responseTextArea, postTextArea, putTextArea, deleteTextArea, headTextArea, optionsTextArea,
-            patchTextArea;
+    private static SendingRequestsUiBinder uiBinder = GWT.create(SendingRequestsUiBinder.class);
 
     private Handler handler;
 
-    public Requesting() {
+    @UiField Element hsmNoArg, hsmOneArg, hsmTwoArgs, postSample, putSample, deleteSample, headSample, optionsSample,
+            patchSample;
+
+    @UiField TextAreaElement postTextArea, putTextArea, deleteTextArea, headTextArea, optionsTextArea, patchTextArea;
+
+    public RequestInvoking() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(callReq, buildRequest, invokeRequest, bindCallbacks, allTogether, postSample,
-                putSample, deleteSample, headSample, optionsSample, patchSample);
+        HighlightJs.highlightBlock(hsmNoArg, hsmOneArg, hsmTwoArgs, postSample, putSample, deleteSample, headSample,
+                optionsSample, patchSample);
     }
 
     public void setHandler(Handler handler) {
         this.handler = handler;
-    }
-
-    @UiHandler("requestButton")
-    public void onGetIpButtonClick(ClickEvent event) {
-        handler.onRequestButtonClick();
     }
 
     @UiHandler("postButton")
@@ -93,10 +87,6 @@ public class Requesting extends Composite {
     @UiHandler("patchButton")
     public void onPatchButtonClick(ClickEvent event) {
         handler.onPatchButtonClick();
-    }
-
-    public void setResponseText(String content) {
-        responseTextArea.setValue(content);
     }
 
     public void setPostText(String content) {
