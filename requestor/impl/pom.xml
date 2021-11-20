@@ -31,5 +31,6 @@
 
   <modules>
     <module>requestor-gwt</module>
+    <module>requestor-net</module>
   </modules>
 </project>
