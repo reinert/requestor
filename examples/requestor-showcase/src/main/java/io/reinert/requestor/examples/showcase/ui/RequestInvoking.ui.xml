@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <!--
-~ Copyright 2015 Danilo Reinert
+~ Copyright 2015-2021 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@
       </p>
 
       <p>
-        Invoke methods can have up to three overloads, in which we specify the expected response result:
+        Invoke methods have up to three overloads, in which we specify the expected response result:
       </p>
 
       <div class="requestor-showcase-innersection">
@@ -98,7 +98,7 @@
         </div>
         <p>
           This method will always return a Request&lt;Collection&lt;T&gt;&gt;, regardless of the requested collection type.
-          That happens because it's not possible to declare "generics of generics" in Java.
+          It happens because it's not possible to declare "generics of generics" in Java.
         </p>
       </div>
 
@@ -111,7 +111,7 @@
           <code>
             requestor.req(&quot;https://httpbin.org/post&quot;).post(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
             <br/>
-            &#32;&#32;&#32;&#32;public void onSuccess(String result) {
+            &#32;&#32;&#32;&#32;public void execute(String result) {
             <br/>
             &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPostText(result);
             <br/>
@@ -130,13 +130,13 @@
     </g:HTMLPanel>
 
     <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>Requestor's fluent API provides methods to perform any of the HTTP methods. Check this PUT request.</p>
+      <p>PUT request.</p>
       <div class="highlight">
         <pre ui:field="putSample" class="java">
           <code>
             requestor.req(&quot;https://httpbin.org/put&quot;).put(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
             <br/>
-            &#32;&#32;&#32;&#32;public void onSuccess(String result) {
+            &#32;&#32;&#32;&#32;public void execute(String result) {
             <br/>
             &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPutText(result);
             <br/>
@@ -161,7 +161,7 @@
           <code>
             requestor.req(&quot;https://httpbin.org/patch&quot;).patch(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
             <br/>
-            &#32;&#32;&#32;&#32;public void onSuccess(String result) {
+            &#32;&#32;&#32;&#32;public void execute(String result) {
             <br/>
             &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(result);
             <br/>
@@ -186,7 +186,7 @@
           <code>
             requestor.req(&quot;https://httpbin.org/delete&quot;).delete(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
             <br/>
-            &#32;&#32;&#32;&#32;public void onSuccess(String result) {
+            &#32;&#32;&#32;&#32;public void execute(String result) {
             <br/>
             &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setDeleteText(result);
             <br/>
@@ -211,7 +211,7 @@
           <code>
             requestor.req(&quot;https://httpbin.org/headers&quot;).head().onSuccess(new PayloadCallback&lt;Headers&gt;() {
             <br/>
-            &#32;&#32;&#32;&#32;public void onSuccess(Headers result) {
+            &#32;&#32;&#32;&#32;public void execute(Headers result) {
             <br/>
             &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setHeadText(Util.formatHeaders(result));
             <br/>
@@ -234,11 +234,11 @@
       <div class="highlight">
         <pre ui:field="optionsSample" class="java">
           <code>
-            requestor.req(&quot;https://httpbin.org/anything&quot;).options(Headers.class).onSuccess(new PayloadCallback&lt;Headers&gt;() {
+            requestor.req(&quot;https://httpbin.org/anything&quot;).options(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
             <br/>
-            &#32;&#32;&#32;&#32;public void onSuccess(Headers result) {
+            &#32;&#32;&#32;&#32;public void execute(String result) {
             <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setOptionsText(Util.formatHeaders(result));
+            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setOptionsText(result);
             <br/>
             &#32;&#32;&#32;&#32;}
             <br/>

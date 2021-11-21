@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <!--
-~ Copyright 2014 Danilo Reinert
+~ Copyright 2014-2021 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@
         <pre ui:field="send" class="java">
           <code>
             JavaScriptObject file = getFile();<br/>
-            requestor.req("http://httpbin.org/post")
+            requestor.req("https://httpbin.org/post")
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new SerializedPayload(file))
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.upProgress(new ProgressCallback&lt;RequestProgress&gt;() {

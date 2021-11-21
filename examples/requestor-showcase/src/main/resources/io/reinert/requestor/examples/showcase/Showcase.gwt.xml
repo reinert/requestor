@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-~ Copyright 2021 Danilo Reinert
+~ Copyright 2014-2021 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@
     <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
 
     <inherits name="io.reinert.requestor.gwt.RequestorGwt"/>
-    <inherits name="io.reinert.requestor.oauth2.RequestorOAuth2"/>
+    <inherits name="io.reinert.requestor.gwt.oauth2.RequestorOAuth2"/>
 
     <source path=""/>
 

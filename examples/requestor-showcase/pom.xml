@@ -49,7 +49,7 @@
     </dependency>
     <dependency>
       <groupId>io.reinert.requestor.ext</groupId>
-      <artifactId>requestor-oauth2</artifactId>
+      <artifactId>requestor-oauth2gwt</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

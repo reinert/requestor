@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public class FluentRequestApiActivity extends ShowcaseActivity implements Fluent
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         view.setHandler(this);
-        Page.setTitle("Fluent Requesting API");
+        Page.setTitle("Requesting Fluent API");
         Page.setDescription("Learn how to request with Requestor.");
         panel.setWidget(view);
         scrollToSection();

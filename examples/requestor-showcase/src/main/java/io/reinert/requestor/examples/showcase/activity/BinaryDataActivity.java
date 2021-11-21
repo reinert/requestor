@@ -46,7 +46,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
     public void onSendButtonClick(JavaScriptObject file) {
         view.setSendProgressStatus(0);
         view.setSendText(null);
-        session.req("http://httpbin.org/post")
+        session.req("https://httpbin.org/post")
                 .payload(SerializedJsPayload.fromBlob(file))
                 .post(String.class)
                 .onSuccess(new PayloadCallback<String>() {

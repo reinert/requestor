@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,8 @@ import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.oauth2.OAuth2ByHeader;
-import io.reinert.requestor.oauth2.OAuth2ByQueryParam;
+import io.reinert.requestor.gwt.oauth2.OAuth2ByHeader;
+import io.reinert.requestor.gwt.oauth2.OAuth2ByQueryParam;
 
 public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
@@ -63,7 +63,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onBasicButtonClick(String user, String password) {
-        session.req("http://httpbin.org/basic-auth/" + user + "/" + password)
+        session.req("https://httpbin.org/basic-auth/" + user + "/" + password)
                 .auth(new BasicAuth(user, password))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {
@@ -82,7 +82,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onDigestButtonClick(String user, String password, String qop) {
-        session.req("http://httpbin.org/digest-auth/" + qop + '/' + user + '/' + password)
+        session.req("https://httpbin.org/digest-auth/" + qop + '/' + user + '/' + password)
                 .auth(new DigestAuth(user, password, true))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {
@@ -101,7 +101,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onCustomButtonClick(String key) {
-        session.req("http://httpbin.org/headers")
+        session.req("https://httpbin.org/headers")
                 .auth(new MyAuth(key))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {

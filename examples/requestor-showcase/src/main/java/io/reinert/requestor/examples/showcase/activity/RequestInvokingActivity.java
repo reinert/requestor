@@ -102,10 +102,10 @@ public class RequestInvokingActivity extends ShowcaseActivity implements Request
 
     @Override
     public void onOptionsButtonClick() {
-        session.req("https://httpbin.org/anything").options(Headers.class).onSuccess(new PayloadCallback<Headers>() {
+        session.req("https://httpbin.org/anything").options(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
-            public void execute(Headers result) {
-                view.setOptionsText(Util.formatHeaders(result));
+            public void execute(String result) {
+                view.setOptionsText(result);
             }
         });
     }

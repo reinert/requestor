@@ -44,7 +44,6 @@ class ShowcaseDeferredFactory implements DeferredPool.Factory {
         Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferredPool);
 
         deferredPool.onFail(new ResponseCallback() {
-            @Override
             public void execute(Response response) {
                 if (Status.UNAUTHORIZED.is(response.getStatusCode())) {
                     Window.alert("The XHR could not be opened due to security reasons. "

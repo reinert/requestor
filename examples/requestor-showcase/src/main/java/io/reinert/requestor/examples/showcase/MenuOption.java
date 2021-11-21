@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ public enum MenuOption implements HasToken, HasPlace {
     }),
 
     BASIC_USAGE("Basic Usage"),
-    FLUENT_REQUEST_API("Fluent Requesting API", Tokens.FLUENT_REQUEST_API_TOKEN, new HasPlace() {
+    FLUENT_REQUEST_API("Requesting Fluent API", Tokens.FLUENT_REQUEST_API_TOKEN, new HasPlace() {
         @Override
         public Place getPlace(String section) {
             return new FluentRequestApiPlace(section);
