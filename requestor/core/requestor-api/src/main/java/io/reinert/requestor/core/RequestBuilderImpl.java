@@ -223,7 +223,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
 
     @Override
     public RequestBuilderImpl payload(Object payload, String... fields) {
-        this.payload = new Payload(payload, fields);
+        this.payload = payload instanceof Payload ? (Payload) payload : new Payload(payload, fields);
         return this;
     }
 
@@ -369,10 +369,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public void setPayload(Object payload, String... fields) {
         if (serialized) {
-            logger.warning("Setting a deserialized payload in an already serialized request.");
+            throw new IllegalStateException("Request payload was already deserialized." +
+                    "Cannot change the payload after it was serialized.");
         }
 
-        this.payload = new Payload(payload, fields);
+        this.payload(payload, fields);
     }
 
     @Override
