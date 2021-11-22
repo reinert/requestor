@@ -234,6 +234,11 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return options.hasHeader(headerName);
+    }
+
+    @Override
     public Header delHeader(String headerName) {
         return options.delHeader(headerName);
     }

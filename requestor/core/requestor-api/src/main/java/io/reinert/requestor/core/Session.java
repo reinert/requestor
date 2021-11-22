@@ -483,6 +483,11 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return options.hasHeader(headerName);
+    }
+
+    @Override
     public Header delHeader(String headerName) {
         return options.delHeader(headerName);
     }

@@ -129,6 +129,11 @@ public class AbstractService implements Service {
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return options.hasHeader(headerName);
+    }
+
+    @Override
     public Header delHeader(String headerName) {
         return options.delHeader(headerName);
     }

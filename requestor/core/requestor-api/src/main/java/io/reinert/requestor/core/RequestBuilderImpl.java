@@ -297,6 +297,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return headers.containsKey(headerName);
+    }
+
+    @Override
     public void setHeader(String name, String value) {
         headers.add(new SimpleHeader(name, value));
     }

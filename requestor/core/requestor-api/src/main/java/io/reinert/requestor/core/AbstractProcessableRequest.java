@@ -121,6 +121,11 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return request.hasHeader(headerName);
+    }
+
+    @Override
     public final Headers getHeaders() {
         return request.getHeaders();
     }

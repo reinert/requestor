@@ -176,6 +176,11 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return headers.containsKey(headerName);
+    }
+
+    @Override
     public Header delHeader(String headerName) {
         return headers.pop(headerName);
     }

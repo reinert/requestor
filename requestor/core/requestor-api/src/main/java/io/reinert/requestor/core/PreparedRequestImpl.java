@@ -94,6 +94,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return request.hasHeader(headerName);
+    }
+
+    @Override
     public HttpMethod getMethod() {
         return request.getMethod();
     }

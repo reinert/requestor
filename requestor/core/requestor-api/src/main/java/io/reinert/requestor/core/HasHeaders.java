@@ -7,6 +7,8 @@ public interface HasHeaders {
 
     String getHeader(String headerName);
 
+    boolean hasHeader(String headerName);
+
     /**
      * Adds a header overwriting existing headers with the same name.
      *

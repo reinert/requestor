@@ -183,6 +183,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return request.hasHeader(headerName);
+    }
+
+    @Override
     public final HttpMethod getMethod() {
         return request.getMethod();
     }

@@ -64,6 +64,11 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return headers.containsKey(headerName);
+    }
+
+    @Override
     public String getContentType() {
         return headers.getValue("Content-Type");
     }

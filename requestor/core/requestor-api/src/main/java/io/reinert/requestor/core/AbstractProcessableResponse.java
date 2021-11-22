@@ -33,6 +33,11 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
+    public boolean hasHeader(String headerName) {
+        return response.hasHeader(headerName);
+    }
+
+    @Override
     public final void setHeader(Header header) {
         response.setHeader(header);
     }
