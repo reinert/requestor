@@ -43,13 +43,13 @@ public class GwtResponseDeserializer implements ResponseDeserializer {
             if (SerializedPayload.class == type) {
                 result = response.getSerializedPayload();
             } else if (Blob.class == type) {
-                result = new Blob(((SerializedJsPayload) response.getSerializedPayload()).getObject());
+                result = new Blob(((SerializedJsPayload) response.getSerializedPayload()).asJsObject());
             } else if (ArrayBuffer.class == type) {
-                result = new ArrayBuffer(((SerializedJsPayload) response.getSerializedPayload()).getObject());
+                result = new ArrayBuffer(((SerializedJsPayload) response.getSerializedPayload()).asJsObject());
             } else if (Document.class == type) {
-                result = new Document(((SerializedJsPayload) response.getSerializedPayload()).getObject());
+                result = new Document(((SerializedJsPayload) response.getSerializedPayload()).asJsObject());
             } else if (Json.class == type) {
-                result = new Json(((SerializedJsPayload) response.getSerializedPayload()).getObject());
+                result = new Json(((SerializedJsPayload) response.getSerializedPayload()).asJsObject());
             } else if (Response.class == type || SerializedResponse.class == type || RawResponse.class == type) {
                 result = response.getRawResponse();
             } else if (Headers.class == type) {

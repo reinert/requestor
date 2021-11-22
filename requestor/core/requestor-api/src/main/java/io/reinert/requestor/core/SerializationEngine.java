@@ -80,7 +80,7 @@ public class SerializationEngine {
         checkDeserializerNotNull(response, entityType, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(requestOptions, response, providerManager,
                 entityType);
-        return deserializer.deserialize(collectionType, response.getSerializedPayload().getString(), context);
+        return deserializer.deserialize(collectionType, response.getSerializedPayload().asText(), context);
     }
 
     public <T> T deserializePayload(RequestOptions requestOptions, SerializedResponse response, Class<T> type) {
@@ -89,11 +89,11 @@ public class SerializationEngine {
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(requestOptions, response, providerManager,
                 type);
-        return deserializer.deserialize(response.getSerializedPayload().getString(), context);
+        return deserializer.deserialize(response.getSerializedPayload().asText(), context);
     }
 
     public void serializeRequest(SerializableRequest request) {
-        Object payload = request.getPayload().getObject();
+        Object payload = request.getPayload().asObject();
 
         if (payload instanceof SerializedPayload) {
             request.serializePayload((SerializedPayload) payload);

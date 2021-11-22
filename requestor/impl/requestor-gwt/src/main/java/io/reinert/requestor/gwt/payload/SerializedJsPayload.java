@@ -69,14 +69,14 @@ public class SerializedJsPayload extends SerializedPayload {
      * @return true if this payload is empty
      */
     public boolean isEmpty() {
-        return (getString() == null || getString().isEmpty()) && javaScriptObject == null;
+        return super.isEmpty() && javaScriptObject == null;
     }
 
-    public boolean isString() {
-        return getString() != null;
+    public boolean isTextAvailable() {
+        return asText() != null;
     }
 
-    public boolean isObject() {
+    public boolean isJsObjectAvailable() {
         return javaScriptObject != null;
     }
 
@@ -86,7 +86,7 @@ public class SerializedJsPayload extends SerializedPayload {
      * @return The payload as JavaScriptObject
      */
     @SuppressWarnings("unchecked")
-    public <J extends JavaScriptObject> J getObject() {
+    public <J extends JavaScriptObject> J asJsObject() {
         return (J) javaScriptObject;
     }
 
@@ -96,7 +96,7 @@ public class SerializedJsPayload extends SerializedPayload {
 
     @Override
     public String toString() {
-        return javaScriptObject != null ? stringify(javaScriptObject) : getString();
+        return javaScriptObject != null ? stringify(javaScriptObject) : asText();
     }
 
     private static native String stringify(JavaScriptObject jso) /*-{

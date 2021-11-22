@@ -274,10 +274,10 @@ public class DeferredRequest<T> implements Deferred<T> {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute(response.getPayload().<E>getObject());
+                        callback.execute(response.getPayload().<E>asObject());
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().getObject().getClass().getName() + " to " +
+                                response.getPayload().asObject().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }
@@ -292,10 +292,10 @@ public class DeferredRequest<T> implements Deferred<T> {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute(response.getPayload().<E>getObject(), response);
+                        callback.execute(response.getPayload().<E>asObject(), response);
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().getObject().getClass().getName() + " to " +
+                                response.getPayload().asObject().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }
@@ -310,10 +310,10 @@ public class DeferredRequest<T> implements Deferred<T> {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute(response.getPayload().<E>getObject(), response, (PollingRequest<E>) request);
+                        callback.execute(response.getPayload().<E>asObject(), response, (PollingRequest<E>) request);
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().getObject().getClass().getName() + " to " +
+                                response.getPayload().asObject().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }

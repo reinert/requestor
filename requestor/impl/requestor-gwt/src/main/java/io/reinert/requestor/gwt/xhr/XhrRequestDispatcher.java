@@ -161,13 +161,13 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             if (!serializedPayload.isEmpty()) {
                 if (serializedPayload instanceof SerializedJsPayload) {
                     SerializedJsPayload gwtPayload = (SerializedJsPayload) serializedPayload;
-                    if (gwtPayload.isString()) {
-                        xmlHttpRequest.send(gwtPayload.getString());
+                    if (gwtPayload.isJsObjectAvailable()) {
+                        xmlHttpRequest.send(gwtPayload.asJsObject());
                     } else {
-                        xmlHttpRequest.send(gwtPayload.getObject());
+                        xmlHttpRequest.send(gwtPayload.asText());
                     }
                 } else {
-                    xmlHttpRequest.send(serializedPayload.getString());
+                    xmlHttpRequest.send(serializedPayload.asText());
                 }
             } else {
                 xmlHttpRequest.send();

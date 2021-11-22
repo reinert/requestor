@@ -63,7 +63,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         final Registration registration = session.register(new RequestInterceptor() {
             @Override
             public void intercept(SerializedRequestInProcess request) {
-                final String json = request.getSerializedPayload().getString();
+                final String json = request.getSerializedPayload().asText();
                 if (json != null) {
                     // add ")]}',\n" to the beginning of JSONs
                     request.setSerializedPayload(new SerializedPayload(")]}',\\n" + json));
@@ -94,7 +94,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         final Registration registration = session.register(new ResponseInterceptor() {
             @Override
             public void intercept(SerializedResponseInProcess response) {
-                final String json = response.getSerializedPayload().getString();
+                final String json = response.getSerializedPayload().asText();
                 if (json != null) {
                     // remove first 6 chars )]}',\n
                     response.setSerializedPayload(new SerializedPayload(json.substring(6)));

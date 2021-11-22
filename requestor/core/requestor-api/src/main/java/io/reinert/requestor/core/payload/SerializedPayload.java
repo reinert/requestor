@@ -45,7 +45,7 @@ public class SerializedPayload {
      *
      * @return The payload as String
      */
-    public String getString() {
+    public String asText() {
         return string;
     }
 }

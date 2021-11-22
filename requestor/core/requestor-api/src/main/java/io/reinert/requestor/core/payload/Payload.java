@@ -22,6 +22,8 @@ package io.reinert.requestor.core.payload;
  */
 public class Payload {
 
+    public static final Payload EMPTY_PAYLOAD = new Payload(null);
+
     private final Object object;
     private final String[] fields;
 
@@ -29,8 +31,6 @@ public class Payload {
         this.object = object;
         this.fields = fields;
     }
-
-    public static final Payload EMPTY_PAYLOAD = new Payload(null);
 
     /**
      * Returns true if this payload is empty.
@@ -42,7 +42,7 @@ public class Payload {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getObject() {
+    public <T> T asObject() {
         return (T) object;
     }
 

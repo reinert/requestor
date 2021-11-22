@@ -28,7 +28,7 @@ import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 public class GwtRequestSerializer implements RequestSerializer {
     @Override
     public void serialize(SerializableRequestInProcess request, SerializationEngine serializationEngine) {
-        Object payload = request.getPayload().getObject();
+        Object payload = request.getPayload().asObject();
 
         if (payload instanceof FormData &&
                 !FormDataSerializerUrlEncoded.MEDIA_TYPE.equalsIgnoreCase(request.getContentType())) {
