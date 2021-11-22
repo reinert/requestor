@@ -16,94 +16,19 @@
 package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
-import io.reinert.requestor.core.payload.type.PayloadType;
 
 /**
  * Represents a raw HTTP response.
  *
  * @author Danilo Reinert
  */
-public interface SerializedResponse {
+public interface SerializedResponse extends IncomingResponse {
 
     /**
-     * Returns the value of the requested header or null if the header was not
-     * specified.
+     * Return the serialized response body.
      *
-     * @param header the header to query for
-     * @return the value of response header
+     * @return the response's serialized payload
      */
-    String getHeader(String header);
-
-    /**
-     * Returns the value of the content-type header.
-     *
-     * @return the value of response header
-     */
-    String getContentType();
-
-    /**
-     * Returns the links attached to the response as headers.
-     *
-     * @return links as an {@link Iterable}; does not return {@code null}
-     */
-    Iterable<Link> getLinks();
-
-    /**
-     * Check if link for relation exists.
-     *
-     * @param relation link relation
-     *
-     * @return {@code true} if the link for the relation is present in the {@link #getHeaders() response headers},
-     *         {@code false} otherwise.
-     */
-    boolean hasLink(String relation);
-
-    /**
-     * Returns the link for the relation.
-     *
-     * @param relation link relation
-     *
-     * @return the link for the relation, otherwise {@code null} if not present
-     */
-    Link getLink(String relation);
-
-    /**
-     * Returns the HTTP headers associated with this response.
-     *
-     * @return the headers
-     */
-    Headers getHeaders();
-
-    /**
-     * Returns the HTTP status code that is part of this response.
-     *
-     * @return the HTTP status code
-     */
-    int getStatusCode();
-
-    /**
-     * Returns the HTTP status as a {@link HttpStatus} object.
-     *
-     * @return the HTTP status
-     */
-    HttpStatus getStatus();
-
     SerializedPayload getSerializedPayload();
-
-    PayloadType getPayloadType();
-
-    /**
-     * Returns the request that originated this response.
-     *
-     * @return  the original request
-     */
-    RequestOptions getRequestOptions();
-
-    /**
-     * Returns the store of this request/response cycle.
-     *
-     * @return the store
-     */
-    Store getStore();
 
 }

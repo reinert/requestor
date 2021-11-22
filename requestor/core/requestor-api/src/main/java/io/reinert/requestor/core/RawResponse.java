@@ -43,6 +43,10 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     private final PayloadType payloadType;
     private final Deferred<?> deferred;
 
+    public RawResponse(Deferred<?> deferred, HttpStatus status, Headers headers, PayloadType payloadType) {
+        this(deferred, status, headers, payloadType, null);
+    }
+
     public RawResponse(Deferred<?> deferred, HttpStatus status, Headers headers, PayloadType payloadType,
                        SerializedPayload serializedPayload) {
         if (headers == null) throw new IllegalArgumentException("Headers cannot be null");
@@ -65,9 +69,8 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Iterable<Link> getLinks() {
-        return linkHeader != null ? linkHeader.getLinks() : (Iterable<Link>) Collections.EMPTY_LIST;
+        return linkHeader != null ? linkHeader.getLinks() : Collections.<Link>emptyList();
     }
 
     @Override
@@ -148,7 +151,8 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     @Override
     public void setSerializedPayload(SerializedPayload serializedPayload) {
         if (deserialized) {
-            logger.warning("Setting a serialized payload in an already serialized response.");
+            throw new IllegalStateException("Payload was already deserialized. Cannot set a serialized payload after" +
+                    " deserialization.");
         }
 
         this.serializedPayload = serializedPayload;
