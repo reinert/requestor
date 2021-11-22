@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.CollectionPayloadType;
 import io.reinert.requestor.core.payload.type.CompositePayloadType;
@@ -69,7 +70,7 @@ public class SerializationEngine {
             result = deserializePayload(requestOptions, response, type);
         }
 
-        response.deserializePayload(result);
+        response.deserializePayload(result == null ? Payload.EMPTY_PAYLOAD : new Payload(result));
     }
 
     public <T, C extends Collection<T>> C deserializePayload(RequestOptions requestOptions, SerializedResponse response,

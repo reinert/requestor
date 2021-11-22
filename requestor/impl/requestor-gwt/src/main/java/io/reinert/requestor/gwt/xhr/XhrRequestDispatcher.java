@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -158,7 +158,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
 
         // Send the request
         try {
-            if (serializedPayload != null) {
+            if (!serializedPayload.isEmpty()) {
                 if (serializedPayload instanceof SerializedJsPayload) {
                     SerializedJsPayload gwtPayload = (SerializedJsPayload) serializedPayload;
                     if (gwtPayload.isString()) {
@@ -200,7 +200,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
 
                 SerializedJsPayload serializedPayload = null;
 
-                if (responseType == null || responseType.isEmpty() ||
+                if (responseType == null || responseType.length() == 0 ||
                         responseType.equalsIgnoreCase(ResponseType.TEXT.getValue())) {
                     serializedPayload = SerializedJsPayload.fromText(xhr.getResponseText());
                 } else if (responseType.equalsIgnoreCase(ResponseType.BLOB.getValue())) {

@@ -41,8 +41,9 @@ public class Payload {
         return object == null;
     }
 
-    public Object getObject() {
-        return object;
+    @SuppressWarnings("unchecked")
+    public <T> T getObject() {
+        return (T) object;
     }
 
     public String[] getFields() {

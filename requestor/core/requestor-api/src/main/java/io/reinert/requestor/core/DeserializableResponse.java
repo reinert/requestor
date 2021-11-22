@@ -15,9 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+import io.reinert.requestor.core.payload.Payload;
+
 public interface DeserializableResponse extends SerializedResponse {
 
-    void deserializePayload(Object payload);
+    void deserializePayload(Payload payload);
 
     void setContentType(String mediaType);
 

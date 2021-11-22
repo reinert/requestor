@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.header.Header;
+import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 
@@ -63,7 +64,7 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public void deserializePayload(Object payload) {
+    public void deserializePayload(Payload payload) {
         response.deserializePayload(payload);
     }
 
@@ -83,7 +84,7 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public Object getPayload() {
+    public Payload getPayload() {
         return response.getPayload();
     }
 
@@ -139,6 +140,6 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
 
     @Override
     public Response getRawResponse() {
-        return response;
+        return response.getRawResponse();
     }
 }

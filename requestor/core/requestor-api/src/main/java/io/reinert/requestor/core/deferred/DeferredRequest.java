@@ -274,10 +274,10 @@ public class DeferredRequest<T> implements Deferred<T> {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute((E) response.getPayload());
+                        callback.execute(response.getPayload().<E>getObject());
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().getClass().getName() + " to " +
+                                response.getPayload().getObject().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }
@@ -292,10 +292,10 @@ public class DeferredRequest<T> implements Deferred<T> {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute((E) response.getPayload(), response);
+                        callback.execute(response.getPayload().<E>getObject(), response);
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().getClass().getName() + " to " +
+                                response.getPayload().getObject().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }
@@ -310,10 +310,10 @@ public class DeferredRequest<T> implements Deferred<T> {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute((E) response.getPayload(), response, (PollingRequest<E>) request);
+                        callback.execute(response.getPayload().<E>getObject(), response, (PollingRequest<E>) request);
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().getClass().getName() + " to " +
+                                response.getPayload().getObject().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }

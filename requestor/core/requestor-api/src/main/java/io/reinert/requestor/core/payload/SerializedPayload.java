@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,13 @@ package io.reinert.requestor.core.payload;
 
 /**
  * Represents an HTTP payload.
- * It envelopes a String or a JavaScriptObject.
+ * It envelopes a String.
  *
  * @author Danilo Reinert
  */
 public class SerializedPayload {
+
+    public static final SerializedPayload EMPTY_PAYLOAD = new SerializedPayload(null);
 
     private final String string;
 
@@ -35,7 +37,7 @@ public class SerializedPayload {
      * @return true if this payload is empty
      */
     public boolean isEmpty() {
-        return string == null || string.isEmpty();
+        return string == null || string.length() == 0;
     }
 
     /**

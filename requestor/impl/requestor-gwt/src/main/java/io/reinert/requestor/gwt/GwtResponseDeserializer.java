@@ -22,6 +22,7 @@ import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.ResponseDeserializer;
 import io.reinert.requestor.core.SerializationEngine;
 import io.reinert.requestor.core.SerializedResponse;
+import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.gwt.payload.SerializedJsPayload;
@@ -56,13 +57,14 @@ public class GwtResponseDeserializer implements ResponseDeserializer {
             }
 
             if (result != null) {
-                response.deserializePayload(result);
+                response.deserializePayload(new Payload(result));
             } else {
                 serializationEngine.deserializeResponse(response);
             }
         } else {
             // TODO: deserialize by statusCode
-            response.deserializePayload(response.getSerializedPayload());
+            response.deserializePayload(response.getSerializedPayload().isEmpty() ?
+                    Payload.EMPTY_PAYLOAD : new Payload(response.getSerializedPayload()));
         }
 
         response.proceed();

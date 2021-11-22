@@ -109,7 +109,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                     " Cannot serialize twice.");
         }
 
-        this.serializedPayload = serializedPayload;
+        this.serializedPayload = serializedPayload == null ? SerializedPayload.EMPTY_PAYLOAD : serializedPayload;
         serialized = true;
     }
 
@@ -223,7 +223,8 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
 
     @Override
     public RequestBuilderImpl payload(Object payload, String... fields) {
-        this.payload = payload instanceof Payload ? (Payload) payload : new Payload(payload, fields);
+        this.payload = payload == null ? Payload.EMPTY_PAYLOAD : payload instanceof Payload ?
+                (Payload) payload : new Payload(payload, fields);
         return this;
     }
 
@@ -383,7 +384,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                     "Cannot change the serialized payload before serializing the request.");
         }
 
-        this.serializedPayload = serializedPayload;
+        this.serializedPayload = serializedPayload == null ? SerializedPayload.EMPTY_PAYLOAD : serializedPayload;
     }
 
     //===================================================================

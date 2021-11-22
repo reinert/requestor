@@ -22,6 +22,7 @@ import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.header.LinkHeader;
 import io.reinert.requestor.core.header.SimpleHeader;
+import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 
@@ -37,7 +38,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     private final Headers headers;
     private final LinkHeader linkHeader;
     private final HttpStatus status;
-    private Object payload;
+    private Payload payload;
     private SerializedPayload serializedPayload;
     private boolean deserialized = false;
     private final PayloadType payloadType;
@@ -54,7 +55,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
         this.linkHeader = (LinkHeader) headers.get("Link");
         this.status = status;
         this.payloadType = payloadType;
-        this.serializedPayload = serializedPayload;
+        this.serializedPayload = serializedPayload == null ? SerializedPayload.EMPTY_PAYLOAD : serializedPayload;
         this.deferred = deferred;
     }
 
@@ -104,7 +105,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public Object getPayload() {
+    public Payload getPayload() {
         if (!deserialized) {
             throw new IllegalStateException("Payload was not deserialized yet.");
         }
@@ -123,12 +124,12 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public void deserializePayload(Object payload) {
+    public void deserializePayload(Payload payload) {
         if (deserialized) {
             throw new IllegalStateException("Deserialized payload was already set. Cannot deserialize twice.");
         }
 
-        this.payload = payload;
+        this.payload = payload == null ? Payload.EMPTY_PAYLOAD : payload;
         deserialized = true;
     }
 
@@ -160,7 +161,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
                     " deserialization.");
         }
 
-        this.serializedPayload = serializedPayload;
+        this.serializedPayload = serializedPayload == null ? SerializedPayload.EMPTY_PAYLOAD : serializedPayload;
     }
 
     @Override
@@ -170,7 +171,8 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
                     "Cannot change the deserialized payload before deserializing the response.");
         }
 
-        this.payload = payload;
+        this.payload = payload == null ? Payload.EMPTY_PAYLOAD : payload instanceof Payload ?
+                (Payload) payload : new Payload(payload);
     }
 
     @Override

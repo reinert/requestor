@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core;
 
+import io.reinert.requestor.core.payload.Payload;
+
 public class ResponseDeserializerImpl implements ResponseDeserializer {
     @Override
     public void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine) {
@@ -22,7 +24,8 @@ public class ResponseDeserializerImpl implements ResponseDeserializer {
             serializationEngine.deserializeResponse(response);
         } else {
             // TODO: deserialize by statusCode
-            response.deserializePayload(response.getSerializedPayload());
+            response.deserializePayload(response.getSerializedPayload().isEmpty() ?
+                    Payload.EMPTY_PAYLOAD : new Payload(response.getSerializedPayload()));
         }
 
         response.proceed();
