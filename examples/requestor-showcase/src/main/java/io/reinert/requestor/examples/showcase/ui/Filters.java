@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class Filters extends Composite {
     private static FiltersUiBinder uiBinder = GWT.create(FiltersUiBinder.class);
 
     @UiField PreElement requestFilter, requestFilterReq, responseFilter, responseFilterReq;
-    @UiField TextAreaElement requestFilterTextArea, responseFilterTextArea, responseFilterTextArea2;
+    @UiField TextAreaElement requestFilterTextArea, responseFilterBody, responseFilterHeaders;
 
     private Handler handler;
 
@@ -62,9 +62,12 @@ public class Filters extends Composite {
         requestFilterTextArea.setInnerText(content);
     }
 
-    public void setResponseFilterText(String headers, String content) {
-        responseFilterTextArea.setInnerText(content);
-        responseFilterTextArea2.setInnerText(headers);
+    public void setResponseBody(String content) {
+        responseFilterBody.setInnerText(content);
+    }
+
+    public void setResponseHeaders(String content) {
+        responseFilterHeaders.setInnerText(content);
     }
 
     public void setHandler(Handler handler) {
