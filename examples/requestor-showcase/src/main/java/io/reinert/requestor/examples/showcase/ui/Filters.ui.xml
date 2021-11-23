@@ -91,10 +91,10 @@
       </p>
       <div class="requestor-callout requestor-callout-warning">
         <h4>Filtering affects later request processing</h4>
-        Be aware that request filtering is the first processing step of the requests.
-        It affects thus the subsequent serialization and interception.
+        Since request filtering is the first processing step of the requests,
+        it affects the subsequent serialization and interception.
         <br/>
-        For example, if you set the Content-Type header in a filter,
+        For example, if you change the request's content-type in a RequestFilter,
         the serialization process, which is performed following, will consider it when serializing the payload.
       </div>
     </g:HTMLPanel>

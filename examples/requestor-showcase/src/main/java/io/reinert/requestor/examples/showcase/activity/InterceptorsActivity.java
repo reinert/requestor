@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         view.setHandler(this);
         Page.setTitle("Interceptors");
-        Page.setDescription("Transform incoming and outgoing payloads.");
+        Page.setDescription("Asynchronously manipulate serialized requests and responses");
         panel.setWidget(view);
         scrollToSection();
     }
@@ -59,22 +59,27 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
 
     @Override
     public void onRequestInterceptorButtonClick() {
-        // Add the interceptor and hold the registration
-        final Registration registration = session.register(new RequestInterceptor() {
-            @Override
+        // Add the interceptor and hold the reg
+        final Registration reg = session.register(new RequestInterceptor() {
             public void intercept(SerializedRequestInProcess request) {
-                final String json = request.getSerializedPayload().asText();
-                if (json != null) {
-                    // add ")]}',\n" to the beginning of JSONs
-                    request.setSerializedPayload(new SerializedPayload(")]}',\\n" + json));
-                }
+                final String rawPayload = request.getSerializedPayload().asText();
+
+                // create a new payload prepending ")]}',\n" to the serialized jsons
+                SerializedPayload escapedPayload = new SerializedPayload(")]}',\\n" + rawPayload);
+
+                // replace the request's payload by the new one
+                request.setSerializedPayload(escapedPayload);
+
+                // set a header informing the server the body is escaped
+                request.setHeader("Content-Escape", ")]}',\\n");
+
                 request.proceed();
             }
         });
 
         // Perform the request
-        JavaScriptObject json = getMessageJson("Session is awesome!");
-        session.req("http://httpbin.org/post").payload(json).post(String.class)
+        JavaScriptObject json = createJsonMsg("Session is awesome!");
+        session.req("https://httpbin.org/post").payload(json).post(String.class)
                 .onSuccess(new PayloadCallback<String>() {
                     public void execute(String result) {
                         view.setRequestInterceptorText(result);
@@ -83,43 +88,43 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                 .onLoad(new ResponseCallback() {
                     @Override
                     public void execute(Response response) {
-                        registration.cancel(); // cancel interceptor registration
+                        reg.cancel(); // cancel interceptor reg
                     }
                 });
     }
 
     @Override
     public void onResponseInterceptorButtonClick() {
-        // Add the interceptor and hold the registration
-        final Registration registration = session.register(new ResponseInterceptor() {
-            @Override
+        // Add the interceptor and hold the reg
+        final Registration reg = session.register(new ResponseInterceptor() {
             public void intercept(SerializedResponseInProcess response) {
-                final String json = response.getSerializedPayload().asText();
-                if (json != null) {
-                    // remove first 6 chars )]}',\n
-                    response.setSerializedPayload(new SerializedPayload(json.substring(6)));
-                }
+                final String rawPayload = response.getSerializedPayload().asText();
+
+                // create a new payload removing first 6 chars )]}',\n
+                SerializedPayload unscapedPayload = new SerializedPayload(rawPayload.substring(6));
+
+                // replace the response's payload by the new one
+                response.setSerializedPayload(unscapedPayload);
+
                 response.proceed();
             }
         });
 
         // Perform the response
-        session.req("http://www.mocky.io/v2/54a3ec74fd145c6c0195e912").get(String.class)
+        session.req("https://www.mocky.io/v2/54a3ec74fd145c6c0195e912").get(String.class)
                 .onSuccess(new PayloadCallback<String>() {
-                    @Override
                     public void execute(String response) {
                         view.setResponseInterceptorText(response);
                     }
                 })
                 .onLoad(new ResponseCallback() {
-                    @Override
                     public void execute(Response response) {
-                        registration.cancel(); // cancel interceptor registration
+                        reg.cancel(); // cancel interceptor reg
                     }
                 });
     }
 
-    private JavaScriptObject getMessageJson(String message) {
+    private JavaScriptObject createJsonMsg(String message) {
         JavaScriptObject json = JavaScriptObject.createObject();
         setString(json, "message", message);
         return json;

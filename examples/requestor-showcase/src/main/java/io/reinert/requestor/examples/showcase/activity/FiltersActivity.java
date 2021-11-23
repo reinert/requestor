@@ -51,7 +51,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         view.setHandler(this);
         Page.setTitle("Filters");
-        Page.setDescription("Asynchronously manipulate outgoing deserialized requests.");
+        Page.setDescription("Asynchronously manipulate deserialized requests and responses.");
         panel.setWidget(view);
         scrollToSection();
     }
