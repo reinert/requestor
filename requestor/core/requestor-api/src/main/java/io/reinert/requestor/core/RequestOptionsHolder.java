@@ -26,8 +26,6 @@ class RequestOptionsHolder implements HasRequestOptions {
     private int[] retryDelays;
     private Event[] retryEvents;
     private final Headers headers = new Headers();
-    private RequestSerializer requestSerializer = new BaseRequestSerializer();
-    private ResponseDeserializer responseDeserializer = new BaseResponseDeserializer();
 
     static RequestOptionsHolder copy(RequestOptionsHolder options) {
         RequestOptionsHolder copy = new RequestOptionsHolder();
@@ -37,8 +35,6 @@ class RequestOptionsHolder implements HasRequestOptions {
         copy.setDelay(options.delay);
         if (options.isRetryEnabled()) copy.setRetry(options.retryDelays, options.retryEvents);
         for (Header h : options.headers) copy.setHeader(h);
-        copy.setRequestSerializer(options.requestSerializer);
-        copy.setResponseDeserializer(options.responseDeserializer);
         return copy;
     }
 
@@ -183,22 +179,6 @@ class RequestOptionsHolder implements HasRequestOptions {
     @Override
     public Header delHeader(String headerName) {
         return headers.pop(headerName);
-    }
-
-    public void setRequestSerializer(RequestSerializer requestSerializer) {
-        this.requestSerializer = requestSerializer;
-    }
-
-    public RequestSerializer getRequestSerializer() {
-        return requestSerializer;
-    }
-
-    public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
-        this.responseDeserializer = responseDeserializer;
-    }
-
-    public ResponseDeserializer getResponseDeserializer() {
-        return responseDeserializer;
     }
 
     public void apply(RequestBuilder request) {

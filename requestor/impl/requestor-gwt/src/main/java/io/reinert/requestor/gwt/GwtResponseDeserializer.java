@@ -32,6 +32,14 @@ import io.reinert.requestor.gwt.type.Document;
 import io.reinert.requestor.gwt.type.Json;
 
 public class GwtResponseDeserializer extends BaseResponseDeserializer {
+
+    private static GwtResponseDeserializer responseDeserializer;
+
+    public static GwtResponseDeserializer getInstance() {
+        if (responseDeserializer == null) responseDeserializer = new GwtResponseDeserializer();
+        return responseDeserializer;
+    }
+
     @Override
     public void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine) {
         if (isSuccessful(response)) {

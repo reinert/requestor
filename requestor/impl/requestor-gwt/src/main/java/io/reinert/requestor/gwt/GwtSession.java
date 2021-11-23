@@ -16,6 +16,8 @@
 package io.reinert.requestor.gwt;
 
 import io.reinert.requestor.core.DeferredPool;
+import io.reinert.requestor.core.RequestSerializer;
+import io.reinert.requestor.core.ResponseDeserializer;
 import io.reinert.requestor.core.SerializerProvider;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
@@ -44,14 +46,16 @@ public class GwtSession extends Session {
     }
 
     public GwtSession(DeferredPool.Factory deferredPoolFactory) {
-        super(deferredPoolFactory, new XhrRequestDispatcherFactory());
+        this(deferredPoolFactory, GwtRequestSerializer.getInstance(), GwtResponseDeserializer.getInstance());
+    }
+
+    public GwtSession(DeferredPool.Factory deferredPoolFactory, RequestSerializer requestSerializer,
+                      ResponseDeserializer responseDeserializer) {
+        super(new XhrRequestDispatcherFactory(), deferredPoolFactory, requestSerializer, responseDeserializer);
     }
 
     @Override
     protected void configure() {
-        setRequestSerializer(new GwtRequestSerializer());
-        setResponseDeserializer(new GwtResponseDeserializer());
-
         register(VoidSerializer.getInstance());
         register(TextSerializer.getInstance());
 

@@ -211,8 +211,6 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     serializedPayload = SerializedJsPayload.fromJson(xhr.getResponse());
                 }
 
-//                ResponseType.of(responseType)
-
                 final RawResponse response = new RawResponse(
                         deferred,
                         Status.of(gwtResponse.getStatusCode()),

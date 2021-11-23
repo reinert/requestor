@@ -26,6 +26,14 @@ import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 
 public class GwtRequestSerializer extends BaseRequestSerializer {
+
+    private static GwtRequestSerializer requestSerializer;
+
+    public static GwtRequestSerializer getInstance() {
+        if (requestSerializer == null) requestSerializer = new GwtRequestSerializer();
+        return requestSerializer;
+    }
+
     @Override
     public void serialize(SerializableRequestInProcess request, SerializationEngine serializationEngine) {
         Object payload = request.getPayload().asObject();

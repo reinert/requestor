@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -64,7 +65,17 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     private final RequestDispatcher.Factory requestDispatcherFactory;
     private final DeferredPool.Factory deferredPoolFactory;
 
-    public Session(DeferredPool.Factory deferredPoolFactory, RequestDispatcher.Factory requestDispatcherFactory) {
+    public Session(RequestDispatcher.Factory requestDispatcherFactory) {
+        this(requestDispatcherFactory, new DeferredPoolFactoryImpl());
+    }
+
+    public Session(RequestDispatcher.Factory requestDispatcherFactory, DeferredPool.Factory deferredPoolFactory) {
+        this(requestDispatcherFactory, deferredPoolFactory, new BaseRequestSerializer(),
+                new BaseResponseDeserializer());
+    }
+
+    public Session(RequestDispatcher.Factory requestDispatcherFactory, DeferredPool.Factory deferredPoolFactory,
+                   RequestSerializer requestSerializer, ResponseDeserializer responseDeserializer) {
         if (requestDispatcherFactory == null) {
             throw new IllegalArgumentException("RequestDispatcher.Factory cannot be null");
         }
@@ -76,9 +87,9 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
         // init processors
         serializationEngine = new SerializationEngine(serializerManager, providerManager);
-        requestProcessor = new RequestProcessor(serializationEngine, options.getRequestSerializer(), filterManager,
+        requestProcessor = new RequestProcessor(serializationEngine, requestSerializer, filterManager,
                 interceptorManager);
-        responseProcessor = new ResponseProcessor(serializationEngine, options.getResponseDeserializer(),
+        responseProcessor = new ResponseProcessor(serializationEngine, responseDeserializer,
                 filterManager, interceptorManager);
 
         // perform initial set-up by implementations
@@ -350,21 +361,19 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     public void setRequestSerializer(RequestSerializer requestSerializer) {
-        options.setRequestSerializer(requestSerializer);
         requestProcessor.setRequestSerializer(requestSerializer);
     }
 
     public RequestSerializer getRequestSerializer() {
-        return options.getRequestSerializer();
+        return requestProcessor.getRequestSerializer();
     }
 
     public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
-        options.setResponseDeserializer(responseDeserializer);
         responseProcessor.setResponseDeserializer(responseDeserializer);
     }
 
     public ResponseDeserializer getResponseDeserializer() {
-        return options.getResponseDeserializer();
+        return responseProcessor.getResponseDeserializer();
     }
 
     public <T> Serializer<T> getSerializer(Class<T> type, String mediaType) {
@@ -632,11 +641,11 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
     private WebTarget createWebTarget(Uri uri) {
         return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredPoolFactory, store, options, uri);
+                deferredPoolFactory, store, options, getRequestSerializer(), getResponseDeserializer(), uri);
     }
 
     private WebTarget createWebTarget(UriBuilder uriBuilder) {
         return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredPoolFactory, store, options, uriBuilder);
+                deferredPoolFactory, store, options, getRequestSerializer(), getResponseDeserializer(), uriBuilder);
     }
 }

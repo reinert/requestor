@@ -50,25 +50,28 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
     public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                                    SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
                                    DeferredPool.Factory deferredPoolFactory, SessionStore store,
-                                   RequestOptionsHolder options, Uri uri) {
+                                   RequestOptionsHolder options, RequestSerializer requestSerializer,
+                                   ResponseDeserializer responseDeserializer, Uri uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredPoolFactory, new TransientStore(store), RequestOptionsHolder.copy(options), uri,
-                uri == null ? UriBuilder.newInstance() : UriBuilder.fromUri(uri));
+                deferredPoolFactory, new TransientStore(store), RequestOptionsHolder.copy(options), requestSerializer,
+                responseDeserializer, uri, uri == null ? UriBuilder.newInstance() : UriBuilder.fromUri(uri));
     }
 
     public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                                    SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
                                    DeferredPool.Factory deferredPoolFactory, SessionStore store,
-                                   RequestOptionsHolder options, UriBuilder uriBuilder) {
+                                   RequestOptionsHolder options, RequestSerializer requestSerializer,
+                                   ResponseDeserializer responseDeserializer, UriBuilder uriBuilder) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredPoolFactory, new TransientStore(store), RequestOptionsHolder.copy(options), null,
-                uriBuilder);
+                deferredPoolFactory, new TransientStore(store), RequestOptionsHolder.copy(options), requestSerializer,
+                responseDeserializer, null, uriBuilder);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
                       DeferredPool.Factory deferredPoolFactory, TransientStore store,
-                      RequestOptionsHolder options, Uri uri, UriBuilder uriBuilder) {
+                      RequestOptionsHolder options, RequestSerializer requestSerializer,
+                      ResponseDeserializer responseDeserializer, Uri uri, UriBuilder uriBuilder) {
         this.serializationEngine = serializationEngine;
         this.requestDispatcherFactory = requestDispatcherFactory;
         this.deferredPoolFactory = deferredPoolFactory;
@@ -79,13 +82,13 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
         this.requestProcessor = new RequestProcessor(
                 serializationEngine,
-                options.getRequestSerializer(),
+                requestSerializer,
                 this.filterManager,
                 this.interceptorManager);
 
         this.responseProcessor = new ResponseProcessor(
                 serializationEngine,
-                options.getResponseDeserializer(),
+                responseDeserializer,
                 this.filterManager,
                 this.interceptorManager);
 
@@ -244,21 +247,19 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
     }
 
     public void setRequestSerializer(RequestSerializer requestSerializer) {
-        options.setRequestSerializer(requestSerializer);
         requestProcessor.setRequestSerializer(requestSerializer);
     }
 
     public RequestSerializer getRequestSerializer() {
-        return options.getRequestSerializer();
+        return requestProcessor.getRequestSerializer();
     }
 
     public void setResponseDeserializer(ResponseDeserializer responseDeserializer) {
-        options.setResponseDeserializer(responseDeserializer);
         responseProcessor.setResponseDeserializer(responseDeserializer);
     }
 
     public ResponseDeserializer getResponseDeserializer() {
-        return options.getResponseDeserializer();
+        return responseProcessor.getResponseDeserializer();
     }
 
     /**
@@ -496,7 +497,8 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
     private WebTarget newWebTarget(UriBuilder copy) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredPoolFactory, TransientStore.copy(store), RequestOptionsHolder.copy(options),null, copy);
+                deferredPoolFactory, TransientStore.copy(store), RequestOptionsHolder.copy(options),
+                getRequestSerializer(), getResponseDeserializer(), null, copy);
     }
 
     private UriBuilder cloneUriBuilder() {
