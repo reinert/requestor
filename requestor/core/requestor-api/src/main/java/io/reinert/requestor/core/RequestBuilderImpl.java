@@ -353,11 +353,6 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public void setDelay(int delayMillis) {
-        this.delay = delayMillis;
-    }
-
-    @Override
     public void setRetry(int[] delaysMillis, Event... events) {
         retry(delaysMillis, events);
     }

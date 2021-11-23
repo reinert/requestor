@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,7 +143,7 @@ public class SerializationEngine {
 
     private String getRequestMediaType(SerializableRequest request) {
         String mediaType = request.getContentType();
-        if (mediaType == null || mediaType.isEmpty()) {
+        if (mediaType == null || mediaType.length() == 0) {
             mediaType = "*/*";
             logger.log(Level.INFO, "Request with no 'Content-Type' header being dispatched to '" + request.getUri()
                     + "'. The content-type value has been automatically set to '*/*' to match serializers.");
@@ -155,7 +155,7 @@ public class SerializationEngine {
 
     private String getResponseMediaType(RequestOptions requestOptions, SerializedResponse response) {
         String medaType = response.getContentType();
-        if (medaType == null || medaType.isEmpty()) {
+        if (medaType == null || medaType.length() == 0) {
             medaType = "*/*";
             logger.log(Level.INFO, "Response with no 'Content-Type' header received from '" + requestOptions.getUri()
                     + "'. The content-type value has been automatically set to '*/*' to match deserializers.");

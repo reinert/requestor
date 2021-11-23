@@ -123,11 +123,6 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public void setDelay(int delayMillis) {
-        request.setDelay(delayMillis);
-    }
-
-    @Override
     public void setRetry(int[] delaysMillis, Event... events) {
         request.setRetry(delaysMillis, events);
     }

@@ -68,6 +68,7 @@ public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOp
 
     /**
      * Sets the number of milliseconds to wait for a request to complete.
+     * <p></p>
      *
      * Should the request timeout, registered RejectedCallbacks will be called in the returning Request.
      * The callback method will receive an instance of the {@link RequestTimeoutException} class as its
@@ -80,18 +81,18 @@ public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOp
     void setTimeout(int timeoutMillis);
 
     /**
-     * Sets the number of milliseconds to wait for a request to be sent.
+     * Set a retry policy for this request.
+     * <p></p>
      *
-     * @param delayMillis Number of milliseconds to wait before sending the request
+     * @param delaysMillis  The times in milliseconds to wait before each consecutive retry
+     * @param events        The events that will trigger a retry
      */
-    void setDelay(int delayMillis);
-
     void setRetry(int[] delaysMillis, Event... events);
 
     /**
      * The poll counter is incremented by 1.
      *
-     * Returns the updated poll counter.
+     * @return the updated polling count.
      */
     int incrementPollingCount();
 
