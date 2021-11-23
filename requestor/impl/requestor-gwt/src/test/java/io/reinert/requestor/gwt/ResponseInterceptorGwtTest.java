@@ -51,7 +51,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(SerializedResponseInProcess response) {
                 response.getStore().save(storeKey, expectedStoreValue);
                 response.setHeader("Test", "test");
@@ -77,7 +76,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(SerializedResponseInProcess response) {
                 response.getStore().save(storeKey, expectedStoreValue);
                 response.proceed();
@@ -85,7 +83,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(SerializedResponseInProcess response) {
                 // Test previous intercept
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
@@ -112,7 +109,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(SerializedResponseInProcess response) {
                 response.setHeader("Test", "test");
                 response.proceed();
@@ -120,7 +116,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(SerializedResponseInProcess response) {
                 assertEquals("test", response.getHeader("Test"));
                 response.getStore().save(storeKey, expectedStoreValue);
@@ -129,7 +124,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(SerializedResponseInProcess response) {
                 assertEquals("test", response.getHeader("Test"));
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
@@ -159,7 +153,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         final String expectedStoreValue2 = "testData2";
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(SerializedResponseInProcess response) {
                 response.getStore().save(storeKey, expectedStoreValue);
                 response.proceed();
@@ -167,7 +160,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(final SerializedResponseInProcess response) {
                 new Timer() {
                     public void run() {
@@ -180,7 +172,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(SerializedResponseInProcess response) {
                 // Test previous intercept
                 assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
@@ -190,7 +181,6 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new ResponseInterceptor() {
-            @Override
             public void intercept(final SerializedResponseInProcess response) {
                 new Timer() {
                     @Override

@@ -51,7 +51,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.setHeader("Test", "test");
@@ -62,7 +61,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertNotNull(response.getPayload());
+                assertFalse(response.getPayload().isEmpty());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
@@ -77,7 +76,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.proceed();
@@ -85,7 +83,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(SerializedRequestInProcess request) {
                 // Test previous intercept
                 assertEquals(expectedStoreValue, request.getStore().get(storeKey));
@@ -97,7 +94,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertNotNull(response.getPayload());
+                assertFalse(response.getPayload().isEmpty());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
@@ -112,7 +109,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.setHeader("Test", "test");
                 request.proceed();
@@ -120,7 +116,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.proceed();
@@ -128,7 +123,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.setHeader("Test2", "test2");
                 request.proceed();
@@ -138,7 +132,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onLoad(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertNotNull(response.getPayload());
+                assertFalse(response.getPayload().isEmpty());
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
@@ -156,7 +150,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         final String expectedStoreValue2 = "testData2";
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(SerializedRequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.proceed();
@@ -164,7 +157,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(final SerializedRequestInProcess request) {
                 new Timer() {
                     public void run() {
@@ -177,7 +169,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(SerializedRequestInProcess request) {
                 // Test previous intercept
                 assertEquals(expectedStoreValue2, request.getStore().get(storeKey2));
@@ -187,7 +178,6 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestInterceptor() {
-            @Override
             public void intercept(final SerializedRequestInProcess request) {
                 new Timer() {
                     @Override
@@ -202,7 +192,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onLoad(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertNotNull(response.getPayload());
+                assertFalse(response.getPayload().isEmpty());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));

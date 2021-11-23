@@ -51,7 +51,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(RequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.setHeader("Test", "test");
@@ -62,7 +61,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertNotNull(response.getPayload());
+                assertFalse(response.getPayload().isEmpty());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
@@ -77,7 +76,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(RequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.proceed();
@@ -85,7 +83,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(RequestInProcess request) {
                 // Test previous filter
                 assertEquals(expectedStoreValue, request.getStore().get(storeKey));
@@ -97,7 +94,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertNotNull(response.getPayload());
+                assertFalse(response.getPayload().isEmpty());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
@@ -112,7 +109,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         final String expectedStoreValue = "testData";
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(RequestInProcess request) {
                 request.setHeader("Test", "test");
                 request.proceed();
@@ -120,7 +116,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(RequestInProcess request) {
                 assertEquals("test", request.getHeader("Test"));
                 request.getStore().save(storeKey, expectedStoreValue);
@@ -129,7 +124,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(RequestInProcess request) {
                 assertEquals("test", request.getHeader("Test"));
                 assertEquals(expectedStoreValue, request.getStore().get(storeKey));
@@ -141,7 +135,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertNotNull(response.getPayload());
+                assertFalse(response.getPayload().isEmpty());
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
@@ -159,7 +153,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         final String expectedStoreValue2 = "testData2";
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(RequestInProcess request) {
                 request.getStore().save(storeKey, expectedStoreValue);
                 request.proceed();
@@ -167,7 +160,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(final RequestInProcess request) {
                 new Timer() {
                     public void run() {
@@ -180,7 +172,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(RequestInProcess request) {
                 // Test previous filter
                 assertEquals(expectedStoreValue2, request.getStore().get(storeKey2));
@@ -190,7 +181,6 @@ public class RequestFilterGwtTest extends GWTTestCase {
         });
 
         session.register(new RequestFilter() {
-            @Override
             public void filter(final RequestInProcess request) {
                 new Timer() {
                     @Override
@@ -205,7 +195,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertNotNull(response.getPayload());
+                assertFalse(response.getPayload().isEmpty());
                 assertEquals(expectedStoreValue, response.getStore().get(storeKey));
                 assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
