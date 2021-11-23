@@ -15,7 +15,7 @@
  */
 package io.reinert.requestor.core;
 
-public class RequestSerializerImpl implements RequestSerializer {
+public class BaseRequestSerializer implements RequestSerializer {
     @Override
     public void serialize(SerializableRequestInProcess request, SerializationEngine serializationEngine) {
         serializationEngine.serializeRequest(request);

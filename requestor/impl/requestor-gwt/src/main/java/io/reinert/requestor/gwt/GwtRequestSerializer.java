@@ -17,15 +17,15 @@ package io.reinert.requestor.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import io.reinert.requestor.core.BaseRequestSerializer;
 import io.reinert.requestor.core.FormData;
 import io.reinert.requestor.core.FormDataSerializerUrlEncoded;
-import io.reinert.requestor.core.RequestSerializer;
 import io.reinert.requestor.core.SerializableRequestInProcess;
 import io.reinert.requestor.core.SerializationEngine;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 
-public class GwtRequestSerializer implements RequestSerializer {
+public class GwtRequestSerializer extends BaseRequestSerializer {
     @Override
     public void serialize(SerializableRequestInProcess request, SerializationEngine serializationEngine) {
         Object payload = request.getPayload().asObject();
@@ -33,11 +33,11 @@ public class GwtRequestSerializer implements RequestSerializer {
         if (payload instanceof FormData &&
                 !FormDataSerializerUrlEncoded.MEDIA_TYPE.equalsIgnoreCase(request.getContentType())) {
             request.serializePayload(getFormDataSerializedPayload((FormData) payload));
-        } else {
-            serializationEngine.serializeRequest(request);
+            request.proceed();
+            return;
         }
 
-        request.proceed();
+        super.serialize(request, serializationEngine);
     }
 
     private SerializedPayload getFormDataSerializedPayload(FormData formData) {

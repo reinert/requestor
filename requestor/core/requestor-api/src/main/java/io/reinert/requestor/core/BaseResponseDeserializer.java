@@ -17,7 +17,7 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.Payload;
 
-public class ResponseDeserializerImpl implements ResponseDeserializer {
+public class BaseResponseDeserializer implements ResponseDeserializer {
     @Override
     public void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine) {
         if (isSuccessful(response)) {

@@ -26,8 +26,8 @@ class RequestOptionsHolder implements HasRequestOptions {
     private int[] retryDelays;
     private Event[] retryEvents;
     private final Headers headers = new Headers();
-    private RequestSerializer requestSerializer = new RequestSerializerImpl();
-    private ResponseDeserializer responseDeserializer = new ResponseDeserializerImpl();
+    private RequestSerializer requestSerializer = new BaseRequestSerializer();
+    private ResponseDeserializer responseDeserializer = new BaseResponseDeserializer();
 
     static RequestOptionsHolder copy(RequestOptionsHolder options) {
         RequestOptionsHolder copy = new RequestOptionsHolder();

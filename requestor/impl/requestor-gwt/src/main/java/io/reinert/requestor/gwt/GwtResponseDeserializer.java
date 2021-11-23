@@ -15,11 +15,11 @@
  */
 package io.reinert.requestor.gwt;
 
+import io.reinert.requestor.core.BaseResponseDeserializer;
 import io.reinert.requestor.core.DeserializableResponseInProcess;
 import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.RawResponse;
 import io.reinert.requestor.core.Response;
-import io.reinert.requestor.core.ResponseDeserializer;
 import io.reinert.requestor.core.SerializationEngine;
 import io.reinert.requestor.core.SerializedResponse;
 import io.reinert.requestor.core.payload.Payload;
@@ -31,7 +31,7 @@ import io.reinert.requestor.gwt.type.Blob;
 import io.reinert.requestor.gwt.type.Document;
 import io.reinert.requestor.gwt.type.Json;
 
-public class GwtResponseDeserializer implements ResponseDeserializer {
+public class GwtResponseDeserializer extends BaseResponseDeserializer {
     @Override
     public void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine) {
         if (isSuccessful(response)) {
@@ -58,19 +58,11 @@ public class GwtResponseDeserializer implements ResponseDeserializer {
 
             if (result != null) {
                 response.deserializePayload(new Payload(result));
-            } else {
-                serializationEngine.deserializeResponse(response);
+                response.proceed();
+                return;
             }
-        } else {
-            // TODO: deserialize by statusCode
-            response.deserializePayload(response.getSerializedPayload().isEmpty() ?
-                    Payload.EMPTY_PAYLOAD : new Payload(response.getSerializedPayload()));
         }
 
-        response.proceed();
-    }
-
-    private boolean isSuccessful(SerializedResponse response) {
-        return response.getStatusCode() / 100 == 2;
+        super.deserialize(response, serializationEngine);
     }
 }
