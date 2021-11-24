@@ -34,6 +34,7 @@ public class Auth extends Composite {
 
     public interface Handler {
         void onBasicButtonClick(String user, String password);
+        void onBearerButtonClick(String token);
         void onDigestButtonClick(String user, String password, String qop);
         void onCustomButtonClick(String key);
         void onGoogleButtonClick();
@@ -45,21 +46,27 @@ public class Auth extends Composite {
 
     private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
 
-    @UiField PreElement basic, digest, myAuth, custom, oauth2;
-    @UiField TextAreaElement basicTextArea, digestTextArea, customTextArea;
-    @UiField InputElement basicUser, basicPassword, digestUser, digestPassword, noQop, authQop, authIntQop, key;
+    @UiField PreElement basic, bearer, digest, digestImport, digestProvider, myAuth, custom, oauth2;
+    @UiField TextAreaElement basicTextArea, bearerTextArea, digestTextArea, customTextArea;
+    @UiField InputElement basicUser, basicPassword, bearerToken, digestUser, digestPassword, noQop, authQop, authIntQop,
+            key;
     @UiField HTMLPanel faces;
 
     private Handler handler;
 
     public Auth() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(basic, digest, myAuth, custom, oauth2);
+        HighlightJs.highlightBlock(basic, bearer, digest, digestImport, digestProvider, myAuth, custom, oauth2);
     }
 
     @UiHandler("basicButton")
     public void onBasicButtonClick(ClickEvent e) {
         handler.onBasicButtonClick(basicUser.getValue(), basicPassword.getValue());
+    }
+
+    @UiHandler("bearerButton")
+    public void onBearerButtonClick(ClickEvent e) {
+        handler.onBearerButtonClick(bearerToken.getValue());
     }
 
     @UiHandler("digestButton")
@@ -92,6 +99,10 @@ public class Auth extends Composite {
 
     public void setBasicText(String content) {
         basicTextArea.setInnerText(content);
+    }
+
+    public void setBearerText(String content) {
+        bearerTextArea.setInnerText(content);
     }
 
     public void setDigestText(String content) {

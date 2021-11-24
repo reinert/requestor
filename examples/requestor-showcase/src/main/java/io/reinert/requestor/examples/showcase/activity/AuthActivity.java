@@ -16,17 +16,15 @@
 package io.reinert.requestor.examples.showcase.activity;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.core.PreparedRequest;
-import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.auth.BasicAuth;
+import io.reinert.requestor.core.auth.BearerAuth;
 import io.reinert.requestor.core.auth.DigestAuth;
 import io.reinert.requestor.core.callback.PayloadCallback;
-import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.gwt.oauth2.OAuth2ByHeader;
@@ -62,6 +60,20 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
     }
 
     @Override
+    public void start(AcceptsOneWidget panel, EventBus eventBus) {
+        view.setHandler(this);
+        Page.setTitle("Authentication");
+        Page.setDescription("Check the available methods to authenticate requests.");
+        panel.setWidget(view);
+        scrollToSection();
+    }
+
+    @Override
+    public void onStop() {
+        view.setHandler(null);
+    }
+
+    @Override
     public void onBasicButtonClick(String user, String password) {
         session.req("https://httpbin.org/basic-auth/" + user + "/" + password)
                 .auth(new BasicAuth(user, password))
@@ -71,11 +83,18 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                     public void execute(String result) {
                         view.setBasicText(result);
                     }
-                })
-                .onFail(new ResponseCallback() {
+                });
+    }
+
+    @Override
+    public void onBearerButtonClick(String token) {
+        session.req("https://httpbin.org/headers")
+                .auth(new BearerAuth(token))
+                .get(String.class)
+                .onSuccess(new PayloadCallback<String>() {
                     @Override
-                    public void execute(Response response) {
-                        GWT.log("Authentication failed.");
+                    public void execute(String result) {
+                        view.setBearerText(result);
                     }
                 });
     }
@@ -89,12 +108,6 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                     @Override
                     public void execute(String result) {
                         view.setDigestText(result);
-                    }
-                })
-                .onFail(new ResponseCallback() {
-                    @Override
-                    public void execute(Response response) {
-                        GWT.log("Authentication failed.");
                     }
                 });
     }
@@ -167,20 +180,6 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                         view.addImage(imageUrl);
                     }
                 });
-    }
-
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        view.setHandler(this);
-        Page.setTitle("Authentication & Authorization");
-        Page.setDescription("See how to authenticate/authorize requests in practice.");
-        panel.setWidget(view);
-        scrollToSection();
-    }
-
-    @Override
-    public void onStop() {
-        view.setHandler(null);
     }
 
     @SuppressWarnings("unchecked")
