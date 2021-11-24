@@ -269,7 +269,8 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public RequestBuilderImpl auth(final Auth auth) {
         if (auth == null) {
-            throw new IllegalArgumentException("Auth cannot be null.");
+            this.authProvider = null;
+            return this;
         }
         return auth(new Auth.Provider() {
             @Override
@@ -281,9 +282,6 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
 
     @Override
     public RequestBuilderImpl auth(Auth.Provider authProvider) {
-        if (authProvider == null) {
-            throw new IllegalArgumentException("Auth provider cannot be null.");
-        }
         this.authProvider = authProvider;
         return this;
     }

@@ -60,6 +60,22 @@ public class DigestAuth implements Auth {
 
     public static NumberFormat NC_FORMAT = NumberFormat.getFormat("#00000000");
 
+    public static Auth.Provider newProvider(final String user, final String password) {
+        return new Provider() {
+            public Auth getInstance() {
+                return new DigestAuth(user, password);
+            }
+        };
+    }
+
+    public static Auth.Provider newProvider(final String user, final String password, final boolean withCredentials) {
+        return new Provider() {
+            public Auth getInstance() {
+                return new DigestAuth(user, password, withCredentials);
+            }
+        };
+    }
+
     private final String user;
     private final String password;
     private final boolean withCredentials;
@@ -82,7 +98,6 @@ public class DigestAuth implements Auth {
         this.withCredentials = withCredentials;
     }
 
-    @Override
     public void auth(PreparedRequest request) {
         request.setWithCredentials(withCredentials);
         attempt(request, null, request.getDispatcher());
@@ -139,14 +154,12 @@ public class DigestAuth implements Auth {
     private void sendAttemptRequest(final PreparedRequest originalRequest, MutableSerializedRequest attemptRequest,
                                     final RequestDispatcher dispatcher) {
         dispatcher.dispatch(attemptRequest, true, new DualCallback() {
-            @Override
             public void onError(RequestException error) {
                 resetChallengeCalls();
                 originalRequest.abort(new RequestAbortException(originalRequest, "Unable to authenticate request" +
                         " using DigestAuth. See previous exception.", error));
             }
 
-            @Override
             public void onLoad(Response response) {
                 if (contains(EXPECTED_CODES, response.getStatusCode())) {
                     // If the error response code is expected, then continue trying to authenticate
