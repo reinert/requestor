@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package io.reinert.requestor.core.auth;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -36,11 +39,25 @@ import io.reinert.requestor.core.uri.Uri;
 
 /**
  * HTTP Digest Authentication implementation. <br>
- * This class supports MD5 digest authentication based on <a href="http://tools.ietf.org/html/rfc2617">RFC 2617</a>.
+ * This class supports digest authentication based on <a href="http://tools.ietf.org/html/rfc2617">RFC 2617</a>.
+ * <p></p>
+ * You can register {@link HashFunction}s by calling {@link DigestAuth#setHashFunction(String, HashFunction)}.
  *
  * @author Danilo Reinert
  */
 public class DigestAuth implements Auth {
+
+    public interface HashFunction {
+        String hash(String input);
+    }
+
+    static {
+        setHashFunction("md5", new HashFunction() {
+            public String hash(String input) {
+                return MD5.hash(input);
+            }
+        });
+    }
 
     /**
      * An array containing the codes which are considered expected for the first attempt to retrieve the nonce.
@@ -60,6 +77,25 @@ public class DigestAuth implements Auth {
 
     public static NumberFormat NC_FORMAT = NumberFormat.getFormat("#00000000");
 
+    private static Map<String, HashFunction> hashFunctions;
+
+    public static void setHashFunction(String algorithm, HashFunction function) {
+        if (algorithm == null) throw new NullPointerException("Algorithm string argument cannot be null.");
+        if (function == null) throw new NullPointerException("HashFunction argument cannot be null.");
+        if (hashFunctions == null) hashFunctions = new HashMap<String, HashFunction>();
+        hashFunctions.put(algorithm.toLowerCase(), function);
+    }
+
+    public static HashFunction getHashFunction(String algorithm) {
+        if (algorithm == null) throw new NullPointerException("Algorithm string argument cannot be null.");
+        if (hashFunctions == null || !hashFunctions.containsKey(algorithm)) {
+            throw new UnsupportedOperationException("Algorithm '" + algorithm.toUpperCase() + "' is not supported." +
+                    " You can register a HashFunction for it by calling" +
+                    " DigestAuth.setHashFunction(String algorithm, HashFunction function).");
+        }
+        return hashFunctions.get(algorithm);
+    }
+
     public static Auth.Provider newProvider(final String user, final String password) {
         return new Provider() {
             public Auth getInstance() {
@@ -78,6 +114,7 @@ public class DigestAuth implements Auth {
 
     private final String user;
     private final String password;
+    private final String algorithm;
     private final boolean withCredentials;
 
     private String uriPath;
@@ -93,8 +130,17 @@ public class DigestAuth implements Auth {
     }
 
     public DigestAuth(String user, String password, boolean withCredentials) {
+        this(user, password, "md5", withCredentials);
+    }
+
+    public DigestAuth(String user, String password, String algorithm) {
+        this(user, password, algorithm, false);
+    }
+
+    public DigestAuth(String user, String password, String algorithm, boolean withCredentials) {
         this.user = user;
         this.password = password;
+        this.algorithm = algorithm;
         this.withCredentials = withCredentials;
     }
 
@@ -252,29 +298,33 @@ public class DigestAuth implements Auth {
         if (body == null) {
             throw new AuthException("Response body in Digest auth Int Qop method should not be empty.");
         }
-        final String hBody = MD5.hash(body);
-        final String ha2 = MD5.hash(method + ':' + url + ':' + hBody);
-        // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
+        final HashFunction hashFunction = getHashFunction(this.algorithm);
+        final String hBody = hashFunction.hash(body);
+        final String ha2 = hashFunction.hash(method + ':' + url + ':' + hBody);
+        // HASH(ha1:nonce:nonceCount:clientNonce:qop:ha2)
         // TODO: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
-        return MD5.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth-int" + ':' + ha2);
+        return hashFunction.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth-int" + ':' + ha2);
     }
 
     private String generateResponseAuthQop(String method, String url, String ha1, String nonce, String nc,
                                            String cNonce) {
-        final String ha2 = MD5.hash(method + ':' + url);
-        // MD5(ha1:nonce:nonceCount:clientNonce:qop:ha2)
+        final HashFunction hashFunction = getHashFunction(this.algorithm);
+        final String ha2 = hashFunction.hash(method + ':' + url);
+        // HASH(ha1:nonce:nonceCount:clientNonce:qop:ha2)
         // TODO: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
-        return MD5.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth" + ':' + ha2);
+        return hashFunction.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth" + ':' + ha2);
     }
 
     private String generateResponseUnspecifiedQop(String method, String url, String nonce, String ha1) {
-        final String ha2 = MD5.hash(method + ':' + url);
-        // MD5(ha1:nonce:ha2)
-        return MD5.hash(ha1 + ':' + nonce + ':' + ha2);
+        final HashFunction hashFunction = getHashFunction(this.algorithm);
+        final String ha2 = hashFunction.hash(method + ':' + url);
+        // HASH(ha1:nonce:ha2)
+        return hashFunction.hash(ha1 + ':' + nonce + ':' + ha2);
     }
 
     private String generateHa1(String realm) {
-        return MD5.hash(user + ':' + realm + ':' + password);
+        final HashFunction hashFunction = getHashFunction(this.algorithm);
+        return hashFunction.hash(user + ':' + realm + ':' + password);
     }
 
     private String getNonceCount(String nonce) {
@@ -284,7 +334,8 @@ public class DigestAuth implements Auth {
     }
 
     private String generateClientNonce(String nonce, String nc) {
-        return MD5.hash(nc + nonce + Duration.currentTimeMillis() + getRandom());
+        final HashFunction hashFunction = getHashFunction(this.algorithm);
+        return hashFunction.hash(nc + nonce + Duration.currentTimeMillis() + getRandom());
     }
 
     private String[] readQop(String authHeader) {
