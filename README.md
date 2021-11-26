@@ -901,29 +901,20 @@ browser to allow cross-site requests.
 
 ### Digest
 Requestor provides a ready-to-use `DigestAuth` supporting **qop** (*auth* or *auth-int*) and 
-**md5** algorithm. It is made available by the `requestor-digest` extension.
+**md5** hash algorithm.
 
-To enable Digest authentication, first install the extension dependency:
-
-```xml
-<dependency>
-  <groupId>io.reinert.requestor.ext</groupId>
-  <artifactId>requestor-digest</artifactId>
-  <version>${requestor.version}</version>
-</dependency>
-```
-
-Then, instantiate `DigestAuth` in the requests, sessions or services passing the `username` and 
-`password`. Optionally, there is a third boolean `withCredentials` param to make cross-site 
+Instantiate `DigestAuth` in the requests, sessions or services passing the `username`, 
+`password` and the `algorithm`. Optionally, there is a fourth boolean `withCredentials` param to make cross-site 
 requests:
 
 ```java
 String username = "username";
 String password = "password";
+String hashAlgo = "md5"
 boolean withCredentials = true;
 
 session.req("/api/protected") 
-        .auth(new DigestAuth(user, password, withCredentials))
+        .auth(new DigestAuth(user, password, hashAlgo, withCredentials))
         .get();
 ```
 
@@ -933,7 +924,7 @@ to do it through a `Provider` to avoid sharing the internal Auth state between r
 ```java
 // register a Provider of DigestAuth in the session
 Store store = session.getStore();
-session.setAuth(() -> new DigestAuth(store.get("username"), store.get("password")));
+session.setAuth(() -> new DigestAuth(store.get("username"), store.get("password"), "md5"));
 ```
 
 ### CORS

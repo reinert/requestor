@@ -30,7 +30,6 @@
   <artifactId>requestor-ext-parent</artifactId>
 
   <modules>
-    <module>requestor-digest</module>
     <module>requestor-oauth2gwt</module>
     <module>requestor-autobean</module>
     <module>requestor-gwtjackson</module>

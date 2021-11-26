@@ -46,7 +46,7 @@ public class Auth extends Composite {
 
     private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
 
-    @UiField PreElement basic, bearer, digest, digestImport, digestProvider, myAuth, custom, oauth2;
+    @UiField PreElement basic, bearer, digest, digestProvider, myAuth, custom, oauth2;
     @UiField TextAreaElement basicTextArea, bearerTextArea, digestTextArea, customTextArea;
     @UiField InputElement basicUser, basicPassword, bearerToken, digestUser, digestPassword, noQop, authQop, authIntQop,
             key;
@@ -56,7 +56,7 @@ public class Auth extends Composite {
 
     public Auth() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(basic, bearer, digest, digestImport, digestProvider, myAuth, custom, oauth2);
+        HighlightJs.highlightBlock(basic, bearer, digest, digestProvider, myAuth, custom, oauth2);
     }
 
     @UiHandler("basicButton")

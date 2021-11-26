@@ -95,27 +95,14 @@
         Safer than Basic, digest authentication is provided by <code>DigestAuth</code>.
       </p>
       <p>
-        In order to have it available, you need to import <code>requestor-digest</code> extension.
-      </p>
-      <div class="highlight">
-        <pre ui:field="digestImport" class="xml">
-          <code>&lt;dependency&gt;
-            <br/>&#32;&#32;&lt;groupId&gt;io.reinert.requestor.ext&lt;/groupId&gt;
-            <br/>&#32;&#32;&lt;artifactId&gt;requestor-digest&lt;/artifactId&gt;
-            <br/>&#32;&#32;&lt;version&gt;${requestor.version}&lt;/version&gt;
-            <br/>&lt;/dependency&gt;
-          </code>
-        </pre>
-      </div>
-      <p>
-        Then, just instantiate a <code>DigestAuth</code> into your request.
+        Instantiate a <code>DigestAuth</code> into your request, informing the user, password and hash algorithm.
       </p>
       <div class="highlight">
         <pre ui:field="digest" class="java">
           <code>
-            /* The authentication service requires a cookie to be persisted, so we set withCredentials (third param) to true */<br/>
+            /* The authentication service requires a cookie to be persisted, so we set withCredentials (fourth param) to true */<br/>
             session.req(&quot;https://httpbin.org/digest-auth/&quot; + qop + &quot;/&quot; + user + &quot;/&quot; + password)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new DigestAuth(user, password, true))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new DigestAuth(user, password, "md5", true))
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
           </code>
         </pre>
@@ -128,7 +115,8 @@
       </p>
       <div class="highlight">
         <pre ui:field="digestProvider" class="java">
-          <code>session.setAuth(() -> new DigestAuth(user, password, true));
+          <code>
+            session.setAuth(() -> new DigestAuth(user, password, "md5"));
           </code>
         </pre>
       </div>
