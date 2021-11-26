@@ -38,7 +38,7 @@ public class RestServiceGwtTest extends GWTTestCase {
     private static final int TIMEOUT = 5000;
     private static final int DELAY = 3000;
 
-    private RestService<Book, Integer, List> bookService;
+    private RestService<Book, Integer> bookService;
 
     @Override
     public String getModuleName() {
@@ -53,11 +53,10 @@ public class RestServiceGwtTest extends GWTTestCase {
 
         session.register(BookJsonSerializer.getInstance());
 
-        bookService = session.newRestService(
-                "https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books",
-                Book.class,
-                Integer.class,
-                List.class);
+        bookService = RestService
+                .of(Book.class, Integer.class, List.class)
+                .at("https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books")
+                .on(session);
 
         // The mockapi service requires us to explicitly inform the content type header
         bookService.setMediaType("application/json");
@@ -70,7 +69,6 @@ public class RestServiceGwtTest extends GWTTestCase {
         Book book = new Book(null, "RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
 
         bookService.post(book).onSuccess(new PayloadResponseCallback<Book>() {
-            @Override
             public void execute(Book returnedBook, Response response) {
                 assertNotNull(response);
 
@@ -102,7 +100,6 @@ public class RestServiceGwtTest extends GWTTestCase {
     public void testGetBooksWithParams() {
         // GET /books?id=20
         bookService.get("id", "20").onSuccess(new PayloadCallback<Collection<Book>>() {
-            @Override
             public void execute(Collection<Book> result) {
                 assertNotNull(result);
                 assertEquals(1, result.size());
@@ -129,7 +126,6 @@ public class RestServiceGwtTest extends GWTTestCase {
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
         bookService.patch(id, book).onSuccess(new PayloadResponseCallback<Book>() {
-            @Override
             public void execute(Book returnedBook, Response response) {
                 assertNotNull(response);
 
@@ -151,7 +147,6 @@ public class RestServiceGwtTest extends GWTTestCase {
         final Book book = new Book(id, "Clean Code", "Robert C. Martin", new Date(1217552400000L));
 
         bookService.put(id, book).onSuccess(new PayloadResponseCallback<Book>() {
-            @Override
             public void execute(Book returnedBook, Response response) {
                 assertNotNull(response);
 
@@ -170,7 +165,6 @@ public class RestServiceGwtTest extends GWTTestCase {
     private void manualTestDeleteBook(Integer createdId) {
         // DELETE /books/{createdId}
         bookService.delete(createdId).onSuccess(new PayloadResponseCallback<Void>() {
-            @Override
             public void execute(Void unused, Response response) {
                 assertNotNull(response);
 

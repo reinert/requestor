@@ -16,23 +16,72 @@
 package io.reinert.requestor.core;
 
 import java.util.Collection;
+import java.util.List;
 
 import io.reinert.requestor.core.uri.UriBuilder;
 
-public class RestService<R, I, C extends Collection> extends AbstractService implements RestInvoker<R, I> {
+public class RestService<R, I> extends AbstractService implements RestInvoker<R, I> {
+
+    public static class RestServiceSpec<R, I, C extends Collection> {
+        private final Class<R> resourceType;
+        private final Class<I> idType;
+        private final Class<C> collectionType;
+
+        private RestServiceSpec(Class<R> resourceType, Class<I> idType, Class<C> collectionType) {
+            this.resourceType = resourceType;
+            this.idType = idType;
+            this.collectionType = collectionType;
+        }
+
+        public RestServiceBuilder<R, I, C> at(String rootPath) {
+            return new RestServiceBuilder<R, I, C>(this, rootPath);
+        }
+    }
+
+    public static class RestServiceBuilder<R, I, C extends Collection> {
+        private final RestServiceSpec<R, I, C> spec;
+        private final String rootPath;
+
+        private RestServiceBuilder(RestServiceSpec<R, I, C> spec, String rootPath) {
+            this.spec = spec;
+            this.rootPath = rootPath;
+        }
+
+        public RestService<R, I> on(Session session) {
+            return new RestService<R, I>(session, rootPath, spec.resourceType, spec.idType, spec.collectionType);
+        }
+    }
+
+    public static <R, I, C extends Collection> RestServiceSpec<R, I, C> of(Class<R> resourceType, Class<I> idType,
+                                                                           Class<C> collectionType) {
+        return new RestServiceSpec<R, I, C>(resourceType, idType, collectionType);
+    }
+
+    public static <R, I> RestServiceSpec<R, I, List> of(Class<R> resourceType, Class<I> idType) {
+        return new RestServiceSpec<R, I, List>(resourceType, idType, List.class);
+    }
 
     protected final Class<R> resourceType;
     protected final Class<I> idType;
-    protected final Class<C> collectionType;
+    protected final Class<? extends Collection> collectionType;
 
     private boolean asMatrixParam = false;
 
     protected RestService(Session session, String resourceUri, Class<R> resourceType, Class<I> idType,
-                          Class<C> collectionType) {
+                          Class<? extends Collection> collectionType) {
         super(session, resourceUri);
         this.resourceType = resourceType;
         this.idType = idType;
         this.collectionType = collectionType;
+    }
+
+    @Override
+    public Request<R> get(I id) {
+        final UriBuilder reqUriBuilder = getUriBuilder();
+
+        reqUriBuilder.segment(id);
+
+        return request(reqUriBuilder.build()).get(resourceType);
     }
 
     @Override
@@ -46,15 +95,6 @@ public class RestService<R, I, C extends Collection> extends AbstractService imp
         }
 
         return request(reqUriBuilder.build()).get(collectionType, resourceType);
-    }
-
-    @Override
-    public Request<R> get(I id) {
-        final UriBuilder reqUriBuilder = getUriBuilder();
-
-        reqUriBuilder.segment(id);
-
-        return request(reqUriBuilder.build()).get(resourceType);
     }
 
     @Override

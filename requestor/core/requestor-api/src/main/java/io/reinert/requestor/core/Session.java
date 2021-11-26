@@ -603,25 +603,6 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         return providerManager.register(provider);
     }
 
-    /**
-     * A client service useful to communicate with REST like resources.
-     *
-     * @param resourceUri   Base URI of the resource
-     * @param resourceType  Class of the resource
-     * @param idType        Class of the resource's ID
-     * @param collectionType Class in which you want to accumulate collection results
-     * @param <R>           Resource type
-     * @param <I>           Resource's ID type
-     * @param <C>           Container type
-     * @return              A ResourceService of the Resource Type
-     */
-    public <R, I, C extends Collection> RestService<R, I, C> newRestService(String resourceUri,
-                                                                            Class<R> resourceType,
-                                                                            Class<I> idType,
-                                                                            Class<C> collectionType) {
-        return new RestService<R, I, C>(this, resourceUri, resourceType, idType, collectionType);
-    }
-
     //===================================================================
     // Internal methods
     //===================================================================

@@ -121,8 +121,10 @@ Requestor offers a pre-defined REST client so that we can perform basic CRUD ope
 a resource. See the example below on how to create a new `RestService`.
 
 ```java
-// Init by calling newRestService( <uri>, <entityClass>, <idClass>, <collectionClass> )
-bookService = session.newRestService("/api/books", Book.class, Integer.class, List.class);
+bookService = RestService
+        .of(Book.class, Integer.class) // <entityClass>, <idClass>
+        .at("/api/books")              // <rootPath>
+        .on(session);                  // <session>
 
 // Configure your service to always set Content-Type and Accept headers as 'application/json'
 bookService.setMediaType("application/json");
@@ -150,7 +152,7 @@ bookService.patch(123, book, "title", "year").onSuccess(updatedBook -> render(up
 bookService.delete(123).onSuccess(() -> showSuccess("Book was deleted."));
 ```
 
-Although Requestor provides this generic REST client, extending the `AbstractService` class and 
+ℹ️ Although Requestor provides this generic REST client, extending the `AbstractService` class and 
 implementing our service clients is more beneficial. `AbstractService` affords the advantage of
 little coding while empowering complete control of the requesting logic. Consequently, it 
 improves the testing capabilities and bug tracking. See more details in the [Service](#services) 
