@@ -168,8 +168,10 @@ public abstract class RequestDispatcher implements RunScheduler {
                     }
                 } catch (Exception e) {
                     // TODO: check if this try-catch block is really necessary
-                    deferred.reject(new RequestAbortException(requestInAuthProcess,
-                            "An error occurred before sending the request. See previous exception.", e));
+                    if (deferred.isPending()) {
+                        deferred.reject(new RequestAbortException(requestInAuthProcess,
+                                "An error occurred before sending the request. See previous exception.", e));
+                    }
                 }
             }
         }, request.getDelay());
@@ -177,15 +179,21 @@ public abstract class RequestDispatcher implements RunScheduler {
 
     private <T> void setHttpConnection(final MutableSerializedRequest request, final Deferred<T> deferred) {
         deferred.setHttpConnection(new HttpConnection() {
+
+            boolean pending = true;
+
             @Override
             public void cancel() {
-                deferred.reject(new RequestAbortException(request, "Request was cancelled before being sent through" +
-                        " the HttpConnection."));
+                if (deferred.isPending()) {
+                    pending = false;
+                    deferred.reject(new RequestAbortException(request, "Request was cancelled before being sent" +
+                            " through the HttpConnection."));
+                }
             }
 
             @Override
             public boolean isPending() {
-                return true;
+                return pending;
             }
         });
     }

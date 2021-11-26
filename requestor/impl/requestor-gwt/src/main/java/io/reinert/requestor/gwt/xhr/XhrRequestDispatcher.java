@@ -125,7 +125,9 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         xmlHttpRequest.setOnAbort(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                deferred.reject(new NetworkErrorException(request, new RequestProgressImpl(progress)));
+                if (deferred.isPending()) {
+                    deferred.reject(new NetworkErrorException(request, new RequestProgressImpl(progress)));
+                }
             }
         });
 
@@ -133,7 +135,9 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         xmlHttpRequest.setOnError(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                deferred.reject(new NetworkErrorException(request, new RequestProgressImpl(progress)));
+                if (deferred.isPending()) {
+                    deferred.reject(new NetworkErrorException(request, new RequestProgressImpl(progress)));
+                }
             }
         });
 
@@ -141,7 +145,9 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         xmlHttpRequest.setOnProgress(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                deferred.notifyDownload(new RequestProgressImpl(progress));
+                if (deferred.isPending()) {
+                    deferred.notifyDownload(new RequestProgressImpl(progress));
+                }
             }
         });
 
@@ -149,7 +155,9 @@ public class XhrRequestDispatcher extends RequestDispatcher {
         xmlHttpRequest.setUploadOnProgress(new ProgressHandler() {
             @Override
             public void onProgress(ProgressEvent progress) {
-                deferred.notifyUpload(new RequestProgressImpl(progress));
+                if (deferred.isPending()) {
+                    deferred.notifyUpload(new RequestProgressImpl(progress));
+                }
             }
         });
 
@@ -222,6 +230,8 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             }
 
             public void onError(com.google.gwt.http.client.Request gwtRequest, Throwable exception) {
+                if (!deferred.isPending()) return;
+
                 if (exception instanceof com.google.gwt.http.client.RequestTimeoutException) {
                     // reject as timeout
                     com.google.gwt.http.client.RequestTimeoutException e =
