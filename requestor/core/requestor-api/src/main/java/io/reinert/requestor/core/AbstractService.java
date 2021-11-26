@@ -29,7 +29,7 @@ public class AbstractService implements Service {
     public AbstractService(Session session, String resourceUri) {
         this.session = session;
         this.options = RequestOptionsHolder.copy(session.getRequestOptions());
-        this.store = new TransientStore(session.getStore());
+        this.store = new LeafStore(session.getStore());
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 

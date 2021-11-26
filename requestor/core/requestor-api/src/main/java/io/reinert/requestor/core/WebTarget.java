@@ -40,7 +40,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
     private final DeferredPool.Factory deferredPoolFactory;
     private final FilterManagerImpl filterManager;
     private final InterceptorManagerImpl interceptorManager;
-    private final TransientStore store;
+    private final LeafStore store;
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
     private final RequestDispatcher requestDispatcher;
@@ -49,27 +49,27 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
     public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                                    SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
-                                   DeferredPool.Factory deferredPoolFactory, SessionStore store,
+                                   DeferredPool.Factory deferredPoolFactory, RootStore store,
                                    RequestOptionsHolder options, RequestSerializer requestSerializer,
                                    ResponseDeserializer responseDeserializer, Uri uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredPoolFactory, new TransientStore(store), RequestOptionsHolder.copy(options), requestSerializer,
+                deferredPoolFactory, new LeafStore(store), RequestOptionsHolder.copy(options), requestSerializer,
                 responseDeserializer, uri, uri == null ? UriBuilder.newInstance() : UriBuilder.fromUri(uri));
     }
 
     public static WebTarget create(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                                    SerializationEngine serializationEngine, RequestDispatcher.Factory dispatcherFactory,
-                                   DeferredPool.Factory deferredPoolFactory, SessionStore store,
+                                   DeferredPool.Factory deferredPoolFactory, RootStore store,
                                    RequestOptionsHolder options, RequestSerializer requestSerializer,
                                    ResponseDeserializer responseDeserializer, UriBuilder uriBuilder) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredPoolFactory, new TransientStore(store), RequestOptionsHolder.copy(options), requestSerializer,
+                deferredPoolFactory, new LeafStore(store), RequestOptionsHolder.copy(options), requestSerializer,
                 responseDeserializer, null, uriBuilder);
     }
 
     private WebTarget(FilterManagerImpl filterManager, InterceptorManagerImpl interceptorManager,
                       SerializationEngine serializationEngine, RequestDispatcher.Factory requestDispatcherFactory,
-                      DeferredPool.Factory deferredPoolFactory, TransientStore store,
+                      DeferredPool.Factory deferredPoolFactory, LeafStore store,
                       RequestOptionsHolder options, RequestSerializer requestSerializer,
                       ResponseDeserializer responseDeserializer, Uri uri, UriBuilder uriBuilder) {
         this.serializationEngine = serializationEngine;
@@ -497,7 +497,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
     private WebTarget newWebTarget(UriBuilder copy) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredPoolFactory, TransientStore.copy(store), RequestOptionsHolder.copy(options),
+                deferredPoolFactory, LeafStore.copy(store), RequestOptionsHolder.copy(options),
                 getRequestSerializer(), getResponseDeserializer(), null, copy);
     }
 
@@ -507,7 +507,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvokerImpl request =
-                new RequestInvokerImpl(uri, new TransientStore(store), requestDispatcher);
+                new RequestInvokerImpl(uri, new LeafStore(store), requestDispatcher);
         options.apply(request);
         return request;
     }

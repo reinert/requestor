@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class StoreJreTest {
 
-    private final Store store = new SessionStore();
+    private final Store store = new RootStore();
 
     @Test
     public void get_SetValue_ShouldReturnSetValueAndKeepIt() {

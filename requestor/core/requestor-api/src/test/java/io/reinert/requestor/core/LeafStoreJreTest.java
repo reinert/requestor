@@ -25,12 +25,12 @@ import static org.junit.Assert.assertTrue;
 /**
  * Unit tests of {@link SerializerManagerImpl}.
  */
-public class TransientStoreJreTest {
+public class LeafStoreJreTest {
 
     private static final String KEY = "key";
     private static final int VALUE = 1;
 
-    private final SessionStore store = new SessionStore();
+    private final RootStore store = new RootStore();
 
     @Before
     public void setUp() {
@@ -40,27 +40,27 @@ public class TransientStoreJreTest {
     @Test
     public void get_SetValueInParent_ShouldReturnSetValue() {
         // Given
-        TransientStore transientStore = new TransientStore(store);
+        LeafStore leafStore = new LeafStore(store);
 
         // When
-        int returned = transientStore.get(KEY);
+        int returned = leafStore.get(KEY);
 
         // Then
         assertEquals(VALUE, returned);
-        assertTrue(transientStore.has(KEY));
+        assertTrue(leafStore.has(KEY));
     }
 
     @Test
     public void remove_SetValueInParent_ShouldKeepIt() {
         // Given
-        TransientStore transientStore = new TransientStore(store);
+        LeafStore leafStore = new LeafStore(store);
 
         // When
-        boolean removed = transientStore.delete(KEY);
+        boolean removed = leafStore.delete(KEY);
 
         // Then
         assertFalse(removed);
-        assertTrue(transientStore.has(KEY));
+        assertTrue(leafStore.has(KEY));
     }
 
     @Test
@@ -69,15 +69,15 @@ public class TransientStoreJreTest {
         String key = "key2";
 
         // Given
-        TransientStore transientStore = new TransientStore(store);
-        transientStore.save(key, expected);
+        LeafStore leafStore = new LeafStore(store);
+        leafStore.save(key, expected);
 
         // When
-        boolean returned = transientStore.delete(key);
+        boolean returned = leafStore.delete(key);
 
         // Then
         assertTrue(returned);
-        assertFalse(transientStore.has(key));
+        assertFalse(leafStore.has(key));
     }
 
     @Test
@@ -85,17 +85,17 @@ public class TransientStoreJreTest {
         int localExpected = 2;
 
         // Given
-        TransientStore transientStore = new TransientStore(store);
-        transientStore.save(KEY, localExpected);
+        LeafStore leafStore = new LeafStore(store);
+        leafStore.save(KEY, localExpected);
 
         // When
-        boolean removed = transientStore.delete(KEY);
-        boolean parentRemoved = transientStore.delete(KEY);
+        boolean removed = leafStore.delete(KEY);
+        boolean parentRemoved = leafStore.delete(KEY);
 
         // Then
         assertTrue(removed);
         assertFalse(parentRemoved);
-        assertTrue(transientStore.has(KEY));
+        assertTrue(leafStore.has(KEY));
     }
 
     @Test
@@ -104,15 +104,15 @@ public class TransientStoreJreTest {
         int localExpected = 3;
 
         // Given
-        TransientStore volatileParent = new TransientStore(store);
+        LeafStore volatileParent = new LeafStore(store);
         volatileParent.save(KEY, parentExpected);
 
-        TransientStore transientStore = new TransientStore(volatileParent);
-        transientStore.save(KEY, localExpected);
+        LeafStore leafStore = new LeafStore(volatileParent);
+        leafStore.save(KEY, localExpected);
 
         // When
-        boolean removed = transientStore.delete(KEY);
-        boolean parentRemoved = transientStore.delete(KEY);
+        boolean removed = leafStore.delete(KEY);
+        boolean parentRemoved = leafStore.delete(KEY);
 
         // Then
         assertTrue(removed);

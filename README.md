@@ -1436,9 +1436,9 @@ Session session = new Session(new AppDeferredPoolFactory());
 
 ## Store
 
-Requestor provides a place where we can save and retrieve objects by key: the `Store`. There are two different kinds of Store: `SessionStore` and `TransientStore`. The [Session](#session) features a long-living `SessionStore` where we can save and retrieve objects by key during the Session's life. On top of that, whenever we create a new **Request** or **Service**, we have access to a new short-living `TransientStore` to manage data during the component's lifecycle.
+Requestor provides a place where we can save and retrieve objects by key: the `Store`. There are two different kinds of Store: `RootStore` and `LeafStore`. The [Session](#session) features a long-living `RootStore` where we can save and retrieve objects by key during the Session's life. On top of that, whenever we create a new **Request** or **Service**, we have access to a new short-living `LeafStore` to manage data during the component's lifecycle.
 
-The `TransientStore` envelopes a `Store` (be it Transient or Session) to expose access to its data. Thus, whenever the Transient Store is queried, it first tries to retrieve data from its local storage. Not succeeding, it queries the underlying Store. When saving data, we can ask the Transient Store to save it locally or delegate it to the wrapped Store. Finally, when deleting, we are able to remove only locally saved data. We cannot delete data persisted in the underlying Store from the Transient Store.
+The `LeafStore` envelopes a `Store` (be it Leaf or Root) to expose access to its data. Thus, whenever the Leaf Store is queried, it first tries to retrieve data from its local storage. Not succeeding, it queries the underlying Store. When saving data, we can ask the Leaf Store to save it locally or delegate it to the wrapped Store. Finally, when deleting, we are able to remove only locally saved data. We cannot delete data persisted in the underlying Store from the Leaf Store.
 
 ### Session Store
 
@@ -1463,7 +1463,7 @@ boolean isDeleted = store.delete("key");
 
 ### Request Store
 
-The Request Store is a `TransientStore` available during the [Request Lifecycle](#processors-middlewares) and accessed within the [Processors](#processors-middlewares) either by `request.getStore()` or by `response.getStore()`.
+The Request Store is a `LeafStore` available during the [Request Lifecycle](#processors-middlewares) and accessed within the [Processors](#processors-middlewares) either by `request.getStore()` or by `response.getStore()`.
 
 Having a transient **Request Store** is helpful to share information among **Processors** without cluttering the deriving **Session Store** or **Service Store**.
 
@@ -1502,7 +1502,7 @@ store.delete("key");
 
 ### Service Store
 
-The Service Store is a `TransientStore` derived from the Session Store.
+The Service Store is a `LeafStore` derived from the Session Store.
 
 Having a **Service Store** is helpful to share information among the requests that originated from that Service.
 

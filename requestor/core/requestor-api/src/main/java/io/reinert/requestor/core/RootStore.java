@@ -18,11 +18,11 @@ package io.reinert.requestor.core;
 import java.util.HashMap;
 import java.util.Map;
 
-class SessionStore implements Store {
+class RootStore implements Store {
 
     private final Map<String, Object> dataMap;
 
-    SessionStore() {
+    RootStore() {
         this.dataMap = new HashMap<String, Object>();
     }
 

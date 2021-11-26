@@ -54,7 +54,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         DirectInvoker, HasRequestOptions {
 
     private final RequestOptionsHolder options = new RequestOptionsHolder();
-    private final SessionStore store = new SessionStore();
+    private final RootStore store = new RootStore();
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
@@ -612,7 +612,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, new TransientStore(store),
+        final RequestInvoker request = new RequestInvokerImpl(uri, new LeafStore(store),
                 requestDispatcherFactory.create(requestProcessor, responseProcessor, deferredPoolFactory));
 
         options.apply(request);

@@ -18,24 +18,24 @@ package io.reinert.requestor.core;
 import java.util.HashMap;
 import java.util.Map;
 
-class TransientStore implements Store {
+class LeafStore implements Store {
 
-    private final Store underStore;
+    private final Store parentStore;
     private Map<String, Object> localDataMap;
 
-    public static TransientStore copy(TransientStore transientStore) {
-        TransientStore store = new TransientStore(transientStore.underStore);
+    static LeafStore copy(LeafStore leafStore) {
+        LeafStore store = new LeafStore(leafStore.parentStore);
 
-        if (transientStore.localDataMap != null) {
-            store.localDataMap = new HashMap<String, Object>(transientStore.localDataMap);
+        if (leafStore.localDataMap != null) {
+            store.localDataMap = new HashMap<String, Object>(leafStore.localDataMap);
         }
 
         return store;
     }
 
-    TransientStore(Store store) {
+    LeafStore(Store store) {
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
-        this.underStore = store;
+        this.parentStore = store;
     }
 
     @SuppressWarnings("unchecked")
@@ -48,7 +48,7 @@ class TransientStore implements Store {
         }
 
         if (data == null) {
-            data = underStore.get(key);
+            data = parentStore.get(key);
         }
 
         return data;
@@ -62,11 +62,11 @@ class TransientStore implements Store {
         }
 
         if (persistOn == PersistOn.PARENT) {
-            underStore.save(key, value);
+            parentStore.save(key, value);
             return;
         }
 
-        underStore.save(key, value, persistOn);
+        parentStore.save(key, value, persistOn);
     }
 
     @Override
@@ -76,7 +76,7 @@ class TransientStore implements Store {
 
     @Override
     public boolean has(String key) {
-        boolean has = underStore.has(key);
+        boolean has = parentStore.has(key);
 
         if (has) return true;
 

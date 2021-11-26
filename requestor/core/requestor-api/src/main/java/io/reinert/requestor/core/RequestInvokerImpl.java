@@ -29,7 +29,7 @@ import io.reinert.requestor.core.uri.Uri;
  */
 class RequestInvokerImpl extends AbstractRequestInvoker {
 
-    public RequestInvokerImpl(Uri uri, TransientStore store, RequestDispatcher dispatcher) {
+    public RequestInvokerImpl(Uri uri, LeafStore store, RequestDispatcher dispatcher) {
         super(uri, store, dispatcher);
     }
 

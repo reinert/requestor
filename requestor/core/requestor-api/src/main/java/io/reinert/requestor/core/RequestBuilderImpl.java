@@ -37,7 +37,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private static final Logger logger = Logger.getLogger(RequestBuilderImpl.class.getName());
 
     private Uri uri;
-    private TransientStore store;
+    private LeafStore store;
     private Headers headers;
     private Auth.Provider authProvider;
     private HttpMethod httpMethod;
@@ -49,11 +49,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private SerializedPayload serializedPayload;
     private boolean serialized;
 
-    public RequestBuilderImpl(Uri uri, TransientStore store) {
+    public RequestBuilderImpl(Uri uri, LeafStore store) {
         this(uri, store, null, null, null, 0, 0, null, null, null, null, false);
     }
 
-    public RequestBuilderImpl(Uri uri, TransientStore store, Headers headers, Auth.Provider authProvider,
+    public RequestBuilderImpl(Uri uri, LeafStore store, Headers headers, Auth.Provider authProvider,
                               HttpMethod httpMethod, int timeout, int delay, RetryOptions retryOptions,
                               PollingOptions pollingOptions, Payload payload, SerializedPayload serializedPayload,
                               boolean serialized) {
@@ -174,7 +174,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public TransientStore getStore() {
+    public LeafStore getStore() {
         return store;
     }
 
@@ -388,7 +388,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     public RequestBuilderImpl copy() {
         return new RequestBuilderImpl(
                 Uri.copy(uri),
-                TransientStore.copy(store),
+                LeafStore.copy(store),
                 Headers.copy(headers),
                 authProvider,
                 httpMethod,
