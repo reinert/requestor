@@ -88,7 +88,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onBearerButtonClick(String token) {
-        session.req("https://httpbin.org/headers")
+        session.req("https://httpbin.org/bearer")
                 .auth(new BearerAuth(token))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {

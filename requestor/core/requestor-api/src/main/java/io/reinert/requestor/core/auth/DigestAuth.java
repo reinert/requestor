@@ -146,23 +146,28 @@ public class DigestAuth implements Auth {
     }
 
     private void attempt(PreparedRequest originalRequest, Response attemptResponse, RequestDispatcher dispatcher) {
-        if (challengeCalls < maxChallengeCalls) {
-            final MutableSerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
+        try {
+            if (challengeCalls < maxChallengeCalls) {
+                final MutableSerializedRequest attemptRequest = copyRequest(originalRequest, attemptResponse);
 
-            sendAttemptRequest(originalRequest, attemptRequest, dispatcher);
-        } else {
-            final Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
-                    originalRequest.getSerializedPayload(), attemptResponse);
+                sendAttemptRequest(originalRequest, attemptRequest, dispatcher);
+            } else {
+                final Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
+                        originalRequest.getSerializedPayload(), attemptResponse);
 
-            if (authHeader != null) {
-                originalRequest.setHeader(authHeader);
+                if (authHeader != null) {
+                    originalRequest.setHeader(authHeader);
+                }
+
+                resetChallengeCalls();
+                originalRequest.send();
             }
 
-            resetChallengeCalls();
-            originalRequest.send();
+            challengeCalls++;
+        } catch (AuthException e) {
+            originalRequest.abort(new RequestAbortException(originalRequest,
+                    "DigestAuth has failed to authenticate the request", e));
         }
-
-        challengeCalls++;
     }
 
     // TODO: Make a Factory of Auth to limit the scope of the auth to each request to avoid issues with state managing
@@ -208,7 +213,8 @@ public class DigestAuth implements Auth {
                 }
 
                 // Otherwise, throw an AuthException and abort the request with it
-                throw new AuthException("The server returned a not expected status code: " + response.getStatusCode());
+                throw new AuthException("Received a non successful status code in an attempt request: "
+                        + response.getStatusCode());
             }
         });
     }

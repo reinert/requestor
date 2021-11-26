@@ -50,8 +50,8 @@ class ShowcaseDeferredFactory implements DeferredPool.Factory {
                             + "If you are using IE9- or Opera Mini probably it's because the poor support for CORS of "
                             + "your browser. See browser's console log for more details.");
                 } else {
-                    Window.alert("The request has failed with the following message: \""
-                            + response.getStatus().getReasonPhrase()
+                    Window.alert("The request has failed with the following status code: \""
+                            + response.getStatus().getStatusCode()
                             + "\". See browser's network for more details.");
                 }
             }
@@ -66,6 +66,8 @@ class ShowcaseDeferredFactory implements DeferredPool.Factory {
                 Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferredPool);
 
                 GWT.log("The following error has occurred while requesting.", exception);
+
+                Window.alert("The request has failed. See browser's console for more details.");
             }
         });
 
