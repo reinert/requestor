@@ -22,6 +22,11 @@ package io.reinert.requestor.core;
  */
 public interface Store {
 
+    enum PersistOn {
+        PARENT,
+        ROOT;
+    }
+
     /**
      * Queries an object associated with the given key.
      *
@@ -43,13 +48,14 @@ public interface Store {
     /**
      * Inserts the value into the store associated with the key.
      * Being a request scope store, the data will be available during the request/response lifecycle only.
-     * If you want to persist it in the session lifecycle, then set the boolean param to <code>True</code>.
+     * If you want to persist it in the immediate parent store, set the persist param to <code>PersistOn.PARENT</code>.
+     * If you want to persist it in the root store, set the persist param to <code>PersistOn.ROOT</code>.
      *
      * @param key   A key to associate the data
      * @param value The data to be persisted
-     * @param persist Whether the data should be persisted in the underlying stores or not
+     * @param persistOn Whether the data should be persisted in the underlying stores or not
      */
-    void save(String key, Object value, boolean persist);
+    void save(String key, Object value, PersistOn persistOn);
 
     /**
      * Checks if there's any data associated with the given key.

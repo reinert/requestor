@@ -55,18 +55,23 @@ class TransientStore implements Store {
     }
 
     @Override
-    public void save(String key, Object value, boolean persist) {
-        if (persist) {
-            // If we'd want to go further in the chain, we'd call save(key, value, true)
-            underStore.save(key, value);
-        } else {
-            ensureDataMap().put(key, value);
+    public void save(String key, Object value, PersistOn persistOn) {
+        if (persistOn == null) {
+            save(key, value);
+            return;
         }
+
+        if (persistOn == PersistOn.PARENT) {
+            underStore.save(key, value);
+            return;
+        }
+
+        underStore.save(key, value, persistOn);
     }
 
     @Override
     public void save(String key, Object value) {
-        this.save(key, value, false);
+        ensureDataMap().put(key, value);
     }
 
     @Override

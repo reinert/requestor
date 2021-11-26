@@ -38,7 +38,7 @@ class SessionStore implements Store {
     }
 
     @Override
-    public void save(String key, Object value, boolean persist) {
+    public void save(String key, Object value, PersistOn persistOn) {
         save(key, value);
     }
 
