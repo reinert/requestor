@@ -55,18 +55,18 @@ class LeafStore implements Store {
     }
 
     @Override
-    public void save(String key, Object value, PersistOn persistOn) {
-        if (persistOn == null) {
+    public void save(String key, Object value, Level level) {
+        if (level == null) {
             save(key, value);
             return;
         }
 
-        if (persistOn == PersistOn.PARENT) {
+        if (level == Level.PARENT) {
             parentStore.save(key, value);
             return;
         }
 
-        parentStore.save(key, value, persistOn);
+        parentStore.save(key, value, level);
     }
 
     @Override

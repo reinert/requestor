@@ -38,7 +38,7 @@ class RootStore implements Store {
     }
 
     @Override
-    public void save(String key, Object value, PersistOn persistOn) {
+    public void save(String key, Object value, Level level) {
         save(key, value);
     }
 

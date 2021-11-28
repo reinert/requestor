@@ -1479,7 +1479,11 @@ Store store = request.getStore();
 AnyType object = store.get("key");
 ```
 
-To save an object locally, we call `store.save(<key>, <object>)`. Differently, to save an object in the deriving Store, we need to call `store.save(<key>, <object>, <persit=true>)`.
+To save an object locally, we call `store.save(<key>, <object>)`.
+Differently, to save an object in the upstream Store, we call `store.save(<key>, <object>, <level>)`.
+If the request was originated from a [Service](#services) and we set the level as `Level.PARENT`, then the data is saved in the Service's `LeafStore`.
+But if we set the level as `Level.ROOT`, the data is saved in the Session's `RootStore`.
+In the other hand, if the request was directly originated from a [Session](#session), then both `Level.PARENT` and `Level.ROOT` will cause the same effect of saving in the Session's Store, because the request's parent and root stores are the same.
 
 ```java
 Store store = request.getStore();
@@ -1487,8 +1491,14 @@ Store store = request.getStore();
 // Save an object in request scope only
 store.save("key", anyObject);
 
-// Save an object in the deriving store
-store.save("key", anyObject, true);
+// Save an object in the parent store
+// 1. If it's a service's request, data is saved in the Service Store
+// 2. If it's a session's request, data is saved in the Session Store
+store.save("key", anyObject, Level.PARENT);
+
+// Save an object in the root store
+// Data will always be persisted in the upstream Session Store
+store.save("key", anyObject, Level.ROOT);
 ```
 
 To delete a local record, we call `store.delete(<key>)`. We cannot delete records from the deriving Store.
@@ -1506,7 +1516,7 @@ The Service Store is a `LeafStore` derived from the Session Store.
 
 Having a **Service Store** is helpful to share information among the requests that originated from that Service.
 
-The Service Store provides access to the deriving Session Store's data. We can even persist data from the Service Store into the underlying Store (by setting the boolean `persist` param to true when saving), though we cannot delete Session's data from it.
+The Service Store provides access to the deriving Session Store's data. We can even persist data from the Service Store into the parent Session Store, though we cannot delete Session's data from it.
 
 When we call `store.get(<key>)`, the Service Store first tries to retrieve the associated object from the service scope storage. Not finding, it queries the underlying Session Store. Also, the result is automatically typecasted to the requested type.
 
@@ -1518,7 +1528,8 @@ Store store = service.getStore();
 AnyType object = store.get("key");
 ```
 
-To save an object locally, we call `store.save(<key>, <object>)`. Differently, to save an object in the deriving Session Store, we need to call `store.save(<key>, <object>, <persit=true>)`.
+To save an object locally, we call `store.save(<key>, <object>)`.
+Differently, to save an object in the parent Session Store, we call `store.save(<key>, <object>, <level>)`.
 
 ```java
 Store store = service.getStore();
@@ -1526,8 +1537,9 @@ Store store = service.getStore();
 // Save an object in request scope only
 store.save("key", anyObject);
 
-// Save an object in the deriving session store
-store.save("key", anyObject, true);
+// Save an object in the parent session store
+// Level.PARENT causes the same effect here
+store.save("key", anyObject, Level.ROOT);
 ```
 
 To delete a local record, we call `store.delete(<key>)`. We cannot delete records from the deriving Session Store.
