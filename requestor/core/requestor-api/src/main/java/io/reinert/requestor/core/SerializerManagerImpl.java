@@ -175,16 +175,8 @@ class SerializerManagerImpl implements SerializerManager {
     }
 
     private <T> String getClassName(Class<T> type) {
-        String typeName = type.getCanonicalName();
-        // AutoBean class name normalization (remove all content after $)
-        int i = typeName.indexOf("AutoBean$");
-        if (i > -1) {
-            final String nonNormalizedTypeName = typeName;
-            typeName = typeName.substring(0, i + 8);
-            logger.log(Level.FINE, "Performing AutoBean type name normalization from '" + nonNormalizedTypeName +
-                    "' to '" + typeName + "'.");
-        }
-        return typeName;
+        // We don't use getCanonicalName because GWT AutoBean returns null for it
+        return type.getName();
     }
 
     private Registration bindSerializerToType(SerializerProvider serializerProvider,
@@ -511,7 +503,7 @@ class SerializerManagerImpl implements SerializerManager {
                 if (i == otherCleanedLength && otherEndsWithWildcard) {
                     break;
                 }
-                if (!part.isEmpty()) {
+                if (part.length() != 0) {
                     int newIdx = rightCleaned.indexOf(part, i);
                     if (newIdx == -1) {
                         matches = false;
@@ -529,7 +521,7 @@ class SerializerManagerImpl implements SerializerManager {
             String[] parts = left.toLowerCase().split("\\*");
             int i = 0;
             for (String part : parts) {
-                if (!part.isEmpty()) {
+                if (part.length() != 0) {
                     int newIdx = rightLower.indexOf(part, i);
                     if (newIdx == -1) {
                         matches = false;

@@ -16,7 +16,6 @@
 package io.reinert.requestor.autobean;
 
 import java.io.PrintWriter;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -67,9 +66,6 @@ public class AutoBeanModulesGenerator extends Generator {
 
     private static final Logger LOGGER = Logger.getLogger(AutoBeanModulesGenerator.class.getName());
 
-    private static final String factoryFieldName = "myFactory";
-    private static final String factoryTypeName = "MyFactory";
-
     private final StringBuilder sourceLog = new StringBuilder();
 
     @Override
@@ -111,8 +107,8 @@ public class AutoBeanModulesGenerator extends Generator {
         final SourceWriter sourceWriter = getSourceWriter(treeLogger, ctx, moduleType);
         sourceWriter.println();
 
-        final ArrayDeque<String> allTypesAndWrappers = new ArrayDeque<String>();
-        final ArrayDeque<JClassType> autoBeanTypes = getJTypes(typeOracle, serializationModuleAnn);
+        final List<String> allTypesAndWrappers = new ArrayList<String>();
+        final List<JClassType> autoBeanTypes = getJTypes(typeOracle, serializationModuleAnn);
         final String[] mediaTypes = getMediaTypePatterns(moduleType.getAnnotation(MediaType.class));
 
         for (JClassType autoBeanType : autoBeanTypes) {
@@ -128,22 +124,26 @@ public class AutoBeanModulesGenerator extends Generator {
             allTypesAndWrappers.add(setWrapperTypeName);
         }
 
-        final ArrayDeque<String> serializerFields = new ArrayDeque<String>();
-        final ArrayDeque<String> typeProviderFields = new ArrayDeque<String>();
+        final ArrayList<String> serializerFields = new ArrayList<String>();
+        final ArrayList<String> typeProviderFields = new ArrayList<String>();
+
+        final String factoryTypeName = getTypeName(moduleType) + "Factory";
+        final String factoryFieldName = getFieldName(moduleType) + "Factory";
 
         if (!allTypesAndWrappers.isEmpty()) {
-            generateFactoryInterface(sourceWriter, allTypesAndWrappers);
+            generateFactoryInterface(sourceWriter, allTypesAndWrappers, factoryTypeName);
             sourceWriter.println();
 
-            generateFactoryField(sourceWriter);
+            generateFactoryField(sourceWriter, factoryTypeName, factoryFieldName);
             sourceWriter.println();
 
             for (JClassType autoBeanType : autoBeanTypes) {
-                final String typeProviderFieldName = generateTypeProviderField(sourceWriter, autoBeanType);
+                final String typeProviderFieldName = generateTypeProviderField(sourceWriter, autoBeanType,
+                        factoryFieldName);
                 typeProviderFields.add(typeProviderFieldName);
 
                 final String serializerFieldName = generateSerializerClassAndField(treeLogger, typeOracle,
-                        sourceWriter, autoBeanType, mediaTypes);
+                        sourceWriter, autoBeanType, mediaTypes, factoryFieldName, typeProviderFieldName);
                 serializerFields.add(serializerFieldName);
             }
         }
@@ -166,8 +166,8 @@ public class AutoBeanModulesGenerator extends Generator {
         return mediaTypes;
     }
 
-    private ArrayDeque<JClassType> getJTypes(TypeOracle oracle, AutoBeanSerializationModule serializationModuleAnn) {
-        ArrayDeque<JClassType> types = new ArrayDeque<JClassType>();
+    private List<JClassType> getJTypes(TypeOracle oracle, AutoBeanSerializationModule serializationModuleAnn) {
+        ArrayList<JClassType> types = new ArrayList<JClassType>();
         for (Class<?> cls : serializationModuleAnn.value()) {
             types.add(oracle.findType(cls.getCanonicalName()));
         }
@@ -204,12 +204,12 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format(""));
     }
 
-    private void generateFactoryField(SourceWriter w) {
+    private void generateFactoryField(SourceWriter w, String factoryTypeName, String factoryFieldName) {
         print(w, String.format("private static %s %s = GWT.create(%s.class);", factoryTypeName, factoryFieldName,
                 factoryTypeName));
     }
 
-    private void generateFactoryInterface(SourceWriter w, Iterable<String> typeNames) {
+    private void generateFactoryInterface(SourceWriter w, Iterable<String> typeNames, String factoryTypeName) {
         print(w, String.format("interface %s extends AutoBeanFactory {", factoryTypeName));
         for (String typeName : typeNames) {
             print(w, String.format("    AutoBean<%s> %s();", typeName,
@@ -220,9 +220,9 @@ public class AutoBeanModulesGenerator extends Generator {
 
     private void generateFields(SourceWriter w) {
         // Initialize a field with binary name of the remote service interface
-        print(w, String.format("private final ArrayList<Serializer<?>> serializerList = " +
+        print(w, String.format("private final List<Serializer<?>> serializerList = " +
                 "new ArrayList<Serializer<?>>();"));
-        print(w, String.format("private final ArrayList<TypeProvider<?>> typeProvidersList = " +
+        print(w, String.format("private final List<TypeProvider<?>> typeProvidersList = " +
                 "new ArrayList<TypeProvider<?>>();"));
         print(w, String.format(""));
     }
@@ -251,12 +251,12 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format(""));
     }
 
-    private String generateTypeProviderField(SourceWriter w, JClassType type) {
+    private String generateTypeProviderField(SourceWriter w, JClassType type, String factoryFieldName) {
         final String fieldName = getFieldName(type);
         final String autoBeanFactoryMethodName = factoryFieldName + "." + fieldName;
         final String typeProviderFieldName = fieldName + "TypeProvider";
 
-        print(w, String.format("private final TypeProvider %s = new TypeProvider<%s>() {", typeProviderFieldName,
+        print(w, String.format("private static final TypeProvider %s = new TypeProvider<%s>() {", typeProviderFieldName,
                 type.getQualifiedSourceName()));
         print(w, String.format("    @Override"));
         print(w, String.format("    public Class<%s> getType() {", type.getQualifiedSourceName()));
@@ -277,7 +277,8 @@ public class AutoBeanModulesGenerator extends Generator {
      * Create the serializer and return the field name.
      */
     private String generateSerializerClassAndField(TreeLogger logger, TypeOracle oracle, SourceWriter w,
-                                                   JClassType type, String[] mediaTypes) {
+                                                   JClassType type, String[] mediaTypes, String factoryFieldName,
+                                                   String typeProviderFieldName) {
         final String qualifiedSourceName = type.getQualifiedSourceName();
         final String fieldName = getFieldName(type);
         final String listWrapperTypeName = getListWrapperTypeName(type);
@@ -294,11 +295,11 @@ public class AutoBeanModulesGenerator extends Generator {
                 qualifiedSourceName, HandlesSubTypes.class.getSimpleName()));
 
         // static field for impl array
-        final String autoBeanInstanceClass = factoryFieldName + "." + fieldName + "().getClass()";
-        print(w, String.format("    private final Class[] IMPL = new Class[]{ %s };", autoBeanInstanceClass));
+        print(w, String.format("    private static Class<?>[] IMPL = null;"));
 
         // static field to content-types
-        print(w, String.format("    private final String[] PATTERNS = new String[]{ %s };", asStringCsv(mediaTypes)));
+        print(w, String.format("    private static final String[] PATTERNS = new String[]{ %s };",
+                asStringCsv(mediaTypes)));
         print(w, String.format(""));
 
         // constructor
@@ -307,9 +308,12 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format("    }"));
         print(w, String.format(""));
 
-        // mediaType
+        // subTypes
+        final String autoBeanInstanceClass = typeProviderFieldName + ".getInstance().getClass()";
         print(w, String.format("    @Override"));
-        print(w, String.format("    public Class[] handledSubTypes() {"));
+        print(w, String.format("    public Class<?>[] handledSubTypes() {"));
+        print(w, String.format("        if (IMPL == null)"));
+        print(w, String.format("            IMPL = new Class<?>[]{ %s };", autoBeanInstanceClass));
         print(w, String.format("        return IMPL;"));
         print(w, String.format("    }"));
         print(w, String.format(""));
