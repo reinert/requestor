@@ -19,10 +19,117 @@
   <g:HTMLPanel>
     <!-- JSON SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="json-serialization">JSON Serialization</h1>
+      <h1 class="page-header" id="json-serialization">Auto-Serialization</h1>
       <p class="lead">
-        Requestor has built-in serialization for JSON.
+        Requestor provides some auto generated serializers to work with JSON format.
       </p>
+
+      <div class="requestor-showcase-innersection">
+        <h3>Gwt-Jackson</h3>
+        <p>
+          <a href="https://github.com/nmorel/gwt-jackson/" target="_blank">Gwt-Jackson</a> is a port of the Jackson library to GWT. It handles serialization/deserialization of many Java types to/from JSON.
+          The <code>requestor-gwtjackson</code> extension integrates gwt-jackson to requestor and exposes all the features this library provides.
+        </p>
+
+        <p>
+          In order to enable it, add the following dependency to your project:
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="gwtjacksonDependency" class="xml">
+            <code>&lt;dependencies&gt;
+              <br/>&nbsp;&nbsp;&lt;dependency&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;com.github.nmorel.gwtjackson&lt;/groupId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;gwt-jackson&lt;/artifactId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;${gwtjackson.version}&lt;/version&gt;
+              <br/>&nbsp;&nbsp;&lt;/dependency&gt;
+              <br/>&nbsp;&nbsp;&lt;dependency&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;io.reinert.requestor.ext&lt;/groupId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;requestor-gwtjackson&lt;/artifactId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;${requestor.version}&lt;/version&gt;
+              <br/>&nbsp;&nbsp;&lt;dependency&gt;
+              <br/>&lt;/dependencies&gt;
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Then, import the following GWT module:
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="gwtjacksonSetup" class="xml">
+            <code>&lt;inherits name=&quot;io.reinert.requestor.gwtjackson.RequestorGwtJackson&quot;/&gt;</code>
+          </pre>
+        </div>
+
+        <p>
+          Now that <code>requestor-gwtjackson</code> is installed, declare an interface extending from <code>SerializationModule</code>
+          and annotate it with <code>@JsonSerializationModule</code>, informing the classes you want to generate serializers for.
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="gwtjacksonSerializationModule" class="java">
+            <code>@MediaType({"application/*json*", "*/javascript"})
+              <br/>@JsonSerializationModule({ Author.class, Book.class })
+              <br/>interface MySerializationModule extends SerializationModule {}
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Instantiate a <code>JsonSession</code> and the serializers will automatically be registered for you.
+          Make a request from this session, and auto-serialization will work.
+        </p>
+
+        <p>
+          Execute the following code to see auto-deserialization in action. Check the json payload in the browser's network tab.
+        </p>
+        <div class="highlight">
+          <pre ui:field="gwtjacksonGetBooks" class="java">
+            <code>Session session = new JsonSession();
+              <br/>
+              <br/>session.get("https://requestor-server.herokuapp.com/books", List.class, Book.class)
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(new PayloadCallback&lt;List&lt;Book&gt;&gt;() {
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void execute(List&lt;Book&gt; books) {
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setBooks(books);
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="gwtjacksonGetBooksButton" styleName="btn">GET</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="gwtjacksonGetBooksTextArea" class="form-control result" rows="6" readonly="readonly"/>
+        </g:HTMLPanel>
+
+        <p>
+          Execute the following code to auto-serialize a book instance into the request payload.
+        </p>
+        <div class="highlight">
+          <pre ui:field="gwtjacksonPostBook" class="java">
+            <code>Session session = new JsonSession();
+              <br/>
+              <br/>Book cleanCode = new Book("Clean Code", "9788550811482", "Robert C. Martin", new Date(1217552400000L));
+              <br/>
+              <br/>session.post("https://requestor-server.herokuapp.com/books", cleanCode, Book.class)
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(new PayloadCallback&lt;Book&gt;() {
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void execute(Book book) {
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setBook(book);
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="gwtjacksonPostBookButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="gwtjacksonPostBookTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
+      </div>
 
       <div class="requestor-showcase-innersection">
         <h3>Overlays</h3>
@@ -96,36 +203,6 @@
             Requestor automatically generates factories for the annotated interfaces.
             So if you need to obtain new instances of these types you can resort to <code>Requestor#getInstance(Class&lt;T&gt;)</code>.
             Alternatively you can get the Provider&lt;T&gt; with <code>Requestor#getProvider(Class&lt;T&gt;)</code> and later get an instance with <code>Provider#getInstance()</code>.
-          </p>
-        </div>
-      </div>
-
-      <div class="requestor-showcase-innersection">
-        <h3>POJOs</h3>
-        <p>
-          It is also possible to enable JSON serialization of Plain Old Java Objects (POJOs).
-          Requestor has an extension that integrates the <a href="https://github.com/nmorel/gwt-jackson/" target="_blank">gwt-jackson</a> library to its serialization mechanism: <strong>requestor-gwtjackson</strong>.
-          Add this dependency to your project and import the following GWT module:
-        </p>
-
-        <div class="highlight">
-          <pre ui:field="gwtjacksonSetup" class="xml">
-            <code>&lt;inherits name=&quot;io.reinert.requestor.RequestorWithGwtJackson&quot;/&gt;
-            </code>
-          </pre>
-        </div>
-
-        <p>
-          Now, annotate each POJO with the <code>@Json</code> annotation (present in <em>requestor-annotations</em> dependency).
-          Requestor will handle the serialization of the annotated types using the gwt-jackson library.
-          More information can be found at the <a href="https://github.com/reinert/requestor/wiki/POJO-JSON-Serialization" target="_blank">docs</a>.
-        </p>
-
-        <div class="requestor-callout requestor-callout-info">
-          <h4>Use gwt-jackson's full feature set</h4>
-          <p>
-            The requestor-gwtjackson extension completely integrates the gwt-jackson library to your project.
-            Therefore, you can make full use of all gwt-jackson's features.
           </p>
         </div>
       </div>

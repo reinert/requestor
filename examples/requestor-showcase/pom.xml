@@ -32,16 +32,15 @@
   </properties>
 
   <dependencies>
-    <!--<dependency>-->
-      <!--<groupId>com.github.nmorel.gwtjackson</groupId>-->
-      <!--<artifactId>gwt-jackson</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-      <!--<groupId>io.reinert.requestor.ext</groupId>-->
-      <!--<artifactId>requestor-gwtjackson</artifactId>-->
-      <!--<version>${project.version}</version>-->
-      <!--<optional>true</optional>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>com.github.nmorel.gwtjackson</groupId>
+      <artifactId>gwt-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.reinert.requestor.ext</groupId>
+      <artifactId>requestor-gwtjackson</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>io.reinert.requestor.impl</groupId>
       <artifactId>requestor-gwt</artifactId>

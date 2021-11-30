@@ -29,10 +29,9 @@
 
     <inherits name="io.reinert.requestor.gwt.RequestorGwt"/>
     <inherits name="io.reinert.requestor.gwt.oauth2.RequestorOAuth2"/>
+    <inherits name="io.reinert.requestor.gwtjackson.RequestorGwtJackson"/>
 
     <source path=""/>
 
     <entry-point class="io.reinert.requestor.examples.showcase.Showcase"/>
-
-    <!--<inherits name="com.github.nmorel.gwtjackson.GwtJackson"/>-->
 </module>

@@ -30,6 +30,8 @@ import io.reinert.requestor.examples.showcase.util.HighlightJs;
 public class Serialization extends Composite {
 
     public interface Handler {
+        void onGwtJacksonGetBooks();
+        void onGwtJacksonPostBook();
         void onXmlObjectGet();
         void onXmlCollectionGet();
         void onXmlObjectPost();
@@ -44,22 +46,44 @@ public class Serialization extends Composite {
 
     private static SerializationUiBinder uiBinder = GWT.create(SerializationUiBinder.class);
 
-    @UiField PreElement overlaysSetup, autobeansSetup, gwtjacksonSetup, myXmlSerializer, myXmlSerializerReg,
+    @UiField PreElement overlaysSetup, autobeansSetup, gwtjacksonDependency, gwtjacksonSetup, myXmlSerializer,
+            myXmlSerializerReg, gwtjacksonSerializationModule, gwtjacksonGetBooks, gwtjacksonPostBook,
             myXmlDeserializer, myXmlDeserializerReg, myJsonSerializer, testReg, singleXmlGet, collectionXmlGet,
             singleXmlPost, collectionXmlPost, singleJsonGet, collectionJsonGet, singleJsonPost, collectionJsonPost;
 
-    @UiField TextAreaElement singleXmlGetTextArea, collectionXmlGetTextArea, singleXmlPostTextArea,
-            collectionXmlPostTextArea, singleJsonGetTextArea, collectionJsonGetTextArea, singleJsonPostTextArea,
-            collectionJsonPostTextArea;
+    @UiField TextAreaElement gwtjacksonGetBooksTextArea, gwtjacksonPostBookTextArea, singleXmlGetTextArea,
+            collectionXmlGetTextArea,
+            singleXmlPostTextArea, collectionXmlPostTextArea, singleJsonGetTextArea, collectionJsonGetTextArea,
+            singleJsonPostTextArea, collectionJsonPostTextArea;
 
     private Handler handler;
 
     public Serialization() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(overlaysSetup, autobeansSetup, gwtjacksonSetup, myXmlSerializer, myXmlSerializerReg,
-                myXmlDeserializer, myXmlDeserializerReg, myJsonSerializer, testReg, singleXmlGet, collectionXmlGet,
-                singleXmlPost,  collectionXmlPost, singleJsonGet, collectionJsonGet, singleJsonPost,
-                collectionJsonPost);
+        HighlightJs.highlightBlock(overlaysSetup, autobeansSetup, gwtjacksonDependency, gwtjacksonSetup,
+                gwtjacksonSerializationModule, gwtjacksonGetBooks, gwtjacksonPostBook,
+                myXmlSerializer, myXmlSerializerReg,
+                myXmlDeserializer, myXmlDeserializerReg, myJsonSerializer,
+                testReg, singleXmlGet, collectionXmlGet, singleXmlPost,  collectionXmlPost, singleJsonGet,
+                collectionJsonGet, singleJsonPost, collectionJsonPost);
+    }
+
+    @UiHandler("gwtjacksonGetBooksButton")
+    public void onGwtjacksonGetBooksButtonClick(ClickEvent e) {
+        handler.onGwtJacksonGetBooks();
+    }
+
+    public void setGwtjacksonGetBooksText(String content) {
+        gwtjacksonGetBooksTextArea.setValue(content);
+    }
+
+    @UiHandler("gwtjacksonPostBookButton")
+    public void onGwtjacksonPostBookButtonClick(ClickEvent e) {
+        handler.onGwtJacksonPostBook();
+    }
+
+    public void setGwtjacksonPostBookText(String content) {
+        gwtjacksonPostBookTextArea.setValue(content);
     }
 
     @UiHandler("singleXmlGetButton")

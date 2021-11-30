@@ -24,6 +24,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import io.reinert.requestor.core.Registration;
+import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.serialization.DeserializationContext;
@@ -34,11 +35,14 @@ import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
 import io.reinert.requestor.gwt.serialization.JsonRecordReader;
 import io.reinert.requestor.gwt.serialization.JsonRecordWriter;
+import io.reinert.requestor.gwtjackson.JsonSession;
+import io.reinert.requestor.gwtjackson.annotations.JsonSerializationModule;
 
 public class SerializationActivity extends ShowcaseActivity implements Serialization.Handler {
 
     private final Serialization view;
     private final Session session;
+    private final Session jsonSession;
 
     private Registration xmlSerializerRegistration;
     private Registration jsonSerializerRegistration;
@@ -47,6 +51,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         super(section);
         this.view = view;
         this.session = session;
+        this.jsonSession = new JsonSession();
     }
 
     @Override
@@ -67,6 +72,31 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         view.setHandler(null);
         xmlSerializerRegistration.cancel();
         jsonSerializerRegistration.cancel();
+    }
+
+    @Override
+    public void onGwtJacksonGetBooks() {
+        jsonSession.get("https://requestor-server.herokuapp.com/books", List.class, Book.class)
+                .onSuccess(new PayloadCallback<List<Book>>() {
+                    @Override
+                    public void execute(List<Book> books) {
+                        view.setGwtjacksonGetBooksText(Arrays.toString(books.toArray()));
+                    }
+                });
+    }
+
+    @Override
+    public void onGwtJacksonPostBook() {
+        final Book cleanCode = new Book(1, "Clean Code", "Tech", "9788550811482", "Robert C. Martin",
+                new Date(1217552400000L));
+
+        jsonSession.post("https://requestor-server.herokuapp.com/books", cleanCode, Book.class)
+                .onSuccess(new PayloadCallback<Book>() {
+                    @Override
+                    public void execute(Book book) {
+                        view.setGwtjacksonPostBookText(book.toString());
+                    }
+                });
     }
 
     @Override
@@ -175,6 +205,89 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                         view.setCollectionJsonPostText(result);
                     }
                 });
+    }
+
+    @JsonSerializationModule(Book.class)
+    interface GwtJacksonSerializationModule extends SerializationModule { }
+
+    public static class Book {
+        private int id;
+        private String title;
+        private String genre;
+        private String isbn;
+        private String author;
+        private Date pubDate;
+
+        public Book() { }
+
+        public Book(int id, String title, String genre, String isbn, String author, Date pubDate) {
+            this.id = id;
+            this.title = title;
+            this.genre = genre;
+            this.isbn = isbn;
+            this.author = author;
+            this.pubDate = pubDate;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getAuthor() {
+            return author;
+        }
+
+        public void setAuthor(String author) {
+            this.author = author;
+        }
+
+        public String getIsbn() {
+            return isbn;
+        }
+
+        public void setIsbn(String isbn) {
+            this.isbn = isbn;
+        }
+
+        public String getGenre() {
+            return genre;
+        }
+
+        public void setGenre(String genre) {
+            this.genre = genre;
+        }
+
+        public Date getPubDate() {
+            return pubDate;
+        }
+
+        public void setPubDate(Date pubDate) {
+            this.pubDate = pubDate;
+        }
+
+        @Override
+        public String toString() {
+            return "Book{" +
+                    "id=" + id +
+                    ", title='" + title + '\'' +
+                    ", genre='" + genre + '\'' +
+                    ", isbn='" + isbn + '\'' +
+                    ", author='" + author + '\'' +
+                    ", pubDate=" + pubDate +
+                    '}';
+        }
     }
 
     static class MyObject {
