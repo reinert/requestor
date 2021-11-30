@@ -23,6 +23,8 @@ import java.util.List;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
+import io.reinert.requestor.autobean.AutoBeanSession;
+import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.core.Registration;
 import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.Session;
@@ -43,6 +45,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
     private final Serialization view;
     private final Session session;
     private final Session jsonSession;
+    private final Session autobeanSession;
 
     private Registration xmlSerializerRegistration;
     private Registration jsonSerializerRegistration;
@@ -52,6 +55,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         this.view = view;
         this.session = session;
         this.jsonSession = new JsonSession();
+        this.autobeanSession = new AutoBeanSession();
     }
 
     @Override
@@ -76,32 +80,62 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onGwtJacksonGetBooks() {
-        jsonSession.get("https://requestor-server.herokuapp.com/books", List.class, Book.class)
-                .onSuccess(new PayloadCallback<List<Book>>() {
+        jsonSession.get("https://requestor-server.herokuapp.com/books", List.class, BookImpl.class)
+                .onSuccess(new PayloadCallback<List<BookImpl>>() {
                     @Override
-                    public void execute(List<Book> books) {
-                        view.setGwtjacksonGetBooksText(Arrays.toString(books.toArray()));
+                    public void execute(List<BookImpl> books) {
+                        view.setGwtJacksonGetBooksText(booksToString(books));
                     }
                 });
     }
 
     @Override
     public void onGwtJacksonPostBook() {
-        final Book cleanCode = new Book(1, "Clean Code", "Tech", "9788550811482", "Robert C. Martin",
+        final BookImpl cleanCode = new BookImpl(1, "Clean Code", "Tech", "9788550811482", "Robert C. Martin",
                 new Date(1217552400000L));
 
-        jsonSession.post("https://requestor-server.herokuapp.com/books", cleanCode, Book.class)
+        jsonSession.post("https://requestor-server.herokuapp.com/books", cleanCode, BookImpl.class)
+                .onSuccess(new PayloadCallback<BookImpl>() {
+                    @Override
+                    public void execute(BookImpl book) {
+                        view.setGwtJacksonPostBookText(bookToString(book));
+                    }
+                });
+    }
+
+    @Override
+    public void onAutoBeanGetBooks() {
+        autobeanSession.get("https://requestor-server.herokuapp.com/books", List.class, Book.class)
+                .onSuccess(new PayloadCallback<List<Book>>() {
+                    @Override
+                    public void execute(List<Book> books) {
+                        view.setAutoBeanGetBooksText(booksToString(books));
+                    }
+                });
+    }
+
+    @Override
+    public void onAutoBeanPostBook() {
+        final Book cleanCode = autobeanSession.getInstance(Book.class);
+        cleanCode.setId(1);
+        cleanCode.setTitle("Clean Code");
+        cleanCode.setGenre("Tech");
+        cleanCode.setIsbn("9788550811482");
+        cleanCode.setAuthor("Robert C. Martin");
+        cleanCode.setPubDate(new Date(1217552400000L));
+
+        autobeanSession.post("https://requestor-server.herokuapp.com/books", cleanCode, Book.class)
                 .onSuccess(new PayloadCallback<Book>() {
                     @Override
                     public void execute(Book book) {
-                        view.setGwtjacksonPostBookText(book.toString());
+                        view.setAutoBeanPostBookText(bookToString(book));
                     }
                 });
     }
 
     @Override
     public void onXmlObjectGet() {
-        session.req("http://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08")
+        session.req("https://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08")
                 .get(MyObject.class)
                 .onSuccess(new PayloadCallback<MyObject>() {
                     @Override
@@ -113,7 +147,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlCollectionGet() {
-        session.req("http://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09")
+        session.req("https://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09")
                 .get(List.class, MyObject.class)
                 .onSuccess(new PayloadCallback<List<MyObject>>() {
                     @Override
@@ -125,7 +159,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlObjectPost() {
-        session.req("http://httpbin.org/post")
+        session.req("https://httpbin.org/post")
                 .contentType("application/xml")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
@@ -139,7 +173,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlCollectionPost() {
-        session.req("http://httpbin.org/post")
+        session.req("https://httpbin.org/post")
                 .contentType("application/xml")
                 .payload(Arrays.asList(
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),
@@ -155,7 +189,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonObjectGet() {
-            session.req("http://www.mocky.io/v2/54aa93c307b5f2671021ba0c")
+            session.req("https://www.mocky.io/v2/54aa93c307b5f2671021ba0c")
                     .get(MyObject.class)
                     .onSuccess(new PayloadCallback<MyObject>() {
                         @Override
@@ -167,7 +201,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonCollectionGet() {
-        session.req("http://www.mocky.io/v2/54aa937407b5f2601021ba0b")
+        session.req("https://www.mocky.io/v2/54aa937407b5f2601021ba0b")
                 .get(List.class, MyObject.class)
                 .onSuccess(new PayloadCallback<List<MyObject>>() {
                     @Override
@@ -179,7 +213,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonObjectPost() {
-        session.req("http://httpbin.org/post")
+        session.req("https://httpbin.org/post")
                 .contentType("application/json")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
@@ -193,7 +227,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonCollectionPost() {
-        session.req("http://httpbin.org/post")
+        session.req("https://httpbin.org/post")
                 .contentType("application/json")
                 .payload(Arrays.asList(
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),
@@ -207,10 +241,56 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                 });
     }
 
-    @JsonSerializationModule(Book.class)
-    interface GwtJacksonSerializationModule extends SerializationModule { }
+    private String bookToString(Book book) {
+        return "Book{" +
+                "id=" + book.getId() +
+                ", title='" + book.getTitle() + '\'' +
+                ", genre='" + book.getGenre() + '\'' +
+                ", isbn='" + book.getIsbn() + '\'' +
+                ", author='" + book.getAuthor() + '\'' +
+                ", pubDate=" + book.getPubDate() +
+                "}\n";
+    }
 
-    public static class Book {
+    private String booksToString(Collection<? extends Book> books) {
+        StringBuilder result = new StringBuilder();
+        for (Book b : books) result.append(bookToString(b));
+        return result.toString();
+    }
+
+    @AutoBeanSerializationModule(Book.class)
+    interface BookAutoBeanSerializationModule extends SerializationModule { }
+
+    @JsonSerializationModule(BookImpl.class)
+    interface BookGwtJacksonSerializationModule extends SerializationModule { }
+
+    public interface Book {
+        int getId();
+
+        void setId(int id);
+
+        String getTitle();
+
+        void setTitle(String title);
+
+        String getAuthor();
+
+        void setAuthor(String author);
+
+        String getIsbn();
+
+        void setIsbn(String isbn);
+
+        String getGenre();
+
+        void setGenre(String genre);
+
+        Date getPubDate();
+
+        void setPubDate(Date pubDate);
+    }
+
+    public static class BookImpl implements Book {
         private int id;
         private String title;
         private String genre;
@@ -218,9 +298,9 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         private String author;
         private Date pubDate;
 
-        public Book() { }
+        public BookImpl() { }
 
-        public Book(int id, String title, String genre, String isbn, String author, Date pubDate) {
+        public BookImpl(int id, String title, String genre, String isbn, String author, Date pubDate) {
             this.id = id;
             this.title = title;
             this.genre = genre;
@@ -275,18 +355,6 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
         public void setPubDate(Date pubDate) {
             this.pubDate = pubDate;
-        }
-
-        @Override
-        public String toString() {
-            return "Book{" +
-                    "id=" + id +
-                    ", title='" + title + '\'' +
-                    ", genre='" + genre + '\'' +
-                    ", isbn='" + isbn + '\'' +
-                    ", author='" + author + '\'' +
-                    ", pubDate=" + pubDate +
-                    '}';
         }
     }
 

@@ -33,13 +33,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.github.nmorel.gwtjackson</groupId>
-      <artifactId>gwt-jackson</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.reinert.requestor.ext</groupId>
-      <artifactId>requestor-gwtjackson</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
     </dependency>
     <dependency>
       <groupId>io.reinert.requestor.impl</groupId>
@@ -52,9 +48,18 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <version>${gwt.version}</version>
+      <groupId>com.github.nmorel.gwtjackson</groupId>
+      <artifactId>gwt-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.reinert.requestor.ext</groupId>
+      <artifactId>requestor-gwtjackson</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.reinert.requestor.ext</groupId>
+      <artifactId>requestor-autobean</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 

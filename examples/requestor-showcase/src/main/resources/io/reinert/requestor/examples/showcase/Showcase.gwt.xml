@@ -30,6 +30,7 @@
     <inherits name="io.reinert.requestor.gwt.RequestorGwt"/>
     <inherits name="io.reinert.requestor.gwt.oauth2.RequestorOAuth2"/>
     <inherits name="io.reinert.requestor.gwtjackson.RequestorGwtJackson"/>
+    <inherits name="io.reinert.requestor.autobean.RequestorAutoBean"/>
 
     <source path=""/>
 

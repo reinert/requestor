@@ -32,6 +32,8 @@ public class Serialization extends Composite {
     public interface Handler {
         void onGwtJacksonGetBooks();
         void onGwtJacksonPostBook();
+        void onAutoBeanGetBooks();
+        void onAutoBeanPostBook();
         void onXmlObjectGet();
         void onXmlCollectionGet();
         void onXmlObjectPost();
@@ -46,13 +48,14 @@ public class Serialization extends Composite {
 
     private static SerializationUiBinder uiBinder = GWT.create(SerializationUiBinder.class);
 
-    @UiField PreElement overlaysSetup, autobeansSetup, gwtjacksonDependency, gwtjacksonSetup, myXmlSerializer,
+    @UiField PreElement overlaysSetup, autobeanSetup, autobeanDependency, gwtjacksonDependency, gwtjacksonSetup,
+            myXmlSerializer, autobeanSerializationModule, autobeanGetBooks, autobeanPostBook,
             myXmlSerializerReg, gwtjacksonSerializationModule, gwtjacksonGetBooks, gwtjacksonPostBook,
             myXmlDeserializer, myXmlDeserializerReg, myJsonSerializer, testReg, singleXmlGet, collectionXmlGet,
             singleXmlPost, collectionXmlPost, singleJsonGet, collectionJsonGet, singleJsonPost, collectionJsonPost;
 
-    @UiField TextAreaElement gwtjacksonGetBooksTextArea, gwtjacksonPostBookTextArea, singleXmlGetTextArea,
-            collectionXmlGetTextArea,
+    @UiField TextAreaElement gwtjacksonGetBooksTextArea, gwtjacksonPostBookTextArea, autobeanGetBooksTextArea,
+            autobeanPostBookTextArea, singleXmlGetTextArea, collectionXmlGetTextArea,
             singleXmlPostTextArea, collectionXmlPostTextArea, singleJsonGetTextArea, collectionJsonGetTextArea,
             singleJsonPostTextArea, collectionJsonPostTextArea;
 
@@ -60,30 +63,48 @@ public class Serialization extends Composite {
 
     public Serialization() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(overlaysSetup, autobeansSetup, gwtjacksonDependency, gwtjacksonSetup,
-                gwtjacksonSerializationModule, gwtjacksonGetBooks, gwtjacksonPostBook,
-                myXmlSerializer, myXmlSerializerReg,
+        HighlightJs.highlightBlock(overlaysSetup, autobeanSetup, autobeanDependency, gwtjacksonDependency,
+                gwtjacksonSetup, gwtjacksonSerializationModule, gwtjacksonGetBooks, gwtjacksonPostBook,
+                autobeanSerializationModule, autobeanGetBooks, autobeanPostBook, myXmlSerializer, myXmlSerializerReg,
                 myXmlDeserializer, myXmlDeserializerReg, myJsonSerializer,
                 testReg, singleXmlGet, collectionXmlGet, singleXmlPost,  collectionXmlPost, singleJsonGet,
                 collectionJsonGet, singleJsonPost, collectionJsonPost);
     }
 
     @UiHandler("gwtjacksonGetBooksButton")
-    public void onGwtjacksonGetBooksButtonClick(ClickEvent e) {
+    public void onGwtJacksonGetBooksButtonClick(ClickEvent e) {
         handler.onGwtJacksonGetBooks();
     }
 
-    public void setGwtjacksonGetBooksText(String content) {
+    public void setGwtJacksonGetBooksText(String content) {
         gwtjacksonGetBooksTextArea.setValue(content);
     }
 
     @UiHandler("gwtjacksonPostBookButton")
-    public void onGwtjacksonPostBookButtonClick(ClickEvent e) {
+    public void onGwtJacksonPostBookButtonClick(ClickEvent e) {
         handler.onGwtJacksonPostBook();
     }
 
-    public void setGwtjacksonPostBookText(String content) {
+    public void setGwtJacksonPostBookText(String content) {
         gwtjacksonPostBookTextArea.setValue(content);
+    }
+
+    @UiHandler("autobeanGetBooksButton")
+    public void onAutoBeanGetBooksButtonClick(ClickEvent e) {
+        handler.onAutoBeanGetBooks();
+    }
+
+    public void setAutoBeanGetBooksText(String content) {
+        autobeanGetBooksTextArea.setValue(content);
+    }
+
+    @UiHandler("autobeanPostBookButton")
+    public void onAutoBeanPostBookButtonClick(ClickEvent e) {
+        handler.onAutoBeanPostBook();
+    }
+
+    public void setAutoBeanPostBookText(String content) {
+        autobeanPostBookTextArea.setValue(content);
     }
 
     @UiHandler("singleXmlGetButton")
