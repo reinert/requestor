@@ -89,11 +89,7 @@
             <code>Session session = new JsonSession();
               <br/>
               <br/>session.get(&quot;https://requestor-server.herokuapp.com/books&quot;, List.class, Book.class)
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(new PayloadCallback&lt;List&lt;Book&gt;&gt;() {
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void execute(List&lt;Book&gt; books) {
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setBooks(books);
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess((List&lt;Book&gt; books) -> view.setBooks(books));
             </code>
           </pre>
         </div>
@@ -114,11 +110,7 @@
               <br/>Book cleanCode = new Book(&quot;Clean Code&quot;, &quot;9788550811482&quot;, &quot;Robert C. Martin&quot;, new Date(1217552400000L));
               <br/>
               <br/>session.post(&quot;https://requestor-server.herokuapp.com/books&quot;, cleanCode, Book.class)
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(new PayloadCallback&lt;Book&gt;() {
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void execute(Book book) {
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setBook(book);
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(book -> view.setBook(book));
             </code>
           </pre>
         </div>
@@ -200,11 +192,7 @@
             <code>Session session = new JsonSession();
               <br/>
               <br/>session.get(&quot;https://requestor-server.herokuapp.com/books&quot;, List.class, Book.class)
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(new PayloadCallback&lt;List&lt;Book&gt;&gt;() {
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void execute(List&lt;Book&gt; books) {
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setBooks(books);
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess((List&lt;Book&gt; books) -> view.setBooks(books));
             </code>
           </pre>
         </div>
@@ -238,11 +226,7 @@
               <br/>cleanCode.setPubDate(new Date(1217552400000L));
               <br/>
               <br/>session.post(&quot;https://requestor-server.herokuapp.com/books&quot;, cleanCode, Book.class)
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(new PayloadCallback&lt;Book&gt;() {
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void execute(Book book) {
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setBook(book);
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(book -> view.setBook(book));
             </code>
           </pre>
         </div>
@@ -262,26 +246,12 @@
         </p>
 
         <p>
-          With one configuration you can enable JSON serialization for Overlay Types:
-          in you GWT module descriptor set the <code>RequestorInitializer</code> to be <code>RequestorInitializerForJson</code>.
-        </p>
-
-        <div class="highlight">
-          <pre ui:field="overlaysSetup" class="xml">
-            <code>&lt;replace-with class=&quot;io.reinert.requestor.SessionInitializerForJson&quot;&gt;
-              <br/>&#32;&#32;&lt;when-type-is class="io.reinert.requestor.SessionInitializer"/&gt;
-              <br/>&lt;/replace-with&gt;
-            </code>
-          </pre>
-        </div>
-
-        <p>
-          Now, your <code>Requestor</code> container is initialized with a serializer and deserializer for JSON-Overlays.
+          The <code>GwtSession</code> is equipped with JSON serializers for most common types including <code>JavaScriptObject</code> overlay.
           <br/>
           When you send a request with some overlay type in the payload, it will be serialized with the browser's <code>JSON#stringify</code> method.
           <br/>
           When you ask an overlay type in a request, the response payload will be deserialized using <code>JsonUtils#safeEval</code>.
-          You can alternatively use <code>JsonUtils#unsafeEval</code> (faster but not secure) by setting the public flag <code>OverlaySerializer#USE_SAFE_EVAL</code> to false.
+          You can alternatively use <code>JsonUtils#unsafeEval</code> (faster but not secure) by setting the public flag <code>OverlaySerializer.USE_SAFE_EVAL = false</code>.
         </p>
       </div>
     </g:HTMLPanel>
