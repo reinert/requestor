@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,10 +102,10 @@ public class RequestInvokingActivity extends ShowcaseActivity implements Request
 
     @Override
     public void onOptionsButtonClick() {
-        session.req("https://httpbin.org/anything").options(String.class).onSuccess(new PayloadCallback<String>() {
+        session.req("https://httpbin.org/anything").options().onSuccess(new PayloadCallback<Headers>() {
             @Override
-            public void execute(String result) {
-                view.setOptionsText(result);
+            public void execute(Headers headers) {
+                view.setOptionsText(Util.formatHeaders(headers));
             }
         });
     }

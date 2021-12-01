@@ -27,7 +27,7 @@
       <p>
         To enable sending a request fluently, Requestor features the <b>invokers</b>: a set of methods named similarly to the corresponding HTTP Methods that actually send the request and returns an observable.
         <br/>
-        The existing invokers are: <code>.get</code>, <code>.post</code>, <code>.put</code>, <code>.delete</code>, <code>.head</code>, <code>.patch</code> and <code>.options</code>.
+        The existing invokers are: <code>.get</code>, <code>.post</code>, <code>.put</code>, <code>.patch</code>, <code>.delete</code>, <code>.head</code> and <code>.options</code>.
       </p>
 
       <p>
@@ -36,17 +36,18 @@
 
       <p>
         Invoke methods have up to three overloads, in which we specify the expected response result:
+        <br/> <i>(examples are given with the 'get' invoker but also applies to 'post', 'put', 'patch' and 'delete')</i>
       </p>
 
       <div class="requestor-showcase-innersection">
-        <h3><code><i>invoker</i>()</code></h3>
+        <h3><code>get()</code></h3>
         <p>
-          The no-arg signature provides a <code>Request&lt;Void&gt;</code>.
+          The no-arg invoker signature provides a <code>Request&lt;Void&gt;</code>.
           It's then assumed that no payload will be received in the response.
         </p>
         <div class="highlight">
           <pre ui:field="hsmNoArg" class="java">
-            <code>requestor.req("/server/ping")
+            <code>session.req("/server/ping")
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get() /* invoker with no args */
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Void&gt;() {
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(Void result) {
@@ -59,9 +60,9 @@
       </div>
 
       <div class="requestor-showcase-innersection">
-        <h3><code><i>invoker</i>( Class&lt;T&gt; )</code></h3>
+        <h3><code>get( Class&lt;T&gt; )</code></h3>
         <p>
-          The one-arg signature provides a <code>Request&lt;T&gt;</code>.
+          The one-arg invoker signature provides a <code>Request&lt;T&gt;</code>.
           It's expected that a response with a single object T will be received.
         </p>
         <div class="highlight">
@@ -79,17 +80,17 @@
       </div>
 
       <div class="requestor-showcase-innersection">
-        <h3><code><i>invoker</i>( Class&lt;C extends Collection&gt;, Class&lt;T&gt; )</code></h3>
+        <h3><code>get( Class&lt;C extends Collection&gt;, Class&lt;T&gt; )</code></h3>
         <p>
-          The two-arg signature provides a Request&lt;Collection&lt;T&gt;&gt;, thus expecting a response with a serialized array of T in the payload.
+          The two-arg invoker signature provides a <code>Request&lt;Collection&lt;T&gt;&gt;</code>, thus expecting a response with a serialized array of T in the payload.
           The type C is the collection which will accumulate the elements in the deserialization process.
         </p>
         <div class="highlight">
           <pre ui:field="hsmTwoArgs" class="java">
-            <code>requestor.get(&quot;/server/books&quot;)
+            <code>session.get(&quot;/server/books&quot;)
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(Set.class, Book.class) /* invoker with two classes */
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Set&lt;Book&gt;&gt;() {
-              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onSuccess(&lt;Set&lt;Book&gt;&gt; result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onSuccess(Set&lt;Book&gt; result) {
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
@@ -105,19 +106,14 @@
     </g:HTMLPanel>
 
     <g:HTMLPanel styleName="requestor-showcase-innersection">
-      <p>How about a POST request?</p>
+      <p class="lead">Check the other invokers in action.</p>
+      <p>POST request.</p>
       <div class="highlight">
         <pre ui:field="postSample" class="java">
           <code>
-            requestor.req(&quot;https://httpbin.org/post&quot;).post(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void execute(String result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPostText(result);
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
+            session.req(&quot;https://httpbin.org/post&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(String.class) /* send a post request and receive a string */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(result -> view.setPostText(result));
           </code>
         </pre>
       </div>
@@ -134,15 +130,9 @@
       <div class="highlight">
         <pre ui:field="putSample" class="java">
           <code>
-            requestor.req(&quot;https://httpbin.org/put&quot;).put(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void execute(String result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPutText(result);
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
+            session.req(&quot;https://httpbin.org/put&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.put(String.class) /* send a put request and receive a string */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(result -> view.setPutText(result));
           </code>
         </pre>
       </div>
@@ -159,15 +149,9 @@
       <div class="highlight">
         <pre ui:field="patchSample" class="java">
           <code>
-            requestor.req(&quot;https://httpbin.org/patch&quot;).patch(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void execute(String result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setPatchText(result);
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
+            session.req(&quot;https://httpbin.org/patch&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.patch(String.class) /* send a patch request and receive a string */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(result -> view.setPatchText(result));
           </code>
         </pre>
       </div>
@@ -184,15 +168,9 @@
       <div class="highlight">
         <pre ui:field="deleteSample" class="java">
           <code>
-            requestor.req(&quot;https://httpbin.org/delete&quot;).delete(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void execute(String result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setDeleteText(result);
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
+            session.req(&quot;https://httpbin.org/delete&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.delete(String.class) /* send a delete request and receive a string */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(result -> view.setDeleteText(result));
           </code>
         </pre>
       </div>
@@ -209,15 +187,9 @@
       <div class="highlight">
         <pre ui:field="headSample" class="java">
           <code>
-            requestor.req(&quot;https://httpbin.org/headers&quot;).head().onSuccess(new PayloadCallback&lt;Headers&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void execute(Headers result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setHeadText(Util.formatHeaders(result));
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
+            session.req(&quot;https://httpbin.org/headers&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.head() /* returns Headers */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(headers -> view.setHeadText(headers));
           </code>
         </pre>
       </div>
@@ -234,15 +206,9 @@
       <div class="highlight">
         <pre ui:field="optionsSample" class="java">
           <code>
-            requestor.req(&quot;https://httpbin.org/anything&quot;).options(String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
-            <br/>
-            &#32;&#32;&#32;&#32;public void execute(String result) {
-            <br/>
-            &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setOptionsText(result);
-            <br/>
-            &#32;&#32;&#32;&#32;}
-            <br/>
-            });
+            session.req(&quot;https://httpbin.org/anything&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.options() /* returns Headers */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(headers -> view.setOptionsText(headers));
           </code>
         </pre>
       </div>
