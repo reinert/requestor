@@ -46,6 +46,6 @@ public class SerializedPayload {
      * @return The payload as String
      */
     public String asText() {
-        return string;
+        return string == null ? "" : string;
     }
 }

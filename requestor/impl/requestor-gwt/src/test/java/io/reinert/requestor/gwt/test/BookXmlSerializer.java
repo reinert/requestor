@@ -25,6 +25,7 @@ import com.google.gwt.xml.client.Text;
 import com.google.gwt.xml.client.XMLParser;
 import com.google.gwt.xml.client.impl.DOMParseException;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -39,33 +40,28 @@ public class BookXmlSerializer implements Serializer<Book> {
 
     public static final String[] CONTENT_TYPE_PATTERNS = new String[]{"*/xml", "*/*+xml", "*/xml+*"};
 
-    @Override
     public Class<Book> handledType() {
         return Book.class;
     }
 
-    @Override
     public String[] mediaType() {
         return CONTENT_TYPE_PATTERNS;
     }
 
-    @Override
-    public String serialize(Book book, SerializationContext context) {
+    public SerializedPayload serialize(Book book, SerializationContext context) {
         StringBuilder xmlBuilder = buildXml(book);
-        return xmlBuilder.toString();
+        return new SerializedPayload(xmlBuilder.toString());
     }
 
-    @Override
-    public String serialize(Collection<Book> c, SerializationContext context) {
+    public SerializedPayload serialize(Collection<Book> c, SerializationContext context) {
         StringBuilder xmlBuilder = new StringBuilder("<books>");
         for (Book book : c) {
             xmlBuilder.append(buildXml(book));
         }
         xmlBuilder.append("</books>");
-        return xmlBuilder.toString();
+        return new SerializedPayload(xmlBuilder.toString());
     }
 
-    @Override
     public Book deserialize(String response, DeserializationContext context) {
         Document xml;
         try {
@@ -76,7 +72,6 @@ public class BookXmlSerializer implements Serializer<Book> {
         return parseXmlDocumentAsBook(xml)[0];
     }
 
-    @Override
     public <C extends Collection<Book>> C deserialize(Class<C> collectionType, String response,
                                                       DeserializationContext context) {
         C col = context.getInstance(collectionType);
@@ -116,7 +111,7 @@ public class BookXmlSerializer implements Serializer<Book> {
             String title = ((Text) titleNodes.item(i).getFirstChild()).getData();
             String author = ((Text) authorNodes.item(i).getFirstChild()).getData();
             String publicationDate = ((Text) publicationDateNodes.item(i).getFirstChild()).getData();
-            books[i] = new Book(Integer.valueOf(id), title, author, new Date(Long.valueOf(publicationDate)));
+            books[i] = new Book(Integer.parseInt(id), title, author, new Date(Long.parseLong(publicationDate)));
         }
 
         return books;

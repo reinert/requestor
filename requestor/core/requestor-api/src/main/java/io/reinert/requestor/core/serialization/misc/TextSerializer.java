@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package io.reinert.requestor.core.serialization.misc;
 import java.util.Arrays;
 import java.util.Collection;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -50,8 +51,9 @@ public class TextSerializer implements Serializer<String> {
     }
 
     @Override
-    public String serialize(String s, SerializationContext context) {
-        return s;
+    public SerializedPayload serialize(String s, SerializationContext context) {
+        if (s.length() == 0) return SerializedPayload.EMPTY_PAYLOAD;
+        return new SerializedPayload(s);
     }
 
     /**
@@ -63,14 +65,14 @@ public class TextSerializer implements Serializer<String> {
      * @return  The serialized string
      */
     @Override
-    public String serialize(Collection<String> c, SerializationContext context) {
+    public SerializedPayload serialize(Collection<String> c, SerializationContext context) {
         StringBuilder sb = new StringBuilder();
         for (String s : c) {
             sb.append(s);
             sb.append(SEPARATOR);
         }
         sb.setLength(sb.length() - SEPARATOR.length());
-        return sb.toString();
+        return new SerializedPayload(sb.toString());
     }
 
     @Override

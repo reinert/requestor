@@ -27,6 +27,7 @@ import com.google.gwt.http.client.URL;
 
 import io.reinert.requestor.core.FormData;
 import io.reinert.requestor.core.FormDataSerializerUrlEncoded;
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 
@@ -53,12 +54,12 @@ class GwtFormDataSerializerUrlEncoded extends FormDataSerializerUrlEncoded {
     }
 
     @Override
-    public String serialize(FormData formData, SerializationContext context) {
+    public SerializedPayload serialize(FormData formData, SerializationContext context) {
+        if (formData == null || formData.isEmpty()) return SerializedPayload.EMPTY_PAYLOAD;
+
         if (!(formData instanceof JsFormData)) return super.serialize(formData, context);
 
         final FormElement formElement = ((JsFormData) formData).getFormElement();
-
-        if (formElement == null) return super.serialize(formData, context);
 
         StringBuilder serialized = new StringBuilder();
         final NodeCollection<Element> elements = formElement.getElements();
@@ -90,11 +91,12 @@ class GwtFormDataSerializerUrlEncoded extends FormDataSerializerUrlEncoded {
             serialized.append(name).append('=').append(value).append('&'); // append 'name=value&'
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
-        return serialized.toString();
+
+        return new SerializedPayload(serialized.toString());
     }
 
     @Override
-    public String serialize(Collection<FormData> c, SerializationContext context) {
+    public SerializedPayload serialize(Collection<FormData> c, SerializationContext context) {
         throw new UnsupportedOperationException("Can only serialize a single instance of FormData.");
     }
 

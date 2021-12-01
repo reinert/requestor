@@ -59,13 +59,13 @@ public class JsonStringSerializerJreTest {
         Collection<String> input = Arrays.asList("some", "any");
         String expected = "[\"some\",\"any\"]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeValue() throws Exception {
-        assertEquals("\"some\"", serializer.serialize("some", null));
+        assertEquals("\"some\"", serializer.serialize("some", null).asText());
     }
 }

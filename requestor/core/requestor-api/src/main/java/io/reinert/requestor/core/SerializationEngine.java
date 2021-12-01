@@ -101,7 +101,7 @@ public class SerializationEngine {
             return;
         }
 
-        String body = null;
+        SerializedPayload body = SerializedPayload.EMPTY_PAYLOAD;
         if (payload != null) { // Checks whether there's a payload to serialized
             final String mediaType = getRequestMediaType(request);
             if (payload instanceof Collection) {
@@ -116,9 +116,8 @@ public class SerializationEngine {
                 }
                 if (item == null) {
                     // There were no non-null elements in the collection.
-                    // An empty array is then assumed.
-                    // TODO: provide some way of configuring this behavior
-                    body = isJsonMediaType(mediaType) ? "[]" : "";
+                    // An empty payload is then assumed.
+                    body = SerializedPayload.EMPTY_PAYLOAD;
                 } else {
                     final Class<?> type = item.getClass();
                     final Class<? extends Collection> collectionType = c.getClass();
@@ -138,7 +137,7 @@ public class SerializationEngine {
             }
         }
 
-        request.serializePayload(new SerializedPayload(body));
+        request.serializePayload(body);
     }
 
     private String getRequestMediaType(SerializableRequest request) {

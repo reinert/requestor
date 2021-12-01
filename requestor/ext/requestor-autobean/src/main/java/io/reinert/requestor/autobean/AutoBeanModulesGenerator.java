@@ -43,6 +43,7 @@ import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.TypeProvider;
 import io.reinert.requestor.core.annotations.MediaType;
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.HandlesSubTypes;
@@ -384,9 +385,11 @@ public class AutoBeanModulesGenerator extends Generator {
 
         // serialize
         print(w, String.format("    @Override"));
-        print(w, String.format("    public String serialize(%s o, SerializationContext ctx) {", qualifiedSourceName));
+        print(w, String.format("    public SerializedPayload serialize(%s o, SerializationContext ctx) {",
+                qualifiedSourceName));
         print(w, String.format("        try {"));
-        print(w, String.format("            return AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(o)).getPayload();"));
+        print(w, String.format("            return new SerializedPayload(" +
+                "AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(o)).getPayload());"));
         print(w, String.format("        } catch (java.lang.Exception e) {"));
         print(w, String.format("            throw new UnableToSerializeException(\"The auto-generated AutoBean" +
                 " serializer failed to serialize the instance of \" + o.getClass().getName() + \" to JSON.\", e);"));
@@ -396,7 +399,7 @@ public class AutoBeanModulesGenerator extends Generator {
 
         // serialize
         print(w, String.format("    @Override"));
-        print(w, String.format("    public String serialize(Collection<%s> c, SerializationContext ctx) {",
+        print(w, String.format("    public SerializedPayload serialize(Collection<%s> c, SerializationContext ctx) {",
                 qualifiedSourceName));
         print(w, String.format("        try {"));
         print(w, String.format("            if (c instanceof List) {"));
@@ -404,14 +407,14 @@ public class AutoBeanModulesGenerator extends Generator {
                 listWrapperFactoryMethodName));
         print(w, String.format("                autoBean.as().setResult((List) c);"));
         print(w, String.format("                final String json = AutoBeanCodex.encode(autoBean).getPayload();"));
-        print(w, String.format("                return json.substring(10, json.length() -1);"));
+        print(w, String.format("                return new SerializedPayload(json.substring(10, json.length() -1));"));
         print(w, String.format("            }"));
         print(w, String.format("            if (c instanceof Set) {"));
         print(w, String.format("                final AutoBean<%s> autoBean = %s();", setWrapperTypeName,
                 setWrapperFactoryMethodName));
         print(w, String.format("                autoBean.as().setResult((Set) c);"));
         print(w, String.format("                final String json = AutoBeanCodex.encode(autoBean).getPayload();"));
-        print(w, String.format("                return json.substring(10, json.length() -1);"));
+        print(w, String.format("                return new SerializedPayload(json.substring(10, json.length() -1));"));
         print(w, String.format("            }"));
         print(w, String.format("            return super.serialize(c, ctx);"));
         print(w, String.format("        } catch (java.lang.Exception e) {"));
@@ -480,11 +483,12 @@ public class AutoBeanModulesGenerator extends Generator {
                 AutoBeanCodex.class.getCanonicalName(),
                 AutoBeanFactory.class.getCanonicalName(),
                 AutoBeanUtils.class.getCanonicalName(),
-                // io.reinert.requestor
+                // io.reinert.requestor.core
                 SerializationModule.class.getCanonicalName(),
-                Serializer.class.getCanonicalName(),
                 TypeProvider.class.getCanonicalName(),
-                // io.reinert.requestor.serialization
+                // io.reinert.requestor.core.payload
+                SerializedPayload.class.getCanonicalName(),
+                // io.reinert.requestor.core.serialization
                 DeserializationContext.class.getCanonicalName(),
                 Deserializer.class.getCanonicalName(),
                 HandlesSubTypes.class.getCanonicalName(),
@@ -492,7 +496,7 @@ public class AutoBeanModulesGenerator extends Generator {
                 SerializationContext.class.getCanonicalName(),
                 UnableToDeserializeException.class.getName(),
                 UnableToSerializeException.class.getName(),
-                // io.reinert.requestor.serialization.json
+                // io.reinert.requestor.core.serialization.json
                 JsonObjectSerializer.class.getCanonicalName(),
                 JsonRecordReader.class.getCanonicalName(),
                 JsonRecordWriter.class.getCanonicalName(),

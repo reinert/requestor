@@ -739,16 +739,18 @@ class BookXmlSerializer implements Serializer<Book> {
 
     @Override
     public String serialize(Book book, SerializationContext ctx) {
-        return "<book><title>" + book.getTitle() + "</title>"
+        return new SerializedPayload(
+                "<book><title>" + book.getTitle() + "</title>"
                 + "<author>" + book.getAuthor() + "</author>"
-                + "<pubDate>" + book.getPubDate().getTime() + "</pubDate></book>";
+                + "<pubDate>" + book.getPubDate().getTime() + "</pubDate></book>");
     }
 
     @Override
-    public String serialize(Collection<Book> books, SerializationContext ctx) {
+    public SerializedPayload serialize(Collection<Book> books, SerializationContext ctx) {
         StringBuilder sb = new StringBuilder("<array>");
-        for (Book b : books) sb.append(serialize(b, ctx));
-        return sb.append("</array>").toString();
+        for (Book b : books) sb.append(serialize(b, ctx).asText());
+        sb.append("</array>");
+        return new SerializedPayload(sb.toString());
     }
 
     @Override

@@ -40,4 +40,9 @@ public class JsFormData extends FormData {
     public FormElement getFormElement() {
         return formElement;
     }
+
+    @Override
+    public boolean isEmpty() {
+        return (formElement == null || formElement.getElements().getLength() == 0) && super.isEmpty();
+    }
 }

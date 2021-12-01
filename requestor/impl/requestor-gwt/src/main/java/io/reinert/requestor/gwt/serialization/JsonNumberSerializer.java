@@ -18,6 +18,7 @@ package io.reinert.requestor.gwt.serialization;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.HandlesSubTypes;
 import io.reinert.requestor.core.serialization.SerializationContext;
@@ -94,13 +95,12 @@ public class JsonNumberSerializer extends JsonValueSerializer<Number> implements
     }
 
     @Override
-    public String serialize(Number n, SerializationContext context) {
-        if (n == null)
-            return null;
+    public SerializedPayload serialize(Number n, SerializationContext context) {
+        if (n instanceof BigDecimal) {
+            return new SerializedPayload(SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING ?
+                    ((BigDecimal) n).toPlainString() : n.toString());
+        }
 
-        if (n instanceof BigDecimal)
-            return SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING ? ((BigDecimal) n).toPlainString() : n.toString();
-
-        return n.toString();
+        return new SerializedPayload(n.toString());
     }
 }

@@ -38,6 +38,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.gwt.serialization.JsonRecordReader;
@@ -313,7 +314,7 @@ class JsonObjectSerializerSchema {
 
         protected MethodSpec.Builder getSignature() {
             return MethodSpec.methodBuilder(JsonObjectSerializerMeta.Method.SERIALIZE)
-                    .returns(String.class)
+                    .returns(SerializedPayload.class)
                     .addParameter(object)
                     .addParameter(context)
                     .addModifiers(Modifier.PUBLIC)
@@ -332,7 +333,7 @@ class JsonObjectSerializerSchema {
 
         protected MethodSpec.Builder getSignature() {
             return MethodSpec.methodBuilder(JsonObjectSerializerMeta.Method.SERIALIZE)
-                    .returns(String.class)
+                    .returns(SerializedPayload.class)
                     .addParameter(collection)
                     .addParameter(context)
                     .addModifiers(Modifier.PUBLIC)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -46,7 +47,9 @@ public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
     }
 
     @Override
-    public String serialize(FormData formData, SerializationContext context) {
+    public SerializedPayload serialize(FormData formData, SerializationContext context) {
+        if (formData == null || formData.isEmpty()) return SerializedPayload.EMPTY_PAYLOAD;
+
         StringBuilder serialized = new StringBuilder();
 
         for (FormData.Param param : formData) {
@@ -61,11 +64,11 @@ public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
             }
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
-        return serialized.toString();
+        return new SerializedPayload(serialized.toString());
     }
 
     @Override
-    public String serialize(Collection<FormData> c, SerializationContext context) {
+    public SerializedPayload serialize(Collection<FormData> c, SerializationContext context) {
         throw new UnsupportedOperationException("Can only serialize a single instance of FormData.");
     }
 

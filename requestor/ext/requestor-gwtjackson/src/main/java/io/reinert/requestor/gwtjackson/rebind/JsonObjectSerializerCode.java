@@ -28,6 +28,7 @@ import com.github.nmorel.gwtjackson.client.exception.JsonSerializationException;
 import com.google.gwt.core.client.GWT;
 import com.squareup.javapoet.CodeBlock;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 import io.reinert.requestor.core.serialization.UnableToSerializeException;
 import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
@@ -183,7 +184,8 @@ class JsonObjectSerializerCode {
 
         return CodeBlock.builder()
                 .beginControlFlow("try")
-                .addStatement("return $N.$L($N)",
+                .addStatement("return new $T($N.$L($N))",
+                        SerializedPayload.class,
                         schema.mapperField.spec(),
                         ObjectMapperMeta.Method.WRITE,
                         currentScope.object)
@@ -203,7 +205,8 @@ class JsonObjectSerializerCode {
 
         return CodeBlock.builder()
                 .beginControlFlow("try")
-                .addStatement("return $N.$L($N)",
+                .addStatement("return new $T($N.$L($N))",
+                        SerializedPayload.class,
                         schema.collectionWriterField.spec(),
                         ObjectWriterMeta.Method.WRITE,
                         currentScope.collection)

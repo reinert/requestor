@@ -29,6 +29,7 @@ import io.reinert.requestor.core.Registration;
 import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -437,19 +438,19 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         }
 
         @Override
-        public String serialize(MyObject myObject, SerializationContext context) {
-            return "<my><stringField>" + myObject.getStringField() + "</stringField>"
+        public SerializedPayload serialize(MyObject myObject, SerializationContext context) {
+            return new SerializedPayload("<my><stringField>" + myObject.getStringField() + "</stringField>"
                     + "<intField>" + myObject.getIntField() + "</intField>"
-                    + "<dateField>" + myObject.getDateField().getTime() + "</dateField></my>";
+                    + "<dateField>" + myObject.getDateField().getTime() + "</dateField></my>");
         }
 
         @Override
-        public String serialize(Collection<MyObject> myObjectCollection, SerializationContext context) {
+        public SerializedPayload serialize(Collection<MyObject> myObjectCollection, SerializationContext context) {
             StringBuilder sb = new StringBuilder("<myList>");
             for (MyObject myObject : myObjectCollection) {
                 sb.append(serialize(myObject, context));
             }
-            return sb.append("</myList>").toString();
+            return new SerializedPayload(sb.append("</myList>").toString());
         }
     }
 

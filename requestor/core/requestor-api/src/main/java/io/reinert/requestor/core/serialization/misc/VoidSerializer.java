@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package io.reinert.requestor.core.serialization.misc;
 
 import java.util.Collection;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -59,12 +60,12 @@ public class VoidSerializer implements Serializer<Void> {
     }
 
     @Override
-    public String serialize(Void v, SerializationContext context) {
-        return null;
+    public SerializedPayload serialize(Void v, SerializationContext context) {
+        return SerializedPayload.EMPTY_PAYLOAD;
     }
 
     @Override
-    public String serialize(Collection<Void> c, SerializationContext context) {
-        return null;
+    public SerializedPayload serialize(Collection<Void> c, SerializationContext context) {
+        return SerializedPayload.EMPTY_PAYLOAD;
     }
 }

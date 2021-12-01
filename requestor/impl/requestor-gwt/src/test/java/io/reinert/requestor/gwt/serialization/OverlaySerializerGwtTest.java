@@ -73,7 +73,7 @@ public class OverlaySerializerGwtTest extends GWTTestCase {
         List<JavaScriptObject> input = Arrays.asList(create("John Doe", 31), create("Alice", 27));
         String expected = "[{\"name\":\"John Doe\",\"age\":31},{\"name\":\"Alice\",\"age\":27}]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
@@ -82,7 +82,7 @@ public class OverlaySerializerGwtTest extends GWTTestCase {
         final JavaScriptObject input = create("John Doe", 31);
         final String expected = "{\"name\":\"John Doe\",\"age\":31}";
 
-        final String output = serializer.serialize(input, null);
+        final String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }

@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.gwt.serialization;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 
@@ -37,7 +38,8 @@ public class JsonStringSerializer extends JsonValueSerializer<String> {
     }
 
     @Override
-    public String serialize(String s, SerializationContext context) {
-        return "\"" + s + "\"";
+    public SerializedPayload serialize(String s, SerializationContext context) {
+        if (s.length() == 0) return SerializedPayload.EMPTY_PAYLOAD;
+        return new SerializedPayload("\"" + s + "\"");
     }
 }

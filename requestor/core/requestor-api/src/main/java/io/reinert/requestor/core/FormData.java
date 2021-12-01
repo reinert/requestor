@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package io.reinert.requestor.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Represents FormData interface.
@@ -26,7 +27,7 @@ import java.util.Iterator;
  */
 public class FormData implements Iterable<FormData.Param> {
 
-    private final ArrayList<Param> params;
+    private final List<Param> params;
 
     protected FormData(ArrayList<Param> params) {
         this.params = params;
@@ -34,6 +35,10 @@ public class FormData implements Iterable<FormData.Param> {
 
     public static FormData.Builder builder() {
         return new FormData.Builder();
+    }
+
+    public boolean isEmpty() {
+        return params == null || params.isEmpty();
     }
 
     @Override

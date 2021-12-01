@@ -21,6 +21,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsonUtils;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -62,18 +63,18 @@ public class OverlaySerializer implements Serializer<JavaScriptObject> {
     }
 
     @Override
-    public String serialize(JavaScriptObject t, SerializationContext context) {
-        return stringify(t);
+    public SerializedPayload serialize(JavaScriptObject t, SerializationContext context) {
+        return new SerializedPayload(stringify(t));
     }
 
     @Override
-    public String serialize(Collection<JavaScriptObject> c, SerializationContext context) {
+    public SerializedPayload serialize(Collection<JavaScriptObject> c, SerializationContext context) {
         StringBuilder sb = new StringBuilder("[");
         for (JavaScriptObject t : c) {
             sb.append(stringify(t)).append(',');
         }
         sb.setCharAt(sb.length() - 1, ']');
-        return sb.toString();
+        return new SerializedPayload(sb.toString());
     }
 
     protected <T extends JavaScriptObject> T eval(String response) {

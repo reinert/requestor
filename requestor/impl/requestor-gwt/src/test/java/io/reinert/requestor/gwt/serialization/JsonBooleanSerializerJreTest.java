@@ -60,14 +60,14 @@ public class JsonBooleanSerializerJreTest {
         Collection<Boolean> input = Arrays.asList(true, false, false, true, false);
         String expected = "[true,false,false,true,false]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeValue() throws Exception {
-        assertEquals("true", serializer.serialize(true, null));
-        assertEquals("false", serializer.serialize(false, null));
+        assertEquals("true", serializer.serialize(true, null).asText());
+        assertEquals("false", serializer.serialize(false, null).asText());
     }
 }

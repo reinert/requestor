@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
 
@@ -50,14 +51,13 @@ public abstract class JsonSerializer<T> implements Serializer<T> {
     }
 
     @Override
-    public String serialize(Collection<T> c, SerializationContext context) {
-        if (c == null) return null;
+    public SerializedPayload serialize(Collection<T> c, SerializationContext context) {
         StringBuilder serialized = new StringBuilder("[");
         for (T t : c) {
-            serialized.append(serialize(t, context)).append(',');
+            serialized.append(serialize(t, context).asText()).append(',');
         }
         serialized.setCharAt(serialized.length() - 1, ']');
-        return serialized.toString();
+        return new SerializedPayload(serialized.toString());
     }
 
     protected boolean isArray(String text) {

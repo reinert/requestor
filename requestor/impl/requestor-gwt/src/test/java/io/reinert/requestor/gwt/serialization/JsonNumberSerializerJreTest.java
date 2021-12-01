@@ -45,10 +45,10 @@ public class JsonNumberSerializerJreTest {
         BigInteger bi = BigInteger.ONE;
         BigDecimal bd = BigDecimal.ONE;
 
-        assertEquals(i.toString(), serializer.serialize(i, null));
-        assertEquals(d.toString(), serializer.serialize(d, null));
-        assertEquals(bi.toString(), serializer.serialize(bi, null));
-        assertEquals(bd.toString(), serializer.serialize(bd, null));
+        assertEquals(i.toString(), serializer.serialize(i, null).asText());
+        assertEquals(d.toString(), serializer.serialize(d, null).asText());
+        assertEquals(bi.toString(), serializer.serialize(bi, null).asText());
+        assertEquals(bd.toString(), serializer.serialize(bd, null).asText());
     }
 
     @Test(expected = UnableToDeserializeException.class)
@@ -351,7 +351,7 @@ public class JsonNumberSerializerJreTest {
         String expected = "[" + lowerBound.toString() + "," + BigDecimal.ZERO.toString() + ","
                 + BigDecimal.ONE.toString() + "," + upperBound.toString() + "]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
@@ -361,10 +361,10 @@ public class JsonNumberSerializerJreTest {
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
         BigDecimal lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound.toString(), serializer.serialize(lowerBound, null));
-        assertEquals(BigDecimal.ZERO.toString(), serializer.serialize(BigDecimal.ZERO, null));
-        assertEquals(BigDecimal.ONE.toString(), serializer.serialize(BigDecimal.ONE, null));
-        assertEquals(upperBound.toString(), serializer.serialize(upperBound, null));
+        assertEquals(lowerBound.toString(), serializer.serialize(lowerBound, null).asText());
+        assertEquals(BigDecimal.ZERO.toString(), serializer.serialize(BigDecimal.ZERO, null).asText());
+        assertEquals(BigDecimal.ONE.toString(), serializer.serialize(BigDecimal.ONE, null).asText());
+        assertEquals(upperBound.toString(), serializer.serialize(upperBound, null).asText());
     }
 
     @Test
@@ -377,7 +377,7 @@ public class JsonNumberSerializerJreTest {
         String expected = "[" + lowerBound.toString(10) + "," + BigInteger.ZERO.toString(10) + ","
                 + BigInteger.ONE.toString(10) + "," + upperBound.toString(10) + "]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
@@ -387,10 +387,10 @@ public class JsonNumberSerializerJreTest {
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
         BigInteger lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound.toString(10), serializer.serialize(lowerBound, null));
-        assertEquals(BigInteger.ZERO.toString(10), serializer.serialize(BigInteger.ZERO, null));
-        assertEquals(BigInteger.ONE.toString(10), serializer.serialize(BigInteger.ONE, null));
-        assertEquals(upperBound.toString(10), serializer.serialize(upperBound, null));
+        assertEquals(lowerBound.toString(10), serializer.serialize(lowerBound, null).asText());
+        assertEquals(BigInteger.ZERO.toString(10), serializer.serialize(BigInteger.ZERO, null).asText());
+        assertEquals(BigInteger.ONE.toString(10), serializer.serialize(BigInteger.ONE, null).asText());
+        assertEquals(upperBound.toString(10), serializer.serialize(upperBound, null).asText());
     }
 
     @Test
@@ -399,15 +399,15 @@ public class JsonNumberSerializerJreTest {
         Collections.addAll(input, Byte.MIN_VALUE, Byte.MAX_VALUE);
         String expected = "[" + String.valueOf(Byte.MIN_VALUE) + "," + String.valueOf(Byte.MAX_VALUE) + "]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeByteValue() throws Exception {
-        assertEquals(String.valueOf(Byte.MIN_VALUE), serializer.serialize(Byte.MIN_VALUE, null));
-        assertEquals(String.valueOf(Byte.MAX_VALUE), serializer.serialize(Byte.MAX_VALUE, null));
+        assertEquals(String.valueOf(Byte.MIN_VALUE), serializer.serialize(Byte.MIN_VALUE, null).asText());
+        assertEquals(String.valueOf(Byte.MAX_VALUE), serializer.serialize(Byte.MAX_VALUE, null).asText());
     }
 
     @Test
@@ -416,15 +416,15 @@ public class JsonNumberSerializerJreTest {
         Collections.addAll(input, Double.MIN_VALUE, Double.MAX_VALUE);
         String expected = "[" + String.valueOf(Double.MIN_VALUE) + "," + String.valueOf(Double.MAX_VALUE) + "]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeDoubleValue() throws Exception {
-        assertEquals(String.valueOf(Double.MIN_VALUE), serializer.serialize(Double.MIN_VALUE, null));
-        assertEquals(String.valueOf(Double.MAX_VALUE), serializer.serialize(Double.MAX_VALUE, null));
+        assertEquals(String.valueOf(Double.MIN_VALUE), serializer.serialize(Double.MIN_VALUE, null).asText());
+        assertEquals(String.valueOf(Double.MAX_VALUE), serializer.serialize(Double.MAX_VALUE, null).asText());
     }
 
     @Test
@@ -433,15 +433,15 @@ public class JsonNumberSerializerJreTest {
         Collections.addAll(input, Integer.MIN_VALUE, Integer.MAX_VALUE);
         String expected = "[" + String.valueOf(Integer.MIN_VALUE) + "," + String.valueOf(Integer.MAX_VALUE) + "]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeIntegerValue() throws Exception {
-        assertEquals(String.valueOf(Integer.MIN_VALUE), serializer.serialize(Integer.MIN_VALUE, null));
-        assertEquals(String.valueOf(Integer.MAX_VALUE), serializer.serialize(Integer.MAX_VALUE, null));
+        assertEquals(String.valueOf(Integer.MIN_VALUE), serializer.serialize(Integer.MIN_VALUE, null).asText());
+        assertEquals(String.valueOf(Integer.MAX_VALUE), serializer.serialize(Integer.MAX_VALUE, null).asText());
     }
 
     @Test
@@ -450,15 +450,15 @@ public class JsonNumberSerializerJreTest {
         Collections.addAll(input, Long.MIN_VALUE, Long.MAX_VALUE);
         String expected = "[" + String.valueOf(Long.MIN_VALUE) + "," + String.valueOf(Long.MAX_VALUE) + "]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeLongValue() throws Exception {
-        assertEquals(String.valueOf(Long.MIN_VALUE), serializer.serialize(Long.MIN_VALUE, null));
-        assertEquals(String.valueOf(Long.MAX_VALUE), serializer.serialize(Long.MAX_VALUE, null));
+        assertEquals(String.valueOf(Long.MIN_VALUE), serializer.serialize(Long.MIN_VALUE, null).asText());
+        assertEquals(String.valueOf(Long.MAX_VALUE), serializer.serialize(Long.MAX_VALUE, null).asText());
     }
 
     @Test
@@ -467,14 +467,14 @@ public class JsonNumberSerializerJreTest {
         Collections.addAll(input, Short.MIN_VALUE, Short.MAX_VALUE);
         String expected = "[" + String.valueOf(Short.MIN_VALUE) + "," + String.valueOf(Short.MAX_VALUE) + "]";
 
-        String output = serializer.serialize(input, null);
+        String output = serializer.serialize(input, null).asText();
 
         assertEquals(expected, output);
     }
 
     @Test
     public void serializeShortValue() throws Exception {
-        assertEquals(String.valueOf(Short.MIN_VALUE), serializer.serialize(Short.MIN_VALUE, null));
-        assertEquals(String.valueOf(Short.MAX_VALUE), serializer.serialize(Short.MAX_VALUE, null));
+        assertEquals(String.valueOf(Short.MIN_VALUE), serializer.serialize(Short.MIN_VALUE, null).asText());
+        assertEquals(String.valueOf(Short.MAX_VALUE), serializer.serialize(Short.MAX_VALUE, null).asText());
     }
 }
