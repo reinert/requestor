@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
         view.setHandler(this);
         Page.setTitle("Form Data");
-        Page.setDescription("Submit AJAX Forms easily.");
+        Page.setDescription("Work with Form payloads easily.");
         panel.setWidget(view);
         scrollToSection();
     }
@@ -58,7 +58,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
     public void onWrappingPostButtonClick(FormElement formElement) {
         FormData formData = JsFormData.wrap(formElement);
 
-        session.req("http://httpbin.org/post")
+        session.req("https://httpbin.org/post")
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
                 .onSuccess(new PayloadCallback<Response>() {
@@ -85,7 +85,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                 .append("comments", comments)
                 .build();
 
-        session.req("http://httpbin.org/post")
+        session.req("https://httpbin.org/post")
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
                 .onSuccess(new PayloadCallback<Response>() {
@@ -112,7 +112,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                 .append("comments", comments)
                 .build();
 
-        session.req("http://httpbin.org/post")
+        session.req("https://httpbin.org/post")
                 .payload(formData)
                 .contentType("application/x-www-form-urlencoded")
                 .post(Response.class) // retrieve the raw response

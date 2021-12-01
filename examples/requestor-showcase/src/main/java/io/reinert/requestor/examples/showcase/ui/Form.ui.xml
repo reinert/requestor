@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <!--
-~ Copyright 2014 Danilo Reinert
+~ Copyright 2014-2021 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -61,9 +61,9 @@
         <div class="highlight">
           <pre ui:field="wrapping" class="java">
             <code>
-              FormData formData = FormData.wrap(formElement);
+              FormData data = JsFormData.wrap(formElement);
               <br/>
-              requestor.req("http://httpbin.org/post").payload(formData).post();
+              session.req("https://httpbin.org/post").payload(data).post();
             </code>
           </pre>
         </div>
@@ -82,7 +82,7 @@
         <div class="highlight">
           <pre ui:field="building" class="java">
             <code>
-              FormData formData = FormData.builder()
+              FormData data = FormData.builder()
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("custname", custname)
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("custtel", custtel)
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("size", size)
@@ -92,7 +92,7 @@
               <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.build();
               <br/>
               <br/>
-              requestor.req("http://httpbin.org/post").payload(formData).post();
+              session.req("https://httpbin.org/post").payload(data).post();
             </code>
           </pre>
         </div>
@@ -106,7 +106,7 @@
 
         <br/>
 
-        <p>By default FormData payloads are sent as native JS FormData objects.
+        <p>By default FormData payloads are sent as native JS FormData objects, generating a "multipart/form-data" body.
           <br/>
           If you rather want them serialized in <b>"url encoded" format</b>, set the request <b>content-type</b> to <code>"application/x-www-form-urlencoded"</code>.
           <br/>
@@ -115,7 +115,10 @@
         <div class="highlight">
           <pre ui:field="buildingUrlEncoded" class="java">
             <code>
-              requestor.req("http://httpbin.org/post").contentType("application/x-www-form-urlencoded").payload(formData).post();
+              session.req("https://httpbin.org/post")
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/x-www-form-urlencoded")
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(formData)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post();
             </code>
           </pre>
         </div>
