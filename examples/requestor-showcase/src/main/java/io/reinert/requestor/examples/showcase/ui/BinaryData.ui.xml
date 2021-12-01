@@ -27,10 +27,11 @@
       </p>
       <div class="highlight">
         <pre ui:field="send" class="java">
-          <code>
-            JavaScriptObject file = getFile();<br/>
-            session.req("https://httpbin.org/post")
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(SerializedJsPayload.fromBlob(&lt;file&gt;))
+          <code>JavaScriptObject file = getFileBlob();
+            <br/>SerializedPayload payload = SerializedJsPayload.fromBlob(file);
+            <br/>
+            <br/>session.req("https://httpbin.org/post")
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(payload)
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.upProgress(new ProgressCallback() {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(RequestProgress progress) {
