@@ -206,7 +206,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                                            com.google.gwt.http.client.Response gwtResponse) {
                 final String responseType = xhr.getResponseType();
 
-                SerializedJsPayload serializedPayload = null;
+                SerializedPayload serializedPayload = SerializedPayload.EMPTY_PAYLOAD;
 
                 if (responseType == null || responseType.length() == 0 ||
                         responseType.equalsIgnoreCase(ResponseType.TEXT.getValue())) {

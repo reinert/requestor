@@ -24,7 +24,6 @@ import io.reinert.requestor.core.SerializationEngine;
 import io.reinert.requestor.core.SerializedResponse;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
-import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 import io.reinert.requestor.gwt.type.ArrayBuffer;
 import io.reinert.requestor.gwt.type.Blob;
@@ -43,29 +42,41 @@ public class GwtResponseDeserializer extends BaseResponseDeserializer {
     @Override
     public void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine) {
         if (isSuccessful(response)) {
-            final PayloadType payloadType = response.getPayloadType();
-            final Class<?> type = payloadType.getType();
+            final Class<?> type = response.getPayloadType().getType();
+            final SerializedPayload serializedPayload = response.getSerializedPayload();
 
             Object result = null;
+            boolean handled = false;
 
             if (SerializedPayload.class == type) {
+                handled = true;
                 result = response.getSerializedPayload();
             } else if (Blob.class == type) {
-                result = new Blob(((SerializedJsPayload) response.getSerializedPayload()).asJso());
+                handled = true;
+                if (!serializedPayload.isEmpty())
+                    result = new Blob(((SerializedJsPayload) serializedPayload).asJso());
             } else if (ArrayBuffer.class == type) {
-                result = new ArrayBuffer(((SerializedJsPayload) response.getSerializedPayload()).asJso());
+                handled = true;
+                if (!serializedPayload.isEmpty())
+                    result = new ArrayBuffer(((SerializedJsPayload) serializedPayload).asJso());
             } else if (Document.class == type) {
-                result = new Document(((SerializedJsPayload) response.getSerializedPayload()).asJso());
+                handled = true;
+                if (!serializedPayload.isEmpty())
+                    result = new Document(((SerializedJsPayload) serializedPayload).asJso());
             } else if (Json.class == type) {
-                result = new Json(((SerializedJsPayload) response.getSerializedPayload()).asJso());
+                handled = true;
+                if (!serializedPayload.isEmpty())
+                    result = new Json(((SerializedJsPayload) serializedPayload).asJso());
             } else if (Response.class == type || SerializedResponse.class == type || RawResponse.class == type) {
+                handled = true;
                 result = response.getRawResponse();
             } else if (Headers.class == type) {
+                handled = true;
                 result = response.getHeaders();
             }
 
-            if (result != null) {
-                response.deserializePayload(new Payload(result));
+            if (handled) {
+                response.deserializePayload(result == null ? Payload.EMPTY_PAYLOAD : new Payload(result));
                 response.proceed();
                 return;
             }
