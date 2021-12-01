@@ -19,7 +19,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class Document extends NativeType {
 
+    public static String TYPE = "document";
+
     public Document(JavaScriptObject jso) {
-        super(jso);
+        super(TYPE, jso);
     }
 }

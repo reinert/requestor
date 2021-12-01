@@ -19,7 +19,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class Blob extends NativeType {
 
+    public static String TYPE = "blob";
+
     public Blob(JavaScriptObject jso) {
-        super(jso);
+        super(TYPE, jso);
     }
 }

@@ -19,13 +19,19 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class NativeType {
 
+    private final String type;
     private final JavaScriptObject jso;
 
-    public NativeType(JavaScriptObject jso) {
+    public NativeType(String type, JavaScriptObject jso) {
+        this.type = type;
         this.jso = jso;
     }
 
     public JavaScriptObject asJso() {
         return jso;
+    }
+
+    public String getType() {
+        return type;
     }
 }

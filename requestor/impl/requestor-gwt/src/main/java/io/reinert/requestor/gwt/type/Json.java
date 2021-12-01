@@ -19,7 +19,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class Json extends NativeType {
 
+    public static String TYPE = "json";
+
     public Json(JavaScriptObject jso) {
-        super(jso);
+        super(TYPE, jso);
     }
 }

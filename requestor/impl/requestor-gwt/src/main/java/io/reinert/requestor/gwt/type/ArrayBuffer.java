@@ -19,7 +19,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class ArrayBuffer extends NativeType {
 
+    public static String TYPE = "arraybuffer";
+
     public ArrayBuffer(JavaScriptObject jso) {
-        super(jso);
+        super(TYPE, jso);
     }
 }
