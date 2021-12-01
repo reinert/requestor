@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package io.reinert.requestor.examples.showcase.ui;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.PreElement;
@@ -30,19 +31,18 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 import io.reinert.requestor.examples.showcase.util.HighlightJs;
+import io.reinert.requestor.gwt.type.Blob;
 
 public class BinaryData extends Composite {
 
     public interface Handler {
-//        void onBasicButtonClick(String user, String password);
-//        void onCustomButtonClick(String key);
         void onSendButtonClick(JavaScriptObject file);
         void onRetrieveButtonClick(String url);
     }
 
-    interface AuthenticationUiBinder extends UiBinder<HTMLPanel, BinaryData> { }
+    interface BinaryDataUiBinder extends UiBinder<HTMLPanel, BinaryData> { }
 
-    private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
+    private static BinaryDataUiBinder uiBinder = GWT.create(BinaryDataUiBinder.class);
 
     @UiField PreElement send, retrieve;
     @UiField TextAreaElement sendTextArea;
@@ -80,6 +80,10 @@ public class BinaryData extends Composite {
         retrieveProgress.setAttribute("aria-valuenow", String.valueOf(pctComplete));
     }
 
+    public void setDownloadImage(Blob blob) {
+        appendImage(blob.asJso(), Document.get().getElementById("img-container"));
+    }
+
     public void setHandler(Handler handler) {
         this.handler = handler;
     }
@@ -87,4 +91,15 @@ public class BinaryData extends Composite {
     private static native JavaScriptObject getFile(InputElement input, int index) /*-{
         return input.files[index];
      }-*/;
+
+    private static native void appendImage(JavaScriptObject blob, Element container) /*-{
+        container.innerHTML = "";
+        var img = $doc.createElement('img');
+        img.onload = function() {
+            $wnd.URL.revokeObjectURL(img.src); // Clean up after yourself.
+        };
+        img.className = 'img-responsive img-thumbnail';
+        img.src = $wnd.URL.createObjectURL(blob);
+        container.appendChild(img);
+    }-*/;
 }

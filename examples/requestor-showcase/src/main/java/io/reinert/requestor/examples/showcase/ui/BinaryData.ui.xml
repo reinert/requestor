@@ -21,29 +21,25 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="sending-data">Sending data</h1>
       <p class="lead">
-        Sending binary data with Requestor is so simple!
-        Just wrap the data in a Payload and put it in the request.
-      </p>
-      <p>
-        Along with sending data through HTTP requests, it is customary to monitor the progress of the submission.
-        <br/>
-        Requestor allows you to make it pretty nicely.
+        Sending binary data with Requestor is straightforward.
+        Create a serialized payload with the data by calling <code>SerializedJsPayload.fromBlob(&lt;jso&gt;)</code>.
+        Additionally, it's possible to monitor the progress of the submission.
       </p>
       <div class="highlight">
         <pre ui:field="send" class="java">
           <code>
             JavaScriptObject file = getFile();<br/>
-            requestor.req("https://httpbin.org/post")
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new SerializedPayload(file))
+            session.req("https://httpbin.org/post")
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(SerializedJsPayload.fromBlob(&lt;file&gt;))
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.upProgress(new ProgressCallback&lt;RequestProgress&gt;() {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onProgress(RequestProgress progress) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.upProgress(new ProgressCallback() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(RequestProgress progress) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (progress.isLengthComputable())
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus((progress.getLoaded() / progress.getTotal()) * 100);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;})
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.success(new SuccessCallback&lt;Void&gt;() {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onSuccess(Void result) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Void&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(Void empty) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus(100);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
@@ -72,22 +68,22 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="retrieving-data">Retrieving data</h1>
       <p class="lead">
-        Retrieve the payload as binary data by requesting <code>BlobType</code>, <code>ArrayBufferType</code>, <code>JsonType</code> or <code>DocumentType</code> (xml).
+        Retrieve the payload as binary data by requesting a <code>Blob</code> class, an <code>ArrayBuffer</code> class, a <code>Document</code> class or a <code>Json</code> class.
       </p>
       <div class="highlight">
         <pre ui:field="retrieve" class="java">
-          <code>requestor.req(url)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.responseType(ResponseType.BLOB)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(BlobType.class)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.progress(new ProgressCallback&lt;RequestProgress&gt;() {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onProgress(RequestProgress progress) {
+          <code>session.req(url)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(Blob.class)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onProgress(new ProgressCallback() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(RequestProgress progress) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* calculates (loaded/total)*100 */
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;})
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.success(new SuccessCallback&lt;BlobType&gt;() {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onSuccess(BlobType result) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Blob&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(Blob blob) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(100);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setImage(blob.asJso());
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
           </code>
@@ -95,14 +91,14 @@
       </div>
 
       <p>
-        Type some image service enpoint and check the result.
+        Input any image service endpoint and check the result.
       </p>
 
       <g:HTMLPanel styleName="action-grid">
         <form class="action">
           <div class="row">
             <div class="col-xs-6">
-              <input ui:field="imgUrl" type="text" class="form-control col-xs-4" value="http://placekitten.com/g/1920/1080"/>
+              <input ui:field="imgUrl" type="text" class="form-control col-xs-4" value="https://placekitten.com/g/1920/1080"/>
             </div>
             <div class="col-xs-6">
               <g:Button ui:field="retrieveButton" styleName="btn">GET</g:Button>

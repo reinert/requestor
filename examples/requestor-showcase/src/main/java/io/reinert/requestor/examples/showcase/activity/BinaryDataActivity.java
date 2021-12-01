@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 package io.reinert.requestor.examples.showcase.activity;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -43,6 +41,20 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
     }
 
     @Override
+    public void start(AcceptsOneWidget panel, EventBus eventBus) {
+        view.setHandler(this);
+        Page.setTitle("Binary Data");
+        Page.setDescription("Transfer binary data tracking the progress.");
+        panel.setWidget(view);
+        scrollToSection();
+    }
+
+    @Override
+    public void onStop() {
+        view.setHandler(null);
+    }
+
+    @Override
     public void onSendButtonClick(JavaScriptObject file) {
         view.setSendProgressStatus(0);
         view.setSendText(null);
@@ -50,20 +62,17 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
                 .payload(SerializedJsPayload.fromBlob(file))
                 .post(String.class)
                 .onSuccess(new PayloadCallback<String>() {
-                    @Override
                     public void execute(String result) {
                         view.setSendText(result);
                     }
                 })
                 .onUpProgress(new ProgressCallback() {
-                    @Override
                     public void execute(RequestProgress progress) {
                         if (progress.isLengthComputable())
                             view.setSendProgressStatus(progress.getCompletedFraction(100));
                     }
                 })
                 .onSuccess(new PayloadCallback<String>() {
-                    @Override
                     public void execute(String result) {
                         view.setSendProgressStatus(100);
                     }
@@ -75,50 +84,22 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
         session.req(url)
                 .get(Blob.class)
                 .onProgress(new ProgressCallback() {
-                    @Override
                     public void execute(RequestProgress progress) {
                         if (progress.isLengthComputable())
                             view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
                     }
                 })
                 .onSuccess(new PayloadCallback<Blob>() {
-                    @Override
-                    public void execute(Blob result) {
-                        view.setRetrieveProgressStatus(100);
-
-                        final JavaScriptObject blob = result.asJso();
+                    public void execute(Blob blob) {
                         if (blob == null) {
-                            Window.alert("No content received.");
                             view.setRetrieveProgressStatus(0);
+                            Window.alert("No content received.");
+                            return;
                         }
 
-                        appendImage(blob, Document.get().getElementById("img-container"));
+                        view.setRetrieveProgressStatus(100);
+                        view.setDownloadImage(blob);
                     }
                 });
     }
-
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        view.setHandler(this);
-        Page.setTitle("Binary Data");
-        Page.setDescription("Easily transfer binary data from/to server.");
-        panel.setWidget(view);
-        scrollToSection();
-    }
-
-    @Override
-    public void onStop() {
-        view.setHandler(null);
-    }
-
-    private native void appendImage(JavaScriptObject blob, Element container) /*-{
-        container.innerHTML = "";
-        var img = $doc.createElement('img');
-        img.onload = function() {
-            $wnd.URL.revokeObjectURL(img.src); // Clean up after yourself.
-        };
-        img.className = 'img-responsive img-thumbnail';
-        img.src = $wnd.URL.createObjectURL(blob);
-        container.appendChild(img);
-    }-*/;
 }
