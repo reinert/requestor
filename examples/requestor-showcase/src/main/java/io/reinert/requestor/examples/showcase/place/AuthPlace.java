@@ -24,7 +24,7 @@ import io.reinert.requestor.examples.showcase.activity.AuthActivity;
 public class AuthPlace extends ShowcasePlace {
 
     public AuthPlace(String section) {
-        super(MenuOption.Tokens.AUTH_TOKEN, section);
+        super(MenuOption.Tokens.AUTHENTICATION_TOKEN, section);
     }
 
     @Override

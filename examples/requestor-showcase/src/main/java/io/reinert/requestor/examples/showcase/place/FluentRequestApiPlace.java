@@ -24,7 +24,7 @@ import io.reinert.requestor.examples.showcase.activity.FluentRequestApiActivity;
 public class FluentRequestApiPlace extends ShowcasePlace {
 
     public FluentRequestApiPlace(String section) {
-        super(MenuOption.Tokens.FLUENT_REQUEST_API_TOKEN, section);
+        super(MenuOption.Tokens.REQUESTING_FLUENT_API_TOKEN, section);
     }
 
     @Override

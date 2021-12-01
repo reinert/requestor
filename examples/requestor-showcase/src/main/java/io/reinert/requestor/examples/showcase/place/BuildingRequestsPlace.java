@@ -24,7 +24,7 @@ import io.reinert.requestor.examples.showcase.activity.BuildingRequestsActivity;
 public class BuildingRequestsPlace extends ShowcasePlace {
 
     public BuildingRequestsPlace(String section) {
-        super(MenuOption.Tokens.BUILDING_REQUESTS_TOKEN, section);
+        super(MenuOption.Tokens.REQUEST_BUILDING_TOKEN, section);
     }
 
     @Override
