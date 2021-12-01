@@ -51,13 +51,13 @@ public class GwtResponseDeserializer extends BaseResponseDeserializer {
             if (SerializedPayload.class == type) {
                 result = response.getSerializedPayload();
             } else if (Blob.class == type) {
-                result = new Blob(((SerializedJsPayload) response.getSerializedPayload()).asJsObject());
+                result = new Blob(((SerializedJsPayload) response.getSerializedPayload()).asJso());
             } else if (ArrayBuffer.class == type) {
-                result = new ArrayBuffer(((SerializedJsPayload) response.getSerializedPayload()).asJsObject());
+                result = new ArrayBuffer(((SerializedJsPayload) response.getSerializedPayload()).asJso());
             } else if (Document.class == type) {
-                result = new Document(((SerializedJsPayload) response.getSerializedPayload()).asJsObject());
+                result = new Document(((SerializedJsPayload) response.getSerializedPayload()).asJso());
             } else if (Json.class == type) {
-                result = new Json(((SerializedJsPayload) response.getSerializedPayload()).asJsObject());
+                result = new Json(((SerializedJsPayload) response.getSerializedPayload()).asJso());
             } else if (Response.class == type || SerializedResponse.class == type || RawResponse.class == type) {
                 result = response.getRawResponse();
             } else if (Headers.class == type) {

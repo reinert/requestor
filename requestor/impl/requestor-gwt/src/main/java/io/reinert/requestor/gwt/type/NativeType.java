@@ -25,7 +25,7 @@ public class NativeType {
         this.jso = jso;
     }
 
-    public JavaScriptObject asJavaScriptObject() {
+    public JavaScriptObject asJso() {
         return jso;
     }
 }

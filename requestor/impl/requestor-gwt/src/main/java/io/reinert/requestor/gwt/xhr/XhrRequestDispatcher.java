@@ -169,8 +169,8 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             if (!serializedPayload.isEmpty()) {
                 if (serializedPayload instanceof SerializedJsPayload) {
                     SerializedJsPayload gwtPayload = (SerializedJsPayload) serializedPayload;
-                    if (gwtPayload.isJsObjectAvailable()) {
-                        xmlHttpRequest.send(gwtPayload.asJsObject());
+                    if (gwtPayload.isJsoAvailable()) {
+                        xmlHttpRequest.send(gwtPayload.asJso());
                     } else {
                         xmlHttpRequest.send(gwtPayload.asText());
                     }

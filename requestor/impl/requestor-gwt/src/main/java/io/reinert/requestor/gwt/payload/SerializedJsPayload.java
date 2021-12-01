@@ -76,7 +76,7 @@ public class SerializedJsPayload extends SerializedPayload {
         return asText() != null;
     }
 
-    public boolean isJsObjectAvailable() {
+    public boolean isJsoAvailable() {
         return javaScriptObject != null;
     }
 
@@ -86,7 +86,7 @@ public class SerializedJsPayload extends SerializedPayload {
      * @return The payload as JavaScriptObject
      */
     @SuppressWarnings("unchecked")
-    public <J extends JavaScriptObject> J asJsObject() {
+    public <J extends JavaScriptObject> J asJso() {
         return (J) javaScriptObject;
     }
 
