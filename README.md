@@ -31,7 +31,7 @@ Make a GET request and deserialize the response body as String:
 
 ```java
 Session session = new GwtSession();
-session.get("http://httpbin.org/ip", String.class).onSuccess( Window::alert );
+session.get("https://httpbin.org/ip", String.class).onSuccess( Window::alert );
 ```
 
 Make a POST request sending a serialized object in the payload:
@@ -66,7 +66,7 @@ Requesting involves three steps:
 
 ```java
 session.req("/api/books/1")              // 0. Start building the request
-       .timeout(10000)                   // 1. Set the request options
+       .timeout(10_000)                   // 1. Set the request options
        .header("ETag", "33a64df5") 
        .get(Book.class)                  // 2. Invoke an HTTP method with the expected type
        .onSuccess(book -> render(book))  // 3. Add callbacks to the request
@@ -88,7 +88,7 @@ Eventually, we can *reset the session state* at any time.
 Session session = new GwtSession();
 
 // Set all requests to have 10s timeout and 'application/json' Content-Type
-session.setTimeout(10000);
+session.setTimeout(10_000);
 session.setContentType("aplication/json");
 
 
@@ -181,7 +181,7 @@ Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** pr
 features but delegates some internals, like the network operation, to the implementations.
 
 Currently, there is one impl available: **requestor-gwt**. It implements requestor for the 
-GWT enviroment. Furthermore, implementations for the Java/Android and J2CL are planned.
+GWT environment. Furthermore, implementations for the Java/Android and J2CL are planned.
 
 ### Latest Release
 
@@ -291,7 +291,7 @@ req.header( new QualityFactorHeader("Accept-Language", "da", 1.0, "en-gb", 0.8, 
 Set a period in milliseconds in which the request should be timeout.
 
 ```java
-req.timeout( 10000 ); // Timeout after 10s
+req.timeout( 10_000 ); // Timeout after 10s
 ```
 
 ### *delay*
@@ -300,7 +300,7 @@ Set a time in milliseconds to postpone the request sending.
 The [request processing](#processors-middlewares) will happen only after the delay period. 
 
 ```java
-req.delay( 5000 ); // Delay the request for 5s
+req.delay( 5_000 ); // Delay the request for 5s
 ```
 
 ### *retry*
@@ -352,10 +352,10 @@ number of requests to stop the polling by informing the `limit` argument.
 
 ```java
 // Send the request each 3s
-req.poll( PollingStrategy.SHORT, 3000 );
+req.poll( PollingStrategy.SHORT, 3_000 );
 
 // Send the request each 3s up to the limit of 10 requests
-req.poll( PollingStrategy.SHORT, 3000, 10 );
+req.poll( PollingStrategy.SHORT, 3_000, 10 );
 ```
 
 There are two PollingStrategy choices: **LONG** or **SHORT**.
@@ -370,13 +370,13 @@ There are two PollingStrategy choices: **LONG** or **SHORT**.
 
 ```java
 // The next requests are dispatched 3s after the previous ones
-req.poll( PollingStrategy.SHORT, 3000 );
+req.poll( PollingStrategy.SHORT, 3_000 );
 
 // The next requests are dispatched as soon the responses are received
 req.poll( PollingStrategy.LONG); // Same as `req.poll( PollingStrategy.LONG, 0 )`
 
 // The next requests are dispatched 10s after previous responses up to the limit of 5 requests
-req.poll( PollingStrategy.LONG, 10000, 5 );
+req.poll( PollingStrategy.LONG, 10_000, 5 );
 ```
 
 In both cases, if we also set the request's delay option, then the subsequent dispatches' 
@@ -384,7 +384,7 @@ In both cases, if we also set the request's delay option, then the subsequent di
 
 ```java
 // The first request is delayed by 2s and the next ones are delayed by 5s (2 + 3)
-req.delay(2000).poll( PollingStrategy.SHORT, 3000 );
+req.delay(2_000).poll( PollingStrategy.SHORT, 3_000 );
 ```
 
 Furthermore, not setting a *polling limit*, we can manually ***stop*** the polling by calling 
@@ -454,9 +454,9 @@ See how you can use them below:
 
 ```java
 // You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
-session.get('/httpbin.org/ip', String.class).onSuccess(new PayloadCallback<String>() {
+session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() {
     public void execute(String ip) {
-        // This is executed if the request was successful (status = 2xx)
+        // This is executed if the response was successful (status = 2xx)
         view.showIp(ip);
     }
 }).onSuccess(new PayloadResponseCallback<String>() {
@@ -465,12 +465,12 @@ session.get('/httpbin.org/ip', String.class).onSuccess(new PayloadCallback<Strin
     }
 }).onFail(new ResponseCallback() {
     public void execute(Response r) {
-        // This is executed if the request was unsuccessful (status ≠ 2xx)
+        // This is executed if the response was unsuccessful (status ≠ 2xx)
         view.showError("Request failed. Server message: " + r.getPayload().toString());
     }
 }).onLoad(new ResponseCallback() {
     public void execute(Response r) {
-        // This is always executed, regardless of success or failure
+        // This is executed if a response is received, regardless of the status
         Window.alert("Response status was " + r.getStatus.toString());
     }
 }).onStatus(429, new ResponseCallback() {
@@ -1350,7 +1350,7 @@ This session configuration will be applied to every request's [`timeout`](#timeo
 
 ```java
 // Every request will have a timeout of 20s
-session.setTimeout(20000);
+session.setTimeout(20_000);
 ```
 
 #### Delay
@@ -1359,7 +1359,7 @@ This session configuration will be applied to every request's [`delay`](#delay) 
 
 ```java
 // Every request will have a delay of 3s
-session.setDelay(3000);
+session.setDelay(3_000);
 ```
 
 #### Retry
@@ -1380,14 +1380,14 @@ The Session is the starting point to build requests. We access the request build
 RequestInvoker req = session.req("/api/book/1")
 
 // Set up the request
-req = req.timeout(5000)
+req = req.timeout(5_000)
 
 // Invoke the request
 Request<Book> request = req.get(Book.class);
 
 // All together
 Request<Book> request = session.req("/api/book/1")
-        .timeout(5000)
+        .timeout(5_000)
         .get(Book.class);
 ```
 
@@ -1406,7 +1406,7 @@ Request<Book> request = session.post("/api/books", book, Book.class);
 
 Another convenient feature is the possibility of instantiating a Session with a customized `DeferredPool.Factory`. This factory provides `Deferred` instances to the request dispatcher, returning a `Request` to the Session's user. Thus, we can immediately add some global callbacks to keep our code DRY when generating a Deferred instance.
 
-The example below demonstrates a customized Deferred Factory that fires a `ShowLoadingEvent` right before the request is sent and fires a `HideLoadingEvent` once the request gets [loaded](#event-driven-callbacks) or [aborted](#event-driven-callbacks).
+The example below demonstrates a customized Deferred Factory that fires a `ShowLoadingEvent` right before the request is sent and fires a `HideLoadingEvent` once the request gets [loaded](#event-driven-callbacks) ('load' event) or [interrupted](#event-driven-callbacks) ('error' event).
 
 ```java
 class AppDeferredPoolFactory implements DeferredPool.Factory {
@@ -1766,26 +1766,19 @@ void onLinkClicked(Link link) {
 ```
 
 ## Headers
-### The Headers type
-### Existing Header types
-### Extending Header types
+\#TBD: write about the Headers map, the Header abstraction, existing Header implementations and how to extend it.
 
 
 ## URI
-### The URI type
-### Building URIs
-#### UriProxy
-### Parsing URIs
+\#TBD: write about the Uri type (parsing) and the UriBuilder.
 
 
 ## Binary Data
-### Upload
-### Download
+See [Showcase](https://reinert.github.io/requestor/latest/examples/showcase/#binary-data).
 
 
 ## Form Data
-### Native FormData dispatching
-### Url Encoded serialization
+See [Showcase](https://reinert.github.io/requestor/latest/examples/showcase/#form-data).
 
 
 ## Requesting Fluent API
@@ -1810,7 +1803,7 @@ In summary, these are the three requesting steps:
 //========================================
 
 RequestInvoker req = session.req("/api/books")
-        .timeout(10000) // Set the request timeout in milliseconds
+        .timeout(10_000) // Set the request timeout in milliseconds
         .delay(2000) // Set the request delay in milliseconds (wait 2s before sending the request)
         .contentType("aplication/json") // Set the Content-Type header
         .accept("text/plain") // Set the Accept header
@@ -1883,7 +1876,7 @@ session.req("/api/books")
 * [Showcase (0.3.0-SNAPSHOT)](https://reinert.github.io/requestor/0.3.0-SNAPSHOT/examples/showcase)
 
 ## Documentation
-* [Javadoc](http://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
+* [Javadoc](https://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
 * [Project Site (Latest Release)](https://reinert.github.io/requestor/latest)
 * [Project Site (0.3.0-SNAPSHOT)](https://reinert.github.io/requestor/0.3.0-SNAPSHOT)
 
@@ -1921,6 +1914,6 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
 0.3.0-SNAPSHOT
 
 ## License
-Requestor is freely distributable under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html)
+Requestor is freely distributable under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 [![Analytics](https://ga-beacon.appspot.com/UA-59721128-2/reinert/requestor?pixel)](https://ga-beacon.appspot.com/UA-59721128-2/reinert/requestor)
