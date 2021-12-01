@@ -332,24 +332,13 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
-    public Request<Void> options(String uri) {
-        return this.req(uri).options();
-    }
-
-    @Override
-    public <T> Request<T> options(String uri, Class<T> entityType) {
-        return this.req(uri).options(entityType);
-    }
-
-    @Override
-    public <T, C extends Collection> Request<Collection<T>> options(String uri, Class<C> collectionType,
-                                                                    Class<T> entityType) {
-        return this.req(uri).options(collectionType, entityType);
-    }
-
-    @Override
     public Request<Headers> head(String uri) {
         return this.req(uri).head();
+    }
+
+    @Override
+    public Request<Headers> options(String uri) {
+        return this.req(uri).options();
     }
 
     //===================================================================

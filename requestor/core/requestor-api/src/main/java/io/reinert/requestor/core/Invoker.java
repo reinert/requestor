@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,11 +56,7 @@ public interface Invoker {
 
     <T, C extends Collection> Request<Collection<T>> patch(Class<C> collectionType, Class<T> entityType);
 
-    Request<Void> options();
-
-    <T> Request<T> options(Class<T> entityType);
-
-    <T, C extends Collection> Request<Collection<T>> options(Class<C> collectionType, Class<T> entityType);
-
     Request<Headers> head();
+
+    Request<Headers> options();
 }

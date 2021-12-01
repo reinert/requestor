@@ -114,23 +114,12 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
-    public PollingRequest<Void> options() {
-        return send(HttpMethod.OPTIONS, Void.class);
-    }
-
-    @Override
-    public <T> PollingRequest<T> options(Class<T> entityType) {
-        return send(HttpMethod.OPTIONS, entityType);
-    }
-
-    @Override
-    public <T, C extends Collection> PollingRequest<Collection<T>> options(Class<C> collectionType,
-                                                                           Class<T> entityType) {
-        return send(HttpMethod.OPTIONS, entityType, collectionType);
-    }
-
-    @Override
     public PollingRequest<Headers> head() {
         return send(HttpMethod.HEAD, Headers.class);
+    }
+
+    @Override
+    public PollingRequest<Headers> options() {
+        return send(HttpMethod.OPTIONS, Headers.class);
     }
 }

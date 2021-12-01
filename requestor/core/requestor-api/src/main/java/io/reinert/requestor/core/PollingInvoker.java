@@ -72,14 +72,8 @@ public interface PollingInvoker extends Invoker {
     <T, C extends Collection> PollingRequest<Collection<T>> patch(Class<C> collectionType, Class<T> entityType);
 
     @Override
-    PollingRequest<Void> options();
-
-    @Override
-    <T> PollingRequest<T> options(Class<T> entityType);
-
-    @Override
-    <T, C extends Collection> PollingRequest<Collection<T>> options(Class<C> collectionType, Class<T> entityType);
-
-    @Override
     PollingRequest<Headers> head();
+
+    @Override
+    PollingRequest<Headers> options();
 }

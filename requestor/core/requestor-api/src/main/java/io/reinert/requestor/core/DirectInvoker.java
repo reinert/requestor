@@ -75,11 +75,7 @@ public interface DirectInvoker {
 
     <T, C extends Collection> Request<Collection<T>> patch(String uri, Class<C> collectionType, Class<T> entityType);
 
-    Request<Void> options(String uri);
-
-    <T> Request<T> options(String uri, Class<T> entityType);
-
-    <T, C extends Collection> Request<Collection<T>> options(String uri, Class<C> collectionType, Class<T> entityType);
-
     Request<Headers> head(String uri);
+
+    Request<Headers> options(String uri);
 }
