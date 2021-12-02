@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,12 +30,12 @@ public class BuildingRequests extends Composite {
 
     private static BuildingRequestsUiBinder uiBinder = GWT.create(BuildingRequestsUiBinder.class);
 
-    @UiField PreElement req, header1, header2, header3, header4, timeout, responseType, payload1, payload2, auth1,
-            auth2;
+    @UiField PreElement req, header1, header2, header3, header4, timeout, delay, payload1, auth1,
+            retry, poll;
 
     public BuildingRequests() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(req, header1, header2, header3, header4, timeout, responseType, payload1, payload2,
-                auth1, auth2);
+        HighlightJs.highlightBlock(req, header1, header2, header3, header4, timeout, delay, payload1,
+                auth1, retry, poll);
     }
 }

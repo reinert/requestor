@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <!--
-~ Copyright 2014 Danilo Reinert
+~ Copyright 2014-2021 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -19,22 +19,20 @@
   <g:HTMLPanel>
     <!-- START SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="start-building">Start building</h1>
+      <h1 class="page-header" id="start-building">Init the builder</h1>
       <p class="lead">
-        Start building a request by calling <code>Requestor#req</code>.
-        A target url is required by it.
+        Start building a request by calling <code>session.req(&lt;uri&gt;)</code>.
       </p>
       <div class="highlight">
         <pre ui:field="req" class="java">
-          <code>
-            Requestor r = GWT.create(Requestor); <br/>
-            RequestBuilder reqBuilder = r.req(&quot;/target&quot;);
+          <code>Session session = new GwtSession();
+            <br/>RequestInvoker req = session.req(&quot;/target-uri&quot;);
           </code>
         </pre>
       </div>
 
       <p style="margin-bottom: 0">
-        Note: <code>Requestor#req</code> returns a <code>RequestSender</code> which inherits from <code>RequestBuilder</code> but has additional dispatching capabilities.
+        Note: a <code>RequestInvoker</code> inherits from <code>RequestBuilder</code> and has additional invoking capabilities.
       </p>
     </g:HTMLPanel>
 
@@ -42,64 +40,63 @@
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="headers">Headers</h1>
       <p class="lead">
-        Handful methods are provided to add header to the request.
+        There are a few different ways of setting the request headers.
       </p>
 
       <div class="requestor-showcase-innersection">
-        <h3>#header(String, String)</h3>
+        <h3><code>header(String, String)</code></h3>
         <p>
           This method allows you to add a headers to the request by simply specifying it's name and value.
         </p>
         <div class="highlight">
           <pre ui:field="header1" class="java">
             <code>
-              reqBuilder.header("Content-Type", "application/json; charset=utf-8");
+              req.header("Content-Type", "application/json; charset=utf-8");
             </code>
           </pre>
         </div>
       </div>
 
       <div class="requestor-showcase-innersection">
-        <h3>#header(Header)</h3>
+        <h3><code>header(Header)</code></h3>
         <p>
           Alternatively, you can add a <code>Header</code> to the request.
-          The Header type has several childs representing different kind of headers.
-          Some of them are: <code>SimpleHeader</code>, <code>SimpleHeaderWithParameter</code>,
-          <code>MultivaluedHeader</code>, <code>QualityFactorHeader</code>, <code>ContentTypeHeader</code>,
-          <code>AcceptHeader</code>.
+          The Header type has several subclasses representing different kind of headers.
+          Some of them are: <code>SimpleHeader</code>, <code>MultivaluedHeader</code>, <code>QualityFactorHeader</code>,
+          <code>ContentTypeHeader</code>, <code>AcceptHeader</code> and <code>LinkHeader</code>,.
         </p>
         <div class="highlight">
           <pre ui:field="header2" class="java">
             <code>
-              reqBuilder.header(new ContentTypeHeader("application/json", Param.of("charset", "utf-8")));
+              req.header(new ContentTypeHeader("application/json", Param.of("charset", "utf-8")));
             </code>
           </pre>
         </div>
       </div>
 
       <div class="requestor-showcase-innersection">
-        <h3>#contentType(String)</h3>
+        <h3><code>contentType(String)</code></h3>
         <p>
-          This method is a shortcut for setting the Content-Type header.
+          This is a shortcut for setting the Content-Type header.
         </p>
         <div class="highlight">
           <pre ui:field="header3" class="java">
             <code>
-              reqBuilder.contentType("application/json; charset=utf-8");
+              req.contentType("application/json; charset=utf-8");
             </code>
           </pre>
         </div>
       </div>
 
       <div class="requestor-showcase-innersection">
-        <h3>#accept(String)</h3>
+        <h3><code>accept(String)</code></h3>
         <p>
-          This method is a shortcut for setting the Accept header.
+          This is a shortcut for setting the Accept header.
         </p>
         <div class="highlight">
           <pre ui:field="header4" class="java">
             <code>
-              reqBuilder.accept("application/json, text/plain; q=0.8");
+              req.accept("application/json, text/plain; q=0.8");
             </code>
           </pre>
         </div>
@@ -112,109 +109,133 @@
       <p class="lead">
         Set the timeout (in milliseconds) of the request.
       </p>
+      <h3><code>timeout(int)</code></h3>
       <div class="highlight">
         <pre ui:field="timeout" class="java">
           <code>
-            reqBuilder.timeout(60000); // set the timeout to 1 min
+            req.timeout(60_000); // set the timeout to 1 min
           </code>
         </pre>
       </div>
     </g:HTMLPanel>
 
-    <!-- RESPONSE TYPE SECTION -->
+    <!-- DELAY SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="responseType">Response Type</h1>
+      <h1 class="page-header" id="delay">Delay</h1>
       <p class="lead">
-        Set the expected responseType of the request.
+        Set the time (in milliseconds) to delay request dispatching.
       </p>
+      <h3><code>delay(int)</code></h3>
       <div class="highlight">
-        <pre ui:field="responseType" class="java">
+        <pre ui:field="delay" class="java">
           <code>
-            reqBuilder.responseType(ResponseType.BLOB); // expect a blob in the response payload
+            req.delay(3_000); // delay the request for 3s
           </code>
         </pre>
       </div>
-      <p>
-        The responseType of the request will determine how the response entity body will be parsed.
-        It is usefull when you want to retrieve other data type than text.
-        <br/>
-        The <code>#responseType</code> method accepts a value from the <code>ResponseType</code> enumeration.
-        The possible values are: <code>ARRAY_BUFFER</code>, <code>BLOB</code>, <code>DOCUMENT</code>, <code>JSON</code>, <code>TEXT</code> and <code>DEFAULT</code>.
-        <br/>
-        Check <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#responseType" target="_blank">MDN</a> for more details.
-      </p>
     </g:HTMLPanel>
 
     <!-- PAYLOAD SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="payload">Payload</h1>
       <p class="lead">
-        Set the request payload (entity body).
+        Set the payload that will be serialized into the request body.
       </p>
+      <h3><code>payload(Object, String...)</code></h3>
       <p>
-        With the <code>#payload</code> method you can fill the request with an object which will be later serialized to the body of the HTTP request.
+        Optionally, filter the fields that you want to be serialized.
       </p>
       <div class="highlight">
         <pre ui:field="payload1" class="java">
-          <code>
-            reqBuilder.payload(anyObject);
+          <code>/* Set a book object as the payload */
+            <br/>req.payload(book);
+            <br/>
+            <br/>/* Ask to serialize only the author and title fields */
+            <br/>req.payload(book, "author", "title");
           </code>
         </pre>
       </div>
       <p>
-        See the <a href="#serialization">Serialization</a> page to understand how this object will be serialized.
-      </p>
-      <p>
-        You can skip serialization of the payload by setting a <code>Payload</code> object as the request payload.
-        <br/>
-        The <code>Payload</code> type represents the already serialized entity body of a request/response.
-        <br/>
-        It can be a <code>String</code> (serialized text) or a <code>JavaScriptObject</code> (some native type supported by XHR like a Blob, an ArrayBuffer, a Document, etc.).
-      </p>
-      <div class="highlight">
-        <pre ui:field="payload2" class="java">
-          <code>
-            JavaScriptObject blob = getBlob(); <br/>
-            reqBuilder.payload(new Payload(blob)); // this payload will compose the request as raw data
-          </code>
-        </pre>
-      </div>
-      <p>
-        Check <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#send()" target="_blank">MDN</a> for more details.
+        Tip: You can skip serialization by setting a <code>SerializedPayload</code> object as the request payload.
       </p>
     </g:HTMLPanel>
 
     <!-- AUTH SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="auth">Auth (Authentication)</h1>
+      <h1 class="page-header" id="auth">Auth</h1>
       <p class="lead">
-        Inform how the request should be authenticated.
+        Set the authentication method.
       </p>
-      <p>
-        Requestor allows you to easily specify the authentication procedure for your requests.
-        <br/>
-        The HTTP BASIC authentication method is already implemented in the API, so you can use it nicely.
-        <!--This feature was carefully designed to be as simple and extensible as possible, allowing one to set whatever authentication worflow necessary at the same time not requiring expensive coding.-->
-        <!--<br/>-->
-        <!--Any authentication procedure must implement the <code>Authentication</code> class, which is simple-->
-      </p>
+      <h3><code>auth(Auth | Auth.Provider)</code></h3>
       <div class="highlight">
         <pre ui:field="auth1" class="java">
-          <code>
-            reqBuilder.auth(new BasicAuth("user", "passwd"));
+          <code>/* Set a basic auth instance for this request */
+            <br/>req.auth(new BasicAuth("usr", "pwd"));
+            <br/>
+            <br/>/* Set a digest auth provider for this request */
+            <br/>req.auth(() -> new DigestAuth("usr", "pwd", "md5"));
+          </code>
+        </pre>
+      </div>
+    </g:HTMLPanel>
+
+    <!-- RETRY SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="retry">Retry</h1>
+      <p class="lead">
+        Set the retry policy by informing a sequence of delays (in milliseconds) to perform next calls and the events that will trigger a retry.
+      </p>
+      <h3><code>retry(int[], RequestEvent...)</code></h3>
+      <p>
+        The array of delays can be created with the <code>DelaySequence</code> factory methods.
+      </p>
+      <div class="highlight">
+        <pre ui:field="retry" class="java">
+          <code>/* Set the request to retry on 'timeout' or '429' responses */
+            <br/>req.retry( DelaySequence.geometric(3, 2, 4), RequestEvent.TIMEOUT, Status.TOO_MANY_REQUESTS );
+            <br/>/* it generates the geometric sequence int[]{3000, 6000, 12000, 36000} */
+            <br/>
+            <br/>/* Set the request to retry on 'cancel' or '429' and '503' responses */
+            <br/>req.retry( DelaySequence.arithmetic(5, 20, 3), RequestEvent.CANCEL, Status.of(429), Status.of(503) );
+            <br/>/* it generates the arithmetic sequence int[]{5000, 25000, 45000} */
+            <br/>
+            <br/>/* Set the request to retry on 'timeout', '4xx' and '529' */
+            <br/>req.retry( DelaySequence.fixed(5, 15, 45), RequestEvent.TIMEOUT, StatusFamily.CLIENT_ERROR, Status.SERVICE_UNAVAILABLE );
+            <br/>/* it generates the fixed sequence int[]{5000, 15000, 45000} */
           </code>
         </pre>
       </div>
       <p>
-        Any authentication procedure can be coded by implementing the <code>Authentication</code> class.
+        Check <a href="https://github.com/reinert/requestor/#retry" target="_blank">GitHub README</a> for more details.
+      </p>
+    </g:HTMLPanel>
+
+    <!-- POLL SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="poll">Polling</h1>
+      <p class="lead">
+        Set the polling policy by informing a strategy, an interval (in milliseconds) and a limit.
+      </p>
+      <h3><code>poll(PollingStrategy, int, int)</code></h3>
+      <p>
+        It will enable request polling according to the policy. As a consequence, the request events may occur many times.
       </p>
       <div class="highlight">
-        <pre ui:field="auth2" class="java">
-          <code>
-            reqBuilder.auth(new MyCustomAuth(someId, someKey));
+        <pre ui:field="poll" class="java">
+          <code>/* The next requests are dispatched 3s after the previous ones */
+            <br/>req.poll( PollingStrategy.SHORT, 3_000 );
+            <br/>
+            <br/>/* The next requests are dispatched as soon the responses are received */
+            <br/>req.poll( PollingStrategy.LONG); /* Same as `req.poll( PollingStrategy.LONG, 0 )` */
+            <br/>
+            <br/>/* The next requests are dispatched 10s after previous responses up to the limit of 5 requests */
+            <br/>req.poll( PollingStrategy.LONG, 10_000, 5 );
           </code>
         </pre>
       </div>
+      <p>
+        Check <a href="https://github.com/reinert/requestor/#poll" target="_blank">GitHub README</a> for more details.
+      </p>
     </g:HTMLPanel>
 
   </g:HTMLPanel>

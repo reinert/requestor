@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +35,8 @@ public class BuildingRequestsActivity extends ShowcaseActivity {
 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
-        Page.setTitle("Building Requests");
-        Page.setDescription("Know the options for building a request.");
+        Page.setTitle("Request Building");
+        Page.setDescription("Know the options to set up a request.");
         panel.setWidget(view);
         scrollToSection();
     }
