@@ -77,7 +77,24 @@
 <h1>Requestor</h1>
 <p><b>Request like a boss.</b></p>
 <p><i>Ask more. Do less. Keep track of everything.</i></p>
-<p>Requestor is a powerful HTTP Client API for cutting-edge Java/GWT client apps. It offers plenty of carefully designed features that enable developers to rule the network communication process smoothly: * <b>Requesting Fluent API</b> - code as you think, read as you code. * <b>Event-Driven Callbacks</b> - chain callbacks for different results and statuses. * <b>Serialization</b> - serialize and deserialize payloads integrating any library. * <b>Authentication</b> - make complex async authentication procedures in a breeze. * <b>Middlewares</b> - asynchronously filter and intercept requests and responses. * <b>HTTP Polling</b> - make long or short polling with a single command. * <b>Retry</b> - define a retry policy with a single command. * <b>Session</b> - set default options to all requests. * <b>Store</b> - save and retrieve data both in session and request scope. * <b>Services</b> - break down the API consumption into smaller independent contexts. * <b>Links</b> - navigate through an API interacting with its links (HATEOAS for real). * <b>Headers</b> - directly create and parse complex headers. * <b>URIs</b> - build and parse complicated URIs easily. * <b>Binary Data</b> - upload and download files tracking the progress.</p>
+<p>Requestor is a powerful HTTP Client API for cutting-edge Java/GWT client apps. It offers plenty of carefully designed features that enable developers to rule the network communication process smoothly:</p>
+<ul>
+
+<li><b>Requesting Fluent API</b> - code as you think, read as you code.</li>
+<li><b>Event-Driven Callbacks</b> - chain callbacks for different results and statuses.</li>
+<li><b>Serialization</b> - serialize and deserialize payloads integrating any library.</li>
+<li><b>Authentication</b> - make complex async authentication procedures in a breeze.</li>
+<li><b>Middlewares</b> - asynchronously filter and intercept requests and responses.</li>
+<li><b>HTTP Polling</b> - make long or short polling with a single command.</li>
+<li><b>Retry</b> - define a retry policy with a single command.</li>
+<li><b>Session</b> - set default options to all requests.</li>
+<li><b>Store</b> - save and retrieve data both in session and request scope.</li>
+<li><b>Services</b> - break down the API consumption into smaller independent contexts.</li>
+<li><b>Links</b> - navigate through an API interacting with its links (HATEOAS for real).</li>
+<li><b>Headers</b> - directly create and parse complex headers.</li>
+<li><b>URIs</b> - build and parse complicated URIs easily.</li>
+<li><b>Binary Data</b> - upload and download files tracking the progress.</li>
+</ul>
 <p>It is compatible with GWT2 and Java 5+. Implementations for JVM/Android and J2CL are in the roadmap without breaking API compatibility.</p>
 <p>Requestor is an <b>HTTP Client API</b> intended to provide several features related to network communication. Its scope is broader than popular (and often misunderstood) REST patterns. Requestor precisely models each entity in the HTTP client-side context to enable its users to handle any requirement in this boundary. It values good <b>code readability and maintainability</b> for the user by providing carefully designed interfaces and abstractions that others can extend and add their logic with <b>low or zero integration effort</b>. Workarounds and hacks are not welcome here. Developers should be able to implement their requirements keeping <b>high cohesion</b> through all their codebase.</p>
 <p>Additionally, Requestor was crafted from the Client perspective instead of the Server&#x2019;s (like other rest libraries were thought). In that fashion, developers have a more <b>consistent and intuitive experience</b> consuming HTTP services while coding. We do not need to pre-declare Server API&#x2019;s facades. We can just consume them on demand. This approach empower us to build <i>micro clients</i> that interact with many different <i>micro services</i>.</p>
