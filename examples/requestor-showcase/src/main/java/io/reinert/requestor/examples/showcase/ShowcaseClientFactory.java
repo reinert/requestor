@@ -30,6 +30,7 @@ import io.reinert.requestor.examples.showcase.ui.Home;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.ui.RequestBuilding;
 import io.reinert.requestor.examples.showcase.ui.RequestInvoking;
+import io.reinert.requestor.examples.showcase.ui.RequestListening;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.gwt.GwtSession;
 
@@ -43,6 +44,7 @@ public class ShowcaseClientFactory {
     private FluentRequestApi requesting;
     private RequestBuilding buildingRequests;
     private RequestInvoking sendingRequests;
+    private RequestListening requestListening;
     private Form form;
     private BinaryData binaryData;
     private Auth auth;
@@ -94,6 +96,12 @@ public class ShowcaseClientFactory {
         if (sendingRequests == null)
             sendingRequests = new RequestInvoking();
         return sendingRequests;
+    }
+
+    public RequestListening getRequestListening() {
+        if (requestListening == null)
+            requestListening = new RequestListening();
+        return requestListening;
     }
 
     public BinaryData getBinaryData() {
