@@ -193,15 +193,15 @@
         <pre ui:field="retry" class="java">
           <code>/* Set the request to retry on 'timeout' or '429' responses */
             <br/>req.retry( DelaySequence.geometric(3, 2, 4), RequestEvent.TIMEOUT, Status.TOO_MANY_REQUESTS );
-            <br/>/* it generates the geometric sequence `int[]{3000, 6000, 12000, 36000} */
+            <br/>/* it generates the geometric sequence int[]{3000, 6000, 12000, 36000} */
             <br/>
             <br/>/* Set the request to retry on 'cancel' or '429' and '503' responses */
             <br/>req.retry( DelaySequence.arithmetic(5, 20, 3), RequestEvent.CANCEL, Status.of(429), Status.of(503) );
-            <br/>/* it generates the arithmetic sequence `int[]{5000, 25000, 45000} */
+            <br/>/* it generates the arithmetic sequence int[]{5000, 25000, 45000} */
             <br/>
             <br/>/* Set the request to retry on 'timeout', '4xx' and '529' */
             <br/>req.retry( DelaySequence.fixed(5, 15, 45), RequestEvent.TIMEOUT, StatusFamily.CLIENT_ERROR, Status.SERVICE_UNAVAILABLE );
-            <br/>/* it generates the fixed sequence `int[]{5000, 15000, 45000}` */
+            <br/>/* it generates the fixed sequence int[]{5000, 15000, 45000} */
           </code>
         </pre>
       </div>
