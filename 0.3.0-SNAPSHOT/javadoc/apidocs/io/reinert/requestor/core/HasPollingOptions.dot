@@ -10,56 +10,56 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.PollingRequest<T>
-	c18018 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequest.html">
+	c21373 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedRequest
-	c18023 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
+	c21378 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.MutableRequest
-	c18031 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
+	c21386 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ProcessableRequest
-	c18037 [label=<<table title="io.reinert.requestor.core.ProcessableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProcessableRequest.html">
+	c21392 [label=<<table title="io.reinert.requestor.core.ProcessableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProcessableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProcessableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProcessableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PollingRequestBuilder
-	c18040 [label=<<table title="io.reinert.requestor.core.PollingRequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestBuilder.html">
+	c21395 [label=<<table title="io.reinert.requestor.core.PollingRequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequestBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasPollingOptions
-	c18050 [label=<<table title="io.reinert.requestor.core.HasPollingOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasPollingOptions.html">
+	c21403 [label=<<table title="io.reinert.requestor.core.HasPollingOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasPollingOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasPollingOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasPollingOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.PollingRequest<T> implements io.reinert.requestor.core.HasPollingOptions
-	c18050:p -> c18018:p [dir=back,arrowtail=empty,style=dashed];
+	c21403:p -> c21373:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedRequest implements io.reinert.requestor.core.HasPollingOptions
-	c18050:p -> c18023:p [dir=back,arrowtail=empty,style=dashed];
+	c21403:p -> c21378:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableRequest implements io.reinert.requestor.core.HasPollingOptions
-	c18050:p -> c18031:p [dir=back,arrowtail=empty,style=dashed];
+	c21403:p -> c21386:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ProcessableRequest implements io.reinert.requestor.core.HasPollingOptions
-	c18050:p -> c18037:p [dir=back,arrowtail=empty,style=dashed];
+	c21403:p -> c21392:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestBuilder implements io.reinert.requestor.core.HasPollingOptions
-	c18050:p -> c18040:p [dir=back,arrowtail=empty,style=dashed];
+	c21403:p -> c21395:p [dir=back,arrowtail=empty,style=dashed];
 }
 

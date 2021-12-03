@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../core/ResponseDeserializer.html" title="io.reinert.requestor.core.ResponseDeserializer" alt="" coords="29,11,189,53"/>
-<area shape="rect" id="node1" href="../core/ResponseDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="19,5,200,59"/>
-<area shape="rect" id="node2_1" href="./GwtResponseDeserializer.html" title="io.reinert.requestor.gwt.GwtResponseDeserializer" alt="" coords="16,118,203,143"/>
-<area shape="rect" id="node2" href="./GwtResponseDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="5,107,213,155"/>
+<area shape="rect" id="node1_0" href="../core/BaseResponseDeserializer.html" title="io.reinert.requestor.core.BaseResponseDeserializer" alt="" coords="16,17,208,42"/>
+<area shape="rect" id="node1" href="../core/BaseResponseDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="5,5,219,53"/>
+<area shape="rect" id="node2_1" href="./GwtResponseDeserializer.html" title="io.reinert.requestor.gwt.GwtResponseDeserializer" alt="" coords="19,113,205,138"/>
+<area shape="rect" id="node2" href="./GwtResponseDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="8,101,216,149"/>
 </map>

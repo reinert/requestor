@@ -10,74 +10,74 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestFilter.Provider
-	c35783 [label=<<table title="io.reinert.requestor.core.RequestFilter.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilter.Provider.html">
+	c39864 [label=<<table title="io.reinert.requestor.core.RequestFilter.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilter.Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestFilter.Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.DeserializerProvider
-	c35801 [label=<<table title="io.reinert.requestor.core.DeserializerProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeserializerProvider.html">
+	c39883 [label=<<table title="io.reinert.requestor.core.DeserializerProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeserializerProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeserializerProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeserializerProvider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestInterceptor.Provider
-	c35836 [label=<<table title="io.reinert.requestor.core.RequestInterceptor.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptor.Provider.html">
+	c39915 [label=<<table title="io.reinert.requestor.core.RequestInterceptor.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptor.Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInterceptor.Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.TypeProvider<T>
-	c35842 [label=<<table title="io.reinert.requestor.core.TypeProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TypeProvider.html">
+	c39921 [label=<<table title="io.reinert.requestor.core.TypeProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TypeProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> TypeProvider&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TypeProvider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseFilter.Provider
-	c35845 [label=<<table title="io.reinert.requestor.core.ResponseFilter.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilter.Provider.html">
+	c39924 [label=<<table title="io.reinert.requestor.core.ResponseFilter.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilter.Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseFilter.Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Provider<T>
-	c35847 [label=<<table title="io.reinert.requestor.core.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Provider.html">
+	c39926 [label=<<table title="io.reinert.requestor.core.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseInterceptor.Provider
-	c35851 [label=<<table title="io.reinert.requestor.core.ResponseInterceptor.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInterceptor.Provider.html">
+	c39933 [label=<<table title="io.reinert.requestor.core.ResponseInterceptor.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInterceptor.Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseInterceptor.Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Auth.Provider
-	c35866 [label=<<table title="io.reinert.requestor.core.Auth.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Auth.Provider.html">
+	c39954 [label=<<table title="io.reinert.requestor.core.Auth.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Auth.Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Auth.Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RequestFilter.Provider implements io.reinert.requestor.core.Provider<T>
-	c35847:p -> c35783:p [dir=back,arrowtail=empty,style=dashed];
+	c39926:p -> c39864:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.DeserializerProvider implements io.reinert.requestor.core.Provider<T>
-	c35847:p -> c35801:p [dir=back,arrowtail=empty,style=dashed];
+	c39926:p -> c39883:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestInterceptor.Provider implements io.reinert.requestor.core.Provider<T>
-	c35847:p -> c35836:p [dir=back,arrowtail=empty,style=dashed];
+	c39926:p -> c39915:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.TypeProvider<T> implements io.reinert.requestor.core.Provider<T>
-	c35847:p -> c35842:p [dir=back,arrowtail=empty,style=dashed];
+	c39926:p -> c39921:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseFilter.Provider implements io.reinert.requestor.core.Provider<T>
-	c35847:p -> c35845:p [dir=back,arrowtail=empty,style=dashed];
+	c39926:p -> c39924:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseInterceptor.Provider implements io.reinert.requestor.core.Provider<T>
-	c35847:p -> c35851:p [dir=back,arrowtail=empty,style=dashed];
+	c39926:p -> c39933:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Auth.Provider implements io.reinert.requestor.core.Provider<T>
-	c35847:p -> c35866:p [dir=back,arrowtail=empty,style=dashed];
+	c39926:p -> c39954:p [dir=back,arrowtail=empty,style=dashed];
 }
 

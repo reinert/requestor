@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./FormDataSerializer.html" title="io.reinert.requestor.form.FormDataSerializer" alt="" coords="177,11,321,53"/>
-<area shape="rect" id="node1" href="./FormDataSerializer.html" title="&lt;TABLE&gt;" alt="" coords="167,5,332,59"/>
-<area shape="rect" id="node2_1" href="./FormDataSerializerUrlEncoded.html" title="io.reinert.requestor.form.FormDataSerializerUrlEncoded" alt="" coords="16,118,235,143"/>
-<area shape="rect" id="node2" href="./FormDataSerializerUrlEncoded.html" title="&lt;TABLE&gt;" alt="" coords="5,107,245,155"/>
-<area shape="rect" id="node3_2" href="./FormDataSerializerNative.html" title="io.reinert.requestor.form.FormDataSerializerNative" alt="" coords="281,118,469,143"/>
-<area shape="rect" id="node3" href="./FormDataSerializerNative.html" title="&lt;TABLE&gt;" alt="" coords="270,107,479,155"/>
-</map>

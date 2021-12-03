@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./RequestBuilder.html" title="io.reinert.requestor.RequestBuilder" alt="" coords="16,11,135,53"/>
-<area shape="rect" id="node1" href="./RequestBuilder.html" title="&lt;TABLE&gt;" alt="" coords="5,5,145,59"/>
-<area shape="rect" id="node2_1" href="./RequestInvoker.html" title="io.reinert.requestor.RequestInvoker" alt="" coords="91,112,211,155"/>
-<area shape="rect" id="node2" href="./RequestInvoker.html" title="&lt;TABLE&gt;" alt="" coords="81,107,222,160"/>
-<area shape="rect" id="node3_2" href="./Invoker.html" title="io.reinert.requestor.Invoker" alt="" coords="181,11,274,53"/>
-<area shape="rect" id="node3" href="./Invoker.html" title="&lt;TABLE&gt;" alt="" coords="170,5,285,59"/>
-</map>

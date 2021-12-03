@@ -1,8 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./RequestSerializerImpl.html" title="io.reinert.requestor.core.RequestSerializerImpl" alt="" coords="16,118,179,143"/>
-<area shape="rect" id="node1" href="./RequestSerializerImpl.html" title="&lt;TABLE&gt;" alt="" coords="5,107,189,155"/>
-<area shape="rect" id="node2_1" href="./RequestSerializer.html" title="io.reinert.requestor.core.RequestSerializer" alt="" coords="133,11,267,53"/>
-<area shape="rect" id="node2" href="./RequestSerializer.html" title="&lt;TABLE&gt;" alt="" coords="123,5,277,59"/>
-<area shape="rect" id="node3_2" href="../gwt/GwtRequestSerializer.html" title="io.reinert.requestor.gwt.GwtRequestSerializer" alt="" coords="224,118,384,143"/>
-<area shape="rect" id="node3" href="../gwt/GwtRequestSerializer.html" title="&lt;TABLE&gt;" alt="" coords="213,107,395,155"/>
+<area shape="rect" id="node1_0" href="./BaseRequestSerializer.html" title="io.reinert.requestor.core.BaseRequestSerializer" alt="" coords="16,118,181,143"/>
+<area shape="rect" id="node1" href="./BaseRequestSerializer.html" title="&lt;TABLE&gt;" alt="" coords="5,107,192,155"/>
+<area shape="rect" id="node2_1" href="./RequestSerializer.html" title="io.reinert.requestor.core.RequestSerializer" alt="" coords="32,11,165,53"/>
+<area shape="rect" id="node2" href="./RequestSerializer.html" title="&lt;TABLE&gt;" alt="" coords="21,5,176,59"/>
 </map>

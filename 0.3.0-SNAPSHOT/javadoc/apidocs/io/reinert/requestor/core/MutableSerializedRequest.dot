@@ -10,38 +10,38 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.MutableSerializedRequest
-	c27570 [label=<<table title="io.reinert.requestor.core.MutableSerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MutableSerializedRequest.html">
+	c31096 [label=<<table title="io.reinert.requestor.core.MutableSerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MutableSerializedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableSerializedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableSerializedRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedRequest
-	c27578 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
+	c31104 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedRequestInProcess
-	c27580 [label=<<table title="io.reinert.requestor.core.SerializedRequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequestInProcess.html">
+	c31107 [label=<<table title="io.reinert.requestor.core.SerializedRequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequestInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequestInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequestInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.MutableRequest
-	c27586 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
+	c31112 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.MutableSerializedRequest implements io.reinert.requestor.core.MutableRequest
-	c27586:p -> c27570:p [dir=back,arrowtail=empty,style=dashed];
+	c31112:p -> c31096:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableSerializedRequest implements io.reinert.requestor.core.SerializedRequest
-	c27578:p -> c27570:p [dir=back,arrowtail=empty,style=dashed];
+	c31104:p -> c31096:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedRequestInProcess implements io.reinert.requestor.core.MutableSerializedRequest
-	c27570:p -> c27580:p [dir=back,arrowtail=empty,style=dashed];
+	c31096:p -> c31107:p [dir=back,arrowtail=empty,style=dashed];
 }
 

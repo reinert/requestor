@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.header.QualityFactorHeader
-	c6596 [label=<<table title="io.reinert.requestor.core.header.QualityFactorHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./QualityFactorHeader.html">
+	c7047 [label=<<table title="io.reinert.requestor.core.header.QualityFactorHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./QualityFactorHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> QualityFactorHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./QualityFactorHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.header.AcceptHeader
-	c6597 [label=<<table title="io.reinert.requestor.core.header.AcceptHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AcceptHeader.html">
+	c7048 [label=<<table title="io.reinert.requestor.core.header.AcceptHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AcceptHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AcceptHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AcceptHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.header.AcceptHeader extends io.reinert.requestor.core.header.QualityFactorHeader
-	c6596:p -> c6597:p [dir=back,arrowtail=empty];
+	c7047:p -> c7048:p [dir=back,arrowtail=empty];
 }
 

@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MultivaluedParamComposition.html" title="io.reinert.requestor.uri.MultivaluedParamComposition" alt="" coords="119,17,339,42"/>
-<area shape="rect" id="node1" href="./MultivaluedParamComposition.html" title="&lt;TABLE&gt;" alt="" coords="108,5,349,53"/>
-<area shape="rect" id="node2_1" href="./MultivaluedParamComposition.RepeatedParamStrategy.html" title="io.reinert.requestor.uri.MultivaluedParamComposition.RepeatedParamStrategy" alt="" coords="16,113,193,138"/>
-<area shape="rect" id="node2" href="./MultivaluedParamComposition.RepeatedParamStrategy.html" title="&lt;TABLE&gt;" alt="" coords="5,101,204,149"/>
-<area shape="rect" id="node3_2" href="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html" title="io.reinert.requestor.uri.MultivaluedParamComposition.CommaSeparatedValueStrategy" alt="" coords="239,113,467,138"/>
-<area shape="rect" id="node3" href="./MultivaluedParamComposition.CommaSeparatedValueStrategy.html" title="&lt;TABLE&gt;" alt="" coords="228,101,477,149"/>
-</map>

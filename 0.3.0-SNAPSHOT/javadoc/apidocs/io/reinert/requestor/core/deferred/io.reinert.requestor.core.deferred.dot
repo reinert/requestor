@@ -9,14 +9,20 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.deferred.DeferredRequestFactory
-	c1915 [label=<<table title="io.reinert.requestor.core.deferred.DeferredRequestFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredRequestFactory.html">
+	// io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl
+	c2047 [label=<<table title="io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredPoolFactoryImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> DeferredRequestFactory </td></tr>
+<tr><td align="center" balign="center"> DeferredPoolFactoryImpl </td></tr>
 		</table></td></tr>
-		</table>>, URL="./DeferredRequestFactory.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./DeferredPoolFactoryImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.deferred.DeferredPollingRequest<T>
+	c2048 [label=<<table title="io.reinert.requestor.core.deferred.DeferredPollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredPollingRequest.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> DeferredPollingRequest&lt;T&gt; </td></tr>
+		</table></td></tr>
+		</table>>, URL="./DeferredPollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.deferred.DeferredRequest<T>
-	c1916 [label=<<table title="io.reinert.requestor.core.deferred.DeferredRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredRequest.html">
+	c2049 [label=<<table title="io.reinert.requestor.core.deferred.DeferredRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeferredRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DeferredRequest&lt;T&gt; </td></tr>
 		</table></td></tr>

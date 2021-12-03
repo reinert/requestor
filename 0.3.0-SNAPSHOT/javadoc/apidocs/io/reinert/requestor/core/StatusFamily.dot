@@ -10,11 +10,20 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.StatusFamily
-	c50692 [label=<<table title="io.reinert.requestor.core.StatusFamily" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StatusFamily.html">
+	c57201 [label=<<table title="io.reinert.requestor.core.StatusFamily" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StatusFamily.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> StatusFamily </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StatusFamily.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.Event
+	c57234 [label=<<table title="io.reinert.requestor.core.Event" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Event.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Event </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Event.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.core.StatusFamily implements io.reinert.requestor.core.Event
+	c57234:p -> c57201:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,84 +10,84 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.callback.ExceptionCallback
-	c542 [label=<<table title="io.reinert.requestor.core.callback.ExceptionCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ExceptionCallback.html">
+	c585 [label=<<table title="io.reinert.requestor.core.callback.ExceptionCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ExceptionCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ExceptionCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ExceptionCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.PayloadCallback<E>
-	c543 [label=<<table title="io.reinert.requestor.core.callback.PayloadCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PayloadCallback.html">
+	c586 [label=<<table title="io.reinert.requestor.core.callback.PayloadCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PayloadCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PayloadCallback&lt;E&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PayloadCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.DualCallback
-	c544 [label=<<table title="io.reinert.requestor.core.callback.DualCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DualCallback.html">
+	c587 [label=<<table title="io.reinert.requestor.core.callback.DualCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DualCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DualCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DualCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.TimeoutRequestCallback<E>
-	c545 [label=<<table title="io.reinert.requestor.core.callback.TimeoutRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TimeoutRequestCallback.html">
+	c588 [label=<<table title="io.reinert.requestor.core.callback.TimeoutRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TimeoutRequestCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> TimeoutRequestCallback&lt;E&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TimeoutRequestCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.ProgressRequestCallback<E>
-	c546 [label=<<table title="io.reinert.requestor.core.callback.ProgressRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProgressRequestCallback.html">
+	c589 [label=<<table title="io.reinert.requestor.core.callback.ProgressRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProgressRequestCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProgressRequestCallback&lt;E&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProgressRequestCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.PayloadResponseRequestCallback<E>
-	c547 [label=<<table title="io.reinert.requestor.core.callback.PayloadResponseRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PayloadResponseRequestCallback.html">
+	c590 [label=<<table title="io.reinert.requestor.core.callback.PayloadResponseRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PayloadResponseRequestCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PayloadResponseRequestCallback&lt;E&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PayloadResponseRequestCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.ResponseRequestCallback<E>
-	c548 [label=<<table title="io.reinert.requestor.core.callback.ResponseRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseRequestCallback.html">
+	c591 [label=<<table title="io.reinert.requestor.core.callback.ResponseRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseRequestCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseRequestCallback&lt;E&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseRequestCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.ProgressCallback
-	c549 [label=<<table title="io.reinert.requestor.core.callback.ProgressCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProgressCallback.html">
+	c592 [label=<<table title="io.reinert.requestor.core.callback.ProgressCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProgressCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProgressCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProgressCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.ResponseCallback
-	c550 [label=<<table title="io.reinert.requestor.core.callback.ResponseCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseCallback.html">
+	c593 [label=<<table title="io.reinert.requestor.core.callback.ResponseCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.TimeoutCallback
-	c551 [label=<<table title="io.reinert.requestor.core.callback.TimeoutCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TimeoutCallback.html">
+	c594 [label=<<table title="io.reinert.requestor.core.callback.TimeoutCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TimeoutCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> TimeoutCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TimeoutCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.PayloadResponseCallback<E>
-	c552 [label=<<table title="io.reinert.requestor.core.callback.PayloadResponseCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PayloadResponseCallback.html">
+	c595 [label=<<table title="io.reinert.requestor.core.callback.PayloadResponseCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PayloadResponseCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PayloadResponseCallback&lt;E&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PayloadResponseCallback.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.callback.ExceptionRequestCallback<E>
-	c553 [label=<<table title="io.reinert.requestor.core.callback.ExceptionRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ExceptionRequestCallback.html">
+	c596 [label=<<table title="io.reinert.requestor.core.callback.ExceptionRequestCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ExceptionRequestCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ExceptionRequestCallback&lt;E&gt; </td></tr>

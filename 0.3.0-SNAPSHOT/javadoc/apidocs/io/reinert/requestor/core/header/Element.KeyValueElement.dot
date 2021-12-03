@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.header.Element
-	c14367 [label=<<table title="io.reinert.requestor.core.header.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Element.html">
+	c17239 [label=<<table title="io.reinert.requestor.core.header.Element" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Element.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Element </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Element.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.header.Element.KeyValueElement
-	c14369 [label=<<table title="io.reinert.requestor.core.header.Element.KeyValueElement" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Element.KeyValueElement.html">
+	c17241 [label=<<table title="io.reinert.requestor.core.header.Element.KeyValueElement" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Element.KeyValueElement.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> KeyValueElement </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Element.KeyValueElement.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.header.Element.KeyValueElement extends io.reinert.requestor.core.header.Element
-	c14367:p -> c14369:p [dir=back,arrowtail=empty];
+	c17239:p -> c17241:p [dir=back,arrowtail=empty];
 }
 

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwt.GwtSession
-	c24387 [label=<<table title="io.reinert.requestor.gwt.GwtSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/GwtSession.html">
+	c28408 [label=<<table title="io.reinert.requestor.gwt.GwtSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/GwtSession.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtSession </td></tr>
 		</table></td></tr>
 		</table>>, URL="../gwt/GwtSession.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.JsonSession
-	c24444 [label=<<table title="io.reinert.requestor.gwtjackson.JsonSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonSession.html">
+	c28466 [label=<<table title="io.reinert.requestor.gwtjackson.JsonSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonSession.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonSession </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonSession.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwtjackson.JsonSession extends io.reinert.requestor.gwt.GwtSession
-	c24387:p -> c24444:p [dir=back,arrowtail=empty];
+	c28408:p -> c28466:p [dir=back,arrowtail=empty];
 }
 

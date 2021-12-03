@@ -9,19 +9,19 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.RequestException
-	c39810 [label=<<table title="io.reinert.requestor.core.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/RequestException.html">
+	// io.reinert.requestor.core.RequestAbortException
+	c44833 [label=<<table title="io.reinert.requestor.core.RequestAbortException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/RequestAbortException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> RequestException </td></tr>
+<tr><td align="center" balign="center"> RequestAbortException </td></tr>
 		</table></td></tr>
-		</table>>, URL="../../core/RequestException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="../../core/RequestAbortException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.RequestPermissionException
-	c39952 [label=<<table title="io.reinert.requestor.gwt.xhr.RequestPermissionException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestPermissionException.html">
+	c45025 [label=<<table title="io.reinert.requestor.gwt.xhr.RequestPermissionException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestPermissionException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestPermissionException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestPermissionException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.gwt.xhr.RequestPermissionException extends io.reinert.requestor.core.RequestException
-	c39810:p -> c39952:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.gwt.xhr.RequestPermissionException extends io.reinert.requestor.core.RequestAbortException
+	c44833:p -> c45025:p [dir=back,arrowtail=empty];
 }
 

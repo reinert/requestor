@@ -9,20 +9,19 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.ResponseDeserializer
-	c17178 [label=<<table title="io.reinert.requestor.core.ResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../core/ResponseDeserializer.html">
+	// io.reinert.requestor.core.BaseResponseDeserializer
+	c20432 [label=<<table title="io.reinert.requestor.core.BaseResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../core/BaseResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> ResponseDeserializer </td></tr>
+<tr><td align="center" balign="center"> BaseResponseDeserializer </td></tr>
 		</table></td></tr>
-		</table>>, URL="../core/ResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="../core/BaseResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.GwtResponseDeserializer
-	c17277 [label=<<table title="io.reinert.requestor.gwt.GwtResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GwtResponseDeserializer.html">
+	c20581 [label=<<table title="io.reinert.requestor.gwt.GwtResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GwtResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtResponseDeserializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GwtResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.gwt.GwtResponseDeserializer implements io.reinert.requestor.core.ResponseDeserializer
-	c17178:p -> c17277:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.gwt.GwtResponseDeserializer extends io.reinert.requestor.core.BaseResponseDeserializer
+	c20432:p -> c20581:p [dir=back,arrowtail=empty];
 }
 

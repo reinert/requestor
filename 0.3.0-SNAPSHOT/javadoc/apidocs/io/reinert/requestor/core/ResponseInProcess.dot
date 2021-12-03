@@ -10,38 +10,38 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.ProcessableResponse
-	c42899 [label=<<table title="io.reinert.requestor.core.ProcessableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProcessableResponse.html">
+	c48409 [label=<<table title="io.reinert.requestor.core.ProcessableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProcessableResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProcessableResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProcessableResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.MutableResponse
-	c42906 [label=<<table title="io.reinert.requestor.core.MutableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableResponse.html">
+	c48417 [label=<<table title="io.reinert.requestor.core.MutableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseInProcess
-	c42932 [label=<<table title="io.reinert.requestor.core.ResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ResponseInProcess.html">
+	c48440 [label=<<table title="io.reinert.requestor.core.ResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ResponseInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedResponseInProcess
-	c42974 [label=<<table title="io.reinert.requestor.core.SerializedResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponseInProcess.html">
+	c48491 [label=<<table title="io.reinert.requestor.core.SerializedResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponseInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedResponseInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponseInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.ProcessableResponse implements io.reinert.requestor.core.ResponseInProcess
-	c42932:p -> c42899:p [dir=back,arrowtail=empty,style=dashed];
+	c48440:p -> c48409:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseInProcess implements io.reinert.requestor.core.MutableResponse
-	c42906:p -> c42932:p [dir=back,arrowtail=empty,style=dashed];
+	c48417:p -> c48440:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseInProcess implements io.reinert.requestor.core.SerializedResponseInProcess
-	c42974:p -> c42932:p [dir=back,arrowtail=empty,style=dashed];
+	c48491:p -> c48440:p [dir=back,arrowtail=empty,style=dashed];
 }
 

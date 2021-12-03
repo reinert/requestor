@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwt.GwtSession
-	c8392 [label=<<table title="io.reinert.requestor.gwt.GwtSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/GwtSession.html">
+	c8963 [label=<<table title="io.reinert.requestor.gwt.GwtSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/GwtSession.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtSession </td></tr>
 		</table></td></tr>
 		</table>>, URL="../gwt/GwtSession.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.autobean.AutoBeanSession
-	c8418 [label=<<table title="io.reinert.requestor.autobean.AutoBeanSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AutoBeanSession.html">
+	c8990 [label=<<table title="io.reinert.requestor.autobean.AutoBeanSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AutoBeanSession.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AutoBeanSession </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AutoBeanSession.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.autobean.AutoBeanSession extends io.reinert.requestor.gwt.GwtSession
-	c8392:p -> c8418:p [dir=back,arrowtail=empty];
+	c8963:p -> c8990:p [dir=back,arrowtail=empty];
 }
 

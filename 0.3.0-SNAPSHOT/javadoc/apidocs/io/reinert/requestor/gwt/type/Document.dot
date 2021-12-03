@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwt.type.NativeType
-	c13716 [label=<<table title="io.reinert.requestor.gwt.type.NativeType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NativeType.html">
+	c16543 [label=<<table title="io.reinert.requestor.gwt.type.NativeType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NativeType.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NativeType </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NativeType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.type.Document
-	c13719 [label=<<table title="io.reinert.requestor.gwt.type.Document" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Document.html">
+	c16546 [label=<<table title="io.reinert.requestor.gwt.type.Document" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Document.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Document </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Document.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.type.Document extends io.reinert.requestor.gwt.type.NativeType
-	c13716:p -> c13719:p [dir=back,arrowtail=empty];
+	c16543:p -> c16546:p [dir=back,arrowtail=empty];
 }
 

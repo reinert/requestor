@@ -10,38 +10,38 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.PollingRequestInvoker
-	c33340 [label=<<table title="io.reinert.requestor.core.PollingRequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PollingRequestInvoker.html">
+	c37256 [label=<<table title="io.reinert.requestor.core.PollingRequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PollingRequestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequestInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequestInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PollingRequestBuilder
-	c33368 [label=<<table title="io.reinert.requestor.core.PollingRequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestBuilder.html">
+	c37284 [label=<<table title="io.reinert.requestor.core.PollingRequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequestBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestInvoker
-	c33381 [label=<<table title="io.reinert.requestor.core.RequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInvoker.html">
+	c37295 [label=<<table title="io.reinert.requestor.core.RequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PollingInvoker
-	c33387 [label=<<table title="io.reinert.requestor.core.PollingInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingInvoker.html">
+	c37302 [label=<<table title="io.reinert.requestor.core.PollingInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.PollingRequestInvoker implements io.reinert.requestor.core.PollingRequestBuilder
-	c33368:p -> c33340:p [dir=back,arrowtail=empty,style=dashed];
+	c37284:p -> c37256:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestInvoker implements io.reinert.requestor.core.PollingInvoker
-	c33387:p -> c33340:p [dir=back,arrowtail=empty,style=dashed];
+	c37302:p -> c37256:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestInvoker implements io.reinert.requestor.core.RequestInvoker
-	c33381:p -> c33340:p [dir=back,arrowtail=empty,style=dashed];
+	c37295:p -> c37256:p [dir=back,arrowtail=empty,style=dashed];
 }
 

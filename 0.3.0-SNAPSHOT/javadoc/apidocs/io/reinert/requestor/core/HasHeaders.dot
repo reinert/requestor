@@ -10,47 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.MutableSerializedResponse
-	c17805 [label=<<table title="io.reinert.requestor.core.MutableSerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableSerializedResponse.html">
+	c21146 [label=<<table title="io.reinert.requestor.core.MutableSerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableSerializedResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableSerializedResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableSerializedResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.MutableRequest
-	c17809 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
+	c21149 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasRequestOptions
-	c17845 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
+	c21183 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasRequestOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasRequestOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasHeaders
-	c17847 [label=<<table title="io.reinert.requestor.core.HasHeaders" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasHeaders.html">
+	c21185 [label=<<table title="io.reinert.requestor.core.HasHeaders" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasHeaders.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasHeaders </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasHeaders.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PreparedRequest
-	c17867 [label=<<table title="io.reinert.requestor.core.PreparedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PreparedRequest.html">
+	c21214 [label=<<table title="io.reinert.requestor.core.PreparedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PreparedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PreparedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PreparedRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.MutableSerializedResponse implements io.reinert.requestor.core.HasHeaders
-	c17847:p -> c17805:p [dir=back,arrowtail=empty,style=dashed];
+	c21185:p -> c21146:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableRequest implements io.reinert.requestor.core.HasHeaders
-	c17847:p -> c17809:p [dir=back,arrowtail=empty,style=dashed];
+	c21185:p -> c21149:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.HasRequestOptions implements io.reinert.requestor.core.HasHeaders
-	c17847:p -> c17845:p [dir=back,arrowtail=empty,style=dashed];
+	c21185:p -> c21183:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PreparedRequest implements io.reinert.requestor.core.HasHeaders
-	c17847:p -> c17867:p [dir=back,arrowtail=empty,style=dashed];
+	c21185:p -> c21214:p [dir=back,arrowtail=empty,style=dashed];
 }
 

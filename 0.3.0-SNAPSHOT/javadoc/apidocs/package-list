@@ -13,6 +13,7 @@ io.reinert.requestor.core.serialization
 io.reinert.requestor.core.serialization.misc
 io.reinert.requestor.core.uri
 io.reinert.requestor.gwt
+io.reinert.requestor.gwt.oauth2
 io.reinert.requestor.gwt.payload
 io.reinert.requestor.gwt.serialization
 io.reinert.requestor.gwt.type
@@ -24,4 +25,3 @@ io.reinert.requestor.gwtjackson.rebind.codegen
 io.reinert.requestor.gwtjackson.rebind.meta.gwtjackson
 io.reinert.requestor.gwtjackson.rebind.meta.requestor
 io.reinert.requestor.gwtjackson.rebind.processing
-io.reinert.requestor.oauth2

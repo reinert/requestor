@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Auth
-	c8765 [label=<<table title="io.reinert.requestor.core.Auth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Auth.html">
+	c10075 [label=<<table title="io.reinert.requestor.core.Auth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Auth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Auth </td></tr>
 		</table></td></tr>
 		</table>>, URL="../Auth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.BearerAuth
-	c8814 [label=<<table title="io.reinert.requestor.core.auth.BearerAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BearerAuth.html">
+	c10123 [label=<<table title="io.reinert.requestor.core.auth.BearerAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BearerAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BearerAuth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BearerAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.auth.BearerAuth implements io.reinert.requestor.core.Auth
-	c8765:p -> c8814:p [dir=back,arrowtail=empty,style=dashed];
+	c10075:p -> c10123:p [dir=back,arrowtail=empty,style=dashed];
 }
 

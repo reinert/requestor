@@ -3,12 +3,14 @@
 <area shape="rect" id="node1" href="./GwtSession.html" title="&lt;TABLE&gt;" alt="" coords="5,8,123,56"/>
 <area shape="rect" id="node2_1" href="./GwtResponseDeserializer.html" title="io.reinert.requestor.gwt.GwtResponseDeserializer" alt="" coords="157,19,344,45"/>
 <area shape="rect" id="node2" href="./GwtResponseDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="147,8,355,56"/>
-<area shape="rect" id="node3_2" href="./JsFormData.html" title="io.reinert.requestor.gwt.JsFormData" alt="" coords="390,19,485,45"/>
-<area shape="rect" id="node3" href="./JsFormData.html" title="&lt;TABLE&gt;" alt="" coords="379,8,495,56"/>
-<area shape="rect" id="node4_3" href="./FormDataOverlay.html" title="io.reinert.requestor.gwt.FormDataOverlay" alt="" coords="530,19,665,45"/>
-<area shape="rect" id="node4" href="./FormDataOverlay.html" title="&lt;TABLE&gt;" alt="" coords="519,8,675,56"/>
-<area shape="rect" id="node5_4" href="./ResponseType.html" title="io.reinert.requestor.gwt.ResponseType" alt="" coords="710,11,829,53"/>
-<area shape="rect" id="node5" href="./ResponseType.html" title="&lt;TABLE&gt;" alt="" coords="699,5,839,59"/>
-<area shape="rect" id="node6_5" href="./GwtRequestSerializer.html" title="io.reinert.requestor.gwt.GwtRequestSerializer" alt="" coords="875,19,1035,45"/>
-<area shape="rect" id="node6" href="./GwtRequestSerializer.html" title="&lt;TABLE&gt;" alt="" coords="864,8,1045,56"/>
+<area shape="rect" id="node3_2" href="./RequestorGwt.html" title="io.reinert.requestor.gwt.RequestorGwt" alt="" coords="389,19,501,45"/>
+<area shape="rect" id="node3" href="./RequestorGwt.html" title="&lt;TABLE&gt;" alt="" coords="379,8,512,56"/>
+<area shape="rect" id="node4_3" href="./JsFormData.html" title="io.reinert.requestor.gwt.JsFormData" alt="" coords="547,19,642,45"/>
+<area shape="rect" id="node4" href="./JsFormData.html" title="&lt;TABLE&gt;" alt="" coords="537,8,653,56"/>
+<area shape="rect" id="node5_4" href="./FormDataOverlay.html" title="io.reinert.requestor.gwt.FormDataOverlay" alt="" coords="687,19,822,45"/>
+<area shape="rect" id="node5" href="./FormDataOverlay.html" title="&lt;TABLE&gt;" alt="" coords="677,8,833,56"/>
+<area shape="rect" id="node6_5" href="./ResponseType.html" title="io.reinert.requestor.gwt.ResponseType" alt="" coords="867,11,986,53"/>
+<area shape="rect" id="node6" href="./ResponseType.html" title="&lt;TABLE&gt;" alt="" coords="857,5,997,59"/>
+<area shape="rect" id="node7_6" href="./GwtRequestSerializer.html" title="io.reinert.requestor.gwt.GwtRequestSerializer" alt="" coords="1032,19,1192,45"/>
+<area shape="rect" id="node7" href="./GwtRequestSerializer.html" title="&lt;TABLE&gt;" alt="" coords="1021,8,1203,56"/>
 </map>
