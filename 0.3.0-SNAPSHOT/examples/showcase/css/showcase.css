@@ -13,6 +13,10 @@
         font-size: 60px;
         line-height: 1;
     }
+
+    body {
+        font-size: 16px;
+    }
 }
 
 .action-panel {
@@ -190,15 +194,14 @@ h1[id] {
 }
 
 .highlight {
-    padding: 9px 14px;
-    margin-bottom: 14px;
-    background-color: #f7f7f9;
-    border: 1px solid #e1e1e8;
+    margin-bottom: 15px;
+    background-color: #f9f2f4;
+    border: 1px solid #ddd;
     border-radius: 4px;
 }
 
 .highlight pre {
-    padding: 0;
+    padding: 10px 5px;
     margin-top: 0;
     margin-bottom: 0;
     word-break: normal;
@@ -208,5 +211,6 @@ h1[id] {
 }
 
 .highlight pre code {
-    background-color: #f7f7f9;
+    background-color: #f9f2f4;
+    white-space: pre;
 }
