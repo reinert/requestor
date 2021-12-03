@@ -101,7 +101,7 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onDigestButtonClick(String user, String password, String qop) {
-        session.req("https://httpbin.org/digest-auth/" + qop + '/' + user + '/' + password)
+        session.req("https://requestor-server.herokuapp.com/digest-auth/" + qop + '/' + user + '/' + password)
                 .auth(new DigestAuth(user, password, "md5", true))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {
