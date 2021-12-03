@@ -1,0 +1,96 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014-2021 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <div class="requestor-showcase-section">
+      <h1 class="page-header" id="download">Install the dependency</h1>
+      <p class="lead">
+        Requestor is available at maven central.
+      </p>
+      <p>
+        Since this showcase presents requestor-gwt implementation of requestor-core,
+        we just need to add this impl dependency to our POM.
+      </p>
+      <div class="highlight">
+        <pre ui:field="mavenInstallation" class="xml">
+          <code>
+            &lt;dependency&gt;
+            <br/>
+            &#32;&#32;&lt;groupId&gt;io.reinert.requestor.impl&lt;/groupId&gt;
+            <br/>
+            &#32;&#32;&lt;artifactId&gt;requestor-gwt&lt;/artifactId&gt;
+            <br/>
+            &#32;&#32;&lt;version&gt;0.2.0&lt;/version&gt;
+            <br/>
+            &lt;/dependency&gt;
+          </code>
+        </pre>
+      </div>
+    </div>
+
+    <div class="requestor-showcase-section">
+      <h1 class="page-header" id="configure-gwt">Configure your GWT project</h1>
+      <p class="lead">
+        Import RequestorGwt into the gwt.xml module.
+      </p>
+      <div class="highlight">
+        <pre ui:field="gwtModule" class="xml">
+          <code>
+            &lt;inherits name=&quot;io.reinert.requestor.gwt.RequestorGwt&quot;/&gt;
+          </code>
+        </pre>
+      </div>
+    </div>
+
+    <div class="requestor-showcase-section">
+      <h1 class="page-header" id="use-requestor">Use Requestor</h1>
+      <p class="lead">
+        Get a Session to start requesting.
+        It is recommend to use it as a singleton.
+      </p>
+
+      <div class="requestor-showcase-innersection">
+        <h3>Create a Session</h3>
+        <div class="highlight">
+          <pre ui:field="getRequestorInstance">
+            <code class="java">
+              Session session = new GwtSession();
+            </code>
+          </pre>
+        </div>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3>Make a Request</h3>
+        <div class="highlight">
+          <pre ui:field="makeRequest" class="java">
+            <code>
+              session.get("https://httpbin.org/ip", String.class)
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess( ip -> Window.alert("My IP is: " + ip) )
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onFail( res -> Window.alert("Response was unsuccessful due to: " + res.getStatus()) )
+              <br/>
+              &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onAbort( e -> Window.alert("Request was interrupted due to: " + e.getMessage()) )
+            </code>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>

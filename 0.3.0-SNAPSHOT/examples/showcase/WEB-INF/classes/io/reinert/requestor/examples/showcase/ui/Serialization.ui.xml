@@ -1,0 +1,643 @@
+<!DOCTYPE ui:UiBinder SYSTEM "https://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2015-2021 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- JSON SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="json-serialization">Auto-Serialization</h1>
+      <p class="lead">
+        Requestor provides some auto generated serializers to work with JSON format.
+      </p>
+
+      <div class="requestor-showcase-innersection">
+        <h3>Gwt-Jackson</h3>
+        <p>
+          <a href="https://github.com/nmorel/gwt-jackson/" target="_blank">Gwt-Jackson</a> is a port of the Jackson library to GWT. It handles serialization/deserialization of many Java types to/from JSON.
+          The <code>requestor-gwtjackson</code> extension integrates gwt-jackson to requestor and exposes all the features this library provides.
+        </p>
+
+        <p>
+          In order to enable it, add the following dependency to your project:
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="gwtjacksonDependency" class="xml">
+            <code>&lt;dependencies&gt;
+              <br/>&nbsp;&nbsp;&lt;dependency&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;com.github.nmorel.gwtjackson&lt;/groupId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;gwt-jackson&lt;/artifactId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;${gwtjackson.version}&lt;/version&gt;
+              <br/>&nbsp;&nbsp;&lt;/dependency&gt;
+              <br/>&nbsp;&nbsp;&lt;dependency&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;io.reinert.requestor.ext&lt;/groupId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;requestor-gwtjackson&lt;/artifactId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;${requestor.version}&lt;/version&gt;
+              <br/>&nbsp;&nbsp;&lt;dependency&gt;
+              <br/>&lt;/dependencies&gt;
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Then, import the following GWT module:
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="gwtjacksonSetup" class="xml">
+            <code>&lt;inherits name=&quot;io.reinert.requestor.gwtjackson.RequestorGwtJackson&quot;/&gt;</code>
+          </pre>
+        </div>
+
+        <p>
+          Now that <code>requestor-gwtjackson</code> is installed, declare an interface extending from <code>SerializationModule</code>
+          and annotate it with <code>@JsonSerializationModule</code>, informing the classes you want to generate serializers for.
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="gwtjacksonSerializationModule" class="java">
+            <code>@JsonSerializationModule({ Author.class, Book.class })
+              <br/>interface MySerializationModule extends SerializationModule {}
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Instantiate a <code>JsonSession</code> and the serializers will automatically be registered for you.
+          Make a request from this session, and auto-serialization will work.
+        </p>
+
+        <p>
+          Execute the following code to see auto-deserialization in action. Check the json payload in the browser's network tab.
+        </p>
+        <div class="highlight">
+          <pre ui:field="gwtjacksonGetBooks" class="java">
+            <code>Session session = new JsonSession();
+              <br/>
+              <br/>session.get(&quot;https://requestor-server.herokuapp.com/books&quot;, List.class, Book.class)
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess((List&lt;Book&gt; books) -> view.setBooks(books));
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="gwtjacksonGetBooksButton" styleName="btn">GET</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="gwtjacksonGetBooksTextArea" class="form-control result" rows="6" readonly="readonly"/>
+        </g:HTMLPanel>
+
+        <p>
+          Execute the following code to auto-serialize a book instance into the request payload.
+        </p>
+        <div class="highlight">
+          <pre ui:field="gwtjacksonPostBook" class="java">
+            <code>Session session = new JsonSession();
+              <br/>
+              <br/>Book cleanCode = new Book(&quot;Clean Code&quot;, &quot;9788550811482&quot;, &quot;Robert C. Martin&quot;, new Date(1217552400000L));
+              <br/>
+              <br/>session.post(&quot;https://requestor-server.herokuapp.com/books&quot;, cleanCode, Book.class)
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(book -> view.setBook(book));
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="gwtjacksonPostBookButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="gwtjacksonPostBookTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3>AutoBean</h3>
+        <p>
+          The <a href="https://www.gwtproject.org/doc/latest/DevGuideAutoBeans.html" target="_blank">AutoBean Framework</a> provides automatically-generated implementations of bean-like interfaces and a low-level serialization mechanism for those interfaces.
+          The <code>requestor-autobean</code> extension integrates AutoBean to Requestor and exposes all the features this framework provides.
+        </p>
+
+        <p>
+          In order to enable it, add the following dependency to your project:
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="autobeanDependency" class="xml">
+            <code>&lt;dependencies&gt;
+              <br/>&nbsp;&nbsp;&lt;dependency&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;io.reinert.requestor.ext&lt;/groupId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;requestor-autobean&lt;/artifactId&gt;
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;${requestor.version}&lt;/version&gt;
+              <br/>&nbsp;&nbsp;&lt;dependency&gt;
+              <br/>&lt;/dependencies&gt;
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Then, import the following GWT module:
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="autobeanSetup" class="xml">
+            <code>&lt;inherits name=&quot;io.reinert.requestor.autobean.RequestorAutobean&quot;/&gt;</code>
+          </pre>
+        </div>
+
+        <p>
+          Now that <code>requestor-autobean</code> is installed, declare an interface extending from <code>SerializationModule</code>
+          and annotate it with <code>@AutoBeanSerializationModule</code>, informing the classes you want to generate serializers for.
+        </p>
+
+        <div class="highlight">
+          <pre ui:field="autobeanSerializationModule" class="java">
+            <code>@AutoBeanSerializationModule({ Author.class, Book.class })
+              <br/>interface MySerializationModule extends SerializationModule {}
+            </code>
+          </pre>
+        </div>
+
+        <p>
+          Instantiate a <code>AutoBeanSession</code> and the serializers will automatically be registered for you.
+          Make a request from this session, and auto-serialization will work.
+        </p>
+
+        <div class="requestor-callout requestor-callout-warning">
+          <h4>Deserialize arrays only to List or Set</h4>
+          <p>
+            The AutoBean Framework has a special implementation for deserializing objects efficiently.
+            It doesn't deserialize arrays to specific collection types (List or Set implementations like ArrayList or HashSet).
+            Thereby, we cannot ask for any concrete collection classes when requesting for collections of objects.
+            Use only <code>List.class</code> or <code>Set.class</code> when you intend to retrieve a collection result.
+          </p>
+        </div>
+
+        <p>
+          Execute the following code to see auto-deserialization in action. Check the json payload in the browser's network tab.
+        </p>
+        <div class="highlight">
+          <pre ui:field="autobeanGetBooks" class="java">
+            <code>Session session = new JsonSession();
+              <br/>
+              <br/>session.get(&quot;https://requestor-server.herokuapp.com/books&quot;, List.class, Book.class)
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess((List&lt;Book&gt; books) -> view.setBooks(books));
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="autobeanGetBooksButton" styleName="btn">GET</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="autobeanGetBooksTextArea" class="form-control result" rows="6" readonly="readonly"/>
+        </g:HTMLPanel>
+
+        <div class="requestor-callout requestor-callout-info">
+          <h4>Use Requestor to create AutoBean instances</h4>
+          <p>
+            Requestor automatically generates factories for the AutoBean interfaces.
+            So if you need to obtain new instances of these types you can resort to <code>session.getInstance(&lt;class&gt;)</code>.
+            Alternatively you can get the Provider&lt;T&gt; with <code>session.getProvider(&lt;class&gt;)</code> and later get an instance with <code>provider.getInstance()</code>.
+          </p>
+        </div>
+
+        <p>
+          Execute the following code to auto-serialize a book instance into the request payload.
+        </p>
+        <div class="highlight">
+          <pre ui:field="autobeanPostBook" class="java">
+            <code>Session session = new AutoBeanSession();
+              <br/>
+              <br/>final Book cleanCode = session.getInstance(Book.class);
+              <br/>cleanCode.setTitle(&quot;Clean Code&quot;);
+              <br/>cleanCode.setIsbn(&quot;9788550811482&quot;);
+              <br/>cleanCode.setAuthor(&quot;Robert C. Martin&quot;);
+              <br/>cleanCode.setPubDate(new Date(1217552400000L));
+              <br/>
+              <br/>session.post(&quot;https://requestor-server.herokuapp.com/books&quot;, cleanCode, Book.class)
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.onSuccess(book -> view.setBook(book));
+            </code>
+          </pre>
+        </div>
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="autobeanPostBookButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="autobeanPostBookTextArea" class="form-control result" rows="3" readonly="readonly"/>
+        </g:HTMLPanel>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3>Overlays</h3>
+        <p>
+          Overlay Types are a great feature from GWT to deal with JSON data efficiently.
+          They interoperate with native javascript objects with zero overhead.
+        </p>
+
+        <p>
+          The <code>GwtSession</code> is equipped with JSON serializers for most common types including <code>JavaScriptObject</code> overlay.
+          <br/>
+          When you send a request with some overlay type in the payload, it will be serialized with the browser's <code>JSON#stringify</code> method.
+          <br/>
+          When you ask an overlay type in a request, the response payload will be deserialized using <code>JsonUtils#safeEval</code>.
+          You can alternatively use <code>JsonUtils#unsafeEval</code> (faster but not secure) by setting the public flag <code>OverlaySerializer.USE_SAFE_EVAL = false</code>.
+        </p>
+      </div>
+    </g:HTMLPanel>
+
+  <!-- CUSTOM SECTION -->
+  <g:HTMLPanel styleName="requestor-showcase-section">
+    <h1 class="page-header" id="custom-serialization">Custom Serialization</h1>
+    <p class="lead">
+      Create Serializers and Deserializers for specific classes and media types.
+    </p>
+
+    <div class="requestor-showcase-innersection">
+      <h3>Deserializers</h3>
+      <p>
+        Deserializers are responsible for deserializing raw content of some media type to an object.
+      </p>
+
+      <p>
+        To create a deserializer you must implement the <code>Deserializer</code> interface.
+        You must implement deserialization of a single serialized element and of a collection of elements.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="myXmlDeserializer" class="java">
+          <code>class MyXmlDeserializer implements Deserializer&lt;MyObject&gt; {
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public Class&lt;MyObject&gt; handledType() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return MyObject.class;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public String[] mediaType() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new String[]{&quot;*/xml&quot;};
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(String response, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldStart = response.indexOf(&quot;&lt;stringField&gt;&quot;) + 13;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldEnd = response.indexOf(&quot;&lt;/stringField&gt;&quot;, stringFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String stringField = response.substring(stringFieldStart, stringFieldEnd);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intFieldStart = response.indexOf(&quot;&lt;intField&gt;&quot;, stringFieldEnd) + 10;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intFieldEnd = response.indexOf(&quot;&lt;/intField&gt;&quot;, intFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intField = Integer.parseInt(response.substring(intFieldStart, intFieldEnd));
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int dateFieldStart = response.indexOf(&quot;&lt;dateField&gt;&quot;, intFieldEnd) + 11;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int dateFieldEnd = response.indexOf(&quot;&lt;/dateField&gt;&quot;, dateFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Date dateField = new Date(Long.parseLong(response.substring(dateFieldStart, dateFieldEnd)));
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new MyObject(stringField, intField, dateField);
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, String response, DeserializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;C collection = ctx.getInstance(collectionType);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;while (nextStart != -1) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextEnd = response.indexOf(&quot;&lt;/my&gt;&quot;, nextStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(response.substring(nextStart + 4, nextEnd), ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nextStart = response.indexOf(&quot;&lt;my&gt;&quot;, nextEnd);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return collection;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>}
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Make your deserializer available to Requestor by registering it.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="myXmlDeserializerReg" class="java">
+          <code>requestor.addDeserializer(new MyXmlDeserializer());</code>
+        </pre>
+      </div>
+
+      <p>
+        <em>Note: #addDeserializer returns a Registration instance which enables you to later cancel the registration.</em>
+      </p>
+    </div>
+
+    <div class="requestor-showcase-innersection">
+      <h3>Serializers</h3>
+      <p>
+        Serializers are responsible for both serializing and deserializing objects of some media type.
+      </p>
+
+      <p>
+        To create a serializer you must implement the <code>Serializer</code> interface.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="myXmlSerializer" class="java">
+          <code>class MyXmlSerializer implements Serializer&lt;MyObject&gt; {
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public Class&lt;MyObject&gt; handledType() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return MyObject.class;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public String[] mediaType() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Return an array of media type patterns; wildcards are acceptable */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new String[]{&quot;*/xml&quot;};
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public SerializedPayload serialize(MyObject myObject, SerializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new SerializedPayload(&quot;&lt;my&gt;&lt;stringField&gt;&quot; + myObject.getStringField() + &quot;&lt;/stringField&gt;&quot;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;+ &quot;&lt;intField&gt;&quot; + myObject.getIntField() + &quot;&lt;/intField&gt;&quot;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;+ &quot;&lt;dateField&gt;&quot; + myObject.getDateField().getTime() + &quot;&lt;/dateField&gt;&lt;/my&gt;&quot;);
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public SerializedPayload serialize(Collection&lt;MyObject&gt; myCollection, SerializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;StringBuilder sb = new StringBuilder(&quot;&lt;array&gt;&quot;);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;for (MyObject myObject : myCollection) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sb.append(serialize(myObject, ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new SerializedPayload(sb.append(&quot;&lt;/array&gt;&quot;).toString());
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(String response, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldStart = response.indexOf(&quot;&lt;stringField&gt;&quot;) + 13;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldEnd = response.indexOf(&quot;&lt;/stringField&gt;&quot;, stringFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String stringField = response.substring(stringFieldStart, stringFieldEnd);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intFieldStart = response.indexOf(&quot;&lt;intField&gt;&quot;, stringFieldEnd) + 10;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intFieldEnd = response.indexOf(&quot;&lt;/intField&gt;&quot;, intFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int intField = Integer.parseInt(response.substring(intFieldStart, intFieldEnd));
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int dateFieldStart = response.indexOf(&quot;&lt;dateField&gt;&quot;, intFieldEnd) + 11;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int dateFieldEnd = response.indexOf(&quot;&lt;/dateField&gt;&quot;, dateFieldStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Date dateField = new Date(Long.parseLong(response.substring(dateFieldStart, dateFieldEnd)));
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new MyObject(stringField, intField, dateField);
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, String response, DeserializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;C collection = ctx.getInstance(collectionType);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;while (nextStart != -1) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextEnd = response.indexOf(&quot;&lt;/my&gt;&quot;, nextStart);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(response.substring(nextStart + 4, nextEnd), ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nextStart = response.indexOf(&quot;&lt;my&gt;&quot;, nextEnd);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return collection;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>}
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Make your serializer available to Requestor by registering it.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="myXmlSerializerReg" class="java">
+          <code>requestor.addSerializer(new MyXmlSerializer());</code>
+        </pre>
+      </div>
+
+      <p>
+        <em>Note: #addSerializer returns a Registration instance which enables you to later cancel the registration.</em>
+      </p>
+    </div>
+
+    <div class="requestor-showcase-innersection">
+      <h3>JSON Serializer</h3>
+      <p>
+        If you find yourself needing to implement custom serialization/deserialization to/from JSON, you may find useful to extend the JsonObjectSerializer abstract class.
+        It requires the implementation of only two methods for reading and writing a single JSON record.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="myJsonSerializer" class="java">
+          <code>class MyJsonSerializer extends JsonObjectSerializer&lt;MyObject&gt; {
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;public MyJsonSerializer() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;super(MyObject.class);
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public MyObject readJson(JsonRecordReader reader, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new MyObject(reader.readString(&quot;stringField&quot;), reader.readIntPrimitive(&quot;intField&quot;),
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new Date(reader.readLong(&quot;dateField&quot;)));
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public void writeJson(MyObject myObject, JsonRecordWriter writer, SerializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;writer.writeString(&quot;stringField&quot;, myObject.getStringField());
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;writer.writeInt(&quot;intField&quot;, myObject.getIntField());
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;writer.writeDouble(&quot;dateField&quot;, myObject.getDateField().getTime());
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>}
+          </code>
+        </pre>
+      </div>
+    </div>
+  </g:HTMLPanel>
+
+  <!-- CUSTOM SECTION -->
+  <g:HTMLPanel styleName="requestor-showcase-section">
+    <h1 class="page-header" id="multiple-serialization">Multiple Serialization</h1>
+    <p class="lead">
+      Requestor is prepared to handle serialization of several media types for the same java type.
+    </p>
+
+    <p>
+      Suppose you need to exchange the same object in different formats, XML and JSON.
+      Requestor selects the right serializer by matching both the class and the media type (extracted from Content-Type header).
+      So you can have multiple serializers registered for the same class, as long as they handle different media type patterns.
+    </p>
+
+    <p>
+      Let's test the examples described above.
+      Having the class MyObject with the fields stringField, intField and dateField, we then register the serializers.
+    </p>
+
+    <div class="highlight">
+      <pre ui:field="testReg" class="java">
+        <code>requestor.addSerializer(new MyXmlSerializer()); /* XML serializer for MyObject */
+          <br/>requestor.addSerializer(new MyJsonSerializer()); /* JSON serializer for MyObject */
+        </code>
+      </pre>
+    </div>
+
+    <p>
+      Now let's make some requests and check if the data are correctly serialized and deserialized.
+    </p>
+
+    <!-- XML -->
+    <p>
+      Get a single xml element. The mocked url <em>https://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08</em> returns a single MyObject xml element.
+      Also, note that the request has a Content-Type header with the value "application/xml". It enables Requestor to match the correct serializer.
+    </p>
+    <div class="highlight">
+      <pre ui:field="singleXmlGet" class="java">
+        <code>requestor.req("https://www.mocky.io/v2/54aa8cf807b5f2bc0f21ba08").get(MyObject.class)...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="singleXmlGetButton" styleName="btn">GET</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="singleXmlGetTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Get a collection xml element. The mocked url <em>https://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09</em> returns a xml array of MyObject.
+      Also, note that the request has a Content-Type header with the value "application/xml". It enables Requestor to match the correct serializer.
+    </p>
+    <div class="highlight">
+      <pre ui:field="collectionXmlGet" class="java">
+        <code>requestor.req("https://www.mocky.io/v2/54aa8e1407b5f2d20f21ba09").get(MyObject.class, List.class)...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="collectionXmlGetButton" styleName="btn">GET</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="collectionXmlGetTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Post a single xml element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="singleXmlPost" class="java">
+        <code>requestor.req("https://httpbin.org/post")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/xml") /* It must match the serializer mediaType */
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="singleXmlPostButton" styleName="btn">POST</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="singleXmlPostTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Post a collection xml element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="collectionXmlPost" class="java">
+        <code>requestor.req("https://httpbin.org/post")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/xml") /* It must match the serializer mediaType */
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(Arrays.asList(
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Lorem", 1900, new Date(1420416000000L)),
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Ipsum", 210, new Date(1420070400000L))))
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="collectionXmlPostButton" styleName="btn">POST</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="collectionXmlPostTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+    
+    
+    <!-- JSON -->
+    <p>
+      Get a single json element. The mocked url <em>https://www.mocky.io/v2/54aa93c307b5f2671021ba0c</em> returns a single MyObject json element.
+      Also, note that the request has a Content-Type header with the value "application/json". It enables Requestor to match the correct serializer.
+    </p>
+    <div class="highlight">
+      <pre ui:field="singleJsonGet" class="java">
+        <code>requestor.req("https://www.mocky.io/v2/54aa93c307b5f2671021ba0c").get(MyObject.class)...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="singleJsonGetButton" styleName="btn">GET</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="singleJsonGetTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Get a collection json element. The mocked url <em>https://www.mocky.io/v2/54aa937407b5f2601021ba0b</em> returns a json array of MyObject.
+      Also, note that the request has a Content-Type header with the value "application/json". It enables Requestor to match the correct serializer.
+    </p>
+    <div class="highlight">
+      <pre ui:field="collectionJsonGet" class="java">
+        <code>requestor.req("https://www.mocky.io/v2/54aa937407b5f2601021ba0b").get(MyObject.class, List.class)...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="collectionJsonGetButton" styleName="btn">GET</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="collectionJsonGetTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Post a single json element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="singleJsonPost" class="java">
+        <code>requestor.req("https://httpbin.org/post")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/json") /* It must match the serializer mediaType */
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="singleJsonPostButton" styleName="btn">POST</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="singleJsonPostTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+
+    <p>
+      Post a collection json element.
+    </p>
+    <div class="highlight">
+      <pre ui:field="collectionJsonPost" class="java">
+        <code>requestor.req("https://httpbin.org/post")
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/json") /* It must match the serializer mediaType */
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(Arrays.asList(
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Lorem", 1900, new Date(1420416000000L)),
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new MyObject("Ipsum", 210, new Date(1420070400000L))))
+          <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()...</code>
+      </pre>
+    </div>
+    <g:HTMLPanel styleName="action-panel">
+      <g:HTMLPanel styleName="action">
+        <g:Button ui:field="collectionJsonPostButton" styleName="btn">POST</g:Button>
+      </g:HTMLPanel>
+      <textarea ui:field="collectionJsonPostTextArea" class="form-control result" rows="3" readonly="readonly"/>
+    </g:HTMLPanel>
+    
+    
+  </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>

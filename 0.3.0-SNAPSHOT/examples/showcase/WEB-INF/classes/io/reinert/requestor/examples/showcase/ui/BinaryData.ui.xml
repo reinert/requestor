@@ -1,0 +1,117 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014-2021 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- SEND SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="sending-data">Sending data</h1>
+      <p class="lead">
+        Sending binary data with Requestor is straightforward.
+        Create a serialized payload with the data by calling <code>SerializedJsPayload.fromBlob(&lt;jso&gt;)</code>.
+        Additionally, it's possible to monitor the progress of the submission.
+      </p>
+      <div class="highlight">
+        <pre ui:field="send" class="java">
+          <code>JavaScriptObject file = getFileBlob();
+            <br/>SerializedPayload payload = SerializedJsPayload.fromBlob(file);
+            <br/>
+            <br/>session.req("https://httpbin.org/post")
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(payload)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.upProgress(new ProgressCallback() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(RequestProgress progress) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (progress.isLengthComputable())
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus((progress.getLoaded() / progress.getTotal()) * 100);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;})
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Void&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(Void empty) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus(100);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Choose a file and send it. You'll see its binary content encoded in the response.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <input ui:field="file" type="file" class="form-control"/>
+          <g:Button ui:field="sendButton" styleName="btn">POST</g:Button>
+        </form>
+        <div class="progress">
+          <div ui:field="sendProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"/>
+        </div>
+        <textarea ui:field="sendTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+
+    <!-- RETRIEVE SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="retrieving-data">Retrieving data</h1>
+      <p class="lead">
+        Retrieve the payload as binary data by requesting a <code>Blob</code> class, an <code>ArrayBuffer</code> class, a <code>Document</code> class or a <code>Json</code> class.
+      </p>
+      <div class="highlight">
+        <pre ui:field="retrieve" class="java">
+          <code>session.req(url)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(Blob.class)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onProgress(new ProgressCallback() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(RequestProgress progress) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* calculates (loaded/total)*100 */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;})
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Blob&gt;() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(Blob blob) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(100);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setImage(blob.asJso());
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Input any image service endpoint and check the result.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="action">
+          <div class="row">
+            <div class="col-xs-6">
+              <input ui:field="imgUrl" type="text" class="form-control col-xs-4" value="https://placekitten.com/g/1920/1080"/>
+            </div>
+            <div class="col-xs-6">
+              <g:Button ui:field="retrieveButton" styleName="btn">GET</g:Button>
+            </div>
+          </div>
+        </form>
+        <div class="progress">
+          <div ui:field="retrieveProgress" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"/>
+        </div>
+        <div id="img-container"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>

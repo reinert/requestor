@@ -1,0 +1,224 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2015-2021 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- START SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="http-send-methods">Invokers</h1>
+      <p class="lead">
+        Invoke requests specifying the expected result.
+      </p>
+
+      <p>
+        To enable sending a request fluently, Requestor features the <b>invokers</b>: a set of methods named similarly to the corresponding HTTP Methods that actually send the request and returns an observable.
+        <br/>
+        The existing invokers are: <code>.get</code>, <code>.post</code>, <code>.put</code>, <code>.patch</code>, <code>.delete</code>, <code>.head</code> and <code>.options</code>.
+      </p>
+
+      <p>
+        After invoking a request, we receive a Request&lt;T&gt; that enables us to bind callbacks to any event that may occur in the request.
+      </p>
+
+      <p>
+        Invoke methods have up to three overloads, in which we specify the expected response result:
+        <br/> <i>(examples are given with the 'get' invoker but also applies to 'post', 'put', 'patch' and 'delete')</i>
+      </p>
+
+      <div class="requestor-showcase-innersection">
+        <h3><code>get()</code></h3>
+        <p>
+          The no-arg invoker signature provides a <code>Request&lt;Void&gt;</code>.
+          It's then assumed that no payload will be received in the response.
+        </p>
+        <div class="highlight">
+          <pre ui:field="hsmNoArg" class="java">
+            <code>session.req("/server/ping")
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get() /* invoker with no args */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Void&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(Void result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* result == null */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+            </code>
+          </pre>
+        </div>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3><code>get( Class&lt;T&gt; )</code></h3>
+        <p>
+          The one-arg invoker signature provides a <code>Request&lt;T&gt;</code>.
+          It's expected that a response with a single object T will be received.
+        </p>
+        <div class="highlight">
+          <pre ui:field="hsmOneArg" class="java">
+            <code>requestor.req(&quot;/server/books/1&quot;)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(Book.class) /* invoker with one class */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Book&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(Book result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+            </code>
+          </pre>
+        </div>
+      </div>
+
+      <div class="requestor-showcase-innersection">
+        <h3><code>get( Class&lt;C extends Collection&gt;, Class&lt;T&gt; )</code></h3>
+        <p>
+          The two-arg invoker signature provides a <code>Request&lt;Collection&lt;T&gt;&gt;</code>, thus expecting a response with a serialized array of T in the payload.
+          The type C is the collection which will accumulate the elements in the deserialization process.
+        </p>
+        <div class="highlight">
+          <pre ui:field="hsmTwoArgs" class="java">
+            <code>session.get(&quot;/server/books&quot;)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(Set.class, Book.class) /* invoker with two classes */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(new PayloadCallback&lt;Set&lt;Book&gt;&gt;() {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void onSuccess(Set&lt;Book&gt; result) {
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;});
+            </code>
+          </pre>
+        </div>
+        <p>
+          This method will always return a Request&lt;Collection&lt;T&gt;&gt;, regardless of the requested collection type.
+          It happens because it's not possible to declare "generics of generics" in Java.
+        </p>
+      </div>
+
+    </g:HTMLPanel>
+
+    <g:HTMLPanel styleName="requestor-showcase-innersection">
+      <p class="lead">Check the other invokers in action.</p>
+      <p>POST request.</p>
+      <div class="highlight">
+        <pre ui:field="postSample" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/post&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post(String.class) /* send a post request and receive a string */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(result -> view.setPostText(result));
+          </code>
+        </pre>
+      </div>
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="postButton" styleName="btn">POST</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="postTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+    <g:HTMLPanel styleName="requestor-showcase-innersection">
+      <p>PUT request.</p>
+      <div class="highlight">
+        <pre ui:field="putSample" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/put&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.put(String.class) /* send a put request and receive a string */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(result -> view.setPutText(result));
+          </code>
+        </pre>
+      </div>
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="putButton" styleName="btn">PUT</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="putTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+    <g:HTMLPanel styleName="requestor-showcase-innersection">
+      <p>PATCH request.</p>
+      <div class="highlight">
+        <pre ui:field="patchSample" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/patch&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.patch(String.class) /* send a patch request and receive a string */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(result -> view.setPatchText(result));
+          </code>
+        </pre>
+      </div>
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="patchButton" styleName="btn">PATCH</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="patchTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+    <g:HTMLPanel styleName="requestor-showcase-innersection">
+      <p>DELETE request.</p>
+      <div class="highlight">
+        <pre ui:field="deleteSample" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/delete&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.delete(String.class) /* send a delete request and receive a string */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(result -> view.setDeleteText(result));
+          </code>
+        </pre>
+      </div>
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="deleteButton" styleName="btn">DELETE</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="deleteTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+    <g:HTMLPanel styleName="requestor-showcase-innersection">
+      <p>HEAD request.</p>
+      <div class="highlight">
+        <pre ui:field="headSample" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/headers&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.head() /* returns Headers */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(headers -> view.setHeadText(headers));
+          </code>
+        </pre>
+      </div>
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="headButton" styleName="btn">HEAD</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="headTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+    <g:HTMLPanel styleName="requestor-showcase-innersection">
+      <p>OPTIONS request.</p>
+      <div class="highlight">
+        <pre ui:field="optionsSample" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/anything&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.options() /* returns Headers */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(headers -> view.setOptionsText(headers));
+          </code>
+        </pre>
+      </div>
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="optionsButton" styleName="btn">OPTIONS</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="optionsTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>

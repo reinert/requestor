@@ -1,0 +1,174 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014-2021 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- REQUEST FILTER SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="request-filters">Request Filters</h1>
+      <p class="lead">
+        Request Filters allow the manipulation of deserialized requests before they are sent.
+      </p>
+
+      <p>
+        Manipulate any request option like headers, auths and retry policy or even change the payload and the uri.
+      </p>
+
+      <p>
+        Like any other registration, we can hold the <Code>Registration</Code> object to later cancel it if necessary.
+      </p>
+
+      <p>
+        Suppose we register the following <code>RequestFilter</code> in the <code>Session</code>.
+      </p>
+      <div class="highlight">
+        <pre ui:field="requestFilter" class="java">
+          <code>/* Add the filter and hold the registration */
+            <br/>final Registration reg = session.register(new RequestFilter() {
+            <br/>&#32;&#32;&#32;&#32;public void filter(RequestInProcess request) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (!request.hasHeader("Custom-Header"))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setHeader("Custom-Header", "It Works!");
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (request.getAuth() == null)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setAuth(new BasicAuth("user", "pwd"));
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (request.getTimeout() == 0)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setTimeout(30000);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (!request.isRetryEnabled())
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setRetry(DelaySequence.fixed(1, 5, 30), RequestEvent.TIMEOUT, Status.TOO_MANY_REQUESTS);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (request.getPayload().isEmpty()) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setContentType("text/plain");
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setPayload("Any object");
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* CALL PROCEED (otherwise the request hangs) */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.proceed();
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>});
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Now let's perform a request, and check if the previous filter was really applied.
+        <br/>
+        The headers property should contain the header set in the filter.
+      </p>
+      <div class="highlight">
+        <pre ui:field="requestFilterReq" class="java">
+          <code>session.req("https://httpbin.org/anything").post(String.class)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess(payload -> view.setRequestFilterText(payload))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onLoad(response -> reg.cancel()); /* cancel filter registration */
+          </code>
+        </pre>
+      </div>
+
+      <g:HTMLPanel styleName="action-panel">
+        <g:HTMLPanel styleName="action">
+          <g:Button ui:field="requestFilterButton" styleName="btn">POST</g:Button>
+        </g:HTMLPanel>
+        <textarea ui:field="requestFilterTextArea" class="form-control result" rows="10" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <p>
+        The Request Filters are applied following the same order they are registered in the <code>Session</code>.
+      </p>
+      <div class="requestor-callout requestor-callout-warning">
+        <h4>Filtering affects later request processing</h4>
+        Since request filtering is the first processing step of the requests,
+        it affects the subsequent serialization and interception.
+        <br/>
+        For example, if you change the request's content-type in a RequestFilter,
+        the serialization process, which is performed following, will consider it when serializing the payload.
+      </div>
+    </g:HTMLPanel>
+
+
+    <!-- RESPONSE FILTER SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="response-filters">Response Filters</h1>
+      <p class="lead">
+        Response Filters allow manipulation of the responses after they are deserialized.
+      </p>
+
+      <p>
+        Add custom headers to the deserialized responses or change their payload.
+      </p>
+
+      <p>
+        Suppose we register the following <code>ResponseFilter</code> in the <code>Session</code>.
+      </p>
+      <div class="highlight">
+        <pre ui:field="responseFilter" class="java">
+          <code>/* Add the filter and hold the registration */
+            <br/>final Registration reg = session.register(new ResponseFilter() {
+            <br/>&#32;&#32;&#32;&#32;public void filter(ResponseInProcess response) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (!response.hasHeader(&quot;Custom-Header&quot;))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;response.setHeader(&quot;Custom-Header&quot;, &quot;Added after response was received&quot;);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Check if the caller requested to deserialize the payload as String */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (response.getPayloadType().getType() == String.class) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String payload = response.getPayload().asObject();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;response.setPayload(payload + &quot;\nWE JUST MODIFIED THE PAYLOAD!&quot;);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* CALL PROCEED (otherwise the request hangs) */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;response.proceed();
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>});
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Now let's perform a request, and check if the previous filter was really applied.
+        <br/>
+        The response should contain the header set in the filter, but the request shouldn't. Also, the payload should contain the appended string.
+      </p>
+      <div class="highlight">
+        <pre ui:field="responseFilterReq" class="java">
+          <code>session.req(&quot;https://httpbin.org/anything&quot;).get(String.class)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onSuccess((payload, response) -> {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setResponseBody(payload);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setResponseHeaders(response.getHeaders());
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}).onLoad(response -> reg.cancel()); /* cancel filter registration */
+          </code>
+        </pre>
+      </div>
+
+      <g:HTMLPanel styleName="action-panel">
+        <div class="action" style="margin-right: 28px">
+          <g:Button ui:field="responseFilterButton" styleName="btn">GET</g:Button>
+        </div>
+        <textarea ui:field="responseFilterBody" class="form-control result" rows="10" readonly="readonly"/>
+        <textarea ui:field="responseFilterHeaders" class="form-control result" rows="10" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <p>
+        Notice in the browser's dev tools that the request didn't contain the custom header.
+        It was added programmatically after the response had arrived.
+      </p>
+
+      <p>
+        The Response Filters are applied following the same order they are registered in the <code>Session</code>.
+      </p>
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>

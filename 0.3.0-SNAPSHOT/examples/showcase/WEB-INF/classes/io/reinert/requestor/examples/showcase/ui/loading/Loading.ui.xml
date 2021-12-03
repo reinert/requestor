@@ -1,0 +1,75 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+    <ui:style>
+        .center {
+            text-align: center
+        }
+
+        .message-container {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1031;
+            width: 100%;
+            visibility: visible;
+            font-size: 85%
+        }
+
+        .message-wrapper {
+            position: relative;
+            display: inline-block
+        }
+
+        .message-alert {
+            border: 3px solid transparent;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+        }
+
+        .message-container .message-alert {
+            border-color: #f0c36d;
+            /* border-color: #fff1a8; */
+
+            background: #fff1a8;
+            background-color: #f9edbe;
+
+            padding: 0 10px;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+            color: #222;
+            padding: 3px 3px 0;
+
+            border-top: 0;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            -webkit-border-top-left-radius: 0;
+            -webkit-border-top-right-radius: 0;
+        }
+
+        .message-block {
+            padding-left: 2px;
+            white-space: nowrap;
+        }
+
+        .bold {
+            font-weight: bold
+        }
+    </ui:style>
+
+    <g:HTMLPanel styleName="{style.message-container}" addStyleNames="{style.center}">
+        <g:HTMLPanel ui:field="messageWrapper" styleName="{style.message-wrapper}">
+            <div class="{style.message-alert}">
+                <div class="{style.message-wrapper}">
+                    <div class="{style.message-block}">
+                        <span class="{style.bold}">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </g:HTMLPanel>
+    </g:HTMLPanel>
+</ui:UiBinder>

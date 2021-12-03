@@ -1,0 +1,261 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2015-2021 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- BASIC SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="http-basic-authentication">HTTP Basic Authentication</h1>
+      <p class="lead">
+        The most common method of authentication is provided by the <code>BasicAuth</code> type.
+      </p>
+      <div class="highlight">
+        <pre ui:field="basic" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/basic-auth/&quot; + user + &quot;/&quot; + password)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new BasicAuth(user, password))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Fill in user and password inputs an try the code above.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <input ui:field="basicUser" placeholder="user" class="form-control"/>
+          <input ui:field="basicPassword" placeholder="password" class="form-control"/>
+          <g:Button ui:field="basicButton" styleName="btn">GET</g:Button>
+        </form>
+        <textarea ui:field="basicTextArea" class="form-control result" rows="4" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <p>
+        <em>Note: Additionally, BasicAuth constructor accepts a third boolean param: withCredentials.
+          Set it to true if you're using CORS and need to persist cookies.</em>
+      </p>
+    </g:HTMLPanel>
+
+
+    <!-- BEARER SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="bearer-authentication">Bearer Token Authentication</h1>
+      <p class="lead">
+        The conventional way of authenticating requests with API tokens is by putting a Bearer Token header.
+        The <code>BearerAuth</code> provides such functionality.
+      </p>
+      <div class="highlight">
+        <pre ui:field="bearer" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/headers&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new BearerAuth(token))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Fill in the token and check that it was set in the Authorization header.
+      </p>
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <input ui:field="bearerToken" placeholder="token" class="form-control"/>
+          <g:Button ui:field="bearerButton" styleName="btn">GET</g:Button>
+        </form>
+        <textarea ui:field="bearerTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <p>
+        <em>Note: Additionally, BearerAuth constructor accepts a third boolean param: withCredentials.
+          Set it to true if you're using CORS and need to persist cookies.</em>
+      </p>
+    </g:HTMLPanel>
+
+
+    <!-- DIGEST SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="http-digest-authentication">HTTP Digest Authentication</h1>
+      <p class="lead">
+        Safer than Basic, digest authentication is provided by <code>DigestAuth</code>.
+      </p>
+      <p>
+        Instantiate a <code>DigestAuth</code> into your request, informing the user, password and hash algorithm.
+      </p>
+      <div class="highlight">
+        <pre ui:field="digest" class="java">
+          <code>
+            /* The authentication service requires a cookie to be persisted, so we set withCredentials (fourth param) to true */<br/>
+            session.req(&quot;https://httpbin.org/digest-auth/&quot; + qop + &quot;/&quot; + user + &quot;/&quot; + password)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new DigestAuth(user, password, "md5", true))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Though, if you're doing it in a <code>Session</code> or a <code>Service</code>, it's recommended to set as a
+        <code>Provider</code> instead. It will avoid conflict between different requests, since each request will have
+        its own <code>DigestAuth</code> instance.
+      </p>
+      <div class="highlight">
+        <pre ui:field="digestProvider" class="java">
+          <code>
+            session.setAuth(() -> new DigestAuth(user, password, "md5"));
+          </code>
+        </pre>
+      </div>
+
+      <div class="requestor-callout requestor-callout-danger">
+        <h4>Example broken</h4>
+        <p>
+          The following example isn't working due to a CORS issue that can only be solved by the service provider.
+          This bug was already reported <a target="_blank" href="https://github.com/Runscope/httpbin/issues/205">here</a> and a hotfix is waiting to be merged.
+          Still, don't worry, requestor digest authentication is working just fine with the three QOP methods (none, auth and auth-int) supported.
+        </p>
+      </div>
+
+      <p>
+        Fill user and password inputs an test this auth.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <fieldset>
+            <label class="radio" style="margin-right: 4px">QOP:</label>
+            <div class="radio"><label><input ui:field="noQop" type="radio" name="qop" value="none" checked="checked"/> none</label></div>
+            <div class="radio"><label><input ui:field="authQop" type="radio" name="qop" value="auth"/> auth</label></div>
+            <div class="radio"><label><input ui:field="authIntQop" type="radio" name="qop" value="auth-int"/> auth-int</label></div>
+          </fieldset>
+          <fieldset>
+            <input ui:field="digestUser" placeholder="user" class="form-control"/>
+            <input ui:field="digestPassword" placeholder="password" class="form-control"/>
+            <g:Button ui:field="digestButton" styleName="btn">GET</g:Button>
+          </fieldset>
+        </form>
+        <textarea ui:field="digestTextArea" class="form-control result" rows="4" readonly="readonly"/>
+      </g:HTMLPanel>
+
+      <p>
+        <em>Note: Additionally, DigestAuth constructor accepts a third boolean param: withCredentials.
+          Set it to true if you're using CORS and need to persist cookies.</em>
+      </p>
+    </g:HTMLPanel>
+
+
+    <!-- OGET2 SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="oauth2">OAuth2</h1>
+      <p class="lead">
+        Authorizing api requests with OAuth2 was never so easy!
+      </p>
+      <div class="highlight">
+        <pre ui:field="oauth2" class="java">
+          <code>
+            session.req(apiEndpoint)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new OAuth2ByHeader(authUrl, appClientId, scope1, scope2, ...))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        You can either use <code>OAuth2ByHeader</code> which authorizes via the bearer header method,
+        or <code>OAuth2ByQueryParam</code> which passes the access token as a query param in the url.
+      </p>
+
+      <p>
+        Click in the provider to show your profile picture.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <g:Button ui:field="windowsButton" styleName="btn zocial icon windows"/>
+          <g:Button ui:field="googleButton" styleName="btn zocial icon googleplus"/>
+          <g:Button ui:field="facebookButton" styleName="btn zocial icon facebook"/>
+        </form>
+        <g:HTMLPanel ui:field="faces"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+
+    <!-- CUSTOM SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="custom-auth">Custom Auth</h1>
+      <p class="lead">
+        An authentication processor implements the <code>Auth</code> interface.
+      </p>
+
+      <p>
+        Following, suppose a custom auth that sets a request header in the form &quot;Authorization: MyAuth &lt;key&gt;&quot;.
+      </p>
+      <div class="highlight">
+        <pre ui:field="myAuth" class="java">
+          <code>
+            public class MyAuth implements Auth {
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;private final String key;
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;private MyAuth(String key) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this.key = key;
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;@Override
+            <br/>&#32;&#32;&#32;&#32;public void auth(PreparedRequest request) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Set the authentication header */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setHeader(&quot;Authorization&quot;, &quot;MyAuth &quot; + key);
+            <br/>
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* Call send after putting all necessary auth info into the request. */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* You can even make async operations before sending. */
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.send();
+            <br/>&#32;&#32;&#32;&#32;}
+            <br/>}
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Now, let's use <code>MyAuth</code> and check how the request was affected.
+      </p>
+      <div class="highlight">
+        <pre ui:field="custom" class="java">
+          <code>
+            session.req(&quot;https://httpbin.org/headers&quot;)
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new MyAuth(key))
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
+          </code>
+        </pre>
+      </div>
+
+      <p>
+        Fill in the key and perform the request.
+        <br/>
+        See the Authentication header applied according to <code>MyAuth</code> implementation.
+      </p>
+
+      <g:HTMLPanel styleName="action-grid">
+        <form class="form-inline action">
+          <input ui:field="key" placeholder="key" class="form-control"/>
+          <g:Button ui:field="customButton" styleName="btn">GET</g:Button>
+        </form>
+        <textarea ui:field="customTextArea" class="form-control result" rows="6" readonly="readonly"/>
+      </g:HTMLPanel>
+    </g:HTMLPanel>
+
+  </g:HTMLPanel>
+</ui:UiBinder>

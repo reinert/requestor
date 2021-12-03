@@ -1,0 +1,134 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2014-2021 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+      <h1 class="page-header" id="basic-sample">Meet the FormData</h1>
+      <p class="lead">
+        The Requestor API provides a special type to deal with form data dynamically: <code>FormData</code>.
+      </p>
+
+      <p>
+        There are two ways of creating form data dynamically through the <code>FormData</code> object: (1) wrapping a form element or (2) appending params to a builder.
+        <br/>
+        Fill out the form below and experiment the both ways.
+      </p>
+
+      <form ui:field="form" style="margin-top: 30px">
+        <fieldset>
+          <legend>Customer Details</legend>
+          <div class="form-group"><label>Customer name:</label><input ui:field="custname" name="custname" class="form-control"/></div>
+          <div class="form-group"><label>Telephone:</label><input ui:field="custtel" type="tel" name="custtel" class="form-control"/></div>
+          <div class="form-group"><label>E-mail address:</label><input ui:field="custemail" type="email" name="custemail" class="form-control"/></div>
+        </fieldset>
+        <fieldset>
+          <legend>Pizza Size</legend>
+          <div class="radio"><label><input ui:field="sizeSmall" type="radio" name="size" value="small"/> Small</label></div>
+          <div class="radio"><label><input ui:field="sizeMedium" type="radio" name="size" value="medium"/> Medium</label></div>
+          <div class="radio"><label><input ui:field="sizeLarge" type="radio" name="size" value="large"/> Large</label></div>
+        </fieldset>
+        <fieldset>
+          <legend>Pizza Toppings</legend>
+          <div class="checkbox"><label><input ui:field="topBacon" type="checkbox" name="topping" value="bacon"/> Bacon</label></div>
+          <div class="checkbox"><label><input ui:field="topCheese" type="checkbox" name="topping" value="cheese"/> Extra Cheese</label></div>
+          <div class="checkbox"><label><input ui:field="topOnion" type="checkbox" name="topping" value="onion"/> Onion</label></div>
+          <div class="checkbox"><label><input ui:field="topMushroom" type="checkbox" name="topping" value="mushroom"/> Mushroom</label></div>
+        </fieldset>
+        <fieldset>
+          <legend>Delivery Details</legend>
+          <div class="form-group"><label>Preferred delivery time:</label><input ui:field="time" type="time" min="11:00" max="21:00" step="900" name="delivery" class="form-control"/></div>
+          <div class="form-group"><label>Delivery instructions:</label><textarea ui:field="comments" name="comments" class="form-control" rows="3"/></div>
+        </fieldset>
+      </form>
+
+      <g:HTMLPanel styleName="requestor-showcase-section">
+        <h3>1) Wrap the FormElement</h3>
+        <p>This is a pratical way of creating a FormData object from an existing form element.</p>
+        <div class="highlight">
+          <pre ui:field="wrapping" class="java">
+            <code>
+              FormData data = JsFormData.wrap(formElement);
+              <br/>
+              session.req("https://httpbin.org/post").payload(data).post();
+            </code>
+          </pre>
+        </div>
+
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="wrappingPostButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="wrappingTextArea" class="form-control result" rows="5" readonly="readonly"/>
+        </g:HTMLPanel>
+      </g:HTMLPanel>
+
+      <g:HTMLPanel styleName="requestor-showcase-section">
+        <h3>2) Build the FormData</h3>
+        <p>FormData exposes a builder to dynamically create an instance of it.</p>
+        <div class="highlight">
+          <pre ui:field="building" class="java">
+            <code>
+              FormData data = FormData.builder()
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("custname", custname)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("custtel", custtel)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("size", size)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("topping", toppings) /* toppings is a List&lt;String&gt; */
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("time", time)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.append("comments", comments)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.build();
+              <br/>
+              <br/>
+              session.req("https://httpbin.org/post").payload(data).post();
+            </code>
+          </pre>
+        </div>
+
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="buildingPostButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="buildingTextArea" class="form-control result" rows="5" readonly="readonly"/>
+        </g:HTMLPanel>
+
+        <br/>
+
+        <p>By default FormData payloads are sent as native JS FormData objects, generating a "multipart/form-data" body.
+          <br/>
+          If you rather want them serialized in <b>"url encoded" format</b>, set the request <b>content-type</b> to <code>"application/x-www-form-urlencoded"</code>.
+          <br/>
+          Note that <i>"url encoded" serialization doesn't support binary files</i>. If you need to send binary content in the FormData payload, use the default serialization.
+        </p>
+        <div class="highlight">
+          <pre ui:field="buildingUrlEncoded" class="java">
+            <code>
+              session.req("https://httpbin.org/post")
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.contentType("application/x-www-form-urlencoded")
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(formData)
+              <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post();
+            </code>
+          </pre>
+        </div>
+
+        <g:HTMLPanel styleName="action-panel">
+          <g:HTMLPanel styleName="action">
+            <g:Button ui:field="buildingUrlEncodedPostButton" styleName="btn">POST</g:Button>
+          </g:HTMLPanel>
+          <textarea ui:field="buildingUrlEncodedTextArea" class="form-control result" rows="5" readonly="readonly"/>
+        </g:HTMLPanel>
+      </g:HTMLPanel>
+  </g:HTMLPanel>
+</ui:UiBinder>
