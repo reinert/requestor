@@ -22,13 +22,13 @@ import com.google.web.bindery.event.shared.EventBus;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
-import io.reinert.requestor.examples.showcase.ui.BuildingRequests;
 import io.reinert.requestor.examples.showcase.ui.Filters;
 import io.reinert.requestor.examples.showcase.ui.FluentRequestApi;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.ui.GettingStarted;
 import io.reinert.requestor.examples.showcase.ui.Home;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
+import io.reinert.requestor.examples.showcase.ui.RequestBuilding;
 import io.reinert.requestor.examples.showcase.ui.RequestInvoking;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.gwt.GwtSession;
@@ -41,7 +41,7 @@ public class ShowcaseClientFactory {
     private Home home;
     private GettingStarted gettingStarted;
     private FluentRequestApi requesting;
-    private BuildingRequests buildingRequests;
+    private RequestBuilding buildingRequests;
     private RequestInvoking sendingRequests;
     private Form form;
     private BinaryData binaryData;
@@ -84,9 +84,9 @@ public class ShowcaseClientFactory {
         return requesting;
     }
 
-    public BuildingRequests getBuildingRequests() {
+    public RequestBuilding getBuildingRequests() {
         if (buildingRequests == null)
-            buildingRequests = new BuildingRequests();
+            buildingRequests = new RequestBuilding();
         return buildingRequests;
     }
 

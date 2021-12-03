@@ -19,7 +19,7 @@ import com.google.gwt.activity.shared.Activity;
 
 import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
-import io.reinert.requestor.examples.showcase.activity.BuildingRequestsActivity;
+import io.reinert.requestor.examples.showcase.activity.RequestBuildingActivity;
 
 public class BuildingRequestsPlace extends ShowcasePlace {
 
@@ -29,7 +29,7 @@ public class BuildingRequestsPlace extends ShowcasePlace {
 
     @Override
     public Activity getActivity() {
-        return new BuildingRequestsActivity(getSection(), Showcase.CLIENT_FACTORY.getBuildingRequests(),
+        return new RequestBuildingActivity(getSection(), Showcase.CLIENT_FACTORY.getBuildingRequests(),
                 Showcase.CLIENT_FACTORY.getSession());
     }
 }

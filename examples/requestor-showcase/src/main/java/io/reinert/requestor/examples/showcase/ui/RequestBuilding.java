@@ -24,16 +24,16 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 
 import io.reinert.requestor.examples.showcase.util.HighlightJs;
 
-public class BuildingRequests extends Composite {
+public class RequestBuilding extends Composite {
 
-    interface BuildingRequestsUiBinder extends UiBinder<HTMLPanel, BuildingRequests> { }
+    interface BuildingRequestsUiBinder extends UiBinder<HTMLPanel, RequestBuilding> { }
 
     private static BuildingRequestsUiBinder uiBinder = GWT.create(BuildingRequestsUiBinder.class);
 
     @UiField PreElement req, header1, header2, header3, header4, timeout, delay, payload1, auth1,
             retry, poll;
 
-    public BuildingRequests() {
+    public RequestBuilding() {
         initWidget(uiBinder.createAndBindUi(this));
         HighlightJs.highlightBlock(req, header1, header2, header3, header4, timeout, delay, payload1,
                 auth1, retry, poll);
