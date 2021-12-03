@@ -149,42 +149,6 @@
     </g:HTMLPanel>
 
 
-    <!-- OGET2 SECTION -->
-    <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="oauth2">OAuth2</h1>
-      <p class="lead">
-        Authorizing api requests with OAuth2 was never so easy!
-      </p>
-      <div class="highlight">
-        <pre ui:field="oauth2" class="java">
-          <code>
-            session.req(apiEndpoint)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new OAuth2ByHeader(authUrl, appClientId, scope1, scope2, ...))
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
-          </code>
-        </pre>
-      </div>
-
-      <p>
-        You can either use <code>OAuth2ByHeader</code> which authorizes via the bearer header method,
-        or <code>OAuth2ByQueryParam</code> which passes the access token as a query param in the url.
-      </p>
-
-      <p>
-        Click in the provider to show your profile picture.
-      </p>
-
-      <g:HTMLPanel styleName="action-grid">
-        <form class="form-inline action">
-          <g:Button ui:field="windowsButton" styleName="btn zocial icon windows"/>
-          <g:Button ui:field="googleButton" styleName="btn zocial icon googleplus"/>
-          <g:Button ui:field="facebookButton" styleName="btn zocial icon facebook"/>
-        </form>
-        <g:HTMLPanel ui:field="faces"/>
-      </g:HTMLPanel>
-    </g:HTMLPanel>
-
-
     <!-- CUSTOM SECTION -->
     <g:HTMLPanel styleName="requestor-showcase-section">
       <h1 class="page-header" id="custom-auth">Custom Auth</h1>

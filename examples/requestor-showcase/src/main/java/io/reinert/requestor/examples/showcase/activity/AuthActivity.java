@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.examples.showcase.activity;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
@@ -27,8 +26,6 @@ import io.reinert.requestor.core.auth.DigestAuth;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
-import io.reinert.requestor.gwt.oauth2.OAuth2ByHeader;
-import io.reinert.requestor.gwt.oauth2.OAuth2ByQueryParam;
 
 public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
@@ -124,74 +121,4 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
                     }
                 });
     }
-
-    @Override
-    public void onGoogleButtonClick() {
-        final String profilePictureEndpoint = "https://www.googleapis.com/plus/v1/people/me";
-        final String authUrl = "https://accounts.google.com/o/oauth2/auth";
-        final String appClientId = "60734886159-99bmoevf41sott6sa2cijltc85orhc18.apps.googleusercontent.com";
-        final String scope = "https://www.googleapis.com/auth/plus.login";
-        session.req(profilePictureEndpoint)
-                .auth(new OAuth2ByHeader(authUrl, appClientId, scope))
-                .get(JavaScriptObject.class)
-                .onSuccess(new PayloadCallback<JavaScriptObject>() {
-                    @Override
-                    public void execute(JavaScriptObject result) {
-                        final JavaScriptObject image = getObject(result, "image");
-                        final String imageUrl = getString(image, "url");
-                        view.addImage(imageUrl);
-                    }
-                });
-    }
-
-    @Override
-    public void onFacebookButtonClick() {
-        final String profilePictureEndpoint = "https://graph.facebook.com/v2.3/me/picture?redirect=false";
-        final String authUrl = "https://www.facebook.com/dialog/oauth";
-        final String appClientId = "366496696889929";
-        final String scope = "public_profile";
-        session.req(profilePictureEndpoint)
-                .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
-                .get(JavaScriptObject.class)
-                .onSuccess(new PayloadCallback<JavaScriptObject>() {
-                    @Override
-                    public void execute(JavaScriptObject result) {
-                        final JavaScriptObject data = getObject(result, "data");
-                        final String imageUrl = getString(data, "url");
-                        view.addImage(imageUrl);
-                    }
-                });
-    }
-
-    @Override
-    public void onWindowsButtonClick() {
-        final String profilePictureEndpoint = "https://apis.live.net/v5.0/me";
-        final String authUrl = "https://login.live.com/oauth20_authorize.srf";
-        final String appClientId = "000000004015498F";
-        final String scope = "wl.basic";
-        session.req(profilePictureEndpoint)
-                .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope))
-                .get(JavaScriptObject.class)
-                .onSuccess(new PayloadCallback<JavaScriptObject>() {
-                    @Override
-                    public void execute(JavaScriptObject result) {
-                        final String userId = getObject(result, "id");
-                        final String imageUrl = "https://apis.live.net/v5.0/" + userId + "/picture";
-                        view.addImage(imageUrl);
-                    }
-                });
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> T getObject(JavaScriptObject jso, String property) {
-        return (T) getObjectNative(jso, property);
-    }
-
-    private static native Object getObjectNative(JavaScriptObject jso, String property) /*-{
-        return jso[property];
-    }-*/;
-
-    private static native String getString(JavaScriptObject jso, String property) /*-{
-        return jso[property];
-    }-*/;
 }
