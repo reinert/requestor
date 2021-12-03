@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +19,17 @@ import com.google.gwt.activity.shared.Activity;
 
 import io.reinert.requestor.examples.showcase.MenuOption;
 import io.reinert.requestor.examples.showcase.Showcase;
-import io.reinert.requestor.examples.showcase.activity.RequestBuildingActivity;
+import io.reinert.requestor.examples.showcase.activity.RequestListeningActivity;
 
-public class BuildingRequestsPlace extends ShowcasePlace {
+public class RequestListeningPlace extends ShowcasePlace {
 
-    public BuildingRequestsPlace(String section) {
-        super(MenuOption.Tokens.REQUEST_BUILDING_TOKEN, section);
+    public RequestListeningPlace(String section) {
+        super(MenuOption.Tokens.REQUEST_LISTENING_TOKEN, section);
     }
 
     @Override
     public Activity getActivity() {
-        return new RequestBuildingActivity(getSection(), Showcase.CLIENT_FACTORY.getBuildingRequests(),
+        return new RequestListeningActivity(getSection(), Showcase.CLIENT_FACTORY.getRequestListening(),
                 Showcase.CLIENT_FACTORY.getSession());
     }
 }

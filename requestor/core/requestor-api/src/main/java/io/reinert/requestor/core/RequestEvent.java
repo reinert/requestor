@@ -47,7 +47,7 @@ public enum RequestEvent implements Event {
      */
     ABORT("abort"),
     /**
-     * Represents any request errot, combining 'timeout', 'cancel' and 'abort' events.
+     * Represents any request error, combining 'timeout', 'cancel' and 'abort' events.
      */
     ERROR("error");
 

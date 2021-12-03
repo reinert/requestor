@@ -453,7 +453,6 @@ the available callbacks:
 See how you can use them below:
 
 ```java
-// You can chain single method callbacks (functional interfaces) to handle success, failure or both: 
 session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() {
     public void execute(String ip) {
         // This is executed if the response was successful (status = 2xx)

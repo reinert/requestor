@@ -1,0 +1,131 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+~ Copyright 2021 Danilo Reinert
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <g:HTMLPanel>
+    <!-- START SECTION -->
+    <g:HTMLPanel styleName="requestor-showcase-section">
+      <h1 class="page-header" id="http-send-methods">Event-driven callbacks</h1>
+      <p>
+        After invoking a request we need to add callbacks to the events that may occur in the request-response lifecycle.
+        <br/>
+        There are two main kinds of events: <code>RequestEvent.LOAD</code> and <code>RequestEvent.ERROR</code>. Those two events are subdivided into more specific events.
+      </p>
+      <p>
+        <code>RequestEvent.LOAD</code> is triggered whenever a request receives a response.
+        <br/>
+        It's subdivided into: <code>RequestEvent.SUCCESS</code> (2xx responses) and <code>RequestEvent.FAIL</code> (non-2xx responses).
+        <br/>
+        Any response status is also an RequestEvent. So we can listen to <code>Status.OK</code> (200), <code>Status.TOO_MANY_REQUESTS</code> (429) and so on.
+        <br/>
+        Additionally, any <code>StatusFamily</code> is also an RequestEvent. Hence, we can listen to <code>StatusFamily.CLIENT_ERROR</code> (4xx responses) or <code>StatusFamily.SERVER_ERROR</code> (5xx responses).
+      </p>
+      <p>
+        <code>RequestEvent.ERROR</code> is triggered whenever a request interrupts before receiving a response.
+        <br/>
+        It's subdivided into: <code>RequestEvent.ABORT</code> (request was not sent), the <code>RequestEvent.CANCEL</code> event (request was cancelled after being sent) and the <code>RequestEvent.TIMEOUT</code> (request timed out before receiving a response).
+        <br/>
+        If we set a callback for the "error" event, it will catch any of the three subevents.
+      </p>
+      <p>
+        Besides the <b>"load"</b> and <b>"error"</b> events, we cal also listen to the <b>"progress"</b> and <b>"upProgress"</b> events.
+        <br/>
+        Those events enables us to track the progress of downloads and uploads.
+      </p>
+
+      <div class="highlight">
+        <pre ui:field="hsmNoArg" class="java">
+          <code>session.get('/server/ip', String.class).onSuccess(new PayloadCallback&lt;String&gt;() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(String ip) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the response was successful (status = 2xx) */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showIp(ip);
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onSuccess(new PayloadResponseCallback&lt;String&gt;() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(String ip, Response r) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Window.alert(&quot;Response status was &quot; + r.getStatus.toString());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onFail(new ResponseCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(Response r) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the response was unsuccessful (status ≠ 2xx) */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request failed. Server message: &quot; + r.getPayload().toString());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onLoad(new ResponseCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(Response r) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if a response is received, regardless of the status */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Window.alert(&quot;Response status was &quot; + r.getStatus.toString());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onStatus(429, new ResponseCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(Response r) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the response status code 429 */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Too many requests. Please try again in a few seconds.&quot;);
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onStatus(StatusFamily.SERVER_ERROR, new ResponseCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(Response r) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the response status code was 5xx (server error) */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request failed. Server message: &quot; + r.getPayload().toString());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onProgress(new ProgressCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(RequestProgress progress) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed many times while the response is being received */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (progress.isLengthComputable())
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onUpProgress(new ProgressCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(RequestProgress progress) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed many times while the request is being sent */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (progress.isLengthComputable())
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* getCompletedFraction(int factor) calculates (loaded/total)*factor */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setUploadProgress(progress.getCompletedFraction(100));
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onTimeout(new TimeoutCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(RequestTimeoutException e) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the request timed out before receiving a response */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request timed out: &quot; + e.getMessage());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onCancel(new ExceptionCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(RequestException e) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the request was cancelled after being sent */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request cancelled: &quot; + e.getMessage());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onAbort(new ExceptionCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(RequestException e) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the request was aborted before being sent */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request aborted: &quot; + e.getMessage());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>}).onError(new ExceptionCallback() {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(RequestException e) {
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the request could not receive a response overall */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e instanceof RequestTimeoutException) { /* Check if it's a timeout error */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request timed out: &quot; + e.getMessage());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e instanceof RequestCancelException) { /* Check if it's a cancel error */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request cancelled: &quot; + e.getMessage());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e instanceof RequestAbortException) { /* Check if it's an abort error */
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request aborted: &quot; + e.getMessage());
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br/>});
+          </code>
+        </pre>
+      </div>
+    </g:HTMLPanel>
+  </g:HTMLPanel>
+</ui:UiBinder>

@@ -19,14 +19,15 @@ import com.google.gwt.place.shared.Place;
 
 import io.reinert.requestor.examples.showcase.place.AuthPlace;
 import io.reinert.requestor.examples.showcase.place.BinaryDataPlace;
-import io.reinert.requestor.examples.showcase.place.BuildingRequestsPlace;
 import io.reinert.requestor.examples.showcase.place.FiltersPlace;
 import io.reinert.requestor.examples.showcase.place.FluentRequestApiPlace;
 import io.reinert.requestor.examples.showcase.place.FormPlace;
 import io.reinert.requestor.examples.showcase.place.GettingStartedPlace;
 import io.reinert.requestor.examples.showcase.place.HomePlace;
 import io.reinert.requestor.examples.showcase.place.InterceptorsPlace;
+import io.reinert.requestor.examples.showcase.place.RequestBuildingPlace;
 import io.reinert.requestor.examples.showcase.place.RequestInvokingPlace;
+import io.reinert.requestor.examples.showcase.place.RequestListeningPlace;
 import io.reinert.requestor.examples.showcase.place.SerializationPlace;
 
 /**
@@ -58,13 +59,19 @@ public enum MenuOption implements HasToken, HasPlace {
     REQUEST_BUILDING("Request Building", Tokens.REQUEST_BUILDING_TOKEN, new HasPlace() {
         @Override
         public Place getPlace(String section) {
-            return new BuildingRequestsPlace(section);
+            return new RequestBuildingPlace(section);
         }
     }, REQUESTING),
     REQUEST_INVOKING("Request Invoking", Tokens.REQUEST_INVOKING_TOKEN, new HasPlace() {
         @Override
         public Place getPlace(String section) {
             return new RequestInvokingPlace(section);
+        }
+    }, REQUESTING),
+    REQUEST_LISTENING("Request Listening", Tokens.REQUEST_LISTENING_TOKEN, new HasPlace() {
+        @Override
+        public Place getPlace(String section) {
+            return new RequestListeningPlace(section);
         }
     }, REQUESTING),
 
@@ -115,6 +122,7 @@ public enum MenuOption implements HasToken, HasPlace {
         public static final String REQUESTING_FLUENT_API_TOKEN = "requesting-fluent-api";
         public static final String REQUEST_BUILDING_TOKEN = "request-building";
         public static final String REQUEST_INVOKING_TOKEN = "request-invoking";
+        public static final String REQUEST_LISTENING_TOKEN = "request-listening";
         public static final String SERIALIZATION_TOKEN = "serialization";
         public static final String FORM_TOKEN = "form-data";
         public static final String BINARY_DATA_TOKEN = "binary-data";
@@ -132,6 +140,8 @@ public enum MenuOption implements HasToken, HasPlace {
             return REQUEST_BUILDING;
         } else if (token.equals(Tokens.REQUEST_INVOKING_TOKEN)) {
             return REQUEST_INVOKING;
+        } else if (token.equals(Tokens.REQUEST_LISTENING_TOKEN)) {
+            return REQUEST_LISTENING;
         } else if (token.equals(Tokens.SERIALIZATION_TOKEN)) {
             return SERIALIZATION;
         } else if (token.equals(Tokens.FORM_TOKEN)) {
