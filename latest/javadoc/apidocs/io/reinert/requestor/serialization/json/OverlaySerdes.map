@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../Serdes.html" title="io.reinert.requestor.serialization.Serdes" alt="" coords="16,10,101,54"/>
-<area shape="rect" id="node1" href="../Serdes.html" title="&lt;TABLE&gt;" alt="" coords="5,5,112,59"/>
-<area shape="rect" id="node2_1" href="./OverlaySerdes.html" title="io.reinert.requestor.serialization.json.OverlaySerdes" alt="" coords="171,19,277,45"/>
-<area shape="rect" id="node2" href="./OverlaySerdes.html" title="&lt;TABLE&gt;" alt="" coords="161,8,287,56"/>
-<area shape="rect" id="node3_2" href="../../turbogwt/serialization/TurboOverlaySerdes.html" title="io.reinert.requestor.turbogwt.serialization.TurboOverlaySerdes" alt="" coords="347,19,485,45"/>
-<area shape="rect" id="node3" href="../../turbogwt/serialization/TurboOverlaySerdes.html" title="&lt;TABLE&gt;" alt="" coords="337,8,495,56"/>
-</map>

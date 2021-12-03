@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./UnableToDeserializeException.html" title="io.reinert.requestor.serialization.UnableToDeserializeException" alt="" coords="235,16,432,43"/>
-<area shape="rect" id="node1" href="./UnableToDeserializeException.html" title="&lt;TABLE&gt;" alt="" coords="224,5,443,53"/>
-<area shape="rect" id="node2_1" href="./SerializationException.html" title="io.reinert.requestor.serialization.SerializationException" alt="" coords="16,16,165,43"/>
-<area shape="rect" id="node2" href="./SerializationException.html" title="&lt;TABLE&gt;" alt="" coords="5,5,176,53"/>
-</map>

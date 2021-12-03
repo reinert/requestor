@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../HasImpl.html" title="io.reinert.requestor.serialization.HasImpl" alt="" coords="47,10,131,54"/>
-<area shape="rect" id="node1" href="../HasImpl.html" title="&lt;TABLE&gt;" alt="" coords="37,5,142,59"/>
-<area shape="rect" id="node3_1" href="./JsonNumberSerdes.html" title="io.reinert.requestor.serialization.json.JsonNumberSerdes" alt="" coords="232,57,365,84"/>
-<area shape="rect" id="node3" href="./JsonNumberSerdes.html" title="&lt;TABLE&gt;" alt="" coords="221,47,376,95"/>
-<area shape="rect" id="node2_2" href="./JsonValueSerdes.html" title="io.reinert.requestor.serialization.json.JsonValueSerdes" alt="" coords="16,95,163,121"/>
-<area shape="rect" id="node2" href="./JsonValueSerdes.html" title="&lt;TABLE&gt;" alt="" coords="5,84,173,132"/>
-</map>
