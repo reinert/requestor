@@ -63,7 +63,7 @@
       <div class="highlight">
         <pre ui:field="bearer" class="java">
           <code>
-            session.req(&quot;https://httpbin.org/headers&quot;)
+            session.req(&quot;https://httpbin.org/bearer&quot;)
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new BearerAuth(token))
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get();
           </code>
@@ -121,15 +121,6 @@
         </pre>
       </div>
 
-      <div class="requestor-callout requestor-callout-danger">
-        <h4>Example broken</h4>
-        <p>
-          The following example isn't working due to a CORS issue that can only be solved by the service provider.
-          This bug was already reported <a target="_blank" href="https://github.com/Runscope/httpbin/issues/205">here</a> and a hotfix is waiting to be merged.
-          Still, don't worry, requestor digest authentication is working just fine with the three QOP methods (none, auth and auth-int) supported.
-        </p>
-      </div>
-
       <p>
         Fill user and password inputs an test this auth.
       </p>
@@ -155,42 +146,6 @@
         <em>Note: Additionally, DigestAuth constructor accepts a third boolean param: withCredentials.
           Set it to true if you're using CORS and need to persist cookies.</em>
       </p>
-    </g:HTMLPanel>
-
-
-    <!-- OGET2 SECTION -->
-    <g:HTMLPanel styleName="requestor-showcase-section">
-      <h1 class="page-header" id="oauth2">OAuth2</h1>
-      <p class="lead">
-        Authorizing api requests with OAuth2 was never so easy!
-      </p>
-      <div class="highlight">
-        <pre ui:field="oauth2" class="java">
-          <code>
-            session.req(apiEndpoint)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.auth(new OAuth2ByHeader(authUrl, appClientId, scope1, scope2, ...))
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;...
-          </code>
-        </pre>
-      </div>
-
-      <p>
-        You can either use <code>OAuth2ByHeader</code> which authorizes via the bearer header method,
-        or <code>OAuth2ByQueryParam</code> which passes the access token as a query param in the url.
-      </p>
-
-      <p>
-        Click in the provider to show your profile picture.
-      </p>
-
-      <g:HTMLPanel styleName="action-grid">
-        <form class="form-inline action">
-          <g:Button ui:field="windowsButton" styleName="btn zocial icon windows"/>
-          <g:Button ui:field="googleButton" styleName="btn zocial icon googleplus"/>
-          <g:Button ui:field="facebookButton" styleName="btn zocial icon facebook"/>
-        </form>
-        <g:HTMLPanel ui:field="faces"/>
-      </g:HTMLPanel>
     </g:HTMLPanel>
 
 

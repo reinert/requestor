@@ -18,7 +18,6 @@ package io.reinert.requestor.examples.showcase.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.PreElement;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -26,7 +25,6 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Image;
 
 import io.reinert.requestor.examples.showcase.util.HighlightJs;
 
@@ -37,26 +35,22 @@ public class Auth extends Composite {
         void onBearerButtonClick(String token);
         void onDigestButtonClick(String user, String password, String qop);
         void onCustomButtonClick(String key);
-        void onGoogleButtonClick();
-        void onFacebookButtonClick();
-        void onWindowsButtonClick();
     }
 
     interface AuthenticationUiBinder extends UiBinder<HTMLPanel, Auth> { }
 
     private static AuthenticationUiBinder uiBinder = GWT.create(AuthenticationUiBinder.class);
 
-    @UiField PreElement basic, bearer, digest, digestProvider, myAuth, custom, oauth2;
+    @UiField PreElement basic, bearer, digest, digestProvider, myAuth, custom;
     @UiField TextAreaElement basicTextArea, bearerTextArea, digestTextArea, customTextArea;
     @UiField InputElement basicUser, basicPassword, bearerToken, digestUser, digestPassword, noQop, authQop, authIntQop,
             key;
-    @UiField HTMLPanel faces;
 
     private Handler handler;
 
     public Auth() {
         initWidget(uiBinder.createAndBindUi(this));
-        HighlightJs.highlightBlock(basic, bearer, digest, digestProvider, myAuth, custom, oauth2);
+        HighlightJs.highlightBlock(basic, bearer, digest, digestProvider, myAuth, custom);
     }
 
     @UiHandler("basicButton")
@@ -82,21 +76,6 @@ public class Auth extends Composite {
         handler.onCustomButtonClick(key.getValue());
     }
 
-    @UiHandler("googleButton")
-    public void onGoogleButtonClick(ClickEvent e) {
-        handler.onGoogleButtonClick();
-    }
-
-    @UiHandler("facebookButton")
-    public void onFacebookButtonClick(ClickEvent e) {
-        handler.onFacebookButtonClick();
-    }
-
-    @UiHandler("windowsButton")
-    public void onWindowsButtonClick(ClickEvent e) {
-        handler.onWindowsButtonClick();
-    }
-
     public void setBasicText(String content) {
         basicTextArea.setInnerText(content);
     }
@@ -115,12 +94,5 @@ public class Auth extends Composite {
 
     public void setHandler(Handler handler) {
         this.handler = handler;
-    }
-
-    public void addImage(String imageUrl) {
-        final Image img = new Image(imageUrl);
-        img.setStyleName("img-circle");
-        img.getElement().getStyle().setMarginRight(4, Style.Unit.PX);
-        faces.add(img);
     }
 }
