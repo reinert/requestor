@@ -34,6 +34,8 @@ public @interface MediaType {
      * A list of content-type patterns. <br>
      * These patterns will be used to match content-types of incoming responses and outgoing requests. <br>
      * The pattern accepts wildcards like "&#42;&#47;json".
+     *
+     * @return an array of media-type patterns
      */
     String[] value();
 }

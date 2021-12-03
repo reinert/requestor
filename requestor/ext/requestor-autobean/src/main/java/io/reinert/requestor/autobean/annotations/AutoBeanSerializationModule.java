@@ -32,6 +32,8 @@ public @interface AutoBeanSerializationModule {
 
     /**
      * A list of types to generate to have json serializer generated.
+     *
+     * @return the types to generate serializers
      */
     Class<?>[] value();
 }
