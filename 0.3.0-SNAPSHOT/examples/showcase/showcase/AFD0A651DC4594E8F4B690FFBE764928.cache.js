@@ -3,7 +3,7 @@ var __gwtModuleFunction = $wnd.showcase;
 var $sendStats = __gwtModuleFunction.__sendStats;
 $sendStats('moduleStartup', 'moduleEvalStart');
 var $gwt_version = "2.9.0";
-var $strongName = '9DBC7F5CB132579158D98C1845E0ADEA';
+var $strongName = 'AFD0A651DC4594E8F4B690FFBE764928';
 var $gwt = {};
 var $doc = $wnd.document;
 var $moduleName, $moduleBase;
@@ -18448,7 +18448,7 @@ function io_reinert_requestor_examples_showcase_ui_GettingStarted_1GettingStarte
   sb = new java_lang_StringBuilder_StringBuilder__V;
   sb.java_lang_AbstractStringBuilder_string += "<div class='requestor-showcase-section'> <h1 class='page-header' id='download'>Install the dependency<\/h1> <p class='lead'> Requestor is available at maven central. <\/p> <p> Since this showcase presents requestor-gwt implementation of requestor-core, we just need to add this impl dependency to our POM. <\/p> <div class='highlight'> <pre class='xml' id='";
   java_lang_StringBuilder_$append__Ljava_lang_StringBuilder_2Ljava_lang_String_2Ljava_lang_StringBuilder_2(sb, com_google_gwt_safehtml_shared_SafeHtmlUtils_htmlEscape__Ljava_lang_String_2Ljava_lang_String_2(arg0));
-  sb.java_lang_AbstractStringBuilder_string += "'>\n          <code> &lt;dependency&gt; <br>   &lt;groupId&gt;io.reinert.requestor.impl&lt;/groupId&gt; <br>   &lt;artifactId&gt;requestor-gwt&lt;/artifactId&gt; <br>   &lt;version&gt;0.2.0&lt;/version&gt; <br> &lt;/dependency&gt; <\/code>\n        <\/pre> <\/div> <\/div> <div class='requestor-showcase-section'> <h1 class='page-header' id='configure-gwt'>Configure your GWT project<\/h1> <p class='lead'> Import RequestorGwt into the gwt.xml module. <\/p> <div class='highlight'> <pre class='xml' id='";
+  sb.java_lang_AbstractStringBuilder_string += "'>\n          <code> &lt;dependency&gt; <br>   &lt;groupId&gt;io.reinert.requestor.impl&lt;/groupId&gt; <br>   &lt;artifactId&gt;requestor-gwt&lt;/artifactId&gt; <br>   &lt;version&gt;1.0.0&lt;/version&gt; <br> &lt;/dependency&gt; <\/code>\n        <\/pre> <\/div> <\/div> <div class='requestor-showcase-section'> <h1 class='page-header' id='configure-gwt'>Configure your GWT project<\/h1> <p class='lead'> Import RequestorGwt into the gwt.xml module. <\/p> <div class='highlight'> <pre class='xml' id='";
   java_lang_StringBuilder_$append__Ljava_lang_StringBuilder_2Ljava_lang_String_2Ljava_lang_StringBuilder_2(sb, com_google_gwt_safehtml_shared_SafeHtmlUtils_htmlEscape__Ljava_lang_String_2Ljava_lang_String_2(arg1));
   sb.java_lang_AbstractStringBuilder_string += "'>\n          <code> &lt;inherits name=\"io.reinert.requestor.gwt.RequestorGwt\"/&gt; <\/code>\n        <\/pre> <\/div>  <\/div> <div class='requestor-showcase-section'> <h1 class='page-header' id='use-requestor'>Use Requestor<\/h1> <p class='lead'> Get a Session to start requesting. It is recommend to use it as a singleton. <\/p> <div class='requestor-showcase-innersection'> <h3>Create a Session<\/h3> <div class='highlight'> <pre id='";
   java_lang_StringBuilder_$append__Ljava_lang_StringBuilder_2Ljava_lang_String_2Ljava_lang_StringBuilder_2(sb, com_google_gwt_safehtml_shared_SafeHtmlUtils_htmlEscape__Ljava_lang_String_2Ljava_lang_String_2(arg2));
