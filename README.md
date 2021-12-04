@@ -185,7 +185,7 @@ GWT environment. Furthermore, implementations for the Java/Android and J2CL are 
 
 ### Latest Release
 
-0.2.0 (18 Feb 2015)
+1.0.0-rc1 (03 Dec 2021)
 
 
 ## Yet another REST Client library?
@@ -1874,18 +1874,18 @@ session.req("/api/books")
 
 ## Showcase App
 * [Showcase (Latest Release)](https://reinert.github.io/requestor/latest/examples/showcase)
-* [Showcase (0.3.0-SNAPSHOT)](https://reinert.github.io/requestor/0.3.0-SNAPSHOT/examples/showcase)
+* [Showcase (1.1.0-SNAPSHOT)](https://reinert.github.io/requestor/1.1.0-SNAPSHOT/examples/showcase)
 
 ## Documentation
 * [Javadoc](https://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
 * [Project Site (Latest Release)](https://reinert.github.io/requestor/latest)
-* [Project Site (0.3.0-SNAPSHOT)](https://reinert.github.io/requestor/0.3.0-SNAPSHOT)
+* [Project Site (1.1.0-SNAPSHOT)](https://reinert.github.io/requestor/1.1.0-SNAPSHOT)
 
 ## Support
 * [Chat](https://gitter.im/reinert/requestor)
 
 ## Snapshot installation
-If you want to use the latest snapshot, you need to add the sonatype snapshot repository to your POM and set the dependency version to `0.3.0-SNAPSHOT`.
+If you want to use the latest snapshot, you need to add the sonatype snapshot repository to your POM and set the dependency version to `1.1.0-SNAPSHOT`.
 
 ```xml
 <repositories>
@@ -1905,14 +1905,14 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
   <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-gwt</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
   </dependency>
   ...
 </dependencies>
 ```
 
 ### Latest Snapshot
-0.3.0-SNAPSHOT
+1.1.0-SNAPSHOT
 
 ## License
 Requestor is freely distributable under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.html)
