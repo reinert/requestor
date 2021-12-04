@@ -21,8 +21,8 @@ carefully designed features that enable developers to rule the network communica
 * [**URIs**](#uri) - build and parse complicated URIs easily.
 * [**Binary Data**](#binary-data) - upload and download files tracking the progress.
 
-It supports GWT 2.9 and Java 8+ while maintaining backward compatibility with GWT 2.7 and Java 1.5.
-In addition, GWT3 and J2CL support are in the roadmap without breaking API compatibility.
+It is compatible with GWT2 and Java 5+. Implementations for JVM/Android and J2CL are in the roadmap without
+breaking API compatibility.
 
 
 ## Preview
@@ -199,7 +199,7 @@ to implement their requirements keeping **high cohesion** through all their code
 
 Additionally, Requestor was crafted from the Client perspective instead of the Server's (like other rest libraries were thought).
 In that fashion, developers have a more **consistent and intuitive experience** consuming HTTP services while coding. We do not
-need to pre-declare Server API's facades. We can just consume them on demand. This approach empower us to build *micro clients*
+need to pre-declare Server API's façades. We can just consume them on demand. This approach empower us to build *micro clients*
 that interact with many different *micro services*.
 
 Besides, we value **code traceability**. So code generation is the last option in design decisions. Whenever a new requirement appears,
