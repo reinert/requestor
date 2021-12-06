@@ -94,10 +94,10 @@ class JsonObjectSerializerCode {
 
         return CodeBlock.builder()
                 .beginControlFlow("try")
-                .addStatement("return $N.$L($N)",
+                .addStatement("return $N.$L($N.asText())",
                         schema.mapperField.spec(),
                         ObjectMapperMeta.Method.READ,
-                        currentScope.rawJson)
+                        currentScope.payload)
                 .nextControlFlow("catch ($T e)",
                         JsonDeserializationException.class)
                 .addStatement("throw new $T($S + $N.$L().getName(), e)",
@@ -114,6 +114,10 @@ class JsonObjectSerializerCode {
 
         return CodeBlock.builder()
                 .beginControlFlow("try")
+                .addStatement("$T $N = $N.asText()",
+                        String.class,
+                        "text",
+                        currentScope.payload)
                 .beginControlFlow("if ($N.equals($T.class) || $N.equals($T.class) || $N.equals($T.class))",
                         currentScope.collectionClass,
                         List.class,
@@ -125,7 +129,7 @@ class JsonObjectSerializerCode {
                         currentScope.collectionTypeVar,
                         schema.arrayListReaderField.spec(),
                         ObjectReaderMeta.Method.READ,
-                        currentScope.rawJson)
+                        "text")
                 .nextControlFlow("else if ($N.equals($T.class))",
                         currentScope.collectionClass,
                         LinkedList.class)
@@ -133,7 +137,7 @@ class JsonObjectSerializerCode {
                         currentScope.collectionTypeVar,
                         schema.getLinkedListReaderMethod.spec(),
                         ObjectReaderMeta.Method.READ,
-                        currentScope.rawJson)
+                        "text")
                 .nextControlFlow("else if ($N.equals($T.class) || $N.equals($T.class))",
                         currentScope.collectionClass,
                         Set.class,
@@ -143,7 +147,7 @@ class JsonObjectSerializerCode {
                         currentScope.collectionTypeVar,
                         schema.getHashSetReaderMethod.spec(),
                         ObjectReaderMeta.Method.READ,
-                        currentScope.rawJson)
+                        "text")
                 .nextControlFlow("else if ($N.equals($T.class))",
                         currentScope.collectionClass,
                         LinkedHashSet.class)
@@ -151,7 +155,7 @@ class JsonObjectSerializerCode {
                         currentScope.collectionTypeVar,
                         schema.getLinkedHashSetReaderMethod.spec(),
                         ObjectReaderMeta.Method.READ,
-                        currentScope.rawJson)
+                        "text")
                 .nextControlFlow("else if ($N.equals($T.class))",
                         currentScope.collectionClass,
                         LinkedList.class)
@@ -159,11 +163,11 @@ class JsonObjectSerializerCode {
                         currentScope.collectionTypeVar,
                         schema.getTreeSetReaderMethod.spec(),
                         ObjectMapperMeta.Method.READ,
-                        currentScope.rawJson)
+                        "text")
                 .nextControlFlow("else")
                 .addStatement("return super.deserialize($N, $N, $N)",
                         currentScope.collectionClass,
-                        currentScope.rawJson,
+                        currentScope.payload,
                         currentScope.context)
                 .endControlFlow()
                 .nextControlFlow("catch ($T e)",

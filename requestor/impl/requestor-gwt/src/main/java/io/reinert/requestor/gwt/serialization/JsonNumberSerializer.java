@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,46 +41,47 @@ public class JsonNumberSerializer extends JsonValueSerializer<Number> implements
     }
 
     @Override
-    public Number deserialize(String response, DeserializationContext context) {
+    public Number deserialize(SerializedPayload payload, DeserializationContext context) {
         final Class<?> clazz = context.getRequestedType();
+        final String text = payload.asText();
         try {
             if (clazz == Integer.class)
-                return Integer.valueOf(response);
+                return Integer.valueOf(text);
 
             if (clazz == Double.class)
-                return Double.valueOf(response);
+                return Double.valueOf(text);
 
             if (clazz == Long.class)
-                return Long.valueOf(response);
+                return Long.valueOf(text);
 
             if (clazz == BigDecimal.class)
-                return new BigDecimal(response);
+                return new BigDecimal(text);
 
             if (clazz == Short.class)
-                return Short.valueOf(response);
+                return Short.valueOf(text);
 
             if (clazz == BigInteger.class)
-                return new BigInteger(response);
+                return new BigInteger(text);
 
             if (clazz == Byte.class)
-                return Byte.valueOf(response);
+                return Byte.valueOf(text);
 
             // else Number.class, then we must guess the best suit
-            if (response.contains(".")) {
+            if (text.contains(".")) {
                 try {
-                    final Double d = Double.valueOf(response);
-                    return d.isInfinite() || d.isNaN() ? new BigDecimal(response) : d;
+                    final Double d = Double.valueOf(text);
+                    return d.isInfinite() || d.isNaN() ? new BigDecimal(text) : d;
                 } catch (Exception e) {
-                    return new BigDecimal(response);
+                    return new BigDecimal(text);
                 }
             } else {
                 try {
-                    return Integer.valueOf(response);
+                    return Integer.valueOf(text);
                 } catch (Exception e) {
                     try {
-                        return Long.valueOf(response);
+                        return Long.valueOf(text);
                     } catch (Exception e1) {
-                        return new BigInteger(response);
+                        return new BigInteger(text);
                     }
                 }
             }

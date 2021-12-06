@@ -23,6 +23,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 
 /**
@@ -52,7 +53,7 @@ public class OverlaySerializerGwtTest extends GWTTestCase {
         expected.push(create("John Doe", 31));
         expected.push(create("Alice", 27));
 
-        List<JavaScriptObject> output = serializer.deserialize(List.class, input, ctx);
+        List<JavaScriptObject> output = serializer.deserialize(List.class, new SerializedPayload(input), ctx);
         JsArray<JavaScriptObject> outputArray = (JsArray<JavaScriptObject>) JavaScriptObject.createArray();
         outputArray.push(output.get(0));
         outputArray.push(output.get(1));
@@ -64,7 +65,7 @@ public class OverlaySerializerGwtTest extends GWTTestCase {
         final String input = "{\"name\":\"John Doe\",\"age\":31}";
         final JavaScriptObject expected = create("John Doe", 31);
 
-        final JavaScriptObject output = serializer.deserialize(input, null);
+        final JavaScriptObject output = serializer.deserialize(new SerializedPayload(input), null);
 
         assertEquals(JsonSerializer.stringify(expected), JsonSerializer.stringify(output));
     }

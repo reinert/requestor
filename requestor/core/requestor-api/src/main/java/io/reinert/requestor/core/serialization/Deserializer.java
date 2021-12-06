@@ -17,6 +17,8 @@ package io.reinert.requestor.core.serialization;
 
 import java.util.Collection;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
+
 /**
  * Performs deserialization of Types.
  *
@@ -47,12 +49,12 @@ public interface Deserializer<T> {
     /**
      * Deserialize the plain text into an object of type T.
      *
-     * @param response  Http response body content
+     * @param payload   Http response body content
      * @param context   Context of deserialization
      *
      * @return The object deserialized
      */
-    T deserialize(String response, DeserializationContext context);
+    T deserialize(SerializedPayload payload, DeserializationContext context);
 
     /**
      * Deserialize the plain text into a collection T.
@@ -61,10 +63,11 @@ public interface Deserializer<T> {
      * The collection instance can be retrieved from {@link DeserializationContext#getInstance(Class)}.
      *
      * @param collectionType    The class of the collection
-     * @param response          Http response body content
+     * @param payload           Http response body content
      * @param context           Context of deserialization
      *
      * @return The object deserialized
      */
-    <C extends Collection<T>> C deserialize(Class<C> collectionType, String response, DeserializationContext context);
+    <C extends Collection<T>> C deserialize(Class<C> collectionType, SerializedPayload payload,
+                                            DeserializationContext context);
 }

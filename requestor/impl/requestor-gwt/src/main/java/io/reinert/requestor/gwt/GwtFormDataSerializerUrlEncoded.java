@@ -101,12 +101,12 @@ class GwtFormDataSerializerUrlEncoded extends FormDataSerializerUrlEncoded {
     }
 
     @Override
-    public FormData deserialize(String response, DeserializationContext context) {
+    public FormData deserialize(SerializedPayload payload, DeserializationContext context) {
         throw new UnsupportedOperationException("Cannot deserialize to FormData.");
     }
 
     @Override
-    public <C extends Collection<FormData>> C deserialize(Class<C> collectionType, String response,
+    public <C extends Collection<FormData>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                           DeserializationContext context) {
         throw new UnsupportedOperationException("Cannot deserialize to FormData.");
     }

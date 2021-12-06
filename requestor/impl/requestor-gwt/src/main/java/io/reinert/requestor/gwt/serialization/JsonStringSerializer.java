@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,11 @@ public class JsonStringSerializer extends JsonValueSerializer<String> {
     }
 
     @Override
-    public String deserialize(String response, DeserializationContext context) {
-        if (response.startsWith("\"") && response.endsWith("\""))
-            return response.substring(1, response.length() - 1);
-        return response;
+    public String deserialize(SerializedPayload payload, DeserializationContext context) {
+        final String text = payload.asText();
+        if (text.startsWith("\"") && text.endsWith("\""))
+            return text.substring(1, text.length() - 1);
+        return text;
     }
 
     @Override

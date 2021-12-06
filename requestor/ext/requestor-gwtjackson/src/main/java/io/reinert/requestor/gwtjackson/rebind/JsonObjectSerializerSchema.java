@@ -265,13 +265,13 @@ class JsonObjectSerializerSchema {
     }
 
     class DeserializeMethod extends MethodAssembler {
-        final ParameterSpec rawJson = ParameterSpec.builder(String.class, "rawJson").build();
+        final ParameterSpec payload = ParameterSpec.builder(SerializedPayload.class, "payload").build();
         final ParameterSpec context = ParameterSpec.builder(DeserializationContext.class, "ctx").build();
 
         protected MethodSpec.Builder getSignature() {
             return MethodSpec.methodBuilder("deserialize")
                     .returns(typeInfo.getClassName())
-                    .addParameter(rawJson)
+                    .addParameter(payload)
                     .addParameter(context)
                     .addModifiers(Modifier.PUBLIC)
                     .addAnnotation(Override.class);
@@ -294,7 +294,7 @@ class JsonObjectSerializerSchema {
                     .returns(collectionTypeVar)
                     .addTypeVariable(collectionTypeVar)
                     .addParameter(collectionClass)
-                    .addParameter(rawJson)
+                    .addParameter(payload)
                     .addParameter(context)
                     .addModifiers(Modifier.PUBLIC)
                     .addAnnotation(Override.class)

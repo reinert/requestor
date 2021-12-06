@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,23 +62,23 @@ public class BookXmlSerializer implements Serializer<Book> {
         return new SerializedPayload(xmlBuilder.toString());
     }
 
-    public Book deserialize(String response, DeserializationContext context) {
+    public Book deserialize(SerializedPayload payload, DeserializationContext context) {
         Document xml;
         try {
-            xml = XMLParser.parse(response);
+            xml = XMLParser.parse(payload.asText());
         } catch (DOMParseException e) {
             throw new UnableToDeserializeException("Could not read response as xml.", e);
         }
         return parseXmlDocumentAsBook(xml)[0];
     }
 
-    public <C extends Collection<Book>> C deserialize(Class<C> collectionType, String response,
+    public <C extends Collection<Book>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                       DeserializationContext context) {
         C col = context.getInstance(collectionType);
 
         Document xml;
         try {
-            xml = XMLParser.parse(response);
+            xml = XMLParser.parse(payload.asText());
         } catch (DOMParseException e) {
             throw new UnableToDeserializeException("Could not read response as xml.", e);
         }

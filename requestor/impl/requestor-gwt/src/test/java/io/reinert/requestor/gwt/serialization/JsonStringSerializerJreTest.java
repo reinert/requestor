@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 
 import org.junit.Test;
@@ -44,14 +45,14 @@ public class JsonStringSerializerJreTest {
         Collection<String> expected = Arrays.asList("some", "any");
 
         @SuppressWarnings("unchecked")
-        Collection<String> output = serializer.deserialize(List.class, input, context);
+        Collection<String> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void deserializeValue() throws Exception {
-        assertEquals("some", serializer.deserialize("\"some\"", null));
+        assertEquals("some", serializer.deserialize(new SerializedPayload("\"some\""), null));
     }
 
     @Test

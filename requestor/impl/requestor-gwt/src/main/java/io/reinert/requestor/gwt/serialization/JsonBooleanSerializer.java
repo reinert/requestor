@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ public class JsonBooleanSerializer extends JsonValueSerializer<Boolean> {
     }
 
     @Override
-    public Boolean deserialize(String response, DeserializationContext context) {
-        return Boolean.valueOf(response);
+    public Boolean deserialize(SerializedPayload payload, DeserializationContext context) {
+        return Boolean.valueOf(payload.asText());
     }
 
     @Override

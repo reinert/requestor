@@ -348,11 +348,11 @@ public class AutoBeanModulesGenerator extends Generator {
 
         // deserialize - deserialize single object using ObjectMapper
         print(w, String.format("    @Override"));
-        print(w, String.format("    public %s deserialize(String s, DeserializationContext ctx) {",
+        print(w, String.format("    public %s deserialize(SerializedPayload payload, DeserializationContext ctx) {",
                 qualifiedSourceName));
         print(w, String.format("        try {"));
-        print(w, String.format("            return AutoBeanCodex.decode(%s, %s.class, s).as();", factoryFieldName,
-                qualifiedSourceName));
+        print(w, String.format("            return AutoBeanCodex.decode(%s, %s.class, payload.asText()).as();",
+                factoryFieldName, qualifiedSourceName));
         print(w, String.format("        } catch (java.lang.Exception e) {"));
         print(w, String.format("            throw new UnableToDeserializeException(\"The auto-generated AutoBean" +
                 " deserializer failed to deserialize the response body to \" + ctx.getRequestedType().getName() +" +
@@ -364,8 +364,9 @@ public class AutoBeanModulesGenerator extends Generator {
         // deserialize
         print(w, String.format("    @Override"));
         print(w, String.format("    public <C extends Collection<%s>> C deserialize(Class<C> c, " +
-                "String s, DeserializationContext ctx) {", qualifiedSourceName));
+                "SerializedPayload payload, DeserializationContext ctx) {", qualifiedSourceName));
         print(w, String.format("        try {"));
+        print(w, String.format("            final String s = payload.asText();"));
         print(w, String.format("            if (c == List.class || c == Collection.class)"));
         print(w, String.format("                return (C) AutoBeanCodex.decode(%s, %s.class, " +
                 "\"{\\\"result\\\":\" + s + \"}\").as().getResult();", factoryFieldName, listWrapperTypeName));
@@ -375,7 +376,7 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format("            else"));
         // TODO: improve this by not requiring parsing the json to an js array and latter stringifying it
         // An alternative would be manually traverse the json array and passing each json object to serialize method
-        print(w, String.format("                return super.deserialize(c, s, ctx);"));
+        print(w, String.format("                return super.deserialize(c, payload, ctx);"));
         print(w, String.format("        } catch (java.lang.Exception e) {"));
         print(w, String.format("            throw new UnableToDeserializeException(\"The auto-generated AutoBean" +
                 " deserializer failed to deserialize the response body  to \" + c.getName() + \"<\" +" +

@@ -406,32 +406,35 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         }
 
         @Override
-        public MyObject deserialize(String response, DeserializationContext context) {
-            int stringFieldStart = response.indexOf("<stringField>") + 13;
-            int stringFieldEnd = response.indexOf("</stringField>", stringFieldStart);
-            String stringField = response.substring(stringFieldStart, stringFieldEnd);
+        public MyObject deserialize(SerializedPayload serializedPayload, DeserializationContext context) {
+            final String payload = serializedPayload.asText();
+            int stringFieldStart = payload.indexOf("<stringField>") + 13;
+            int stringFieldEnd = payload.indexOf("</stringField>", stringFieldStart);
+            String stringField = payload.substring(stringFieldStart, stringFieldEnd);
 
-            int intFieldStart = response.indexOf("<intField>", stringFieldEnd) + 10;
-            int intFieldEnd = response.indexOf("</intField>", intFieldStart);
-            int intField = Integer.parseInt(response.substring(intFieldStart, intFieldEnd));
+            int intFieldStart = payload.indexOf("<intField>", stringFieldEnd) + 10;
+            int intFieldEnd = payload.indexOf("</intField>", intFieldStart);
+            int intField = Integer.parseInt(payload.substring(intFieldStart, intFieldEnd));
 
-            int dateFieldStart = response.indexOf("<dateField>", intFieldEnd) + 11;
-            int dateFieldEnd = response.indexOf("</dateField>", dateFieldStart);
-            Date dateField = new Date(Long.parseLong(response.substring(dateFieldStart, dateFieldEnd)));
+            int dateFieldStart = payload.indexOf("<dateField>", intFieldEnd) + 11;
+            int dateFieldEnd = payload.indexOf("</dateField>", dateFieldStart);
+            Date dateField = new Date(Long.parseLong(payload.substring(dateFieldStart, dateFieldEnd)));
 
             return new MyObject(stringField, intField, dateField);
         }
 
         @Override
-        public <C extends Collection<MyObject>> C deserialize(Class<C> collectionType, String response,
+        public <C extends Collection<MyObject>> C deserialize(Class<C> collectionType,
+                                                              SerializedPayload serializedPayload,
                                                               DeserializationContext ctx) {
             C collection = ctx.getInstance(collectionType);
+            final String payload = serializedPayload.asText();
 
-            int nextStart = response.indexOf("<my>");
+            int nextStart = payload.indexOf("<my>");
             while (nextStart != -1) {
-                int nextEnd = response.indexOf("</my>", nextStart);
-                collection.add(deserialize(response.substring(nextStart + 4, nextEnd), ctx));
-                nextStart = response.indexOf("<my>", nextEnd);
+                int nextEnd = payload.indexOf("</my>", nextStart);
+                collection.add(deserialize(new SerializedPayload(payload.substring(nextStart + 4, nextEnd)), ctx));
+                nextStart = payload.indexOf("<my>", nextEnd);
             }
 
             return collection;

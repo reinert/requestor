@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,14 +46,14 @@ public class OverlaySerializer implements Serializer<JavaScriptObject> {
     }
 
     @Override
-    public JavaScriptObject deserialize(String response, DeserializationContext context) {
-        return eval(response);
+    public JavaScriptObject deserialize(SerializedPayload payload, DeserializationContext context) {
+        return eval(payload.asText());
     }
 
     @Override
-    public <C extends Collection<JavaScriptObject>> C deserialize(Class<C> collectionType, String response,
+    public <C extends Collection<JavaScriptObject>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                                   DeserializationContext context) {
-        JsArray<JavaScriptObject> jsArray = eval(response);
+        JsArray<JavaScriptObject> jsArray = eval(payload.asText());
         C col = context.getInstance(collectionType);
         for (int i = 0; i < jsArray.length(); i++) {
             JavaScriptObject t = jsArray.get(i);

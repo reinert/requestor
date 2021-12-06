@@ -49,12 +49,12 @@ public class VoidSerializer implements Serializer<Void> {
     }
 
     @Override
-    public Void deserialize(String response, DeserializationContext context) {
+    public Void deserialize(SerializedPayload payload, DeserializationContext context) {
         return null;
     }
 
     @Override
-    public <C extends Collection<Void>> C deserialize(Class<C> collectionType, String response,
+    public <C extends Collection<Void>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                       DeserializationContext context) {
         return null;
     }

@@ -737,7 +737,7 @@ class BookXmlSerializer implements Serializer<Book> {
     }
 
     @Override
-    public String serialize(Book book, SerializationContext ctx) {
+    public SerializedPayload serialize(Book book, SerializationContext ctx) {
         return new SerializedPayload(
                 "<book><title>" + book.getTitle() + "</title>"
                 + "<author>" + book.getAuthor() + "</author>"
@@ -753,7 +753,8 @@ class BookXmlSerializer implements Serializer<Book> {
     }
 
     @Override
-    public Book deserialize(String response, DeserializationContext ctx) {
+    public Book deserialize(SerializedPayload payload, DeserializationContext ctx) {
+        String response = payload.asText();
         int titleStart = response.indexOf("<title>") + 7;
         int titleEnd = response.indexOf("</title>", titleStart);
         String title = response.substring(titleStart, titleEnd);
@@ -770,13 +771,14 @@ class BookXmlSerializer implements Serializer<Book> {
     }
 
     @Override
-    public <C extends Collection<Book>> C deserialize(Class<C> collectionType, String response, DeserializationContext ctx) {
+    public <C extends Collection<Book>> C deserialize(Class<C> collectionType, SerializedPayload payload, DeserializationContext ctx) {
+        String response = payload.asText();
         C collection = ctx.getInstance(collectionType);
 
         int cursor = response.indexOf("<book>");
         while (cursor != -1) {
             int cursorEnd = response.indexOf("</book>", cursor);
-            collection.add(deserialize(response.substring(cursor + 6, cursorEnd), ctx));
+            collection.add(deserialize(new SerializedPayload(response.substring(cursor + 6, cursorEnd)), ctx));
             cursor = response.indexOf("<book>", cursorEnd);
         }
 

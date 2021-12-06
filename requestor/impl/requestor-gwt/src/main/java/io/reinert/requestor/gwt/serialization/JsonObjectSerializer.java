@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,23 +79,25 @@ public abstract class JsonObjectSerializer<T> extends JsonSerializer<T> {
     public abstract void writeJson(T t, JsonRecordWriter writer, SerializationContext context);
 
     @Override
-    public T deserialize(String response, DeserializationContext context) {
-        if (!isObject(response))
+    public T deserialize(SerializedPayload payload, DeserializationContext context) {
+        final String text = payload.asText();
+        if (!isObject(text))
             throw new UnableToDeserializeException("Response content is not an object");
 
-        final JavaScriptObject deserialized = eval(response);
+        final JavaScriptObject deserialized = eval(text);
         return readJson((JsonRecordReader) deserialized, context);
     }
 
     @Override
-    public <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
+    public <C extends Collection<T>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                    DeserializationContext context) {
-        if (!isArray(response))
+        final String text = payload.asText();
+        if (!isArray(text))
             throw new UnableToDeserializeException("Response content is not an array.");
 
         C col = context.getInstance(collectionType);
         @SuppressWarnings("unchecked")
-        JsArray<JavaScriptObject> jsArray = (JsArray<JavaScriptObject>) eval(response);
+        JsArray<JavaScriptObject> jsArray = (JsArray<JavaScriptObject>) eval(text);
         for (int i = 0; i < jsArray.length(); i++) {
             JavaScriptObject jso = jsArray.get(i);
             col.add(readJson((JsonRecordReader) jso, context));

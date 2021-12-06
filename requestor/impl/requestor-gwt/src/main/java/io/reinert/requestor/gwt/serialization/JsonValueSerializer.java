@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Danilo Reinert
+ * Copyright 2014-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package io.reinert.requestor.gwt.serialization;
 
 import java.util.Collection;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 
@@ -34,21 +35,21 @@ public abstract class JsonValueSerializer<T> extends JsonSerializer<T> {
     }
 
     @Override
-    public <C extends Collection<T>> C deserialize(Class<C> collectionType, String response,
+    public <C extends Collection<T>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                    DeserializationContext context) {
-        final String trimmedResponse = response.trim();
-        if (!isArray(trimmedResponse))
+        final String trimmedPayload = payload.asText().trim();
+        if (!isArray(trimmedPayload))
             throw new UnableToDeserializeException("Response content is not an array.");
 
         C col = context.getInstance(collectionType);
 
         int initialIndex = 1;
-        final int lastIndex = trimmedResponse.length() - 1;
+        final int lastIndex = trimmedPayload.length() - 1;
         while (initialIndex < lastIndex) {
-            int finalIndex = trimmedResponse.indexOf(",", initialIndex);
-            if (finalIndex == -1) finalIndex = trimmedResponse.indexOf("]", initialIndex);
-            final String trimmedValue = trimmedResponse.substring(initialIndex, finalIndex).trim();
-            col.add(deserialize(trimmedValue, context));
+            int finalIndex = trimmedPayload.indexOf(",", initialIndex);
+            if (finalIndex == -1) finalIndex = trimmedPayload.indexOf("]", initialIndex);
+            final String trimmedValue = trimmedPayload.substring(initialIndex, finalIndex).trim();
+            col.add(deserialize(new SerializedPayload(trimmedValue), context));
             initialIndex = finalIndex + 1;
         }
 

@@ -76,15 +76,15 @@ public class TextSerializer implements Serializer<String> {
     }
 
     @Override
-    public String deserialize(String response, DeserializationContext context) {
-        return response;
+    public String deserialize(SerializedPayload payload, DeserializationContext context) {
+        return payload.asText();
     }
 
     @Override
-    public <C extends Collection<String>> C deserialize(Class<C> collectionType, String response,
+    public <C extends Collection<String>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                         DeserializationContext context) {
         final C col = context.getInstance(collectionType);
-        col.addAll(Arrays.asList(response.split(SEPARATOR)));
+        col.addAll(Arrays.asList(payload.asText().split(SEPARATOR)));
         return col;
     }
 }

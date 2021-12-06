@@ -289,7 +289,8 @@
             <br/>&#32;&#32;&#32;&#32;}
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
-            <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(String response, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(SerializedPayload payload, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asText();
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldStart = response.indexOf(&quot;&lt;stringField&gt;&quot;) + 13;
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldEnd = response.indexOf(&quot;&lt;/stringField&gt;&quot;, stringFieldStart);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String stringField = response.substring(stringFieldStart, stringFieldEnd);
@@ -306,13 +307,14 @@
             <br/>&#32;&#32;&#32;&#32;}
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
-            <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, String response, DeserializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, SerializedPayload payload, DeserializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asText();
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;C collection = ctx.getInstance(collectionType);
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;while (nextStart != -1) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextEnd = response.indexOf(&quot;&lt;/my&gt;&quot;, nextStart);
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(response.substring(nextStart + 4, nextEnd), ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(new SerializedPayload(response.substring(nextStart + 4, nextEnd)), ctx));
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nextStart = response.indexOf(&quot;&lt;my&gt;&quot;, nextEnd);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>
@@ -380,7 +382,8 @@
             <br/>&#32;&#32;&#32;&#32;}
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
-            <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(String response, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(SerializedPayload payload, DeserializationContext context) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asText();
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldStart = response.indexOf(&quot;&lt;stringField&gt;&quot;) + 13;
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldEnd = response.indexOf(&quot;&lt;/stringField&gt;&quot;, stringFieldStart);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String stringField = response.substring(stringFieldStart, stringFieldEnd);
@@ -397,13 +400,14 @@
             <br/>&#32;&#32;&#32;&#32;}
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
-            <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, String response, DeserializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, SerializedPayload payload, DeserializationContext ctx) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asText();
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;C collection = ctx.getInstance(collectionType);
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;while (nextStart != -1) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextEnd = response.indexOf(&quot;&lt;/my&gt;&quot;, nextStart);
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(response.substring(nextStart + 4, nextEnd), ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(new SerializedPayload(response.substring(nextStart + 4, nextEnd)), ctx));
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nextStart = response.indexOf(&quot;&lt;my&gt;&quot;, nextEnd);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>
