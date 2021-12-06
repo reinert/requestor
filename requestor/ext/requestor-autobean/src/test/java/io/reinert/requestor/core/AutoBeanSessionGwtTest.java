@@ -110,7 +110,7 @@ public class AutoBeanSessionGwtTest extends GWTTestCase {
         // the class name. SerializerManagerImpl already handle this issue for matching.
         final Animal autoBeanInstance = session.getInstance(Animal.class);
         final String autoBeanRunTimeClassName = autoBeanInstance.getClass().getName();
-        final String autoBeanGeneratedClassName = ((HandlesSubTypes) serializer).handledSubTypes()[0].getName();
+        final String autoBeanGeneratedClassName = ((HandlesSubTypes<?>) serializer).handledSubTypes().get(0).getName();
         assertTrue(autoBeanRunTimeClassName.contains(autoBeanGeneratedClassName));
     }
 

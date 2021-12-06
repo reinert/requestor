@@ -17,6 +17,8 @@ package io.reinert.requestor.gwt.serialization;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.List;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
@@ -29,12 +31,12 @@ import io.reinert.requestor.core.serialization.UnableToDeserializeException;
  *
  * @author Danilo Reinert
  */
-public class JsonNumberSerializer extends JsonValueSerializer<Number> implements HandlesSubTypes {
+public class JsonNumberSerializer extends JsonValueSerializer<Number> implements HandlesSubTypes<Number> {
 
     public static boolean SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING;
 
-    private static final Class<?>[] IMPL_CLASSES = new Class<?>[]{Byte.class, Short.class, Integer.class,
-            Double.class, Long.class, BigInteger.class, BigDecimal.class};
+    private static final List<Class<? extends Number>> IMPL_CLASSES = Arrays.<Class<? extends Number>>asList(Byte.class,
+            Short.class, Integer.class, Double.class, Long.class, BigInteger.class, BigDecimal.class);
 
     public JsonNumberSerializer() {
         super(Number.class);
@@ -91,7 +93,7 @@ public class JsonNumberSerializer extends JsonValueSerializer<Number> implements
     }
 
     @Override
-    public Class<?>[] handledSubTypes() {
+    public List<Class<? extends Number>> handledSubTypes() {
         return IMPL_CLASSES;
     }
 

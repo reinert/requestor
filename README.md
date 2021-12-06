@@ -790,12 +790,12 @@ class BookXmlSerializer implements Serializer<Book> {
 #### Inheritance
 
 Additionally, when the `Serializer` should handle sub-types of the target type, we can extend 
-the `HandlesSubTypes` interface and implement the `handledSubTypes` method, like below: 
+the `HandlesSubTypes<T>` interface and implement the `handledSubTypes` method, like below: 
 
 
 ```java
 // Implement the HandlesSubTypes interface
-class BookXmlSerializer implements Serializer<Book>, HandlesSubTypes {
+class BookXmlSerializer implements Serializer<Book>, HandlesSubTypes<Book> {
 
     @Override
     public Class<Book> handledType() {
@@ -803,9 +803,9 @@ class BookXmlSerializer implements Serializer<Book>, HandlesSubTypes {
     }
 
     @Override
-    public Class<?>[] handledSubTypes() {
+    public List<Class<? extends Book>> handledSubTypes() {
         // Return other types that this serializer handles
-        return new Class<?>[]{ AudioBook.class, HardBook.class };
+        return Arrays.asList( AudioBook.class, HardBook.class );
     }
     
     // rest of the serializer ...

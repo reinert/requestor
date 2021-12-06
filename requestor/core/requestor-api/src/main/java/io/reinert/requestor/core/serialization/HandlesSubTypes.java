@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2021 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,14 @@
  */
 package io.reinert.requestor.core.serialization;
 
+import java.util.List;
+
 /**
  * It tells the {@link io.reinert.requestor.core.SerializerManager} to register an abstraction to
  * handle one or more subtypes
  *
  * @author Danilo Reinert
  */
-public interface HandlesSubTypes {
-    Class<?>[] handledSubTypes();
+public interface HandlesSubTypes<T> {
+    List<Class<? extends T>> handledSubTypes();
 }

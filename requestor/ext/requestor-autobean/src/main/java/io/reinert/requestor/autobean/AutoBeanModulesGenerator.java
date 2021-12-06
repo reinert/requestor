@@ -17,6 +17,7 @@ package io.reinert.requestor.autobean;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -291,12 +292,11 @@ public class AutoBeanModulesGenerator extends Generator {
         final String serializerTypeName = getTypeName(type) + "Serializer";
 
         // serializer field as anonymous class
-        print(w, String.format("private static class %s extends JsonObjectSerializer<%s> implements %s {",
-                serializerTypeName,
-                qualifiedSourceName, HandlesSubTypes.class.getSimpleName()));
+        print(w, String.format("private static class %s extends JsonObjectSerializer<%s> implements %s<%s> {",
+                serializerTypeName, qualifiedSourceName, HandlesSubTypes.class.getSimpleName(), qualifiedSourceName));
 
         // static field for impl array
-        print(w, String.format("    private static Class<?>[] IMPL = null;"));
+        print(w, String.format("    private static List<Class<? extends %s>> IMPL = null;", qualifiedSourceName));
 
         // static field to content-types
         print(w, String.format("    private static final String[] PATTERNS = new String[]{ %s };",
@@ -312,9 +312,10 @@ public class AutoBeanModulesGenerator extends Generator {
         // subTypes
         final String autoBeanInstanceClass = typeProviderFieldName + ".getInstance().getClass()";
         print(w, String.format("    @Override"));
-        print(w, String.format("    public Class<?>[] handledSubTypes() {"));
+        print(w, String.format("    public List<Class<? extends %s>> handledSubTypes() {", qualifiedSourceName));
         print(w, String.format("        if (IMPL == null)"));
-        print(w, String.format("            IMPL = new Class<?>[]{ %s };", autoBeanInstanceClass));
+        print(w, String.format("            IMPL = Arrays.<Class<? extends %s>>asList( (Class<? extends %s>) %s );",
+                qualifiedSourceName, qualifiedSourceName, autoBeanInstanceClass));
         print(w, String.format("        return IMPL;"));
         print(w, String.format("    }"));
         print(w, String.format(""));
@@ -473,6 +474,7 @@ public class AutoBeanModulesGenerator extends Generator {
         String[] imports = new String[]{
                 // java.util
                 ArrayList.class.getCanonicalName(),
+                Arrays.class.getCanonicalName(),
                 Collection.class.getCanonicalName(),
                 List.class.getCanonicalName(),
                 Iterator.class.getCanonicalName(),

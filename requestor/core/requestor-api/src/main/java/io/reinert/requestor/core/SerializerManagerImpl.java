@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -250,13 +251,14 @@ class SerializerManagerImpl implements SerializerManager {
                 deserializer.handledType(), deserializer.mediaType());
 
         if (deserializer instanceof HandlesSubTypes) {
-            Class<?>[] impls = ((HandlesSubTypes) deserializer).handledSubTypes();
+            @SuppressWarnings("unchecked")
+            List<Class<?>> impls = ((HandlesSubTypes) deserializer).handledSubTypes();
 
-            final Registration[] regs = new Registration[impls.length + 1];
+            final Registration[] regs = new Registration[impls.size() + 1];
             regs[0] = reg;
 
-            for (int i = 0; i < impls.length; i++) {
-                Class<?> impl = impls[i];
+            for (int i = 0; i < impls.size(); i++) {
+                Class<?> impl = impls.get(i);
                 regs[i + 1] = bindDeserializerToType(deserializerProvider, impl, deserializer.mediaType());
             }
 
@@ -279,13 +281,14 @@ class SerializerManagerImpl implements SerializerManager {
                 serializer.mediaType());
 
         if (serializer instanceof HandlesSubTypes) {
-            Class<?>[] impls = ((HandlesSubTypes) serializer).handledSubTypes();
+            @SuppressWarnings("unchecked")
+            List<Class<?>> impls = ((HandlesSubTypes) serializer).handledSubTypes();
 
-            final Registration[] regs = new Registration[impls.length + 1];
+            final Registration[] regs = new Registration[impls.size() + 1];
             regs[0] = reg;
 
-            for (int i = 0; i < impls.length; i++) {
-                Class<?> impl = impls[i];
+            for (int i = 0; i < impls.size(); i++) {
+                Class<?> impl = impls.get(i);
                 regs[i + 1] = bindSerializerToType(serializerProvider, impl, serializer.mediaType());
             }
 
