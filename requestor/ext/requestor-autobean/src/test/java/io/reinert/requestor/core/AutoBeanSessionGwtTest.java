@@ -163,7 +163,7 @@ public class AutoBeanSessionGwtTest extends GWTTestCase {
         input.setAge(3);
 
         // When
-        final String output = serializer.serialize(input, null).asText();
+        final String output = serializer.serialize(input, null).asString();
 
         // Then
         assertEquals(expected, output);
@@ -184,7 +184,7 @@ public class AutoBeanSessionGwtTest extends GWTTestCase {
         List<Animal> input = Arrays.asList(a0, a1);
 
         // When
-        String output = serializer.serialize(input, null).asText();
+        String output = serializer.serialize(input, null).asString();
 
         // Then
         assertEquals(expected, output);

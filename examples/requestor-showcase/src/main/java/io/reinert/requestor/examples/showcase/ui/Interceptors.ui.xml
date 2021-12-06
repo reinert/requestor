@@ -35,7 +35,7 @@
         <pre ui:field="requestInterceptor" class="java">
           <code>session.register(new RequestInterceptor() {
             <br/>&#32;&#32;&#32;&#32;public void intercept(SerializedRequestInProcess request) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final String rawPayload = request.getSerializedPayload().asText();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final String rawPayload = request.getSerializedPayload().asString();
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* create a new payload prepending &quot;)]}',\n&quot; to the serialized jsons */
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SerializedPayload escapedPayload = new SerializedPayload(&quot;)]}',\\n&quot; + rawPayload);
@@ -103,7 +103,7 @@
         <pre ui:field="responseInterceptor" class="java">
           <code>session.register(new ResponseInterceptor() {
             <br/>&#32;&#32;&#32;&#32;public void intercept(SerializedResponseInProcess response) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final String rawPayload = response.getSerializedPayload().asText();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final String rawPayload = response.getSerializedPayload().asString();
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* create a new payload removing first 6 chars )]}',\n */
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SerializedPayload unscapedPayload = new SerializedPayload(rawPayload.substring(6));

@@ -47,13 +47,13 @@ public class OverlaySerializer implements Serializer<JavaScriptObject> {
 
     @Override
     public JavaScriptObject deserialize(SerializedPayload payload, DeserializationContext context) {
-        return eval(payload.asText());
+        return eval(payload.asString());
     }
 
     @Override
     public <C extends Collection<JavaScriptObject>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                                   DeserializationContext context) {
-        JsArray<JavaScriptObject> jsArray = eval(payload.asText());
+        JsArray<JavaScriptObject> jsArray = eval(payload.asString());
         C col = context.getInstance(collectionType);
         for (int i = 0; i < jsArray.length(); i++) {
             JavaScriptObject t = jsArray.get(i);

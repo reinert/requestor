@@ -41,11 +41,11 @@ public class SerializedPayload {
     }
 
     /**
-     * Returns the string value if this payload is of String type.
+     * Returns this serialized payload as string.
      *
      * @return The payload as String
      */
-    public String asText() {
+    public String asString() {
         return string == null ? "" : string;
     }
 }

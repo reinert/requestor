@@ -77,14 +77,14 @@ public class TextSerializer implements Serializer<String> {
 
     @Override
     public String deserialize(SerializedPayload payload, DeserializationContext context) {
-        return payload.asText();
+        return payload.asString();
     }
 
     @Override
     public <C extends Collection<String>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                         DeserializationContext context) {
         final C col = context.getInstance(collectionType);
-        col.addAll(Arrays.asList(payload.asText().split(SEPARATOR)));
+        col.addAll(Arrays.asList(payload.asString().split(SEPARATOR)));
         return col;
     }
 }

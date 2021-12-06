@@ -62,7 +62,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         // Add the interceptor and hold the reg
         final Registration reg = session.register(new RequestInterceptor() {
             public void intercept(SerializedRequestInProcess request) {
-                final String rawPayload = request.getSerializedPayload().asText();
+                final String rawPayload = request.getSerializedPayload().asString();
 
                 // create a new payload prepending ")]}',\n" to the serialized jsons
                 SerializedPayload escapedPayload = new SerializedPayload(")]}',\\n" + rawPayload);
@@ -98,7 +98,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
         // Add the interceptor and hold the reg
         final Registration reg = session.register(new ResponseInterceptor() {
             public void intercept(SerializedResponseInProcess response) {
-                final String rawPayload = response.getSerializedPayload().asText();
+                final String rawPayload = response.getSerializedPayload().asString();
 
                 // create a new payload removing first 6 chars )]}',\n
                 SerializedPayload unscapedPayload = new SerializedPayload(rawPayload.substring(6));

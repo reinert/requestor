@@ -290,7 +290,7 @@
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
             <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(SerializedPayload payload, DeserializationContext context) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asText();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asString();
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldStart = response.indexOf(&quot;&lt;stringField&gt;&quot;) + 13;
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldEnd = response.indexOf(&quot;&lt;/stringField&gt;&quot;, stringFieldStart);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String stringField = response.substring(stringFieldStart, stringFieldEnd);
@@ -308,7 +308,7 @@
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
             <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, SerializedPayload payload, DeserializationContext ctx) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asText();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asString();
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;C collection = ctx.getInstance(collectionType);
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);
@@ -383,7 +383,7 @@
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
             <br/>&#32;&#32;&#32;&#32;public MyObject deserialize(SerializedPayload payload, DeserializationContext context) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asText();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asString();
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldStart = response.indexOf(&quot;&lt;stringField&gt;&quot;) + 13;
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int stringFieldEnd = response.indexOf(&quot;&lt;/stringField&gt;&quot;, stringFieldStart);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String stringField = response.substring(stringFieldStart, stringFieldEnd);
@@ -401,7 +401,7 @@
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
             <br/>&#32;&#32;&#32;&#32;public &lt;C extends Collection&lt;MyObject&gt;&gt; C deserialize(Class&lt;C&gt; collectionType, SerializedPayload payload, DeserializationContext ctx) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asText();
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;String response = payload.asString();
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;C collection = ctx.getInstance(collectionType);
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);

@@ -80,7 +80,7 @@ public abstract class JsonObjectSerializer<T> extends JsonSerializer<T> {
 
     @Override
     public T deserialize(SerializedPayload payload, DeserializationContext context) {
-        final String text = payload.asText();
+        final String text = payload.asString();
         if (!isObject(text))
             throw new UnableToDeserializeException("Response content is not an object");
 
@@ -91,7 +91,7 @@ public abstract class JsonObjectSerializer<T> extends JsonSerializer<T> {
     @Override
     public <C extends Collection<T>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                    DeserializationContext context) {
-        final String text = payload.asText();
+        final String text = payload.asString();
         if (!isArray(text))
             throw new UnableToDeserializeException("Response content is not an array.");
 

@@ -65,7 +65,7 @@ public class BookXmlSerializer implements Serializer<Book> {
     public Book deserialize(SerializedPayload payload, DeserializationContext context) {
         Document xml;
         try {
-            xml = XMLParser.parse(payload.asText());
+            xml = XMLParser.parse(payload.asString());
         } catch (DOMParseException e) {
             throw new UnableToDeserializeException("Could not read response as xml.", e);
         }
@@ -78,7 +78,7 @@ public class BookXmlSerializer implements Serializer<Book> {
 
         Document xml;
         try {
-            xml = XMLParser.parse(payload.asText());
+            xml = XMLParser.parse(payload.asString());
         } catch (DOMParseException e) {
             throw new UnableToDeserializeException("Could not read response as xml.", e);
         }

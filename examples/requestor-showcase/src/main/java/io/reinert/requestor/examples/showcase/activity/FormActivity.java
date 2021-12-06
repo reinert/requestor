@@ -66,7 +66,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                     public void execute(Response response) {
                         // the payload is parsed as string by default
                         // to change it, we can set the desired responseType in the RequestBuilder
-                        final String payload = response.getSerializedPayload().asText();
+                        final String payload = response.getSerializedPayload().asString();
                         view.setWrappingText(payload);
                     }
                 });
@@ -93,7 +93,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                     public void execute(Response response) {
                         // the payload is parsed as string by default
                         // to change it, we can set the desired responseType in the RequestBuilder
-                        final String payload = response.getSerializedPayload().asText();
+                        final String payload = response.getSerializedPayload().asString();
                         view.setBuildingText(payload);
                     }
                 });
@@ -121,7 +121,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                     public void execute(Response response) {
                         // the payload is parsed as string by default
                         // to change it, we can set the desired responseType in the RequestBuilder
-                        final String payload = response.getSerializedPayload().asText();
+                        final String payload = response.getSerializedPayload().asString();
                         view.setBuildingUrlEncodedText(payload);
                     }
                 });

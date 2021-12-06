@@ -133,7 +133,7 @@ public class JsonSessionGwtTest extends GWTTestCase {
         final Animal input = new Animal("Stuart", 3);
 
         // When
-        final String output = serializer.serialize(input, null).asText();
+        final String output = serializer.serialize(input, null).asString();
 
         // Then
         assertEquals(expected, output);
@@ -147,7 +147,7 @@ public class JsonSessionGwtTest extends GWTTestCase {
         List<Animal> input = Arrays.asList(new Animal("Stuart", 3), new Animal("March", 5));
 
         // When
-        String output = serializer.serialize(input, null).asText();
+        String output = serializer.serialize(input, null).asString();
 
         // Then
         assertEquals(expected, output);

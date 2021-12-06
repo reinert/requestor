@@ -351,7 +351,7 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format("    public %s deserialize(SerializedPayload payload, DeserializationContext ctx) {",
                 qualifiedSourceName));
         print(w, String.format("        try {"));
-        print(w, String.format("            return AutoBeanCodex.decode(%s, %s.class, payload.asText()).as();",
+        print(w, String.format("            return AutoBeanCodex.decode(%s, %s.class, payload.asString()).as();",
                 factoryFieldName, qualifiedSourceName));
         print(w, String.format("        } catch (java.lang.Exception e) {"));
         print(w, String.format("            throw new UnableToDeserializeException(\"The auto-generated AutoBean" +
@@ -366,7 +366,7 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format("    public <C extends Collection<%s>> C deserialize(Class<C> c, " +
                 "SerializedPayload payload, DeserializationContext ctx) {", qualifiedSourceName));
         print(w, String.format("        try {"));
-        print(w, String.format("            final String s = payload.asText();"));
+        print(w, String.format("            final String s = payload.asString();"));
         print(w, String.format("            if (c == List.class || c == Collection.class)"));
         print(w, String.format("                return (C) AutoBeanCodex.decode(%s, %s.class, " +
                 "\"{\\\"result\\\":\" + s + \"}\").as().getResult();", factoryFieldName, listWrapperTypeName));

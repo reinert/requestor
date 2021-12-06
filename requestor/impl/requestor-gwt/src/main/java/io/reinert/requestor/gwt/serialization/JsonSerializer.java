@@ -54,7 +54,7 @@ public abstract class JsonSerializer<T> implements Serializer<T> {
     public SerializedPayload serialize(Collection<T> c, SerializationContext context) {
         StringBuilder serialized = new StringBuilder("[");
         for (T t : c) {
-            serialized.append(serialize(t, context).asText()).append(',');
+            serialized.append(serialize(t, context).asString()).append(',');
         }
         serialized.setCharAt(serialized.length() - 1, ']');
         return new SerializedPayload(serialized.toString());

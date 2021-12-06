@@ -37,7 +37,7 @@ public abstract class JsonValueSerializer<T> extends JsonSerializer<T> {
     @Override
     public <C extends Collection<T>> C deserialize(Class<C> collectionType, SerializedPayload payload,
                                                    DeserializationContext context) {
-        final String trimmedPayload = payload.asText().trim();
+        final String trimmedPayload = payload.asString().trim();
         if (!isArray(trimmedPayload))
             throw new UnableToDeserializeException("Response content is not an array.");
 

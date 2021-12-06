@@ -43,7 +43,7 @@ public class JsonNumberSerializer extends JsonValueSerializer<Number> implements
     @Override
     public Number deserialize(SerializedPayload payload, DeserializationContext context) {
         final Class<?> clazz = context.getRequestedType();
-        final String text = payload.asText();
+        final String text = payload.asString();
         try {
             if (clazz == Integer.class)
                 return Integer.valueOf(text);

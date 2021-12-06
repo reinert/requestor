@@ -32,7 +32,7 @@ public class JsonBooleanSerializer extends JsonValueSerializer<Boolean> {
 
     @Override
     public Boolean deserialize(SerializedPayload payload, DeserializationContext context) {
-        return Boolean.valueOf(payload.asText());
+        return Boolean.valueOf(payload.asString());
     }
 
     @Override

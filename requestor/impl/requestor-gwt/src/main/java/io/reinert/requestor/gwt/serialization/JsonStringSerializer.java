@@ -32,7 +32,7 @@ public class JsonStringSerializer extends JsonValueSerializer<String> {
 
     @Override
     public String deserialize(SerializedPayload payload, DeserializationContext context) {
-        final String text = payload.asText();
+        final String text = payload.asString();
         if (text.startsWith("\"") && text.endsWith("\""))
             return text.substring(1, text.length() - 1);
         return text;

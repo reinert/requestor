@@ -73,7 +73,7 @@ public class SerializedJsPayload extends SerializedPayload {
     }
 
     public boolean isTextAvailable() {
-        return asText() != null;
+        return asString() != null;
     }
 
     public boolean isJsoAvailable() {
@@ -96,7 +96,7 @@ public class SerializedJsPayload extends SerializedPayload {
 
     @Override
     public String toString() {
-        return javaScriptObject != null ? stringify(javaScriptObject) : asText();
+        return javaScriptObject != null ? stringify(javaScriptObject) : asString();
     }
 
     private static native String stringify(JavaScriptObject jso) /*-{

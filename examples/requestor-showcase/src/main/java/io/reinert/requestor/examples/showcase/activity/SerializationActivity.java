@@ -407,7 +407,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
         @Override
         public MyObject deserialize(SerializedPayload serializedPayload, DeserializationContext context) {
-            final String payload = serializedPayload.asText();
+            final String payload = serializedPayload.asString();
             int stringFieldStart = payload.indexOf("<stringField>") + 13;
             int stringFieldEnd = payload.indexOf("</stringField>", stringFieldStart);
             String stringField = payload.substring(stringFieldStart, stringFieldEnd);
@@ -428,7 +428,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
                                                               SerializedPayload serializedPayload,
                                                               DeserializationContext ctx) {
             C collection = ctx.getInstance(collectionType);
-            final String payload = serializedPayload.asText();
+            final String payload = serializedPayload.asString();
 
             int nextStart = payload.indexOf("<my>");
             while (nextStart != -1) {

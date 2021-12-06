@@ -172,10 +172,10 @@ public class XhrRequestDispatcher extends RequestDispatcher {
                     if (gwtPayload.isJsoAvailable()) {
                         xmlHttpRequest.send(gwtPayload.asJso());
                     } else {
-                        xmlHttpRequest.send(gwtPayload.asText());
+                        xmlHttpRequest.send(gwtPayload.asString());
                     }
                 } else {
-                    xmlHttpRequest.send(serializedPayload.asText());
+                    xmlHttpRequest.send(serializedPayload.asString());
                 }
             } else {
                 xmlHttpRequest.send();
