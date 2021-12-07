@@ -175,7 +175,7 @@ class UriImpl extends Uri {
                 uri.append(pathEncoded);
             }
 
-            if (query != null && !query.isEmpty()) {
+            if (query != null && query.length() != 0) {
                 uri.append('?').append(queryEncoded);
             }
 

@@ -54,7 +54,7 @@ public class UriParser {
     }
 
     public UriParser parse(String uri) {
-        if (uri == null || uri.isEmpty()) {
+        if (uri == null || uri.length() == 0) {
             throw new UriParseException("The uri argument cannot be null or empty");
         }
 
@@ -109,7 +109,7 @@ public class UriParser {
         final List<String> parsedSegments = new ArrayList<String>();
         final String[] rawSegments = parsedUri.split("/");
         for (String segment : rawSegments) {
-            if (!segment.isEmpty()) {
+            if (segment.length() != 0) {
                 String[] matrixParts = segment.split(";");
                 final String parsedSegment = uriCodec.decode(matrixParts[0]);
                 parsedSegments.add(parsedSegment);
@@ -149,8 +149,8 @@ public class UriParser {
         // authority@ must come before /path
         if (pos > -1 && (pathDivider == -1 || pos < pathDivider)) {
             String[] t = uri.substring(0, pos).split(":");
-            user = !t[0].isEmpty() ? uriCodec.decode(t[0]) : null;
-            password = t.length > 1 && !t[1].isEmpty() ? uriCodec.decode(t[1]) : null;
+            user = t[0].length() != 0 ? uriCodec.decode(t[0]) : null;
+            password = t.length > 1 && t[1].length() != 0 ? uriCodec.decode(t[1]) : null;
             uri = uri.substring(pos + 1);
         } else {
             user = null;
@@ -167,8 +167,8 @@ public class UriParser {
         if (pos == -1) pos = uri.length();
 
         String[] authority = uri.substring(0, pos).split(":");
-        host = !authority[0].isEmpty() ? authority[0] : null;
-        port = authority.length > 1 && !authority[1].isEmpty() ? Integer.parseInt(authority[1]) : -1;
+        host = authority[0].length() != 0 ? authority[0] : null;
+        port = authority.length > 1 && authority[1].length() != 0 ? Integer.parseInt(authority[1]) : -1;
 
         return pos == uri.length() ? "/" : uri.substring(pos);
     }
@@ -179,7 +179,7 @@ public class UriParser {
         // throw out the funky business - "?"[name"="value"&"]+
         query = query.replaceAll("/&+/g", "&").replaceAll("/^\\?*&*|&+$/g", "");
 
-        if (query.isEmpty())
+        if (query.length() == 0)
             return;
 
         queryParams = Buckets.Factory.newBuckets();
@@ -189,7 +189,7 @@ public class UriParser {
             p = pair.split("=");
             name = uriCodec.decodeQueryString(p[0]);
             // no "=" is null according to http://dvcs.w3.org/hg/url/raw-file/tip/Overview.html#collect-url-parameters
-            value = p.length > 1 && !p[1].isEmpty() ? uriCodec.decodeQueryString(p[1]) : null;
+            value = p.length > 1 && p[1].length() != 0 ? uriCodec.decodeQueryString(p[1]) : null;
             queryParams.add(name, value);
         }
     }

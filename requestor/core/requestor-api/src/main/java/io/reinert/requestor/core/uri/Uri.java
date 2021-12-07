@@ -29,7 +29,7 @@ public abstract class Uri {
     }
 
     public static Uri create(String uri) {
-        if (uri == null || uri.isEmpty()) {
+        if (uri == null || uri.length() == 0) {
             throw new IllegalArgumentException("Uri cannot be null nor empty.");
         }
 

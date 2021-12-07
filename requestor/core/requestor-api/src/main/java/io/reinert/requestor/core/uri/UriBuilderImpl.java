@@ -109,11 +109,11 @@ public class UriBuilderImpl extends UriBuilder {
         assertNotNull(path, "Path cannot be null.");
 
         // FIXME: must overwrite existing path and associate matrix parameters
-        if (!path.isEmpty()) {
+        if (path.length() != 0) {
             ensureSegments();
 
             for (String segment : path.split("/")) {
-                if (!segment.isEmpty()) this.segments.add(segment);
+                if (segment.length() != 0) this.segments.add(segment);
             }
         }
 

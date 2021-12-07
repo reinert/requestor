@@ -33,7 +33,7 @@ class UriProxy extends Uri {
     private UriImpl impl;
 
     public UriProxy(String uriString) {
-        if (uriString == null || uriString.isEmpty())
+        if (uriString == null || uriString.length() == 0)
             throw new IllegalArgumentException("Uri string cannot be null nor empty.");
         // TODO: validate?
         this.uriString = uriString;
