@@ -17,6 +17,8 @@ package io.reinert.requestor.core;
 
 /**
  * Exception for authentication issues.
+ *
+ * @author Danilo Reinert
  */
 public class AuthException extends RuntimeException {
 

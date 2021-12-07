@@ -29,9 +29,9 @@ public class Requestor {
     private static boolean initPending = true;
 
     /**
-     * Initializes static lazy bindings to proper usage of Requestor.
-     * <p></p>
-     * Call this method in a static block in the app's entry point.
+     * <p>Initializes static lazy bindings to proper usage of Requestor.</p>
+     *
+     * <p>Call this method in a static block in the app's entry point.</p>
      */
     public static void init(BasicAuth.Base64 base64, UriCodec uriCodec, Buckets.Factory bucketsFactory) {
         if (base64 == null) throw new IllegalArgumentException("BasicAuth.Base64 cannot be null");

@@ -47,9 +47,11 @@ import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.uri.Uri;
 
 /**
- * Default Deferred implementation.
+ * Default DeferredPool implementation.
  *
- * @param <T> Expected type in Request#done.
+ * @param <T> Expected type in successful responses.
+ *
+ * @author Danilo Reinert
  */
 public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingRequest<T> {
 

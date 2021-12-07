@@ -17,6 +17,11 @@ package io.reinert.requestor.core.payload.type;
 
 import java.util.Map;
 
+/**
+ * Represents the expected type in the response body.
+ *
+ * @author Danilo Reinert
+ */
 public interface PayloadType extends Iterable<Map.Entry<String, PayloadType>> {
 
     String ROOT_KEY = "";

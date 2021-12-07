@@ -18,7 +18,9 @@ package io.reinert.requestor.core.callback;
 import io.reinert.requestor.core.RequestException;
 
 /**
- * Error callback for request promises.
+ * Callback for request error events.
+ *
+ * @author Danilo Reinert
  */
 public interface ExceptionCallback {
     void execute(RequestException exception);

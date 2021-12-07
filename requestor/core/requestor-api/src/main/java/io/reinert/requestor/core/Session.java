@@ -29,24 +29,20 @@ import io.reinert.requestor.core.uri.Uri;
 import io.reinert.requestor.core.uri.UriBuilder;
 
 /**
- * This is a configurable client session responsible for building requests.
- * Usually, you will use it as a singleton.
- * <p></p>
+ * <p>This is a configurable client session responsible for building requests.
+ * Usually, you will use it as a singleton.</p>
  *
- * It provides a convenience API for managing/creating HTTP Requests.
- * <p></p>
+ * <p>It provides a convenience API for managing/creating HTTP Requests.</p>
  *
- * You can register {@link RequestFilter} or {@link ResponseFilter}, to manipulate all your requests.
- * <p></p>
+ * <p>You can register {@link RequestFilter} or {@link ResponseFilter}, to manipulate all your requests.</p>
  *
- * You can register {@link RequestInterceptor} or {@link ResponseInterceptor} to intercept every request/response and
- * modify their payloads.
- * <p></p>
+ * <p>You can register {@link RequestInterceptor} or {@link ResponseInterceptor} to intercept every request/response and
+ * modify their payloads.</p>
  *
- * You can register {@link Serializer} or a {@link Deserializer} to provide both serialization and/or deserialization
- * of objects according to media-types.
+ * <p>You can register {@link Serializer} or a {@link Deserializer} to provide both serialization and/or deserialization
+ * of objects according to media-types.</p>
  *
- * You can quickly send requests using the HTTP methods.
+ * <p>You can quickly send requests using the HTTP methods.</p>
  *
  * @author Danilo Reinert
  */

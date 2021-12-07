@@ -21,7 +21,6 @@ import io.reinert.requestor.core.uri.Uri;
 
 /**
  * Default implementation for {@link RequestInvoker}.
- * <p></p>
  *
  * @see RequestInvoker
  *

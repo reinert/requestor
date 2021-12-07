@@ -19,7 +19,9 @@ import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.RequestException;
 
 /**
- * Error callback for request promises.
+ * Callback for request error events.
+ *
+ * @author Danilo Reinert
  */
 public interface ExceptionRequestCallback<E> {
     void execute(RequestException exception, PollingRequest<E> request);

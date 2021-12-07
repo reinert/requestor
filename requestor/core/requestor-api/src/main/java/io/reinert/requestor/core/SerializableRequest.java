@@ -17,6 +17,13 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
 
+/**
+ * <p>A request capable of being serialized.</p>
+ *
+ * <p>Serialization should happen only once.</p>
+ *
+ * @author Danilo Reinert
+ */
 public interface SerializableRequest extends RequestOptions {
 
     void serializePayload(SerializedPayload serializedPayload);

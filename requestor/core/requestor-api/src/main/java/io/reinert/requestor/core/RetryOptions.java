@@ -19,6 +19,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Holds retry options.
+ *
+ * @author Danilo Reinert
+ */
 class RetryOptions {
 
     private List<Integer> delays;

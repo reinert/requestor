@@ -17,7 +17,7 @@ package io.reinert.requestor.core.payload;
 
 /**
  * Represents an HTTP payload.
- * It envelopes a String.
+ * It envelops a String.
  *
  * @author Danilo Reinert
  */

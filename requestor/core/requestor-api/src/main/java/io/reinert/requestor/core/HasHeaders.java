@@ -17,6 +17,11 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.header.Header;
 
+/**
+ * Holds headers.
+ *
+ * @author Danilo Reinert
+ */
 public interface HasHeaders {
     Headers getHeaders();
 

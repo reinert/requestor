@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * Holds request options.
+ *
+ * @author Danilo Reinert
+ */
 public interface HasRequestOptions extends HasHeaders {
 
     /**

@@ -18,6 +18,11 @@ package io.reinert.requestor.core.payload.type;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a map expected type in the response body.
+ *
+ * @author Danilo Reinert
+ */
 public class DictionaryPayloadType<T> extends RootPayloadType<Map<String, T>> {
 
     private final RootPayloadType<T> valuePayloadType;

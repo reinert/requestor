@@ -18,7 +18,9 @@ package io.reinert.requestor.core.callback;
 import io.reinert.requestor.core.RequestProgress;
 
 /**
- * Progress callback for request promises.
+ * Callback for request progress events.
+ *
+ * @author Danilo Reinert
  */
 public interface ProgressCallback {
     void execute(RequestProgress progress);

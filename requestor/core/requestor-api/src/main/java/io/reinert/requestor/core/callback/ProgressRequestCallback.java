@@ -19,7 +19,9 @@ import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.RequestProgress;
 
 /**
- * Progress callback for request promises.
+ * Callback for request progress events.
+ *
+ * @author Danilo Reinert
  */
 public interface ProgressRequestCallback<E> {
     void execute(RequestProgress progress, PollingRequest<E> request);

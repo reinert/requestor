@@ -18,7 +18,7 @@ package io.reinert.requestor.core;
 import io.reinert.requestor.core.serialization.SerializationContext;
 
 /**
- * Context of serialization.
+ * Context of HTTP serialization.
  *
  * @author Danilo Reinert
  */

@@ -18,7 +18,7 @@ package io.reinert.requestor.core;
 import io.reinert.requestor.core.payload.type.PayloadType;
 
 /**
- * Represents a raw HTTP response.
+ * Represents an HTTP response with no payload yet.
  *
  * @author Danilo Reinert
  */

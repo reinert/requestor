@@ -19,6 +19,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Represents a composite expected type in the response body.
+ *
+ * @author Danilo Reinert
+ */
 public class CompositePayloadType implements PayloadType {
 
     private final HashMap<String, PayloadType> typeMap;

@@ -24,9 +24,9 @@ import java.util.Map;
 import io.reinert.requestor.core.Link;
 
 /**
- * The HTTP Link header.
- * <p></p>
- * It's a multivalued header that provides access to the attributes related by official spec.
+ * <p>The HTTP Link header.</p>
+ *
+ * <p>It's a multivalued header that provides access to the attributes related by official spec.</p>
  *
  * @author Danilo Reinert
  */

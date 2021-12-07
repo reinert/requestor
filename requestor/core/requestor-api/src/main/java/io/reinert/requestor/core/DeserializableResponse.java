@@ -17,6 +17,13 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.Payload;
 
+/**
+ * <p>A response capable of being deserialized.</p>
+ *
+ * <p>Deserialization should happen only once.</p>
+ *
+ * @author Danilo Reinert
+ */
 public interface DeserializableResponse extends SerializedResponse {
 
     void deserializePayload(Payload payload);

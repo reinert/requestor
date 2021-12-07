@@ -26,7 +26,7 @@ import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.header.SimpleHeader;
 
 /**
- * Stores the headers from a HTTP request/response.
+ * Stores the headers from an HTTP request/response.
  *
  * @author Danilo Reinert
  */

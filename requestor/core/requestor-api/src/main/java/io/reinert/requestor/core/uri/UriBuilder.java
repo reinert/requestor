@@ -18,10 +18,11 @@ package io.reinert.requestor.core.uri;
 import java.util.Map;
 
 /**
- * Utility class for building URIs from their components.
- * <p></p>
- * It is aware of templates.
- * <p></p>
+ * <p>Utility class for building URIs from their components.</p>
+ *
+ * <p>It is aware of templates.</p>
+ *
+ * @author Danilo Reinert
  */
 public abstract class UriBuilder {
 

@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * It manages polling options.
+ *
+ * @author Danilo Reinert
+ */
 class PollingOptions implements HasPollingOptions {
 
     private boolean pollingActive;

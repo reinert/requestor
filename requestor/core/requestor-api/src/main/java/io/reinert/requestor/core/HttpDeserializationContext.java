@@ -48,7 +48,7 @@ public class HttpDeserializationContext extends DeserializationContext {
         final Provider<T> provider = providerManager.get(type);
         if (provider == null)
             throw new UnableToDeserializeException("Could not get instance because there is no provider " +
-                    "for the type " + type.getName() + " registered in the Requestor.");
+                    "for the type " + type.getName() + " registered in the Session.");
         return provider.getInstance();
     }
 

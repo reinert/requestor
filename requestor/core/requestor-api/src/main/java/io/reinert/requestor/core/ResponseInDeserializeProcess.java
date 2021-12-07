@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * A response that process a {@link ResponseDeserializer}.
+ *
+ * @author Danilo Reinert
+ */
 class ResponseInDeserializeProcess extends AbstractProcessableResponse {
 
     private final SerializationEngine serializationEngine;

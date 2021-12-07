@@ -18,7 +18,9 @@ package io.reinert.requestor.core.callback;
 import io.reinert.requestor.core.Response;
 
 /**
- * Success callback for request promises.
+ * Callback for request load events.
+ *
+ * @author Danilo Reinert
  */
 public interface PayloadResponseCallback<E> {
     void execute(E e, Response response);

@@ -16,7 +16,7 @@
 package io.reinert.requestor.core;
 
 /**
- * Represents a connection with server-side.
+ * Represents a request connection.
  *
  * @author Danilo Reinert
  */

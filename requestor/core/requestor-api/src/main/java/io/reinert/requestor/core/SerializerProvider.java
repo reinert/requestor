@@ -17,6 +17,11 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.serialization.Serializer;
 
+/**
+ * A {@link Provider} of {@link Serializer}.
+ *
+ * @author Danilo Reinert
+ */
 public interface SerializerProvider extends DeserializerProvider {
 
     @Override

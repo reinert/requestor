@@ -18,7 +18,7 @@ package io.reinert.requestor.core;
 import io.reinert.requestor.core.uri.Uri;
 
 /**
- * A fluent request builder.
+ * A request with setters.
  *
  * @author Danilo Reinert
  */

@@ -16,9 +16,8 @@
 package io.reinert.requestor.core;
 
 /**
- *  Allows one to modify the serialized payload of an incoming response.
+ * A {@link DeserializableResponse} capable of being processed.
  *
- *  @author Danilo Reinert
+ * @author Danilo Reinert
  */
-public interface DeserializableResponseInProcess extends DeserializableResponse, SerializedResponseInProcess {
-}
+public interface DeserializableResponseInProcess extends DeserializableResponse, SerializedResponseInProcess { }

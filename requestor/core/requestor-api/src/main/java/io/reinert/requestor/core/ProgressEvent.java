@@ -15,8 +15,18 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * A progress event.
+ *
+ * @author Danilo Reinert
+ */
 public interface ProgressEvent {
 
+    /**
+     * Informs whether the request has a computable length available.
+     *
+     * @return if the request body length is computable
+     */
     boolean lengthComputable();
 
     /**

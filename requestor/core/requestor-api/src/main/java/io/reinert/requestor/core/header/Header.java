@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a HTTP Header.
+ * Represents an HTTP Header.
+ *
+ * @author Danilo Reinert
  */
 public abstract class Header {
 

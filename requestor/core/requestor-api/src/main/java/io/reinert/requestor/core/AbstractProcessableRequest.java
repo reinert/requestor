@@ -22,6 +22,13 @@ import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.uri.Uri;
 
+/**
+ * Base class for ProcessableRequest.
+ *
+ * It delegates every method to the underlying request, except for the process method.
+ *
+ * @author Danilo Reinert
+ */
 abstract class AbstractProcessableRequest implements ProcessableRequest {
 
     protected final ProcessableRequest request;

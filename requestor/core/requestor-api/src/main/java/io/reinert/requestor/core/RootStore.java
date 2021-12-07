@@ -18,6 +18,11 @@ package io.reinert.requestor.core;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A basic Store implementation using HashMap.
+ *
+ * @author Danilo Reinert
+ */
 class RootStore implements Store {
 
     private final Map<String, Object> dataMap;

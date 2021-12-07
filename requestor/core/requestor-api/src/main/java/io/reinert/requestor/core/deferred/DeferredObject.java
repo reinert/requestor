@@ -18,6 +18,16 @@ package io.reinert.requestor.core.deferred;
 
 import java.util.List;
 
+/**
+ * Abstract implementation of Deferred.
+ *
+ * @param <D> The type of the result received when the deferred is done
+ * @param <F> The type of the result received when the deferred failed
+ * @param <P> The type of the progress notification
+ *
+ * @author Ray Tsang
+ * @author Danilo Reinert
+ */
 class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
 
     public DeferredObject() {

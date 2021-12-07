@@ -18,6 +18,11 @@ package io.reinert.requestor.core.callback;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.Response;
 
+/**
+ * Callback that handles both load and error events.
+ *
+ * @author Danilo Reinert
+ */
 public interface DualCallback {
 
     void onError(RequestException error);

@@ -19,6 +19,13 @@ import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.uri.Uri;
 import io.reinert.requestor.core.uri.UriBuilder;
 
+/**
+ * Base class for {@link Service}.
+ *
+ * User should extend it and implement its own service calls.
+ *
+ * @author Danilo Reinert
+ */
 public class AbstractService implements Service {
 
     private final Session session;

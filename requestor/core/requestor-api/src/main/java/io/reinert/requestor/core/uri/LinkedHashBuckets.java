@@ -20,6 +20,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Buckets implementation using LinkedHashMap.
+ *
+ * @author Danilo Reinert
+ */
 class LinkedHashBuckets implements Buckets {
 
     private final Map<String, List<String>> bucketsMap = new LinkedHashMap<String, List<String>>();

@@ -18,6 +18,11 @@ package io.reinert.requestor.core;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A child store that delegates execution to a parent store when cannot handle operations.
+ *
+ * @author Danilo Reinert
+ */
 class LeafStore implements Store {
 
     private final Store parentStore;

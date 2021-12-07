@@ -17,6 +17,8 @@ package io.reinert.requestor.core.uri;
 
 /**
  * Exception for URI building.
+ *
+ * @author Danilo Reinert
  */
 public class UriParseException extends RuntimeException {
 

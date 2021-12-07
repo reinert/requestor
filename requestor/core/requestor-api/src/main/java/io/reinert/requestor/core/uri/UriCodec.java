@@ -17,6 +17,8 @@ package io.reinert.requestor.core.uri;
 
 /**
  *  Utility class for encoding and decoding URL parts.
+ *
+ *  @author Danilo Reinert
  */
 public abstract class UriCodec {
 

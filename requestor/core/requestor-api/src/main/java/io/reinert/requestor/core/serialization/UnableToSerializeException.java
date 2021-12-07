@@ -16,6 +16,8 @@
 package io.reinert.requestor.core.serialization;
 
 /**
+ * Represents an error occurred during serialization.
+ *
  * @author Danilo Reinert
  */
 public class UnableToSerializeException extends SerializationException {

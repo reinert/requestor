@@ -18,12 +18,12 @@ package io.reinert.requestor.core;
 import io.reinert.requestor.core.payload.type.PayloadType;
 
 /**
- * The final form of a request.
- * <p></p>
- * When assuming this type, a request has already been processed and can only pass through an authentication before
- * been finally dispatched.
- * <p></p>
- * This class has self dispatching capabilities through the #send method, which should be called only once.
+ * <p>The final form of a request.</p>
+ *
+ * <p>When assuming this type, a request has already been processed and can only pass through an authentication before
+ * been finally dispatched.</p>
+ *
+ * <p>This class has self dispatching capabilities through the #send method, which should be called only once.</p>
  *
  * @author Danilo Reinert
  */

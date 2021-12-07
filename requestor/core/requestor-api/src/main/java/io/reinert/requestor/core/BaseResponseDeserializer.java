@@ -17,8 +17,14 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.Payload;
 
+/**
+ * Base class for {@link ResponseDeserializer}.
+ *
+ * It deserializes the response using the {@link SerializationEngine} and proceeds the response processing.
+ *
+ * @author Danilo Reinert
+ */
 public class BaseResponseDeserializer implements ResponseDeserializer {
-    @Override
     public void deserialize(DeserializableResponseInProcess response, SerializationEngine serializationEngine) {
         if (isSuccessful(response)) {
             serializationEngine.deserializeResponse(response);

@@ -46,6 +46,8 @@ import io.reinert.requestor.core.callback.TimeoutRequestCallback;
  * Default Deferred implementation.
  *
  * @param <T> Expected type in Request#done.
+ *
+ * @author Danilo Reinert
  */
 public class DeferredRequest<T> implements Deferred<T> {
 

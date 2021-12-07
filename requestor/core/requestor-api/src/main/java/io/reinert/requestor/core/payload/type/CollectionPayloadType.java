@@ -17,6 +17,11 @@ package io.reinert.requestor.core.payload.type;
 
 import java.util.Collection;
 
+/**
+ * Represents a collection expected type in the response body.
+ *
+ * @author Danilo Reinert
+ */
 public class CollectionPayloadType<T> extends RootPayloadType<Collection<T>> {
 
     private final Class<? extends Collection> collectionType;

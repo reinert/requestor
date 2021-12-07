@@ -24,6 +24,13 @@ import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.core.uri.Uri;
 
+/**
+ * A request that process an {@link Auth}.
+ *
+ * @param <R> the expected type in the response payload.
+ *
+ * @author Danilo Reinert
+ */
 class RequestInAuthProcess<R> implements ProcessableRequest {
 
     private static final Logger logger = Logger.getLogger(RequestInAuthProcess.class.getName());

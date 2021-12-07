@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core.payload.type;
 
+/**
+ * Represents a single expected type in the response body.
+ *
+ * @author Danilo Reinert
+ */
 public class SinglePayloadType<T> extends RootPayloadType<T> {
 
     private final Class<T> type;

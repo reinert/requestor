@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * A request that process a {@link RequestInterceptor}.
+ *
+ * @author Danilo Reinert
+ */
 class RequestInInterceptProcess extends AbstractProcessableRequest {
 
     private final RequestInterceptor interceptor;

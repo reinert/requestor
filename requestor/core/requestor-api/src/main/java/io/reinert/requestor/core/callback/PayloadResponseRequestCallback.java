@@ -19,7 +19,9 @@ import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.Response;
 
 /**
- * Success callback for request promises.
+ * Callback for request load events.
+ *
+ * @author Danilo Reinert
  */
 public interface PayloadResponseRequestCallback<E> {
     void execute(E e, Response response, PollingRequest<E> request);

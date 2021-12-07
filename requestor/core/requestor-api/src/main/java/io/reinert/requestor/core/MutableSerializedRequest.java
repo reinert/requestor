@@ -17,6 +17,11 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
 
+/**
+ * A serialized request with setters.
+ *
+ * @author Danilo Reinert
+ */
 public interface MutableSerializedRequest extends MutableRequest, SerializedRequest {
 
     /**

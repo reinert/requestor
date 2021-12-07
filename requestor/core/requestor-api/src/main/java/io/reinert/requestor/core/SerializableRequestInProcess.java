@@ -15,5 +15,10 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * A {@link SerializableRequest} capable of being processed.
+ *
+ * @author Danilo Reinert
+ */
 public interface SerializableRequestInProcess extends SerializableRequest, InProcess {
 }

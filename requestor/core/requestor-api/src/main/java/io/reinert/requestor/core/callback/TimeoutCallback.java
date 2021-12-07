@@ -18,7 +18,9 @@ package io.reinert.requestor.core.callback;
 import io.reinert.requestor.core.RequestTimeoutException;
 
 /**
- * Timeout callback for request promises.
+ * Callback for request timeout events.
+ *
+ * @author Danilo Reinert
  */
 public interface TimeoutCallback {
     void execute(RequestTimeoutException timeoutException);

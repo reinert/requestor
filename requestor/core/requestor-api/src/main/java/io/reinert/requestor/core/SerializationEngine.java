@@ -33,7 +33,7 @@ import io.reinert.requestor.core.serialization.SerializationException;
 import io.reinert.requestor.core.serialization.Serializer;
 
 /**
- * Responsible for performing managed de/serialization.
+ * Responsible for performing serialization and deserialization.
  *
  * @author Danilo Reinert
  */
@@ -180,9 +180,5 @@ public class SerializationEngine {
             throw new SerializationException("Could not find Serializer for class '" + type.getName() + "' and " +
                     "media-type '" + requestOptions.getContentType() + "'.");
         }
-    }
-
-    private boolean isJsonMediaType(String mediaType) {
-        return mediaType.contains("json") || mediaType.contains("javascript");
     }
 }

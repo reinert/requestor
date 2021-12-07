@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * A request that process a {@link RequestFilter}.
+ *
+ * @author Danilo Reinert
+ */
 class RequestInFilterProcess extends AbstractProcessableRequest {
 
     private final RequestFilter filter;

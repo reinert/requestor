@@ -17,6 +17,11 @@ package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.header.Header;
 
+/**
+ * Manages request options.
+ *
+ * @author Danilo Reinert
+ */
 class RequestOptionsHolder implements HasRequestOptions {
 
     private String mediaType;

@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * A response capable of being processed.
+ *
+ * @author Danilo Reinert
+ */
 public interface ProcessableResponse extends ResponseInProcess, DeserializableResponseInProcess, Processable {
     Response getRawResponse();
 }

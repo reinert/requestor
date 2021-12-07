@@ -15,6 +15,19 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * <p>Represents the HTTP Polling method.</p>
+ *
+ * @author Danilo Reinert
+ */
 public enum PollingStrategy {
-    SHORT, LONG;
+    /**
+     * The next request is dispatched as soon the previous is sent.
+     */
+    SHORT,
+
+    /**
+     * The next request is dispatched after the previous receives a response.
+     */
+    LONG;
 }

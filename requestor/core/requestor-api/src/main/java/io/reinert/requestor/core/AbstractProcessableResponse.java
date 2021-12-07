@@ -20,6 +20,13 @@ import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 
+/**
+ * Base class for ProcessableResponse.
+ *
+ * It delegates every method to the underlying response, except for the process method.
+ *
+ * @author Danilo Reinert
+ */
 abstract class AbstractProcessableResponse implements ProcessableResponse {
 
     protected final ProcessableResponse response;

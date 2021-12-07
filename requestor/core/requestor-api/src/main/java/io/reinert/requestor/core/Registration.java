@@ -18,6 +18,8 @@ package io.reinert.requestor.core;
 /**
  * Registration objects returned when a request/response processor is registered
  * (e.g. via Requestor.register), used to deregister.
+ *
+ * @author Danilo Reinert
  */
 public interface Registration {
 

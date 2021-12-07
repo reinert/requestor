@@ -20,6 +20,11 @@ import java.util.List;
 
 import io.reinert.requestor.core.uri.UriBuilder;
 
+/**
+ * A basic implementation of {@link AbstractService} with most common operations against a REST resource.
+ *
+ * @author Danilo Reinert
+ */
 public class RestService<R, I> extends AbstractService implements RestInvoker<R, I> {
 
     public static class RestServiceSpec<R, I, C extends Collection> {

@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core.uri;
 
+/**
+ * Represents an efficient low overhead dictionary for primitives.
+ *
+ * @author Danilo Reinert
+ */
 public interface Buckets {
 
     abstract class Factory {

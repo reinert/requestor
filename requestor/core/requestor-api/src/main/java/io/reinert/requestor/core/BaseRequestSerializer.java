@@ -15,8 +15,14 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * Base class for {@link RequestSerializer}.
+ *
+ * It serializes the request using the {@link SerializationEngine} and proceeds the request processing.
+ *
+ * @author Danilo Reinert
+ */
 public class BaseRequestSerializer implements RequestSerializer {
-    @Override
     public void serialize(SerializableRequestInProcess request, SerializationEngine serializationEngine) {
         serializationEngine.serializeRequest(request);
         request.proceed();

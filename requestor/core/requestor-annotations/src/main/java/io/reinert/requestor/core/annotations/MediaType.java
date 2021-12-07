@@ -24,6 +24,8 @@ import java.lang.annotation.Target;
 /**
  * Defines that the type must have an auto-generated json serializer. <br>
  * The implementation of the serializer is let to third-part projects.
+ *
+ * @author Danilo Reinert
  */
 @Inherited
 @Target({ElementType.TYPE})

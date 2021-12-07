@@ -25,12 +25,13 @@ public interface Auth {
     interface Provider extends io.reinert.requestor.core.Provider<Auth> { }
 
     /**
-     * Performs the logic for making the request authenticated, then dispatch the request.
-     * <p></p>
+     * <p>Performs the logic for making the request authenticated, then dispatch the request.</p>
      *
-     * IMPORTANT: You must call request#send() after the auth has finished in order to dispatch the
-     * request, otherwise the request will never be sent. <br>
-     * The request can be sent only once.
+     *
+     * <p>IMPORTANT: You must call request#send() after the auth has finished in order to dispatch the
+     * request, otherwise the request will never be sent.</p>
+     *
+     * <p>The request can be sent only once.</p>
      *
      * @param request  The request about to be sent
      */

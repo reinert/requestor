@@ -19,7 +19,9 @@ import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.RequestTimeoutException;
 
 /**
- * Timeout callback for request promises.
+ * Callback for request timeout events.
+ *
+ * @author Danilo Reinert
  */
 public interface TimeoutRequestCallback<E> {
     void execute(RequestTimeoutException timeoutException, PollingRequest<E> request);

@@ -19,6 +19,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Represents the expected type in the response body root.
+ *
+ * @author Danilo Reinert
+ */
 public abstract class RootPayloadType<T> implements PayloadType {
 
     @Override

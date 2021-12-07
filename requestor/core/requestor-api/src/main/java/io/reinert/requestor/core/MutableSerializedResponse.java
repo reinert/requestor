@@ -18,7 +18,7 @@ package io.reinert.requestor.core;
 import io.reinert.requestor.core.payload.SerializedPayload;
 
 /**
- * A mutable serialized response.
+ * A serialized response with setters.
  *
  * @author Danilo Reinert
  */

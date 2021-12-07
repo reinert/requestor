@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * A request capable of being processed.
+ *
+ * @author Danilo Reinert
+ */
 public interface ProcessableRequest extends HasPollingOptions, SerializedRequestInProcess,
         SerializableRequestInProcess, Processable {
 }

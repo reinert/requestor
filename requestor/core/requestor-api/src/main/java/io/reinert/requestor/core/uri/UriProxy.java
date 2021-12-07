@@ -16,14 +16,15 @@
 package io.reinert.requestor.core.uri;
 
 /**
- * A fast and lightweight Uri implementation from a stringified uri.
- * <p>
+ * <p>A fast and lightweight Uri implementation from a stringified uri.</p>
  *
- * {@link Uri#create(String)} creates a instance of this proxy at first because most often the only required method
- * will be #toString, which is already available.
- * <p>
  *
- * Whenever a part method is requested, this proxy instantiates a UriImpl and delegates the execution to the full impl.
+ * <p>{@link Uri#create(String)} creates a instance of this proxy at first because most often the only required method
+ * will be #toString, which is already available.</p>
+ *
+ *
+ * <p>Whenever a part method is requested, this proxy instantiates a UriImpl and delegates the execution to the full
+ * impl.</p>
  *
  * @author Danilo Reinert
  */

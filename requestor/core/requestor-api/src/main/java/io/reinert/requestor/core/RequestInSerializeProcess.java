@@ -15,6 +15,11 @@
  */
 package io.reinert.requestor.core;
 
+/**
+ * A request that process a {@link RequestSerializer}.
+ *
+ * @author Danilo Reinert
+ */
 class RequestInSerializeProcess extends AbstractProcessableRequest {
 
     private final SerializationEngine serializationEngine;

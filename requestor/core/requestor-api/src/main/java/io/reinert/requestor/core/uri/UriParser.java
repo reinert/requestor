@@ -22,6 +22,8 @@ import java.util.Map;
 
 /**
  * Parses a URI.
+ *
+ * @author Danilo Reinert
  */
 public class UriParser {
 
