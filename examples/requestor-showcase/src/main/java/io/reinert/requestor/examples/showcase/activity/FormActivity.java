@@ -25,6 +25,7 @@ import io.reinert.requestor.core.FormData;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.Form;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.gwt.JsFormData;
@@ -58,7 +59,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
     public void onWrappingPostButtonClick(FormElement formElement) {
         FormData formData = JsFormData.wrap(formElement);
 
-        session.req("https://httpbin.org/post")
+        session.req(Showcase.CLIENT_FACTORY.getPostUri())
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
                 .onSuccess(new PayloadCallback<Response>() {
@@ -85,7 +86,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                 .append("comments", comments)
                 .build();
 
-        session.req("https://httpbin.org/post")
+        session.req(Showcase.CLIENT_FACTORY.getPostUri())
                 .payload(formData)
                 .post(Response.class) // retrieve the raw response
                 .onSuccess(new PayloadCallback<Response>() {
@@ -112,7 +113,7 @@ public class FormActivity extends ShowcaseActivity implements Form.Handler {
                 .append("comments", comments)
                 .build();
 
-        session.req("https://httpbin.org/post")
+        session.req(Showcase.CLIENT_FACTORY.getPostUri())
                 .payload(formData)
                 .contentType("application/x-www-form-urlencoded")
                 .post(Response.class) // retrieve the raw response

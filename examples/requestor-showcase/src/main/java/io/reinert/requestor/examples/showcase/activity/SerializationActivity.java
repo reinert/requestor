@@ -33,6 +33,7 @@ import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
+import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
@@ -81,7 +82,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onGwtJacksonGetBooks() {
-        jsonSession.get("https://requestor-server.herokuapp.com/books", List.class, BookImpl.class)
+        jsonSession.get(Showcase.CLIENT_FACTORY.getBooksUri().toString(), List.class, BookImpl.class)
                 .onSuccess(new PayloadCallback<List<BookImpl>>() {
                     @Override
                     public void execute(List<BookImpl> books) {
@@ -95,7 +96,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         final BookImpl cleanCode = new BookImpl(1, "Clean Code", "Tech", "9788550811482", "Robert C. Martin",
                 new Date(1217552400000L));
 
-        jsonSession.post("https://requestor-server.herokuapp.com/books", cleanCode, BookImpl.class)
+        jsonSession.post(Showcase.CLIENT_FACTORY.getBooksUri().toString(), cleanCode, BookImpl.class)
                 .onSuccess(new PayloadCallback<BookImpl>() {
                     @Override
                     public void execute(BookImpl book) {
@@ -106,7 +107,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onAutoBeanGetBooks() {
-        autobeanSession.get("https://requestor-server.herokuapp.com/books", List.class, Book.class)
+        autobeanSession.get(Showcase.CLIENT_FACTORY.getBooksUri().toString(), List.class, Book.class)
                 .onSuccess(new PayloadCallback<List<Book>>() {
                     @Override
                     public void execute(List<Book> books) {
@@ -125,7 +126,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         cleanCode.setAuthor("Robert C. Martin");
         cleanCode.setPubDate(new Date(1217552400000L));
 
-        autobeanSession.post("https://requestor-server.herokuapp.com/books", cleanCode, Book.class)
+        autobeanSession.post(Showcase.CLIENT_FACTORY.getBooksUri().toString(), cleanCode, Book.class)
                 .onSuccess(new PayloadCallback<Book>() {
                     @Override
                     public void execute(Book book) {
@@ -160,7 +161,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlObjectPost() {
-        session.req("https://httpbin.org/post")
+        session.req(Showcase.CLIENT_FACTORY.getPostUri())
                 .contentType("application/xml")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
@@ -174,7 +175,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onXmlCollectionPost() {
-        session.req("https://httpbin.org/post")
+        session.req(Showcase.CLIENT_FACTORY.getPostUri())
                 .contentType("application/xml")
                 .payload(Arrays.asList(
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),
@@ -214,7 +215,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonObjectPost() {
-        session.req("https://httpbin.org/post")
+        session.req(Showcase.CLIENT_FACTORY.getPostUri())
                 .contentType("application/json")
                 .payload(new MyObject("Lorem", 1900, new Date(1420416000000L)))
                 .post(String.class)
@@ -228,7 +229,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onJsonCollectionPost() {
-        session.req("https://httpbin.org/post")
+        session.req(Showcase.CLIENT_FACTORY.getPostUri())
                 .contentType("application/json")
                 .payload(Arrays.asList(
                         new MyObject("Lorem", 1900, new Date(1420416000000L)),

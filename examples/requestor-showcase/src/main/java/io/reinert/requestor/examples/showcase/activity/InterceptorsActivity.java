@@ -29,6 +29,7 @@ import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
 
@@ -79,7 +80,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
 
         // Perform the request
         JavaScriptObject json = createJsonMsg("Session is awesome!");
-        session.req("https://httpbin.org/post").payload(json).post(String.class)
+        session.req(Showcase.CLIENT_FACTORY.getPostUri()).payload(json).post(String.class)
                 .onSuccess(new PayloadCallback<String>() {
                     public void execute(String result) {
                         view.setRequestInterceptorText(result);

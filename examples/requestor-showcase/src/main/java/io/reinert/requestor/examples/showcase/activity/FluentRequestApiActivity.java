@@ -27,6 +27,7 @@ import io.reinert.requestor.core.auth.BasicAuth;
 import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.FluentRequestApi;
 import io.reinert.requestor.examples.showcase.util.Page;
 
@@ -57,7 +58,7 @@ public class FluentRequestApiActivity extends ShowcaseActivity implements Fluent
 
     @Override
     public void onRequestButtonClick() {
-        RequestInvoker reqInvoker = session.req("https://httpbin.org/post")
+        RequestInvoker reqInvoker = session.req(Showcase.CLIENT_FACTORY.getPostUri())
                 .timeout(10000)
                 .delay(50)
                 .contentType("application/json")

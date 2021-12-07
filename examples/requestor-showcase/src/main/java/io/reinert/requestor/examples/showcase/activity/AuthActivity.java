@@ -24,6 +24,8 @@ import io.reinert.requestor.core.auth.BasicAuth;
 import io.reinert.requestor.core.auth.BearerAuth;
 import io.reinert.requestor.core.auth.DigestAuth;
 import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.uri.Uri;
+import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.util.Page;
 
@@ -72,7 +74,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onBasicButtonClick(String user, String password) {
-        session.req("https://httpbin.org/basic-auth/" + user + "/" + password)
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("basic-auth").segment(user).segment(password).build();
+
+        session.req(uri)
                 .auth(new BasicAuth(user, password))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {
@@ -85,7 +89,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onBearerButtonClick(String token) {
-        session.req("https://httpbin.org/bearer")
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("bearer").build();
+
+        session.req(uri)
                 .auth(new BearerAuth(token))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {
@@ -98,7 +104,10 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onDigestButtonClick(String user, String password, String qop) {
-        session.req("https://requestor-server.herokuapp.com/digest-auth/" + qop + '/' + user + '/' + password)
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("digest-auth").segment(qop).segment(user)
+                .segment(password).build();
+
+        session.req(uri)
                 .auth(new DigestAuth(user, password, "md5", true))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {
@@ -111,7 +120,9 @@ public class AuthActivity extends ShowcaseActivity implements Auth.Handler {
 
     @Override
     public void onCustomButtonClick(String key) {
-        session.req("https://httpbin.org/headers")
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("headers").build();
+
+        session.req(uri)
                 .auth(new MyAuth(key))
                 .get(String.class)
                 .onSuccess(new PayloadCallback<String>() {

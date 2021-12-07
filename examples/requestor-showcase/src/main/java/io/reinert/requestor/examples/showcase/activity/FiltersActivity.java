@@ -32,6 +32,7 @@ import io.reinert.requestor.core.auth.BasicAuth;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
+import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.Filters;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
@@ -88,7 +89,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
         });
 
         // Perform the request
-        session.req("https://httpbin.org/anything").post(String.class)
+        session.req(Showcase.CLIENT_FACTORY.getAnythingUri()).post(String.class)
                 .onSuccess(new PayloadCallback<String>() {
                     public void execute(String result) {
                         view.setRequestFilterText(result);
@@ -121,7 +122,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
         });
 
         // Perform the request
-        session.req("https://httpbin.org/anything").get(String.class)
+        session.req(Showcase.CLIENT_FACTORY.getAnythingUri()).get(String.class)
                 .onSuccess(new PayloadResponseCallback<String>() {
                     public void execute(String payload, Response res) {
                         view.setResponseBody(payload);

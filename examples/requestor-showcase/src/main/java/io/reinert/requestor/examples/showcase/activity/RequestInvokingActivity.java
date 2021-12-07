@@ -21,6 +21,8 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.PayloadCallback;
+import io.reinert.requestor.core.uri.Uri;
+import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.RequestInvoking;
 import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.examples.showcase.util.Util;
@@ -52,7 +54,8 @@ public class RequestInvokingActivity extends ShowcaseActivity implements Request
 
     @Override
     public void onPostButtonClick() {
-        session.req("https://httpbin.org/post").post(String.class).onSuccess(new PayloadCallback<String>() {
+        Uri uri = Showcase.CLIENT_FACTORY.getPostUri();
+        session.req(uri).post(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setPostText(result);
@@ -62,7 +65,8 @@ public class RequestInvokingActivity extends ShowcaseActivity implements Request
 
     @Override
     public void onPutButtonClick() {
-        session.req("https://httpbin.org/put").put(String.class).onSuccess(new PayloadCallback<String>() {
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("put").build();
+        session.req(uri).put(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setPutText(result);
@@ -72,7 +76,8 @@ public class RequestInvokingActivity extends ShowcaseActivity implements Request
 
     @Override
     public void onPatchButtonClick() {
-        session.req("https://httpbin.org/patch").patch(String.class).onSuccess(new PayloadCallback<String>() {
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("patch").build();
+        session.req(uri).patch(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setPatchText(result);
@@ -82,7 +87,8 @@ public class RequestInvokingActivity extends ShowcaseActivity implements Request
 
     @Override
     public void onDeleteButtonClick() {
-        session.req("https://httpbin.org/delete").delete(String.class).onSuccess(new PayloadCallback<String>() {
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("delete").build();
+        session.req(uri).delete(String.class).onSuccess(new PayloadCallback<String>() {
             @Override
             public void execute(String result) {
                 view.setDeleteText(result);
@@ -92,7 +98,8 @@ public class RequestInvokingActivity extends ShowcaseActivity implements Request
 
     @Override
     public void onHeadButtonClick() {
-        session.req("https://httpbin.org/headers").head().onSuccess(new PayloadCallback<Headers>() {
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("headers").build();
+        session.req(uri).head().onSuccess(new PayloadCallback<Headers>() {
             @Override
             public void execute(Headers result) {
                 view.setHeadText(Util.formatHeaders(result));
@@ -102,7 +109,8 @@ public class RequestInvokingActivity extends ShowcaseActivity implements Request
 
     @Override
     public void onOptionsButtonClick() {
-        session.req("https://httpbin.org/anything").options().onSuccess(new PayloadCallback<Headers>() {
+        Uri uri = Showcase.CLIENT_FACTORY.getUriBuilder().segment("headers").build();
+        session.req(uri).options().onSuccess(new PayloadCallback<Headers>() {
             @Override
             public void execute(Headers headers) {
                 view.setOptionsText(Util.formatHeaders(headers));

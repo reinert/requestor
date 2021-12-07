@@ -20,6 +20,8 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.uri.Uri;
+import io.reinert.requestor.core.uri.UriBuilder;
 import io.reinert.requestor.examples.showcase.ui.Auth;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.ui.Filters;
@@ -138,5 +140,21 @@ public class ShowcaseClientFactory {
         if (interceptors == null)
             interceptors = new Interceptors();
         return interceptors;
+    }
+
+    public UriBuilder getUriBuilder() {
+        return UriBuilder.newInstance().scheme("https").host("requestor-server.herokuapp.com");
+    }
+
+    public Uri getPostUri() {
+        return getUriBuilder().segment("post").build();
+    }
+
+    public Uri getAnythingUri() {
+        return getUriBuilder().segment("anything").build();
+    }
+
+    public Uri getBooksUri() {
+        return getUriBuilder().segment("books").build();
     }
 }
