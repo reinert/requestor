@@ -170,7 +170,6 @@ public class DigestAuth implements Auth {
         }
     }
 
-    // TODO: Make a Factory of Auth to limit the scope of the auth to each request to avoid issues with state managing
     private void resetChallengeCalls() {
         challengeCalls = 1;
     }
