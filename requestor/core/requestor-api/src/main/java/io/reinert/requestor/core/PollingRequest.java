@@ -26,6 +26,7 @@ import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
+import io.reinert.requestor.core.callback.VoidCallback;
 
 /**
  * An observable polling Request.
@@ -49,16 +50,25 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onCancel(ExceptionRequestCallback<T> callback);
 
     @Override
+    PollingRequest<T> onError(VoidCallback callback);
+
+    @Override
     PollingRequest<T> onError(ExceptionCallback callback);
 
     @Override
     PollingRequest<T> onError(ExceptionRequestCallback<T> callback);
 
     @Override
+    PollingRequest<T> onLoad(VoidCallback callback);
+
+    @Override
     PollingRequest<T> onLoad(ResponseCallback callback);
 
     @Override
     PollingRequest<T> onLoad(ResponseRequestCallback<T> callback);
+
+    @Override
+    PollingRequest<T> onFail(VoidCallback callback);
 
     @Override
     PollingRequest<T> onFail(ResponseCallback callback);
@@ -73,10 +83,16 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onProgress(ProgressRequestCallback<T> callback);
 
     @Override
+    PollingRequest<T> onStatus(int statusCode, VoidCallback callback);
+
+    @Override
     PollingRequest<T> onStatus(int statusCode, ResponseCallback callback);
 
     @Override
     PollingRequest<T> onStatus(int statusCode, ResponseRequestCallback<T> callback);
+
+    @Override
+    PollingRequest<T> onStatus(Status status, VoidCallback callback);
 
     @Override
     PollingRequest<T> onStatus(Status status, ResponseCallback callback);
@@ -85,10 +101,16 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onStatus(Status status, ResponseRequestCallback<T> callback);
 
     @Override
+    PollingRequest<T> onStatus(StatusFamily family, VoidCallback callback);
+
+    @Override
     PollingRequest<T> onStatus(StatusFamily family, ResponseCallback callback);
 
     @Override
     PollingRequest<T> onStatus(StatusFamily family, ResponseRequestCallback<T> callback);
+
+    @Override
+    PollingRequest<T> onSuccess(VoidCallback callback);
 
     @Override
     <E extends T> PollingRequest<T> onSuccess(PayloadCallback<E> callback);

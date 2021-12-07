@@ -42,6 +42,7 @@ import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
+import io.reinert.requestor.core.callback.VoidCallback;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.uri.Uri;
@@ -193,151 +194,193 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public PollingRequest<T> onAbort(final ExceptionCallback callback) {
+    public PollingRequest<T> onAbort(ExceptionCallback callback) {
         getLastDeferred().onAbort(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onAbort(final ExceptionRequestCallback<T> callback) {
+    public PollingRequest<T> onAbort(ExceptionRequestCallback<T> callback) {
         getLastDeferred().onAbort(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onCancel(final ExceptionCallback callback) {
+    public PollingRequest<T> onCancel(ExceptionCallback callback) {
         getLastDeferred().onCancel(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onCancel(final ExceptionRequestCallback<T> callback) {
+    public PollingRequest<T> onCancel(ExceptionRequestCallback<T> callback) {
         getLastDeferred().onCancel(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onError(final ExceptionCallback callback) {
+    public PollingRequest<T> onError(VoidCallback callback) {
         getLastDeferred().onError(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onError(final ExceptionRequestCallback<T> callback) {
+    public PollingRequest<T> onError(ExceptionCallback callback) {
         getLastDeferred().onError(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onLoad(final ResponseCallback callback) {
+    public PollingRequest<T> onError(ExceptionRequestCallback<T> callback) {
+        getLastDeferred().onError(callback);
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onLoad(VoidCallback callback) {
         getLastDeferred().onLoad(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onLoad(final ResponseRequestCallback<T> callback) {
+    public PollingRequest<T> onLoad(ResponseCallback callback) {
         getLastDeferred().onLoad(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onFail(final ResponseCallback callback) {
+    public PollingRequest<T> onLoad(ResponseRequestCallback<T> callback) {
+        getLastDeferred().onLoad(callback);
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onFail(VoidCallback callback) {
         getLastDeferred().onFail(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onFail(final ResponseRequestCallback<T> callback) {
+    public PollingRequest<T> onFail(ResponseCallback callback) {
         getLastDeferred().onFail(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public PollingRequest<T> onFail(ResponseRequestCallback<T> callback) {
+        getLastDeferred().onFail(callback);
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onProgress(io.reinert.requestor.core.callback.ProgressCallback callback) {
         getLastDeferred().onProgress(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onProgress(final ProgressRequestCallback<T> callback) {
+    public PollingRequest<T> onProgress(ProgressRequestCallback<T> callback) {
         getLastDeferred().onProgress(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onStatus(final int statusCode, final ResponseCallback callback) {
+    public PollingRequest<T> onStatus(int statusCode, VoidCallback callback) {
         getLastDeferred().onStatus(statusCode, callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onStatus(final int statusCode, final ResponseRequestCallback<T> callback) {
+    public PollingRequest<T> onStatus(int statusCode, ResponseCallback callback) {
         getLastDeferred().onStatus(statusCode, callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onStatus(final Status status, final ResponseCallback callback) {
+    public PollingRequest<T> onStatus(int statusCode, ResponseRequestCallback<T> callback) {
+        getLastDeferred().onStatus(statusCode, callback);
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onStatus(Status status, VoidCallback callback) {
         getLastDeferred().onStatus(status, callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onStatus(final Status status, final ResponseRequestCallback<T> callback) {
+    public PollingRequest<T> onStatus(Status status, ResponseCallback callback) {
         getLastDeferred().onStatus(status, callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onStatus(final StatusFamily family, final ResponseCallback callback) {
+    public PollingRequest<T> onStatus(Status status, ResponseRequestCallback<T> callback) {
+        getLastDeferred().onStatus(status, callback);
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onStatus(StatusFamily family, VoidCallback callback) {
         getLastDeferred().onStatus(family, callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onStatus(final StatusFamily family, final ResponseRequestCallback<T> callback) {
+    public PollingRequest<T> onStatus(StatusFamily family, ResponseCallback callback) {
         getLastDeferred().onStatus(family, callback);
         return this;
     }
 
     @Override
-    public <E extends T> PollingRequest<T> onSuccess(final PayloadCallback<E> callback) {
+    public PollingRequest<T> onStatus(StatusFamily family, ResponseRequestCallback<T> callback) {
+        getLastDeferred().onStatus(family, callback);
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onSuccess(VoidCallback callback) {
         getLastDeferred().onSuccess(callback);
         return this;
     }
 
     @Override
-    public <E extends T> PollingRequest<T> onSuccess(final PayloadResponseCallback<E> callback) {
+    public <E extends T> PollingRequest<T> onSuccess(PayloadCallback<E> callback) {
         getLastDeferred().onSuccess(callback);
         return this;
     }
 
     @Override
-    public <E extends T> PollingRequest<T> onSuccess(final PayloadResponseRequestCallback<E> callback) {
+    public <E extends T> PollingRequest<T> onSuccess(PayloadResponseCallback<E> callback) {
         getLastDeferred().onSuccess(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onTimeout(final TimeoutCallback callback) {
+    public <E extends T> PollingRequest<T> onSuccess(PayloadResponseRequestCallback<E> callback) {
+        getLastDeferred().onSuccess(callback);
+        return this;
+    }
+
+    @Override
+    public PollingRequest<T> onTimeout(TimeoutCallback callback) {
         getLastDeferred().onTimeout(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onTimeout(final TimeoutRequestCallback<T> callback) {
+    public PollingRequest<T> onTimeout(TimeoutRequestCallback<T> callback) {
         getLastDeferred().onTimeout(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onUpProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public PollingRequest<T> onUpProgress(io.reinert.requestor.core.callback.ProgressCallback callback) {
         getLastDeferred().onUpProgress(callback);
         return this;
     }
 
     @Override
-    public PollingRequest<T> onUpProgress(final ProgressRequestCallback<T> callback) {
+    public PollingRequest<T> onUpProgress(ProgressRequestCallback<T> callback) {
         getLastDeferred().onUpProgress(callback);
         return this;
     }

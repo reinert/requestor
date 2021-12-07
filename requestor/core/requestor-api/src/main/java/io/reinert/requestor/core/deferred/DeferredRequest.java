@@ -41,6 +41,7 @@ import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
+import io.reinert.requestor.core.callback.VoidCallback;
 
 /**
  * Default Deferred implementation.
@@ -142,6 +143,16 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
+    public DeferredRequest<T> onError(final VoidCallback callback) {
+        noErrorCallbackRegistered = false;
+        deferred.fail(new FailCallback<RequestException>() {
+            public void onFail(RequestException e) {
+                callback.execute();
+            }
+        });
+        return this;
+    }
+
     public DeferredRequest<T> onError(final ExceptionCallback callback) {
         noErrorCallbackRegistered = false;
         deferred.fail(new FailCallback<RequestException>() {
@@ -162,6 +173,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
+    public DeferredRequest<T> onLoad(final VoidCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                callback.execute();
+            }
+        });
+        return this;
+    }
+
     public DeferredRequest<T> onLoad(final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
@@ -175,6 +195,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 callback.execute(response, request);
+            }
+        });
+        return this;
+    }
+
+    public DeferredRequest<T> onFail(final VoidCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (!isSuccessful(response)) callback.execute();
             }
         });
         return this;
@@ -216,6 +245,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
+    public DeferredRequest<T> onStatus(final int statusCode, final VoidCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (response.getStatusCode() == statusCode) callback.execute();
+            }
+        });
+        return this;
+    }
+
     public DeferredRequest<T> onStatus(final int statusCode, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
@@ -229,6 +267,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (response.getStatusCode() == statusCode) callback.execute(response, request);
+            }
+        });
+        return this;
+    }
+
+    public DeferredRequest<T> onStatus(final Status status, final VoidCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (response.getStatusCode() == status.getStatusCode()) callback.execute();
             }
         });
         return this;
@@ -252,6 +299,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
+    public DeferredRequest<T> onStatus(final StatusFamily family, final VoidCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (StatusFamily.of(response.getStatusCode()) == family) callback.execute();
+            }
+        });
+        return this;
+    }
+
     public DeferredRequest<T> onStatus(final StatusFamily family, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
@@ -265,6 +321,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (StatusFamily.of(response.getStatusCode()) == family) callback.execute(response, request);
+            }
+        });
+        return this;
+    }
+
+    public DeferredRequest<T> onSuccess(final VoidCallback callback) {
+        deferred.done(new DoneCallback<Response>() {
+            public void onDone(Response response) {
+                if (isSuccessful(response)) callback.execute();
             }
         });
         return this;

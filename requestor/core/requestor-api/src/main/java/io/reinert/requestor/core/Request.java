@@ -26,6 +26,7 @@ import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
+import io.reinert.requestor.core.callback.VoidCallback;
 
 /**
  * An observable Request.
@@ -48,13 +49,19 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onCancel(ExceptionRequestCallback<T> callback);
 
+    Request<T> onError(VoidCallback callback);
+
     Request<T> onError(ExceptionCallback callback);
 
     Request<T> onError(ExceptionRequestCallback<T> callback);
 
+    Request<T> onLoad(VoidCallback callback);
+
     Request<T> onLoad(ResponseCallback callback);
 
     Request<T> onLoad(ResponseRequestCallback<T> callback);
+
+    Request<T> onFail(VoidCallback callback);
 
     Request<T> onFail(ResponseCallback callback);
 
@@ -64,17 +71,25 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onProgress(ProgressRequestCallback<T> callback);
 
+    Request<T> onStatus(int statusCode, VoidCallback callback);
+
     Request<T> onStatus(int statusCode, ResponseCallback callback);
 
     Request<T> onStatus(int statusCode, ResponseRequestCallback<T> callback);
+
+    Request<T> onStatus(Status status, VoidCallback callback);
 
     Request<T> onStatus(Status status, ResponseCallback callback);
 
     Request<T> onStatus(Status status, ResponseRequestCallback<T> callback);
 
+    Request<T> onStatus(StatusFamily family, VoidCallback callback);
+
     Request<T> onStatus(StatusFamily family, ResponseCallback callback);
 
     Request<T> onStatus(StatusFamily family, ResponseRequestCallback<T> callback);
+
+    Request<T> onSuccess(VoidCallback callback);
 
     <E extends T> Request<T> onSuccess(PayloadCallback<E> callback);
 
