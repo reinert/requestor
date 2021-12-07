@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.core.payload.type;
 
-import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,7 +23,6 @@ public abstract class RootPayloadType<T> implements PayloadType {
 
     @Override
     public Iterator<Map.Entry<String, PayloadType>> iterator() {
-        return Collections.singleton((Map.Entry<String, PayloadType>)
-                new AbstractMap.SimpleEntry<String, PayloadType>(ROOT_KEY, this)).iterator();
+        return Collections.<String, PayloadType>singletonMap(ROOT_KEY, this).entrySet().iterator();
     }
 }
