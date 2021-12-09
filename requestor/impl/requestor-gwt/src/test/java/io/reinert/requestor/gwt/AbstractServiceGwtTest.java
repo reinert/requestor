@@ -46,35 +46,35 @@ public class AbstractServiceGwtTest extends GWTTestCase {
 
         public Request<Collection<Book>> getBooks(String... authors) {
             Uri uri = getUriBuilder()
-                    .queryParam("author", authors) // append ?author={author}
+                    .queryParam("author", (String[]) authors) // append ?author={author}
                     .build();
-            return request(uri).get(List.class, Book.class);
+            return req(uri).get(List.class, Book.class);
         }
 
         public Request<Book> getBookById(Integer id) {
             Uri uri = getUriBuilder()
                     .segment(id) // add a path segment with the book id like /api/books/123
                     .build();
-            return request(uri).get(Book.class);
+            return req(uri).get(Book.class);
         }
 
         public Request<Book> createBook(Book book) {
             Uri uri = getUriBuilder().build();
-            return request(uri).payload(book).post(Book.class);
+            return req(uri).payload(book).post(Book.class);
         }
 
         public Request<Void> updateBook(Integer id, Book book) {
             Uri uri = getUriBuilder()
                     .segment(id) // add a path segment with the book id like /api/books/123
                     .build();
-            return request(uri).payload(book).put();
+            return req(uri).payload(book).put();
         }
 
         public Request<Void> deleteBook(Integer id) {
             Uri uri = getUriBuilder()
                     .segment(id) // add a path segment with the book id like /api/books/123
                     .build();
-            return request(uri).delete();
+            return req(uri).delete();
         }
     }
 
@@ -109,7 +109,6 @@ public class AbstractServiceGwtTest extends GWTTestCase {
         final Book book = new Book(null, "RESTful Web Services", "Leonard Richardson", new Date(1179795600000L));
 
         bookService.createBook(book).onSuccess(new PayloadCallback<Book>() {
-            @Override
             public void execute(final Book created) {
                 assertNotNull(created);
 
@@ -136,7 +135,6 @@ public class AbstractServiceGwtTest extends GWTTestCase {
     public void testGetBooksWithParams() {
         // GET /books?author=Leonard
         bookService.getBooks("Leonard").onSuccess(new PayloadCallback<Collection<Book>>() {
-            @Override
             public void execute(Collection<Book> books) {
                 assertNotNull(books);
 

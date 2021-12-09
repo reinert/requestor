@@ -86,7 +86,7 @@ public class RestService<R, I> extends AbstractService implements RestInvoker<R,
 
         reqUriBuilder.segment(id);
 
-        return request(reqUriBuilder.build()).get(resourceType);
+        return req(reqUriBuilder.build()).get(resourceType);
     }
 
     @Override
@@ -99,14 +99,14 @@ public class RestService<R, I> extends AbstractService implements RestInvoker<R,
             appendQueryParamsToUri(reqUriBuilder, params);
         }
 
-        return request(reqUriBuilder.build()).get(collectionType, resourceType);
+        return req(reqUriBuilder.build()).get(collectionType, resourceType);
     }
 
     @Override
     public Request<R> post(R resource) {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
-        return request(reqUriBuilder.build()).payload(resource).post(resourceType);
+        return req(reqUriBuilder.build()).payload(resource).post(resourceType);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class RestService<R, I> extends AbstractService implements RestInvoker<R,
 
         reqUriBuilder.segment(id);
 
-        return request(reqUriBuilder.build()).payload(resource, fields).patch(resourceType);
+        return req(reqUriBuilder.build()).payload(resource, fields).patch(resourceType);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class RestService<R, I> extends AbstractService implements RestInvoker<R,
 
         reqUriBuilder.segment(id);
 
-        return request(reqUriBuilder.build()).payload(resource).put(resourceType);
+        return req(reqUriBuilder.build()).payload(resource).put(resourceType);
     }
 
     @Override
@@ -133,14 +133,14 @@ public class RestService<R, I> extends AbstractService implements RestInvoker<R,
 
         reqUriBuilder.segment(id);
 
-        return request(reqUriBuilder.build()).delete(Void.class);
+        return req(reqUriBuilder.build()).delete(Void.class);
     }
 
     @Override
     public RequestInvoker req() {
         final UriBuilder reqUriBuilder = getUriBuilder();
 
-        return request(reqUriBuilder.build());
+        return req(reqUriBuilder.build());
     }
 
     @Override
@@ -149,7 +149,7 @@ public class RestService<R, I> extends AbstractService implements RestInvoker<R,
 
         reqUriBuilder.segment(id);
 
-        return request(reqUriBuilder.build());
+        return req(reqUriBuilder.build());
     }
 
     public void setAsMatrixParam(boolean asMatrixParam) {

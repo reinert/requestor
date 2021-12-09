@@ -226,7 +226,7 @@ public class AbstractService implements Service {
         }
     }
 
-    protected RequestInvoker request(Uri uri) {
+    protected RequestInvoker req(Uri uri) {
         final RequestInvoker request = session.req(uri);
         options.apply(request);
         return request;
