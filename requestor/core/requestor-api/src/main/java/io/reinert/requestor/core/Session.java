@@ -47,7 +47,7 @@ import io.reinert.requestor.core.uri.UriBuilder;
  * @author Danilo Reinert
  */
 public class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
-        DirectInvoker, HasRequestOptions {
+        DirectInvoker, HasRequestOptions, Store {
 
     private final RequestOptionsHolder options = new RequestOptionsHolder();
     private final RootStore store = new RootStore();
@@ -341,10 +341,6 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     // Session configuration
     //===================================================================
 
-    public Store getStore() {
-        return store;
-    }
-
     public void setRequestSerializer(RequestSerializer requestSerializer) {
         requestProcessor.setRequestSerializer(requestSerializer);
     }
@@ -586,6 +582,42 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     @Override
     public <T> Registration register(TypeProvider<T> provider) {
         return providerManager.register(provider);
+    }
+
+    //===================================================================
+    // Store methods
+    //===================================================================
+
+    @Override
+    public <T> T retrieve(String key) {
+        return store.retrieve(key);
+    }
+
+    @Override
+    public Session save(String key, Object value) {
+        store.save(key, value);
+        return this;
+    }
+
+    @Override
+    public Session save(String key, Object value, Level level) {
+        store.save(key, value, level);
+        return this;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return store.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return store.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        store.clear();
     }
 
     //===================================================================
