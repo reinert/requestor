@@ -14,8 +14,8 @@ carefully designed features that enable developers to rule the network communica
 * [**HTTP Polling**](#poll) - make long or short polling with a single command.
 * [**Retry**](#retry) - define a retry policy with a single command.
 * [**Session**](#session) - set default options to all requests.
-* [**Store**](#store) - save and retrieve data both in session and request scope.
-* [**Services**](#services) - break down the API consumption into smaller independent contexts.
+* [**Service**](#services) - break down the API consumption into smaller independent contexts.
+* [**Store**](#store) - save and retrieve data both in different scope levels (session, service and request).
 * [**Links**](#links-hateoas) - navigate through an API interacting with its links (HATEOAS for real).
 * [**Headers**](#headers-api) - directly create and parse complex headers.
 * [**URIs**](#uri) - build and parse complicated URIs easily.
@@ -38,7 +38,7 @@ Make a POST request sending a serialized object in the payload:
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
-session.post("/api/books", book).onSuccess( () -> showSuccessMsg() ).onFail( () -> showErrorMsg() );
+session.post("/api/books", book).onSuccess( view::showSuccessMsg ).onFail( view::showErrorMsg );
 ```
 
 GET a collection of objects:
@@ -108,7 +108,7 @@ session.post("/api/books", book);
 session.reset();
 
 // Clear all data from the store
-session.getStore().clear();
+session.clear();
 
 // Now all requests will have the default parameters
 session.post("/api/books", book);
@@ -373,7 +373,7 @@ There are two PollingStrategy choices: **LONG** or **SHORT**.
 req.poll( PollingStrategy.SHORT, 3_000 );
 
 // The next requests are dispatched as soon the responses are received
-req.poll( PollingStrategy.LONG); // Same as `req.poll( PollingStrategy.LONG, 0 )`
+req.poll( PollingStrategy.LONG ); // Same as `req.poll( PollingStrategy.LONG, 0 )`
 
 // The next requests are dispatched 10s after previous responses up to the limit of 5 requests
 req.poll( PollingStrategy.LONG, 10_000, 5 );
@@ -805,7 +805,7 @@ class BookXmlSerializer implements Serializer<Book>, HandlesSubTypes<Book> {
     @Override
     public List<Class<? extends Book>> handledSubTypes() {
         // Return other types that this serializer handles
-        return Arrays.asList( AudioBook.class, HardBook.class );
+        return Arrays.asList( AudioBook.class, PaperBook.class );
     }
     
     // rest of the serializer ...
@@ -948,7 +948,10 @@ session.req("https://external-domain.com")
 Requestor provides client-side OAuth2 authenticators supporting both *header* and *url query param* 
 strategies. It is made available by the `requestor-oauth2gwt` extension.
 
-To enable OAuth2 authentication, first install the extension dependency:
+To enable OAuth2 authentication, set the callback url in your oauth provider as `mydomain.com/oauthWindow.html`.  
+
+
+In order to use it in you app, first install the extension dependency:
 
 ```xml
 <dependency>
@@ -969,7 +972,7 @@ Then, according to the required authorization strategy we can either instantiate
 Optionally, we can also inform a sequence of `scopes`: 
 
 ```java
-session.req("https://domain.com/oauth2") 
+session.req("https://externaldomain.com/oauth2") 
         .auth(new OAuth2ByQueryParam(authUrl, appClientId, scope1, scope2, ...))
         .get(); 
 ```
@@ -1443,25 +1446,64 @@ Requestor provides a place where we can save and retrieve objects by key: the `S
 
 The `LeafStore` envelopes a `Store` (be it Leaf or Root) to expose access to its data. Thus, whenever the Leaf Store is queried, it first tries to retrieve data from its local storage. Not succeeding, it queries the underlying Store. When saving data, we can ask the Leaf Store to save it locally or delegate it to the wrapped Store. Finally, when deleting, we are able to remove only locally saved data. We cannot delete data persisted in the underlying Store from the Leaf Store.
 
-### Session Store
-
-The Session Store is available throughout the Session's life. We access it by calling `session.getStore()`. With the Store, we can put, get and remove objects by key.
+The `Session`, the `Service`, the `Request` and the `Response` types extend the `Store` interface, so that all of them provide the following store operations:
 
 ```java
-Store store = session.getStore();
+interface Store {
 
+    // Queries an object associated with the given key.
+    <T> T retrieve(String key);
+
+    // Saves the value into the store associated with the key.
+    // Being a request scope store, the data will be available during the request/response lifecycle only.
+    Store save(String key, Object value);
+
+    // Saves the value into the store associated with the key.
+    // Being a request scope store, the data will be available during the request/response lifecycle only.
+    // If you want to persist it in the immediate parent store, set the level param to <code>Level.PARENT</code>.
+    // If you want to persist it in the root store, set the level param to <code>Level.ROOT</code>.
+    Store save(String key, Object value, Level level);
+
+    // Checks if there's an object associated with the given key.
+    boolean exists(String key);
+
+    // Checks if there's an object associated with the given key and if it's equals to the given value.
+    boolean isEquals(String key, Object value);
+
+    // Removes the data associated with this key.
+    // Being a request scope store, only the data that was added in the request/response lifecycle is erased.
+    // Being a session scope store, any data in the store is erased.
+    boolean remove(String key);
+
+    // Clears all data registered in this Store.
+    // Being a request scope store, only the data that was added in the request/response lifecycle is erased.
+    // Being a session scope store, any data in the store is erased.
+    void clear();
+}
+```
+
+### Session Store
+
+The Session Store is available throughout the Session's life.
+The Session extends all methods from Store interface.
+With the Store, we can put, get and remove objects by key.
+
+```java
 // Save an object in the store
-store.save("key", anyObject);
-
-// Check if there's an object with that key
-boolean isSaved = store.has("key");
+session.save("key", anyObject);
 
 // Get an object from the store
 // Automatically typecasts to the requested type
-AnyType object = store.get("key");
+AnyType object = session.retrieve("key");
+        
+// Check if there's an object with that key
+boolean isSaved = session.exists("key");
+
+// Check if there's an object with that key equals to the given value
+boolean isEquals = session.isEquals("key", anyObject);
 
 // Remove the object from the store
-boolean isDeleted = store.delete("key");
+boolean isRemoved = session.remove("key");
 ```
 
 ### Request Store
@@ -1470,48 +1512,82 @@ The Request Store is a `LeafStore` available during the [Request Lifecycle](#pro
 
 Having a transient **Request Store** is helpful to share information among **Processors** without cluttering the deriving **Session Store** or **Service Store**.
 
-The Request Store provides access to the deriving Store's data. We can even persist data from the Request Store into the underlying Store (by setting the boolean `persist` param to true when saving), though we cannot delete data from it.
+The Request Store provides access to the upstream Stores' data. We can even persist data from the Request Store into the upstream Stores, though we cannot delete data from them.
 
-When we call `store.get(<key>)`, the Request Store first tries to retrieve the associated object from the request scope storage. Not finding, it queries the deriving Store. Also, the result is automatically typecasted to the requested type.
+When we call `request.retrieve(<key>)`, the Request Store first tries to retrieve the associated object from the request scope store. Not finding, it queries the parent Store, and so on until it reaches the `RootStore`. Also, the result is automatically typecasted to the requested type.
 
 ```java
-Store store = request.getStore();
-
 // Get an object from the store or the deriving store
 // Automatically typecasts the result
-AnyType object = store.get("key");
+AnyType object = request.retrieve("key");
 ```
 
-To save an object locally, we call `store.save(<key>, <object>)`.
-Differently, to save an object in the upstream Store, we call `store.save(<key>, <object>, <level>)`.
+The same store is shared by the request and response that it generates. Hence, we can also access the request scope store from the response, sharing data only in a single request-response lifecycle.
+
+```java
+session.req("/server")
+       .save("hidden", true) // save data in the request store
+       .get()
+       .onLoad(response -> {
+            // retrieve data from the request store
+            if (response.isEquals("hidden", true)) {
+                // do something...
+            }
+        });
+```
+
+To save an object locally, we call `request.save(<key>, <object>)`.
+Differently, to save an object in the upstream Store, we call `request.save(<key>, <object>, <level>)`.
 If the request was originated from a [Service](#services) and we set the level as `Level.PARENT`, then the data is saved in the Service's `LeafStore`.
 But if we set the level as `Level.ROOT`, the data is saved in the Session's `RootStore`.
 In the other hand, if the request was directly originated from a [Session](#session), then both `Level.PARENT` and `Level.ROOT` will cause the same effect of saving in the Session's Store, because the request's parent and root stores are the same.
 
 ```java
-Store store = request.getStore();
+/* SESSION scenario */
+Session session = getSession();
 
-// Save an object in request scope only
-store.save("key", anyObject);
+session.get("/server")
+       .onLoad(response -> {
+            // Save an object in the parent store
+            // Since this is a session's request, data is saved in the Session Store
+            response.save("key", anyObject, Level.PARENT);
 
-// Save an object in the parent store
-// 1. If it's a service's request, data is saved in the Service Store
-// 2. If it's a session's request, data is saved in the Session Store
-store.save("key", anyObject, Level.PARENT);
-
-// Save an object in the root store
-// Data will always be persisted in the upstream Session Store
-store.save("key", anyObject, Level.ROOT);
+            // Save an object in the root store
+            // Since this is a session's request, it has the same effect of the previous
+            response.save("key", anyObject, Level.ROOT);
+        });
 ```
-
-To delete a local record, we call `store.delete(<key>)`. We cannot delete records from the deriving Store.
 
 ```java
-Store store = request.getStore();
+/* SERVICE scenario */
+Service service = getService();
 
-// Delete the record associated with the given key
-store.delete("key");
+service.get()
+       .onLoad(response -> {
+           // Save an object in the parent store
+           // Since this is a service's request, data is saved in the Service Store
+           response.save("key", anyObject, Level.PARENT);
+
+           // Save an object in the root store
+           // It will save in the Session Store from which the Service was created
+           response.save("key", anyObject, Level.ROOT);
+       });
 ```
+
+To delete a local record, we call `request.remove(<key>)`. We cannot remove objects from the upstream Stores.
+
+```java
+// Delete the record associated with the given key
+request.remove("key");
+
+// The response share the same store with the request
+response.remove("key");
+```
+
+**💡 PRO TIP**: Request scope store is specially useful to deal with exceptional cases in [request/response processors](#processors-middlewares).
+For instance, suppose you created processors to show a loading widget when requesting and hide when the response is received or an error occurs.
+But, for some reason, you want to make 'hidden' requests, so that the loading widget is not shown.
+You can then call `.save("hidden", true)` when building the request and check for this flag in the processors by calling `.isEquals("hidden", true)` to skip displaying the loading widget.
 
 ### Service Store
 
@@ -1521,37 +1597,33 @@ Having a **Service Store** is helpful to share information among the requests th
 
 The Service Store provides access to the deriving Session Store's data. We can even persist data from the Service Store into the parent Session Store, though we cannot delete Session's data from it.
 
-When we call `store.get(<key>)`, the Service Store first tries to retrieve the associated object from the service scope storage. Not finding, it queries the underlying Session Store. Also, the result is automatically typecasted to the requested type.
+When we call `service.retrieve(<key>)`, the Service Store first tries to retrieve the associated object from the service scope storage. Not finding, it queries the parent Session Store. Also, the result is automatically typecasted to the requested type.
 
 ```java
-Store store = service.getStore();
-
 // Get an object from the store or the deriving session store
 // Automatically typecasts the result
-AnyType object = store.get("key");
+AnyType object = service.retrieve("key");
 ```
 
-To save an object locally, we call `store.save(<key>, <object>)`.
-Differently, to save an object in the parent Session Store, we call `store.save(<key>, <object>, <level>)`.
+To save an object locally, we call `service.save(<key>, <object>)`.
+Differently, to save an object in the parent Session Store, we call `service.save(<key>, <object>, <level>)`.
 
 ```java
-Store store = service.getStore();
+Service service = getService();
 
-// Save an object in request scope only
-store.save("key", anyObject);
+// Save an object in service scope only
+service.save("key", anyObject);
 
 // Save an object in the parent session store
 // Level.PARENT causes the same effect here
-store.save("key", anyObject, Level.ROOT);
+service.save("key", anyObject, Level.ROOT);
 ```
 
-To delete a local record, we call `store.delete(<key>)`. We cannot delete records from the deriving Session Store.
+To delete a local record, we call `service.remove(<key>)`. We cannot delete records from the parent Session Store.
 
 ```java
-Store store = service.getStore();
-
 // Delete the record associated with the given key
-store.delete("key");
+service.remove("key");
 ```
 
 
@@ -1590,31 +1662,31 @@ public class BookService extends AbstractService {
     public Request<Book> createBook(Book book) {
        Uri uri = getUriBuilder() // get UriBuilder provided by the parent
                .build(); // The UriBuilder starts in the root path, so here we built /api/books uri 
-       return request(uri).payload(book).post(Book.class);
+       return req(uri).payload(book).post(Book.class);
     }
    
     public Request<Collection<Book>> getBooks(String... authors) {
         Uri uri = getUriBuilder()
                 .queryParam("author", authors) // append ?author={author} to the root path
                 .build();
-       return request(uri).get(List.class, Book.class);
+       return req(uri).get(List.class, Book.class);
     }
 
     public Request<Book> getBookById(Integer id) {
         Uri uri = getUriBuilder()
                 .segment(id) // add a path segment with the book id like /api/books/123
                 .build();
-        return request(uri).get(Book.class);
+        return req(uri).get(Book.class);
     }
 
     public Request<Void> updateBook(Integer id, Book book) {
         Uri uri = getUriBuilder().segment(id).build();
-        return request(uri).payload(book).put();
+        return req(uri).payload(book).put();
     }
 
     public Request<Void> deleteBook(Integer id) {
         Uri uri = getUriBuilder().segment(id).build();
-        return request(uri).delete();
+        return req(uri).delete();
     }
 }
 ```
