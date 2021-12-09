@@ -40,6 +40,10 @@ public class AbstractService implements Service {
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 
+    //===================================================================
+    // RequestOptions methods
+    //===================================================================
+
     @Override
     public void reset() {
         options.reset();
@@ -150,10 +154,45 @@ public class AbstractService implements Service {
         return session;
     }
 
+    //===================================================================
+    // Store methods
+    //===================================================================
+
     @Override
-    public Store getStore() {
-        return store;
+    public <T> T retrieve(String key) {
+        return store.retrieve(key);
     }
+
+    @Override
+    public Service save(String key, Object value) {
+        store.save(key, value);
+        return this;
+    }
+
+    @Override
+    public Service save(String key, Object value, Level level) {
+        store.save(key, value, level);
+        return this;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return store.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return store.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        store.clear();
+    }
+
+    //===================================================================
+    // Internal methods
+    //===================================================================
 
     protected UriBuilder getUriBuilder() {
         return uriBuilder.clone();

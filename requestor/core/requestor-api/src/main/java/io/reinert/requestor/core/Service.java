@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public interface Service extends HasRequestOptions {
+public interface Service extends HasRequestOptions, Store {
 
     /**
      * Get the main Session from which this Service was derived.
@@ -28,15 +28,4 @@ public interface Service extends HasRequestOptions {
      * @return  the main Session
      */
     Session getSession();
-
-    /**
-     * Get the Service's Store.
-     *
-     * It accesses the Session's Store, but does not persist on it by default.
-     *
-     * In order to persist on Session, we must set persist param to <code>true</code> when saving.
-     *
-     * @return  the Service's Store
-     */
-    Store getStore();
 }
