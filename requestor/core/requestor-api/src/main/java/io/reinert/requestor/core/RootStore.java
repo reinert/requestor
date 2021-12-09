@@ -34,39 +34,56 @@ class RootStore implements Store {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T retrieve(String key) {
+        checkNotNull(key, "The key argument cannot be null");
+
         return (T) dataMap.get(key);
     }
 
     @Override
     public Store save(String key, Object value) {
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null");
+
         dataMap.put(key, value);
         return this;
     }
 
     @Override
     public Store save(String key, Object value, Level level) {
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null");
+
         save(key, value);
         return this;
     }
 
     @Override
     public boolean exists(String key) {
+        checkNotNull(key, "The key argument cannot be null");
         return dataMap.containsKey(key);
     }
 
     @Override
     public boolean isEquals(String key, Object value) {
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null. Try the exists method instead.");
+
         Object retrieved = dataMap.get(key);
         return retrieved != null && (retrieved == value || retrieved.equals(value));
     }
 
     @Override
     public boolean remove(String key) {
+        checkNotNull(key, "The key argument cannot be null");
         return dataMap.remove(key) != null;
     }
 
     @Override
     public void clear() {
         dataMap.clear();
+    }
+
+    private void checkNotNull(Object arg, String msg) {
+        if (arg == null) throw new IllegalArgumentException(msg);
     }
 }

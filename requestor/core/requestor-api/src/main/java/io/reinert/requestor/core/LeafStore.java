@@ -46,6 +46,8 @@ class LeafStore implements Store {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T retrieve(String key) {
+        checkNotNull(key, "The key argument cannot be null");
+
         T data = null;
 
         if (localDataMap != null) {
@@ -61,10 +63,9 @@ class LeafStore implements Store {
 
     @Override
     public Store save(String key, Object value, Level level) {
-        if (level == null) {
-            save(key, value);
-            return this;
-        }
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null");
+        checkNotNull(level, "The value argument cannot be null");
 
         if (level == Level.PARENT) {
             parentStore.save(key, value);
@@ -77,12 +78,17 @@ class LeafStore implements Store {
 
     @Override
     public Store save(String key, Object value) {
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null");
+
         ensureDataMap().put(key, value);
         return this;
     }
 
     @Override
     public boolean exists(String key) {
+        checkNotNull(key, "The key argument cannot be null");
+
         boolean has = parentStore.exists(key);
 
         if (has) return true;
@@ -94,12 +100,17 @@ class LeafStore implements Store {
 
     @Override
     public boolean isEquals(String key, Object value) {
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null");
+
         Object retrieved = retrieve(key);
         return retrieved != null && (retrieved == value || retrieved.equals(value));
     }
 
     @Override
     public boolean remove(String key) {
+        checkNotNull(key, "The key argument cannot be null");
+
         if (localDataMap != null) {
             return localDataMap.remove(key) != null;
         }
@@ -118,5 +129,9 @@ class LeafStore implements Store {
         }
 
         return localDataMap;
+    }
+
+    private void checkNotNull(Object arg, String msg) {
+        if (arg == null) throw new IllegalArgumentException(msg);
     }
 }
