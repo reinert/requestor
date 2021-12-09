@@ -62,7 +62,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertFalse(response.getPayload().isEmpty());
-                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
+                assertEquals(expectedStoreValue, response.getStore().retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
@@ -85,7 +85,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.register(new RequestInterceptor() {
             public void intercept(SerializedRequestInProcess request) {
                 // Test previous intercept
-                assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                assertEquals(expectedStoreValue, request.getStore().retrieve(storeKey));
                 request.setHeader("Test", "test");
                 request.proceed();
             }
@@ -95,7 +95,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertFalse(response.getPayload().isEmpty());
-                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
+                assertEquals(expectedStoreValue, response.getStore().retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
@@ -134,7 +134,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertFalse(response.getPayload().isEmpty());
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
-                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
+                assertEquals(expectedStoreValue, response.getStore().retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
@@ -160,7 +160,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             public void intercept(final SerializedRequestInProcess request) {
                 new Timer() {
                     public void run() {
-                        assertEquals(expectedStoreValue, request.getStore().get(storeKey));
+                        assertEquals(expectedStoreValue, request.getStore().retrieve(storeKey));
                         request.getStore().save(storeKey2, expectedStoreValue2);
                         request.proceed();
                     }
@@ -171,7 +171,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.register(new RequestInterceptor() {
             public void intercept(SerializedRequestInProcess request) {
                 // Test previous intercept
-                assertEquals(expectedStoreValue2, request.getStore().get(storeKey2));
+                assertEquals(expectedStoreValue2, request.getStore().retrieve(storeKey2));
                 request.setHeader("Test", "test");
                 request.proceed();
             }
@@ -193,8 +193,8 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertFalse(response.getPayload().isEmpty());
-                assertEquals(expectedStoreValue, response.getStore().get(storeKey));
-                assertEquals(expectedStoreValue2, response.getStore().get(storeKey2));
+                assertEquals(expectedStoreValue, response.getStore().retrieve(storeKey));
+                assertEquals(expectedStoreValue2, response.getStore().retrieve(storeKey2));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();

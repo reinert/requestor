@@ -33,7 +33,7 @@ class RootStore implements Store {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T get(String key) {
+    public <T> T retrieve(String key) {
         return (T) dataMap.get(key);
     }
 

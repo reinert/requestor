@@ -34,7 +34,7 @@ public interface Store {
      * @param <T> The type to typecast the object returned
      * @return The object associated with the key. <code>Null</code> otherwise.
      */
-    <T> T get(String key);
+    <T> T retrieve(String key);
 
     /**
      * Inserts the value into the store associated with the key.

@@ -45,7 +45,7 @@ class LeafStore implements Store {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T get(String key) {
+    public <T> T retrieve(String key) {
         T data = null;
 
         if (localDataMap != null) {
@@ -53,7 +53,7 @@ class LeafStore implements Store {
         }
 
         if (data == null) {
-            data = parentStore.get(key);
+            data = parentStore.retrieve(key);
         }
 
         return data;
