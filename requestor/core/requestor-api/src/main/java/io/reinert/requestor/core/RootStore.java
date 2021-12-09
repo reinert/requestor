@@ -38,13 +38,15 @@ class RootStore implements Store {
     }
 
     @Override
-    public void save(String key, Object value) {
+    public Store save(String key, Object value) {
         dataMap.put(key, value);
+        return this;
     }
 
     @Override
-    public void save(String key, Object value, Level level) {
+    public Store save(String key, Object value, Level level) {
         save(key, value);
+        return this;
     }
 
     @Override

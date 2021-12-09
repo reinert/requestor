@@ -60,23 +60,25 @@ class LeafStore implements Store {
     }
 
     @Override
-    public void save(String key, Object value, Level level) {
+    public Store save(String key, Object value, Level level) {
         if (level == null) {
             save(key, value);
-            return;
+            return this;
         }
 
         if (level == Level.PARENT) {
             parentStore.save(key, value);
-            return;
+            return this;
         }
 
         parentStore.save(key, value, level);
+        return this;
     }
 
     @Override
-    public void save(String key, Object value) {
+    public Store save(String key, Object value) {
         ensureDataMap().put(key, value);
+        return this;
     }
 
     @Override

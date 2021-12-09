@@ -43,7 +43,7 @@ public interface Store {
      * @param key   A key to associate the data
      * @param value The data to be persisted
      */
-    void save(String key, Object value);
+    Store save(String key, Object value);
 
     /**
      * Saves the value into the store associated with the key.
@@ -55,7 +55,7 @@ public interface Store {
      * @param value The data to be persisted
      * @param level Whether the data should be persisted in the underlying stores or not
      */
-    void save(String key, Object value, Level level);
+    Store save(String key, Object value, Level level);
 
     /**
      * Checks if there's any data associated with the given key.
