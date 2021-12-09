@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public interface Store {
+public interface Store extends Saver {
 
     enum Level {
         PARENT,
