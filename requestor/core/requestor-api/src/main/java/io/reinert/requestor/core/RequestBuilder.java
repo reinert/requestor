@@ -22,7 +22,7 @@ import io.reinert.requestor.core.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface RequestBuilder extends RequestOptions {
+public interface RequestBuilder extends RequestOptions, Saver {
 
     /**
      * Set the content type of this request.
@@ -145,6 +145,16 @@ public interface RequestBuilder extends RequestOptions {
      * @return This building request
      */
     RequestBuilder retry(int[] delaysMillis, Event... events);
+
+    /**
+     * Saves an object associated with a key that can be later retrieved in the request processing.
+     *
+     * @param key   A key to associate the data
+     * @param value The data to be persisted
+     * @return This building request
+     */
+    @Override
+    RequestBuilder save(String key, Object value);
 
     /**
      * Poll the request according to the specified strategy with no interval.

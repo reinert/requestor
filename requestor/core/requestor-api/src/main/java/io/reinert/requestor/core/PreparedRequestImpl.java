@@ -194,11 +194,6 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public Store getStore() {
-        return request.getStore();
-    }
-
-    @Override
     public boolean isWithCredentials() {
         return withCredentials;
     }
@@ -231,5 +226,41 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public void setWithCredentials(boolean withCredentials) {
         this.withCredentials = withCredentials;
+    }
+
+    //===================================================================
+    // Store methods
+    //===================================================================
+
+    @Override
+    public <T> T retrieve(String key) {
+        return request.retrieve(key);
+    }
+
+    @Override
+    public PreparedRequest save(String key, Object value) {
+        request.save(key, value);
+        return this;
+    }
+
+    @Override
+    public PreparedRequest save(String key, Object value, Level level) {
+        request.save(key, value, level);
+        return this;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return request.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return request.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        request.clear();
     }
 }

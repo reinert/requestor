@@ -25,13 +25,6 @@ import io.reinert.requestor.core.uri.Uri;
 public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOptions {
 
     /**
-     * Returns the request-scope store available in this request/response lifecycle.
-     *
-     * @return the request-scope store
-     */
-    Store getStore();
-
-    /**
      * Set the URI of this request.
      *
      * @param uri The endpoint of this request

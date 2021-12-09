@@ -22,7 +22,7 @@ import io.reinert.requestor.core.payload.type.PayloadType;
  *
  * @author Danilo Reinert
  */
-public interface IncomingResponse {
+public interface IncomingResponse extends Store {
 
     /**
      * Returns the value of the requested header or null if the header was not
@@ -100,12 +100,5 @@ public interface IncomingResponse {
      * @return  the original request
      */
     RequestOptions getRequestOptions();
-
-    /**
-     * Returns the store of this request/response cycle.
-     *
-     * @return the store
-     */
-    Store getStore();
 
 }

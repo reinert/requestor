@@ -101,8 +101,33 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public final Store getStore() {
-        return response.getStore();
+    public <T> T retrieve(String key) {
+        return response.retrieve(key);
+    }
+
+    @Override
+    public Store save(String key, Object value) {
+        return response.save(key, value);
+    }
+
+    @Override
+    public Store save(String key, Object value, Level level) {
+        return response.save(key, value, level);
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return response.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return response.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        response.clear();
     }
 
     @Override

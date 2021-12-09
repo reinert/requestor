@@ -48,6 +48,10 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         this.deferred = deferred;
     }
 
+    //===================================================================
+    // RequestInProcess methods
+    //===================================================================
+
     @Override
     public void process() {
         final Auth auth = request.getAuth();
@@ -67,6 +71,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public final void proceed() {
+        this.process();
+    }
+
+    @Override
     public void abort(MockResponse response) {
         final RawResponse rawResponse = new RawResponse(deferred, response.getStatus(), response.getHeaders(),
                 responsePayloadType, response.getSerializedPayload());
@@ -79,10 +88,9 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         deferred.reject(error);
     }
 
-    @Override
-    public final void proceed() {
-        this.process();
-    }
+    //===================================================================
+    // MutableSerializedRequest methods
+    //===================================================================
 
     @Override
     public void setUri(Uri uri) {
@@ -145,6 +153,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public final void setMethod(HttpMethod httpMethod) {
+        request.setMethod(httpMethod);
+    }
+
+    @Override
     public void setSerializedPayload(SerializedPayload serializedPayload) {
         request.setSerializedPayload(serializedPayload);
     }
@@ -160,9 +173,17 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public final void setMethod(HttpMethod httpMethod) {
-        request.setMethod(httpMethod);
+    public void serializePayload(SerializedPayload serializedPayload) {
+        try {
+            ((SerializableRequest) request).serializePayload(serializedPayload);
+        } catch (ClassCastException e) {
+            logger.warning("Cannot serialize payload. Delegated request is not a SerializableRequest.");
+        }
     }
+
+    //===================================================================
+    // RequestOptions methods
+    //===================================================================
 
     @Override
     public final String getAccept() {
@@ -197,15 +218,6 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     @Override
     public final Payload getPayload() {
         return request.getPayload();
-    }
-
-    @Override
-    public void serializePayload(SerializedPayload serializedPayload) {
-        try {
-            ((SerializableRequest) request).serializePayload(serializedPayload);
-        } catch (ClassCastException e) {
-            logger.warning("Cannot serialize payload. Delegated request is not a SerializableRequest.");
-        }
     }
 
     @Override
@@ -278,10 +290,45 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         return request.getAuth();
     }
 
+    //===================================================================
+    // Store methods
+    //===================================================================
+
     @Override
-    public final Store getStore() {
-        return request.getStore();
+    public <T> T retrieve(String key) {
+        return request.retrieve(key);
     }
+
+    @Override
+    public RequestInAuthProcess<R> save(String key, Object value) {
+        request.save(key, value);
+        return this;
+    }
+
+    @Override
+    public RequestInAuthProcess<R> save(String key, Object value, Level level) {
+        request.save(key, value, level);
+        return this;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return request.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return request.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        request.clear();
+    }
+
+    //===================================================================
+    // RequestInAuthProcess methods
+    //===================================================================
 
     public RequestDispatcher getDispatcher() {
         return dispatcher;

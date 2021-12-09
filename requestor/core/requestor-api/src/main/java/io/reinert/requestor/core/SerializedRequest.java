@@ -18,14 +18,12 @@ package io.reinert.requestor.core;
 import io.reinert.requestor.core.payload.SerializedPayload;
 
 /**
- * Represents a HTTP Request with the body already serialized.
+ * Represents an HTTP Request with the body already serialized.
  *
  * @author Danilo Reinert
  */
-public interface SerializedRequest extends RequestOptions, HasPollingOptions {
+public interface SerializedRequest extends RequestOptions, HasPollingOptions, Store {
 
     SerializedPayload getSerializedPayload();
-
-    Store getStore();
 
 }

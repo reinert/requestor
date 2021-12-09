@@ -103,6 +103,18 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
     }
 
     @Override
+    public AbstractRequestInvoker save(String key, Object value, Level level) {
+        super.save(key, value, level);
+        return this;
+    }
+
+    @Override
+    public AbstractRequestInvoker save(String key, Object value) {
+        super.save(key, value);
+        return this;
+    }
+
+    @Override
     public AbstractRequestInvoker poll(PollingStrategy strategy) {
         super.poll(strategy);
         return this;

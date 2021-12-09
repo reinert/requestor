@@ -146,4 +146,14 @@ public interface PollingRequestBuilder extends RequestBuilder, HasPollingOptions
      */
     PollingRequestBuilder retry(int[] delaysMillis, Event... events);
 
+    /**
+     * Saves an object associated with a key that can be later retrieved in the request processing.
+     *
+     * @param key   A key to associate the data
+     * @param value The data to be persisted
+     * @return This building request
+     */
+    @Override
+    PollingRequestBuilder save(String key, Object value);
+
 }

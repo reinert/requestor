@@ -20,9 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public interface InProcess {
-
-    Store getStore();
+public interface InProcess extends Store {
 
     void proceed();
 

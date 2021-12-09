@@ -174,11 +174,6 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public LeafStore getStore() {
-        return store;
-    }
-
-    @Override
     public List<Integer> getRetryDelays() {
         return retryOptions != null ? retryOptions.getDelays() : Collections.<Integer>emptyList();
     }
@@ -381,6 +376,42 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     //===================================================================
+    // Store methods
+    //===================================================================
+
+    @Override
+    public <T> T retrieve(String key) {
+        return store.retrieve(key);
+    }
+
+    @Override
+    public RequestBuilderImpl save(String key, Object value, Level level) {
+        store.save(key, value, level);
+        return this;
+    }
+
+    @Override
+    public RequestBuilderImpl save(String key, Object value) {
+        store.save(key, value);
+        return this;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return store.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return store.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        store.clear();
+    }
+
+//===================================================================
     // MutableSerializedRequest
     //===================================================================
 

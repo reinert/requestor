@@ -43,6 +43,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     private boolean deserialized = false;
     private final PayloadType payloadType;
     private final Deferred<?> deferred;
+    private final Request<?> request;
 
     public RawResponse(Deferred<?> deferred, HttpStatus status, Headers headers, PayloadType payloadType) {
         this(deferred, status, headers, payloadType, null);
@@ -57,6 +58,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
         this.payloadType = payloadType;
         this.serializedPayload = serializedPayload == null ? SerializedPayload.EMPTY_PAYLOAD : serializedPayload;
         this.deferred = deferred;
+        this.request = deferred.getRequest();
     }
 
     @Override
@@ -135,12 +137,39 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
 
     @Override
     public RequestOptions getRequestOptions() {
-        return deferred.getRequest();
+        return request;
     }
 
     @Override
-    public Store getStore() {
-        return deferred.getRequest().getStore();
+    public <T> T retrieve(String key) {
+        return request.retrieve(key);
+    }
+
+    @Override
+    public RawResponse save(String key, Object value) {
+        request.save(key, value);
+        return this;
+    }
+
+    @Override
+    public RawResponse save(String key, Object value, Level level) {
+        request.save(key, value, level);
+        return this;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return request.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return request.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        request.clear();
     }
 
     @Override

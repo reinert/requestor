@@ -31,7 +31,6 @@ import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.SerializedRequest;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
-import io.reinert.requestor.core.Store;
 import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
@@ -175,8 +174,35 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public Store getStore() {
-        return serializedRequest.getStore();
+    public <O> O retrieve(String key) {
+        return serializedRequest.retrieve(key);
+    }
+
+    @Override
+    public DeferredPollingRequest<T> save(String key, Object value) {
+        serializedRequest.save(key, value);
+        return this;
+    }
+
+    @Override
+    public DeferredPollingRequest<T> save(String key, Object value, Level level) {
+        serializedRequest.save(key, value, level);
+        return this;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return serializedRequest.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return serializedRequest.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        serializedRequest.clear();
     }
 
     //===================================================================

@@ -218,11 +218,6 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public final Store getStore() {
-        return request.getStore();
-    }
-
-    @Override
     public MutableSerializedRequest copy() {
         return request.copy();
     }
@@ -245,5 +240,35 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     @Override
     public final void abort(RequestAbortException error) {
         request.abort(error);
+    }
+
+    @Override
+    public <T> T retrieve(String key) {
+        return request.retrieve(key);
+    }
+
+    @Override
+    public Store save(String key, Object value) {
+        return request.save(key, value);
+    }
+
+    @Override
+    public Store save(String key, Object value, Level level) {
+        return request.save(key, value, level);
+    }
+
+    @Override
+    public boolean exists(String key) {
+        return request.exists(key);
+    }
+
+    @Override
+    public boolean remove(String key) {
+        return request.remove(key);
+    }
+
+    @Override
+    public void clear() {
+        request.clear();
     }
 }
