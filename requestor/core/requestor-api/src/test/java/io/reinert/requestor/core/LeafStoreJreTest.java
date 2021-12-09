@@ -56,7 +56,7 @@ public class LeafStoreJreTest {
         LeafStore leafStore = new LeafStore(store);
 
         // When
-        boolean removed = leafStore.delete(KEY);
+        boolean removed = leafStore.remove(KEY);
 
         // Then
         assertFalse(removed);
@@ -73,7 +73,7 @@ public class LeafStoreJreTest {
         leafStore.save(key, expected);
 
         // When
-        boolean returned = leafStore.delete(key);
+        boolean returned = leafStore.remove(key);
 
         // Then
         assertTrue(returned);
@@ -89,8 +89,8 @@ public class LeafStoreJreTest {
         leafStore.save(KEY, localExpected);
 
         // When
-        boolean removed = leafStore.delete(KEY);
-        boolean parentRemoved = leafStore.delete(KEY);
+        boolean removed = leafStore.remove(KEY);
+        boolean parentRemoved = leafStore.remove(KEY);
 
         // Then
         assertTrue(removed);
@@ -111,8 +111,8 @@ public class LeafStoreJreTest {
         leafStore.save(KEY, localExpected);
 
         // When
-        boolean removed = leafStore.delete(KEY);
-        boolean parentRemoved = leafStore.delete(KEY);
+        boolean removed = leafStore.remove(KEY);
+        boolean parentRemoved = leafStore.remove(KEY);
 
         // Then
         assertTrue(removed);

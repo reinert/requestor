@@ -53,7 +53,7 @@ public class StoreJreTest {
         store.save(key, expected);
 
         // When
-        boolean removed = store.delete(key);
+        boolean removed = store.remove(key);
 
         // Then
         assertTrue(removed);

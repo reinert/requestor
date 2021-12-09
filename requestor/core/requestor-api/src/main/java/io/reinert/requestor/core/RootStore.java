@@ -53,7 +53,7 @@ class RootStore implements Store {
     }
 
     @Override
-    public boolean delete(String key) {
+    public boolean remove(String key) {
         return dataMap.remove(key) != null;
     }
 

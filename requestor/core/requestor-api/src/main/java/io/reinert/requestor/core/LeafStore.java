@@ -91,7 +91,7 @@ class LeafStore implements Store {
     }
 
     @Override
-    public boolean delete(String key) {
+    public boolean remove(String key) {
         if (localDataMap != null) {
             return localDataMap.remove(key) != null;
         }

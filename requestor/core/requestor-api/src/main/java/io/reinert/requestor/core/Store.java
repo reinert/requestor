@@ -37,7 +37,7 @@ public interface Store {
     <T> T retrieve(String key);
 
     /**
-     * Inserts the value into the store associated with the key.
+     * Saves the value into the store associated with the key.
      * Being a request scope store, the data will be available during the request/response lifecycle only.
      *
      * @param key   A key to associate the data
@@ -46,7 +46,7 @@ public interface Store {
     void save(String key, Object value);
 
     /**
-     * Inserts the value into the store associated with the key.
+     * Saves the value into the store associated with the key.
      * Being a request scope store, the data will be available during the request/response lifecycle only.
      * If you want to persist it in the immediate parent store, set the level param to <code>Level.PARENT</code>.
      * If you want to persist it in the root store, set the level param to <code>Level.ROOT</code>.
@@ -73,7 +73,7 @@ public interface Store {
      * @param key The key associated with the data
      * @return <code>True</code> if any data was removed. <code>False</code> otherwise.
      */
-    boolean delete(String key);
+    boolean remove(String key);
 
     /**
      * Clears the data associated with this Store.
