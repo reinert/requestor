@@ -73,6 +73,12 @@ public class Showcase implements EntryPoint {
 
         // Goes to place represented on URL or default place
         historyHandler.handleCurrentHistory();
+
+        // Ping the server to wake-up
+        clientFactory.getSession()
+                .req(clientFactory.getUriBuilder().segment("ping").build())
+                .save("hidden", true)
+                .get();
     }
 
     private void populateMenu() {

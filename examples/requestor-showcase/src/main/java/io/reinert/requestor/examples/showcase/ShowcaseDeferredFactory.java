@@ -37,39 +37,42 @@ import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
 class ShowcaseDeferredFactory implements DeferredPool.Factory {
 
     @Override
-    public <T> DeferredPool<T> create(SerializedRequest serializedRequest) {
-        final DeferredPollingRequest<T> deferredPool = new DeferredPollingRequest<T>(serializedRequest);
+    public <T> DeferredPool<T> create(SerializedRequest request) {
+        final DeferredPollingRequest<T> deferredPool = new DeferredPollingRequest<T>(request);
 
-        // Show loading widget
-        Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferredPool);
+        if (!request.isEquals("hidden", true)) {
+            // Show loading widget
+            Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferredPool);
 
-        deferredPool.onFail(new ResponseCallback() {
-            public void execute(Response response) {
-                if (Status.UNAUTHORIZED.is(response.getStatusCode())) {
-                    Window.alert("The XHR could not be opened due to security reasons. "
-                            + "If you are using IE9- or Opera Mini probably it's because the poor support for CORS of "
-                            + "your browser. See browser's console log for more details.");
-                } else {
-                    Window.alert("The request has failed with the following status code: \""
-                            + response.getStatus().getStatusCode()
-                            + "\". See browser's network for more details.");
+            // Register callbacks to hide the loading widget
+            deferredPool.onFail(new ResponseCallback() {
+                public void execute(Response response) {
+                    if (Status.UNAUTHORIZED.is(response.getStatusCode())) {
+                        Window.alert("The XHR could not be opened due to security reasons. "
+                                + "If you are using IE9- or Opera Mini probably it's because the poor support for" +
+                                " CORS of your browser. See browser's console log for more details.");
+                    } else {
+                        Window.alert("The request has failed with the following status code: \""
+                                + response.getStatus().getStatusCode()
+                                + "\". See browser's network for more details.");
+                    }
                 }
-            }
-        }).onLoad(new ResponseCallback() {
-            public void execute(Response response) {
-                // Hide loading widget
-                Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferredPool);
-            }
-        }).onError(new ExceptionCallback() {
-            public void execute(RequestException exception) {
-                // Hide loading widget
-                Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferredPool);
+            }).onLoad(new ResponseCallback() {
+                public void execute(Response response) {
+                    // Hide loading widget
+                    Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferredPool);
+                }
+            }).onError(new ExceptionCallback() {
+                public void execute(RequestException exception) {
+                    // Hide loading widget
+                    Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new HideLoadingEvent(), deferredPool);
 
-                GWT.log("The following error has occurred while requesting.", exception);
+                    GWT.log("The following error has occurred while requesting.", exception);
 
-                Window.alert("The request has failed. See browser's console for more details.");
-            }
-        });
+                    Window.alert("The request has failed. See browser's console for more details.");
+                }
+            });
+        }
 
         return deferredPool;
     }
