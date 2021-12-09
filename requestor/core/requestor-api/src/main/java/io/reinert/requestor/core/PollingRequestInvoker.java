@@ -24,7 +24,7 @@ import io.reinert.requestor.core.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface PollingRequestInvoker extends PollingRequestBuilder, PollingInvoker, RequestInvoker {
+public interface PollingRequestInvoker extends PollingRequestBuilder, HttpPollingInvoker, RequestInvoker {
 
     @Override
     PollingRequestInvoker contentType(String mediaType);

@@ -24,7 +24,7 @@ import java.util.Collection;
  *
  * @author Danilo Reinert
  */
-public interface Invoker {
+public interface HttpInvoker {
 
     Request<Void> get();
 

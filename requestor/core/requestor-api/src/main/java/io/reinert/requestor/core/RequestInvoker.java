@@ -24,7 +24,7 @@ import io.reinert.requestor.core.header.Header;
  *
  * @author Danilo Reinert
  */
-public interface RequestInvoker extends RequestBuilder, Invoker {
+public interface RequestInvoker extends RequestBuilder, HttpInvoker {
 
     @Override
     RequestInvoker contentType(String mediaType);

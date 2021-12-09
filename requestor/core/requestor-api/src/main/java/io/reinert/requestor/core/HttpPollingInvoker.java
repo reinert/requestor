@@ -18,13 +18,13 @@ package io.reinert.requestor.core;
 import java.util.Collection;
 
 /**
- * Defines HTTP invocation methods to polling request.
+ * Defines HTTP invocation methods to polling requests.
  *
  * @see PollingRequestInvoker
  *
  * @author Danilo Reinert
  */
-public interface PollingInvoker extends Invoker {
+public interface HttpPollingInvoker extends HttpInvoker {
 
     @Override
     PollingRequest<Void> get();
