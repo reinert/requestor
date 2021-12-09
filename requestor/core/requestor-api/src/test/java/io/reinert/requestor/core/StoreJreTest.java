@@ -41,7 +41,7 @@ public class StoreJreTest {
 
         // Then
         assertEquals(expected, returned);
-        assertTrue(store.has(key));
+        assertTrue(store.exists(key));
     }
 
     @Test
@@ -57,6 +57,6 @@ public class StoreJreTest {
 
         // Then
         assertTrue(removed);
-        assertFalse(store.has(key));
+        assertFalse(store.exists(key));
     }
 }

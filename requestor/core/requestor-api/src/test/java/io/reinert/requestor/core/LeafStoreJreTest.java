@@ -47,7 +47,7 @@ public class LeafStoreJreTest {
 
         // Then
         assertEquals(VALUE, returned);
-        assertTrue(leafStore.has(KEY));
+        assertTrue(leafStore.exists(KEY));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class LeafStoreJreTest {
 
         // Then
         assertFalse(removed);
-        assertTrue(leafStore.has(KEY));
+        assertTrue(leafStore.exists(KEY));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class LeafStoreJreTest {
 
         // Then
         assertTrue(returned);
-        assertFalse(leafStore.has(key));
+        assertFalse(leafStore.exists(key));
     }
 
     @Test
@@ -95,7 +95,7 @@ public class LeafStoreJreTest {
         // Then
         assertTrue(removed);
         assertFalse(parentRemoved);
-        assertTrue(leafStore.has(KEY));
+        assertTrue(leafStore.exists(KEY));
     }
 
     @Test
@@ -117,6 +117,6 @@ public class LeafStoreJreTest {
         // Then
         assertTrue(removed);
         assertFalse(parentRemoved);
-        assertTrue(volatileParent.has(KEY));
+        assertTrue(volatileParent.exists(KEY));
     }
 }

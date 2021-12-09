@@ -63,7 +63,7 @@ public interface Store {
      * @param key The key associated with the data
      * @return <code>True</code> if there's any data associated with the key. <code>False</code> otherwise.
      */
-    boolean has(String key);
+    boolean exists(String key);
 
     /**
      * Removes the data associated with this key.

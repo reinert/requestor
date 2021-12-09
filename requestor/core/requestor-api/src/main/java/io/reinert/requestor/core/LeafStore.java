@@ -80,8 +80,8 @@ class LeafStore implements Store {
     }
 
     @Override
-    public boolean has(String key) {
-        boolean has = parentStore.has(key);
+    public boolean exists(String key) {
+        boolean has = parentStore.exists(key);
 
         if (has) return true;
 

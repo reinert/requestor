@@ -48,7 +48,7 @@ class RootStore implements Store {
     }
 
     @Override
-    public boolean has(String key) {
+    public boolean exists(String key) {
         return dataMap.containsKey(key);
     }
 
