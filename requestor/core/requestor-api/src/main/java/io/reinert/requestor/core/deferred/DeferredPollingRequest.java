@@ -196,6 +196,11 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
+    public boolean isEquals(String key, Object value) {
+        return serializedRequest.isEquals(key, value);
+    }
+
+    @Override
     public boolean remove(String key) {
         return serializedRequest.remove(key);
     }

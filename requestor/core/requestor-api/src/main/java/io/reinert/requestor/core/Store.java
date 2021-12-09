@@ -58,12 +58,22 @@ public interface Store extends Saver {
     Store save(String key, Object value, Level level);
 
     /**
-     * Checks if there's any data associated with the given key.
+     * Checks if there's an object associated with the given key.
      *
-     * @param key The key associated with the data
+     * @param key The key associated with the object
      * @return <code>True</code> if there's any data associated with the key. <code>False</code> otherwise.
      */
     boolean exists(String key);
+
+    /**
+     * Checks if there's an object associated with the given key and if it's equals to the given value.
+     *
+     * @param key   The key associated with the object
+     * @param value The value to compare equality
+     * @return <code>True</code> if there's an object equals to the given value associated with the key.
+     *         <code>False</code> otherwise.
+     */
+    boolean isEquals(String key, Object value);
 
     /**
      * Removes the data associated with this key.

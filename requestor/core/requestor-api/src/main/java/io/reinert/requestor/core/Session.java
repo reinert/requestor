@@ -611,6 +611,11 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public boolean isEquals(String key, Object value) {
+        return store.isEquals(key, value);
+    }
+
+    @Override
     public boolean remove(String key) {
         return store.remove(key);
     }

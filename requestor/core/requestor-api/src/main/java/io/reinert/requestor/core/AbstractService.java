@@ -181,6 +181,11 @@ public class AbstractService implements Service {
     }
 
     @Override
+    public boolean isEquals(String key, Object value) {
+        return store.isEquals(key, value);
+    }
+
+    @Override
     public boolean remove(String key) {
         return store.remove(key);
     }

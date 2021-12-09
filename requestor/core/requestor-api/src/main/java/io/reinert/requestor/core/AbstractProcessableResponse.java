@@ -121,6 +121,11 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
+    public boolean isEquals(String key, Object value) {
+        return response.isEquals(key, value);
+    }
+
+    @Override
     public boolean remove(String key) {
         return response.remove(key);
     }

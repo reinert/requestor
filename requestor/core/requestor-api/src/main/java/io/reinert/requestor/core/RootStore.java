@@ -55,6 +55,12 @@ class RootStore implements Store {
     }
 
     @Override
+    public boolean isEquals(String key, Object value) {
+        Object retrieved = dataMap.get(key);
+        return retrieved != null && (retrieved == value || retrieved.equals(value));
+    }
+
+    @Override
     public boolean remove(String key) {
         return dataMap.remove(key) != null;
     }

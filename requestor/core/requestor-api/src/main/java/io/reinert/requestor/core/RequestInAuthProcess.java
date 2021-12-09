@@ -317,6 +317,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public boolean isEquals(String key, Object value) {
+        return request.isEquals(key, value);
+    }
+
+    @Override
     public boolean remove(String key) {
         return request.remove(key);
     }

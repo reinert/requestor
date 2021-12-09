@@ -93,6 +93,12 @@ class LeafStore implements Store {
     }
 
     @Override
+    public boolean isEquals(String key, Object value) {
+        Object retrieved = retrieve(key);
+        return retrieved != null && (retrieved == value || retrieved.equals(value));
+    }
+
+    @Override
     public boolean remove(String key) {
         if (localDataMap != null) {
             return localDataMap.remove(key) != null;
