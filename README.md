@@ -1442,11 +1442,15 @@ Session session = new Session(new AppDeferredPoolFactory());
 
 ## Store
 
-Requestor provides a place where we can save and retrieve objects by key: the `Store`. There are two different kinds of Store: `RootStore` and `LeafStore`. The [Session](#session) features a long-living `RootStore` where we can save and retrieve objects by key during the Session's life. On top of that, whenever we create a new **Request** or **Service**, we have access to a new short-living `LeafStore` to manage data during the component's lifecycle.
+Requestor features a component to save and retrieve objects by key: the `Store`. The `Session`, the `Service`, the `Request`, and the `Response` types extend the `Store` interface so that all of them provide such functionality.
 
-The `LeafStore` envelopes a `Store` (be it Leaf or Root) to expose access to its data. Thus, whenever the Leaf Store is queried, it first tries to retrieve data from its local storage. Not succeeding, it queries the underlying Store. When saving data, we can ask the Leaf Store to save it locally or delegate it to the wrapped Store. Finally, when deleting, we are able to remove only locally saved data. We cannot delete data persisted in the underlying Store from the Leaf Store.
+When a Store is generated from another store, it is linked to the previous Store in a tree structure. This structure allows the Stores to maintain their own scope of saved data while delegating queries to the parents when they do not find an object.
 
-The `Session`, the `Service`, the `Request` and the `Response` types extend the `Store` interface, so that all of them provide the following store operations:
+For example, if we create a Request from a Session, the Request is a Store linked to the Session Store. Differently, if we create a Request from a Service, the Request Store is linked to the Service Store. In its turn, since a Service is created from a Session, the Service Store is linked to the Session Store.
+
+Also, note that when a Request produces a Response, they share the same Store. So there is one Store only in a Request-Response lifecycle.
+
+A Store provides the following operations:
 
 ```java
 interface Store {
@@ -1454,14 +1458,14 @@ interface Store {
     // Queries an object associated with the given key.
     <T> T retrieve(String key);
 
-    // Saves the value into the store associated with the key.
-    // Being a request scope store, the data will be available during the request/response lifecycle only.
+    // Saves the value into the store associating with the key.
+    // Returns the same store to enable save chaining.
     Store save(String key, Object value);
 
-    // Saves the value into the store associated with the key.
-    // Being a request scope store, the data will be available during the request/response lifecycle only.
-    // If you want to persist it in the immediate parent store, set the level param to <code>Level.PARENT</code>.
-    // If you want to persist it in the root store, set the level param to <code>Level.ROOT</code>.
+    // Saves the value associating with the key in a upstream store according to the specified level.
+    // To persist in the immediate parent store, set the level param to Level.PARENT.
+    // To persist in the root store, set the level param to Level.ROOT.
+    // Returns the same store to enable save chaining.
     Store save(String key, Object value, Level level);
 
     // Checks if there's an object associated with the given key.
@@ -1470,29 +1474,24 @@ interface Store {
     // Checks if there's an object associated with the given key and if it's equals to the given value.
     boolean isEquals(String key, Object value);
 
-    // Removes the data associated with this key.
-    // Being a request scope store, only the data that was added in the request/response lifecycle is erased.
-    // Being a session scope store, any data in the store is erased.
+    // Removes the object associated with this key if it owns such record.
     boolean remove(String key);
 
-    // Clears all data registered in this Store.
-    // Being a request scope store, only the data that was added in the request/response lifecycle is erased.
-    // Being a session scope store, any data in the store is erased.
+    // Clears all data owned by this Store.
     void clear();
 }
 ```
 
 ### Session Store
 
-The Session Store is available throughout the Session's life.
-The Session extends all methods from Store interface.
-With the Store, we can put, get and remove objects by key.
+Since a Session is not linked to any parent, it is a Root Store.
+With it, we can save, retrieve and remove objects by key.
 
 ```java
-// Save an object in the store
+// Save an object in the session store
 session.save("key", anyObject);
 
-// Get an object from the store
+// Get an object from the session store
 // Automatically typecasts to the requested type
 AnyType object = session.retrieve("key");
         
@@ -1502,19 +1501,19 @@ boolean isSaved = session.exists("key");
 // Check if there's an object with that key equals to the given value
 boolean isEquals = session.isEquals("key", anyObject);
 
-// Remove the object from the store
+// Remove the object from the session store
 boolean isRemoved = session.remove("key");
 ```
 
 ### Request Store
 
-The Request Store is a `LeafStore` available during the [Request Lifecycle](#processors-middlewares) and accessed within the [Processors](#processors-middlewares) either by `request.getStore()` or by `response.getStore()`.
+Both the Request and the Response is a Store available during the [Request Lifecycle](#processors-middlewares) and accessed within the [Processors](#processors-middlewares).
 
-Having a transient **Request Store** is helpful to share information among **Processors** without cluttering the deriving **Session Store** or **Service Store**.
+Having a transient **Request Store** is helpful to share information among **Processors** without cluttering the **Session Store** or **Service Store** that generated it.
 
-The Request Store provides access to the upstream Stores' data. We can even persist data from the Request Store into the upstream Stores, though we cannot delete data from them.
+The Request Store provides access to the upstream Stores' data. We can even persist data from the Request Store into the parent Stores, though we cannot delete data from them.
 
-When we call `request.retrieve(<key>)`, the Request Store first tries to retrieve the associated object from the request scope store. Not finding, it queries the parent Store, and so on until it reaches the `RootStore`. Also, the result is automatically typecasted to the requested type.
+When we call `request.retrieve(<key>)`, the Request Store first tries to retrieve the associated object from its own scope. Not finding, it queries the parent Store, and so on until it reaches the Root Store. Also, the result is automatically typecasted to the requested type.
 
 ```java
 // Get an object from the store or the deriving store
@@ -1522,7 +1521,7 @@ When we call `request.retrieve(<key>)`, the Request Store first tries to retriev
 AnyType object = request.retrieve("key");
 ```
 
-The same store is shared by the request and response that it generates. Hence, we can also access the request scope store from the response, sharing data only in a single request-response lifecycle.
+The same underlying Store is shared by a Request and a Response. Hence, we can also access the Request scope Store from the Response, sharing data in a single Request-Response lifecycle.
 
 ```java
 session.req("/server")
@@ -1537,10 +1536,10 @@ session.req("/server")
 ```
 
 To save an object locally, we call `request.save(<key>, <object>)`.
-Differently, to save an object in the upstream Store, we call `request.save(<key>, <object>, <level>)`.
-If the request was originated from a [Service](#services) and we set the level as `Level.PARENT`, then the data is saved in the Service's `LeafStore`.
-But if we set the level as `Level.ROOT`, the data is saved in the Session's `RootStore`.
-In the other hand, if the request was directly originated from a [Session](#session), then both `Level.PARENT` and `Level.ROOT` will cause the same effect of saving in the Session's Store, because the request's parent and root stores are the same.
+Differently, to save an object in a upstream Store, we call `request.save(<key>, <object>, <level>)`.
+If the request was originated from a [Service](#services) and we set the level as `Level.PARENT`, then the data is saved in the Service Store.
+But if we set the level as `Level.ROOT`, the data is saved in the Session Store that is linked to the Service.
+In the other hand, if the request was directly originated from a [Session](#session), then both `Level.PARENT` and `Level.ROOT` will cause the same effect of saving in the Session Store, because the Request's parent and root Stores are the same.
 
 ```java
 /* SESSION scenario */
@@ -1588,16 +1587,17 @@ response.remove("key");
 For instance, suppose you created processors to show a loading widget when requesting and hide when the response is received or an error occurs.
 But, for some reason, you want to make 'hidden' requests, so that the loading widget is not shown.
 You can then call `.save("hidden", true)` when building the request and check for this flag in the processors by calling `.isEquals("hidden", true)` to skip displaying the loading widget.
+Requestor's showcase app implements such scenario. [Here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/Showcase.java#L80) a hidden ping request is executed to wake-up the server, and [here](https://github.com/reinert/requestor/blob/main/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/ShowcaseDeferredFactory.java#L43) the Request Store is queried to skip showing the loading widget.
 
 ### Service Store
 
-The Service Store is a `LeafStore` derived from the Session Store.
+A Service is a Store derived from the Session Store.
 
-Having a **Service Store** is helpful to share information among the requests that originated from that Service.
+Having a **Service Store** is helpful to share information in the context of that Service only.
 
-The Service Store provides access to the deriving Session Store's data. We can even persist data from the Service Store into the parent Session Store, though we cannot delete Session's data from it.
+The Service Store provides access to the parent Session Store's data. We can even persist data from the Service Store into the Session Store, though we cannot delete Session's data from it.
 
-When we call `service.retrieve(<key>)`, the Service Store first tries to retrieve the associated object from the service scope storage. Not finding, it queries the parent Session Store. Also, the result is automatically typecasted to the requested type.
+When we call `service.retrieve(<key>)`, the Service Store first tries to retrieve the associated object from its own scope. Not finding, it queries the parent Session Store. Also, the result is automatically typecasted to the requested type.
 
 ```java
 // Get an object from the store or the deriving session store
