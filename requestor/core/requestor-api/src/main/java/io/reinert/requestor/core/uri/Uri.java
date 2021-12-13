@@ -22,8 +22,6 @@ package io.reinert.requestor.core.uri;
  */
 public abstract class Uri {
 
-    private static UriParser PARSER;
-
     public static Uri copy(Uri uri) {
         return create(uri.toString());
     }
@@ -37,11 +35,7 @@ public abstract class Uri {
     }
 
     static UriParser getParser() {
-        if (PARSER == null) {
-            PARSER = UriParser.newInstance();
-        }
-
-        return PARSER;
+        return UriParser.newInstance();
     }
 
     public abstract String getScheme();
