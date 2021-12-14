@@ -123,8 +123,8 @@ public abstract class Uri {
         return new UriProxy(uri);
     }
 
-    static UriParser getParser() {
-        return UriParser.newInstance();
+    static UriBuilder builder() {
+        return UriBuilder.newInstance();
     }
 
     public abstract String getScheme();

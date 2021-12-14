@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author Danilo Reinert
  */
-public class UriBuilderImpl extends UriBuilder {
+class UriBuilderImpl extends UriBuilder {
 
     private String scheme;
     private String user;

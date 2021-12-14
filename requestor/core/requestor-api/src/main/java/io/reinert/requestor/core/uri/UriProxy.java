@@ -132,7 +132,7 @@ class UriProxy extends Uri {
 
     public UriImpl ensureImpl() {
         if (impl == null) {
-            final UriParser parser = getParser();
+            final UriParser parser = UriParser.newInstance();
             parser.parse(uriString);
             impl = parser.getUri();
         }

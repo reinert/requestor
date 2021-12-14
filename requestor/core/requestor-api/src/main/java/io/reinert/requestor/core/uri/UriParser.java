@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author Danilo Reinert
  */
-public class UriParser {
+class UriParser {
 
     private UriImpl uri;
     private String scheme;
