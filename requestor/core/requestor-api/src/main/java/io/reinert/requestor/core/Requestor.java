@@ -16,7 +16,6 @@
 package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.auth.BasicAuth;
-import io.reinert.requestor.core.uri.Buckets;
 import io.reinert.requestor.core.uri.UriCodec;
 
 /**
@@ -33,34 +32,24 @@ public class Requestor {
      *
      * <p>Call this method in a static block in the app's entry point.</p>
      */
-    public static void init(BasicAuth.Base64 base64, UriCodec uriCodec, Buckets.Factory bucketsFactory) {
-        if (base64 == null) throw new IllegalArgumentException("BasicAuth.Base64 cannot be null");
-        if (uriCodec == null) throw new IllegalArgumentException("UriCodec cannot be null");
-        if (bucketsFactory == null) throw new IllegalArgumentException("Buckets.Factory cannot be null");
-
-        doInit(base64, uriCodec, bucketsFactory);
-    }
-
     public static void init(BasicAuth.Base64 base64, UriCodec uriCodec) {
         if (base64 == null) throw new IllegalArgumentException("BasicAuth.Base64 cannot be null");
         if (uriCodec == null) throw new IllegalArgumentException("UriCodec cannot be null");
 
-        doInit(base64, uriCodec, null);
+        doInit(base64, uriCodec);
     }
 
     public static void init(BasicAuth.Base64 base64) {
         if (base64 == null) throw new IllegalArgumentException("BasicAuth.Base64 cannot be null");
 
-        doInit(base64, null, null);
+        doInit(base64, null);
     }
 
-    private static void doInit(BasicAuth.Base64 base64, UriCodec uriCodec, Buckets.Factory bucketsFactory) {
+    private static void doInit(BasicAuth.Base64 base64, UriCodec uriCodec) {
         if (initPending) {
             if (base64 != null) BasicAuth.BASE64 = base64;
 
             if (uriCodec != null) UriCodec.INSTANCE = uriCodec;
-
-            if (bucketsFactory != null) Buckets.Factory.INSTANCE = bucketsFactory;
 
             initPending = false;
         }

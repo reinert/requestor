@@ -18,7 +18,6 @@ package io.reinert.requestor.gwt;
 import io.reinert.requestor.core.Requestor;
 import io.reinert.requestor.core.auth.BasicAuth;
 import io.reinert.requestor.core.auth.DigestAuth;
-import io.reinert.requestor.core.uri.Buckets;
 
 /**
  * This class provides a static initializer for Requestor's deferred bindings for GWT environment.
@@ -41,13 +40,7 @@ public class RequestorGwt {
                             return $wnd.btoa(text);
                         }-*/;
                     },
-                    new GwtUriCodec(),
-                    new Buckets.Factory() {
-                        @Override
-                        protected Buckets create() {
-                            return new GwtBuckets();
-                        }
-                    }
+                    new GwtUriCodec()
             );
             DigestAuth.setHashFunction("md5", new DigestAuth.HashFunction() {
                 public String hash(String input) {
