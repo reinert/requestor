@@ -15,6 +15,9 @@
  */
 package io.reinert.requestor.core.uri;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * <p>A fast and lightweight Uri implementation from a stringified uri.</p>
  *
@@ -71,23 +74,18 @@ class UriProxy extends Uri {
     }
 
     @Override
-    public String[] getSegments() {
+    public List<String> getSegments() {
         return ensureImpl().getSegments();
     }
 
     @Override
-    public String[] getMatrixParams(String segment) {
+    public Collection<Param> getMatrixParams(String segment) {
         return ensureImpl().getMatrixParams(segment);
     }
 
     @Override
-    public String[] getMatrixValues(String segment, String param) {
-        return ensureImpl().getMatrixValues(segment, param);
-    }
-
-    @Override
-    public String getFirstMatrixValue(String segment, String param) {
-        return ensureImpl().getFirstMatrixValue(segment, param);
+    public Param getMatrixParam(String segment, String paramName) {
+        return ensureImpl().getMatrixParam(segment, paramName);
     }
 
     @Override
@@ -96,18 +94,13 @@ class UriProxy extends Uri {
     }
 
     @Override
-    public String[] getQueryParams() {
+    public Collection<Param> getQueryParams() {
         return ensureImpl().getQueryParams();
     }
 
     @Override
-    public String[] getQueryValues(String param) {
-        return ensureImpl().getQueryValues(param);
-    }
-
-    @Override
-    public String getFirstQueryValue(String param) {
-        return ensureImpl().getFirstQueryValue(param);
+    public Param getQueryParam(String paramName) {
+        return ensureImpl().getQueryParam(paramName);
     }
 
     @Override

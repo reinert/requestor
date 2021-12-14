@@ -15,6 +15,10 @@
  */
 package io.reinert.requestor.core.uri;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,29 +37,32 @@ class UriImpl extends Uri {
     private int port = -1;
     private String path;
     private String pathEncoded;
-    private String[] pathSegments;
-    private Map<String, Buckets> matrixParams;
+    private List<String> pathSegments;
+    private LinkedHashMap<String, LinkedHashMap<String, Param>> matrixParams;
     private String query;
     private String queryEncoded;
-    private Buckets queryParams;
+    private LinkedHashMap<String, Uri.Param> queryParams;
     private String fragment;
     private String uriString;
 
-    UriImpl(String scheme, String user, String password, String host, int port, String[] pathSegments,
-            Map<String, Buckets> matrixParams, Buckets queryParams, String fragment) {
+    UriImpl(String scheme, String user, String password, String host, int port, List<String> pathSegments,
+            LinkedHashMap<String, LinkedHashMap<String, Uri.Param>> matrixParams,
+            LinkedHashMap<String, Uri.Param> queryParams, String fragment) {
         this(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, fragment, null);
     }
 
     // Used only by UriParser which already has the uri stringified.
-    UriImpl(String scheme, String user, String password, String host, int port, String[] pathSegments,
-            Map<String, Buckets> matrixParams, Buckets queryParams, String fragment, String uriString) {
+    UriImpl(String scheme, String user, String password, String host, int port, List<String> pathSegments,
+            LinkedHashMap<String, LinkedHashMap<String, Uri.Param>> matrixParams,
+            LinkedHashMap<String, Uri.Param> queryParams, String fragment, String uriString) {
         // TODO: validate?
         this.scheme = scheme;
         this.user = user;
         this.password = password;
         this.host = host;
         this.port = port;
-        this.pathSegments = pathSegments;
+        this.pathSegments = pathSegments == null || pathSegments.isEmpty() ?
+                Collections.<String>emptyList() : Collections.unmodifiableList(pathSegments);
         this.matrixParams = matrixParams;
         buildPath();
         this.queryParams = queryParams;
@@ -95,28 +102,20 @@ class UriImpl extends Uri {
     }
 
     @Override
-    public String[] getSegments() {
+    public List<String> getSegments() {
         return pathSegments;
     }
 
     @Override
-    public String[] getMatrixParams(String segment) {
+    public Collection<Param> getMatrixParams(String segment) {
+        if (matrixParams == null) return Collections.emptyList();
+        return matrixParams.containsKey(segment) ? matrixParams.get(segment).values() : Collections.<Param>emptyList();
+    }
+
+    @Override
+    public Uri.Param getMatrixParam(String segment, String paramName) {
         if (matrixParams == null) return null;
-        final Buckets buckets = matrixParams.get(segment);
-        return buckets != null ? buckets.getKeys() : null;
-    }
-
-    @Override
-    public String[] getMatrixValues(String segment, String param) {
-        final Buckets buckets = matrixParams.get(segment);
-        return buckets != null ? buckets.get(param) : null;
-    }
-
-    @Override
-    public String getFirstMatrixValue(String segment, String param) {
-        final Buckets buckets = matrixParams.get(segment);
-        final String[] values = buckets != null ? buckets.get(param) : null;
-        return values != null ? values[0] : null;
+        return matrixParams.containsKey(segment) ? matrixParams.get(segment).get(paramName) : null;
     }
 
     @Override
@@ -126,19 +125,13 @@ class UriImpl extends Uri {
     }
 
     @Override
-    public String[] getQueryParams() {
-        return queryParams != null ? queryParams.getKeys() : null;
+    public Collection<Param> getQueryParams() {
+        return queryParams != null ? queryParams.values() : Collections.<Param>emptyList();
     }
 
     @Override
-    public String[] getQueryValues(String param) {
-        return queryParams.get(param);
-    }
-
-    @Override
-    public String getFirstQueryValue(String param) {
-        final String[] values = queryParams.get(param);
-        return values != null ? values[0] : null;
+    public Param getQueryParam(String paramName) {
+        return queryParams != null ? queryParams.get(paramName) : null;
     }
 
     @Override
@@ -191,31 +184,24 @@ class UriImpl extends Uri {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        final UriImpl uri = (UriImpl) o;
+        UriImpl uri = (UriImpl) o;
 
-        if (port != uri.port)
-            return false;
-        if (fragment != null ? !fragment.equals(uri.fragment) : uri.fragment != null)
-            return false;
-        if (host != null ? !host.equals(uri.host) : uri.host != null)
-            return false;
-        if (password != null ? !password.equals(uri.password) : uri.password != null)
-            return false;
-        if (path != null ? !path.equals(uri.path) : uri.path != null)
-            return false;
-        if (query != null ? !query.equals(uri.query) : uri.query != null)
-            return false;
-        if (scheme != null ? !scheme.equals(uri.scheme) : uri.scheme != null)
-            return false;
-        if (user != null ? !user.equals(uri.user) : uri.user != null)
-            return false;
-
-        return true;
+        if (port != uri.port) return false;
+        if (scheme != null ? !scheme.equals(uri.scheme) : uri.scheme != null) return false;
+        if (user != null ? !user.equals(uri.user) : uri.user != null) return false;
+        if (password != null ? !password.equals(uri.password) : uri.password != null) return false;
+        if (host != null ? !host.equals(uri.host) : uri.host != null) return false;
+        if (path != null ? !path.equals(uri.path) : uri.path != null) return false;
+        if (pathEncoded != null ? !pathEncoded.equals(uri.pathEncoded) : uri.pathEncoded != null) return false;
+        if (pathSegments != null ? !pathSegments.equals(uri.pathSegments) : uri.pathSegments != null) return false;
+        if (matrixParams != null ? !matrixParams.equals(uri.matrixParams) : uri.matrixParams != null) return false;
+        if (query != null ? !query.equals(uri.query) : uri.query != null) return false;
+        if (queryEncoded != null ? !queryEncoded.equals(uri.queryEncoded) : uri.queryEncoded != null) return false;
+        if (queryParams != null ? !queryParams.equals(uri.queryParams) : uri.queryParams != null) return false;
+        return fragment != null ? fragment.equals(uri.fragment) : uri.fragment == null;
     }
 
     @Override
@@ -226,7 +212,12 @@ class UriImpl extends Uri {
         result = 31 * result + (host != null ? host.hashCode() : 0);
         result = 31 * result + port;
         result = 31 * result + (path != null ? path.hashCode() : 0);
+        result = 31 * result + (pathEncoded != null ? pathEncoded.hashCode() : 0);
+        result = 31 * result + (pathSegments != null ? pathSegments.hashCode() : 0);
+        result = 31 * result + (matrixParams != null ? matrixParams.hashCode() : 0);
         result = 31 * result + (query != null ? query.hashCode() : 0);
+        result = 31 * result + (queryEncoded != null ? queryEncoded.hashCode() : 0);
+        result = 31 * result + (queryParams != null ? queryParams.hashCode() : 0);
         result = 31 * result + (fragment != null ? fragment.hashCode() : 0);
         return result;
     }
@@ -235,7 +226,7 @@ class UriImpl extends Uri {
         final StringBuilder pathBuilder = new StringBuilder("/");
         final StringBuilder pathEncodedBuilder = new StringBuilder("/");
 
-        if (pathSegments != null && pathSegments.length > 0) {
+        if (pathSegments != null && pathSegments.size() > 0) {
             for (final String segment : pathSegments) {
                 pathBuilder.append(segment);
                 pathEncodedBuilder.append(UriCodec.getInstance().encodePathSegment(segment));
@@ -255,22 +246,21 @@ class UriImpl extends Uri {
 
     private void appendMatrixParams(StringBuilder pathBuilder, StringBuilder pathEncodedBuilder, String segment) {
         if (matrixParams != null) {
-            Buckets segmentParams = matrixParams.get(segment);
+            Map<String, Param> segmentParams = matrixParams.get(segment);
             if (segmentParams != null) {
                 final UriCodec uriCodec = UriCodec.getInstance();
-                String[] params = segmentParams.getKeys();
-                for (String param : params) {
-                    String[] values = segmentParams.get(param);
+                for (String paramName : segmentParams.keySet()) {
+                    Param param = segmentParams.get(paramName);
                     // Check if the param has values
-                    if (values.length == 0) {
+                    if (param.getValue().length() == 0) {
                         // Append only the param name without any value
-                        pathBuilder.append(';').append(param);
-                        pathEncodedBuilder.append(';').append(uriCodec.encodePathSegment(param));
+                        pathBuilder.append(';').append(paramName);
+                        pathEncodedBuilder.append(';').append(uriCodec.encodePathSegment(paramName));
                     } else {
                         // Append the param and its values
-                        for (String value : values) {
-                            pathBuilder.append(';').append(param);
-                            pathEncodedBuilder.append(';').append(uriCodec.encodePathSegment(param));
+                        for (String value : param.getValues()) {
+                            pathBuilder.append(';').append(paramName);
+                            pathEncodedBuilder.append(';').append(uriCodec.encodePathSegment(paramName));
                             if (value != null) {
                                 pathBuilder.append('=').append(value);
                                 pathEncodedBuilder.append('=').append(uriCodec.encodePathSegment(value));
@@ -288,19 +278,18 @@ class UriImpl extends Uri {
 
         if (queryParams != null && !queryParams.isEmpty()) {
             final UriCodec uriCodec = UriCodec.getInstance();
-            String[] params = queryParams.getKeys();
-            for (String param : params) {
-                final String[] values = queryParams.get(param);
+            for (String paramName : queryParams.keySet()) {
+                final Param param = queryParams.get(paramName);
                 // Check if the param has values
-                if (values.length == 0) {
+                if (param.getValue().length() == 0) {
                     // Append only the param name without any value
-                    queryBuilder.append(param).append('&');
-                    queryEncodedBuilder.append(uriCodec.encodeQueryString(param)).append('&');
+                    queryBuilder.append(paramName).append('&');
+                    queryEncodedBuilder.append(uriCodec.encodeQueryString(paramName)).append('&');
                 } else {
                     // Append the param and its values
-                    for (String value : values) {
-                        queryBuilder.append(param);
-                        queryEncodedBuilder.append(uriCodec.encodeQueryString(param));
+                    for (String value : param.getValues()) {
+                        queryBuilder.append(paramName);
+                        queryEncodedBuilder.append(uriCodec.encodeQueryString(paramName));
                         if (value != null) {
                             queryBuilder.append('=').append(value);
                             queryEncodedBuilder.append('=').append(uriCodec.encodeQueryString(value));
@@ -310,10 +299,8 @@ class UriImpl extends Uri {
                     }
                 }
             }
-            queryBuilder.deleteCharAt(queryBuilder.length() - 1);
-            queryEncodedBuilder.deleteCharAt(queryEncodedBuilder.length() - 1);
-            query = queryBuilder.toString();
-            queryEncoded = queryEncodedBuilder.toString();
+            query = queryBuilder.substring(0, queryBuilder.length() - 1);
+            queryEncoded = queryEncodedBuilder.substring(0, queryEncodedBuilder.length() - 1);
         }
     }
 }

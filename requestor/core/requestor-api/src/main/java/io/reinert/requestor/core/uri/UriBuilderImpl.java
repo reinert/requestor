@@ -16,7 +16,8 @@
 package io.reinert.requestor.core.uri;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +35,8 @@ public class UriBuilderImpl extends UriBuilder {
     private int port;
     private List<String> segments;
     private String fragment;
-    private Buckets queryParams;
-    private Map<String, Buckets> matrixParams;
+    private LinkedHashMap<String, Uri.Param> queryParams;
+    private LinkedHashMap<String, LinkedHashMap<String, Uri.Param>> matrixParams;
 
     @Override
     public UriBuilder scheme(String scheme) throws IllegalArgumentException {
@@ -58,12 +59,12 @@ public class UriBuilderImpl extends UriBuilder {
         }
         uriBuilder.fragment = fragment;
         if (queryParams != null) {
-            uriBuilder.queryParams = queryParams.copy();
+            uriBuilder.queryParams = new LinkedHashMap<String, Uri.Param>(uriBuilder.queryParams);
         }
         if (matrixParams != null) {
-            uriBuilder.matrixParams = new HashMap<String, Buckets>();
+            uriBuilder.matrixParams = new LinkedHashMap<String, LinkedHashMap<String, Uri.Param>>();
             for (String key : matrixParams.keySet()) {
-                uriBuilder.matrixParams.put(key, matrixParams.get(key).copy());
+                uriBuilder.matrixParams.put(key, new LinkedHashMap<String, Uri.Param>(matrixParams.get(key)));
             }
         }
 
@@ -141,7 +142,7 @@ public class UriBuilderImpl extends UriBuilder {
         assertNotNull(values, "Parameter values cannot be null.");
 
         if (matrixParams == null) {
-            matrixParams = new HashMap<String, Buckets>();
+            matrixParams = new LinkedHashMap<String, LinkedHashMap<String, Uri.Param>>();
         }
 
         // At least one segment must exist
@@ -150,14 +151,12 @@ public class UriBuilderImpl extends UriBuilder {
 
         String segment = segments.get(segments.size() - 1);
 
-        Buckets segmentParams = matrixParams.get(segment);
+        LinkedHashMap<String, Uri.Param> segmentParams = matrixParams.get(segment);
         if (segmentParams == null) {
-            segmentParams = Buckets.Factory.newBuckets();
+            segmentParams = new LinkedHashMap<String, Uri.Param>();
             matrixParams.put(segment, segmentParams);
         }
-        for (Object value : values) {
-            segmentParams.add(name, value != null ? value.toString() : null);
-        }
+        segmentParams.put(name, Uri.Param.matrix(name, values));
 
         return this;
     }
@@ -167,10 +166,11 @@ public class UriBuilderImpl extends UriBuilder {
         assertNotNull(name, "Parameter name cannot be null.");
         assertNotNull(values, "Parameter values cannot be null.");
 
-        if (queryParams == null) queryParams = Buckets.Factory.newBuckets();
-        for (Object value : values) {
-            queryParams.add(name, value != null ? value.toString() : null);
+        if (queryParams == null) {
+            queryParams = new LinkedHashMap<String, Uri.Param>();
         }
+
+        queryParams.put(name, Uri.Param.query(name, values));
 
         return this;
     }
@@ -200,17 +200,17 @@ public class UriBuilderImpl extends UriBuilder {
         final String mHost = uri.getHost();
         if (mHost != null) host(mHost);
 
-        final String[] mSegments = uri.getSegments();
+        final List<String> mSegments = uri.getSegments();
         if (mSegments != null) {
             this.segments = null;
             this.matrixParams = null;
             for (String segment : mSegments) {
                 segment(segment);
                 // Check matrix params for this segment
-                final String[] mMatrixParams = uri.getMatrixParams(segment);
+                final Collection<Uri.Param> mMatrixParams = uri.getMatrixParams(segment);
                 if (mMatrixParams != null) {
-                    for (String param : mMatrixParams) {
-                        matrixParam(param, (Object[]) uri.getMatrixValues(segment, param));
+                    for (Uri.Param param : mMatrixParams) {
+                        matrixParam(param.getName(), param.getValues());
                     }
                 }
             }
@@ -219,11 +219,11 @@ public class UriBuilderImpl extends UriBuilder {
         final int mPort = uri.getPort();
         port(mPort);
 
-        final String[] mQueryParams = uri.getQueryParams();
+        final Collection<Uri.Param> mQueryParams = uri.getQueryParams();
         if (mQueryParams != null) {
             this.queryParams = null;
-            for (String param : mQueryParams) {
-                queryParam(param, (Object[]) uri.getQueryValues(param));
+            for (Uri.Param param : mQueryParams) {
+                queryParam(param.getName(), param.getValues());
             }
         }
 
@@ -235,50 +235,55 @@ public class UriBuilderImpl extends UriBuilder {
 
     @Override
     public Uri build(Object... templateValues) {
-        List<String> templateParams = new ArrayList<String>();
+        final List<String> templateParams = new ArrayList<String>();
+        final List<String> parsedSegments = new ArrayList<String>();
+        final LinkedHashMap<String, LinkedHashMap<String, Uri.Param>> parsedMatrixParams =
+                matrixParams != null && templateValues.length > 0 ?
+                new LinkedHashMap<String, LinkedHashMap<String, Uri.Param>>() : null;
 
         if (segments != null) {
-            for (int i = 0; i < segments.size(); i++) {
-                final String segment = segments.get(i);
+            for (final String segment : segments) {
                 final String parsed = parsePart(templateValues, templateParams, segment);
 
                 // Replace the template segment for the parsed one if necessary
-                if (matrixParams != null && matrixParams.containsKey(segment) && segment.contains("{")) {
-                    final Buckets segmentMatrixParams = matrixParams.remove(segment);
-                    matrixParams.put(parsed, segmentMatrixParams);
+                if (parsedMatrixParams != null && matrixParams.containsKey(segment)) {
+                    parsedMatrixParams.put(parsed, matrixParams.get(segment));
                 }
 
-                segments.set(i, parsed);
+                parsedSegments.add(parsed);
             }
         }
 
         final String parsedFrag = fragment != null ? parsePart(templateValues, templateParams, fragment) : null;
-        final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
 
-        return new UriImpl(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
+        return new UriImpl(scheme, user, password, host, port, parsedSegments,
+                parsedMatrixParams != null ? parsedMatrixParams : matrixParams, queryParams, parsedFrag);
     }
 
     @Override
     public Uri build(Map<String, ?> values) {
+        final List<String> parsedSegments = new ArrayList<String>();
+        final LinkedHashMap<String, LinkedHashMap<String, Uri.Param>> parsedMatrixParams =
+                matrixParams != null && values != null && values.size() > 0 ?
+                        new LinkedHashMap<String, LinkedHashMap<String, Uri.Param>>() : null;
+
         if (segments != null) {
-            for (int i = 0; i < segments.size(); i++) {
-                final String segment = segments.get(i);
+            for (final String segment : segments) {
                 final String parsed = parsePart(values, segment);
 
                 // Replace the template segment for the parsed one if necessary
-                if (matrixParams != null && matrixParams.containsKey(segment) && segment.contains("{")) {
-                    final Buckets segmentMatrixParams = matrixParams.remove(segment);
-                    matrixParams.put(parsed, segmentMatrixParams);
+                if (parsedMatrixParams != null && matrixParams.containsKey(segment)) {
+                    parsedMatrixParams.put(parsed, matrixParams.get(segment));
                 }
 
-                segments.set(i, parsed);
+                parsedSegments.add(parsed);
             }
         }
 
         final String parsedFrag = parsePart(values, fragment);
-        final String[] pathSegments = segments != null ? segments.toArray(new String[segments.size()]) : null;
 
-        return new UriImpl(scheme, user, password, host, port, pathSegments, matrixParams, queryParams, parsedFrag);
+        return new UriImpl(scheme, user, password, host, port, parsedSegments,
+                parsedMatrixParams != null ? parsedMatrixParams : matrixParams, queryParams, parsedFrag);
     }
 
     private String parsePart(Object[] values, List<String> templateParams, String segment) {

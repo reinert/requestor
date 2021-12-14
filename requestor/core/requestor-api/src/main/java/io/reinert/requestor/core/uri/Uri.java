@@ -15,12 +15,101 @@
  */
 package io.reinert.requestor.core.uri;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Represents a URI.
  *
  * @author Danilo Reinert
  */
 public abstract class Uri {
+
+    public static class Param {
+        private final boolean isQuery;
+        private final char separator;
+        private final String name;
+        private final List<String> values;
+
+        private Param(boolean isQuery, String name, Object... values) {
+            this.isQuery = isQuery;
+            this.separator = isQuery ? '&' : ';';
+            this.name = name;
+
+            switch (values.length) {
+                case 0:
+                    this.values = Collections.emptyList();
+                    break;
+                case 1:
+                    this.values = Collections.singletonList(values[0].toString());
+                    break;
+                default:
+                    List<String> valuesStr = new ArrayList<String>(values.length);
+                    for (Object v : values) valuesStr.add(v.toString());
+                    this.values = Collections.unmodifiableList(valuesStr);
+            }
+        }
+
+        static Param matrix(String name, Object... values) {
+            return new Param(false, name, values);
+        }
+
+        static Param query(String name, Object... values) {
+            return new Param(true, name, values);
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getValue() {
+            return values.size() == 0 ? "" : values.get(0);
+        }
+
+        public List<String> getValues() {
+            return values;
+        }
+
+        protected char getSeparator() {
+            return separator;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Param param = (Param) o;
+
+            if (isQuery != param.isQuery) return false;
+            if (!name.equals(param.name)) return false;
+            return values.equals(param.values);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = (isQuery ? 1 : 0);
+            result = 31 * result + name.hashCode();
+            result = 31 * result + values.hashCode();
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            final UriCodec uriCodec = UriCodec.getInstance();
+            final String encodedName = isQuery ? uriCodec.encodeQueryString(name) : uriCodec.encodePathSegment(name);
+            final StringBuilder sb = new StringBuilder();
+            for (String value : values) {
+                sb.append(encodedName)
+                        .append('=')
+                        .append(isQuery ? uriCodec.encodeQueryString(value) : uriCodec.encodePathSegment(value))
+                        .append(separator);
+            }
+            return sb.substring(0, sb.length() - 1);
+        }
+    }
 
     public static Uri copy(Uri uri) {
         return create(uri.toString());
@@ -50,21 +139,17 @@ public abstract class Uri {
 
     public abstract String getPath();
 
-    public abstract String[] getSegments();
+    public abstract List<String> getSegments();
 
-    public abstract String[] getMatrixParams(String segment);
+    public abstract Collection<Param> getMatrixParams(String segment);
 
-    public abstract String[] getMatrixValues(String segment, String param);
-
-    public abstract String getFirstMatrixValue(String segment, String param);
+    public abstract Uri.Param getMatrixParam(String segment, String paramName);
 
     public abstract String getQuery();
 
-    public abstract String[] getQueryParams();
+    public abstract Collection<Uri.Param> getQueryParams();
 
-    public abstract String[] getQueryValues(String param);
-
-    public abstract String getFirstQueryValue(String param);
+    public abstract Uri.Param getQueryParam(String paramName);
 
     public abstract String getFragment();
 }

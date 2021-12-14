@@ -80,8 +80,8 @@ public class UriParserJreTest {
         assertNull(uri.getHost());
         assertTrue(uri.getPort() < 0);
         assertEquals("/server/resource", uri.getPath());
-        assertEquals("12", uri.getFirstQueryValue("age"));
-        assertTrue(Arrays.equals(new String[]{"Aa", "Zz"}, uri.getQueryValues("name")));
+        assertEquals("12", uri.getQueryParam("age").getValue());
+        assertTrue(Arrays.equals(new String[]{"Aa", "Zz"}, uri.getQueryParam("name").getValues().toArray()));
         assertNull(uri.getFragment());
         assertEquals(expected, uri.toString());
     }
@@ -120,14 +120,16 @@ public class UriParserJreTest {
         assertEquals(8888, uri.getPort());
         assertEquals("/server/root/resource;class=2;class=5;class=6/child;group=A;subGroup=A.1;subGroup=A.2",
                 uri.getPath());
-        assertTrue(Arrays.equals(new String[]{"class"}, uri.getMatrixParams("resource")));
-        assertTrue(Arrays.equals(new String[]{"2", "5", "6"}, uri.getMatrixValues("resource", "class")));
-        assertTrue(Arrays.equals(new String[]{"group", "subGroup"}, uri.getMatrixParams("child")));
-        assertEquals("A", uri.getFirstMatrixValue("child", "group"));
-        assertTrue(Arrays.equals(new String[]{"A.1", "A.2"}, uri.getMatrixValues("child", "subGroup")));
-        assertTrue(Arrays.equals(new String[]{"age", "name"}, uri.getQueryParams()));
-        assertEquals("12", uri.getFirstQueryValue("age"));
-        assertTrue(Arrays.equals(new String[]{"Aa", "Zz"}, uri.getQueryValues("name")));
+        assertEquals(1, uri.getMatrixParams("resource").size());
+        assertTrue(Arrays.equals(new String[]{"2", "5", "6"},
+                uri.getMatrixParam("resource", "class").getValues().toArray()));
+        assertEquals(2, uri.getMatrixParams("child").size());
+        assertEquals("A", uri.getMatrixParam("child", "group").getValue());
+        assertTrue(Arrays.equals(new String[]{"A.1", "A.2"},
+                uri.getMatrixParam("child", "subGroup").getValues().toArray()));
+        assertEquals(2, uri.getQueryParams().size());
+        assertEquals("12", uri.getQueryParam("age").getValue());
+        assertTrue(Arrays.equals(new String[]{"Aa", "Zz"}, uri.getQueryParam("name").getValues().toArray()));
         assertEquals("first", uri.getFragment());
         assertEquals(expected, uri.toString());
     }
