@@ -4,16 +4,30 @@
 
 *Ask more. Do less. Keep track of everything.*
 
-Requestor is a powerful HTTP Client API for cutting-edge Java/GWT client apps. It offers plenty of
-carefully designed features that enable developers to rule the network communication process smoothly:
+With the componentization movement, much attention has been given to the UI structure of a frontend application.
+We have developed many mechanisms to build UIs prepared to scale. Unfortunately, communication - the underlying
+process that feeds the UI - has not evolved accordingly. Although we have seen ideas like promises and observables
+being adopted to handle asynchronous calls, orchestrating the communication layer with the UI
+components is still left aside. It's not so hard to see well UI structured apps with a messy
+communication (or service/api) layer. Apart from that, there are some patterns and strategies that we can apply in the
+communication process to make it smoother and coordinated among the different UI components. In fact, ruling
+the communication process is the foundation for building sustainable and scalable frontend applications.
+
+Requestor is an event-driven HTTP Client API for cutting-edge frontend applications. It offers plenty of
+carefully designed features to empower the development of **communication-centric apps**. By focusing on the
+communication process as the core of frontend development, Requestor allows developers to combine requesting
+configuration with state management in several scope levels so that each UI component is exempted from the
+communication complexity and can interact with other components in a decoupled way.
+
+Feature highlights:
 * [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
-* [**Event-Driven Callbacks**](#event-driven-callbacks) - chain callbacks for different results and statuses.
+* [**Event-Driven Callbacks**](#event-driven-callbacks) - set callbacks for different results in a precise event system.
 * [**Serialization**](#serialization) - serialize and deserialize payloads integrating any library.
 * [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
 * [**Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
 * [**HTTP Polling**](#poll) - make long or short polling with a single command.
 * [**Retry**](#retry) - define a retry policy with a single command.
-* [**Session**](#session) - set default options to all requests.
+* [**Session**](#session) - manage all requesting configurations in one place.
 * [**Service**](#services) - break down the API consumption into smaller independent contexts.
 * [**Store**](#store) - save and retrieve data both in different scope levels (session, service and request).
 * [**Links**](#links-hateoas) - navigate through an API interacting with its links (HATEOAS for real).
@@ -21,8 +35,12 @@ carefully designed features that enable developers to rule the network communica
 * [**URIs**](#uri) - build and parse complicated URIs easily.
 * [**Binary Data**](#binary-data) - upload and download files tracking the progress.
 
-It is compatible with GWT2 and Java 5+. Implementations for JVM/Android and J2CL are in the roadmap without
-breaking API compatibility.
+Requestor is developed on top of three main pillars: (1) **Interoperability**, (2) **Simplicity**, and (3)
+**Extensibility**. In that fashion, **requestor-core** is developed in vanilla Java 5 syntax what makes it compatible
+with any Java based platform. To provide a fully working implementation, Requestor impls are required to implement only
+the dispatching mechanism through the wire (two functions basically). Currently, there is one requestor impl available
+for **GWT2**: **requestor-gwt**. For Requestor v2, there are two implementations under development: one for JVM/Android
+and another for J2CL.
 
 
 ## Preview
@@ -181,7 +199,7 @@ Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** pr
 features but delegates some internals, like the network operation, to the implementations.
 
 Currently, there is one impl available: **requestor-gwt**. It implements requestor for the 
-GWT environment. Furthermore, implementations for the Java/Android and J2CL are planned.
+GWT environment. The **requestor-gwt** impl is compatible with any GWT2 version and Java 5+ API.
 
 ### Latest Release
 
@@ -208,8 +226,6 @@ to be inevitably repetitive on the user side, after reaching the best possible d
 from repetitive work. Still, leveraging Requestor's components, people will probably automate most of their work using fundamental
 object-oriented techniques like inheritance and composition. This way, they will better comprehend what is going on and have complete
 control of the coding flow.
-
-Requestor was inspired by successful HTTP Client APIs in other ecosystems like Python Requests, Angular HttpClient, Ruby Http.rb, and JAX-RS Client.
 
 With Requestor, we can:
 * Quickly make offhand requests writing as little code as possible.
