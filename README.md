@@ -1845,59 +1845,54 @@ void onLinkClicked(Link link) {
 
 
 ## URI
-Requestor features the `Uri` interface to facilitate accessing the URI parts.
-See the available operations below:
+Requestor features the `Uri` type to facilitate accessing the URI parts.
 
-```java
-interface Uri {
-
-    String getScheme();
-
-    String getUser();
-
-    String getPassword();
-
-    String getHost();
-
-    int getPort();
-
-    String getPath();
-
-    String[] getSegments();
-
-    String[] getMatrixParams(String segment);
-
-    String[] getMatrixValues(String segment, String param);
-
-    String getFirstMatrixValue(String segment, String param);
-
-    String getQuery();
-
-    String[] getQueryParams();
-
-    String[] getQueryValues(String param);
-
-    String getFirstQueryValue(String param);
-
-    String getFragment();
-}
-```
-
-Additionally, there is the `UriParser` to parse and validate URI Strings. It is used when creating a `Uri` from String.
-Since the parsing operation may be expensive, Requestor features a `UriProxy` that implements the `Uri` interface supporting only the `toString` operation.
-Whenever we create a new `Uri` from a String, Requestor internally creates a `UriProxy` with that String and if any other method than `toString` is called,
-the URI String is parsed and a full `Uri` implementation is created.
-
-Further, Requestor provides the `UriBuilder` to make it easier to build complex URIs.
-
-Consider the following URI:
+Consider the following URI structure:
 
 <img width="708" alt="uri-details" src="https://user-images.githubusercontent.com/1285494/145720707-02d772ea-5c51-4324-a7d5-30d7d8e2ecb1.png">
 
-The code below shows how to build such URI:
+The `Uri` type allows us to access each part of this URI:
 
 ```java
-Uri uri = UriBuilder.newInstance()
+Uri uri = Uri.create("https://alice:a1ef34df@example.com:123/discussion;subject=tech/questions/?order=newest&order=alphabetic#top");
+
+// the whole URI as string
+String uriString = uri.toString(); 
+
+// main URI parts
+String scheme = uri.getScheme();
+String user = uri.getUser();
+String password = uri.getPassword();
+String host = uri.getHost();
+int port = uri.getPort();
+String path = uri.getPath();
+String query = uri.getQuery();
+String fragment = uri.getFragment();
+
+// returns ["discussion", "questions"]
+List<String> segments = uri.getSegments();
+
+// matrix params by segment
+Collection<Uri.Param> discussionParams = uri.getMatrixParams("discussion");
+Uri.Param subjectParam = uri.getMatrixParam("discussion", "subject");
+String tech = subjectParam.getValue();
+
+// query params
+Collection<Uri.Param> queryParams = uri.getQueryParams();
+Uri.Param orderParam = uri.getQueryParam("order");
+// returns ["newest", "alphabetic"]
+List<String> values = orderParam.getValues();
+```
+
+When we call `Uri.create` a new Uri object is created with the URI string. However, since the parse operation may be
+expensive, this string is not parsed prematurely. Instead, the `Uri.toString()` initially returns the given URI string.
+Whenever any other Uri method is called, the string is parsed and the user can access each part individually.
+
+Further, Requestor provides the `UriBuilder` to make it easier to build complex URIs.
+The code below shows how to build the above URI:
+
+```java
+Uri uri = Uri.builder()
         .scheme("https")
         .user("alice")
         .password("a1ef34df")
@@ -1911,7 +1906,7 @@ Uri uri = UriBuilder.newInstance()
         .build();
 ```
 
-Finally, notice that all URI parts are properly encoded when building and decoded when parsing by the `UriCodec`.
+Finally, notice that all URI parts are properly decoded when parsing and encoded when building by the `UriCodec`.
 
 
 ## Binary Data
