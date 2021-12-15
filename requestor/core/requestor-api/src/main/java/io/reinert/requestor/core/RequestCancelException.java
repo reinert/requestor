@@ -22,6 +22,12 @@ package io.reinert.requestor.core;
  */
 public class RequestCancelException extends RequestException {
 
+    private static final long serialVersionUID = 1495646839067851857L;
+
+    protected RequestCancelException() {
+        super();
+    }
+
     public RequestCancelException(RequestOptions requestOptions) {
         super(requestOptions, "The HTTP request was cancelled after being invoked.");
     }

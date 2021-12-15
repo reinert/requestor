@@ -15,12 +15,14 @@
  */
 package io.reinert.requestor.core;
 
+import java.io.Serializable;
+
 /**
  * A progress event.
  *
  * @author Danilo Reinert
  */
-public interface ProgressEvent {
+public interface ProgressEvent extends Serializable {
 
     /**
      * Informs whether the request has a computable length available.

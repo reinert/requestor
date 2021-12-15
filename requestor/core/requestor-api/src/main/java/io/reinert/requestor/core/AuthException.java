@@ -22,6 +22,8 @@ package io.reinert.requestor.core;
  */
 public class AuthException extends RuntimeException {
 
+    private static final long serialVersionUID = -5498790318874498527L;
+
     public AuthException() {
         super();
     }

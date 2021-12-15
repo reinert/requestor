@@ -22,14 +22,16 @@ package io.reinert.requestor.core.uri;
  */
 public class UriBuilderException extends RuntimeException {
 
+    private static final long serialVersionUID = -6766072755614952104L;
+
     public UriBuilderException() {
     }
 
-    public UriBuilderException(String s) {
-        super(s);
+    public UriBuilderException(String message) {
+        super(message);
     }
 
-    public UriBuilderException(String s, Throwable throwable) {
-        super(s, throwable);
+    public UriBuilderException(String message, Throwable throwable) {
+        super(message, throwable);
     }
 }

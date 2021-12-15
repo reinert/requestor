@@ -22,6 +22,12 @@ package io.reinert.requestor.core;
  */
 public class RequestAbortException extends RequestException {
 
+    private static final long serialVersionUID = 1153921460393658952L;
+
+    protected RequestAbortException() {
+        super();
+    }
+
     public RequestAbortException(RequestOptions requestOptions, String message) {
         super(requestOptions, message);
     }

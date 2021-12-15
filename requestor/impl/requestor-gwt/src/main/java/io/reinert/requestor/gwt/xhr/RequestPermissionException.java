@@ -24,10 +24,15 @@ import io.reinert.requestor.core.RequestOptions;
  */
 public class RequestPermissionException extends RequestAbortException {
 
+    private static final long serialVersionUID = 7130418136376819051L;
     /**
      * URL which caused this exception to be thrown.
      */
-    private final String url;
+    private String url;
+
+    protected RequestPermissionException() {
+        super();
+    }
 
     /**
      * Constructs an instance of this class for the given URL.

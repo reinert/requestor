@@ -22,14 +22,16 @@ package io.reinert.requestor.core.serialization;
  */
 public class UnableToDeserializeException extends SerializationException {
 
+    private static final long serialVersionUID = 1215208259454228521L;
+
     public UnableToDeserializeException() {
     }
 
-    public UnableToDeserializeException(String s) {
-        super(s);
+    public UnableToDeserializeException(String message) {
+        super(message);
     }
 
-    public UnableToDeserializeException(String s, Throwable throwable) {
-        super(s, throwable);
+    public UnableToDeserializeException(String message, Throwable throwable) {
+        super(message, throwable);
     }
 }

@@ -20,11 +20,17 @@ package io.reinert.requestor.core;
  */
 public class RequestDispatchException extends RequestAbortException {
 
-    public RequestDispatchException(RequestOptions requestOptions, String s) {
-        super(requestOptions, s);
+    private static final long serialVersionUID = 1490844880740718038L;
+
+    protected RequestDispatchException() {
+        super();
     }
 
-    public RequestDispatchException(RequestOptions requestOptions, String s, Throwable throwable) {
-        super(requestOptions, s, throwable);
+    public RequestDispatchException(RequestOptions requestOptions, String message) {
+        super(requestOptions, message);
+    }
+
+    public RequestDispatchException(RequestOptions requestOptions, String message, Throwable throwable) {
+        super(requestOptions, message, throwable);
     }
 }

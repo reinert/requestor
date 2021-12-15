@@ -23,7 +23,13 @@ package io.reinert.requestor.core;
  */
 public class UnsuccessfulResponseException extends RequestException {
 
-    private final Response response;
+    private static final long serialVersionUID = 1102976224578831562L;
+
+    private HttpStatus status;;
+
+    protected UnsuccessfulResponseException() {
+        super();
+    }
 
     /**
      * Constructs the exception with the request and respective response.
@@ -32,7 +38,7 @@ public class UnsuccessfulResponseException extends RequestException {
      */
     public UnsuccessfulResponseException(RequestOptions requestOptions, Response response) {
         super(requestOptions, "The response was received but the status code was not from 'Success' class (2xx).");
-        this.response = response;
+        this.status = response.getStatus();
     }
 
     public static UnsuccessfulResponseException cast(Throwable throwable) throws ClassCastException {
@@ -40,20 +46,11 @@ public class UnsuccessfulResponseException extends RequestException {
     }
 
     /**
-     * Returns the {@link Response} received but with other status than 2xx.
+     * Response's HTTP status.
      *
-     * @return The unsuccessful {@link Response}.
-     */
-    public Response getResponse() {
-        return response;
-    }
-
-    /**
-     * Response's HTTP status code.
-     *
-     * @return The response's status code.
+     * @return The response's status
      */
     public HttpStatus getStatus() {
-        return response.getStatus();
+        return status;
     }
 }

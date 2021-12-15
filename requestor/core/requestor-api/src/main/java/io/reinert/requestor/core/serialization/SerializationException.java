@@ -22,6 +22,8 @@ package io.reinert.requestor.core.serialization;
  */
 public class SerializationException extends RuntimeException {
 
+    private static final long serialVersionUID = 5059195446714641062L;
+
     public SerializationException() {
     }
 

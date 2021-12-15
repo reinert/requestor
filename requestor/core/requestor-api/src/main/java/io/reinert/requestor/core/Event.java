@@ -15,12 +15,14 @@
  */
 package io.reinert.requestor.core;
 
+import java.io.Serializable;
+
 /**
  * Represents an event that may occur during a {@link Request}.
  *
  * @author Danilo Reinert
  */
-public interface Event {
+public interface Event extends Serializable {
 
     /**
      * Get event name.

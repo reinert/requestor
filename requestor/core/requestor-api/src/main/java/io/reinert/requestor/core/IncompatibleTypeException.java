@@ -22,14 +22,16 @@ package io.reinert.requestor.core;
  */
 public class IncompatibleTypeException extends RuntimeException {
 
+    private static final long serialVersionUID = -4728251744540681727L;
+
     public IncompatibleTypeException() {
     }
 
-    public IncompatibleTypeException(String s) {
-        super(s);
+    public IncompatibleTypeException(String message) {
+        super(message);
     }
 
-    public IncompatibleTypeException(String s, Throwable throwable) {
-        super(s, throwable);
+    public IncompatibleTypeException(String message, Throwable throwable) {
+        super(message, throwable);
     }
 }

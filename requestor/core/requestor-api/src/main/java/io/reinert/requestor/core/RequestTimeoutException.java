@@ -22,10 +22,17 @@ package io.reinert.requestor.core;
  */
 public class RequestTimeoutException extends RequestException {
 
+    private static final long serialVersionUID = -7097854407360606948L;
+
     /**
      * Time, in milliseconds, of the timeout.
      */
-    private final int timeoutMillis;
+    private int timeoutMillis;
+
+    protected RequestTimeoutException() {
+        super();
+        this.timeoutMillis = -1;
+    }
 
     /**
      * Constructs a timeout exception for the given {@link RequestOptions}.
@@ -34,12 +41,8 @@ public class RequestTimeoutException extends RequestException {
      * @param timeoutMillis the number of milliseconds which expired
      */
     public RequestTimeoutException(RequestOptions requestOptions, int timeoutMillis) {
-        super(requestOptions, formatMessage(timeoutMillis));
+        super(requestOptions, "A request timeout has expired after " + timeoutMillis + " ms");
         this.timeoutMillis = timeoutMillis;
-    }
-
-    private static String formatMessage(int timeoutMillis) {
-        return "A request timeout has expired after " + timeoutMillis + " ms";
     }
 
     /**

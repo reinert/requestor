@@ -22,24 +22,38 @@ package io.reinert.requestor.core;
  */
 public class RequestException extends RuntimeException {
 
-    private final RequestOptions requestOptions;
+    private static final long serialVersionUID = -3805456297999473202L;
+
+    private String uri;
+    private HttpMethod method;
+
+    protected RequestException() {
+        super();
+    }
 
     protected RequestException(RequestOptions requestOptions, String message) {
         super(message);
-        this.requestOptions = requestOptions;
+        this.uri = requestOptions.getUri().toString();
+        this.method = requestOptions.getMethod();
     }
 
     protected RequestException(RequestOptions requestOptions, Throwable cause) {
         super(cause);
-        this.requestOptions = requestOptions;
+        this.uri = requestOptions.getUri().toString();
+        this.method = requestOptions.getMethod();
     }
 
     protected RequestException(RequestOptions requestOptions, String message, Throwable cause) {
         super(message, cause);
-        this.requestOptions = requestOptions;
+        this.uri = requestOptions.getUri().toString();
+        this.method = requestOptions.getMethod();
     }
 
-    public RequestOptions getRequestOptions() {
-        return requestOptions;
+    public String getUri() {
+        return uri;
+    }
+
+    public HttpMethod getMethod() {
+        return method;
     }
 }

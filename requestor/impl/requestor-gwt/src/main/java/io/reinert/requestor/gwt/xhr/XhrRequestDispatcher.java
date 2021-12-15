@@ -126,7 +126,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             @Override
             public void onProgress(ProgressEvent progress) {
                 if (deferred.isPending()) {
-                    deferred.reject(new NetworkErrorException(request, new RequestProgressImpl(progress)));
+                    deferred.reject(new NetworkErrorException(request, progress));
                 }
             }
         });
@@ -136,7 +136,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             @Override
             public void onProgress(ProgressEvent progress) {
                 if (deferred.isPending()) {
-                    deferred.reject(new NetworkErrorException(request, new RequestProgressImpl(progress)));
+                    deferred.reject(new NetworkErrorException(request, progress));
                 }
             }
         });

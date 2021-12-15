@@ -15,9 +15,9 @@
  */
 package io.reinert.requestor.gwt.xhr;
 
+import io.reinert.requestor.core.ProgressEvent;
 import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestOptions;
-import io.reinert.requestor.core.RequestProgress;
 
 /**
  * Thrown to indicate that an HTTP request has timed out.
@@ -26,7 +26,13 @@ import io.reinert.requestor.core.RequestProgress;
  */
 public class NetworkErrorException extends RequestCancelException {
 
-    private final RequestProgress progress;
+    private static final long serialVersionUID = -1933871064668352744L;
+
+    private ProgressEvent progress;
+
+    protected NetworkErrorException() {
+        super();
+    }
 
     /**
      * Constructs a network error exception for the given {@link RequestOptions}.
@@ -34,7 +40,7 @@ public class NetworkErrorException extends RequestCancelException {
      * @param requestOptions    the request which timed out
      * @param progress          the progress of the request
      */
-    public NetworkErrorException(RequestOptions requestOptions, RequestProgress progress) {
+    public NetworkErrorException(RequestOptions requestOptions, ProgressEvent progress) {
         super(requestOptions, "Request was interrupted due to network error.");
         this.progress = progress;
     }
@@ -44,7 +50,7 @@ public class NetworkErrorException extends RequestCancelException {
      *
      * @return the request progress
      */
-    public RequestProgress getProgress() {
+    public ProgressEvent getProgress() {
         return progress;
     }
 }
