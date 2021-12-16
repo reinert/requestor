@@ -429,40 +429,62 @@ before triggering the retry events.
 
 ## Event-Driven Callbacks
 
+Requestor defines an event system according to the [Request Lifecycle](#processors-middlewares).
+We can add as many callbacks as we need for each event that may occur.
+The events are divided into two main categories: **Error** events and **Load** events.
+The `error` event is triggered whenever the request is interrupted before receiving a response.
+It is subdivided into three events: `abort` (request interrupted before being sent), `cancel` (request interrupted after being sent), and `timeout` (request expired before receiving a response).
+The `load` event is triggered whenever a request receives a response. It is subdivided into two events: `success` (2xx response received), `fail` (~2xx response received).
+Additionally, any Status Code is also an event. So, if a 201 response is received, the `201` event is triggered.
+Finally, the Status Families are also events. Thus, a 201 response triggers the `2` event as well.
+
+Besides those events, Requestor also fires the `progress` and `upProgress` events to enable us tracking download and upload progress respectively.
+While the `error` or `load` events are triggered once per request call, the `progress` and `upProgress` events are triggered many times per call. 
+
+![request-events](https://user-images.githubusercontent.com/1285494/146399333-8294288f-b5b8-4cf6-bcee-e8e2fe939695.png)
+
 After invoking a request, we receive a `Request<T>` instance. It is a deferred object that 
-enables us to chain callbacks to handle all possible results of the request call. Besides that, 
+allows us to chain callbacks to handle any event that the request may produce. Besides that, 
 we can also access all request options that formed this request.
 
-A `Request<T>` gives access to the response body as `T` if it resolves successfully (2xx). Check 
-the available callbacks:
-  * **onSuccess**( payload [, response [, request]] -> {} )
+One `Request<T>` will fire either a `load` event or a `error` event only once.
+But when setting the [poll](#poll) option while building a request, we receive a `PollingRequest<T>`.
+It may trigger `error` or `load` events many times, once per each call that is made.
+Additionally, the `PollingRequest<T>` interface extends from `Request<T>` and allows us to access the polling options that formed it as also manually stop the poll.
+Notice, nevertheless, that Requestor treats every request as a polling request under the hood.
+So even a simple request is a polling request of one call only.
+That is the reason why every request needs a [Deferred Pool Factory](#deferredpool-factory). 
+
+A `Request<T>` gives access to the response body as `T` if it resolves successfully (2xx).
+The available events to add callbacks for are listed below. All arguments are optional.
+  * **onSuccess**( [payload [, response [, request]]] -> {} )
     * executed when the response *is successful* (status = 2xx)
     * features the *deserialized payload* and the *response* (optional)
-  * **onFail**( response [, request] -> {} )
+  * **onFail**( [response [, request]] -> {} )
     * executed if the response *is unsuccessful* (status ≠ 2xx)
     * features the *response*
-  * **onLoad**( response [, request] -> {} )
+  * **onLoad**( [response [, request]] -> {} )
     * executed if the response *is completed*, regardless of *success or failure*
     * features the *response*
-  * **onStatus**( statusCode|statusFamily, (response [, request]) -> {} )
+  * **onStatus**( statusCode|statusFamily, ( [response [, request]] ) -> {} )
     * executed when the response *returned the given status code/family*
     * features the *response*
-  * **onProgress**( progress [, request] -> {} )
+  * **onProgress**( [progress [, request]] -> {} )
     * executed many times while the request is being sent
     * features the *progress* that enables tracking the download progress
-  * **onUpProgress**( progress [, request] -> {} )
+  * **onUpProgress**( [progress [, request]] -> {} )
     * executed many times while the response is being received
     * features the *progress* that enables tracking the upload progress
-  * **onTimeout**( timeoutException [, request] -> {} )
+  * **onTimeout**( [timeoutException [, request]] -> {} )
     * executed when a timeout occurs
     * features the *timeoutException*
-  * **onCancel**( requestException [, request] -> {} )
+  * **onCancel**( [requestException [, request]] -> {} )
     * executed if the request was *cancelled after being sent* (either manually by the user or due to network error)
     * features the *cancelException*
-  * **onAbort**( requestException [, request] -> {} )
+  * **onAbort**( [requestException [, request]] -> {} )
     * executed if the request was *aborted before being sent* (either manually by the user or due to any runtime error)
     * features the *abortException*
-  * **onError**( requestException [, request] -> {} )
+  * **onError**( [requestException [, request]] -> {} )
     * generic error callback that is executed if the request *could not get a response overall* due to any reason (aborted, cancelled or timed out)
     * features the original *exception*
 
@@ -530,17 +552,14 @@ session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() 
     public void execute(RequestException e) {
         // This is executed if the request could not receive a response overall
         
-        if (e instanceof RequestTimeoutException) { // Check if it's a timeout error
+        if (e instanceof RequestTimeoutException) // Check if it's a timeout error
             view.showError("Request timed out: " + e.getMessage());
-        }
         
-        if (e instanceof RequestCancelException) { // Check if it's a cancel error
+        if (e instanceof RequestCancelException) // Check if it's a cancel error
             view.showError("Request cancelled: " + e.getMessage());
-        }
         
-        if (e instanceof RequestAbortException) { // Check if it's an abort error
+        if (e instanceof RequestAbortException) // Check if it's an abort error
             view.showError("Request aborted: " + e.getMessage());
-        }
     }
 });
 ```
@@ -1020,6 +1039,8 @@ The request and response processing are include in the **REQUEST LIFECYCLE** as 
 8. Response is processed by `ResponseDeserializer` and deserialized
 9. Response is processed by `ResponseFilters`
 10. User receives the processed Response
+
+![request-lifecycle](https://user-images.githubusercontent.com/1285494/146391548-e44c0c83-5488-4455-a88e-3f7cdf7ff8a4.png)
 
 All processors are able to manipulate the request/response, but they have the following 
 distinguishing characteristic according to its kind:
