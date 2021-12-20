@@ -27,6 +27,10 @@
 
   <artifactId>requestor-gwtjackson</artifactId>
 
+  <properties>
+    <java.version>7</java.version>
+  </properties>
+
   <dependencies>
     <!-- gwt-jackson dependencies -->
     <dependency>
@@ -130,6 +134,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
           <compilerArgs>
             <arg>-Xlint:all</arg>
             <!-- Silence warning "No processor claimed any of these annotations". One of the
