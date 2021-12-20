@@ -87,7 +87,6 @@ abstract class Auth {
             // access token.
 
             scheduler.scheduleDeferred(new ScheduledCommand() {
-                @Override
                 public void execute() {
                     callback.onSuccess(info);
                 }

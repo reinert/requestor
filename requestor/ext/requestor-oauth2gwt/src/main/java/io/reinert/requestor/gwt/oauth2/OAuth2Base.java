@@ -49,16 +49,13 @@ public abstract class OAuth2Base implements io.reinert.requestor.core.Auth {
         return this;
     }
 
-    @Override
     public void auth(final PreparedRequest preparedRequest) {
         AUTH.login(authRequest, new Callback<TokenInfo, Throwable>() {
-            @Override
             public void onFailure(Throwable reason) {
                 preparedRequest.abort(new RequestAbortException(preparedRequest,
                         "Unable to authorize the request using OAuth2.", reason));
             }
 
-            @Override
             public void onSuccess(TokenInfo tokenInfo) {
                 doAuth(preparedRequest, tokenInfo);
             }

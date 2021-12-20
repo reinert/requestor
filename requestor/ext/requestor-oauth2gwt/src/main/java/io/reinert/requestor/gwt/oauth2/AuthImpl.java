@@ -138,7 +138,6 @@ class AuthImpl extends Auth {
      * Real GWT implementation of Clock.
      */
     private static class RealClock implements Auth.Clock {
-        @Override
         public double now() {
             return Duration.currentTimeMillis();
         }
@@ -148,13 +147,11 @@ class AuthImpl extends Auth {
      * Real GWT implementation of UrlCodex.
      */
     private static class RealUrlCodex implements Auth.UrlCodex {
-        @Override
         public native String encode(String url) /*-{
             var regexp = /%20/g;
             return encodeURIComponent(url).replace(regexp, "+");
         }-*/;
 
-        @Override
         public native String decode(String url) /*-{
             var regexp = /\+/g;
             return decodeURIComponent(url.replace(regexp, "%20"));

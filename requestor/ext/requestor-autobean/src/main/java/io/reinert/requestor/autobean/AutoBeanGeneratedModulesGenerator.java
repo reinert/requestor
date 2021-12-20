@@ -16,7 +16,7 @@
 package io.reinert.requestor.autobean;
 
 import java.io.PrintWriter;
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -82,7 +82,7 @@ public class AutoBeanGeneratedModulesGenerator extends Generator {
                 throw new UnableToCompleteException();
             }
 
-            ArrayDeque<JClassType> nonEmptyModules = new ArrayDeque<JClassType>();
+            ArrayList<JClassType> nonEmptyModules = new ArrayList<JClassType>();
 
             for (JClassType moduleType : serializationModuleType.getSubtypes()) {
                 final AutoBeanSerializationModule serializationModuleAnn =
