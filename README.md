@@ -49,7 +49,7 @@ Make a GET request and deserialize the response body as String:
 
 ```java
 Session session = new GwtSession();
-session.get("https://httpbin.org/ip", String.class).onSuccess( Window::alert );
+session.get("https://httpbin.org/ip", String.class).onSuccess( ip -> Window.alert(ip) ); // or Window::alert
 ```
 
 Make a POST request sending a serialized object in the payload:
@@ -84,7 +84,7 @@ Requesting involves three steps:
 
 ```java
 session.req("/api/books/1")              // 0. Start building the request
-       .timeout(10_000)                   // 1. Set the request options
+       .timeout(10_000)                  // 1. Set the request options
        .header("ETag", "33a64df5") 
        .get(Book.class)                  // 2. Invoke an HTTP method with the expected type
        .onSuccess(book -> render(book))  // 3. Add callbacks to the request
@@ -98,8 +98,9 @@ Meet all the request options available in the [Request Options](#request-options
 
 ### ⚙️ Set up your Session
 
-Requestor features a configurable client `Session`. There we *set default request options* 
-that apply to all requests. Also, we are able to *cache and share data* through the `Store`. 
+Requestor features a configurable client [Session](#session). There we *set default request options* 
+that apply to all requests. Additionally, since the `Session` is also a [Store](#store), we can use it to *save and
+retrieve data*, sharing state among components that rely on that session if necessary. 
 Eventually, we can *reset the session state* at any time.
 
 ```java
@@ -107,20 +108,22 @@ Session session = new GwtSession();
 
 // Set all requests to have 10s timeout and 'application/json' Content-Type
 session.setTimeout(10_000);
-session.setContentType("aplication/json");
-
+session.setContentType("application/json");
 
 // Perform login, save user info, and authenticate all subsequent requests
 session.post("/login", credentials, UserInfo.class)
         .onSuccess(userInfo -> {
-            session.getStore().put("userInfo", userInfo);
+            // Save the user info in the session store
+            session.save("userInfo", userInfo);
+            // Set the default auth for every session request
             session.setAuth(new BearerAuth(userInfo.getToken()));
         });
-//...
-        
+
 // Make authenticated requests
 session.post("/api/books", book);
-//...
+
+// Retrieve data from the session store
+UserInfo userInfo = session.retrieve("userInfo");
 
 // Clear the session state
 session.reset();
