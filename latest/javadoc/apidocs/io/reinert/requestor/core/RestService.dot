@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RestService<R, I>
-	c50044 [label=<<table title="io.reinert.requestor.core.RestService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RestService.html">
+	c49364 [label=<<table title="io.reinert.requestor.core.RestService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RestService.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RestService&lt;R, I&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RestService.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RestInvoker<R, I>
-	c50061 [label=<<table title="io.reinert.requestor.core.RestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestInvoker.html">
+	c49382 [label=<<table title="io.reinert.requestor.core.RestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RestInvoker&lt;R, I&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RestInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.AbstractService
-	c50144 [label=<<table title="io.reinert.requestor.core.AbstractService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractService.html">
+	c49465 [label=<<table title="io.reinert.requestor.core.AbstractService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractService.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AbstractService </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AbstractService.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RestService<R, I> extends io.reinert.requestor.core.AbstractService
-	c50144:p -> c50044:p [dir=back,arrowtail=empty];
+	c49465:p -> c49364:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.RestService<R, I> implements io.reinert.requestor.core.RestInvoker<R, I>
-	c50061:p -> c50044:p [dir=back,arrowtail=empty,style=dashed];
+	c49382:p -> c49364:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,38 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.HttpStatus
-	c17555 [label=<<table title="io.reinert.requestor.core.HttpStatus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpStatus.html">
+	c17010 [label=<<table title="io.reinert.requestor.core.HttpStatus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpStatus.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpStatus </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpStatus.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.StatusFamily
-	c17602 [label=<<table title="io.reinert.requestor.core.StatusFamily" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StatusFamily.html">
+	c17058 [label=<<table title="io.reinert.requestor.core.StatusFamily" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StatusFamily.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> StatusFamily </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StatusFamily.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Event
-	c17635 [label=<<table title="io.reinert.requestor.core.Event" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Event.html">
+	c17091 [label=<<table title="io.reinert.requestor.core.Event" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Event.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Event </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Event.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestEvent
-	c17643 [label=<<table title="io.reinert.requestor.core.RequestEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestEvent.html">
+	c17099 [label=<<table title="io.reinert.requestor.core.RequestEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestEvent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestEvent </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestEvent.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.HttpStatus implements io.reinert.requestor.core.Event
-	c17635:p -> c17555:p [dir=back,arrowtail=empty,style=dashed];
+	c17091:p -> c17010:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.StatusFamily implements io.reinert.requestor.core.Event
-	c17635:p -> c17602:p [dir=back,arrowtail=empty,style=dashed];
+	c17091:p -> c17058:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.Event implements java.io.Serializable
+	c17245:p -> c17091:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestEvent implements io.reinert.requestor.core.Event
-	c17635:p -> c17643:p [dir=back,arrowtail=empty,style=dashed];
+	c17091:p -> c17099:p [dir=back,arrowtail=empty,style=dashed];
+	// java.io.Serializable
+	c17245 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Serializable </td></tr>
+		</table></td></tr>
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

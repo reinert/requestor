@@ -5,6 +5,6 @@
 <area shape="rect" id="node3" href="./RequestInvoker.html" title="&lt;TABLE&gt;" alt="" coords="81,107,222,160"/>
 <area shape="rect" id="node2_2" href="./PollingRequestInvoker.html" title="io.reinert.requestor.core.PollingRequestInvoker" alt="" coords="69,213,233,256"/>
 <area shape="rect" id="node2" href="./PollingRequestInvoker.html" title="&lt;TABLE&gt;" alt="" coords="59,208,244,261"/>
-<area shape="rect" id="node4_3" href="./Invoker.html" title="io.reinert.requestor.core.Invoker" alt="" coords="181,11,274,53"/>
-<area shape="rect" id="node4" href="./Invoker.html" title="&lt;TABLE&gt;" alt="" coords="170,5,285,59"/>
+<area shape="rect" id="node4_3" href="./HttpInvoker.html" title="io.reinert.requestor.core.HttpInvoker" alt="" coords="181,11,277,53"/>
+<area shape="rect" id="node4" href="./HttpInvoker.html" title="&lt;TABLE&gt;" alt="" coords="170,5,287,59"/>
 </map>

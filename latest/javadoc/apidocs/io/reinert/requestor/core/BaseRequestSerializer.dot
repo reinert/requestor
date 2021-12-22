@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.BaseRequestSerializer
-	c9036 [label=<<table title="io.reinert.requestor.core.BaseRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BaseRequestSerializer.html">
+	c8999 [label=<<table title="io.reinert.requestor.core.BaseRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BaseRequestSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BaseRequestSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseRequestSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestSerializer
-	c9086 [label=<<table title="io.reinert.requestor.core.RequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSerializer.html">
+	c9049 [label=<<table title="io.reinert.requestor.core.RequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.GwtRequestSerializer
-	c9206 [label=<<table title="io.reinert.requestor.gwt.GwtRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/GwtRequestSerializer.html">
+	c9168 [label=<<table title="io.reinert.requestor.gwt.GwtRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/GwtRequestSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtRequestSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../gwt/GwtRequestSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.BaseRequestSerializer implements io.reinert.requestor.core.RequestSerializer
-	c9086:p -> c9036:p [dir=back,arrowtail=empty,style=dashed];
+	c9049:p -> c8999:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gwt.GwtRequestSerializer extends io.reinert.requestor.core.BaseRequestSerializer
-	c9036:p -> c9206:p [dir=back,arrowtail=empty];
+	c8999:p -> c9168:p [dir=back,arrowtail=empty];
 }
 

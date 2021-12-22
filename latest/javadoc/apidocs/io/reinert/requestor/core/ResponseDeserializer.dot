@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.BaseResponseDeserializer
-	c47702 [label=<<table title="io.reinert.requestor.core.BaseResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseResponseDeserializer.html">
+	c47033 [label=<<table title="io.reinert.requestor.core.BaseResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BaseResponseDeserializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseDeserializer
-	c47741 [label=<<table title="io.reinert.requestor.core.ResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ResponseDeserializer.html">
+	c47071 [label=<<table title="io.reinert.requestor.core.ResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseDeserializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.BaseResponseDeserializer implements io.reinert.requestor.core.ResponseDeserializer
-	c47741:p -> c47702:p [dir=back,arrowtail=empty,style=dashed];
+	c47071:p -> c47033:p [dir=back,arrowtail=empty,style=dashed];
 }
 

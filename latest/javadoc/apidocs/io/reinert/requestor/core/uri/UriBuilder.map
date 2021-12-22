@@ -1,6 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./UriBuilderImpl.html" title="io.reinert.requestor.core.uri.UriBuilderImpl" alt="" coords="16,113,129,138"/>
-<area shape="rect" id="node1" href="./UriBuilderImpl.html" title="&lt;TABLE&gt;" alt="" coords="5,101,140,149"/>
-<area shape="rect" id="node2_1" href="./UriBuilder.html" title="io.reinert.requestor.core.uri.UriBuilder" alt="" coords="31,17,115,42"/>
-<area shape="rect" id="node2" href="./UriBuilder.html" title="&lt;TABLE&gt;" alt="" coords="20,5,125,53"/>
+<area shape="rect" id="node1_0" href="./UriBuilder.html" title="io.reinert.requestor.core.uri.UriBuilder" alt="" coords="16,17,100,42"/>
+<area shape="rect" id="node1" href="./UriBuilder.html" title="&lt;TABLE&gt;" alt="" coords="5,5,111,53"/>
 </map>

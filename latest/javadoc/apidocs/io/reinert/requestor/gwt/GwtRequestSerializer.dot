@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.BaseRequestSerializer
-	c20179 [label=<<table title="io.reinert.requestor.core.BaseRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../core/BaseRequestSerializer.html">
+	c19624 [label=<<table title="io.reinert.requestor.core.BaseRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../core/BaseRequestSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BaseRequestSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../core/BaseRequestSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.GwtRequestSerializer
-	c20349 [label=<<table title="io.reinert.requestor.gwt.GwtRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GwtRequestSerializer.html">
+	c19793 [label=<<table title="io.reinert.requestor.gwt.GwtRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GwtRequestSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtRequestSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GwtRequestSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.GwtRequestSerializer extends io.reinert.requestor.core.BaseRequestSerializer
-	c20179:p -> c20349:p [dir=back,arrowtail=empty];
+	c19624:p -> c19793:p [dir=back,arrowtail=empty];
 }
 

@@ -10,38 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.InProcess
-	c23495 [label=<<table title="io.reinert.requestor.core.InProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./InProcess.html">
+	c23398 [label=<<table title="io.reinert.requestor.core.InProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./InProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> InProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./InProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.Store
+	c23399 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Store </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Store.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializableRequestInProcess
-	c23537 [label=<<table title="io.reinert.requestor.core.SerializableRequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializableRequestInProcess.html">
+	c23441 [label=<<table title="io.reinert.requestor.core.SerializableRequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializableRequestInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializableRequestInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializableRequestInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestInProcess
-	c23553 [label=<<table title="io.reinert.requestor.core.RequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInProcess.html">
+	c23456 [label=<<table title="io.reinert.requestor.core.RequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedResponseInProcess
-	c23593 [label=<<table title="io.reinert.requestor.core.SerializedResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponseInProcess.html">
+	c23497 [label=<<table title="io.reinert.requestor.core.SerializedResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponseInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedResponseInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponseInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.core.InProcess implements io.reinert.requestor.core.Store
+	c23399:p -> c23398:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializableRequestInProcess implements io.reinert.requestor.core.InProcess
-	c23495:p -> c23537:p [dir=back,arrowtail=empty,style=dashed];
+	c23398:p -> c23441:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestInProcess implements io.reinert.requestor.core.InProcess
-	c23495:p -> c23553:p [dir=back,arrowtail=empty,style=dashed];
+	c23398:p -> c23456:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedResponseInProcess implements io.reinert.requestor.core.InProcess
-	c23495:p -> c23593:p [dir=back,arrowtail=empty,style=dashed];
+	c23398:p -> c23497:p [dir=back,arrowtail=empty,style=dashed];
 }
 

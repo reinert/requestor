@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.uri.UriCodec
-	c61070 [label=<<table title="io.reinert.requestor.core.uri.UriCodec" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UriCodec.html">
+	c60583 [label=<<table title="io.reinert.requestor.core.uri.UriCodec" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UriCodec.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> UriCodec </font></td></tr>
 		</table></td></tr>

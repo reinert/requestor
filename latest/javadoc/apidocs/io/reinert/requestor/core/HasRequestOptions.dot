@@ -10,45 +10,45 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Service
-	c21596 [label=<<table title="io.reinert.requestor.core.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Service.html">
+	c21035 [label=<<table title="io.reinert.requestor.core.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Service.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Service </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Service.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Session
-	c21619 [label=<<table title="io.reinert.requestor.core.Session" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Session.html">
+	c21059 [label=<<table title="io.reinert.requestor.core.Session" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Session.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Session </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Session.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasRequestOptions
-	c21657 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasRequestOptions.html">
+	c21096 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasRequestOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasRequestOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasRequestOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasHeaders
-	c21659 [label=<<table title="io.reinert.requestor.core.HasHeaders" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasHeaders.html">
+	c21098 [label=<<table title="io.reinert.requestor.core.HasHeaders" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasHeaders.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasHeaders </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasHeaders.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.WebTarget
-	c21680 [label=<<table title="io.reinert.requestor.core.WebTarget" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WebTarget.html">
+	c21120 [label=<<table title="io.reinert.requestor.core.WebTarget" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WebTarget.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WebTarget </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WebTarget.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.Service implements io.reinert.requestor.core.HasRequestOptions
-	c21657:p -> c21596:p [dir=back,arrowtail=empty,style=dashed];
+	c21096:p -> c21035:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.HasRequestOptions
-	c21657:p -> c21619:p [dir=back,arrowtail=empty,style=dashed];
+	c21096:p -> c21059:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.HasRequestOptions implements io.reinert.requestor.core.HasHeaders
-	c21659:p -> c21657:p [dir=back,arrowtail=empty,style=dashed];
+	c21098:p -> c21096:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.WebTarget implements io.reinert.requestor.core.HasRequestOptions
-	c21657:p -> c21680:p [dir=back,arrowtail=empty,style=dashed];
+	c21096:p -> c21120:p [dir=back,arrowtail=empty,style=dashed];
 }
 

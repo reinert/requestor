@@ -10,23 +10,23 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestDispatcher
-	c42314 [label=<<table title="io.reinert.requestor.core.RequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestDispatcher.html">
+	c41668 [label=<<table title="io.reinert.requestor.core.RequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestDispatcher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> RequestDispatcher </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestDispatcher.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.XhrRequestDispatcher
-	c42413 [label=<<table title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/xhr/XhrRequestDispatcher.html">
+	c41765 [label=<<table title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/xhr/XhrRequestDispatcher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> XhrRequestDispatcher </td></tr>
 		</table></td></tr>
 		</table>>, URL="../gwt/xhr/XhrRequestDispatcher.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RequestDispatcher implements io.reinert.requestor.core.RunScheduler
-	c42455:p -> c42314:p [dir=back,arrowtail=empty,style=dashed];
+	c41807:p -> c41668:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gwt.xhr.XhrRequestDispatcher extends io.reinert.requestor.core.RequestDispatcher
-	c42314:p -> c42413:p [dir=back,arrowtail=empty];
+	c41668:p -> c41765:p [dir=back,arrowtail=empty];
 	// io.reinert.requestor.core.RunScheduler
-	c42455 [label=<<table title="io.reinert.requestor.core.RunScheduler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/requestor/core/RunScheduler.html">
+	c41807 [label=<<table title="io.reinert.requestor.core.RunScheduler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/requestor/core/RunScheduler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RunScheduler </td></tr>

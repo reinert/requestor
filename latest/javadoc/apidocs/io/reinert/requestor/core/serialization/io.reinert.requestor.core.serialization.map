@@ -1,18 +1,18 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./HandlesSubTypes.html" title="io.reinert.requestor.core.serialization.HandlesSubTypes" alt="" coords="16,11,149,53"/>
-<area shape="rect" id="node1" href="./HandlesSubTypes.html" title="&lt;TABLE&gt;" alt="" coords="5,5,160,59"/>
-<area shape="rect" id="node2_1" href="./Deserializer.html" title="io.reinert.requestor.core.serialization.Deserializer" alt="" coords="195,11,323,53"/>
-<area shape="rect" id="node2" href="./Deserializer.html" title="&lt;TABLE&gt;" alt="" coords="184,5,333,59"/>
-<area shape="rect" id="node5_2" href="./Serializer.html" title="io.reinert.requestor.core.serialization.Serializer" alt="" coords="203,112,314,155"/>
-<area shape="rect" id="node5" href="./Serializer.html" title="&lt;TABLE&gt;" alt="" coords="193,107,325,160"/>
-<area shape="rect" id="node3_3" href="./UnableToSerializeException.html" title="io.reinert.requestor.core.serialization.UnableToSerializeException" alt="" coords="360,121,560,146"/>
-<area shape="rect" id="node3" href="./UnableToSerializeException.html" title="&lt;TABLE&gt;" alt="" coords="349,109,571,157"/>
-<area shape="rect" id="node4_4" href="./SerializationContext.html" title="io.reinert.requestor.core.serialization.SerializationContext" alt="" coords="715,19,867,45"/>
-<area shape="rect" id="node4" href="./SerializationContext.html" title="&lt;TABLE&gt;" alt="" coords="704,8,877,56"/>
-<area shape="rect" id="node6_5" href="./UnableToDeserializeException.html" title="io.reinert.requestor.core.serialization.UnableToDeserializeException" alt="" coords="605,121,821,146"/>
-<area shape="rect" id="node6" href="./UnableToDeserializeException.html" title="&lt;TABLE&gt;" alt="" coords="595,109,832,157"/>
-<area shape="rect" id="node7_6" href="./DeserializationContext.html" title="io.reinert.requestor.core.serialization.DeserializationContext" alt="" coords="912,19,1080,45"/>
-<area shape="rect" id="node7" href="./DeserializationContext.html" title="&lt;TABLE&gt;" alt="" coords="901,8,1091,56"/>
-<area shape="rect" id="node8_7" href="./SerializationException.html" title="io.reinert.requestor.core.serialization.SerializationException" alt="" coords="505,19,669,45"/>
-<area shape="rect" id="node8" href="./SerializationException.html" title="&lt;TABLE&gt;" alt="" coords="494,8,679,56"/>
+<area shape="rect" id="node1_0" href="./HandlesSubTypes.html" title="io.reinert.requestor.core.serialization.HandlesSubTypes" alt="" coords="16,11,180,53"/>
+<area shape="rect" id="node1" href="./HandlesSubTypes.html" title="&lt;TABLE&gt;" alt="" coords="5,5,191,59"/>
+<area shape="rect" id="node2_1" href="./Deserializer.html" title="io.reinert.requestor.core.serialization.Deserializer" alt="" coords="226,11,354,53"/>
+<area shape="rect" id="node2" href="./Deserializer.html" title="&lt;TABLE&gt;" alt="" coords="215,5,365,59"/>
+<area shape="rect" id="node5_2" href="./Serializer.html" title="io.reinert.requestor.core.serialization.Serializer" alt="" coords="235,112,345,155"/>
+<area shape="rect" id="node5" href="./Serializer.html" title="&lt;TABLE&gt;" alt="" coords="224,107,356,160"/>
+<area shape="rect" id="node3_3" href="./UnableToSerializeException.html" title="io.reinert.requestor.core.serialization.UnableToSerializeException" alt="" coords="391,121,591,146"/>
+<area shape="rect" id="node3" href="./UnableToSerializeException.html" title="&lt;TABLE&gt;" alt="" coords="381,109,602,157"/>
+<area shape="rect" id="node4_4" href="./SerializationContext.html" title="io.reinert.requestor.core.serialization.SerializationContext" alt="" coords="746,19,898,45"/>
+<area shape="rect" id="node4" href="./SerializationContext.html" title="&lt;TABLE&gt;" alt="" coords="735,8,909,56"/>
+<area shape="rect" id="node6_5" href="./UnableToDeserializeException.html" title="io.reinert.requestor.core.serialization.UnableToDeserializeException" alt="" coords="637,121,853,146"/>
+<area shape="rect" id="node6" href="./UnableToDeserializeException.html" title="&lt;TABLE&gt;" alt="" coords="626,109,863,157"/>
+<area shape="rect" id="node7_6" href="./DeserializationContext.html" title="io.reinert.requestor.core.serialization.DeserializationContext" alt="" coords="943,19,1111,45"/>
+<area shape="rect" id="node7" href="./DeserializationContext.html" title="&lt;TABLE&gt;" alt="" coords="933,8,1122,56"/>
+<area shape="rect" id="node8_7" href="./SerializationException.html" title="io.reinert.requestor.core.serialization.SerializationException" alt="" coords="536,19,700,45"/>
+<area shape="rect" id="node8" href="./SerializationException.html" title="&lt;TABLE&gt;" alt="" coords="525,8,711,56"/>
 </map>

@@ -10,51 +10,51 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Auth
-	c7464 [label=<<table title="io.reinert.requestor.core.Auth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Auth.html">
+	c7435 [label=<<table title="io.reinert.requestor.core.Auth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Auth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Auth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Auth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.BearerAuth
-	c7512 [label=<<table title="io.reinert.requestor.core.auth.BearerAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./auth/BearerAuth.html">
+	c7481 [label=<<table title="io.reinert.requestor.core.auth.BearerAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./auth/BearerAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BearerAuth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./auth/BearerAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.DigestAuth
-	c7513 [label=<<table title="io.reinert.requestor.core.auth.DigestAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./auth/DigestAuth.html">
+	c7482 [label=<<table title="io.reinert.requestor.core.auth.DigestAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./auth/DigestAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DigestAuth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./auth/DigestAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.BasicAuth
-	c7515 [label=<<table title="io.reinert.requestor.core.auth.BasicAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./auth/BasicAuth.html">
+	c7484 [label=<<table title="io.reinert.requestor.core.auth.BasicAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./auth/BasicAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BasicAuth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./auth/BasicAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.CorsAuth
-	c7517 [label=<<table title="io.reinert.requestor.core.auth.CorsAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./auth/CorsAuth.html">
+	c7486 [label=<<table title="io.reinert.requestor.core.auth.CorsAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./auth/CorsAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CorsAuth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./auth/CorsAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.oauth2.OAuth2Base
-	c7561 [label=<<table title="io.reinert.requestor.gwt.oauth2.OAuth2Base" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/oauth2/OAuth2Base.html">
+	c7530 [label=<<table title="io.reinert.requestor.gwt.oauth2.OAuth2Base" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/oauth2/OAuth2Base.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> OAuth2Base </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../gwt/oauth2/OAuth2Base.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.auth.BearerAuth implements io.reinert.requestor.core.Auth
-	c7464:p -> c7512:p [dir=back,arrowtail=empty,style=dashed];
+	c7435:p -> c7481:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.auth.DigestAuth implements io.reinert.requestor.core.Auth
-	c7464:p -> c7513:p [dir=back,arrowtail=empty,style=dashed];
+	c7435:p -> c7482:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.auth.BasicAuth implements io.reinert.requestor.core.Auth
-	c7464:p -> c7515:p [dir=back,arrowtail=empty,style=dashed];
+	c7435:p -> c7484:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.auth.CorsAuth implements io.reinert.requestor.core.Auth
-	c7464:p -> c7517:p [dir=back,arrowtail=empty,style=dashed];
+	c7435:p -> c7486:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gwt.oauth2.OAuth2Base implements io.reinert.requestor.core.Auth
-	c7464:p -> c7561:p [dir=back,arrowtail=empty,style=dashed];
+	c7435:p -> c7530:p [dir=back,arrowtail=empty,style=dashed];
 }
 

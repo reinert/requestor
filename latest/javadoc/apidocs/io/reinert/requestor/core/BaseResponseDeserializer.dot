@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.BaseResponseDeserializer
-	c9289 [label=<<table title="io.reinert.requestor.core.BaseResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BaseResponseDeserializer.html">
+	c9252 [label=<<table title="io.reinert.requestor.core.BaseResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BaseResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BaseResponseDeserializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseDeserializer
-	c9328 [label=<<table title="io.reinert.requestor.core.ResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseDeserializer.html">
+	c9290 [label=<<table title="io.reinert.requestor.core.ResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseDeserializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.GwtResponseDeserializer
-	c9438 [label=<<table title="io.reinert.requestor.gwt.GwtResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/GwtResponseDeserializer.html">
+	c9399 [label=<<table title="io.reinert.requestor.gwt.GwtResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/GwtResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtResponseDeserializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../gwt/GwtResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.BaseResponseDeserializer implements io.reinert.requestor.core.ResponseDeserializer
-	c9328:p -> c9289:p [dir=back,arrowtail=empty,style=dashed];
+	c9290:p -> c9252:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gwt.GwtResponseDeserializer extends io.reinert.requestor.core.BaseResponseDeserializer
-	c9289:p -> c9438:p [dir=back,arrowtail=empty];
+	c9252:p -> c9399:p [dir=back,arrowtail=empty];
 }
 

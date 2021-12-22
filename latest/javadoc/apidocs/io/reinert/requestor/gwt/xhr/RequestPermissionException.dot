@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestAbortException
-	c44833 [label=<<table title="io.reinert.requestor.core.RequestAbortException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/RequestAbortException.html">
+	c44175 [label=<<table title="io.reinert.requestor.core.RequestAbortException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/RequestAbortException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestAbortException </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/RequestAbortException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.RequestPermissionException
-	c45025 [label=<<table title="io.reinert.requestor.gwt.xhr.RequestPermissionException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestPermissionException.html">
+	c44366 [label=<<table title="io.reinert.requestor.gwt.xhr.RequestPermissionException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestPermissionException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestPermissionException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestPermissionException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.xhr.RequestPermissionException extends io.reinert.requestor.core.RequestAbortException
-	c44833:p -> c45025:p [dir=back,arrowtail=empty];
+	c44175:p -> c44366:p [dir=back,arrowtail=empty];
 }
 

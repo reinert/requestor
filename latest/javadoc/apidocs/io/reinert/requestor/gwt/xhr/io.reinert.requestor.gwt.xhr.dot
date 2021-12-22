@@ -10,25 +10,25 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwt.xhr.XhrRequestDispatcher
-	c3751 [label=<<table title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./XhrRequestDispatcher.html">
+	c3735 [label=<<table title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./XhrRequestDispatcher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> XhrRequestDispatcher </td></tr>
 		</table></td></tr>
 		</table>>, URL="./XhrRequestDispatcher.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.NetworkErrorException
-	c3752 [label=<<table title="io.reinert.requestor.gwt.xhr.NetworkErrorException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NetworkErrorException.html">
+	c3736 [label=<<table title="io.reinert.requestor.gwt.xhr.NetworkErrorException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NetworkErrorException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NetworkErrorException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NetworkErrorException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory
-	c3753 [label=<<table title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./XhrRequestDispatcherFactory.html">
+	c3737 [label=<<table title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./XhrRequestDispatcherFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> XhrRequestDispatcherFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./XhrRequestDispatcherFactory.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.RequestPermissionException
-	c3754 [label=<<table title="io.reinert.requestor.gwt.xhr.RequestPermissionException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestPermissionException.html">
+	c3738 [label=<<table title="io.reinert.requestor.gwt.xhr.RequestPermissionException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestPermissionException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestPermissionException </td></tr>
 		</table></td></tr>

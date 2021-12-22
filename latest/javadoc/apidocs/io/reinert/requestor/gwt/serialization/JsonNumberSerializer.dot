@@ -9,28 +9,28 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.serialization.HandlesSubTypes
-	c25997 [label=<<table title="io.reinert.requestor.core.serialization.HandlesSubTypes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/HandlesSubTypes.html">
+	// io.reinert.requestor.core.serialization.HandlesSubTypes<T>
+	c25653 [label=<<table title="io.reinert.requestor.core.serialization.HandlesSubTypes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/HandlesSubTypes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> HandlesSubTypes </td></tr>
+<tr><td align="center" balign="center"> HandlesSubTypes&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/serialization/HandlesSubTypes.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.JsonValueSerializer<T>
-	c26044 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonValueSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonValueSerializer.html">
+	c25700 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonValueSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonValueSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonValueSerializer&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonValueSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.JsonNumberSerializer
-	c26046 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonNumberSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonNumberSerializer.html">
+	c25702 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonNumberSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonNumberSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonNumberSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonNumberSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.serialization.JsonNumberSerializer extends io.reinert.requestor.gwt.serialization.JsonValueSerializer<java.lang.Number>
-	c26044:p -> c26046:p [dir=back,arrowtail=empty];
-	//io.reinert.requestor.gwt.serialization.JsonNumberSerializer implements io.reinert.requestor.core.serialization.HandlesSubTypes
-	c25997:p -> c26046:p [dir=back,arrowtail=empty,style=dashed];
+	c25700:p -> c25702:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.gwt.serialization.JsonNumberSerializer implements io.reinert.requestor.core.serialization.HandlesSubTypes<T>
+	c25653:p -> c25702:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,38 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestBuilder
-	c41515 [label=<<table title="io.reinert.requestor.core.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestBuilder.html">
+	c40871 [label=<<table title="io.reinert.requestor.core.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.Saver
+	c40882 [label=<<table title="io.reinert.requestor.core.Saver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Saver.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Saver </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Saver.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PollingRequestBuilder
-	c41552 [label=<<table title="io.reinert.requestor.core.PollingRequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestBuilder.html">
+	c40909 [label=<<table title="io.reinert.requestor.core.PollingRequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequestBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestInvoker
-	c41563 [label=<<table title="io.reinert.requestor.core.RequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInvoker.html">
+	c40920 [label=<<table title="io.reinert.requestor.core.RequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestOptions
-	c41601 [label=<<table title="io.reinert.requestor.core.RequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestOptions.html">
+	c40958 [label=<<table title="io.reinert.requestor.core.RequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RequestBuilder implements io.reinert.requestor.core.RequestOptions
-	c41601:p -> c41515:p [dir=back,arrowtail=empty,style=dashed];
+	c40958:p -> c40871:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.RequestBuilder implements io.reinert.requestor.core.Saver
+	c40882:p -> c40871:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestBuilder implements io.reinert.requestor.core.RequestBuilder
-	c41515:p -> c41552:p [dir=back,arrowtail=empty,style=dashed];
+	c40871:p -> c40909:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestInvoker implements io.reinert.requestor.core.RequestBuilder
-	c41515:p -> c41563:p [dir=back,arrowtail=empty,style=dashed];
+	c40871:p -> c40920:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestProgress
-	c45576 [label=<<table title="io.reinert.requestor.core.RequestProgress" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestProgress.html">
+	c44916 [label=<<table title="io.reinert.requestor.core.RequestProgress" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestProgress.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestProgress </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestProgress.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestProgressImpl
-	c45647 [label=<<table title="io.reinert.requestor.core.RequestProgressImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestProgressImpl.html">
+	c44987 [label=<<table title="io.reinert.requestor.core.RequestProgressImpl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestProgressImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestProgressImpl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestProgressImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RequestProgressImpl implements io.reinert.requestor.core.RequestProgress
-	c45576:p -> c45647:p [dir=back,arrowtail=empty,style=dashed];
+	c44916:p -> c44987:p [dir=back,arrowtail=empty,style=dashed];
 }
 

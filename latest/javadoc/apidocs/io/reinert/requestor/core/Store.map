@@ -1,4 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="16,11,109,53"/>
-<area shape="rect" id="node1" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="5,5,120,59"/>
+<area shape="rect" id="node1_0" href="./Service.html" title="io.reinert.requestor.core.Service" alt="" coords="16,213,109,256"/>
+<area shape="rect" id="node1" href="./Service.html" title="&lt;TABLE&gt;" alt="" coords="5,208,120,261"/>
+<area shape="rect" id="node2_1" href="./InProcess.html" title="io.reinert.requestor.core.InProcess" alt="" coords="155,213,248,256"/>
+<area shape="rect" id="node2" href="./InProcess.html" title="&lt;TABLE&gt;" alt="" coords="144,208,259,261"/>
+<area shape="rect" id="node3_2" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="315,112,408,155"/>
+<area shape="rect" id="node3" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="304,107,419,160"/>
+<area shape="rect" id="node5_3" href="./SerializedRequest.html" title="io.reinert.requestor.core.SerializedRequest" alt="" coords="293,213,429,256"/>
+<area shape="rect" id="node5" href="./SerializedRequest.html" title="&lt;TABLE&gt;" alt="" coords="283,208,440,261"/>
+<area shape="rect" id="node6_4" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="475,222,544,247"/>
+<area shape="rect" id="node6" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="464,211,555,259"/>
+<area shape="rect" id="node7_5" href="./IncomingResponse.html" title="io.reinert.requestor.core.IncomingResponse" alt="" coords="590,213,733,256"/>
+<area shape="rect" id="node7" href="./IncomingResponse.html" title="&lt;TABLE&gt;" alt="" coords="579,208,743,261"/>
+<area shape="rect" id="node4_6" href="./Saver.html" title="io.reinert.requestor.core.Saver" alt="" coords="315,11,408,53"/>
+<area shape="rect" id="node4" href="./Saver.html" title="&lt;TABLE&gt;" alt="" coords="304,5,419,59"/>
 </map>

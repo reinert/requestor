@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.auth.BasicAuth.Base64
-	c9890 [label=<<table title="io.reinert.requestor.core.auth.BasicAuth.Base64" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BasicAuth.Base64.html">
+	c9849 [label=<<table title="io.reinert.requestor.core.auth.BasicAuth.Base64" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BasicAuth.Base64.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Base64 </td></tr>

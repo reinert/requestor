@@ -10,28 +10,37 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Service
-	c55977 [label=<<table title="io.reinert.requestor.core.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Service.html">
+	c55508 [label=<<table title="io.reinert.requestor.core.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Service.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Service </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Service.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.Store
+	c55510 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Store </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Store.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasRequestOptions
-	c56038 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
+	c55569 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasRequestOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasRequestOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.AbstractService
-	c56070 [label=<<table title="io.reinert.requestor.core.AbstractService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractService.html">
+	c55602 [label=<<table title="io.reinert.requestor.core.AbstractService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AbstractService.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AbstractService </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AbstractService.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.Service implements io.reinert.requestor.core.HasRequestOptions
-	c56038:p -> c55977:p [dir=back,arrowtail=empty,style=dashed];
+	c55569:p -> c55508:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.Service implements io.reinert.requestor.core.Store
+	c55510:p -> c55508:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.AbstractService implements io.reinert.requestor.core.Service
-	c55977:p -> c56070:p [dir=back,arrowtail=empty,style=dashed];
+	c55508:p -> c55602:p [dir=back,arrowtail=empty,style=dashed];
 }
 

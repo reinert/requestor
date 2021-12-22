@@ -10,126 +10,133 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.HttpStatus
-	c238 [label=<<table title="io.reinert.requestor.core.HttpStatus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpStatus.html">
+	c237 [label=<<table title="io.reinert.requestor.core.HttpStatus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpStatus.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpStatus </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpStatus.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RestService<R, I>
-	c239 [label=<<table title="io.reinert.requestor.core.RestService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestService.html">
+	c238 [label=<<table title="io.reinert.requestor.core.RestService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestService.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RestService&lt;R, I&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RestService.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RestService.RestServiceSpec<R, I, C extends java.util.Collection>
-	c240 [label=<<table title="io.reinert.requestor.core.RestService.RestServiceSpec" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestService.RestServiceSpec.html">
+	c239 [label=<<table title="io.reinert.requestor.core.RestService.RestServiceSpec" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestService.RestServiceSpec.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RestServiceSpec&lt;R, I, C extends Collection&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RestService.RestServiceSpec.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RestService.RestServiceBuilder<R, I, C extends java.util.Collection>
-	c241 [label=<<table title="io.reinert.requestor.core.RestService.RestServiceBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestService.RestServiceBuilder.html">
+	c240 [label=<<table title="io.reinert.requestor.core.RestService.RestServiceBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestService.RestServiceBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RestServiceBuilder&lt;R, I, C extends Collection&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RestService.RestServiceBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.DeserializableResponse
-	c242 [label=<<table title="io.reinert.requestor.core.DeserializableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeserializableResponse.html">
+	c241 [label=<<table title="io.reinert.requestor.core.DeserializableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeserializableResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeserializableResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeserializableResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestAbortException
-	c243 [label=<<table title="io.reinert.requestor.core.RequestAbortException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestAbortException.html">
+	c242 [label=<<table title="io.reinert.requestor.core.RequestAbortException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestAbortException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestAbortException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestAbortException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Status
-	c244 [label=<<table title="io.reinert.requestor.core.Status" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Status.html">
+	c243 [label=<<table title="io.reinert.requestor.core.Status" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Status.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> Status </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Status.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestBuilder
-	c245 [label=<<table title="io.reinert.requestor.core.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
+	c244 [label=<<table title="io.reinert.requestor.core.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Service
-	c246 [label=<<table title="io.reinert.requestor.core.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Service.html">
+	c245 [label=<<table title="io.reinert.requestor.core.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Service.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Service </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Service.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.InProcess
-	c247 [label=<<table title="io.reinert.requestor.core.InProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InProcess.html">
+	c246 [label=<<table title="io.reinert.requestor.core.InProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> InProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./InProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Store
-	c248 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
+	c247 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Store </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Store.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Store.Level
-	c249 [label=<<table title="io.reinert.requestor.core.Store.Level" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.Level.html">
+	c248 [label=<<table title="io.reinert.requestor.core.Store.Level" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.Level.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> Level </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Store.Level.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Registration
-	c250 [label=<<table title="io.reinert.requestor.core.Registration" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Registration.html">
+	c249 [label=<<table title="io.reinert.requestor.core.Registration" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Registration.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Registration </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Registration.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.BaseRequestSerializer
-	c251 [label=<<table title="io.reinert.requestor.core.BaseRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseRequestSerializer.html">
+	c250 [label=<<table title="io.reinert.requestor.core.BaseRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseRequestSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BaseRequestSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseRequestSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestFilter
-	c252 [label=<<table title="io.reinert.requestor.core.RequestFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilter.html">
+	c251 [label=<<table title="io.reinert.requestor.core.RequestFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestFilter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestFilter.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestFilter.Provider
-	c253 [label=<<table title="io.reinert.requestor.core.RequestFilter.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilter.Provider.html">
+	c252 [label=<<table title="io.reinert.requestor.core.RequestFilter.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestFilter.Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestFilter.Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PollingRequestInvoker
-	c254 [label=<<table title="io.reinert.requestor.core.PollingRequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestInvoker.html">
+	c253 [label=<<table title="io.reinert.requestor.core.PollingRequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequestInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequestInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializerProvider
-	c255 [label=<<table title="io.reinert.requestor.core.SerializerProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializerProvider.html">
+	c254 [label=<<table title="io.reinert.requestor.core.SerializerProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializerProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializerProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializerProvider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.Saver
+	c255 [label=<<table title="io.reinert.requestor.core.Saver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Saver.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Saver </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Saver.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RestInvoker<R, I>
 	c256 [label=<<table title="io.reinert.requestor.core.RestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
@@ -424,130 +431,130 @@ digraph G {
 <tr><td align="center" balign="center"> FilterManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FilterManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.PollingInvoker
-	c300 [label=<<table title="io.reinert.requestor.core.PollingInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingInvoker.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> PollingInvoker </td></tr>
-		</table></td></tr>
-		</table>>, URL="./PollingInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestSerializer
-	c301 [label=<<table title="io.reinert.requestor.core.RequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSerializer.html">
+	c300 [label=<<table title="io.reinert.requestor.core.RequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestDispatchException
-	c302 [label=<<table title="io.reinert.requestor.core.RequestDispatchException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatchException.html">
+	c301 [label=<<table title="io.reinert.requestor.core.RequestDispatchException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestDispatchException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestDispatchException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestDispatchException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestInterceptor
-	c303 [label=<<table title="io.reinert.requestor.core.RequestInterceptor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptor.html">
+	c302 [label=<<table title="io.reinert.requestor.core.RequestInterceptor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInterceptor </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInterceptor.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestInterceptor.Provider
-	c304 [label=<<table title="io.reinert.requestor.core.RequestInterceptor.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptor.Provider.html">
+	c303 [label=<<table title="io.reinert.requestor.core.RequestInterceptor.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInterceptor.Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInterceptor.Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestInProcess
-	c305 [label=<<table title="io.reinert.requestor.core.RequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInProcess.html">
+	c304 [label=<<table title="io.reinert.requestor.core.RequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseDeserializer
-	c306 [label=<<table title="io.reinert.requestor.core.ResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseDeserializer.html">
+	c305 [label=<<table title="io.reinert.requestor.core.ResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseDeserializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasRequestOptions
-	c307 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
+	c306 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasRequestOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasRequestOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.DirectInvoker
-	c308 [label=<<table title="io.reinert.requestor.core.DirectInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DirectInvoker.html">
+	c307 [label=<<table title="io.reinert.requestor.core.DirectInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DirectInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DirectInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DirectInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasHeaders
-	c309 [label=<<table title="io.reinert.requestor.core.HasHeaders" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasHeaders.html">
+	c308 [label=<<table title="io.reinert.requestor.core.HasHeaders" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasHeaders.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasHeaders </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasHeaders.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.TypeProvider<T>
-	c310 [label=<<table title="io.reinert.requestor.core.TypeProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TypeProvider.html">
+	c309 [label=<<table title="io.reinert.requestor.core.TypeProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TypeProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> TypeProvider&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TypeProvider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HttpMethod
-	c311 [label=<<table title="io.reinert.requestor.core.HttpMethod" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpMethod.html">
+	c310 [label=<<table title="io.reinert.requestor.core.HttpMethod" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpMethod.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpMethod </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpMethod.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseFilter
-	c312 [label=<<table title="io.reinert.requestor.core.ResponseFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilter.html">
+	c311 [label=<<table title="io.reinert.requestor.core.ResponseFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseFilter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseFilter.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseFilter.Provider
-	c313 [label=<<table title="io.reinert.requestor.core.ResponseFilter.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilter.Provider.html">
+	c312 [label=<<table title="io.reinert.requestor.core.ResponseFilter.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseFilter.Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseFilter.Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.AuthException
-	c314 [label=<<table title="io.reinert.requestor.core.AuthException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AuthException.html">
+	c313 [label=<<table title="io.reinert.requestor.core.AuthException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AuthException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AuthException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AuthException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.HttpInvoker
+	c314 [label=<<table title="io.reinert.requestor.core.HttpInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpInvoker.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> HttpInvoker </td></tr>
+		</table></td></tr>
+		</table>>, URL="./HttpInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.HttpPollingInvoker
+	c315 [label=<<table title="io.reinert.requestor.core.HttpPollingInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpPollingInvoker.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> HttpPollingInvoker </td></tr>
+		</table></td></tr>
+		</table>>, URL="./HttpPollingInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Provider<T>
-	c315 [label=<<table title="io.reinert.requestor.core.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Provider.html">
+	c316 [label=<<table title="io.reinert.requestor.core.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Response
-	c316 [label=<<table title="io.reinert.requestor.core.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Response.html">
+	c317 [label=<<table title="io.reinert.requestor.core.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Response.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Response </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Response.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.Invoker
-	c317 [label=<<table title="io.reinert.requestor.core.Invoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Invoker.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Invoker </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Invoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Event
 	c318 [label=<<table title="io.reinert.requestor.core.Event" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Event.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
@@ -739,33 +746,41 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./RequestProgressImpl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.HttpStatus implements io.reinert.requestor.core.Event
-	c318:p -> c238:p [dir=back,arrowtail=empty,style=dashed];
+	c318:p -> c237:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RestService<R, I> extends io.reinert.requestor.core.AbstractService
-	c339:p -> c239:p [dir=back,arrowtail=empty];
+	c339:p -> c238:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.RestService<R, I> implements io.reinert.requestor.core.RestInvoker<R, I>
-	c256:p -> c239:p [dir=back,arrowtail=empty,style=dashed];
+	c256:p -> c238:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.DeserializableResponse implements io.reinert.requestor.core.SerializedResponse
-	c284:p -> c242:p [dir=back,arrowtail=empty,style=dashed];
+	c284:p -> c241:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestAbortException extends io.reinert.requestor.core.RequestException
-	c283:p -> c243:p [dir=back,arrowtail=empty];
+	c283:p -> c242:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.Status implements io.reinert.requestor.core.HttpStatus
-	c238:p -> c244:p [dir=back,arrowtail=empty,style=dashed];
+	c237:p -> c243:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestBuilder implements io.reinert.requestor.core.RequestOptions
-	c331:p -> c245:p [dir=back,arrowtail=empty,style=dashed];
+	c331:p -> c244:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.RequestBuilder implements io.reinert.requestor.core.Saver
+	c255:p -> c244:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Service implements io.reinert.requestor.core.HasRequestOptions
-	c307:p -> c246:p [dir=back,arrowtail=empty,style=dashed];
+	c306:p -> c245:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.Service implements io.reinert.requestor.core.Store
+	c247:p -> c245:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.InProcess implements io.reinert.requestor.core.Store
+	c247:p -> c246:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.Store implements io.reinert.requestor.core.Saver
+	c255:p -> c247:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.BaseRequestSerializer implements io.reinert.requestor.core.RequestSerializer
-	c301:p -> c251:p [dir=back,arrowtail=empty,style=dashed];
+	c300:p -> c250:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestFilter.Provider implements io.reinert.requestor.core.Provider<T>
-	c315:p -> c253:p [dir=back,arrowtail=empty,style=dashed];
+	c316:p -> c252:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestInvoker implements io.reinert.requestor.core.PollingRequestBuilder
-	c282:p -> c254:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.core.PollingRequestInvoker implements io.reinert.requestor.core.PollingInvoker
-	c300:p -> c254:p [dir=back,arrowtail=empty,style=dashed];
+	c282:p -> c253:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.PollingRequestInvoker implements io.reinert.requestor.core.HttpPollingInvoker
+	c315:p -> c253:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestInvoker implements io.reinert.requestor.core.RequestInvoker
-	c293:p -> c254:p [dir=back,arrowtail=empty,style=dashed];
+	c293:p -> c253:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializerProvider implements io.reinert.requestor.core.DeserializerProvider
-	c272:p -> c255:p [dir=back,arrowtail=empty,style=dashed];
+	c272:p -> c254:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableSerializedRequest implements io.reinert.requestor.core.MutableRequest
 	c273:p -> c257:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableSerializedRequest implements io.reinert.requestor.core.SerializedRequest
@@ -786,14 +801,16 @@ digraph G {
 	c331:p -> c265:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedRequest implements io.reinert.requestor.core.HasPollingOptions
 	c290:p -> c265:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.SerializedRequest implements io.reinert.requestor.core.Store
+	c247:p -> c265:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.UnsuccessfulResponseException extends io.reinert.requestor.core.RequestException
 	c283:p -> c266:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.BaseResponseDeserializer implements io.reinert.requestor.core.ResponseDeserializer
-	c306:p -> c267:p [dir=back,arrowtail=empty,style=dashed];
+	c305:p -> c267:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedRequestInProcess implements io.reinert.requestor.core.MutableSerializedRequest
 	c257:p -> c268:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedRequestInProcess implements io.reinert.requestor.core.RequestInProcess
-	c305:p -> c268:p [dir=back,arrowtail=empty,style=dashed];
+	c304:p -> c268:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.SerializerManager
 	c281:p -> c269:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.FilterManager
@@ -803,23 +820,25 @@ digraph G {
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.ProviderManager
 	c276:p -> c269:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.DirectInvoker
-	c308:p -> c269:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.HasRequestOptions
 	c307:p -> c269:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.HasRequestOptions
+	c306:p -> c269:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.Store
+	c247:p -> c269:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableSerializedResponse implements io.reinert.requestor.core.SerializedResponse
 	c284:p -> c270:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableSerializedResponse implements io.reinert.requestor.core.HasHeaders
-	c309:p -> c270:p [dir=back,arrowtail=empty,style=dashed];
+	c308:p -> c270:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableResponse implements io.reinert.requestor.core.MutableSerializedResponse
 	c270:p -> c271:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableResponse implements io.reinert.requestor.core.Response
-	c316:p -> c271:p [dir=back,arrowtail=empty,style=dashed];
+	c317:p -> c271:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.DeserializerProvider implements io.reinert.requestor.core.Provider<T>
-	c315:p -> c272:p [dir=back,arrowtail=empty,style=dashed];
+	c316:p -> c272:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableRequest implements io.reinert.requestor.core.RequestOptions
 	c331:p -> c273:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableRequest implements io.reinert.requestor.core.HasHeaders
-	c309:p -> c273:p [dir=back,arrowtail=empty,style=dashed];
+	c308:p -> c273:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableRequest implements io.reinert.requestor.core.HasPollingOptions
 	c290:p -> c273:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ProcessableRequest implements io.reinert.requestor.core.HasPollingOptions
@@ -831,7 +850,7 @@ digraph G {
 	//io.reinert.requestor.core.ProcessableRequest implements io.reinert.requestor.core.Processable
 	c259:p -> c279:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestBuilder implements io.reinert.requestor.core.RequestBuilder
-	c245:p -> c282:p [dir=back,arrowtail=empty,style=dashed];
+	c244:p -> c282:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestBuilder implements io.reinert.requestor.core.HasPollingOptions
 	c290:p -> c282:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedResponse implements io.reinert.requestor.core.IncomingResponse
@@ -841,47 +860,49 @@ digraph G {
 	//io.reinert.requestor.core.SerializableRequestInProcess implements io.reinert.requestor.core.SerializableRequest
 	c292:p -> c289:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializableRequestInProcess implements io.reinert.requestor.core.InProcess
-	c247:p -> c289:p [dir=back,arrowtail=empty,style=dashed];
+	c246:p -> c289:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Request<T> implements io.reinert.requestor.core.SerializedRequest
 	c265:p -> c291:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializableRequest implements io.reinert.requestor.core.RequestOptions
 	c331:p -> c292:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestInvoker implements io.reinert.requestor.core.RequestBuilder
-	c245:p -> c293:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.core.RequestInvoker implements io.reinert.requestor.core.Invoker
-	c317:p -> c293:p [dir=back,arrowtail=empty,style=dashed];
+	c244:p -> c293:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.RequestInvoker implements io.reinert.requestor.core.HttpInvoker
+	c314:p -> c293:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseInProcess implements io.reinert.requestor.core.MutableResponse
 	c271:p -> c294:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseInProcess implements io.reinert.requestor.core.SerializedResponseInProcess
 	c345:p -> c294:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.core.PollingInvoker implements io.reinert.requestor.core.Invoker
-	c317:p -> c300:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestDispatchException extends io.reinert.requestor.core.RequestAbortException
-	c243:p -> c302:p [dir=back,arrowtail=empty];
+	c242:p -> c301:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.RequestInterceptor.Provider implements io.reinert.requestor.core.Provider<T>
-	c315:p -> c304:p [dir=back,arrowtail=empty,style=dashed];
+	c316:p -> c303:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestInProcess implements io.reinert.requestor.core.MutableRequest
-	c273:p -> c305:p [dir=back,arrowtail=empty,style=dashed];
+	c273:p -> c304:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestInProcess implements io.reinert.requestor.core.InProcess
-	c247:p -> c305:p [dir=back,arrowtail=empty,style=dashed];
+	c246:p -> c304:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.HasRequestOptions implements io.reinert.requestor.core.HasHeaders
-	c309:p -> c307:p [dir=back,arrowtail=empty,style=dashed];
+	c308:p -> c306:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.TypeProvider<T> implements io.reinert.requestor.core.Provider<T>
-	c315:p -> c310:p [dir=back,arrowtail=empty,style=dashed];
+	c316:p -> c309:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseFilter.Provider implements io.reinert.requestor.core.Provider<T>
-	c315:p -> c313:p [dir=back,arrowtail=empty,style=dashed];
+	c316:p -> c312:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.HttpPollingInvoker implements io.reinert.requestor.core.HttpInvoker
+	c314:p -> c315:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Response implements io.reinert.requestor.core.SerializedResponse
-	c284:p -> c316:p [dir=back,arrowtail=empty,style=dashed];
+	c284:p -> c317:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.IncomingResponse implements io.reinert.requestor.core.Store
+	c247:p -> c319:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseInterceptor.Provider implements io.reinert.requestor.core.Provider<T>
-	c315:p -> c322:p [dir=back,arrowtail=empty,style=dashed];
+	c316:p -> c322:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RawResponse implements io.reinert.requestor.core.MutableResponse
 	c271:p -> c323:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RawResponse implements io.reinert.requestor.core.DeserializableResponse
-	c242:p -> c323:p [dir=back,arrowtail=empty,style=dashed];
+	c241:p -> c323:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RawResponse implements io.reinert.requestor.core.ProcessableResponse
 	c263:p -> c323:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.DeserializableResponseInProcess implements io.reinert.requestor.core.DeserializableResponse
-	c242:p -> c325:p [dir=back,arrowtail=empty,style=dashed];
+	c241:p -> c325:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.DeserializableResponseInProcess implements io.reinert.requestor.core.SerializedResponseInProcess
 	c345:p -> c325:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestEvent implements io.reinert.requestor.core.Event
@@ -891,27 +912,27 @@ digraph G {
 	//io.reinert.requestor.core.WebTarget implements io.reinert.requestor.core.InterceptorManager
 	c264:p -> c330:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.WebTarget implements io.reinert.requestor.core.HasRequestOptions
-	c307:p -> c330:p [dir=back,arrowtail=empty,style=dashed];
+	c306:p -> c330:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestDispatcher implements io.reinert.requestor.core.RunScheduler
-	c474:p -> c333:p [dir=back,arrowtail=empty,style=dashed];
+	c472:p -> c333:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestCancelException extends io.reinert.requestor.core.RequestException
 	c283:p -> c335:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.PreparedRequest implements io.reinert.requestor.core.SerializedRequest
 	c265:p -> c338:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PreparedRequest implements io.reinert.requestor.core.HasHeaders
-	c309:p -> c338:p [dir=back,arrowtail=empty,style=dashed];
+	c308:p -> c338:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.AbstractService implements io.reinert.requestor.core.Service
-	c246:p -> c339:p [dir=back,arrowtail=empty,style=dashed];
+	c245:p -> c339:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Auth.Provider implements io.reinert.requestor.core.Provider<T>
-	c315:p -> c343:p [dir=back,arrowtail=empty,style=dashed];
+	c316:p -> c343:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedResponseInProcess implements io.reinert.requestor.core.MutableSerializedResponse
 	c270:p -> c345:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedResponseInProcess implements io.reinert.requestor.core.InProcess
-	c247:p -> c345:p [dir=back,arrowtail=empty,style=dashed];
+	c246:p -> c345:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestProgressImpl implements io.reinert.requestor.core.RequestProgress
 	c275:p -> c346:p [dir=back,arrowtail=empty,style=dashed];
 	// io.reinert.requestor.core.RunScheduler
-	c474 [label=<<table title="io.reinert.requestor.core.RunScheduler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/requestor/core/RunScheduler.html">
+	c472 [label=<<table title="io.reinert.requestor.core.RunScheduler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/io/reinert/requestor/core/RunScheduler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RunScheduler </td></tr>
