@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./RequestException.html" title="io.reinert.requestor.core.RequestException" alt="" coords="38,17,174,42"/>
+<area shape="rect" id="node1" href="./RequestException.html" title="&lt;TABLE&gt;" alt="" coords="27,5,185,53"/>
+<area shape="rect" id="node2_1" href="./RequestCancelException.html" title="io.reinert.requestor.core.RequestCancelException" alt="" coords="16,113,196,138"/>
+<area shape="rect" id="node2" href="./RequestCancelException.html" title="&lt;TABLE&gt;" alt="" coords="5,101,207,149"/>
+<area shape="rect" id="node3_2" href="../gwt/xhr/NetworkErrorException.html" title="io.reinert.requestor.gwt.xhr.NetworkErrorException" alt="" coords="21,209,191,234"/>
+<area shape="rect" id="node3" href="../gwt/xhr/NetworkErrorException.html" title="&lt;TABLE&gt;" alt="" coords="11,197,201,245"/>
+</map>
