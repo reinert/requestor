@@ -188,7 +188,7 @@ Add the following requestor impl dependency to your POM.
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-gwt</artifactId>
-    <version>0.2.0</version>
+    <version>1.0.0-rc2</version>
 </dependency>
 ```
 
@@ -206,7 +206,7 @@ GWT environment. The **requestor-gwt** impl is compatible with any GWT2 version 
 
 ### Latest Release
 
-1.0.0-rc1 (03 Dec 2021)
+1.0.0-rc2 (22 Dec 2021)
 
 
 ## Yet another REST Client library?
