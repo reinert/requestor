@@ -2091,5 +2091,3 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
 
 ## License
 Requestor is freely distributable under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.html)
-
-[![Analytics](https://ga-beacon.appspot.com/UA-59721128-2/reinert/requestor?pixel)](https://ga-beacon.appspot.com/UA-59721128-2/reinert/requestor)
