@@ -18,6 +18,10 @@ package io.reinert.requestor.core.uri;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reinert.requestor.core.Requestor;
+import io.reinert.requestor.core.auth.BasicAuth;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,6 +30,17 @@ import static org.junit.Assert.assertEquals;
  * @author Danilo Reinert
  */
 public class UriBuilderJreTest {
+
+    @BeforeClass
+    public static void setUpRequestor() {
+        if (!Requestor.isInitialized()) {
+            Requestor.init(new BasicAuth.Base64() {
+                public String encode(String text) {
+                    return text;
+                }
+            }, new NetUriCodec());
+        }
+    }
 
     @Test
     public void build_PathOnly_ShouldBuildSuccessfully() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,13 @@ public class BasicAuth implements Auth {
     // Requestor implementations must set this
     public static Base64 BASE64 = null;
 
+    public static Base64 getBase64() {
+        if (BASE64 == null) {
+            throw new IllegalStateException("Requestor was not initialized. Please call Requestor.init.");
+        }
+        return BASE64;
+    }
+
     private final String user;
     private final String password;
     private final boolean withCredentials;
@@ -49,11 +56,7 @@ public class BasicAuth implements Auth {
 
     @Override
     public void auth(PreparedRequest request) {
-        if (BASE64 == null) {
-            throw new UnsupportedOperationException("BasicAuth is not supported because package-private BASE64" +
-                    " constant is not set. Please, statically assign this variable in io.requestor.core.auth package.");
-        }
-        request.setHeader("Authorization", "Basic " + BASE64.encode(user + ":" + password));
+        request.setHeader("Authorization", "Basic " + getBase64().encode(user + ":" + password));
         request.setWithCredentials(withCredentials);
         request.send();
     }

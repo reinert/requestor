@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ public abstract class UriCodec {
 
     public static UriCodec getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new NetUriCodec();
+            throw new IllegalStateException("Requestor was not initialized. Please call Requestor.init.");
         }
         return INSTANCE;
     }

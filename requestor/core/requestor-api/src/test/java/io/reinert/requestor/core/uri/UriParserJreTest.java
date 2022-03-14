@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,10 @@ package io.reinert.requestor.core.uri;
 
 import java.util.Arrays;
 
+import io.reinert.requestor.core.Requestor;
+import io.reinert.requestor.core.auth.BasicAuth;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,6 +31,17 @@ import static org.junit.Assert.assertTrue;
  * @author Danilo Reinert
  */
 public class UriParserJreTest {
+
+    @BeforeClass
+    public static void setUpRequestor() {
+        if (!Requestor.isInitialized()) {
+            Requestor.init(new BasicAuth.Base64() {
+                public String encode(String text) {
+                    return text;
+                }
+            }, new NetUriCodec());
+        }
+    }
 
     @Test
     public void testRootPath() {
