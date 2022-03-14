@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,26 +27,29 @@ import io.reinert.requestor.core.auth.DigestAuth;
 public class RequestorGwt {
 
     /**
-     * Initializes static lazy bindings to proper usage of Requestor in GWT environment.
+     * Initializes static lazy bindings to enable the proper usage of Requestor in GWT environment.
      * <p></p>
      * Call this method in a static block in the app's EntryPoint.
      */
     public static void init() {
-        if (!Requestor.isInitialized()) {
-            Requestor.init(
-                    new BasicAuth.Base64() {
-                        @Override
-                        public native String encode(String text) /*-{
-                            return $wnd.btoa(text);
-                        }-*/;
-                    },
-                    new GwtUriCodec()
-            );
-            DigestAuth.setHashFunction("md5", new DigestAuth.HashFunction() {
-                public String hash(String input) {
-                    return MD5.hash(input);
-                }
-            });
-        }
+        Requestor.init(
+                new BasicAuth.Base64() {
+                    @Override
+                    public native String encode(String text) /*-{
+                        return $wnd.btoa(text);
+                    }-*/;
+                },
+                new GwtUriCodec()
+        );
+
+        DigestAuth.setHashFunction("md5", new DigestAuth.HashFunction() {
+            public String hash(String input) {
+                return MD5.hash(input);
+            }
+        });
+    }
+
+    public static boolean isInitialized() {
+        return Requestor.isInitialized();
     }
 }

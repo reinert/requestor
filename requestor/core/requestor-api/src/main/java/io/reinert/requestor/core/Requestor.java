@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,37 +25,26 @@ import io.reinert.requestor.core.uri.UriCodec;
  */
 public class Requestor {
 
-    private static boolean initPending = true;
+    private static boolean initialized = false;
 
     /**
-     * <p>Initializes static lazy bindings to proper usage of Requestor.</p>
+     * <p>Initializes static lazy bindings to enable the proper usage of Requestor.</p>
      *
      * <p>Call this method in a static block in the app's entry point.</p>
      */
     public static void init(BasicAuth.Base64 base64, UriCodec uriCodec) {
+        if (initialized) throw new IllegalStateException("Requestor is already initialized.");
+
         if (base64 == null) throw new IllegalArgumentException("BasicAuth.Base64 cannot be null");
         if (uriCodec == null) throw new IllegalArgumentException("UriCodec cannot be null");
 
-        doInit(base64, uriCodec);
-    }
+        BasicAuth.BASE64 = base64;
+        UriCodec.INSTANCE = uriCodec;
 
-    public static void init(BasicAuth.Base64 base64) {
-        if (base64 == null) throw new IllegalArgumentException("BasicAuth.Base64 cannot be null");
-
-        doInit(base64, null);
-    }
-
-    private static void doInit(BasicAuth.Base64 base64, UriCodec uriCodec) {
-        if (initPending) {
-            if (base64 != null) BasicAuth.BASE64 = base64;
-
-            if (uriCodec != null) UriCodec.INSTANCE = uriCodec;
-
-            initPending = false;
-        }
+        initialized = true;
     }
 
     public static boolean isInitialized() {
-        return !initPending;
+        return initialized;
     }
 }
