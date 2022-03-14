@@ -1,8 +1,8 @@
 # Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor) [![Gitter](https://img.shields.io/badge/Gitter-Join%20Chat-blue.svg?style=flat)](https://gitter.im/reinert/requestor)
 
-**Request like a boss.** 😎
-
-*Ask more. Do less. Keep track of everything.*
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/1285494/158213729-52458234-6c6b-41d5-bd6d-746c12a7c2c4.png" alt="Request like a boss."/>
+</p>
 
 With the componentization movement, much attention has been given to the UI structure of a frontend application.
 We have developed many mechanisms to build UIs prepared to scale. Unfortunately, communication - the underlying
