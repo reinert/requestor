@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,8 +53,6 @@ public class CallbackGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        uriBuilder = UriBuilder.fromUri("https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
-
         session = new GwtSession();
 
         session.register(BookJsonSerializer.getInstance());
@@ -64,6 +62,8 @@ public class CallbackGwtTest extends GWTTestCase {
 
         // Delay requests to avoid 429 Too Many Requests
         session.setDelay(1000);
+
+        uriBuilder = UriBuilder.fromUri("https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
     }
 
     //=========================================================================

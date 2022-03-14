@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,7 +99,7 @@ public class RestServiceGwtTest extends GWTTestCase {
 
     public void testGetBooksWithParams() {
         // GET /books?id=20
-        bookService.get("id", "20").onSuccess(new PayloadCallback<Collection<Book>>() {
+        bookService.get("id", 5).onSuccess(new PayloadCallback<Collection<Book>>() {
             public void execute(Collection<Book> result) {
                 assertNotNull(result);
                 assertEquals(1, result.size());
