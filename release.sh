@@ -18,8 +18,7 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   git push origin requestor-$1
   # site
   mvn install -P!project,examples
-  mvn site-deploy -P!project,site
-  mvn site-deploy -P!project,site -DsitePath=latest
+  mvn site -P!project,site # manually commit target/site in gh-pages branch
   # update version to next snapshot
   mvn versions:set -DnewVersion=$2
   mvn versions:commit
@@ -28,9 +27,13 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   # commit
   git add .
   git commit -m "Start $2 development"
+  # deploy snapshot
+  mvn clean deploy -P!project
+  # push
   git push origin master
 elif [ "snapshot" == "$1" ] || [ "current" == "$1" ]; then
-  bash ./generate-site.sh
+  mvn clean install -P!project,examples
+  mvn site -P!project,site # manually commit target/site in gh-pages branch
   mvn clean deploy -P!project
 else
   echo "USAGE"
