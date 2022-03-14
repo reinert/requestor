@@ -35,6 +35,6 @@ public class NetSession extends Session {
     }
 
     public NetSession(DeferredPool.Factory deferredPoolFactory) {
-        super(deferredPoolFactory, new NetRequestDispatcherFactory());
+        super(new NetRequestDispatcherFactory(), deferredPoolFactory);
     }
 }
