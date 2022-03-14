@@ -29,7 +29,7 @@ Feature highlights:
 * [**Retry**](#retry) - define a retry policy with a single command.
 * [**Session**](#session) - manage all requesting configurations in one place.
 * [**Service**](#services) - break down the API consumption into smaller independent contexts.
-* [**Store**](#store) - save and retrieve data both in different scope levels (session, service and request).
+* [**Store**](#store) - save and retrieve data in different scope levels (session, service and request).
 * [**Links**](#links-hateoas) - navigate through an API interacting with its links (HATEOAS for real).
 * [**Headers**](#headers-api) - directly create and parse complex headers.
 * [**URIs**](#uri) - build and parse complicated URIs easily.
@@ -860,8 +860,8 @@ session.req("/api/authorized-only")
         .auth(new Auth() {
             @Override
             public void auth(PreparedRequest request) {
-                // Retrieve the token from the Store
-                String userToken = request.getStore().get("userToken");
+                // Retrieve the token from the store
+                String userToken = request.retrieve("userToken");
                 
                 // Provide the credentials in the Authorization header
                 request.setHeader("Authorization", "Bearer " + userToken);
@@ -904,12 +904,12 @@ session.setAuth(new Auth.Provider() {
     @Override
     public Auth getInstance() {
         // Supposing you implemented MyAuth elsewhere
-        return new MyAuth( session.getStore().get("userToken") );
+        return new MyAuth( session.retrieve("userToken") );
     }
 });
     
 // Lambda syntax
-session.setAuth( () -> new MyAuth(session.getStore().get("userToken")) );
+session.setAuth( () -> new MyAuth(session.retrieve("userToken")) );
 ```
 
 
@@ -918,7 +918,7 @@ session.setAuth( () -> new MyAuth(session.getStore().get("userToken")) );
 In order to facilitate our development, Requestor provides standard Auth implementations. For instance, the `BasicAuth` performs the **basic access authentication** by putting a header field in the form of `Authorization: Basic <credentials>`, where credentials is the Base64 encoding of `username` and `password` joined by a single colon `:`. It might be helpful to retrieve credentials data from the Session Store, like in the following example:
 
 ```java
-User user = session.getStore().get("user");
+User user = session.retrieve("user");
 
 session.req("/api/authorized-only")
         .auth(new BasicAuth( user.getUsername(), user.getPassword() ));
@@ -934,7 +934,7 @@ See how you can enable this Auth in your Session to all requests using a `Provid
 
 ```java
 session.setAuth(() -> {
-    UserInfo userInfo = session.getStore().get("userInfo");
+    UserInfo userInfo = session.retrieve("userInfo");
     return new BearerAuth(user.getToken());
 });
 ```
@@ -966,8 +966,7 @@ to do it through a `Provider` to avoid sharing the internal Auth state between r
 
 ```java
 // register a Provider of DigestAuth in the session
-Store store = session.getStore();
-session.setAuth(() -> new DigestAuth(store.get("username"), store.get("password"), "md5"));
+session.setAuth(() -> new DigestAuth(session.retrieve("username"), session.retrieve("password"), "md5"));
 ```
 
 ### CORS
@@ -1020,8 +1019,7 @@ recommended to do it through a `Provider` to avoid sharing the internal Auth sta
 
 ```java
 // register a Provider of OAuth2ByHeader in the session
-Store store = session.getStore();
-session.setAuth(() -> new OAuth2ByHeader(store.get("authUrl"), store.get("appClientId")));
+session.setAuth(() -> new OAuth2ByHeader(session.retrieve("authUrl"), session.retrieve("appClientId")));
 ```
 
 ## Processors (middlewares)
@@ -1077,7 +1075,7 @@ session.register(new RequestFilter() {
     @Override
     public void filter(RequestInProcess request) {
         // Access the Store bounded to this request/response lifecycle
-        String encoding = request.getStore().get("encoding");
+        String encoding = request.retrieve("encoding");
 
         // Modify the request headers
         request.setHeader("Accept-Encoding", encoding);
@@ -1099,7 +1097,7 @@ internal state that should not be shared among other request lifecycles. See how
 session.register(new RequestFilter.Provider() {
     @Override
     public RequestFilter getInstance() {
-        // Supossing you implemented MyRequestFilter elsewhere
+        // Suposing you implemented MyRequestFilter elsewhere
         return new MyRequestFilter();
     }
 });
@@ -1164,13 +1162,13 @@ session.register(new RequestInterceptor() {
     @Override
     public void intercept(SerializedRequestInProcess request) {
         // Access the Store bounded to this request lifecycle
-        String encoding = request.getStore().get("encoding");
+        String encoding = request.retrieve("encoding");
 
         // Modify the request headers
         request.setHeader("Accept-Encoding", encoding);
 
         // Modify any other request option, including the serialized payload
-        String json = request.getSerializedPayload().getString();
+        String json = request.getSerializedPayload().asString();
         SerializedPayload jsonp = SerializedPayload.fromText(")]}',\\n" + json);
         request.setSerializedPayload(jsonp);
 
@@ -1189,7 +1187,7 @@ register it:
 session.register(new RequestInterceptor.Provider() {
     @Override
     public RequestInterceptor getInstance() {
-        // Supossing you implemented MyRequestInterceptor elsewhere
+        // Suposing you implemented MyRequestInterceptor elsewhere
         return new MyRequestInterceptor();
     }
 });
@@ -1234,7 +1232,7 @@ session.register(new ResponseInterceptor() {
         response.setHeader(new ContentTypeHeader("application/json"));
 
         // Modify any other response option, including the serialized payload
-        String jsonp = response.getSerializedPayload().getString();
+        String jsonp = response.getSerializedPayload().asString();
         SerializedPayload json = SerializedPayload.fromText(jsonp.substring(8));
         response.setSerializedPayload(json);
 
@@ -1253,7 +1251,7 @@ register it:
 session.register(new ResponseInterceptor.Provider() {
     @Override
     public ResponseInterceptor getInstance() {
-        // Supossing you implemented MyResponseInterceptor elsewhere
+        // Suposing you implemented MyResponseInterceptor elsewhere
         return new MyResponseInterceptor();
     }
 });
@@ -1278,8 +1276,9 @@ session.setResponseDeserializer(new ResponseDeserializer() {
     public void deserialize(DeserializableResponseInProcess response,
                             SerializationEngine engine) {
         // The engine is capable of deserializing the response
-        engine.serializeResponse(response);
-        // It's possible to perform any async task during deserialization
+        engine.deserializeResponse(response);
+        
+        // It's possible to perform any async task during deserialization before proceeding
         response.proceed();
     }
 });
@@ -1299,13 +1298,14 @@ We can add a `ResponseFilter` to the **Session** by calling `session.register(<R
 session.register(new ResponseFilter() {
     @Override
     public void filter(ResponseInProcess response) {
-        // Modify the response headers
-        response.setHeader(new ContentTypeHeader("application/json"));
+        if (!response.hasHeader("Custom-Header"))
+            response.setHeader("Custom-Header", "Added after response was received");
 
-        // Modify any other response option, including the serialized payload
-        String jsonp = response.getSerializedPayload().getString();
-        SerializedPayload json = SerializedPayload.fromText(jsonp.substring(8));
-        response.setSerializedPayload(json);
+        // Check if the caller requested to deserialize the payload as String
+        if (response.getPayloadType().getType() == String.class) {
+            String payload = response.getPayload().asObject();
+            response.setPayload(payload + "\nWE JUST MODIFIED THE PAYLOAD!");
+        }
 
         // Call proceed otherwise the response hangs forever
         response.proceed();
@@ -1322,7 +1322,7 @@ register it:
 session.register(new ResponseFilter.Provider() {
     @Override
     public ResponseFilter getInstance() {
-        // Supossing you implemented MyResponseFilter elsewhere
+        // Suposing you implemented MyResponseFilter elsewhere
         return new MyResponseFilter();
     }
 });
@@ -1383,11 +1383,11 @@ either register an `Auth` instance or a `Provider`.
 
 ```java
 // The same Auth instance will be used by all requests
-session.setAuth( new BearerAuth(session.getStore().get("token")) );
+session.setAuth( new BearerAuth(session.retrieve("token")) );
 
 // By setting a Provider, each request will have a new Auth instance
 // Helpful to restrict the Auth's internal state to the request lifecycle
-session.setAuth( () -> new BearerAuth(session.getStore().get("token")) );
+session.setAuth( () -> new BearerAuth(session.retrieve("token")) );
 ```
 
 #### Timeout
@@ -1627,7 +1627,7 @@ response.remove("key");
 For instance, suppose you created processors to show a loading widget when requesting and hide when the response is received or an error occurs.
 But, for some reason, you want to make 'hidden' requests, so that the loading widget is not shown.
 You can then call `.save("hidden", true)` when building the request and check for this flag in the processors by calling `.isEquals("hidden", true)` to skip displaying the loading widget.
-Requestor's showcase app implements such scenario. [Here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/Showcase.java#L80) a hidden ping request is executed to wake-up the server, and [here](https://github.com/reinert/requestor/blob/main/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/ShowcaseDeferredFactory.java#L43) the Request Store is queried to skip showing the loading widget.
+Requestor's showcase app implements such scenario. [Here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/Showcase.java#L80) a hidden ping request is executed to wake-up the server, and [here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/ShowcaseDeferredFactory.java#L43) the Request Store is queried to skip showing the loading widget.
 
 ### Service Store
 
@@ -1803,7 +1803,7 @@ public abstract class MyAppService<E> extends AbstractService {
 ```
 
 **💡 PRO TIP**: Create your own **"AppAbstractService"** and handle the errors in the superclass to save you coding and maintenance cost.
-Use the above example as inspiration as also the [RestService](https://github.com/reinert/requestor/blob/master/requestor/core/requestor-api/src/main/java/io/reinert/requestor/RestService.java) class.
+Use the above example as inspiration as also the [RestService](https://github.com/reinert/requestor/blob/master/requestor/core/requestor-api/src/main/java/io/reinert/requestor/core/RestService.java) class.
 
 
 ## Links (HATEOAS)
@@ -2023,8 +2023,6 @@ delReq.onSuccess((payload, response) -> { // Response returned 2xx
     String hostHeader = response.getHeader("Host"); // Get the Host header
     String contentType = response.getContentType(); // Get the Content-Type header
     Link undoLink = response.getLink("undo"); // Get the 'undo' relation of the Link header
-    // Store and access any object by key in session or request scope
-    Store store = response.getStore();
 });
 
 // You can even deal with specific responses status codes and timeout events
