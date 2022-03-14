@@ -20,6 +20,8 @@ import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.ResponseProcessor;
 
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 /**
  * GWT implementation for {@link io.reinert.requestor.core.RequestDispatcher.Factory} powered by XMLHttpRequest.
  *
@@ -27,10 +29,13 @@ import io.reinert.requestor.core.ResponseProcessor;
  */
 class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
+    public static int threadPoolSize = 10;
+
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
     private DeferredPool.Factory deferredPoolFactory;
     private RequestDispatcher requestDispatcher;
+    private ScheduledThreadPoolExecutor threadPool;
 
     public RequestDispatcher create(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
@@ -45,10 +50,13 @@ class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
             this.requestProcessor = requestProcessor;
             this.responseProcessor = responseProcessor;
             this.deferredPoolFactory = deferredPoolFactory;
-            requestDispatcher = new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory);
+            this.threadPool = new ScheduledThreadPoolExecutor(threadPoolSize);
+            requestDispatcher = new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
+                    threadPool);
             return requestDispatcher;
         }
 
-        return new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory);
+        return new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
+                new ScheduledThreadPoolExecutor(threadPoolSize));
     }
 }

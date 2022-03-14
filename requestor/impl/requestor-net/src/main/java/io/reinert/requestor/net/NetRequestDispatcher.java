@@ -18,6 +18,8 @@ package io.reinert.requestor.net;
 import java.net.HttpURLConnection;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.DeferredPool;
@@ -35,18 +37,18 @@ import io.reinert.requestor.core.payload.type.PayloadType;
  */
 class NetRequestDispatcher extends RequestDispatcher {
 
+    private final ScheduledThreadPoolExecutor threadPool;
+
     public NetRequestDispatcher(RequestProcessor requestProcessor,
                                 ResponseProcessor responseProcessor,
-                                DeferredPool.Factory deferredPoolFactory) {
+                                DeferredPool.Factory deferredPoolFactory,
+                                ScheduledThreadPoolExecutor threadPool) {
         super(requestProcessor, responseProcessor, deferredPoolFactory);
+        this.threadPool = threadPool;
     }
 
     public void scheduleRun(final Runnable runnable, int delay) {
-        new Timer().schedule(new TimerTask() {
-            public void run() {
-                runnable.run();
-            }
-        }, delay);
+        threadPool.schedule(runnable, delay, TimeUnit.MILLISECONDS);
     }
 
     protected <R> void send(PreparedRequest request, Deferred<R> deferred, PayloadType responsePayloadType) {
