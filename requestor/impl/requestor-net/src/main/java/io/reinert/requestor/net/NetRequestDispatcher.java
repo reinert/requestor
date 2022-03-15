@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Headers;
-import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.HttpStatus;
 import io.reinert.requestor.core.PreparedRequest;
 import io.reinert.requestor.core.RawResponse;
@@ -40,6 +39,7 @@ import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.ResponseProcessor;
@@ -76,6 +76,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
         URL url = null;
         HttpURLConnection conn = null;
+        NetHttpConnection netConn = null;
         SerializedPayload serializedPayload = request.getSerializedPayload();
 
         try {
@@ -108,7 +109,8 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             conn.connect();
 
-            deferred.setHttpConnection(getConnection(conn));
+            netConn = getNetConnection(conn, deferred, request);
+            deferred.setHttpConnection(netConn);
         } catch (MalformedURLException e) {
             disconnect(conn, deferred, new RequestAbortException(request, "Invalid url format", e));
             return;
@@ -122,7 +124,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
         if (!url.getHost().equals(conn.getURL().getHost())) {
             // We were redirected!
-            disconnect(conn, deferred, new RequestRedirectException(request, Uri.create(conn.getURL().toString())));
+            netConn.cancel(new RequestRedirectException(request, Uri.create(conn.getURL().toString())));
             return;
         }
 
@@ -137,8 +139,7 @@ class NetRequestDispatcher extends RequestDispatcher {
                     osw.flush();
                     osw.close();
                 } catch (IOException e) {
-                    disconnect(conn, deferred, new RequestCancelException(request,
-                            "Failed to write request payload", e));
+                    netConn.cancel(new RequestCancelException(request, "Failed to write request payload", e));
                     return;
                 }
             }
@@ -153,8 +154,7 @@ class NetRequestDispatcher extends RequestDispatcher {
             try {
                 responseStatus = Status.of(conn.getResponseCode());
             } catch (IOException e) {
-                disconnect(conn, deferred, new RequestCancelException(request,
-                        "Failed to read response status", e));
+                netConn.cancel(new RequestCancelException(request, "Failed to read response status", e));
                 return;
             }
 
@@ -176,11 +176,10 @@ class NetRequestDispatcher extends RequestDispatcher {
 
                     isr.close();
                 } catch (SocketTimeoutException e) {
-                    disconnect(conn, deferred, new RequestTimeoutException(request, request.getTimeout()));
+                    netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
                 } catch (IOException e) {
-                    disconnect(conn, deferred, new RequestCancelException(request,
-                            "Failed to read response body", e));
+                    netConn.cancel(new RequestCancelException(request, "Failed to read response body", e));
                     return;
                 }
 
@@ -203,7 +202,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             evalResponse(response);
         } catch (RuntimeException e) {
-            disconnect(conn, deferred, new RequestCancelException(request,
+            netConn.cancel(new RequestCancelException(request,
                     "An unexpected error has occurred while sending the request.", e));
         }
     }
@@ -229,26 +228,8 @@ class NetRequestDispatcher extends RequestDispatcher {
         return new SerializedPayload(body);
     }
 
-    private HttpConnection getConnection(final HttpURLConnection conn) {
-        // TODO: extract this implementation into a class
-        return new HttpConnection() {
-            private boolean pending = true;
-
-            public void cancel() {
-                if (pending) {
-                    conn.disconnect();
-                    pending = false;
-                }
-            }
-
-            public boolean isPending() {
-                return pending;
-            }
-
-            public HttpURLConnection getHttpUrlConnection() {
-                return conn;
-            }
-        };
+    private NetHttpConnection getNetConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
+        return new NetHttpConnection(conn, deferred, request);
     }
 
     private static String join(String separator, List<String> input) {
