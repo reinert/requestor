@@ -29,34 +29,38 @@ import io.reinert.requestor.core.ResponseProcessor;
  */
 class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
-    public static int THREAD_POOL_SIZE = 10;
-    public static int INPUT_BUFFER_SIZE = 8 * 1024;
-    public static int OUTPUT_BUFFER_SIZE = 8 * 1024;
-
-    private RequestProcessor requestProcessor;
-    private ResponseProcessor responseProcessor;
-    private DeferredPool.Factory deferredPoolFactory;
-    private RequestDispatcher requestDispatcher;
+    private int threadPoolSize = 10;
+    private int inputBufferSize = 8 * 1024;
+    private int outputBufferSize = 8 * 1024;
 
     public RequestDispatcher create(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
                                     DeferredPool.Factory deferredPoolFactory) {
-        if (this.requestProcessor == requestProcessor &&
-                this.responseProcessor == responseProcessor &&
-                this.deferredPoolFactory == deferredPoolFactory) {
-            return requestDispatcher;
-        }
-
-        if (requestDispatcher == null) {
-            this.requestProcessor = requestProcessor;
-            this.responseProcessor = responseProcessor;
-            this.deferredPoolFactory = deferredPoolFactory;
-            requestDispatcher = new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
-                    new ScheduledThreadPoolExecutor(THREAD_POOL_SIZE), INPUT_BUFFER_SIZE, OUTPUT_BUFFER_SIZE);
-            return requestDispatcher;
-        }
-
         return new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
-                new ScheduledThreadPoolExecutor(THREAD_POOL_SIZE), INPUT_BUFFER_SIZE, OUTPUT_BUFFER_SIZE);
+                new ScheduledThreadPoolExecutor(threadPoolSize), inputBufferSize, outputBufferSize);
+    }
+
+    public int getThreadPoolSize() {
+        return threadPoolSize;
+    }
+
+    public synchronized void setThreadPoolSize(int threadPoolSize) {
+        this.threadPoolSize = threadPoolSize;
+    }
+
+    public int getInputBufferSize() {
+        return inputBufferSize;
+    }
+
+    public synchronized void setInputBufferSize(int inputBufferSize) {
+        this.inputBufferSize = inputBufferSize;
+    }
+
+    public int getOutputBufferSize() {
+        return outputBufferSize;
+    }
+
+    public synchronized void setOutputBufferSize(int outputBufferSize) {
+        this.outputBufferSize = outputBufferSize;
     }
 }

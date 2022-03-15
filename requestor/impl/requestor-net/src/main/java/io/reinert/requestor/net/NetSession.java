@@ -37,4 +37,28 @@ public class NetSession extends Session {
     public NetSession(DeferredPool.Factory deferredPoolFactory) {
         super(new NetRequestDispatcherFactory(), deferredPoolFactory);
     }
+
+    public int getThreadPoolSize() {
+        return ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).getThreadPoolSize();
+    }
+
+    public void setThreadPoolSize(int threadPoolSize) {
+        ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setThreadPoolSize(threadPoolSize);
+    }
+
+    public int getInputBufferSize() {
+        return ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).getInputBufferSize();
+    }
+
+    public void setInputBufferSize(int inputBufferSize) {
+        ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setInputBufferSize(inputBufferSize);
+    }
+
+    public int getOutputBufferSize() {
+        return ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).getOutputBufferSize();
+    }
+
+    public void setOutputBufferSize(int outputBufferSize) {
+        ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setOutputBufferSize(outputBufferSize);
+    }
 }
