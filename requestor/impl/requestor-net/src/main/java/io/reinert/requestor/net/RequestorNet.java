@@ -34,17 +34,15 @@ public class RequestorNet {
      */
     public static void init() {
         if (!Requestor.isInitialized()) {
-            Requestor.init(
-                    new BasicAuth.Base64() {
-                        public String encode(String text) {
-                            try {
-                                return Base64.encodeBase64String(text.getBytes("UTF-8"));
-                            } catch (UnsupportedEncodingException e) {
-                                throw new RuntimeException("Given string is not in UTF-8 format.", e);
-                            }
-                        }
+            Requestor.init(new BasicAuth.Base64() {
+                public String encode(String text) {
+                    try {
+                        return Base64.encodeBase64String(text.getBytes("UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException("Given string is not in UTF-8 format.", e);
                     }
-            );
+                }
+            }, new NetUriCodec());
         }
     }
 }
