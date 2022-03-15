@@ -15,10 +15,14 @@
  */
 package io.reinert.requestor.net;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -58,13 +62,18 @@ import io.reinert.requestor.core.uri.Uri;
 class NetRequestDispatcher extends RequestDispatcher {
 
     private final ScheduledThreadPoolExecutor threadPool;
+    private final int inputBufferSize;
+    private final int outputBufferSize;
 
     public NetRequestDispatcher(RequestProcessor requestProcessor,
                                 ResponseProcessor responseProcessor,
                                 DeferredPool.Factory deferredPoolFactory,
-                                ScheduledThreadPoolExecutor threadPool) {
+                                ScheduledThreadPoolExecutor threadPool,
+                                int inputBufferSize, int outputBufferSize) {
         super(requestProcessor, responseProcessor, deferredPoolFactory);
         this.threadPool = threadPool;
+        this.inputBufferSize = inputBufferSize;
+        this.outputBufferSize = outputBufferSize;
     }
 
     public void scheduleRun(final Runnable runnable, int delay) {
@@ -133,9 +142,10 @@ class NetRequestDispatcher extends RequestDispatcher {
             // Payload upload
             if (conn.getDoOutput()) {
                 // TODO: define the charcode
-                try (OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream(), StandardCharsets.UTF_8)) {
-                    osw.write(serializedPayload.asString());
-                    osw.flush();
+                try (Writer writer = new BufferedWriter(
+                        new OutputStreamWriter(conn.getOutputStream(), StandardCharsets.UTF_8), outputBufferSize)) {
+                    writer.write(serializedPayload.asString());
+                    writer.flush();
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
@@ -165,15 +175,15 @@ class NetRequestDispatcher extends RequestDispatcher {
             // Payload download
             SerializedPayload serializedResponse;
             if (payloadType != null && payloadType.getType() != Void.class) {
-                StringWriter content = new StringWriter();
+                StringWriter body = new StringWriter();
 
                 // TODO: define the charcode
-                try (InputStreamReader isr = new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)) {
-                    char[] charBuffer = new char[1024];
-
+                try (Reader reader = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8), inputBufferSize)) {
+                    char[] charBuffer = new char[inputBufferSize];
                     int i;
-                    while ((i = isr.read(charBuffer)) != -1) {
-                        content.write(charBuffer, 0, i);
+                    while ((i = reader.read(charBuffer)) != -1) {
+                        body.write(charBuffer, 0, i);
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
@@ -184,7 +194,7 @@ class NetRequestDispatcher extends RequestDispatcher {
                 }
 
                 serializedResponse = serializeResponseContent(conn.getHeaderField("Content-Type"),
-                        content.toString());
+                        body.toString());
             } else {
                 serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             }

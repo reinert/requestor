@@ -29,7 +29,9 @@ import io.reinert.requestor.core.ResponseProcessor;
  */
 class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
-    public static int threadPoolSize = 10;
+    public static int THREAD_POOL_SIZE = 10;
+    public static int INPUT_BUFFER_SIZE = 8 * 1024;
+    public static int OUTPUT_BUFFER_SIZE = 8 * 1024;
 
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
@@ -50,11 +52,11 @@ class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
             this.responseProcessor = responseProcessor;
             this.deferredPoolFactory = deferredPoolFactory;
             requestDispatcher = new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
-                    new ScheduledThreadPoolExecutor(threadPoolSize));
+                    new ScheduledThreadPoolExecutor(THREAD_POOL_SIZE), INPUT_BUFFER_SIZE, OUTPUT_BUFFER_SIZE);
             return requestDispatcher;
         }
 
         return new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
-                new ScheduledThreadPoolExecutor(threadPoolSize));
+                new ScheduledThreadPoolExecutor(THREAD_POOL_SIZE), INPUT_BUFFER_SIZE, OUTPUT_BUFFER_SIZE);
     }
 }
