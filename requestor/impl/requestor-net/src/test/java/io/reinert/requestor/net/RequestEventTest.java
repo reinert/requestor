@@ -25,7 +25,7 @@ import org.junit.Test;
  */
 public class RequestEventTest extends NetTest {
 
-    private static final int TIMEOUT = 3000;
+    private static final int TIMEOUT = 5_000;
 
     //=========================================================================
     // LOAD EVENTS
