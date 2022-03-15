@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,17 +39,20 @@ import io.reinert.requestor.core.RawResponse;
 import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestDispatcher;
+import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestProcessor;
+import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
+import io.reinert.requestor.core.uri.Uri;
 
 /**
  * RequestDispatcher implementation using {@link HttpURLConnection}.
  *
- * @author Onezino Gabriel
+ * @author Danilo Reinert
  */
 class NetRequestDispatcher extends RequestDispatcher {
 
@@ -70,54 +74,60 @@ class NetRequestDispatcher extends RequestDispatcher {
         // Return if deferred were rejected or resolved before this method was called
         if (!deferred.isPending()) return;
 
+        URL url = null;
         HttpURLConnection conn = null;
         SerializedPayload serializedPayload = request.getSerializedPayload();
 
-        // open connection
         try {
-            URL url = new URL(request.getUri().toString());
+            // Set up connection
+            url = new URL(request.getUri().toString());
 
             conn = (HttpURLConnection) url.openConnection();
 
-            deferred.setHttpConnection(getConnection(conn));
-
             conn.setDoOutput(!serializedPayload.isEmpty());
+
             conn.setDoInput(payloadType != null && payloadType.getType() != Void.class);
 
             conn.setRequestMethod(request.getMethod().getValue());
 
-            // set headers
             for (Header header : request.getHeaders()) {
                 conn.setRequestProperty(header.getName(), header.getValue());
             }
 
-            if (!request.hasHeader("Content-Type")) {
-                conn.setRequestProperty("Content-Type", "text/plain");
-            }
+            // TODO: expose a default content-type option
+            if (!request.hasHeader("Content-Type")) conn.setRequestProperty("Content-Type", "text/plain");
 
-            // timeout
             if (request.getTimeout() > 0) {
                 conn.setConnectTimeout(request.getTimeout());
+                if (conn.getDoInput()) conn.setReadTimeout(request.getTimeout());
             }
 
-            // handle cookies ??
+            // TODO: handle cookies
 
-            // follow redirects ??
+            if (!deferred.isPending()) return;
 
             conn.connect();
+
+            deferred.setHttpConnection(getConnection(conn));
         } catch (MalformedURLException e) {
-            deferred.reject(new RequestAbortException(request,
-                    "Invalid url format", e));
+            disconnect(conn, deferred, new RequestAbortException(request, "Invalid url format", e));
+            return;
+        } catch (SocketTimeoutException e) {
+            disconnect(conn, deferred, new RequestTimeoutException(request, request.getTimeout()));
             return;
         } catch (IOException e) {
-            deferred.reject(new RequestAbortException(request,
-                    "Failed to open connection", e));
-            disconnect(deferred, conn);
+            disconnect(conn, deferred, new RequestAbortException(request, "Failed to open connection", e));
+            return;
+        }
+
+        if (!url.getHost().equals(conn.getURL().getHost())) {
+            // We were redirected!
+            disconnect(conn, deferred, new RequestRedirectException(request, Uri.create(conn.getURL().toString())));
             return;
         }
 
         try {
-            // payload
+            // Payload upload
             if (conn.getDoOutput()) {
                 OutputStreamWriter osw;
                 try {
@@ -127,27 +137,29 @@ class NetRequestDispatcher extends RequestDispatcher {
                     osw.flush();
                     osw.close();
                 } catch (IOException e) {
-                    deferred.reject(new RequestCancelException(request,
+                    disconnect(conn, deferred, new RequestCancelException(request,
                             "Failed to write request payload", e));
-                    disconnect(deferred, conn);
                     return;
                 }
             }
 
-            HttpStatus responseStatus;
-
-            try {
-                responseStatus = Status.of(conn.getResponseCode());
-            } catch (IOException e) {
-                deferred.reject(new RequestCancelException(request,
-                        "Failed to read response status", e));
-                disconnect(deferred, conn);
+            if (!deferred.isPending()) {
+                conn.disconnect();
                 return;
             }
 
-            SerializedPayload serializedResponse;
+            // Response status
+            HttpStatus responseStatus;
+            try {
+                responseStatus = Status.of(conn.getResponseCode());
+            } catch (IOException e) {
+                disconnect(conn, deferred, new RequestCancelException(request,
+                        "Failed to read response status", e));
+                return;
+            }
 
-            // read response body
+            // Payload download
+            SerializedPayload serializedResponse;
             if (conn.getDoInput()) {
                 StringWriter content = new StringWriter();
 
@@ -163,21 +175,22 @@ class NetRequestDispatcher extends RequestDispatcher {
                     }
 
                     isr.close();
+                } catch (SocketTimeoutException e) {
+                    disconnect(conn, deferred, new RequestTimeoutException(request, request.getTimeout()));
+                    return;
                 } catch (IOException e) {
-                        deferred.reject(new RequestCancelException(request,
-                                "Failed to read response body", e));
-                        disconnect(deferred, conn);
-                        return;
+                    disconnect(conn, deferred, new RequestCancelException(request,
+                            "Failed to read response body", e));
+                    return;
                 }
 
-                String responseBody = content.toString();
-
                 serializedResponse = serializeResponseContent(conn.getHeaderField("Content-Type"),
-                        responseBody);
+                        content.toString());
             } else {
                 serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             }
 
+            // Evaluate response
             RawResponse response = new RawResponse(
                     deferred,
                     responseStatus,
@@ -186,26 +199,25 @@ class NetRequestDispatcher extends RequestDispatcher {
                     serializedResponse
             );
 
-            disconnect(deferred, conn);
+            conn.disconnect();
 
             evalResponse(response);
         } catch (RuntimeException e) {
-            deferred.reject(new RequestCancelException(request,
+            disconnect(conn, deferred, new RequestCancelException(request,
                     "An unexpected error has occurred while sending the request.", e));
-            disconnect(deferred, conn);
         }
     }
 
-    private <R> void disconnect(Deferred<R> deferred, HttpURLConnection conn) {
+    private <R> void disconnect(HttpURLConnection conn, Deferred<R> deferred, RequestException exception) {
         if (conn != null) conn.disconnect();
-        setFinalizedConnection(deferred);
+        if (deferred.isPending()) deferred.reject(exception);
     }
 
     private Headers readResponseHeaders(HttpURLConnection conn) {
         List<Header> headers = new ArrayList<Header>();
-        // TODO multiple values for a header
         for (Map.Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
             if (header.getKey() != null) {
+                // TODO: process headers as elements
                 headers.add(Header.fromRawHeader(header.getKey(), join(", ", header.getValue())));
             }
         }
@@ -214,42 +226,38 @@ class NetRequestDispatcher extends RequestDispatcher {
 
     private SerializedPayload serializeResponseContent(String type, String body) {
         if (body == null || body.equals("")) return SerializedPayload.EMPTY_PAYLOAD;
-        return new  SerializedPayload(body);
+        return new SerializedPayload(body);
     }
 
     private HttpConnection getConnection(final HttpURLConnection conn) {
+        // TODO: extract this implementation into a class
         return new HttpConnection() {
+            private boolean pending = true;
+
             public void cancel() {
-                conn.disconnect();
+                if (pending) {
+                    conn.disconnect();
+                    pending = false;
+                }
             }
 
             public boolean isPending() {
-                return true;
+                return pending;
+            }
+
+            public HttpURLConnection getHttpUrlConnection() {
+                return conn;
             }
         };
     }
 
-    private void setFinalizedConnection(Deferred<?> deferred) {
-        deferred.setHttpConnection(new HttpConnection() {
-            public void cancel() {
-            }
-
-            public boolean isPending() {
-                return false;
-            }
-        });
-    }
-
     private static String join(String separator, List<String> input) {
-
         if (input == null || input.size() <= 0) return "";
 
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < input.size(); i++) {
-
             sb.append(input.get(i));
-
             // if not the last item
             if (i != input.size() - 1) {
                 sb.append(separator);
