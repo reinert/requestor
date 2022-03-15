@@ -16,6 +16,7 @@
 package io.reinert.requestor.net;
 
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Session;
@@ -28,6 +29,8 @@ import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
  */
 public class NetSession extends Session {
 
+    public static final int DEFAULT_CORE_POOL_SIZE = 10;
+
     static {
         RequestorNet.init();
     }
@@ -37,7 +40,15 @@ public class NetSession extends Session {
     }
 
     public NetSession(DeferredPool.Factory deferredPoolFactory) {
-        super(new NetRequestDispatcherFactory(), deferredPoolFactory);
+        this(deferredPoolFactory, new ScheduledThreadPoolExecutor(DEFAULT_CORE_POOL_SIZE));
+    }
+
+    public NetSession(ScheduledExecutorService executorService) {
+        this(new DeferredPoolFactoryImpl(), executorService);
+    }
+
+    public NetSession(DeferredPool.Factory deferredPoolFactory, ScheduledExecutorService executorService) {
+        super(new NetRequestDispatcherFactory(executorService), deferredPoolFactory);
     }
 
     public ScheduledExecutorService getScheduledExecutorService() {

@@ -16,7 +16,6 @@
 package io.reinert.requestor.net;
 
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
@@ -32,7 +31,11 @@ class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
     private int inputBufferSize = 8 * 1024;
     private int outputBufferSize = 8 * 1024;
-    private ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
+    private ScheduledExecutorService scheduledExecutorService;
+
+    public NetRequestDispatcherFactory(ScheduledExecutorService scheduledExecutorService) {
+        this.scheduledExecutorService = scheduledExecutorService;
+    }
 
     public RequestDispatcher create(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
