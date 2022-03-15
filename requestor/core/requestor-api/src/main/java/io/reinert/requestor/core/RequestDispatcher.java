@@ -180,12 +180,9 @@ public abstract class RequestDispatcher implements RunScheduler {
     private <T> void setHttpConnection(final MutableSerializedRequest request, final Deferred<T> deferred) {
         deferred.setHttpConnection(new HttpConnection() {
 
-            boolean pending = true;
-
             @Override
             public void cancel() {
-                if (deferred.isPending()) {
-                    pending = false;
+                if (isPending()) {
                     deferred.reject(new RequestAbortException(request, "Request was cancelled before being sent" +
                             " through the HttpConnection."));
                 }
@@ -193,7 +190,7 @@ public abstract class RequestDispatcher implements RunScheduler {
 
             @Override
             public boolean isPending() {
-                return pending;
+                return deferred.isPending();
             }
         });
     }
