@@ -31,7 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import io.reinert.requestor.core.Deferred;
@@ -61,23 +61,23 @@ import io.reinert.requestor.core.uri.Uri;
  */
 class NetRequestDispatcher extends RequestDispatcher {
 
-    private final ScheduledThreadPoolExecutor threadPool;
+    private final ScheduledExecutorService scheduledExecutorService;
     private final int inputBufferSize;
     private final int outputBufferSize;
 
     public NetRequestDispatcher(RequestProcessor requestProcessor,
                                 ResponseProcessor responseProcessor,
                                 DeferredPool.Factory deferredPoolFactory,
-                                ScheduledThreadPoolExecutor threadPool,
+                                ScheduledExecutorService scheduledExecutorService,
                                 int inputBufferSize, int outputBufferSize) {
         super(requestProcessor, responseProcessor, deferredPoolFactory);
-        this.threadPool = threadPool;
+        this.scheduledExecutorService = scheduledExecutorService;
         this.inputBufferSize = inputBufferSize;
         this.outputBufferSize = outputBufferSize;
     }
 
     public void scheduleRun(final Runnable runnable, int delay) {
-        threadPool.schedule(runnable, Math.max(delay, 50), TimeUnit.MILLISECONDS);
+        scheduledExecutorService.schedule(runnable, Math.max(delay, 50), TimeUnit.MILLISECONDS);
     }
 
     protected <R> void send(PreparedRequest request, Deferred<R> deferred, PayloadType payloadType) {

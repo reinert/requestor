@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.net;
 
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import io.reinert.requestor.core.DeferredPool;
@@ -29,23 +30,15 @@ import io.reinert.requestor.core.ResponseProcessor;
  */
 class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
-    private int threadPoolSize = 10;
     private int inputBufferSize = 8 * 1024;
     private int outputBufferSize = 8 * 1024;
+    private ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(10);
 
     public RequestDispatcher create(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
                                     DeferredPool.Factory deferredPoolFactory) {
         return new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
-                new ScheduledThreadPoolExecutor(threadPoolSize), inputBufferSize, outputBufferSize);
-    }
-
-    public int getThreadPoolSize() {
-        return threadPoolSize;
-    }
-
-    public synchronized void setThreadPoolSize(int threadPoolSize) {
-        this.threadPoolSize = threadPoolSize;
+                scheduledExecutorService, inputBufferSize, outputBufferSize);
     }
 
     public int getInputBufferSize() {
@@ -62,5 +55,19 @@ class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
     public synchronized void setOutputBufferSize(int outputBufferSize) {
         this.outputBufferSize = outputBufferSize;
+    }
+
+    public ScheduledExecutorService getScheduledExecutorService() {
+        return scheduledExecutorService;
+    }
+
+    public synchronized void setScheduledExecutorService(ScheduledExecutorService scheduledExecutorService) {
+        if (scheduledExecutorService == null) {
+            throw new IllegalArgumentException("The scheduledExecutor cannot be null.");
+        }
+        if (this.scheduledExecutorService != null) {
+            this.scheduledExecutorService.shutdown();
+        }
+        this.scheduledExecutorService = scheduledExecutorService;
     }
 }

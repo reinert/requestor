@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package io.reinert.requestor.net;
+
+import java.util.concurrent.ScheduledExecutorService;
 
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Session;
@@ -38,12 +40,12 @@ public class NetSession extends Session {
         super(new NetRequestDispatcherFactory(), deferredPoolFactory);
     }
 
-    public int getThreadPoolSize() {
-        return ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).getThreadPoolSize();
+    public ScheduledExecutorService getScheduledExecutorService() {
+        return ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).getScheduledExecutorService();
     }
 
-    public void setThreadPoolSize(int threadPoolSize) {
-        ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setThreadPoolSize(threadPoolSize);
+    public void setScheduledExecutorService(ScheduledExecutorService scheduledExecutor) {
+        ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setScheduledExecutorService(scheduledExecutor);
     }
 
     public int getInputBufferSize() {
