@@ -48,7 +48,7 @@ public class NetHttpConnection implements HttpConnection {
         return conn;
     }
 
-    protected void cancel(RequestException exception) {
+    protected synchronized void cancel(RequestException exception) {
         if (isPending()) {
             conn.disconnect();
             deferred.reject(exception);
