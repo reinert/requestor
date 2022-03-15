@@ -79,12 +79,18 @@ public class DigestAuth implements Auth {
 
     public static HashFunction getHashFunction(String algorithm) {
         if (algorithm == null) throw new NullPointerException("Algorithm string argument cannot be null.");
+        algorithm = algorithm.toLowerCase();
         if (hashFunctions == null || !hashFunctions.containsKey(algorithm)) {
             throw new UnsupportedOperationException("Algorithm '" + algorithm.toUpperCase() + "' is not supported." +
                     " You can register a HashFunction for it by calling" +
                     " DigestAuth.setHashFunction(String algorithm, HashFunction function).");
         }
         return hashFunctions.get(algorithm);
+    }
+
+    public static boolean hasHashFunction(String algorithm) {
+        if (algorithm == null) throw new NullPointerException("Algorithm string argument cannot be null.");
+        return (hashFunctions != null && hashFunctions.containsKey(algorithm.toLowerCase()));
     }
 
     public static Provider newProvider(final String user, final String password, final String algorithm) {
