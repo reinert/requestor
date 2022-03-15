@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  */
 package io.reinert.requestor.net;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 import io.reinert.requestor.core.Requestor;
-import io.reinert.requestor.core.auth.BasicAuth;
 
 /**
  * This class provides a static initializer for Requestor's deferred bindings for JVM environment.
@@ -28,21 +28,17 @@ import io.reinert.requestor.core.auth.BasicAuth;
 public class RequestorNet {
 
     /**
-     * Initializes static lazy bindings to proper usage of Requestor in GWT environment.
+     * Initializes static lazy bindings to proper usage of Requestor in JVM environment.
      * <p></p>
      * Call this method in a static block in the app's EntryPoint.
      */
     public static void init() {
         if (!Requestor.isInitialized()) {
-            Requestor.init(new BasicAuth.Base64() {
-                public String encode(String text) {
-                    try {
-                        return Base64.encodeBase64String(text.getBytes("UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException("Given string is not in UTF-8 format.", e);
-                    }
-                }
-            }, new NetUriCodec());
+            // TODO: define the charcode
+            Requestor.init(
+                    text -> Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8)),
+                    new NetUriCodec()
+            );
         }
     }
 }

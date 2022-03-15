@@ -18,15 +18,17 @@ package io.reinert.requestor.net;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import io.reinert.requestor.core.uri.UriCodec;
 
 class NetUriCodec extends UriCodec {
+    // TODO: define the charcode
 
     @Override
     public String decode(String encodedURL) {
         try {
-            return URLDecoder.decode(encodedURL, "UTF-8");
+            return URLDecoder.decode(encodedURL, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -35,7 +37,7 @@ class NetUriCodec extends UriCodec {
     @Override
     public String decodePathSegment(String encodedURLComponent) {
         try {
-            return URLDecoder.decode(encodedURLComponent, "UTF-8");
+            return URLDecoder.decode(encodedURLComponent, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +46,7 @@ class NetUriCodec extends UriCodec {
     @Override
     public String decodeQueryString(String encodedURLComponent) {
         try {
-            return URLDecoder.decode(encodedURLComponent, "UTF-8");
+            return URLDecoder.decode(encodedURLComponent, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +55,7 @@ class NetUriCodec extends UriCodec {
     @Override
     public String encode(String decodedURL) {
         try {
-            return URLEncoder.encode(decodedURL, "UTF-8");
+            return URLEncoder.encode(decodedURL, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -62,7 +64,7 @@ class NetUriCodec extends UriCodec {
     @Override
     public String encodePathSegment(String decodedURLComponent) {
         try {
-            return URLEncoder.encode(decodedURLComponent, "UTF-8");
+            return URLEncoder.encode(decodedURLComponent, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -71,7 +73,7 @@ class NetUriCodec extends UriCodec {
     @Override
     public String encodeQueryString(String decodedURLComponent) {
         try {
-            return URLEncoder.encode(decodedURLComponent, "UTF-8");
+            return URLEncoder.encode(decodedURLComponent, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
