@@ -32,24 +32,22 @@ public class RequestorGwt {
      * Call this method in a static block in the app's EntryPoint.
      */
     public static void init() {
-        Requestor.init(
-                new BasicAuth.Base64() {
-                    @Override
-                    public native String encode(String text) /*-{
-                        return $wnd.btoa(text);
-                    }-*/;
-                },
-                new GwtUriCodec()
-        );
+        if (!Requestor.isInitialized()) {
+            Requestor.init(
+                    new BasicAuth.Base64() {
+                        @Override
+                        public native String encode(String text) /*-{
+                            return $wnd.btoa(text);
+                        }-*/;
+                    },
+                    new GwtUriCodec()
+            );
 
-        DigestAuth.setHashFunction("md5", new DigestAuth.HashFunction() {
-            public String hash(String input) {
-                return MD5.hash(input);
-            }
-        });
-    }
-
-    public static boolean isInitialized() {
-        return Requestor.isInitialized();
+            DigestAuth.setHashFunction("md5", new DigestAuth.HashFunction() {
+                public String hash(String input) {
+                    return MD5.hash(input);
+                }
+            });
+        }
     }
 }
