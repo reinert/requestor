@@ -67,7 +67,7 @@ class NetRequestDispatcher extends RequestDispatcher {
     }
 
     public void scheduleRun(final Runnable runnable, int delay) {
-        threadPool.schedule(runnable, delay, TimeUnit.MILLISECONDS);
+        threadPool.schedule(runnable, Math.max(delay, 50), TimeUnit.MILLISECONDS);
     }
 
     protected <R> void send(PreparedRequest request, Deferred<R> deferred, PayloadType payloadType) {
@@ -85,9 +85,9 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             conn = (HttpURLConnection) url.openConnection();
 
-            conn.setDoOutput(!serializedPayload.isEmpty());
+            conn.setDoInput(true);
 
-            conn.setDoInput(payloadType != null && payloadType.getType() != Void.class);
+            conn.setDoOutput(!serializedPayload.isEmpty());
 
             conn.setRequestMethod(request.getMethod().getValue());
 
@@ -100,7 +100,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             if (request.getTimeout() > 0) {
                 conn.setConnectTimeout(request.getTimeout());
-                if (conn.getDoInput()) conn.setReadTimeout(request.getTimeout());
+                conn.setReadTimeout(request.getTimeout());
             }
 
             // TODO: handle cookies
@@ -138,6 +138,9 @@ class NetRequestDispatcher extends RequestDispatcher {
                     osw.write(serializedPayload.asString());
                     osw.flush();
                     osw.close();
+                } catch (SocketTimeoutException e) {
+                    netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
+                    return;
                 } catch (IOException e) {
                     netConn.cancel(new RequestCancelException(request, "Failed to write request payload", e));
                     return;
@@ -153,6 +156,9 @@ class NetRequestDispatcher extends RequestDispatcher {
             HttpStatus responseStatus;
             try {
                 responseStatus = Status.of(conn.getResponseCode());
+            } catch (SocketTimeoutException e) {
+                netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
+                return;
             } catch (IOException e) {
                 netConn.cancel(new RequestCancelException(request, "Failed to read response status", e));
                 return;
@@ -160,7 +166,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             // Payload download
             SerializedPayload serializedResponse;
-            if (conn.getDoInput()) {
+            if (payloadType != null && payloadType.getType() != Void.class) {
                 StringWriter content = new StringWriter();
 
                 InputStreamReader isr;
