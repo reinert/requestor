@@ -16,7 +16,6 @@
 package io.reinert.requestor.net;
 
 import io.reinert.requestor.core.RequestFilter;
-import io.reinert.requestor.core.RequestInProcess;
 import io.reinert.requestor.core.Session;
 
 import org.junit.Test;
@@ -98,10 +97,8 @@ public class RequestEventTest extends NetTest {
 
         final Session session = new NetSession();
 
-        session.register(new RequestFilter() {
-            public void filter(RequestInProcess request) {
-                throw new RuntimeException("Request should be aborted.");
-            }
+        session.register((RequestFilter) request -> {
+            throw new RuntimeException("Request should be aborted.");
         });
 
         session.get("https://httpbin.org/status/200")

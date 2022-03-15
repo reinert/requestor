@@ -79,14 +79,12 @@ public class NetTest {
 
         public abstract void test(E payload);
 
-        //@Override
+        @Override
         public void execute(E payload) {
             try {
                 test(payload);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -106,14 +104,12 @@ public class NetTest {
 
         public abstract void test(E payload, Response response);
 
-        //@Override
+        @Override
         public void execute(E payload, Response response) {
             try {
                 test(payload, response);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -133,14 +129,12 @@ public class NetTest {
 
         public abstract void test(E payload, Response response, PollingRequest<E> request);
 
-        //@Override
+        @Override
         public void execute(E payload, Response response, PollingRequest<E> request) {
             try {
                 test(payload, response, request);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -160,14 +154,12 @@ public class NetTest {
 
         public abstract void test(Response response);
 
-        //@Override
+        @Override
         public void execute(Response response) {
             try {
                 test(response);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -187,14 +179,12 @@ public class NetTest {
 
         public abstract void test(Response response, PollingRequest<E> request);
 
-        //@Override
+        @Override
         public void execute(Response response, PollingRequest<E> request) {
             try {
                 test(response, request);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -214,14 +204,12 @@ public class NetTest {
 
         public abstract void test(RequestException exception);
 
-        //@Override
+        @Override
         public void execute(RequestException exception) {
             try {
                 test(exception);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -241,14 +229,12 @@ public class NetTest {
 
         public abstract void test(RequestException exception, PollingRequest<E> request);
 
-        //@Override
+        @Override
         public void execute(RequestException exception, PollingRequest<E> request) {
             try {
                 test(exception, request);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -268,14 +254,12 @@ public class NetTest {
 
         public abstract void test(RequestTimeoutException exception);
 
-        //@Override
+        @Override
         public void execute(RequestTimeoutException exception) {
             try {
                 test(exception);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -295,14 +279,12 @@ public class NetTest {
 
         public abstract void test(RequestTimeoutException exception, PollingRequest<E> request);
 
-        //@Override
+        @Override
         public void execute(RequestTimeoutException exception, PollingRequest<E> request) {
             try {
                 test(exception, request);
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -322,14 +304,12 @@ public class NetTest {
 
         public abstract void test();
 
-        //@Override
+        @Override
         public void execute() {
             try {
                 test();
                 result.success();
-            } catch (RuntimeException error) {
-                result.fail(error);
-            } catch (Error error) {
+            } catch (RuntimeException | Error error) {
                 result.fail(error);
             } finally {
                 thread.interrupt();
@@ -358,61 +338,49 @@ public class NetTest {
 
     protected ExceptionCallback failOnError(final TestResult result) {
         final Thread thread = Thread.currentThread();
-        return new ExceptionCallback() {
-            public void execute(RequestException e) {
-                result.fail(e);
-                thread.interrupt();
-            }
+        return e -> {
+            result.fail(e);
+            thread.interrupt();
         };
     }
 
     protected VoidCallback failOnEvent(final TestResult result) {
         final Thread thread = Thread.currentThread();
-        return new VoidCallback() {
-            public void execute() {
-                result.fail(new Error("Request event not expected to be triggered."));
-                thread.interrupt();
-            }
+        return () -> {
+            result.fail(new Error("Request event not expected to be triggered."));
+            thread.interrupt();
         };
     }
 
     protected TimeoutCallback failOnTimeout(final TestResult result) {
         final Thread thread = Thread.currentThread();
-        return new TimeoutCallback() {
-            public void execute(RequestTimeoutException e) {
-                result.fail(e);
-                thread.interrupt();
-            }
+        return e -> {
+            result.fail(e);
+            thread.interrupt();
         };
     }
 
     protected ExceptionCallback succeedOnError(final TestResult result) {
         final Thread thread = Thread.currentThread();
-        return new ExceptionCallback() {
-            public void execute(RequestException e) {
-                result.success();
-                thread.interrupt();
-            }
+        return e -> {
+            result.success();
+            thread.interrupt();
         };
     }
 
     protected VoidCallback succeedOnEvent(final TestResult result) {
         final Thread thread = Thread.currentThread();
-        return new VoidCallback() {
-            public void execute() {
-                result.success();
-                thread.interrupt();
-            }
+        return () -> {
+            result.success();
+            thread.interrupt();
         };
     }
 
     protected TimeoutCallback succeedOnTimeout(final TestResult result) {
         final Thread thread = Thread.currentThread();
-        return new TimeoutCallback() {
-            public void execute(RequestTimeoutException e) {
-                result.success();
-                thread.interrupt();
-            }
+        return e -> {
+            result.success();
+            thread.interrupt();
         };
     }
 }
