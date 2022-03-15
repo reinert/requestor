@@ -30,19 +30,59 @@ import static org.junit.Assert.fail;
  */
 public class CallbackNetTest {
 
-    static class Result {
-        private boolean failed = false;
+    static class TestResult {
+        private boolean succeeded = false;
+        private Throwable error;
 
-        public void fail() {
-            failed = true;
+        public void success() {
+            succeeded = true;
         }
 
         public boolean hasFailed() {
-            return failed;
+            return !succeeded;
+        }
+
+        public void fail(Throwable e) {
+            succeeded = false;
+            error = e;
+        }
+
+        public Throwable getError() {
+            return error;
+        }
+
+        public boolean hasError() {
+            return error != null;
         }
     }
 
-    private static final int TIMEOUT = 3000;
+    abstract static class TestPayloadCallback<E> implements PayloadCallback<E> {
+
+        private final Thread thread;
+        private final TestResult result;
+
+        public TestPayloadCallback(TestResult result) {
+            this.thread = Thread.currentThread();
+            this.result = result;
+        }
+
+        public abstract void test(E payload);
+
+        public void execute(E payload) {
+            try {
+                test(payload);
+                result.success();
+            } catch (RuntimeException error) {
+                result.fail(error);
+            } catch (Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        }
+    }
+
+    private static final int TIMEOUT = 30000;
 
     //=========================================================================
     // SUCCESS CALLBACKS
@@ -50,41 +90,67 @@ public class CallbackNetTest {
 
     @Test(timeout = TIMEOUT)
     public void testSuccessCallback() {
-        final Result result = new Result();
+        TestResult result = new TestResult();
 
-        final Session session = new NetSession();
-
-        session.setDelay(500);
-
-        final Thread thread = Thread.currentThread();
+        Session session = new NetSession();
 
         session.get("https://httpbin.org/get", String.class)
-                .onSuccess(new PayloadCallback<String>() {
-                    public void execute(String body) {
-                        try {
-                            assertNotNull(body);
-                        } catch (AssertionError e) {
-                            result.fail();
-                        } finally {
-                            thread.interrupt();
-                        }
+                .onSuccess(new TestPayloadCallback<String>(result) {
+                    @Override
+                    public void test(String payload) {
+                        System.out.println(payload);
+                        assertNotNull(payload);
                     }
-                }).onError(new ExceptionCallback() {
-                    public void execute(RequestException exception) {
-                        try {
-                            fail();
-                        } catch (AssertionError e) {
-                            result.fail();
-                        } finally {
-                            thread.interrupt();
-                        }
-                    }
-                });
+                }).onError(failExceptionCallback(result));
 
+        finishTest(result);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testPostCallback() {
+        TestResult result = new TestResult();
+
+        Session session = new NetSession();
+
+        session.setMediaType("application/json");
+
+        session.post("https://httpbin.org/post", "TESTE", String.class)
+                .onSuccess(new TestPayloadCallback<String>(result) {
+                    @Override
+                    public void test(String payload) {
+                        System.out.println(payload);
+                        assertNotNull(payload);
+                    }
+                }).onError(failExceptionCallback(result));
+
+        finishTest(result);
+    }
+
+    private void finishTest(TestResult result) {
         try {
             Thread.sleep(TIMEOUT);
         } catch (InterruptedException e) {
-            if (result.hasFailed()) fail();
+            if (result.hasFailed()) {
+                if (result.hasError()) {
+                    Throwable error = result.getError();
+                    if (error instanceof RuntimeException) {
+                        throw (RuntimeException) error;
+                    }
+                    throw (Error) error;
+                } else {
+                    fail();
+                }
+            }
         }
+    }
+
+    protected ExceptionCallback failExceptionCallback(final TestResult result) {
+        final Thread thread = Thread.currentThread();
+        return new ExceptionCallback() {
+            public void execute(RequestException e) {
+                result.fail(e);
+                thread.interrupt();
+            }
+        };
     }
 }
