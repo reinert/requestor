@@ -633,6 +633,10 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         return options;
     }
 
+    protected RequestDispatcher.Factory getRequestDispatcherFactory() {
+        return requestDispatcherFactory;
+    }
+
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(uri, new LeafStore(store),
                 requestDispatcherFactory.create(requestProcessor, responseProcessor, deferredPoolFactory));
