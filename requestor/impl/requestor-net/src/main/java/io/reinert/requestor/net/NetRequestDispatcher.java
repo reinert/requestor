@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -131,13 +132,10 @@ class NetRequestDispatcher extends RequestDispatcher {
         try {
             // Payload upload
             if (conn.getDoOutput()) {
-                OutputStreamWriter osw;
-                try {
-                    // TODO define the charcode
-                    osw = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+                // TODO: define the charcode
+                try (OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream(), StandardCharsets.UTF_8)) {
                     osw.write(serializedPayload.asString());
                     osw.flush();
-                    osw.close();
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
@@ -169,18 +167,14 @@ class NetRequestDispatcher extends RequestDispatcher {
             if (payloadType != null && payloadType.getType() != Void.class) {
                 StringWriter content = new StringWriter();
 
-                InputStreamReader isr;
-                try {
-                    // TODO define the charcode
-                    isr = new InputStreamReader(conn.getInputStream(), "UTF-8");
+                // TODO: define the charcode
+                try (InputStreamReader isr = new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)) {
                     char[] charBuffer = new char[1024];
 
                     int i;
                     while ((i = isr.read(charBuffer)) != -1) {
                         content.write(charBuffer, 0, i);
                     }
-
-                    isr.close();
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
@@ -219,38 +213,22 @@ class NetRequestDispatcher extends RequestDispatcher {
     }
 
     private Headers readResponseHeaders(HttpURLConnection conn) {
-        List<Header> headers = new ArrayList<Header>();
+        List<Header> headers = new ArrayList<>();
         for (Map.Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
             if (header.getKey() != null) {
                 // TODO: process headers as elements
-                headers.add(Header.fromRawHeader(header.getKey(), join(", ", header.getValue())));
+                headers.add(Header.fromRawHeader(header.getKey(), String.join(", ", header.getValue())));
             }
         }
         return new Headers(headers);
     }
 
-    private SerializedPayload serializeResponseContent(String type, String body) {
+    private SerializedPayload serializeResponseContent(String mediaType, String body) {
         if (body == null || body.equals("")) return SerializedPayload.EMPTY_PAYLOAD;
         return new SerializedPayload(body);
     }
 
     private NetHttpConnection getNetConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
         return new NetHttpConnection(conn, deferred, request);
-    }
-
-    private static String join(String separator, List<String> input) {
-        if (input == null || input.size() <= 0) return "";
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < input.size(); i++) {
-            sb.append(input.get(i));
-            // if not the last item
-            if (i != input.size() - 1) {
-                sb.append(separator);
-            }
-        }
-
-        return sb.toString();
     }
 }

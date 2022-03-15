@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,6 @@ class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
     private ResponseProcessor responseProcessor;
     private DeferredPool.Factory deferredPoolFactory;
     private RequestDispatcher requestDispatcher;
-    private ScheduledThreadPoolExecutor threadPool;
 
     public RequestDispatcher create(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
@@ -50,9 +49,8 @@ class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
             this.requestProcessor = requestProcessor;
             this.responseProcessor = responseProcessor;
             this.deferredPoolFactory = deferredPoolFactory;
-            this.threadPool = new ScheduledThreadPoolExecutor(threadPoolSize);
             requestDispatcher = new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
-                    threadPool);
+                    new ScheduledThreadPoolExecutor(threadPoolSize));
             return requestDispatcher;
         }
 
