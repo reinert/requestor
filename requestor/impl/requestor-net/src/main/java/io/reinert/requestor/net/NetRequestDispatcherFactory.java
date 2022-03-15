@@ -15,15 +15,15 @@
  */
 package io.reinert.requestor.net;
 
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.ResponseProcessor;
 
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-
 /**
- * GWT implementation for {@link io.reinert.requestor.core.RequestDispatcher.Factory} powered by XMLHttpRequest.
+ * Java implementation for {@link io.reinert.requestor.core.RequestDispatcher.Factory} powered by HttpURLConnection.
  *
  * @author Danilo Reinert
  */
