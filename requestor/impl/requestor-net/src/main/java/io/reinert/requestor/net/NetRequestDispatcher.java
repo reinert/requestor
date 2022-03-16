@@ -51,6 +51,7 @@ import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.core.uri.Uri;
 
@@ -235,7 +236,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
     private SerializedPayload serializeResponseContent(String mediaType, String body) {
         if (body == null || body.equals("")) return SerializedPayload.EMPTY_PAYLOAD;
-        return new SerializedPayload(body);
+        return new TextSerializedPayload(body);
     }
 
     private NetHttpConnection getNetConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
