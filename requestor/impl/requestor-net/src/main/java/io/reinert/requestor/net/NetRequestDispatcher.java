@@ -47,6 +47,7 @@ import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
+import io.reinert.requestor.core.RequestProgressImpl;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
@@ -158,6 +159,9 @@ class NetRequestDispatcher extends RequestDispatcher {
                         int len = Math.min(outputBufferSize, bytes.length - off);
                         out.write(bytes, off, len);
                         out.flush();
+
+                        deferred.notifyUpload(
+                                new RequestProgressImpl(new FixedProgressEvent(off + len, bytes.length)));
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
