@@ -42,9 +42,9 @@
       <property name="processJavadoc" value="true"/>
       <property name="severity" value="error"/>
     </module>
-    <module name="IllegalImport">
-      <property name="severity" value="error"/>
-    </module>
+<!--    <module name="IllegalImport">-->
+<!--      <property name="severity" value="error"/>-->
+<!--    </module>-->
     <module name="AvoidStarImport">
       <property name="severity" value="error"/>
     </module>

@@ -16,7 +16,6 @@
 package io.reinert.requestor.net;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -25,6 +24,8 @@ import java.util.Base64;
 
 import io.reinert.requestor.core.Requestor;
 import io.reinert.requestor.core.auth.DigestAuth;
+
+import sun.misc.Unsafe;
 
 /**
  * This class provides a static initializer for Requestor's deferred bindings for JVM environment.
@@ -92,19 +93,24 @@ public class RequestorNet {
 
     private static void allowPatchMethodOnHttpUrlConnection() {
         try {
-            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
+            final Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+            unsafeField.setAccessible(true);
+            Unsafe unsafe = (Unsafe) unsafeField.get(null);
+
+            final Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
             methodsField.setAccessible(true);
 
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
+            final Object fieldBase = unsafe.staticFieldBase(methodsField);
+            final long fieldOffset = unsafe.staticFieldOffset(methodsField);
 
-            methodsField.set(null, new String[] {
+            // Calling get is necessary to actually update the field value in the next statement
+            methodsField.get(HttpURLConnection.class);
+            unsafe.putObject(fieldBase, fieldOffset, new String[] {
                     "GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS", "TRACE"
             });
 
             methodsField.setAccessible(false);
-            modifiersField.setAccessible(false);
+            unsafeField.setAccessible(false);
 
             IS_PATCH_ALLOWED = true;
         } catch (NoSuchFieldException | IllegalAccessException ignored) { }
