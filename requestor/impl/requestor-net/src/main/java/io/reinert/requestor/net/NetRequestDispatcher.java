@@ -103,27 +103,7 @@ class NetRequestDispatcher extends RequestDispatcher {
             conn.setDoOutput(!serializedPayload.isEmpty());
 
             if (request.getMethod() == HttpMethod.PATCH) {
-                try {
-                    // Try modifying the instance's method field value via reflection
-                    Field methodField = HttpURLConnection.class.getDeclaredField("method");
-                    methodField.setAccessible(true);
-                    methodField.set(conn, HttpMethod.PATCH.getValue());
-                    methodField.setAccessible(false);
-
-                    try {
-                        // Set the delegate's method field value as well if it exists in the connection instance
-                        Field delegateField = conn.getClass().getDeclaredField("delegate");
-                        delegateField.setAccessible(true);
-                        HttpURLConnection delegate = (HttpURLConnection) delegateField.get(conn);
-                        methodField.setAccessible(true);
-                        methodField.set(delegate, HttpMethod.PATCH.getValue());
-                        methodField.setAccessible(false);
-                        delegateField.setAccessible(false);
-                    } catch (NoSuchFieldException | IllegalAccessException ignored) { }
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    throw new RuntimeException(
-                            "PATCH http method not supported. Could not set PATCH method on HttpURLConnection.", e);
-                }
+                setPatchMethod(conn);
             } else {
                 conn.setRequestMethod(request.getMethod().getValue());
             }
@@ -267,5 +247,29 @@ class NetRequestDispatcher extends RequestDispatcher {
 
     private NetHttpConnection getNetConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
         return new NetHttpConnection(conn, deferred, request);
+    }
+
+    private void setPatchMethod(HttpURLConnection conn) {
+        try {
+            // Try modifying the instance's method field value via reflection
+            Field methodField = HttpURLConnection.class.getDeclaredField("method");
+            methodField.setAccessible(true);
+            methodField.set(conn, HttpMethod.PATCH.getValue());
+            methodField.setAccessible(false);
+
+            try {
+                // Set the delegate's method field value as well if it exists in the connection instance
+                Field delegateField = conn.getClass().getDeclaredField("delegate");
+                delegateField.setAccessible(true);
+                HttpURLConnection delegate = (HttpURLConnection) delegateField.get(conn);
+                methodField.setAccessible(true);
+                methodField.set(delegate, HttpMethod.PATCH.getValue());
+                methodField.setAccessible(false);
+                delegateField.setAccessible(false);
+            } catch (NoSuchFieldException | IllegalAccessException ignored) { }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(
+                    "PATCH http method not supported. Could not set PATCH method on HttpURLConnection.", e);
+        }
     }
 }
