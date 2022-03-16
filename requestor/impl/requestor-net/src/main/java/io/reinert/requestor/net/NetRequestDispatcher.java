@@ -16,13 +16,11 @@
 package io.reinert.requestor.net;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -101,7 +99,10 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             conn.setDoInput(true);
 
-            conn.setDoOutput(!serializedPayload.isEmpty());
+            if (!serializedPayload.isEmpty()) {
+                conn.setDoOutput(true);
+                conn.setFixedLengthStreamingMode(serializedPayload.asBytes().length);
+            }
 
             try {
                 conn.setRequestMethod(request.getMethod().getValue());
@@ -150,11 +151,14 @@ class NetRequestDispatcher extends RequestDispatcher {
         try {
             // Payload upload
             if (conn.getDoOutput()) {
-                // TODO: define the charcode
-                try (Writer writer = new BufferedWriter(
-                        new OutputStreamWriter(conn.getOutputStream(), StandardCharsets.UTF_8), outputBufferSize)) {
-                    writer.write(serializedPayload.asString());
-                    writer.flush();
+                try (OutputStream out = conn.getOutputStream()) {
+                    byte[] bytes = serializedPayload.asBytes();
+                    for (int i = 0; i <= bytes.length / outputBufferSize; i++) {
+                        int off = i * outputBufferSize;
+                        int len = Math.min(outputBufferSize, bytes.length - off);
+                        out.write(bytes, off, len);
+                        out.flush();
+                    }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
