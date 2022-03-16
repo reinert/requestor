@@ -102,7 +102,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             conn.setDoOutput(!serializedPayload.isEmpty());
 
-            if (request.getMethod() == HttpMethod.PATCH) {
+            if (request.getMethod() == HttpMethod.PATCH && !RequestorNet.IS_PATCH_ALLOWED) {
                 setPatchMethod(conn);
             } else {
                 conn.setRequestMethod(request.getMethod().getValue());
