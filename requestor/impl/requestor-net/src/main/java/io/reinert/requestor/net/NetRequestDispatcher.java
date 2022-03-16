@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Headers;
+import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.HttpStatus;
 import io.reinert.requestor.core.PreparedRequest;
 import io.reinert.requestor.core.RawResponse;
@@ -100,7 +102,31 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             conn.setDoOutput(!serializedPayload.isEmpty());
 
-            conn.setRequestMethod(request.getMethod().getValue());
+            if (request.getMethod() == HttpMethod.PATCH) {
+                try {
+                    // Try modifying the instance's method field value via reflection
+                    Field methodField = HttpURLConnection.class.getDeclaredField("method");
+                    methodField.setAccessible(true);
+                    methodField.set(conn, HttpMethod.PATCH.getValue());
+                    methodField.setAccessible(false);
+
+                    try {
+                        // Set the delegate's method field value as well if it exists in the connection instance
+                        Field delegateField = conn.getClass().getDeclaredField("delegate");
+                        delegateField.setAccessible(true);
+                        HttpURLConnection delegate = (HttpURLConnection) delegateField.get(conn);
+                        methodField.setAccessible(true);
+                        methodField.set(delegate, HttpMethod.PATCH.getValue());
+                        methodField.setAccessible(false);
+                        delegateField.setAccessible(false);
+                    } catch (NoSuchFieldException | IllegalAccessException ignored) { }
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new RuntimeException(
+                            "PATCH http method not supported. Could not set PATCH method on HttpURLConnection.", e);
+                }
+            } else {
+                conn.setRequestMethod(request.getMethod().getValue());
+            }
 
             for (Header header : request.getHeaders()) {
                 conn.setRequestProperty(header.getName(), header.getValue());
