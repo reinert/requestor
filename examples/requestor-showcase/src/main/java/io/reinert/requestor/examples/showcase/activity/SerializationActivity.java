@@ -453,7 +453,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         public SerializedPayload serialize(Collection<MyObject> myObjectCollection, SerializationContext context) {
             StringBuilder sb = new StringBuilder("<myList>");
             for (MyObject myObject : myObjectCollection) {
-                sb.append(serialize(myObject, context));
+                sb.append(serialize(myObject, context).asString());
             }
             return new TextSerializedPayload(sb.append("</myList>").toString());
         }

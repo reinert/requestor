@@ -376,7 +376,7 @@
             <br/>&#32;&#32;&#32;&#32;public SerializedPayload serialize(Collection&lt;MyObject&gt; myCollection, SerializationContext ctx) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;StringBuilder sb = new StringBuilder(&quot;&lt;array&gt;&quot;);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;for (MyObject myObject : myCollection) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sb.append(serialize(myObject, ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sb.append(serialize(myObject, ctx).asString());
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new TextSerializedPayload(sb.append(&quot;&lt;/array&gt;&quot;).toString());
             <br/>&#32;&#32;&#32;&#32;}
