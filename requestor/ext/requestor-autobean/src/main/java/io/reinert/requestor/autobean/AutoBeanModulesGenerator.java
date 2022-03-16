@@ -45,6 +45,7 @@ import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.TypeProvider;
 import io.reinert.requestor.core.annotations.MediaType;
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.HandlesSubTypes;
@@ -390,7 +391,7 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format("    public SerializedPayload serialize(%s o, SerializationContext ctx) {",
                 qualifiedSourceName));
         print(w, String.format("        try {"));
-        print(w, String.format("            return new SerializedPayload(" +
+        print(w, String.format("            return new TextSerializedPayload(" +
                 "AutoBeanCodex.encode(AutoBeanUtils.getAutoBean(o)).getPayload());"));
         print(w, String.format("        } catch (java.lang.Exception e) {"));
         print(w, String.format("            throw new UnableToSerializeException(\"The auto-generated AutoBean" +
@@ -409,14 +410,16 @@ public class AutoBeanModulesGenerator extends Generator {
                 listWrapperFactoryMethodName));
         print(w, String.format("                autoBean.as().setResult((List) c);"));
         print(w, String.format("                final String json = AutoBeanCodex.encode(autoBean).getPayload();"));
-        print(w, String.format("                return new SerializedPayload(json.substring(10, json.length() -1));"));
+        print(w, String.format("                return new TextSerializedPayload(" +
+                "json.substring(10, json.length() -1));"));
         print(w, String.format("            }"));
         print(w, String.format("            if (c instanceof Set) {"));
         print(w, String.format("                final AutoBean<%s> autoBean = %s();", setWrapperTypeName,
                 setWrapperFactoryMethodName));
         print(w, String.format("                autoBean.as().setResult((Set) c);"));
         print(w, String.format("                final String json = AutoBeanCodex.encode(autoBean).getPayload();"));
-        print(w, String.format("                return new SerializedPayload(json.substring(10, json.length() -1));"));
+        print(w, String.format("                return new TextSerializedPayload(" +
+                "json.substring(10, json.length() -1));"));
         print(w, String.format("            }"));
         print(w, String.format("            return super.serialize(c, ctx);"));
         print(w, String.format("        } catch (java.lang.Exception e) {"));
@@ -491,6 +494,7 @@ public class AutoBeanModulesGenerator extends Generator {
                 TypeProvider.class.getCanonicalName(),
                 // io.reinert.requestor.core.payload
                 SerializedPayload.class.getCanonicalName(),
+                TextSerializedPayload.class.getCanonicalName(),
                 // io.reinert.requestor.core.serialization
                 DeserializationContext.class.getCanonicalName(),
                 Deserializer.class.getCanonicalName(),

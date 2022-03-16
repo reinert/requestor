@@ -30,6 +30,7 @@ import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -434,7 +435,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
             int nextStart = payload.indexOf("<my>");
             while (nextStart != -1) {
                 int nextEnd = payload.indexOf("</my>", nextStart);
-                collection.add(deserialize(new SerializedPayload(payload.substring(nextStart + 4, nextEnd)), ctx));
+                collection.add(deserialize(new TextSerializedPayload(payload.substring(nextStart + 4, nextEnd)), ctx));
                 nextStart = payload.indexOf("<my>", nextEnd);
             }
 
@@ -443,7 +444,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
         @Override
         public SerializedPayload serialize(MyObject myObject, SerializationContext context) {
-            return new SerializedPayload("<my><stringField>" + myObject.getStringField() + "</stringField>"
+            return new TextSerializedPayload("<my><stringField>" + myObject.getStringField() + "</stringField>"
                     + "<intField>" + myObject.getIntField() + "</intField>"
                     + "<dateField>" + myObject.getDateField().getTime() + "</dateField></my>");
         }
@@ -454,7 +455,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
             for (MyObject myObject : myObjectCollection) {
                 sb.append(serialize(myObject, context));
             }
-            return new SerializedPayload(sb.append("</myList>").toString());
+            return new TextSerializedPayload(sb.append("</myList>").toString());
         }
     }
 

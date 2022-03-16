@@ -776,7 +776,7 @@ class BookXmlSerializer implements Serializer<Book> {
 
     @Override
     public SerializedPayload serialize(Book book, SerializationContext ctx) {
-        return new SerializedPayload(
+        return new TextSerializedPayload(
                 "<book><title>" + book.getTitle() + "</title>"
                 + "<author>" + book.getAuthor() + "</author>"
                 + "<pubDate>" + book.getPubDate().getTime() + "</pubDate></book>");
@@ -787,7 +787,7 @@ class BookXmlSerializer implements Serializer<Book> {
         StringBuilder sb = new StringBuilder("<array>");
         for (Book b : books) sb.append(serialize(b, ctx).asString());
         sb.append("</array>");
-        return new SerializedPayload(sb.toString());
+        return new TextSerializedPayload(sb.toString());
     }
 
     @Override
@@ -816,7 +816,7 @@ class BookXmlSerializer implements Serializer<Book> {
         int cursor = response.indexOf("<book>");
         while (cursor != -1) {
             int cursorEnd = response.indexOf("</book>", cursor);
-            collection.add(deserialize(new SerializedPayload(response.substring(cursor + 6, cursorEnd)), ctx));
+            collection.add(deserialize(new TextSerializedPayload(response.substring(cursor + 6, cursorEnd)), ctx));
             cursor = response.indexOf("<book>", cursorEnd);
         }
 

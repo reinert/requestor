@@ -22,6 +22,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsonUtils;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -64,7 +65,7 @@ public class OverlaySerializer implements Serializer<JavaScriptObject> {
 
     @Override
     public SerializedPayload serialize(JavaScriptObject t, SerializationContext context) {
-        return new SerializedPayload(stringify(t));
+        return new TextSerializedPayload(stringify(t));
     }
 
     @Override
@@ -74,7 +75,7 @@ public class OverlaySerializer implements Serializer<JavaScriptObject> {
             sb.append(stringify(t)).append(',');
         }
         sb.setCharAt(sb.length() - 1, ']');
-        return new SerializedPayload(sb.toString());
+        return new TextSerializedPayload(sb.toString());
     }
 
     protected <T extends JavaScriptObject> T eval(String response) {

@@ -29,6 +29,7 @@ import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.Interceptors;
 import io.reinert.requestor.examples.showcase.util.Page;
@@ -66,7 +67,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                 final String rawPayload = request.getSerializedPayload().asString();
 
                 // create a new payload prepending ")]}',\n" to the serialized jsons
-                SerializedPayload escapedPayload = new SerializedPayload(")]}',\\n" + rawPayload);
+                SerializedPayload escapedPayload = new TextSerializedPayload(")]}',\\n" + rawPayload);
 
                 // replace the request's payload by the new one
                 request.setSerializedPayload(escapedPayload);
@@ -102,7 +103,7 @@ public class InterceptorsActivity extends ShowcaseActivity implements Intercepto
                 final String rawPayload = response.getSerializedPayload().asString();
 
                 // create a new payload removing first 6 chars )]}',\n
-                SerializedPayload unscapedPayload = new SerializedPayload(rawPayload.substring(6));
+                SerializedPayload unscapedPayload = new TextSerializedPayload(rawPayload.substring(6));
 
                 // replace the response's payload by the new one
                 response.setSerializedPayload(unscapedPayload);

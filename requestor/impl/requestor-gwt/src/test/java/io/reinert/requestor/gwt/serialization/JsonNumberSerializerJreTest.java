@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 
@@ -59,7 +59,7 @@ public class JsonNumberSerializerJreTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Number.class);
 
-        serializer.deserialize(new SerializedPayload("invalid number"), context);
+        serializer.deserialize(new TextSerializedPayload("invalid number"), context);
     }
 
     @Test
@@ -72,8 +72,8 @@ public class JsonNumberSerializerJreTest {
         Double upperBound = Double.MAX_VALUE;
         Double lowerBound = Double.MIN_VALUE;
 
-        assertEquals(lowerBound, serializer.deserialize(new SerializedPayload(lowerBound.toString()), context));
-        assertEquals(upperBound, serializer.deserialize(new SerializedPayload(upperBound.toString()), context));
+        assertEquals(lowerBound, serializer.deserialize(new TextSerializedPayload(lowerBound.toString()), context));
+        assertEquals(upperBound, serializer.deserialize(new TextSerializedPayload(upperBound.toString()), context));
     }
 
     @Test
@@ -86,8 +86,8 @@ public class JsonNumberSerializerJreTest {
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
         BigDecimal lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound, serializer.deserialize(new SerializedPayload(lowerBound.toString()), context));
-        assertEquals(upperBound, serializer.deserialize(new SerializedPayload(upperBound.toString()), context));
+        assertEquals(lowerBound, serializer.deserialize(new TextSerializedPayload(lowerBound.toString()), context));
+        assertEquals(upperBound, serializer.deserialize(new TextSerializedPayload(upperBound.toString()), context));
     }
 
     @Test
@@ -100,8 +100,8 @@ public class JsonNumberSerializerJreTest {
         Integer upperBound = Integer.MAX_VALUE;
         Integer lowerBound = Integer.MIN_VALUE;
 
-        assertEquals(lowerBound, serializer.deserialize(new SerializedPayload(lowerBound.toString()), context));
-        assertEquals(upperBound, serializer.deserialize(new SerializedPayload(upperBound.toString()), context));
+        assertEquals(lowerBound, serializer.deserialize(new TextSerializedPayload(lowerBound.toString()), context));
+        assertEquals(upperBound, serializer.deserialize(new TextSerializedPayload(upperBound.toString()), context));
     }
 
     @Test
@@ -114,8 +114,8 @@ public class JsonNumberSerializerJreTest {
         Long upperBound = Long.MAX_VALUE;
         Long lowerBound = Long.MIN_VALUE;
 
-        assertEquals(lowerBound, serializer.deserialize(new SerializedPayload(lowerBound.toString()), context));
-        assertEquals(upperBound, serializer.deserialize(new SerializedPayload(upperBound.toString()), context));
+        assertEquals(lowerBound, serializer.deserialize(new TextSerializedPayload(lowerBound.toString()), context));
+        assertEquals(upperBound, serializer.deserialize(new TextSerializedPayload(upperBound.toString()), context));
     }
 
     @Test
@@ -128,8 +128,8 @@ public class JsonNumberSerializerJreTest {
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
         BigInteger lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound, serializer.deserialize(new SerializedPayload(lowerBound.toString()), context));
-        assertEquals(upperBound, serializer.deserialize(new SerializedPayload(upperBound.toString()), context));
+        assertEquals(lowerBound, serializer.deserialize(new TextSerializedPayload(lowerBound.toString()), context));
+        assertEquals(upperBound, serializer.deserialize(new TextSerializedPayload(upperBound.toString()), context));
     }
 
     @Test
@@ -148,7 +148,7 @@ public class JsonNumberSerializerJreTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, lowerBound, BigDecimal.ZERO, BigDecimal.ONE, upperBound);
 
-        Collection<Number> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
+        Collection<Number> output = serializer.deserialize(List.class, new TextSerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
@@ -163,8 +163,8 @@ public class JsonNumberSerializerJreTest {
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
         BigDecimal lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound, serializer.deserialize(new SerializedPayload(lowerBound.toString()), context));
-        assertEquals(upperBound, serializer.deserialize(new SerializedPayload(upperBound.toString()), context));
+        assertEquals(lowerBound, serializer.deserialize(new TextSerializedPayload(lowerBound.toString()), context));
+        assertEquals(upperBound, serializer.deserialize(new TextSerializedPayload(upperBound.toString()), context));
     }
 
     @Test
@@ -183,7 +183,7 @@ public class JsonNumberSerializerJreTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, lowerBound, BigInteger.ZERO, BigInteger.ONE, upperBound);
 
-        Collection<Number> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
+        Collection<Number> output = serializer.deserialize(List.class, new TextSerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
@@ -198,8 +198,8 @@ public class JsonNumberSerializerJreTest {
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
         BigInteger lowerBound = upperBound.negate();
 
-        assertEquals(lowerBound, serializer.deserialize(new SerializedPayload(lowerBound.toString(10)), context));
-        assertEquals(upperBound, serializer.deserialize(new SerializedPayload(upperBound.toString(10)), context));
+        assertEquals(lowerBound, serializer.deserialize(new TextSerializedPayload(lowerBound.toString(10)), context));
+        assertEquals(upperBound, serializer.deserialize(new TextSerializedPayload(upperBound.toString(10)), context));
     }
 
     @Test
@@ -214,7 +214,7 @@ public class JsonNumberSerializerJreTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Byte.MIN_VALUE, Byte.MAX_VALUE);
 
-        Collection<Number> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
+        Collection<Number> output = serializer.deserialize(List.class, new TextSerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
@@ -226,9 +226,9 @@ public class JsonNumberSerializerJreTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Byte.class);
 
-        assertEquals(Byte.MIN_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Byte.MIN_VALUE)),
+        assertEquals(Byte.MIN_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Byte.MIN_VALUE)),
                 context));
-        assertEquals(Byte.MAX_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Byte.MAX_VALUE)),
+        assertEquals(Byte.MAX_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Byte.MAX_VALUE)),
                 context));
     }
 
@@ -244,7 +244,7 @@ public class JsonNumberSerializerJreTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Double.MIN_VALUE, Double.MAX_VALUE);
 
-        Collection<Number> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
+        Collection<Number> output = serializer.deserialize(List.class, new TextSerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
@@ -256,10 +256,10 @@ public class JsonNumberSerializerJreTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Double.class);
 
-        assertEquals(Double.MIN_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Double.MIN_VALUE)),
-                context));
-        assertEquals(Double.MAX_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Double.MAX_VALUE)),
-                context));
+        assertEquals(Double.MIN_VALUE, serializer.deserialize(
+                new TextSerializedPayload(String.valueOf(Double.MIN_VALUE)), context));
+        assertEquals(Double.MAX_VALUE, serializer.deserialize(
+                new TextSerializedPayload(String.valueOf(Double.MAX_VALUE)), context));
     }
 
     @Test
@@ -274,7 +274,7 @@ public class JsonNumberSerializerJreTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
-        Collection<Number> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
+        Collection<Number> output = serializer.deserialize(List.class, new TextSerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
@@ -286,10 +286,10 @@ public class JsonNumberSerializerJreTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Integer.class);
 
-        assertEquals(Integer.MIN_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Integer.MIN_VALUE)),
-                context));
-        assertEquals(Integer.MAX_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Integer.MAX_VALUE)),
-                context));
+        assertEquals(Integer.MIN_VALUE, serializer.deserialize(
+                new TextSerializedPayload(String.valueOf(Integer.MIN_VALUE)), context));
+        assertEquals(Integer.MAX_VALUE, serializer.deserialize(
+                new TextSerializedPayload(String.valueOf(Integer.MAX_VALUE)), context));
     }
 
     @Test
@@ -304,7 +304,7 @@ public class JsonNumberSerializerJreTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Long.MIN_VALUE, Long.MAX_VALUE);
 
-        Collection<Number> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
+        Collection<Number> output = serializer.deserialize(List.class, new TextSerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
@@ -316,9 +316,9 @@ public class JsonNumberSerializerJreTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Long.class);
 
-        assertEquals(Long.MIN_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Long.MIN_VALUE)),
+        assertEquals(Long.MIN_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Long.MIN_VALUE)),
                 context));
-        assertEquals(Long.MAX_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Long.MAX_VALUE)),
+        assertEquals(Long.MAX_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Long.MAX_VALUE)),
                 context));
     }
 
@@ -334,7 +334,7 @@ public class JsonNumberSerializerJreTest {
         Collection<Number> expected = new ArrayList<Number>();
         Collections.addAll(expected, Short.MIN_VALUE, Short.MAX_VALUE);
 
-        Collection<Number> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
+        Collection<Number> output = serializer.deserialize(List.class, new TextSerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
@@ -346,9 +346,9 @@ public class JsonNumberSerializerJreTest {
         DeserializationContext context = mock(DeserializationContext.class);
         when(context.getRequestedType()).thenReturn((Class) Short.class);
 
-        assertEquals(Short.MIN_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Short.MIN_VALUE)),
+        assertEquals(Short.MIN_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Short.MIN_VALUE)),
                 context));
-        assertEquals(Short.MAX_VALUE, serializer.deserialize(new SerializedPayload(String.valueOf(Short.MAX_VALUE)),
+        assertEquals(Short.MAX_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Short.MAX_VALUE)),
                 context));
     }
 

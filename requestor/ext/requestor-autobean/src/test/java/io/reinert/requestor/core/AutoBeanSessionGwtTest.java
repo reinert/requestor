@@ -23,7 +23,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import io.reinert.requestor.autobean.AutoBeanSession;
 import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.core.annotations.MediaType;
-import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.HandlesSubTypes;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -124,7 +124,7 @@ public class AutoBeanSessionGwtTest extends GWTTestCase {
         final String input = "{\"name\":\"Stuart\",\"age\":3}";
 
         // When
-        final Animal output = deserializer.deserialize(new SerializedPayload(input), null);
+        final Animal output = deserializer.deserialize(new TextSerializedPayload(input), null);
 
         // Then
         assertTrue(isEqual(expected, output));
@@ -145,7 +145,7 @@ public class AutoBeanSessionGwtTest extends GWTTestCase {
         final String input = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
 
         // When
-        List<Animal> output = deserializer.deserialize(List.class, new SerializedPayload(input), null);
+        List<Animal> output = deserializer.deserialize(List.class, new TextSerializedPayload(input), null);
 
         // Then
         assertTrue(isEqual(a0, output.get(0)));

@@ -17,7 +17,7 @@ package io.reinert.requestor.gwt.payload;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.gwt.ResponseType;
 
 /**
@@ -26,7 +26,7 @@ import io.reinert.requestor.gwt.ResponseType;
  *
  * @author Danilo Reinert
  */
-public class SerializedJsPayload extends SerializedPayload {
+public class SerializedJsPayload extends TextSerializedPayload {
 
     private final JavaScriptObject javaScriptObject;
     private final ResponseType responseType;
@@ -38,7 +38,7 @@ public class SerializedJsPayload extends SerializedPayload {
     }
 
     protected SerializedJsPayload(JavaScriptObject javaScriptObject, ResponseType responseType) {
-        super(null);
+        super("");
         this.javaScriptObject = javaScriptObject;
         this.responseType = responseType;
     }
@@ -72,10 +72,6 @@ public class SerializedJsPayload extends SerializedPayload {
         return super.isEmpty() && javaScriptObject == null;
     }
 
-    public boolean isTextAvailable() {
-        return asString() != null;
-    }
-
     public boolean isJsoAvailable() {
         return javaScriptObject != null;
     }
@@ -88,6 +84,11 @@ public class SerializedJsPayload extends SerializedPayload {
     @SuppressWarnings("unchecked")
     public <J extends JavaScriptObject> J asJso() {
         return (J) javaScriptObject;
+    }
+
+    @Override
+    public String asString() {
+        return string;
     }
 
     public ResponseType getResponseType() {

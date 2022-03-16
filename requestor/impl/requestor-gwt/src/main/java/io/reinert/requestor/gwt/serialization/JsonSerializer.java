@@ -20,6 +20,7 @@ import java.util.Collection;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
 
@@ -57,7 +58,7 @@ public abstract class JsonSerializer<T> implements Serializer<T> {
             serialized.append(serialize(t, context).asString()).append(',');
         }
         serialized.setCharAt(serialized.length() - 1, ']');
-        return new SerializedPayload(serialized.toString());
+        return new TextSerializedPayload(serialized.toString());
     }
 
     protected boolean isArray(String text) {

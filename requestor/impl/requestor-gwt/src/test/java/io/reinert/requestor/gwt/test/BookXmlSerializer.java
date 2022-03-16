@@ -26,6 +26,7 @@ import com.google.gwt.xml.client.XMLParser;
 import com.google.gwt.xml.client.impl.DOMParseException;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -50,7 +51,7 @@ public class BookXmlSerializer implements Serializer<Book> {
 
     public SerializedPayload serialize(Book book, SerializationContext context) {
         StringBuilder xmlBuilder = buildXml(book);
-        return new SerializedPayload(xmlBuilder.toString());
+        return new TextSerializedPayload(xmlBuilder.toString());
     }
 
     public SerializedPayload serialize(Collection<Book> c, SerializationContext context) {
@@ -59,7 +60,7 @@ public class BookXmlSerializer implements Serializer<Book> {
             xmlBuilder.append(buildXml(book));
         }
         xmlBuilder.append("</books>");
-        return new SerializedPayload(xmlBuilder.toString());
+        return new TextSerializedPayload(xmlBuilder.toString());
     }
 
     public Book deserialize(SerializedPayload payload, DeserializationContext context) {

@@ -38,7 +38,7 @@
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final String rawPayload = request.getSerializedPayload().asString();
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* create a new payload prepending &quot;)]}',\n&quot; to the serialized jsons */
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SerializedPayload escapedPayload = new SerializedPayload(&quot;)]}',\\n&quot; + rawPayload);
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SerializedPayload escapedPayload = new TextSerializedPayload(&quot;)]}',\\n&quot; + rawPayload);
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* replace the request's payload by the new one */
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;request.setSerializedPayload(escapedPayload);
@@ -106,7 +106,7 @@
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;final String rawPayload = response.getSerializedPayload().asString();
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* create a new payload removing first 6 chars )]}',\n */
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SerializedPayload unscapedPayload = new SerializedPayload(rawPayload.substring(6));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SerializedPayload unscapedPayload = new TextSerializedPayload(rawPayload.substring(6));
             <br/>
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* replace the response's payload by the new one */
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;response.setSerializedPayload(unscapedPayload);

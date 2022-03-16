@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -64,7 +65,7 @@ public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
             }
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
-        return new SerializedPayload(serialized.toString());
+        return new TextSerializedPayload(serialized.toString());
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
@@ -53,7 +54,7 @@ public class TextSerializer implements Serializer<String> {
     @Override
     public SerializedPayload serialize(String s, SerializationContext context) {
         if (s.length() == 0) return SerializedPayload.EMPTY_PAYLOAD;
-        return new SerializedPayload(s);
+        return new TextSerializedPayload(s);
     }
 
     /**
@@ -72,7 +73,7 @@ public class TextSerializer implements Serializer<String> {
             sb.append(SEPARATOR);
         }
         sb.setLength(sb.length() - SEPARATOR.length());
-        return new SerializedPayload(sb.toString());
+        return new TextSerializedPayload(sb.toString());
     }
 
     @Override

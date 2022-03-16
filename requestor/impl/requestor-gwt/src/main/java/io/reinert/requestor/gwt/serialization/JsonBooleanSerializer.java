@@ -16,6 +16,7 @@
 package io.reinert.requestor.gwt.serialization;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 
@@ -37,6 +38,6 @@ public class JsonBooleanSerializer extends JsonValueSerializer<Boolean> {
 
     @Override
     public SerializedPayload serialize(Boolean b, SerializationContext context) {
-        return new SerializedPayload(String.valueOf(b));
+        return new TextSerializedPayload(String.valueOf(b));
     }
 }

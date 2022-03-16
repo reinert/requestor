@@ -314,7 +314,7 @@
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;while (nextStart != -1) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextEnd = response.indexOf(&quot;&lt;/my&gt;&quot;, nextStart);
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(new SerializedPayload(response.substring(nextStart + 4, nextEnd)), ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(new TextSerializedPayload(response.substring(nextStart + 4, nextEnd)), ctx));
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nextStart = response.indexOf(&quot;&lt;my&gt;&quot;, nextEnd);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>
@@ -367,7 +367,7 @@
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
             <br/>&#32;&#32;&#32;&#32;public SerializedPayload serialize(MyObject myObject, SerializationContext ctx) {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new SerializedPayload(&quot;&lt;my&gt;&lt;stringField&gt;&quot; + myObject.getStringField() + &quot;&lt;/stringField&gt;&quot;
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new TextSerializedPayload(&quot;&lt;my&gt;&lt;stringField&gt;&quot; + myObject.getStringField() + &quot;&lt;/stringField&gt;&quot;
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;+ &quot;&lt;intField&gt;&quot; + myObject.getIntField() + &quot;&lt;/intField&gt;&quot;
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;+ &quot;&lt;dateField&gt;&quot; + myObject.getDateField().getTime() + &quot;&lt;/dateField&gt;&lt;/my&gt;&quot;);
             <br/>&#32;&#32;&#32;&#32;}
@@ -378,7 +378,7 @@
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;for (MyObject myObject : myCollection) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sb.append(serialize(myObject, ctx));
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new SerializedPayload(sb.append(&quot;&lt;/array&gt;&quot;).toString());
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return new TextSerializedPayload(sb.append(&quot;&lt;/array&gt;&quot;).toString());
             <br/>&#32;&#32;&#32;&#32;}
             <br/>
             <br/>&#32;&#32;&#32;&#32;@Override
@@ -407,7 +407,7 @@
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextStart = response.indexOf(&quot;&lt;my&gt;&quot;);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;while (nextStart != -1) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int nextEnd = response.indexOf(&quot;&lt;/my&gt;&quot;, nextStart);
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(new SerializedPayload(response.substring(nextStart + 4, nextEnd)), ctx));
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;collection.add(deserialize(new TextSerializedPayload(response.substring(nextStart + 4, nextEnd)), ctx));
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;nextStart = response.indexOf(&quot;&lt;my&gt;&quot;, nextEnd);
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
             <br/>

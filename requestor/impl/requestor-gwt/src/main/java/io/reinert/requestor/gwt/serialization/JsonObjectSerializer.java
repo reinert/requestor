@@ -22,6 +22,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsonUtils;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.UnableToDeserializeException;
@@ -109,7 +110,7 @@ public abstract class JsonObjectSerializer<T> extends JsonSerializer<T> {
     public SerializedPayload serialize(T t, SerializationContext context) {
         final JsonRecordWriter writer = JsonRecordWriter.create();
         writeJson(t, writer, context);
-        return new SerializedPayload(stringify(writer));
+        return new TextSerializedPayload(stringify(writer));
     }
 
     /**

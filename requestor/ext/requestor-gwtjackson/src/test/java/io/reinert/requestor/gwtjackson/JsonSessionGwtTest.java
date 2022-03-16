@@ -24,7 +24,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.annotations.MediaType;
-import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.gwtjackson.annotations.JsonSerializationModule;
@@ -91,7 +91,7 @@ public class JsonSessionGwtTest extends GWTTestCase {
         final String input = "{\"name\":\"Stuart\",\"age\":3}";
 
         // When
-        final Animal output = deserializer.deserialize(new SerializedPayload(input), null);
+        final Animal output = deserializer.deserialize(new TextSerializedPayload(input), null);
 
         // Then
         assertEquals(expected, output);
@@ -105,7 +105,8 @@ public class JsonSessionGwtTest extends GWTTestCase {
         final String input = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
 
         // When
-        List<Animal> output = (List<Animal>) deserializer.deserialize(List.class, new SerializedPayload(input), null);
+        List<Animal> output = (List<Animal>) deserializer.deserialize(List.class, new TextSerializedPayload(input),
+                null);
 
         // Then
         assertEquals(expected, output);
@@ -119,7 +120,8 @@ public class JsonSessionGwtTest extends GWTTestCase {
         final String input = "[]";
 
         // When
-        List<Animal> output = (List<Animal>) deserializer.deserialize(List.class, new SerializedPayload(input), null);
+        List<Animal> output = (List<Animal>) deserializer.deserialize(List.class, new TextSerializedPayload(input),
+                null);
 
         // Then
         assertEquals(expected, output);

@@ -18,6 +18,7 @@ package io.reinert.requestor.gwt.serialization;
 import java.util.Collection;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.UnableToDeserializeException;
 
@@ -49,7 +50,7 @@ public abstract class JsonValueSerializer<T> extends JsonSerializer<T> {
             int finalIndex = trimmedPayload.indexOf(",", initialIndex);
             if (finalIndex == -1) finalIndex = trimmedPayload.indexOf("]", initialIndex);
             final String trimmedValue = trimmedPayload.substring(initialIndex, finalIndex).trim();
-            col.add(deserialize(new SerializedPayload(trimmedValue), context));
+            col.add(deserialize(new TextSerializedPayload(trimmedValue), context));
             initialIndex = finalIndex + 1;
         }
 

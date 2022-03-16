@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.HandlesSubTypes;
 import io.reinert.requestor.core.serialization.SerializationContext;
@@ -100,10 +101,10 @@ public class JsonNumberSerializer extends JsonValueSerializer<Number> implements
     @Override
     public SerializedPayload serialize(Number n, SerializationContext context) {
         if (n instanceof BigDecimal) {
-            return new SerializedPayload(SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING ?
+            return new TextSerializedPayload(SERIALIZE_BIG_DECIMAL_AS_PLAIN_STRING ?
                     ((BigDecimal) n).toPlainString() : n.toString());
         }
 
-        return new SerializedPayload(n.toString());
+        return new TextSerializedPayload(n.toString());
     }
 }

@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 
 import org.junit.Test;
@@ -45,15 +45,15 @@ public class JsonBooleanSerializerJreTest {
         Collection<Boolean> expected = Arrays.asList(true, false, false, true, false);
 
         @SuppressWarnings("unchecked")
-        Collection<Boolean> output = serializer.deserialize(List.class, new SerializedPayload(input), context);
+        Collection<Boolean> output = serializer.deserialize(List.class, new TextSerializedPayload(input), context);
 
         assertEquals(expected, output);
     }
 
     @Test
     public void deserializeValue() throws Exception {
-        assertEquals(true, serializer.deserialize(new SerializedPayload("true"), null));
-        assertEquals(false, serializer.deserialize(new SerializedPayload("false"), null));
+        assertEquals(true, serializer.deserialize(new TextSerializedPayload("true"), null));
+        assertEquals(false, serializer.deserialize(new TextSerializedPayload("false"), null));
     }
 
     @Test

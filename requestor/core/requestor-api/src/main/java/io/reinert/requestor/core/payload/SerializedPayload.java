@@ -21,31 +21,46 @@ package io.reinert.requestor.core.payload;
  *
  * @author Danilo Reinert
  */
-public class SerializedPayload {
+public interface SerializedPayload {
 
-    public static final SerializedPayload EMPTY_PAYLOAD = new SerializedPayload(null);
-
-    private final String string;
-
-    public SerializedPayload(String string) {
-        this.string = string;
-    }
+    SerializedPayload EMPTY_PAYLOAD = new TextSerializedPayload("");
 
     /**
-     * Returns true if this payload is empty.
+     * <p>Returns this serialized payload as a byte array.</p>
      *
-     * @return true if this payload is empty
+     * <p>If the byte array is not available, it automatically converts the string content to bytes.</p>
+     *
+     * @return The serialized payload as byte[]
      */
-    public boolean isEmpty() {
-        return string == null || string.length() == 0;
-    }
+    byte[] asBytes();
 
     /**
-     * Returns this serialized payload as string.
+     * <p>Returns this serialized payload as a string.</p>
      *
-     * @return The payload as String
+     * <p>If the string is not available, it automatically converts the byte content to string.</p>
+     *
+     * @return The serialized payload as String
      */
-    public String asString() {
-        return string == null ? "" : string;
-    }
+    String asString();
+
+    /**
+     * Tells whether this serialized payload is empty or not.
+     *
+     * @return <code>true</code> if this serialized payload is empty
+     */
+    boolean isEmpty();
+
+    /**
+     * Tells whether there's a string content available in this serialized payload or not.
+     *
+     * @return <code>true</code> if the string representation is already available
+     */
+    boolean isStringAvailable();
+
+    /**
+     * Tells whether there's a byte content available in this serialized payload or not.
+     *
+     * @return <code>true</code> if the byte representation is already available
+     */
+    boolean isBytesAvailable();
 }
