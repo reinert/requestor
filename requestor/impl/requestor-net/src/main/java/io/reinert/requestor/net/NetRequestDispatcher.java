@@ -195,26 +195,27 @@ class NetRequestDispatcher extends RequestDispatcher {
             SerializedPayload serializedResponse;
             if (responseStatus.getFamily() == StatusFamily.SUCCESSFUL &&
                     payloadType != null && payloadType.getType() != Void.class) {
-                int length = conn.getContentLength();
-                byte[] body = new byte[Math.max(length, 0)];
+                int contentLength = conn.getContentLength();
+                byte[] body = new byte[Math.max(contentLength, 0)];
                 // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
                 try (InputStream in = conn.getInputStream()) {
                     byte[] buffer = new byte[inputBufferSize];
-                    int i, k = 0;
-                    while ((i = in.read(buffer)) != -1) {
-                        if (length > 0) {
-                            System.arraycopy(buffer, 0, body, inputBufferSize * k++, i);
+                    int stepRead, totalRead = 0;
+                    while ((stepRead = in.read(buffer)) != -1) {
+                        if (contentLength > 0) {
+                            System.arraycopy(buffer, 0, body, totalRead, stepRead);
                         } else {
-                            byte[] aux = new byte[body.length + i];
-                            System.arraycopy(body, 0, aux, 0, body.length);
-                            System.arraycopy(buffer, 0, aux, body.length, i);
+                            byte[] aux = new byte[totalRead + stepRead];
+                            System.arraycopy(body, 0, aux, 0, totalRead);
+                            System.arraycopy(buffer, 0, aux, totalRead, stepRead);
                             body = aux;
                         }
 
-                        deferred.notifyDownload(length > 0 ?
-                                new RequestProgressImpl(new FixedProgressEvent(
-                                        (inputBufferSize * (k - 1)) + i, length)) :
-                                new RequestProgressImpl(new ChunkedProgressEvent(body.length)));
+                        totalRead += stepRead;
+
+                        deferred.notifyDownload(contentLength > 0 ?
+                                new RequestProgressImpl(new FixedProgressEvent(totalRead, contentLength)) :
+                                new RequestProgressImpl(new ChunkedProgressEvent(totalRead)));
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
