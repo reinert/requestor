@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,27 @@ import io.reinert.requestor.core.payload.SerializedPayload;
 public class RequestProgress {
 
     private final ProgressEvent requestProgress;
+    private final SerializedPayload serializedPayload;
 
     public RequestProgress(ProgressEvent requestProgress) {
+        this(requestProgress, null);
+    }
+
+    public RequestProgress(ProgressEvent requestProgress, SerializedPayload serializedPayload) {
         this.requestProgress = requestProgress;
+        this.serializedPayload = serializedPayload;
     }
 
     public boolean isLengthComputable() {
         return requestProgress.lengthComputable();
+    }
+
+    public boolean isBufferAvailable() {
+        return serializedPayload != null;
+    }
+
+    public SerializedPayload getBuffer() {
+        return serializedPayload;
     }
 
     /**
