@@ -383,4 +383,146 @@ public class NetTest {
             thread.interrupt();
         };
     }
+
+    protected VoidCallback test(final TestResult result, final VoidCallback callback) {
+        final Thread thread = Thread.currentThread();
+        return () -> {
+            try {
+                callback.execute();
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected <E> PayloadCallback<E> test(final TestResult result, final PayloadCallback<E> callback) {
+        final Thread thread = Thread.currentThread();
+        return e -> {
+            try {
+                callback.execute(e);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected <E> PayloadResponseCallback<E> test(final TestResult result, final PayloadResponseCallback<E> callback) {
+        final Thread thread = Thread.currentThread();
+        return (e, res) -> {
+            try {
+                callback.execute(e, res);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected <E> PayloadResponseRequestCallback<E> test(final TestResult result,
+                                                      final PayloadResponseRequestCallback<E> callback) {
+        final Thread thread = Thread.currentThread();
+        return (e, res, req) -> {
+            try {
+                callback.execute(e, res, req);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected ResponseCallback test(final TestResult result, final ResponseCallback callback) {
+        final Thread thread = Thread.currentThread();
+        return res -> {
+            try {
+                callback.execute(res);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected <E> ResponseRequestCallback<E> test(final TestResult result, final ResponseRequestCallback<E> callback) {
+        final Thread thread = Thread.currentThread();
+        return (res, req) -> {
+            try {
+                callback.execute(res, req);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected ExceptionCallback test(final TestResult result, final ExceptionCallback callback) {
+        final Thread thread = Thread.currentThread();
+        return e -> {
+            try {
+                callback.execute(e);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected <E> ExceptionRequestCallback<E> test(final TestResult result,
+                                                   final ExceptionRequestCallback<E> callback) {
+        final Thread thread = Thread.currentThread();
+        return (e, req) -> {
+            try {
+                callback.execute(e, req);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected TimeoutCallback test(final TestResult result, final TimeoutCallback callback) {
+        final Thread thread = Thread.currentThread();
+        return e -> {
+            try {
+                callback.execute(e);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
+
+    protected <E> TimeoutRequestCallback<E> test(final TestResult result, final TimeoutRequestCallback<E> callback) {
+        final Thread thread = Thread.currentThread();
+        return (e, req) -> {
+            try {
+                callback.execute(e, req);
+                result.success();
+            } catch (RuntimeException | Error error) {
+                result.fail(error);
+            } finally {
+                thread.interrupt();
+            }
+        };
+    }
 }
