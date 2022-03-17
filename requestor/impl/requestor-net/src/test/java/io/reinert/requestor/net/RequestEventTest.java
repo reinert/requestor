@@ -147,9 +147,21 @@ public class RequestEventTest extends NetTest {
         final int expectedProgressCalls = 3;
         final AtomicInteger progressCalls = new AtomicInteger(0);
 
+        final byte[][] buffers = new byte[expectedProgressCalls][];
+
         session.post("https://httpbin.org/post", payload)
+                .onUpProgress(p -> buffers[progressCalls.get()] = p.getBuffer().asBytes())
                 .onUpProgress(p -> progressCalls.addAndGet(1))
-                .onSuccess(test(result, () -> Assert.assertEquals(expectedProgressCalls, progressCalls.get())))
+                .onSuccess(test(result, () -> {
+                    Assert.assertEquals(expectedProgressCalls, progressCalls.get());
+
+                    byte[] joinedBuffers = new byte[payload.length];
+                    for (int i = 0, k = 0; i < expectedProgressCalls; i++) {
+                        System.arraycopy(buffers[i], 0, joinedBuffers, k, buffers[i].length);
+                        k += buffers[i].length;
+                    }
+                    Assert.assertArrayEquals(payload, joinedBuffers);
+                }))
                 .onFail(failOnEvent(result))
                 .onError(failOnError(result));
 
@@ -168,9 +180,21 @@ public class RequestEventTest extends NetTest {
 
         final String byteSize = String.valueOf((session.getInputBufferSize() * 2) + 1);
 
+        final byte[][] buffers = new byte[expectedProgressCalls][];
+
         session.get("https://httpbin.org/bytes/" + byteSize, byte[].class)
+                .onProgress(p -> buffers[progressCalls.get()] = p.getBuffer().asBytes())
                 .onProgress(p -> progressCalls.addAndGet(1))
-                .onSuccess(test(result, () -> Assert.assertEquals(expectedProgressCalls, progressCalls.get())))
+                .onSuccess(test(result, (byte[] payload) -> {
+                    Assert.assertEquals(expectedProgressCalls, progressCalls.get());
+
+                    byte[] joinedBuffers = new byte[payload.length];
+                    for (int i = 0, k = 0; i < expectedProgressCalls; i++) {
+                        System.arraycopy(buffers[i], 0, joinedBuffers, k, buffers[i].length);
+                        k += buffers[i].length;
+                    }
+                    Assert.assertArrayEquals(payload, joinedBuffers);
+                }))
                 .onFail(failOnEvent(result))
                 .onError(failOnError(result));
 

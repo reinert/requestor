@@ -25,6 +25,7 @@ import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
@@ -151,15 +152,17 @@ class NetRequestDispatcher extends RequestDispatcher {
             // Payload upload
             if (conn.getDoOutput()) {
                 try (OutputStream out = conn.getOutputStream()) {
-                    byte[] bytes = serializedPayload.asBytes();
-                    for (int i = 0; i <= bytes.length / outputBufferSize; i++) {
+                    byte[] body = serializedPayload.asBytes();
+                    for (int i = 0; i <= body.length / outputBufferSize; i++) {
                         int off = i * outputBufferSize;
-                        int len = Math.min(outputBufferSize, bytes.length - off);
-                        out.write(bytes, off, len);
+                        int len = Math.min(outputBufferSize, body.length - off);
+                        out.write(body, off, len);
                         out.flush();
 
-                        deferred.notifyUpload(
-                                new RequestProgress(new FixedProgressEvent(off + len, bytes.length)));
+                        deferred.notifyUpload(new RequestProgress(
+                                new FixedProgressEvent(off + len, body.length),
+                                // TODO: expose an option to enable buffering (default disabled)
+                                serializeContent(request.getContentType(), Arrays.copyOfRange(body, off, off + len))));
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
@@ -195,7 +198,10 @@ class NetRequestDispatcher extends RequestDispatcher {
             SerializedPayload serializedResponse;
             if (responseStatus.getFamily() == StatusFamily.SUCCESSFUL &&
                     payloadType != null && payloadType.getType() != Void.class) {
-                int contentLength = conn.getContentLength();
+                final String contentType = conn.getContentType();
+                final int contentLength = conn.getContentLength();
+
+                // NOTE: there should be no body when buffering is enabled but return type is void
                 byte[] body = new byte[Math.max(contentLength, 0)];
                 // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
                 try (InputStream in = conn.getInputStream()) {
@@ -213,9 +219,11 @@ class NetRequestDispatcher extends RequestDispatcher {
 
                         totalRead += stepRead;
 
-                        deferred.notifyDownload(contentLength > 0 ?
-                                new RequestProgress(new FixedProgressEvent(totalRead, contentLength)) :
-                                new RequestProgress(new ChunkedProgressEvent(totalRead)));
+                        deferred.notifyDownload(new RequestProgress(contentLength > 0 ?
+                                new FixedProgressEvent(totalRead, contentLength) :
+                                new ChunkedProgressEvent(totalRead),
+                                // TODO: expose an option to enable buffering (default disabled)
+                                serializeContent(contentType, Arrays.copyOf(buffer, stepRead))));
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
@@ -229,7 +237,7 @@ class NetRequestDispatcher extends RequestDispatcher {
                     return;
                 }
 
-                serializedResponse = serializeResponseContent(conn.getContentType(), body);
+                serializedResponse = serializeContent(contentType, body);
             } else {
                 serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             }
@@ -268,10 +276,10 @@ class NetRequestDispatcher extends RequestDispatcher {
         return new Headers(headers);
     }
 
-    private SerializedPayload serializeResponseContent(String mediaType, byte[] body) {
-        if (body == null || body.length == 0) return SerializedPayload.EMPTY_PAYLOAD;
+    private SerializedPayload serializeContent(String mediaType, byte[] content) {
+        if (content == null || content.length == 0) return SerializedPayload.EMPTY_PAYLOAD;
         return "application/octet-stream".equalsIgnoreCase(mediaType)
-                ? new BinarySerializedPayload(body) : new TextSerializedPayload(body);
+                ? new BinarySerializedPayload(content) : new TextSerializedPayload(content);
     }
 
     private NetHttpConnection getNetConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
