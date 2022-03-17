@@ -26,6 +26,7 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -102,10 +103,11 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             conn.setDoOutput(!serializedPayload.isEmpty());
 
-            if (request.getMethod() == HttpMethod.PATCH && !RequestorNet.IS_PATCH_ALLOWED) {
-                setPatchMethod(conn);
-            } else {
+            try {
                 conn.setRequestMethod(request.getMethod().getValue());
+            } catch (ProtocolException e) {
+                if (!e.getMessage().contains(HttpMethod.PATCH.getValue())) throw e;
+                setPatchMethod(conn);
             }
 
             for (Header header : request.getHeaders()) {
@@ -252,24 +254,30 @@ class NetRequestDispatcher extends RequestDispatcher {
     private void setPatchMethod(HttpURLConnection conn) {
         try {
             // Try modifying the instance's method field value via reflection
-            Field methodField = HttpURLConnection.class.getDeclaredField("method");
+            final Field methodField = HttpURLConnection.class.getDeclaredField("method");
             methodField.setAccessible(true);
             methodField.set(conn, HttpMethod.PATCH.getValue());
             methodField.setAccessible(false);
 
             try {
                 // Set the delegate's method field value as well if it exists in the connection instance
-                Field delegateField = conn.getClass().getDeclaredField("delegate");
+                final Field delegateField = conn.getClass().getDeclaredField("delegate");
                 delegateField.setAccessible(true);
-                HttpURLConnection delegate = (HttpURLConnection) delegateField.get(conn);
+                final HttpURLConnection delegate = (HttpURLConnection) delegateField.get(conn);
                 methodField.setAccessible(true);
                 methodField.set(delegate, HttpMethod.PATCH.getValue());
                 methodField.setAccessible(false);
                 delegateField.setAccessible(false);
             } catch (NoSuchFieldException | IllegalAccessException ignored) { }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(
-                    "PATCH http method not supported. Could not set PATCH method on HttpURLConnection.", e);
+
+            if (!HttpMethod.PATCH.getValue().equals(conn.getRequestMethod())) {
+                throw new IllegalStateException("PATCH is not set as the request method of the HttpURLConnection " +
+                        "instance. The current method is: " + conn.getRequestMethod());
+            }
+        } catch (NoSuchFieldException | IllegalAccessException | IllegalStateException e) {
+            throw new UnsupportedOperationException("Cannot set PATCH as the connection request method. " +
+                    "It's not supported for this runtime environment. " +
+                    "Please report it to https://github.com/reinert/requestor/issues.");
         }
     }
 }

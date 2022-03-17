@@ -34,8 +34,6 @@ import sun.misc.Unsafe;
  */
 public class RequestorNet {
 
-    static boolean IS_PATCH_ALLOWED = false;
-
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
     private static boolean PENDING_INIT = true;
@@ -111,8 +109,6 @@ public class RequestorNet {
 
             methodsField.setAccessible(false);
             unsafeField.setAccessible(false);
-
-            IS_PATCH_ALLOWED = true;
         } catch (NoSuchFieldException | IllegalAccessException ignored) { }
     }
 }
