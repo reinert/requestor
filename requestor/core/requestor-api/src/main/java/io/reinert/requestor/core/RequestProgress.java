@@ -20,9 +20,17 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public interface RequestProgress {
+public class RequestProgress {
 
-    boolean isLengthComputable();
+    private final ProgressEvent requestProgress;
+
+    public RequestProgress(ProgressEvent requestProgress) {
+        this.requestProgress = requestProgress;
+    }
+
+    public boolean isLengthComputable() {
+        return requestProgress.lengthComputable();
+    }
 
     /**
      * Returns the loaded amount of the request.
@@ -32,7 +40,9 @@ public interface RequestProgress {
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    double getLoaded();
+    public double getLoaded() {
+        return requestProgress.loaded();
+    }
 
     /**
      * Returns the total amount of the request.
@@ -42,7 +52,9 @@ public interface RequestProgress {
      *
      * @return The total amount if available, 0 otherwise
      */
-    double getTotal();
+    public double getTotal() {
+        return requestProgress.total();
+    }
 
     /**
      * Returns the completed amount of the request in a interval [0,1].
@@ -53,7 +65,9 @@ public interface RequestProgress {
      *
      * @return The completed amount if available, 0 otherwise
      */
-    double getCompletedFraction();
+    public double getCompletedFraction() {
+        return getCompletedFraction(1);
+    }
 
     /**
      * Returns the completed amount of the request in a interval [0,1] multiplied by the given factor.
@@ -64,5 +78,9 @@ public interface RequestProgress {
      *
      * @return The completed amount if available, 0 otherwise
      */
-    double getCompletedFraction(double multiplyingFactor);
+    public double getCompletedFraction(int multiplyingFactor) {
+        if (!isLengthComputable())
+            return 0;
+        return (getLoaded() / getTotal()) * multiplyingFactor;
+    }
 }

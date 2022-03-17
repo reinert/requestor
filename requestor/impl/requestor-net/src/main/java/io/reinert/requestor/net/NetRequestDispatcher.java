@@ -43,7 +43,7 @@ import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
-import io.reinert.requestor.core.RequestProgressImpl;
+import io.reinert.requestor.core.RequestProgress;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
@@ -159,7 +159,7 @@ class NetRequestDispatcher extends RequestDispatcher {
                         out.flush();
 
                         deferred.notifyUpload(
-                                new RequestProgressImpl(new FixedProgressEvent(off + len, bytes.length)));
+                                new RequestProgress(new FixedProgressEvent(off + len, bytes.length)));
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
@@ -214,8 +214,8 @@ class NetRequestDispatcher extends RequestDispatcher {
                         totalRead += stepRead;
 
                         deferred.notifyDownload(contentLength > 0 ?
-                                new RequestProgressImpl(new FixedProgressEvent(totalRead, contentLength)) :
-                                new RequestProgressImpl(new ChunkedProgressEvent(totalRead)));
+                                new RequestProgress(new FixedProgressEvent(totalRead, contentLength)) :
+                                new RequestProgress(new ChunkedProgressEvent(totalRead)));
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
