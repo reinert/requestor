@@ -131,13 +131,13 @@ class NetRequestDispatcher extends RequestDispatcher {
             netConn = getNetConnection(conn, deferred, request);
             deferred.setHttpConnection(netConn);
         } catch (MalformedURLException e) {
-            disconnect(conn, deferred, new RequestAbortException(request, "Invalid url format", e));
+            disconnect(conn, deferred, new RequestAbortException(request, "Invalid url format.", e));
             return;
         } catch (SocketTimeoutException e) {
             disconnect(conn, deferred, new RequestTimeoutException(request, request.getTimeout()));
             return;
         } catch (IOException e) {
-            disconnect(conn, deferred, new RequestAbortException(request, "Failed to open connection", e));
+            disconnect(conn, deferred, new RequestAbortException(request, "Failed to open connection.", e));
             return;
         }
 
@@ -165,7 +165,11 @@ class NetRequestDispatcher extends RequestDispatcher {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
                 } catch (IOException e) {
-                    netConn.cancel(new RequestCancelException(request, "Failed to write request payload", e));
+                    netConn.cancel(new RequestCancelException(request, "Failed to write request payload.", e));
+                    return;
+                } catch (RuntimeException e) {
+                    netConn.cancel(new RequestCancelException(request,
+                            "An unexpected error has occurred while writing the request payload.", e));
                     return;
                 }
             }
@@ -183,7 +187,7 @@ class NetRequestDispatcher extends RequestDispatcher {
                 netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                 return;
             } catch (IOException e) {
-                netConn.cancel(new RequestCancelException(request, "Failed to read response status", e));
+                netConn.cancel(new RequestCancelException(request, "Failed to read response status.", e));
                 return;
             }
 
@@ -212,8 +216,15 @@ class NetRequestDispatcher extends RequestDispatcher {
                                         (inputBufferSize * (k - 1)) + i, length)) :
                                 new RequestProgressImpl(new ChunkedProgressEvent(body.length)));
                     }
+                } catch (SocketTimeoutException e) {
+                    netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
+                    return;
                 } catch (IOException e) {
-                    netConn.cancel(new RequestCancelException(request, "Failed to read response body", e));
+                    netConn.cancel(new RequestCancelException(request, "Failed to read response payload.", e));
+                    return;
+                } catch (RuntimeException e) {
+                    netConn.cancel(new RequestCancelException(request,
+                            "An unexpected error has occurred while reading the response payload.", e));
                     return;
                 }
 
