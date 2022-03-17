@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public interface ProgressEvent extends Serializable {
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    double loaded();
+    int loaded();
 
     /**
      * Returns the total amount of the request.
@@ -45,5 +45,5 @@ public interface ProgressEvent extends Serializable {
      *
      * @return The total amount if available, 0 otherwise
      */
-    double total();
+    int total();
 }

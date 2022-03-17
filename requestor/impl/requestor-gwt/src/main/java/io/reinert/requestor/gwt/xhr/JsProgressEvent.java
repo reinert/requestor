@@ -34,8 +34,8 @@ final class JsProgressEvent extends JavaScriptObject implements ProgressEvent {
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    public native double loaded() /*-{
-        return this.loaded || 0.0;
+    public native int loaded() /*-{
+        return this.loaded || 0;
     }-*/;
 
     /**
@@ -44,7 +44,7 @@ final class JsProgressEvent extends JavaScriptObject implements ProgressEvent {
      *
      * @return The total amount if available, 0 otherwise
      */
-    public native double total() /*-{
-        return this.total || 0.0;
+    public native int total() /*-{
+        return this.total || 0;
     }-*/;
 }

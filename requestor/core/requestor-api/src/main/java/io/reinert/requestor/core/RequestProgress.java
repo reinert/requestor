@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core;
 
+import io.reinert.requestor.core.payload.SerializedPayload;
+
 /**
  * Progress data of requests.
  *
@@ -40,7 +42,7 @@ public class RequestProgress {
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    public double getLoaded() {
+    public int getLoaded() {
         return requestProgress.loaded();
     }
 
@@ -52,7 +54,7 @@ public class RequestProgress {
      *
      * @return The total amount if available, 0 otherwise
      */
-    public double getTotal() {
+    public int getTotal() {
         return requestProgress.total();
     }
 
@@ -79,8 +81,7 @@ public class RequestProgress {
      * @return The completed amount if available, 0 otherwise
      */
     public double getCompletedFraction(int multiplyingFactor) {
-        if (!isLengthComputable())
-            return 0;
-        return (getLoaded() / getTotal()) * multiplyingFactor;
+        if (!isLengthComputable()) return 0.0;
+        return ((double) getLoaded() / (double) getTotal()) * (double) multiplyingFactor;
     }
 }

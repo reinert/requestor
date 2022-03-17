@@ -19,7 +19,7 @@ import io.reinert.requestor.core.ProgressEvent;
 
 public class ChunkedProgressEvent implements ProgressEvent {
 
-    private static final long serialVersionUID = 8046158334061085390L;
+    private static final long serialVersionUID = -4065426058971796180L;
 
     private final int bytesLoaded;
 
@@ -33,12 +33,12 @@ public class ChunkedProgressEvent implements ProgressEvent {
     }
 
     @Override
-    public double loaded() {
+    public int loaded() {
         return bytesLoaded;
     }
 
     @Override
-    public double total() {
+    public int total() {
         return 0;
     }
 }

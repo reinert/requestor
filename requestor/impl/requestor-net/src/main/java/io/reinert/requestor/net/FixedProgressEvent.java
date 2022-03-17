@@ -19,7 +19,7 @@ import io.reinert.requestor.core.ProgressEvent;
 
 public class FixedProgressEvent implements ProgressEvent {
 
-    private static final long serialVersionUID = -1457407228853688138L;
+    private static final long serialVersionUID = -1329585876680675140L;
 
     private final int bytesLoaded;
     private final int bytesTotal;
@@ -35,12 +35,12 @@ public class FixedProgressEvent implements ProgressEvent {
     }
 
     @Override
-    public double loaded() {
+    public int loaded() {
         return bytesLoaded;
     }
 
     @Override
-    public double total() {
+    public int total() {
         return bytesTotal;
     }
 }
