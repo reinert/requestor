@@ -96,6 +96,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
      * Perform initial configuration for the session in construction.
      */
     protected void configure() {
+        register(HeadersDeserializer.getInstance());
         register(VoidSerializer.getInstance());
         register(TextSerializer.getInstance());
         register(new SerializerProvider() {
