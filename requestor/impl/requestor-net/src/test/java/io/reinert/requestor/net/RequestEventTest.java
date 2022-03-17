@@ -15,9 +15,13 @@
  */
 package io.reinert.requestor.net;
 
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import io.reinert.requestor.core.RequestFilter;
 import io.reinert.requestor.core.Session;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -123,6 +127,52 @@ public class RequestEventTest extends NetTest {
                 .onAbort(failOnError(result))
                 .onCancel(failOnError(result))
                 .onTimeout(succeedOnTimeout(result));
+
+        finishTest(result, TIMEOUT);
+    }
+
+    //=========================================================================
+    // PROGRESS EVENTS
+    //=========================================================================
+
+    @Test(timeout = TIMEOUT)
+    public void testUploadProgressEvent() {
+        final TestResult result = new TestResult();
+
+        final NetSession session = new NetSession();
+
+        final byte[] payload = new byte[(session.getOutputBufferSize() * 2) + 1];
+        Arrays.fill(payload, (byte) 1);
+
+        final int expectedProgressCalls = 3;
+        final AtomicInteger progressCalls = new AtomicInteger(0);
+
+        session.post("https://httpbin.org/post", payload)
+                .onUpProgress(p -> progressCalls.addAndGet(1))
+                .onSuccess(test(result, () -> Assert.assertEquals(expectedProgressCalls, progressCalls.get())))
+                .onFail(failOnEvent(result))
+                .onError(failOnError(result));
+
+        finishTest(result, TIMEOUT);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testDownloadProgressEvent() {
+        final TestResult result = new TestResult();
+
+        final NetSession session = new NetSession();
+        session.setMediaType("application/octet-stream");
+
+        final int expectedProgressCalls = 3;
+        final AtomicInteger progressCalls = new AtomicInteger(0);
+
+        final String byteSize = String.valueOf((session.getInputBufferSize() * 2) + 1);
+
+        session.get("https://httpbin.org/bytes/" + byteSize, byte[].class)
+                .onProgress(p -> progressCalls.addAndGet(1))
+                .onSuccess(test(result, () -> Assert.assertEquals(expectedProgressCalls, progressCalls.get())))
+                .onFail(failOnEvent(result))
+                .onError(failOnError(result));
 
         finishTest(result, TIMEOUT);
     }
