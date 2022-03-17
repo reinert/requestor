@@ -21,6 +21,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
+import io.reinert.requestor.net.serialization.BinarySerializer;
 
 /**
  * A session implementation for requestor-net.
@@ -73,5 +74,12 @@ public class NetSession extends Session {
 
     public void setOutputBufferSize(int outputBufferSize) {
         ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setOutputBufferSize(outputBufferSize);
+    }
+
+    @Override
+    protected void configure() {
+        super.configure();
+
+        register(BinarySerializer.getInstance());
     }
 }
