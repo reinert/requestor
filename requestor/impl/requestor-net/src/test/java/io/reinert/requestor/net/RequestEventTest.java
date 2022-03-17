@@ -122,7 +122,7 @@ public class RequestEventTest extends NetTest {
 
         session.setTimeout(50);
 
-        session.get("https://httpstat.us/408?sleep=1000")
+        session.get("https://httpbin.org/delay/1")
                 .onLoad(failOnEvent(result))
                 .onAbort(failOnError(result))
                 .onCancel(failOnError(result))
