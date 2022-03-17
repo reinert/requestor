@@ -15,19 +15,15 @@
  */
 package io.reinert.requestor.net;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,11 +47,13 @@ import io.reinert.requestor.core.RequestProgressImpl;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
+import io.reinert.requestor.core.StatusFamily;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.core.uri.Uri;
+import io.reinert.requestor.net.payload.BinarySerializedPayload;
 
 /**
  * RequestDispatcher implementation using {@link HttpURLConnection}.
@@ -191,27 +189,35 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             // Payload download
             SerializedPayload serializedResponse;
-            if (payloadType != null && payloadType.getType() != Void.class) {
-                StringWriter body = new StringWriter();
+            if (responseStatus.getFamily() == StatusFamily.SUCCESSFUL &&
+                    payloadType != null && payloadType.getType() != Void.class) {
+                int length = conn.getContentLength();
+                byte[] body = new byte[Math.max(length, 0)];
+                // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
+                try (InputStream in = conn.getInputStream()) {
+                    byte[] buffer = new byte[inputBufferSize];
+                    int i, k = 0;
+                    while ((i = in.read(buffer)) != -1) {
+                        if (length > 0) {
+                            System.arraycopy(buffer, 0, body, inputBufferSize * k++, i);
+                        } else {
+                            byte[] aux = new byte[body.length + i];
+                            System.arraycopy(body, 0, aux, 0, body.length);
+                            System.arraycopy(buffer, 0, aux, body.length, i);
+                            body = aux;
+                        }
 
-                // TODO: define the charcode
-                try (Reader reader = new BufferedReader(
-                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8), inputBufferSize)) {
-                    char[] charBuffer = new char[inputBufferSize];
-                    int i;
-                    while ((i = reader.read(charBuffer)) != -1) {
-                        body.write(charBuffer, 0, i);
+                        deferred.notifyDownload(length > 0 ?
+                                new RequestProgressImpl(new FixedProgressEvent(
+                                        (inputBufferSize * (k - 1)) + i, length)) :
+                                new RequestProgressImpl(new ChunkedProgressEvent(body.length)));
                     }
-                } catch (SocketTimeoutException e) {
-                    netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
-                    return;
                 } catch (IOException e) {
                     netConn.cancel(new RequestCancelException(request, "Failed to read response body", e));
                     return;
                 }
 
-                serializedResponse = serializeResponseContent(conn.getHeaderField("Content-Type"),
-                        body.toString());
+                serializedResponse = serializeResponseContent(conn.getContentType(), body);
             } else {
                 serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             }
@@ -250,9 +256,10 @@ class NetRequestDispatcher extends RequestDispatcher {
         return new Headers(headers);
     }
 
-    private SerializedPayload serializeResponseContent(String mediaType, String body) {
-        if (body == null || body.equals("")) return SerializedPayload.EMPTY_PAYLOAD;
-        return new TextSerializedPayload(body);
+    private SerializedPayload serializeResponseContent(String mediaType, byte[] body) {
+        if (body == null || body.length == 0) return SerializedPayload.EMPTY_PAYLOAD;
+        return "application/octet-stream".equalsIgnoreCase(mediaType)
+                ? new BinarySerializedPayload(body) : new TextSerializedPayload(body);
     }
 
     private NetHttpConnection getNetConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
