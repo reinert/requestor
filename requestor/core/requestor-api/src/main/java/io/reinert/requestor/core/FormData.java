@@ -63,6 +63,11 @@ public class FormData implements Iterable<FormData.Param> {
             return this;
         }
 
+        public Builder append(String name, long value) {
+            params.add(new Param(name, String.valueOf(value)));
+            return this;
+        }
+
         public Builder append(String name, double value) {
             params.add(new Param(name, String.valueOf(value)));
             return this;
@@ -93,7 +98,7 @@ public class FormData implements Iterable<FormData.Param> {
     public static class Param {
 
         private String name;
-        private Object jsoValue;
+        private Object objectValue;
         private String stringValue;
         private String fileName;
 
@@ -104,7 +109,7 @@ public class FormData implements Iterable<FormData.Param> {
 
         public Param(String name, Object value, String fileName) {
             this.name = name;
-            this.jsoValue = value;
+            this.objectValue = value;
             this.fileName = fileName;
         }
 
@@ -113,7 +118,7 @@ public class FormData implements Iterable<FormData.Param> {
         }
 
         public Object getValue() {
-            return jsoValue != null ? jsoValue : stringValue;
+            return objectValue != null ? objectValue : stringValue;
         }
 
         public String getFileName() {
