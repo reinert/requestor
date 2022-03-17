@@ -16,8 +16,6 @@
 package io.reinert.requestor.core;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
@@ -34,8 +32,6 @@ import io.reinert.requestor.core.uri.UriCodec;
 public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
 
     public static final String MEDIA_TYPE = "application/x-www-form-urlencoded";
-
-    private static final Logger logger = Logger.getLogger(FormDataSerializerUrlEncoded.class.getName());
 
     @Override
     public Class<FormData> handledType() {
@@ -59,9 +55,9 @@ public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
                 // append 'name=value&'
                 serialized.append(encode(param.getName())).append('=').append(encode((String) value)).append('&');
             } else {
-                logger.log(Level.WARNING, "An attempt to serialize a non-string value from a FormData has failed." +
-                        " Files and Blobs are not supported by FormDataSerializerUrlEncoded" +
-                        " You may want to switch the selected FormDataSerializer via deferred binding.");
+                throw new UnsupportedOperationException("An attempt to serialize a non-string value from a FormData" +
+                        " has failed. Files and Blobs are not supported by FormDataSerializerUrlEncoded." +
+                        " You may want to switch the Content-Type to 'multipart/form-data'.");
             }
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
