@@ -89,4 +89,9 @@ public class TextSerializedPayload implements SerializedPayload {
         }
         return string;
     }
+
+    @Override
+    public long getLength() {
+        return asBytes().length;
+    }
 }

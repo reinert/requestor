@@ -50,6 +50,11 @@ public class BinarySerializedPayload implements SerializedPayload {
     }
 
     @Override
+    public long getLength() {
+        return bytes.length;
+    }
+
+    @Override
     public byte[] asBytes() {
         return bytes;
     }

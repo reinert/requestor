@@ -63,4 +63,11 @@ public interface SerializedPayload {
      * @return <code>true</code> if the byte representation is already available
      */
     boolean isBytesAvailable();
+
+    /**
+     * Returns the total length in bytes of this payload if it is known. Returns zero otherwise.
+     *
+     * @return the payload's byte length or zero if it cannot be computable.
+     */
+    long getLength();
 }
