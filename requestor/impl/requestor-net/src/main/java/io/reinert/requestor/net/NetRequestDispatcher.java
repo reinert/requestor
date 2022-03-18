@@ -189,36 +189,12 @@ class NetRequestDispatcher extends RequestDispatcher {
             }
 
             // Payload download
-            SerializedPayload serializedResponse;
+            SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             if (responseStatus.getFamily() == StatusFamily.SUCCESSFUL &&
                     payloadType != null && payloadType.getType() != Void.class) {
-                final String contentType = conn.getContentType();
-                final int contentLength = conn.getContentLength();
-
-                // NOTE: there should be no body when buffering is enabled but return type is void
-                byte[] body = new byte[Math.max(contentLength, 0)];
                 // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
                 try (InputStream in = new BufferedInputStream(conn.getInputStream(), inputBufferSize)) {
-                    byte[] buffer = new byte[inputBufferSize];
-                    int stepRead, totalRead = 0;
-                    while ((stepRead = in.read(buffer)) != -1) {
-                        if (contentLength > 0) {
-                            System.arraycopy(buffer, 0, body, totalRead, stepRead);
-                        } else {
-                            byte[] aux = new byte[totalRead + stepRead];
-                            System.arraycopy(body, 0, aux, 0, totalRead);
-                            System.arraycopy(buffer, 0, aux, totalRead, stepRead);
-                            body = aux;
-                        }
-
-                        totalRead += stepRead;
-
-                        deferred.notifyDownload(new RequestProgress(contentLength > 0 ?
-                                new FixedProgressEvent(totalRead, contentLength) :
-                                new ChunkedProgressEvent(totalRead),
-                                // TODO: expose an option to enable buffering (default disabled)
-                                serializeContent(contentType, Arrays.copyOf(buffer, stepRead))));
-                    }
+                    serializedResponse = readInputStreamToSerializedPayload(deferred, conn, in);
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
@@ -230,10 +206,6 @@ class NetRequestDispatcher extends RequestDispatcher {
                             "An unexpected error has occurred while reading the response payload.", e));
                     return;
                 }
-
-                serializedResponse = serializeContent(contentType, body);
-            } else {
-                serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             }
 
             // Evaluate response
@@ -277,6 +249,38 @@ class NetRequestDispatcher extends RequestDispatcher {
         }
 
         return totalWritten;
+    }
+
+    private <R> SerializedPayload readInputStreamToSerializedPayload(Deferred<R> deferred, HttpURLConnection conn,
+                                                                     InputStream in) throws IOException {
+        final String contentType = conn.getContentType();
+        final int contentLength = conn.getContentLength();
+
+        // NOTE: there should be no body when buffering is enabled but return type is void
+        byte[] body = new byte[Math.max(contentLength, 0)];
+
+        byte[] buffer = new byte[inputBufferSize];
+        int stepRead, totalRead = 0;
+        while ((stepRead = in.read(buffer)) != -1) {
+            if (contentLength > 0) {
+                System.arraycopy(buffer, 0, body, totalRead, stepRead);
+            } else {
+                byte[] aux = new byte[totalRead + stepRead];
+                System.arraycopy(body, 0, aux, 0, totalRead);
+                System.arraycopy(buffer, 0, aux, totalRead, stepRead);
+                body = aux;
+            }
+
+            totalRead += stepRead;
+
+            deferred.notifyDownload(new RequestProgress(contentLength > 0 ?
+                    new FixedProgressEvent(totalRead, contentLength) :
+                    new ChunkedProgressEvent(totalRead),
+                    // TODO: expose an option to enable buffering (default disabled)
+                    serializeContent(contentType, Arrays.copyOf(buffer, stepRead))));
+        }
+
+        return serializeContent(contentType, body);
     }
 
     private Headers readResponseHeaders(HttpURLConnection conn) {
