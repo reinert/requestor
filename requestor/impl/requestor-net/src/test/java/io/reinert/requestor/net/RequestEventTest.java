@@ -17,6 +17,7 @@ package io.reinert.requestor.net;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import io.reinert.requestor.core.RequestFilter;
 import io.reinert.requestor.core.Session;
@@ -149,7 +150,7 @@ public class RequestEventTest extends NetTest {
 
         final byte[][] buffers = new byte[expectedProgressCalls][];
 
-        final AtomicInteger bytesWritten = new AtomicInteger(0);
+        final AtomicLong bytesWritten = new AtomicLong(0);
 
         session.post("https://httpbin.org/post", payload)
                 .onUpProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
@@ -186,7 +187,7 @@ public class RequestEventTest extends NetTest {
 
         final byte[][] buffers = new byte[expectedProgressCalls][];
 
-        final AtomicInteger bytesRead = new AtomicInteger(0);
+        final AtomicLong bytesRead = new AtomicLong(0);
 
         session.get("https://httpbin.org/bytes/" + byteSize, byte[].class)
                 .onProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())

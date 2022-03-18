@@ -28,13 +28,22 @@ final class JsProgressEvent extends JavaScriptObject implements ProgressEvent {
         return this.lengthComputable || false;
     }-*/;
 
+    public long loaded() {
+        return (long) getLoaded();
+    }
+
+    @Override
+    public long total() {
+        return (long) getTotal();
+    }
+
     /**
      * Returns the loaded amount of the request.
      * If this property doesn't exist, then 0 is returned.
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    public native int loaded() /*-{
+    public native double getLoaded() /*-{
         return this.loaded || 0;
     }-*/;
 
@@ -44,7 +53,7 @@ final class JsProgressEvent extends JavaScriptObject implements ProgressEvent {
      *
      * @return The total amount if available, 0 otherwise
      */
-    public native int total() /*-{
+    public native double getTotal() /*-{
         return this.total || 0;
     }-*/;
 }

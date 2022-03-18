@@ -56,7 +56,7 @@ public class RequestProgress {
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    public int getLoaded() {
+    public long getLoaded() {
         return requestProgress.loaded();
     }
 
@@ -68,7 +68,7 @@ public class RequestProgress {
      *
      * @return The total amount if available, 0 otherwise
      */
-    public int getTotal() {
+    public long getTotal() {
         return requestProgress.total();
     }
 

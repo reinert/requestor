@@ -37,7 +37,7 @@ public interface ProgressEvent extends Serializable {
      *
      * @return The loaded amount if available, 0 otherwise
      */
-    int loaded();
+    long loaded();
 
     /**
      * Returns the total amount of the request.
@@ -45,5 +45,5 @@ public interface ProgressEvent extends Serializable {
      *
      * @return The total amount if available, 0 otherwise
      */
-    int total();
+    long total();
 }
