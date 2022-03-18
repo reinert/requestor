@@ -155,17 +155,7 @@ class NetRequestDispatcher extends RequestDispatcher {
             if (conn.getDoOutput()) {
                 try (OutputStream out = new BufferedOutputStream(conn.getOutputStream(), outputBufferSize)) {
                     byte[] body = serializedPayload.asBytes();
-                    for (int i = 0; i <= body.length / outputBufferSize; i++) {
-                        int off = i * outputBufferSize;
-                        int len = Math.min(outputBufferSize, body.length - off);
-                        out.write(body, off, len);
-                        out.flush();
-
-                        deferred.notifyUpload(new RequestProgress(
-                                new FixedProgressEvent(off + len, body.length),
-                                // TODO: expose an option to enable buffering (default disabled)
-                                serializeContent(request.getContentType(), Arrays.copyOfRange(body, off, off + len))));
-                    }
+                    writeBytesToOutputStream(request, deferred, out, body, 0, body.length);
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
@@ -265,6 +255,26 @@ class NetRequestDispatcher extends RequestDispatcher {
     private <R> void disconnect(HttpURLConnection conn, Deferred<R> deferred, RequestException exception) {
         if (conn != null) conn.disconnect();
         if (deferred.isPending()) deferred.reject(exception);
+    }
+
+    private <R> int writeBytesToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
+                                             byte[] bytes, int totalWritten, int totalSize) throws IOException {
+        for (int i = 0; i <= (bytes.length - 1) / outputBufferSize; i++) {
+            int off = i * outputBufferSize;
+            int len = Math.min(outputBufferSize, bytes.length - off);
+            out.write(bytes, off, len);
+            out.flush();
+
+            totalWritten += len;
+
+            deferred.notifyUpload(new RequestProgress(totalSize > 0 ?
+                    new FixedProgressEvent(totalWritten, totalSize) :
+                    new ChunkedProgressEvent(totalWritten),
+                    // TODO: expose an option to enable buffering (default disabled)
+                    serializeContent(request.getContentType(), Arrays.copyOfRange(bytes, off, off + len))));
+        }
+
+        return totalWritten;
     }
 
     private Headers readResponseHeaders(HttpURLConnection conn) {
