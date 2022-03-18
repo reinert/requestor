@@ -149,11 +149,15 @@ public class RequestEventTest extends NetTest {
 
         final byte[][] buffers = new byte[expectedProgressCalls][];
 
+        final AtomicInteger bytesWritten = new AtomicInteger(0);
+
         session.post("https://httpbin.org/post", payload)
                 .onUpProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
+                .onUpProgress(p -> bytesWritten.set(p.getLoaded()))
                 .onUpProgress(p -> progressCalls.addAndGet(1))
                 .onSuccess(test(result, () -> {
                     Assert.assertEquals(expectedProgressCalls, progressCalls.get());
+                    Assert.assertEquals(payload.length, bytesWritten.get());
 
                     byte[] joinedBuffers = new byte[payload.length];
                     for (int i = 0, k = 0; i < expectedProgressCalls; i++) {
@@ -182,11 +186,15 @@ public class RequestEventTest extends NetTest {
 
         final byte[][] buffers = new byte[expectedProgressCalls][];
 
+        final AtomicInteger bytesRead = new AtomicInteger(0);
+
         session.get("https://httpbin.org/bytes/" + byteSize, byte[].class)
                 .onProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
+                .onProgress(p -> bytesRead.set(p.getLoaded()))
                 .onProgress(p -> progressCalls.addAndGet(1))
                 .onSuccess(test(result, (byte[] payload) -> {
                     Assert.assertEquals(expectedProgressCalls, progressCalls.get());
+                    Assert.assertEquals(payload.length, bytesRead.get());
 
                     byte[] joinedBuffers = new byte[payload.length];
                     for (int i = 0, k = 0; i < expectedProgressCalls; i++) {
