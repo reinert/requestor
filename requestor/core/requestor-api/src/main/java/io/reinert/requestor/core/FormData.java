@@ -28,9 +28,11 @@ import java.util.List;
 public class FormData implements Iterable<FormData.Param> {
 
     private final List<Param> params;
+    private final boolean plain;
 
-    protected FormData(ArrayList<Param> params) {
+    protected FormData(ArrayList<Param> params, boolean isPlain) {
         this.params = params;
+        this.plain = isPlain;
     }
 
     public static FormData.Builder builder() {
@@ -41,6 +43,10 @@ public class FormData implements Iterable<FormData.Param> {
         return params == null || params.isEmpty();
     }
 
+    public boolean isPlain() {
+        return plain;
+    }
+
     @Override
     public Iterator<Param> iterator() {
         return params == null ? Collections.<Param>emptySet().iterator() : params.iterator();
@@ -49,6 +55,7 @@ public class FormData implements Iterable<FormData.Param> {
     public static class Builder {
 
         private final ArrayList<Param> params = new ArrayList<Param>();
+        private boolean plain = true;
 
         private Builder() {
         }
@@ -87,11 +94,12 @@ public class FormData implements Iterable<FormData.Param> {
 
         public Builder append(String name, Object file, String fileName) {
             params.add(new Param(name, file, fileName));
+            plain = false;
             return this;
         }
 
         public FormData build() {
-            return new FormData(params);
+            return new FormData(params, plain);
         }
     }
 

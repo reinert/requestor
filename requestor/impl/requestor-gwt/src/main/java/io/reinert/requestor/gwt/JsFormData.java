@@ -29,7 +29,7 @@ public class JsFormData extends FormData {
     private final FormElement formElement;
 
     private JsFormData(FormElement formElement) {
-        super(null);
+        super(null, false);
         this.formElement = formElement;
     }
 
