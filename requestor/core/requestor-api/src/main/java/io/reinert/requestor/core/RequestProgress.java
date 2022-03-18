@@ -40,11 +40,11 @@ public class RequestProgress {
         return requestProgress.lengthComputable();
     }
 
-    public boolean isBufferAvailable() {
+    public boolean isChunkAvailable() {
         return serializedPayload != null;
     }
 
-    public SerializedPayload getBuffer() {
+    public SerializedPayload getChunk() {
         return serializedPayload;
     }
 

@@ -150,7 +150,7 @@ public class RequestEventTest extends NetTest {
         final byte[][] buffers = new byte[expectedProgressCalls][];
 
         session.post("https://httpbin.org/post", payload)
-                .onUpProgress(p -> buffers[progressCalls.get()] = p.getBuffer().asBytes())
+                .onUpProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
                 .onUpProgress(p -> progressCalls.addAndGet(1))
                 .onSuccess(test(result, () -> {
                     Assert.assertEquals(expectedProgressCalls, progressCalls.get());
@@ -183,7 +183,7 @@ public class RequestEventTest extends NetTest {
         final byte[][] buffers = new byte[expectedProgressCalls][];
 
         session.get("https://httpbin.org/bytes/" + byteSize, byte[].class)
-                .onProgress(p -> buffers[progressCalls.get()] = p.getBuffer().asBytes())
+                .onProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
                 .onProgress(p -> progressCalls.addAndGet(1))
                 .onSuccess(test(result, (byte[] payload) -> {
                     Assert.assertEquals(expectedProgressCalls, progressCalls.get());
