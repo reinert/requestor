@@ -268,16 +268,18 @@ class NetRequestDispatcher extends RequestDispatcher {
                 methodField.set(delegate, HttpMethod.PATCH.getValue());
                 methodField.setAccessible(false);
                 delegateField.setAccessible(false);
-            } catch (NoSuchFieldException | IllegalAccessException ignored) { }
+            } catch (Exception ignored) { }
 
             if (!HttpMethod.PATCH.getValue().equals(conn.getRequestMethod())) {
                 throw new IllegalStateException("PATCH is not set as the request method of the HttpURLConnection " +
                         "instance. The current method is: " + conn.getRequestMethod());
             }
-        } catch (NoSuchFieldException | IllegalAccessException | IllegalStateException e) {
+        } catch (Exception e) {
             throw new UnsupportedOperationException("Cannot set PATCH as the connection request method. " +
                     "It's not supported for this runtime environment. " +
-                    "Please report it to https://github.com/reinert/requestor/issues.");
+                    "If you're using jdk12+ then add the following command line arg to execute your java app: " +
+                    "--add-opens java.base/java.net=ALL-UNNAMED." +
+                    "Otherwise, report it to https://github.com/reinert/requestor/issues.", e);
         }
     }
 }

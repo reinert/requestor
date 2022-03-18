@@ -16,6 +16,7 @@
 package io.reinert.requestor.net;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -91,6 +92,31 @@ public class RequestorNet {
 
     private static void allowPatchMethodOnHttpUrlConnection() {
         try {
+            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
+
+            // NOTE: throws in jdk12+
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
+
+            methodsField.setAccessible(true);
+            methodsField.set(null, new String[] {
+                    "GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS", "TRACE"
+            });
+
+            if (!"PATCH".equals(((String[]) methodsField.get(HttpURLConnection.class))[4])) {
+                throw new NoSuchFieldException();
+            }
+
+            methodsField.setAccessible(false);
+            modifiersField.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException ignored) {
+            allowPatchWithUnsafe();
+        }
+    }
+
+    private static void allowPatchWithUnsafe() {
+        try {
             final Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
             unsafeField.setAccessible(true);
             Unsafe unsafe = (Unsafe) unsafeField.get(null);
@@ -109,6 +135,6 @@ public class RequestorNet {
 
             methodsField.setAccessible(false);
             unsafeField.setAccessible(false);
-        } catch (NoSuchFieldException | IllegalAccessException ignored) { }
+        } catch (IllegalAccessException | NoSuchFieldException ignored) { }
     }
 }
