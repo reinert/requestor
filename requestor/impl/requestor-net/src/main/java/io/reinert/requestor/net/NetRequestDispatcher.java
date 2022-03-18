@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.net;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -151,7 +153,7 @@ class NetRequestDispatcher extends RequestDispatcher {
         try {
             // Payload upload
             if (conn.getDoOutput()) {
-                try (OutputStream out = conn.getOutputStream()) {
+                try (OutputStream out = new BufferedOutputStream(conn.getOutputStream(), outputBufferSize)) {
                     byte[] body = serializedPayload.asBytes();
                     for (int i = 0; i <= body.length / outputBufferSize; i++) {
                         int off = i * outputBufferSize;
@@ -204,7 +206,7 @@ class NetRequestDispatcher extends RequestDispatcher {
                 // NOTE: there should be no body when buffering is enabled but return type is void
                 byte[] body = new byte[Math.max(contentLength, 0)];
                 // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
-                try (InputStream in = conn.getInputStream()) {
+                try (InputStream in = new BufferedInputStream(conn.getInputStream(), inputBufferSize)) {
                     byte[] buffer = new byte[inputBufferSize];
                     int stepRead, totalRead = 0;
                     while ((stepRead = in.read(buffer)) != -1) {
