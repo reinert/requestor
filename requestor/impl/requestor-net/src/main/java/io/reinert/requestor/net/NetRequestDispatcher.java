@@ -251,6 +251,28 @@ class NetRequestDispatcher extends RequestDispatcher {
         return totalWritten;
     }
 
+    private <R> int writeInputToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
+                                             InputStream in, int totalWritten, int totalSize) throws IOException {
+        try (InputStream bis = new BufferedInputStream(in, outputBufferSize)) {
+            byte[] buffer = new byte[outputBufferSize];
+            int stepRead;
+            while ((stepRead = bis.read(buffer)) != -1) {
+                out.write(buffer, 0, stepRead);
+                out.flush();
+
+                totalWritten += stepRead;
+
+                deferred.notifyUpload(new RequestProgress(totalSize > 0 ?
+                        new FixedProgressEvent(totalWritten, totalSize) :
+                        new ChunkedProgressEvent(totalWritten),
+                        // TODO: expose an option to enable buffering (default disabled)
+                        serializeContent(request.getContentType(), Arrays.copyOfRange(buffer, 0, stepRead))));
+            }
+
+            return totalWritten;
+        }
+    }
+
     private <R> SerializedPayload readInputStreamToSerializedPayload(Deferred<R> deferred, HttpURLConnection conn,
                                                                      InputStream in) throws IOException {
         final String contentType = conn.getContentType();
