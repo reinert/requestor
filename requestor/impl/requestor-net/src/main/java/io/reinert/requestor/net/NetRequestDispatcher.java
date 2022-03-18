@@ -103,7 +103,9 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             if (!serializedPayload.isEmpty()) {
                 conn.setDoOutput(true);
-                conn.setFixedLengthStreamingMode(serializedPayload.asBytes().length);
+                if (serializedPayload.asBytes() != null) {
+                    conn.setFixedLengthStreamingMode(serializedPayload.asBytes().length);
+                }
             }
 
             try {
