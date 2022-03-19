@@ -15,6 +15,10 @@
  */
 package io.reinert.requestor.net;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Arrays;
+
 import io.reinert.requestor.core.FormData;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
@@ -49,6 +53,76 @@ public class FormDataTest extends NetTest {
                 .post(String.class)
                 .onSuccess(test(result, (String body, Response res) -> {
                     Assert.assertTrue(body.contains("\"Content-Type\": \"application/x-www-form-urlencoded\""));
+                    Assert.assertTrue(body.contains("\"string\": \"value\""));
+                    Assert.assertTrue(body.contains("\"int\": \"1\""));
+                    Assert.assertTrue(body.contains("\"long\": \"10\""));
+                    Assert.assertTrue(body.contains("\"double\": \"1.5\""));
+                    Assert.assertTrue(body.contains("\"boolean\": \"true\""));
+                }))
+                .onFail(failOnEvent(result))
+                .onError(failOnError(result));
+
+        finishTest(result, TIMEOUT);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testFormDataMultiPartPlainContent() {
+        final TestResult result = new TestResult();
+
+        final Session session = new NetSession();
+
+        final FormData data = FormData.builder()
+                .append("string", "value")
+                .append("int", 1)
+                .append("long", 10L)
+                .append("double", 1.5)
+                .append("boolean", true)
+                .build();
+
+        session.req("https://httpbin.org/post")
+                .contentType("multipart/form-data")
+                .payload(data)
+                .post(String.class)
+                .onSuccess(test(result, (String body, Response res) -> {
+                    Assert.assertTrue(body.contains("\"Content-Type\": \"multipart/form-data"));
+                    Assert.assertTrue(body.contains("\"string\": \"value\""));
+                    Assert.assertTrue(body.contains("\"int\": \"1\""));
+                    Assert.assertTrue(body.contains("\"long\": \"10\""));
+                    Assert.assertTrue(body.contains("\"double\": \"1.5\""));
+                    Assert.assertTrue(body.contains("\"boolean\": \"true\""));
+                }))
+                .onFail(failOnEvent(result))
+                .onError(failOnError(result));
+
+        finishTest(result, TIMEOUT);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testFormDataMultiPartBinaryContent() {
+        final TestResult result = new TestResult();
+
+        final NetSession session = new NetSession();
+
+        final byte[] bytes = new byte[(session.getOutputBufferSize() * 2) + 1];
+        Arrays.fill(bytes, (byte) 1);
+
+        final InputStream is = new ByteArrayInputStream(bytes);
+
+        final FormData data = FormData.builder()
+                .append("string", "value")
+                .append("int", 1)
+                .append("long", 10L)
+                .append("double", 1.5)
+                .append("file", is, null)
+                .append("boolean", true)
+                .build();
+
+        session.req("https://httpbin.org/post")
+                .contentType("multipart/form-data")
+                .payload(data)
+                .post(String.class)
+                .onSuccess(test(result, (String body, Response res) -> {
+                    Assert.assertTrue(body.contains("\"Content-Type\": \"multipart/form-data"));
                     Assert.assertTrue(body.contains("\"string\": \"value\""));
                     Assert.assertTrue(body.contains("\"int\": \"1\""));
                     Assert.assertTrue(body.contains("\"long\": \"10\""));
