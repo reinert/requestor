@@ -24,6 +24,7 @@ import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.net.serialization.BinarySerializer;
 import io.reinert.requestor.net.serialization.ByteSerializer;
 import io.reinert.requestor.net.serialization.FileSerializer;
+import io.reinert.requestor.net.serialization.FormDataMultiPartSerializer;
 import io.reinert.requestor.net.serialization.InputStreamSerializer;
 
 /**
@@ -86,6 +87,7 @@ public class NetSession extends Session {
         register(BinarySerializer.getInstance());
         register(ByteSerializer.getInstance());
         register(FileSerializer.getInstance());
+        register(FormDataMultiPartSerializer.getInstance());
         register(InputStreamSerializer.getInstance());
     }
 }
