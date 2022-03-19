@@ -231,8 +231,8 @@ class NetRequestDispatcher extends RequestDispatcher {
         if (deferred.isPending()) deferred.reject(exception);
     }
 
-    private <R> int writeBytesToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
-                                             byte[] bytes, int totalWritten, int totalSize) throws IOException {
+    private <R> long writeBytesToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
+                                              byte[] bytes, long totalWritten, long totalSize) throws IOException {
         for (int i = 0; i <= (bytes.length - 1) / outputBufferSize; i++) {
             int off = i * outputBufferSize;
             int len = Math.min(outputBufferSize, bytes.length - off);
@@ -251,8 +251,8 @@ class NetRequestDispatcher extends RequestDispatcher {
         return totalWritten;
     }
 
-    private <R> int writeInputToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
-                                             InputStream in, int totalWritten, int totalSize) throws IOException {
+    private <R> long writeInputToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
+                                              InputStream in, long totalWritten, long totalSize) throws IOException {
         try (InputStream bis = new BufferedInputStream(in, outputBufferSize)) {
             byte[] buffer = new byte[outputBufferSize];
             int stepRead;
