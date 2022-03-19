@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.net;
 
+import java.util.Random;
+
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestTimeoutException;
@@ -315,6 +317,14 @@ public class NetTest {
                 thread.interrupt();
             }
         }
+    }
+
+    public static String generateRandomString(int length) {
+        return new Random().ints(48, 123)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(length)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     protected void finishTest(TestResult result, long timeout) {
