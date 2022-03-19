@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.core;
 
+import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.payload.SerializedPayload;
 
 /**
@@ -24,10 +25,12 @@ import io.reinert.requestor.core.payload.SerializedPayload;
  *
  * @author Danilo Reinert
  */
-public interface SerializableRequest extends RequestOptions {
+public interface SerializableRequest extends RequestOptions, HasHeaders {
 
     void serializePayload(SerializedPayload serializedPayload);
 
     void setContentType(String mediaType);
+
+    void setContentType(ContentTypeHeader header);
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -308,6 +308,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public void setContentType(String mediaType) {
         headers.add(new ContentTypeHeader(mediaType));
+    }
+
+    @Override
+    public void setContentType(ContentTypeHeader header) {
+        headers.add(header);
     }
 
     @Override

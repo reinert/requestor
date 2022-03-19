@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package io.reinert.requestor.core;
 import java.util.List;
 import java.util.logging.Logger;
 
+import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
@@ -100,6 +101,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     @Override
     public final void setContentType(String mediaType) {
         request.setContentType(mediaType);
+    }
+
+    @Override
+    public void setContentType(ContentTypeHeader header) {
+        request.setHeader(header);
     }
 
     @Override
