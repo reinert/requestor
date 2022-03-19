@@ -183,4 +183,43 @@ public class SerializationTest extends NetTest {
                 .onFail(failOnEvent(result))
                 .onError(failOnError(result));
     }
+
+    @Test(timeout = TIMEOUT)
+    public void testInputStream() {
+        final TestResult result = new TestResult();
+
+        final NetSession session = new NetSession();
+
+        final byte[] bytes = new byte[(session.getOutputBufferSize() * 2) + 1];
+        Arrays.fill(bytes, (byte) 1);
+
+        final InputStream inputStream = new ByteArrayInputStream(bytes);
+
+        final int expectedProgressCalls = 3;
+        final AtomicInteger progressCalls = new AtomicInteger(0);
+
+        final byte[][] buffers = new byte[expectedProgressCalls][];
+
+        final AtomicLong bytesWritten = new AtomicLong(0);
+
+        session.post("https://httpbin.org/post", inputStream)
+                .onUpProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
+                .onUpProgress(p -> bytesWritten.set(p.getLoaded()))
+                .onUpProgress(p -> progressCalls.addAndGet(1))
+                .onSuccess(test(result, () -> {
+                    Assert.assertEquals(expectedProgressCalls, progressCalls.get());
+                    Assert.assertEquals(bytes.length, bytesWritten.get());
+
+                    byte[] joinedBuffers = new byte[bytes.length];
+                    for (int i = 0, k = 0; i < expectedProgressCalls; i++) {
+                        System.arraycopy(buffers[i], 0, joinedBuffers, k, buffers[i].length);
+                        k += buffers[i].length;
+                    }
+                    Assert.assertArrayEquals(bytes, joinedBuffers);
+                }))
+                .onFail(failOnEvent(result))
+                .onError(failOnError(result));
+
+        finishTest(result, TIMEOUT);
+    }
 }
