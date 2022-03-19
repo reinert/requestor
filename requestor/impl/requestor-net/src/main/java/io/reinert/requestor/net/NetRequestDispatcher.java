@@ -57,6 +57,7 @@ import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.core.uri.Uri;
 import io.reinert.requestor.net.payload.BinarySerializedPayload;
+import io.reinert.requestor.net.payload.CompositeSerializedPayload;
 import io.reinert.requestor.net.payload.InputStreamSerializedPayload;
 
 /**
@@ -160,8 +161,18 @@ class NetRequestDispatcher extends RequestDispatcher {
             // Payload upload
             if (conn.getDoOutput()) {
                 try (OutputStream out = new BufferedOutputStream(conn.getOutputStream(), outputBufferSize)) {
-                    writeSerializedPayloadToOutputStream(request, deferred, out, serializedPayload, 0,
-                            serializedPayload.getLength());
+                    if (serializedPayload instanceof CompositeSerializedPayload) {
+                        final CompositeSerializedPayload csp = (CompositeSerializedPayload) serializedPayload;
+                        final long totalSize = csp.getLength();
+                        long totalWritten = 0;
+                        for (SerializedPayload part : csp) {
+                            totalWritten = writeSerializedPayloadToOutputStream(request, deferred, out, part,
+                                    totalWritten, totalSize);
+                        }
+                    } else {
+                        writeSerializedPayloadToOutputStream(request, deferred, out, serializedPayload, 0,
+                                serializedPayload.getLength());
+                    }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
