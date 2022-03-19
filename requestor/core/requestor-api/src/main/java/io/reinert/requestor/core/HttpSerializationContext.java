@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,22 +24,22 @@ import io.reinert.requestor.core.serialization.SerializationContext;
  */
 public class HttpSerializationContext extends SerializationContext {
 
-    private final RequestOptions requestOptions;
+    private final SerializableRequest request;
 
-    protected HttpSerializationContext(RequestOptions requestOptions, Class<?> requestedType, String... fields) {
+    protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType, String... fields) {
         super(requestedType, fields);
 
-        this.requestOptions = requestOptions;
+        this.request = request;
     }
 
-    protected HttpSerializationContext(RequestOptions requestOptions, Class<?> requestedType, Class<?> parametrizedType,
+    protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType, Class<?> parametrizedType,
                                        String... fields) {
         super(requestedType, parametrizedType, fields);
 
-        this.requestOptions = requestOptions;
+        this.request = request;
     }
 
-    public RequestOptions getRequestOptions() {
-        return requestOptions;
+    public SerializableRequest getRequest() {
+        return request;
     }
 }
