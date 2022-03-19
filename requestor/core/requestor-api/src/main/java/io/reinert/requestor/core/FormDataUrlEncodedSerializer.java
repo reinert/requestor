@@ -29,7 +29,7 @@ import io.reinert.requestor.core.uri.UriCodec;
  *
  * @author Danilo Reinert
  */
-public class FormDataSerializerUrlEncoded implements Serializer<FormData> {
+public class FormDataUrlEncodedSerializer implements Serializer<FormData> {
 
     public static final String MEDIA_TYPE = "application/x-www-form-urlencoded";
 

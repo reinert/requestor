@@ -101,8 +101,8 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         register(TextSerializer.getInstance());
         register(new SerializerProvider() {
             @Override
-            public Serializer<?> getInstance() {
-                return new FormDataSerializerUrlEncoded();
+            public Serializer<FormData> getInstance() {
+                return new FormDataUrlEncodedSerializer();
             }
         });
     }

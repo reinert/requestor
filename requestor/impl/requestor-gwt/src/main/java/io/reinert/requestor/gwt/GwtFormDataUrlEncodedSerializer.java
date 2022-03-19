@@ -26,7 +26,7 @@ import com.google.gwt.dom.client.NodeCollection;
 import com.google.gwt.http.client.URL;
 
 import io.reinert.requestor.core.FormData;
-import io.reinert.requestor.core.FormDataSerializerUrlEncoded;
+import io.reinert.requestor.core.FormDataUrlEncodedSerializer;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
@@ -38,11 +38,11 @@ import io.reinert.requestor.core.serialization.SerializationContext;
  *
  * @author Danilo Reinert
  */
-class GwtFormDataSerializerUrlEncoded extends FormDataSerializerUrlEncoded {
+class GwtFormDataUrlEncodedSerializer extends FormDataUrlEncodedSerializer {
 
     public static final String MEDIA_TYPE = "application/x-www-form-urlencoded";
 
-    private static final Logger logger = Logger.getLogger(GwtFormDataSerializerUrlEncoded.class.getName());
+    private static final Logger logger = Logger.getLogger(GwtFormDataUrlEncodedSerializer.class.getName());
 
     @Override
     public Class<FormData> handledType() {

@@ -16,6 +16,7 @@
 package io.reinert.requestor.gwt;
 
 import io.reinert.requestor.core.DeferredPool;
+import io.reinert.requestor.core.FormData;
 import io.reinert.requestor.core.RequestSerializer;
 import io.reinert.requestor.core.ResponseDeserializer;
 import io.reinert.requestor.core.SerializerProvider;
@@ -61,8 +62,8 @@ public class GwtSession extends Session {
 
         register(new SerializerProvider() {
             @Override
-            public Serializer<?> getInstance() {
-                return new GwtFormDataSerializerUrlEncoded();
+            public Serializer<FormData> getInstance() {
+                return new GwtFormDataUrlEncodedSerializer();
             }
         });
         register(new SerializerProvider() {
