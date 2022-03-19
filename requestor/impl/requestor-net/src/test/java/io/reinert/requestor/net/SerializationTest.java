@@ -16,8 +16,13 @@
 package io.reinert.requestor.net;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import io.reinert.requestor.core.FormData;
 import io.reinert.requestor.core.Response;
@@ -133,5 +138,49 @@ public class SerializationTest extends NetTest {
                 .onError(failOnError(result));
 
         finishTest(result, TIMEOUT);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testFile() throws IOException {
+        final TestResult result = new TestResult();
+
+        final NetSession session = new NetSession();
+
+        final String filePath = "/tmp/requestor-" + generateRandomString(32);
+
+        final byte[] bytes = new byte[(session.getOutputBufferSize() * 2) + 1];
+        Arrays.fill(bytes, (byte) 1);
+
+        try (FileOutputStream stream = new FileOutputStream(filePath)) {
+            stream.write(bytes);
+        }
+
+        final File file = new File(filePath);
+        file.deleteOnExit();
+
+        final int expectedProgressCalls = 3;
+        final AtomicInteger progressCalls = new AtomicInteger(0);
+
+        final byte[][] buffers = new byte[expectedProgressCalls][];
+
+        final AtomicLong bytesWritten = new AtomicLong(0);
+
+        session.post("https://httpbin.org/post", file)
+                .onUpProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
+                .onUpProgress(p -> bytesWritten.set(p.getLoaded()))
+                .onUpProgress(p -> progressCalls.addAndGet(1))
+                .onSuccess(test(result, () -> {
+                    Assert.assertEquals(expectedProgressCalls, progressCalls.get());
+                    Assert.assertEquals(bytes.length, bytesWritten.get());
+
+                    byte[] joinedBuffers = new byte[bytes.length];
+                    for (int i = 0, k = 0; i < expectedProgressCalls; i++) {
+                        System.arraycopy(buffers[i], 0, joinedBuffers, k, buffers[i].length);
+                        k += buffers[i].length;
+                    }
+                    Assert.assertArrayEquals(bytes, joinedBuffers);
+                }))
+                .onFail(failOnEvent(result))
+                .onError(failOnError(result));
     }
 }
