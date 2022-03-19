@@ -57,6 +57,7 @@ import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.core.uri.Uri;
 import io.reinert.requestor.net.payload.BinarySerializedPayload;
+import io.reinert.requestor.net.payload.InputStreamSerializedPayload;
 
 /**
  * RequestDispatcher implementation using {@link HttpURLConnection}.
@@ -159,8 +160,8 @@ class NetRequestDispatcher extends RequestDispatcher {
             // Payload upload
             if (conn.getDoOutput()) {
                 try (OutputStream out = new BufferedOutputStream(conn.getOutputStream(), outputBufferSize)) {
-                    byte[] body = serializedPayload.asBytes();
-                    writeBytesToOutputStream(request, deferred, out, body, 0, body.length);
+                    writeSerializedPayloadToOutputStream(request, deferred, out, serializedPayload, 0,
+                            serializedPayload.getLength());
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
@@ -227,6 +228,17 @@ class NetRequestDispatcher extends RequestDispatcher {
             netConn.cancel(new RequestCancelException(request,
                     "An unexpected error has occurred while sending the request.", e));
         }
+    }
+
+    private <R> long writeSerializedPayloadToOutputStream(PreparedRequest request, Deferred<R> deferred,
+                                                          OutputStream out, SerializedPayload serializedPayload,
+                                                          long totalWritten, long totalSize) throws IOException {
+        if (serializedPayload instanceof InputStreamSerializedPayload) {
+            InputStreamSerializedPayload isp = (InputStreamSerializedPayload) serializedPayload;
+            return writeInputToOutputStream(request, deferred, out, isp.getInputStream(), totalWritten, totalSize);
+        }
+
+        return writeBytesToOutputStream(request, deferred, out, serializedPayload.asBytes(), totalWritten, totalSize);
     }
 
     private <R> void disconnect(HttpURLConnection conn, Deferred<R> deferred, RequestException exception) {
