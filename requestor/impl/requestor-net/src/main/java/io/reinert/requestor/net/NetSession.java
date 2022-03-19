@@ -22,6 +22,7 @@ import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.net.serialization.BinarySerializer;
+import io.reinert.requestor.net.serialization.ByteSerializer;
 import io.reinert.requestor.net.serialization.InputStreamSerializer;
 
 /**
@@ -82,6 +83,7 @@ public class NetSession extends Session {
         super.configure();
 
         register(BinarySerializer.getInstance());
+        register(ByteSerializer.getInstance());
         register(InputStreamSerializer.getInstance());
     }
 }
