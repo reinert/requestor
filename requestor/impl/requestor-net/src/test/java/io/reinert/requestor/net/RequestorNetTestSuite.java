@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 @Suite.SuiteClasses({
         HttpMethodTest.class,
         RequestEventTest.class,
-        FormDataTest.class
+        SerializationTest.class
 })
 public class RequestorNetTestSuite extends TestSuite {
 }

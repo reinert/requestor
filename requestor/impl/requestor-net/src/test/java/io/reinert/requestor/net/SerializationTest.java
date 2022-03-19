@@ -29,7 +29,7 @@ import org.junit.Test;
 /**
  * Tests for basic request events.
  */
-public class FormDataTest extends NetTest {
+public class SerializationTest extends NetTest {
 
     private static final int TIMEOUT = 10_000;
 
