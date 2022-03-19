@@ -105,6 +105,9 @@ class NetRequestDispatcher extends RequestDispatcher {
                 conn.setDoOutput(true);
                 if (serializedPayload.getLength() > 0) {
                     conn.setFixedLengthStreamingMode(serializedPayload.getLength());
+                } else {
+                    // TODO: expose option to disable chunked mode
+                    conn.setChunkedStreamingMode(outputBufferSize);
                 }
             }
 
