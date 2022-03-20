@@ -18,7 +18,6 @@ package io.reinert.requestor.core.auth;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.Auth;
 import io.reinert.requestor.core.AuthException;
@@ -45,8 +44,6 @@ import io.reinert.requestor.core.uri.Uri;
  * @author Danilo Reinert
  */
 public class DigestAuth implements Auth {
-
-    private static final Logger logger = Logger.getLogger(DigestAuth.class.getName());
 
     public interface HashFunction {
         String hash(String input);
@@ -136,8 +133,6 @@ public class DigestAuth implements Auth {
 
     public void auth(PreparedRequest request) {
         request.setWithCredentials(withCredentials);
-        logger.warning(this.algorithm);
-        logger.warning(String.valueOf(hashFunctions.containsKey("md5")));
         attempt(request, null, request.getDispatcher());
     }
 
@@ -328,10 +323,7 @@ public class DigestAuth implements Auth {
         nonceCount = nonce.equals(lastNonce) ? nonceCount + 1 : 1;
         lastNonce = nonce;
         String nc = String.valueOf(nonceCount);
-        logger.warning("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        logger.warning(nc);
         if (nc.length() < 8) nc = new String(new char[8 - nc.length()]).replace('\0', '0') + nc;
-        logger.warning(nc);
         return nc;
     }
 
