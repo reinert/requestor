@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,8 +87,8 @@ class GwtFormDataUrlEncodedSerializer extends FormDataUrlEncodedSerializer {
             if ((type.equals("radio") || type.equals("checkbox")) && !isChecked(field))
                 continue;
 
-            final String name = encode(getName(field));
-            final String value = encode(getValue(field));
+            final String name = encode(getName(field), null);
+            final String value = encode(getValue(field), null);
             serialized.append(name).append('=').append(value).append('&'); // append 'name=value&'
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
@@ -113,7 +113,7 @@ class GwtFormDataUrlEncodedSerializer extends FormDataUrlEncodedSerializer {
     }
 
     @Override
-    protected String encode(String value) {
+    protected String encode(String value, String charset) {
         return URL.encodeQueryString(value);
     }
 

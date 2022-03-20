@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,13 +47,18 @@ public class FormDataUrlEncodedSerializer implements Serializer<FormData> {
     public SerializedPayload serialize(FormData formData, SerializationContext context) {
         if (formData == null || formData.isEmpty()) return SerializedPayload.EMPTY_PAYLOAD;
 
+        String charset = context.getCharset();
+
         StringBuilder serialized = new StringBuilder();
 
         for (FormData.Param param : formData) {
             final Object value = param.getValue();
             if (value instanceof String) {
                 // append 'name=value&'
-                serialized.append(encode(param.getName())).append('=').append(encode((String) value)).append('&');
+                serialized.append(encode(param.getName(), charset))
+                        .append('=')
+                        .append(encode((String) value, charset))
+                        .append('&');
             } else {
                 throw new UnsupportedOperationException("An attempt to serialize a non-string value from a FormData" +
                         " has failed. Files and Blobs are not supported by FormDataSerializerUrlEncoded." +
@@ -61,7 +66,7 @@ public class FormDataUrlEncodedSerializer implements Serializer<FormData> {
             }
         }
         serialized.setLength(serialized.length() - 1); // remove last '&' character
-        return new TextSerializedPayload(serialized.toString());
+        return new TextSerializedPayload(serialized.toString(), charset);
     }
 
     @Override
@@ -80,7 +85,7 @@ public class FormDataUrlEncodedSerializer implements Serializer<FormData> {
         throw new UnsupportedOperationException("Cannot deserialize to FormData.");
     }
 
-    protected String encode(String value) {
-        return UriCodec.getInstance().encodeQueryString(value);
+    protected String encode(String value, String charset) {
+        return UriCodec.getInstance().encodeQueryString(value, charset);
     }
 }
