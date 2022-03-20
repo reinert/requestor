@@ -124,5 +124,5 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onTimeout(TimeoutRequestCallback<T> callback);
 
     @Override
-    PollingRequest<T> onUpProgress(ProgressCallback callback);
+    PollingRequest<T> onWrite(ProgressCallback callback);
 }

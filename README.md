@@ -475,7 +475,7 @@ The available events to add callbacks for are listed below. All arguments are op
   * **onRead**( progress -> {} )
     * executed many times while the request is being sent
     * features the *progress* that enables tracking the download progress
-  * **onUpProgress**( [progress [, request]] -> {} )
+  * **onWrite**( progress -> {} )
     * executed many times while the response is being received
     * features the *progress* that enables tracking the upload progress
   * **onTimeout**( [timeoutException [, request]] -> {} )
@@ -529,7 +529,7 @@ session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() 
         if (progress.isLengthComputable())
             view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );
     }
-}).onUpProgress(new ProgressCallback() {
+}).onWrite(new ProgressCallback() {
     public void execute(RequestProgress progress) {
         // This is executed many times while the request is being sent
         if (progress.isLengthComputable())

@@ -98,6 +98,6 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onTimeout(TimeoutRequestCallback<T> callback);
 
-    Request<T> onUpProgress(ProgressCallback callback);
+    Request<T> onWrite(ProgressCallback callback);
 
 }

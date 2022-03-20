@@ -84,7 +84,7 @@
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (progress.isLengthComputable())
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
-            <br/>}).onUpProgress(new ProgressCallback() {
+            <br/>}).onWrite(new ProgressCallback() {
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(RequestProgress progress) {
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed many times while the request is being sent */
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (progress.isLengthComputable())

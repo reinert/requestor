@@ -153,9 +153,9 @@ public class RequestEventTest extends NetTest {
         final AtomicLong bytesWritten = new AtomicLong(0);
 
         session.post("https://httpbin.org/post", payload)
-                .onUpProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
-                .onUpProgress(p -> bytesWritten.set(p.getLoaded()))
-                .onUpProgress(p -> progressCalls.addAndGet(1))
+                .onWrite(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
+                .onWrite(p -> bytesWritten.set(p.getLoaded()))
+                .onWrite(p -> progressCalls.addAndGet(1))
                 .onSuccess(test(result, () -> {
                     Assert.assertEquals(expectedProgressCalls, progressCalls.get());
                     Assert.assertEquals(payload.length, bytesWritten.get());

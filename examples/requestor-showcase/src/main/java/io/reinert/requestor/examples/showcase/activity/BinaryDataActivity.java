@@ -67,7 +67,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
                         view.setSendText(result);
                     }
                 })
-                .onUpProgress(new ProgressCallback() {
+                .onWrite(new ProgressCallback() {
                     public void execute(RequestProgress progress) {
                         if (progress.isLengthComputable())
                             view.setSendProgressStatus(progress.getCompletedFraction(100));
