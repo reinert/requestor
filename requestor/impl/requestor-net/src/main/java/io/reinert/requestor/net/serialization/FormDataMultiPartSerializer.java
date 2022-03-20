@@ -40,8 +40,7 @@ import io.reinert.requestor.net.payload.CompositeSerializedPayload;
  */
 public class FormDataMultiPartSerializer implements Serializer<FormData> {
 
-    public static String LINE_FEED = "\r\n";
-    public static String CHARSET = "UTF-8";
+    public static final String LINE_FEED = "\r\n";
     public static final String MULTIPART_FORM_DATA = "multipart/form-data";
     public static String[] MEDIA_TYPE_PATTERNS = new String[]{MULTIPART_FORM_DATA};
 
@@ -67,6 +66,8 @@ public class FormDataMultiPartSerializer implements Serializer<FormData> {
 
         final String boundary = "----RequestorFormBoundary" + generateRandomString(16);
 
+        final String charset = context.getCharset();
+
         ((HttpSerializationContext) context).getRequest().setContentType(
                 new ContentTypeHeader(MULTIPART_FORM_DATA, Param.of("boundary", boundary)));
 
@@ -82,12 +83,12 @@ public class FormDataMultiPartSerializer implements Serializer<FormData> {
                 checkNameNotNull(name);
                 checkValueNotNull(value, name);
 
-                addFormField(sb, boundary, name, (String) value);
+                addFormField(sb, boundary, name, (String) value, charset);
             }
 
             sb.append("--").append(boundary).append("--").append(LINE_FEED);
 
-            return new TextSerializedPayload(sb.toString(), CHARSET);
+            return new TextSerializedPayload(sb.toString(), charset);
         }
 
         final CompositeSerializedPayload csp = new CompositeSerializedPayload();
@@ -102,7 +103,7 @@ public class FormDataMultiPartSerializer implements Serializer<FormData> {
             checkValueNotNull(value, name);
 
             if (value instanceof String) {
-                addFormField(csp, boundary, name, (String) value);
+                addFormField(csp, boundary, name, (String) value, charset);
             } else if (value instanceof File) {
                 File file = (File) value;
                 String fileName = param.getFileName() != null ? param.getFileName() : file.getName();
@@ -116,7 +117,7 @@ public class FormDataMultiPartSerializer implements Serializer<FormData> {
             }
         }
 
-        csp.add(new TextSerializedPayload(LINE_FEED + "--" + boundary + "--" + LINE_FEED));
+        csp.add(new TextSerializedPayload(LINE_FEED + "--" + boundary + "--" + LINE_FEED, charset));
 
         return csp;
     }
@@ -150,27 +151,28 @@ public class FormDataMultiPartSerializer implements Serializer<FormData> {
         throw new UnsupportedOperationException("Cannot deserialize to a collection of FormData.");
     }
 
-    public void addFormField(StringBuilder sb, String boundary, String name, String value) {
+    public void addFormField(StringBuilder sb, String boundary, String name, String value, String charset) {
         sb.append("--").append(boundary)
                 .append(LINE_FEED)
                 .append("Content-Disposition: form-data; name=\"").append(name).append('"')
                 .append(LINE_FEED)
-                .append("Content-Type: text/plain; charset=").append(CHARSET)
+                .append("Content-Type: text/plain; charset=").append(charset)
                 .append(LINE_FEED)
                 .append(LINE_FEED)
                 .append(value)
                 .append(LINE_FEED);
     }
 
-    public void addFormField(CompositeSerializedPayload csp, String boundary, String name, String value) {
-        addPart(csp, boundary, name, null, "text/plain; charset=" + CHARSET, null, value);
+    public void addFormField(CompositeSerializedPayload csp, String boundary, String name, String value,
+                             String charset) {
+        addPart(csp, boundary, name, null, "text/plain; charset=" + charset, null, value, charset);
     }
 
     public void addStreamPart(CompositeSerializedPayload csp, String boundary, String fieldName, InputStream in,
                               String fileName, SerializationContext context) {
         String contentType = URLConnection.guessContentTypeFromName(fileName);
 
-        addPart(csp, boundary, fieldName, fileName, contentType, "binary", null);
+        addPart(csp, boundary, fieldName, fileName, contentType, "binary", null, context.getCharset());
 
         csp.add(InputStreamSerializer.getInstance().serialize(in, context));
     }
@@ -179,13 +181,13 @@ public class FormDataMultiPartSerializer implements Serializer<FormData> {
                             String fileName, SerializationContext context) {
         String contentType = URLConnection.guessContentTypeFromName(fileName);
 
-        addPart(csp, boundary, fieldName, fileName, contentType, "binary", null);
+        addPart(csp, boundary, fieldName, fileName, contentType, "binary", null, context.getCharset());
 
         csp.add(FileSerializer.getInstance().serialize(file, context));
     }
 
     private void addPart(CompositeSerializedPayload csp, String boundary, String fieldName, String fileName,
-                         String contentType, String contentEncoding, String value) {
+                         String contentType, String contentEncoding, String value, String charset) {
         csp.add(new TextSerializedPayload((csp.isEmpty() ? "--" : LINE_FEED + "--") +
                 boundary +
                 LINE_FEED +
@@ -195,7 +197,7 @@ public class FormDataMultiPartSerializer implements Serializer<FormData> {
                 ((contentType != null && !contentType.isEmpty()) ? "Content-Type: " + contentType + LINE_FEED : "") +
                 (contentEncoding != null ? "Content-Transfer-Encoding: " + contentEncoding + LINE_FEED : "") +
                 LINE_FEED +
-                (value != null ? value : "")));
+                (value != null ? value : ""), charset));
     }
 
     private static String generateRandomString(int length) {
