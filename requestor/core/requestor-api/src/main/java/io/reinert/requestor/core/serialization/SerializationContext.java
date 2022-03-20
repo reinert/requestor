@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,18 @@ public abstract class SerializationContext {
 
     private final Class<?> requestedType;
     private final Class<?> parametrizedType;
+    private final String charset;
     private final String[] fields;
 
-    protected SerializationContext(Class<?> requestedType, String... fields) {
-        this(requestedType, null, fields);
+    protected SerializationContext(Class<?> requestedType, String charset, String... fields) {
+        this(requestedType, null, charset, fields);
     }
 
-    protected SerializationContext(Class<?> requestedType, Class<?> parametrizedType,
+    protected SerializationContext(Class<?> requestedType, Class<?> parametrizedType, String charset,
                                    String... fields) {
         this.requestedType = requestedType;
         this.parametrizedType = parametrizedType;
+        this.charset = charset;
         this.fields = fields;
     }
 
@@ -43,6 +45,10 @@ public abstract class SerializationContext {
 
     public Class<?> getParametrizedType() {
         return parametrizedType;
+    }
+
+    public String getCharset() {
+        return charset;
     }
 
     public String[] getFields() {

@@ -27,14 +27,14 @@ public class HttpSerializationContext extends SerializationContext {
     private final SerializableRequest request;
 
     protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType, String... fields) {
-        super(requestedType, fields);
+        super(requestedType, request.getCharset(), fields);
 
         this.request = request;
     }
 
     protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType, Class<?> parametrizedType,
                                        String... fields) {
-        super(requestedType, parametrizedType, fields);
+        super(requestedType, parametrizedType, request.getCharset(), fields);
 
         this.request = request;
     }
