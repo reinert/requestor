@@ -36,7 +36,6 @@ import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
-import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
@@ -236,15 +235,6 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
-    public DeferredRequest<T> onProgress(final ProgressRequestCallback<T> callback) {
-        deferred.progress(new ProgressCallback<RequestProgress>() {
-            public void onProgress(RequestProgress progress) {
-                callback.execute(progress, request);
-            }
-        });
-        return this;
-    }
-
     public DeferredRequest<T> onStatus(final int statusCode, final VoidCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
@@ -417,15 +407,6 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.upProgress(new ProgressCallback<RequestProgress>() {
             public void onProgress(RequestProgress progress) {
                 callback.execute(progress);
-            }
-        });
-        return this;
-    }
-
-    public DeferredRequest<T> onUpProgress(final ProgressRequestCallback<T> callback) {
-        deferred.upProgress(new ProgressCallback<RequestProgress>() {
-            public void onProgress(RequestProgress progress) {
-                callback.execute(progress, request);
             }
         });
         return this;

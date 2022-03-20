@@ -21,7 +21,6 @@ import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
 import io.reinert.requestor.core.callback.ProgressCallback;
-import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
@@ -69,8 +68,6 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onProgress(ProgressCallback callback);
 
-    Request<T> onProgress(ProgressRequestCallback<T> callback);
-
     Request<T> onStatus(int statusCode, VoidCallback callback);
 
     Request<T> onStatus(int statusCode, ResponseCallback callback);
@@ -102,7 +99,5 @@ public interface Request<T> extends SerializedRequest {
     Request<T> onTimeout(TimeoutRequestCallback<T> callback);
 
     Request<T> onUpProgress(ProgressCallback callback);
-
-    Request<T> onUpProgress(ProgressRequestCallback<T> callback);
 
 }

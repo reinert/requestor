@@ -21,7 +21,6 @@ import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
 import io.reinert.requestor.core.callback.ProgressCallback;
-import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
@@ -80,9 +79,6 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onProgress(ProgressCallback callback);
 
     @Override
-    PollingRequest<T> onProgress(ProgressRequestCallback<T> callback);
-
-    @Override
     PollingRequest<T> onStatus(int statusCode, VoidCallback callback);
 
     @Override
@@ -126,9 +122,6 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
 
     @Override
     PollingRequest<T> onTimeout(TimeoutRequestCallback<T> callback);
-
-    @Override
-    PollingRequest<T> onUpProgress(ProgressRequestCallback<T> callback);
 
     @Override
     PollingRequest<T> onUpProgress(ProgressCallback callback);

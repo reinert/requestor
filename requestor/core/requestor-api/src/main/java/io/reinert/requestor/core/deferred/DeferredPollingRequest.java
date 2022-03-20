@@ -36,7 +36,6 @@ import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
-import io.reinert.requestor.core.callback.ProgressRequestCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
@@ -314,12 +313,6 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public PollingRequest<T> onProgress(ProgressRequestCallback<T> callback) {
-        getLastDeferred().onProgress(callback);
-        return this;
-    }
-
-    @Override
     public PollingRequest<T> onStatus(int statusCode, VoidCallback callback) {
         getLastDeferred().onStatus(statusCode, callback);
         return this;
@@ -411,12 +404,6 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
 
     @Override
     public PollingRequest<T> onUpProgress(io.reinert.requestor.core.callback.ProgressCallback callback) {
-        getLastDeferred().onUpProgress(callback);
-        return this;
-    }
-
-    @Override
-    public PollingRequest<T> onUpProgress(ProgressRequestCallback<T> callback) {
         getLastDeferred().onUpProgress(callback);
         return this;
     }
