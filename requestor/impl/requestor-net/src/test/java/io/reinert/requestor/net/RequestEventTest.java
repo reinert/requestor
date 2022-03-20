@@ -147,6 +147,7 @@ public class RequestEventTest extends NetTest {
         final TestResult result = new TestResult();
 
         final NetSession session = new NetSession();
+        session.save(RequestorNet.WRITE_CHUNKING, true);
 
         final byte[] payload = new byte[(session.getOutputBufferSize() * 2) + 1];
         Arrays.fill(payload, (byte) 1);
@@ -185,6 +186,7 @@ public class RequestEventTest extends NetTest {
 
         final NetSession session = new NetSession();
         session.setMediaType("application/octet-stream");
+        session.save(RequestorNet.READ_CHUNKING, true);
 
         final int expectedProgressCalls = 3;
         final AtomicInteger progressCalls = new AtomicInteger(0);
@@ -222,6 +224,7 @@ public class RequestEventTest extends NetTest {
 
         final NetSession session = new NetSession();
         session.setMediaType("application/octet-stream");
+        session.save(RequestorNet.READ_CHUNKING, true);
 
         final String byteSize = String.valueOf((session.getInputBufferSize() * 2) + 1);
 

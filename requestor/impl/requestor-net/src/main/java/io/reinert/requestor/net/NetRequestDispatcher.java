@@ -205,7 +205,7 @@ class NetRequestDispatcher extends RequestDispatcher {
                 return;
             }
 
-            RawResponse response = new RawResponse(
+            final RawResponse response = new RawResponse(
                     deferred,
                     responseStatus,
                     readResponseHeaders(conn),
@@ -214,8 +214,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             // Payload download
             SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
-            if (payloadType != null && payloadType.getType() != Void.class) {
-                // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
+            if (payloadType.getType() != Void.class || request.isEquals(RequestorNet.READ_CHUNKING, Boolean.TRUE)) {
                 try (InputStream in = new BufferedInputStream(
                         responseStatus.getFamily() == StatusFamily.SUCCESSFUL ?
                                 conn.getInputStream() :
@@ -265,6 +264,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
     private <R> long writeBytesToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
                                               byte[] bytes, long totalWritten, long totalSize) throws IOException {
+        final boolean chunkingEnabled = request.isEquals(RequestorNet.WRITE_CHUNKING, Boolean.TRUE);
         for (int i = 0; i <= (bytes.length - 1) / outputBufferSize; i++) {
             int off = i * outputBufferSize;
             int len = Math.min(outputBufferSize, bytes.length - off);
@@ -273,12 +273,11 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             totalWritten += len;
 
+            byte[] chunk = chunkingEnabled ? Arrays.copyOfRange(bytes, off, off + len) : null;
             deferred.notifyUpload(new WriteProgress(request, totalSize > 0 ?
                     new FixedProgressEvent(totalWritten, totalSize) :
                     new ChunkedProgressEvent(totalWritten),
-                    // TODO: expose an option to enable buffering (default disabled)
-                    serializeContent(request.getContentType(), Arrays.copyOfRange(bytes, off, off + len),
-                            request.getCharset())));
+                    serializeContent(request.getContentType(), chunk, request.getCharset())));
         }
 
         return totalWritten;
@@ -286,6 +285,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
     private <R> long writeInputToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
                                               InputStream in, long totalWritten, long totalSize) throws IOException {
+        final boolean chunkingEnabled = request.isEquals(RequestorNet.WRITE_CHUNKING, Boolean.TRUE);
         try (InputStream bis = new BufferedInputStream(in, outputBufferSize)) {
             byte[] buffer = new byte[outputBufferSize];
             int stepRead;
@@ -295,12 +295,11 @@ class NetRequestDispatcher extends RequestDispatcher {
 
                 totalWritten += stepRead;
 
+                byte[] chunk = chunkingEnabled ? Arrays.copyOfRange(buffer, 0, stepRead) : null;
                 deferred.notifyUpload(new WriteProgress(request, totalSize > 0 ?
                         new FixedProgressEvent(totalWritten, totalSize) :
                         new ChunkedProgressEvent(totalWritten),
-                        // TODO: expose an option to enable buffering (default disabled)
-                        serializeContent(request.getContentType(), Arrays.copyOfRange(buffer, 0, stepRead),
-                                request.getCharset())));
+                        serializeContent(request.getContentType(), chunk, request.getCharset())));
             }
 
             return totalWritten;
@@ -313,28 +312,33 @@ class NetRequestDispatcher extends RequestDispatcher {
         final String contentType = conn.getContentType();
         final int contentLength = conn.getContentLength();
 
+        final boolean payloadRequested = request.getResponsePayloadType().getType() != Void.class;
+        final boolean chunkingEnabled = request.isEquals(RequestorNet.READ_CHUNKING, Boolean.TRUE);
+
         // NOTE: there should be no body when buffering is enabled but return type is void
-        byte[] body = new byte[Math.max(contentLength, 0)];
+        byte[] body = payloadRequested ? new byte[Math.max(contentLength, 0)] : null;
 
         byte[] buffer = new byte[inputBufferSize];
         int stepRead, totalRead = 0;
         while ((stepRead = in.read(buffer)) != -1) {
-            if (contentLength > 0) {
-                System.arraycopy(buffer, 0, body, totalRead, stepRead);
-            } else {
-                byte[] aux = new byte[totalRead + stepRead];
-                System.arraycopy(body, 0, aux, 0, totalRead);
-                System.arraycopy(buffer, 0, aux, totalRead, stepRead);
-                body = aux;
+            if (payloadRequested) {
+                if (contentLength > 0) {
+                    System.arraycopy(buffer, 0, body, totalRead, stepRead);
+                } else {
+                    byte[] aux = new byte[totalRead + stepRead];
+                    System.arraycopy(body, 0, aux, 0, totalRead);
+                    System.arraycopy(buffer, 0, aux, totalRead, stepRead);
+                    body = aux;
+                }
             }
 
             totalRead += stepRead;
 
+            byte[] chunk = chunkingEnabled ? Arrays.copyOf(buffer, stepRead) : null;
             deferred.notifyDownload(new ReadProgress(request, response, contentLength > 0 ?
                     new FixedProgressEvent(totalRead, contentLength) :
                     new ChunkedProgressEvent(totalRead),
-                    // TODO: expose an option to enable buffering (default disabled)
-                    serializeContent(contentType, Arrays.copyOf(buffer, stepRead), request.getCharset())));
+                    serializeContent(contentType, chunk, request.getCharset())));
         }
 
         return serializeContent(contentType, body, request.getCharset());

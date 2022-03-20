@@ -200,7 +200,10 @@ public class SerializationTest extends NetTest {
 
         final AtomicLong bytesWritten = new AtomicLong(0);
 
-        session.post("https://httpbin.org/post", inputStream)
+        session.req("https://httpbin.org/post")
+                .payload(inputStream)
+                .save(RequestorNet.WRITE_CHUNKING, true)
+                .post()
                 .onWrite(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
                 .onWrite(p -> bytesWritten.set(p.getLoaded()))
                 .onWrite(p -> progressCalls.addAndGet(1))
