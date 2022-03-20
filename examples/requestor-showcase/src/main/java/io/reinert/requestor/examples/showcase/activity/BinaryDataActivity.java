@@ -84,7 +84,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
     public void onRetrieveButtonClick(String url) {
         session.req(url)
                 .get(Blob.class)
-                .onProgress(new ProgressCallback() {
+                .onRead(new ProgressCallback() {
                     public void execute(RequestProgress progress) {
                         if (progress.isLengthComputable())
                             view.setRetrieveProgressStatus(progress.getCompletedFraction(100));

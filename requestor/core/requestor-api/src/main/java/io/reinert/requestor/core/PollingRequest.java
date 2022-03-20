@@ -76,7 +76,7 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onFail(ResponseRequestCallback<T> callback);
 
     @Override
-    PollingRequest<T> onProgress(ProgressCallback callback);
+    PollingRequest<T> onRead(ProgressCallback callback);
 
     @Override
     PollingRequest<T> onStatus(int statusCode, VoidCallback callback);

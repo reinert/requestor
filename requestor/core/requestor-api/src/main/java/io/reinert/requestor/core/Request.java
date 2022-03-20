@@ -66,7 +66,7 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onFail(ResponseRequestCallback<T> callback);
 
-    Request<T> onProgress(ProgressCallback callback);
+    Request<T> onRead(ProgressCallback callback);
 
     Request<T> onStatus(int statusCode, VoidCallback callback);
 

@@ -307,7 +307,7 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public PollingRequest<T> onProgress(io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public PollingRequest<T> onRead(io.reinert.requestor.core.callback.ProgressCallback callback) {
         getLastDeferred().onProgress(callback);
         return this;
     }

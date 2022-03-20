@@ -472,7 +472,7 @@ The available events to add callbacks for are listed below. All arguments are op
   * **onStatus**( statusCode|statusFamily, ( [response [, request]] ) -> {} )
     * executed when the response *returned the given status code/family*
     * features the *response*
-  * **onProgress**( [progress [, request]] -> {} )
+  * **onRead**( progress -> {} )
     * executed many times while the request is being sent
     * features the *progress* that enables tracking the download progress
   * **onUpProgress**( [progress [, request]] -> {} )
@@ -523,7 +523,7 @@ session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() 
         // This is executed if the response status code was 5xx (server error)
         view.showError("Request failed. Server message: " + r.getPayload().toString());
     }
-}).onProgress(new ProgressCallback() {
+}).onRead(new ProgressCallback() {
     public void execute(RequestProgress progress) {
         // This is executed many times while the response is being received
         if (progress.isLengthComputable())

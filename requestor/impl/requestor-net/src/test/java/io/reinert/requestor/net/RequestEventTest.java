@@ -190,9 +190,9 @@ public class RequestEventTest extends NetTest {
         final AtomicLong bytesRead = new AtomicLong(0);
 
         session.get("https://httpbin.org/bytes/" + byteSize, byte[].class)
-                .onProgress(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
-                .onProgress(p -> bytesRead.set(p.getLoaded()))
-                .onProgress(p -> progressCalls.addAndGet(1))
+                .onRead(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
+                .onRead(p -> bytesRead.set(p.getLoaded()))
+                .onRead(p -> progressCalls.addAndGet(1))
                 .onSuccess(test(result, (byte[] payload) -> {
                     Assert.assertEquals(expectedProgressCalls, progressCalls.get());
                     Assert.assertEquals(payload.length, bytesRead.get());

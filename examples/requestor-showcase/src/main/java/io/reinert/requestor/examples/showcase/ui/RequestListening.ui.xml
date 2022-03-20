@@ -78,7 +78,7 @@
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed if the response status code was 5xx (server error) */
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;view.showError(&quot;Request failed. Server message: &quot; + r.getPayload().toString());
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;}
-            <br/>}).onProgress(new ProgressCallback() {
+            <br/>}).onRead(new ProgressCallback() {
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;public void execute(RequestProgress progress) {
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* This is executed many times while the response is being received */
             <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (progress.isLengthComputable())
