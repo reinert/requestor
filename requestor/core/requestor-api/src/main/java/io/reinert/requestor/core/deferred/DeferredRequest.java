@@ -21,6 +21,7 @@ import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.IncompatibleTypeException;
 import io.reinert.requestor.core.PollingRequest;
+import io.reinert.requestor.core.ReadProgress;
 import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestCancelException;
@@ -36,6 +37,7 @@ import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
+import io.reinert.requestor.core.callback.ReadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
@@ -55,7 +57,7 @@ public class DeferredRequest<T> implements Deferred<T> {
     private static final Logger logger = Logger.getLogger(DeferredRequest.class.getName());
 
     private final PollingRequest<T> request;
-    private final DeferredObject<Response, RequestException, WriteProgress> deferred;
+    private final DeferredObject<Response, RequestException, ReadProgress, WriteProgress> deferred;
     private HttpConnection connection;
     private RequestRetrier retrier;
     private boolean noAbortCallbackRegistered = true;
@@ -65,11 +67,11 @@ public class DeferredRequest<T> implements Deferred<T> {
 
     protected DeferredRequest(PollingRequest<T> request) {
         this.request = request;
-        this.deferred = new DeferredObject<Response, RequestException, WriteProgress>();
+        this.deferred = new DeferredObject<Response, RequestException, ReadProgress, WriteProgress>();
     }
 
     private DeferredRequest(PollingRequest<T> request,
-                            DeferredObject<Response, RequestException, WriteProgress> deferredObject,
+                            DeferredObject<Response, RequestException, ReadProgress, WriteProgress> deferredObject,
                             boolean noAbortCallbackRegistered,
                             boolean noCancelCallbackRegistered,
                             boolean noErrorCallbackRegistered,
@@ -227,9 +229,10 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
-    public DeferredRequest<T> onProgress(final WriteCallback callback) {
-        deferred.progress(new ProgressCallback<WriteProgress>() {
-            public void onProgress(WriteProgress progress) {
+    public DeferredRequest<T> onProgress(final ReadCallback callback) {
+        deferred.progress(new ProgressCallback<ReadProgress>() {
+            @Override
+            public void onProgress(ReadProgress progress) {
                 callback.execute(progress);
             }
         });
@@ -459,7 +462,7 @@ public class DeferredRequest<T> implements Deferred<T> {
     }
 
     @Override
-    public void notifyDownload(WriteProgress progress) {
+    public void notifyDownload(ReadProgress progress) {
         deferred.notifyDownload(progress);
     }
 

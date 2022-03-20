@@ -34,7 +34,7 @@ public interface Deferred<T> {
 
     void reject(RequestException error);
 
-    void notifyDownload(WriteProgress progress);
+    void notifyDownload(ReadProgress progress);
 
     void notifyUpload(WriteProgress progress);
 

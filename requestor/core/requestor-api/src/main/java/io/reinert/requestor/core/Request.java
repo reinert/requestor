@@ -20,6 +20,7 @@ import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
+import io.reinert.requestor.core.callback.ReadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
@@ -66,7 +67,7 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onFail(ResponseRequestCallback<T> callback);
 
-    Request<T> onRead(WriteCallback callback);
+    Request<T> onRead(ReadCallback callback);
 
     Request<T> onStatus(int statusCode, VoidCallback callback);
 

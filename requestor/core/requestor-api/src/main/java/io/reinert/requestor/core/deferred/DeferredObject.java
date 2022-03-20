@@ -28,7 +28,7 @@ import java.util.List;
  * @author Ray Tsang
  * @author Danilo Reinert
  */
-class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
+class DeferredObject<D, F, P, U> extends AbstractDeferred<D, F, P, U> {
 
     public DeferredObject() {
         super();
@@ -37,12 +37,12 @@ class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
     protected DeferredObject(List<DoneCallback<D>> doneCallbacks,
                              List<FailCallback<F>> failCallbacks,
                              List<ProgressCallback<P>> progressCallbacks,
-                             List<ProgressCallback<P>> upProgressCallbacks) {
+                             List<ProgressCallback<U>> upProgressCallbacks) {
         super(doneCallbacks, failCallbacks, progressCallbacks, upProgressCallbacks);
     }
 
     //    @Override
-    public DeferredObject<D, F, P> notifyDownload(final P progress) {
+    public DeferredObject<D, F, P, U> notifyDownload(final P progress) {
         if (!isPending()) {
             throw new IllegalStateException("Deferred object already finished, cannot notify progress");
         }
@@ -52,7 +52,7 @@ class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
     }
 
     //    @Override
-    public DeferredObject<D, F, P> notifyUpload(final P progress) {
+    public DeferredObject<D, F, P, U> notifyUpload(final U progress) {
         if (!isPending()) {
             throw new IllegalStateException("Deferred object already finished, cannot notify progress");
         }
@@ -62,7 +62,7 @@ class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
     }
 
     //    @Override
-    public DeferredObject<D, F, P> reject(final F reject) {
+    public DeferredObject<D, F, P, U> reject(final F reject) {
         if (!isPending()) {
             throw new IllegalStateException("Deferred object already finished, cannot reject again");
         }
@@ -75,7 +75,7 @@ class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
     }
 
     //    @Override
-    public DeferredObject<D, F, P> resolve(final D resolve) {
+    public DeferredObject<D, F, P, U> resolve(final D resolve) {
         if (!isPending()) {
             throw new IllegalStateException("Deferred object already finished, cannot resolve again");
         }
@@ -87,7 +87,7 @@ class DeferredObject<D, F, P> extends AbstractDeferred<D, F, P> {
         return this;
     }
 
-    public DeferredObject<D, F, P> replicate() {
-        return new DeferredObject<D, F, P>(doneCallbacks, failCallbacks, progressCallbacks, upProgressCallbacks);
+    public DeferredObject<D, F, P, U> replicate() {
+        return new DeferredObject<D, F, P, U>(doneCallbacks, failCallbacks, progressCallbacks, upProgressCallbacks);
     }
 }

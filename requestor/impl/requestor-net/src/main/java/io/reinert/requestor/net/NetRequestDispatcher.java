@@ -38,8 +38,10 @@ import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.HttpStatus;
+import io.reinert.requestor.core.IncomingResponse;
 import io.reinert.requestor.core.PreparedRequest;
 import io.reinert.requestor.core.RawResponse;
+import io.reinert.requestor.core.ReadProgress;
 import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestDispatcher;
@@ -203,13 +205,20 @@ class NetRequestDispatcher extends RequestDispatcher {
                 return;
             }
 
+            RawResponse response = new RawResponse(
+                    deferred,
+                    responseStatus,
+                    readResponseHeaders(conn),
+                    payloadType
+            );
+
             // Payload download
             SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             if (responseStatus.getFamily() == StatusFamily.SUCCESSFUL &&
                     payloadType != null && payloadType.getType() != Void.class) {
                 // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
                 try (InputStream in = new BufferedInputStream(conn.getInputStream(), inputBufferSize)) {
-                    serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in);
+                    serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in, response);
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
@@ -224,13 +233,7 @@ class NetRequestDispatcher extends RequestDispatcher {
             }
 
             // Evaluate response
-            RawResponse response = new RawResponse(
-                    deferred,
-                    responseStatus,
-                    readResponseHeaders(conn),
-                    payloadType,
-                    serializedResponse
-            );
+            response.setSerializedPayload(serializedResponse);
 
             conn.disconnect();
 
@@ -302,8 +305,8 @@ class NetRequestDispatcher extends RequestDispatcher {
     }
 
     private <R> SerializedPayload readInputStreamToSerializedPayload(PreparedRequest request, Deferred<R> deferred,
-                                                                     HttpURLConnection conn, InputStream in)
-            throws IOException {
+                                                                     HttpURLConnection conn, InputStream in,
+                                                                     IncomingResponse response) throws IOException {
         final String contentType = conn.getContentType();
         final int contentLength = conn.getContentLength();
 
@@ -324,7 +327,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             totalRead += stepRead;
 
-            deferred.notifyDownload(new WriteProgress(request, contentLength > 0 ?
+            deferred.notifyDownload(new ReadProgress(request, response, contentLength > 0 ?
                     new FixedProgressEvent(totalRead, contentLength) :
                     new ChunkedProgressEvent(totalRead),
                     // TODO: expose an option to enable buffering (default disabled)

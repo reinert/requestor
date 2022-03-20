@@ -75,8 +75,8 @@
         <pre ui:field="retrieve" class="java">
           <code>session.req(url)
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.get(Blob.class)
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onRead(new ProgressCallback() {
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(RequestProgress progress) {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onRead(new ReadCallback() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(ReadProgress progress) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;/* calculates (loaded/total)*100 */
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setRetrieveProgressStatus(progress.getCompletedFraction(100));
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}

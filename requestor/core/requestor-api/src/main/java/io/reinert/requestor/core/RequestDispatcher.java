@@ -63,7 +63,7 @@ public abstract class RequestDispatcher implements RunScheduler {
      * <p></p>
      * Implementations must execute an HTTP Request with given values and resolve/reject the deferred when the request
      * is finished. It is recommended that progress events be sent to
-     * {@link Deferred#notifyDownload(WriteProgress)} and
+     * {@link Deferred#notifyDownload(ReadProgress)} and
      * {@link Deferred#notifyUpload(WriteProgress)}.
      * <p></p>
      * All possible exceptions should be caught and sent to {@link Deferred#reject(RequestException)}

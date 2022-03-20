@@ -71,7 +71,7 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response> {
     }
 
     @Override
-    public void notifyDownload(WriteProgress progress) {
+    public void notifyDownload(ReadProgress progress) {
     }
 
     @Override

@@ -30,6 +30,7 @@ import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.PreparedRequest;
 import io.reinert.requestor.core.ProgressEvent;
 import io.reinert.requestor.core.RawResponse;
+import io.reinert.requestor.core.ReadProgress;
 import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestDispatchException;
@@ -146,7 +147,8 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             @Override
             public void onProgress(ProgressEvent progress) {
                 if (deferred.isPending()) {
-                    deferred.notifyDownload(new WriteProgress(request, progress));
+                    // TODO: listen onReadyStatusChange to 2 (HEADERS_RECEIVED) and build IncomingResponse to pass here
+                    deferred.notifyDownload(new ReadProgress(request, null, progress));
                 }
             }
         });

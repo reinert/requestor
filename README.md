@@ -523,8 +523,8 @@ session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() 
         // This is executed if the response status code was 5xx (server error)
         view.showError("Request failed. Server message: " + r.getPayload().toString());
     }
-}).onRead(new ProgressCallback() {
-    public void execute(RequestProgress progress) {
+}).onRead(new ReadCallback() {
+    public void execute(ReadProgress progress) {
         // This is executed many times while the response is being received
         if (progress.isLengthComputable())
             view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );

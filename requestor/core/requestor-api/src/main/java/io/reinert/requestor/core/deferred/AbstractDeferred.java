@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * @author Ray Tsang
  * @author Danilo Reinert
  */
-abstract class AbstractDeferred<D, F, P> {
+abstract class AbstractDeferred<D, F, P, U> {
 
     protected final Logger log = Logger.getLogger(String.valueOf(AbstractDeferred.class));
 
@@ -42,7 +42,7 @@ abstract class AbstractDeferred<D, F, P> {
     protected final List<DoneCallback<D>> doneCallbacks;
     protected final List<FailCallback<F>> failCallbacks;
     protected List<ProgressCallback<P>> progressCallbacks;
-    protected List<ProgressCallback<P>> upProgressCallbacks;
+    protected List<ProgressCallback<U>> upProgressCallbacks;
 
     public AbstractDeferred() {
         this.doneCallbacks = new ArrayList<DoneCallback<D>>();
@@ -52,20 +52,20 @@ abstract class AbstractDeferred<D, F, P> {
     protected AbstractDeferred(List<DoneCallback<D>> doneCallbacks,
                                List<FailCallback<F>> failCallbacks,
                                List<ProgressCallback<P>> progressCallbacks,
-                               List<ProgressCallback<P>> upProgressCallbacks) {
+                               List<ProgressCallback<U>> upProgressCallbacks) {
         this.doneCallbacks = doneCallbacks;
         this.failCallbacks = failCallbacks;
         this.progressCallbacks = progressCallbacks;
         this.upProgressCallbacks = upProgressCallbacks;
     }
 
-    public AbstractDeferred<D, F, P> done(DoneCallback<D> callback) {
+    public AbstractDeferred<D, F, P, U> done(DoneCallback<D> callback) {
         doneCallbacks.add(callback);
         if (isResolved()) triggerDone(callback, resolveResult);
         return this;
     }
 
-    public AbstractDeferred<D, F, P> fail(FailCallback<F> callback) {
+    public AbstractDeferred<D, F, P, U> fail(FailCallback<F> callback) {
         failCallbacks.add(callback);
         if (isRejected()) triggerFail(callback, rejectResult);
         return this;
@@ -83,12 +83,12 @@ abstract class AbstractDeferred<D, F, P> {
         return state == State.RESOLVED;
     }
 
-    public AbstractDeferred<D, F, P> progress(ProgressCallback<P> callback) {
+    public AbstractDeferred<D, F, P, U> progress(ProgressCallback<P> callback) {
         getProgressCallbacks().add(callback);
         return this;
     }
 
-    public AbstractDeferred<D, F, P> upProgress(ProgressCallback<P> callback) {
+    public AbstractDeferred<D, F, P, U> upProgress(ProgressCallback<U> callback) {
         getUpProgressCallbacks().add(callback);
         return this;
     }
@@ -111,9 +111,9 @@ abstract class AbstractDeferred<D, F, P> {
         return progressCallbacks;
     }
 
-    protected List<ProgressCallback<P>> getUpProgressCallbacks() {
+    protected List<ProgressCallback<U>> getUpProgressCallbacks() {
         if (upProgressCallbacks == null)
-            upProgressCallbacks = new ArrayList<ProgressCallback<P>>();
+            upProgressCallbacks = new ArrayList<ProgressCallback<U>>();
         return upProgressCallbacks;
     }
 
@@ -157,11 +157,11 @@ abstract class AbstractDeferred<D, F, P> {
         }
     }
 
-    protected void triggerUpProgress(P progress) {
+    protected void triggerUpProgress(U progress) {
         if (upProgressCallbacks != null) {
-            for (ProgressCallback<P> callback : upProgressCallbacks) {
+            for (ProgressCallback<U> callback : upProgressCallbacks) {
                 try {
-                    triggerProgress(callback, progress);
+                    triggerUpProgress(callback, progress);
                 } catch (Exception e) {
                     log.log(Level.SEVERE, "An uncaught exception occurred in a Upload ProgressCallback", e);
                 }
@@ -170,6 +170,10 @@ abstract class AbstractDeferred<D, F, P> {
     }
 
     protected void triggerProgress(ProgressCallback<P> callback, P progress) {
+        callback.onProgress(progress);
+    }
+
+    protected void triggerUpProgress(ProgressCallback<U> callback, U progress) {
         callback.onProgress(progress);
     }
 }

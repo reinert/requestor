@@ -36,6 +36,7 @@ import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
+import io.reinert.requestor.core.callback.ReadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
@@ -308,7 +309,7 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public PollingRequest<T> onRead(WriteCallback callback) {
+    public PollingRequest<T> onRead(ReadCallback callback) {
         getLastDeferred().onProgress(callback);
         return this;
     }
