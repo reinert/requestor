@@ -43,7 +43,7 @@ public class WriteProgress {
     }
 
     public boolean isChunkAvailable() {
-        return chunk != null;
+        return chunk != null && !chunk.isEmpty();
     }
 
     public SerializedPayload getChunk() {
