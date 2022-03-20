@@ -298,19 +298,16 @@ public class AuthTest extends TestCase {
   static class MockClock implements Auth.Clock {
     static double now = 5000;
 
-    @Override
     public double now() {
       return now;
     }
   }
 
   static class MockUrlCodex implements Auth.UrlCodex {
-    @Override
     public String encode(String url) {
       return url;
     }
 
-    @Override
     public String decode(String url) {
       return url;
     }
@@ -319,17 +316,14 @@ public class AuthTest extends TestCase {
   private static class InMemoryTokenStore implements TokenStore {
     Map<String, String> store = new HashMap<String, String>();
 
-    @Override
     public void set(String key, String value) {
       store.put(key, value);
     }
 
-    @Override
     public String get(String key) {
       return store.get(key);
     }
 
-    @Override
     public void clear() {
       store.clear();
     }
@@ -339,12 +333,10 @@ public class AuthTest extends TestCase {
     private TokenInfo token;
     private Throwable failure;
 
-    @Override
     public void onSuccess(TokenInfo token) {
       this.token = token;
     }
 
-    @Override
     public void onFailure(Throwable caught) {
       this.failure = caught;
     }
