@@ -267,7 +267,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             totalWritten += len;
 
-            deferred.notifyUpload(new WriteProgress(totalSize > 0 ?
+            deferred.notifyUpload(new WriteProgress(request, totalSize > 0 ?
                     new FixedProgressEvent(totalWritten, totalSize) :
                     new ChunkedProgressEvent(totalWritten),
                     // TODO: expose an option to enable buffering (default disabled)
@@ -289,7 +289,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
                 totalWritten += stepRead;
 
-                deferred.notifyUpload(new WriteProgress(totalSize > 0 ?
+                deferred.notifyUpload(new WriteProgress(request, totalSize > 0 ?
                         new FixedProgressEvent(totalWritten, totalSize) :
                         new ChunkedProgressEvent(totalWritten),
                         // TODO: expose an option to enable buffering (default disabled)
@@ -324,7 +324,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             totalRead += stepRead;
 
-            deferred.notifyDownload(new WriteProgress(contentLength > 0 ?
+            deferred.notifyDownload(new WriteProgress(request, contentLength > 0 ?
                     new FixedProgressEvent(totalRead, contentLength) :
                     new ChunkedProgressEvent(totalRead),
                     // TODO: expose an option to enable buffering (default disabled)

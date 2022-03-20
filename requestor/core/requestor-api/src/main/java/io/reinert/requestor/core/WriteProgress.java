@@ -24,14 +24,16 @@ import io.reinert.requestor.core.payload.SerializedPayload;
  */
 public class WriteProgress {
 
+    private final SerializedRequest request;
     private final ProgressEvent progressEvent;
     private final SerializedPayload chunk;
 
-    public WriteProgress(ProgressEvent progressEvent) {
-        this(progressEvent, null);
+    public WriteProgress(SerializedRequest request, ProgressEvent progressEvent) {
+        this(request, progressEvent, null);
     }
 
-    public WriteProgress(ProgressEvent progressEvent, SerializedPayload chunk) {
+    public WriteProgress(SerializedRequest request, ProgressEvent progressEvent, SerializedPayload chunk) {
+        this.request = request;
         this.progressEvent = progressEvent;
         this.chunk = chunk;
     }
@@ -97,5 +99,9 @@ public class WriteProgress {
     public double getCompletedFraction(int multiplyingFactor) {
         if (!isLengthComputable()) return 0.0;
         return ((double) getLoaded() / (double) getTotal()) * (double) multiplyingFactor;
+    }
+
+    public SerializedRequest getRequest() {
+        return request;
     }
 }

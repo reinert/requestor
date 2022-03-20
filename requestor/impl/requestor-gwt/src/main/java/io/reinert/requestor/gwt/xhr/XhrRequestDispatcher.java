@@ -146,7 +146,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             @Override
             public void onProgress(ProgressEvent progress) {
                 if (deferred.isPending()) {
-                    deferred.notifyDownload(new WriteProgress(progress));
+                    deferred.notifyDownload(new WriteProgress(request, progress));
                 }
             }
         });
@@ -156,7 +156,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             @Override
             public void onProgress(ProgressEvent progress) {
                 if (deferred.isPending()) {
-                    deferred.notifyUpload(new WriteProgress(progress));
+                    deferred.notifyUpload(new WriteProgress(request, progress));
                 }
             }
         });
