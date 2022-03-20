@@ -216,4 +216,28 @@ public class RequestEventTest extends NetTest {
         finishTest(result, TIMEOUT);
     }
 
+    @Test(timeout = TIMEOUT)
+    public void testWriteOnDownload() throws Throwable {
+        final TestResult result = new TestResult();
+
+        final NetSession session = new NetSession();
+        session.setMediaType("application/octet-stream");
+
+        final String byteSize = String.valueOf((session.getInputBufferSize() * 2) + 1);
+
+        final Path tempPath = Files.createTempFile("requestor-net-SerializationTest-testWriteOnDownload-", null);
+        final File tempFile = tempPath.toFile();
+        tempFile.deleteOnExit();
+
+        final OutputStream os = new FileOutputStream(tempFile);
+
+        session.get("https://httpbin.org/bytes/" + byteSize, byte[].class)
+                .onRead(assay(result, (ReadProgress p) -> os.write(p.getChunk().asBytes())))
+                .onSuccess(assay(result, os::close))
+                .onSuccess(test(result, (byte[] body) -> Assert.assertArrayEquals(body, Files.readAllBytes(tempPath))))
+                .onFail(failOnEvent(result))
+                .onError(failOnError(result));
+
+        finishTest(result, TIMEOUT);
+    }
 }
