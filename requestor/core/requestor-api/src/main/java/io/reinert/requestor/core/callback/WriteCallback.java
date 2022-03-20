@@ -22,6 +22,6 @@ import io.reinert.requestor.core.WriteProgress;
  *
  * @author Danilo Reinert
  */
-public interface ProgressCallback {
+public interface WriteCallback {
     void execute(WriteProgress progress);
 }

@@ -33,7 +33,7 @@
             <br/>session.req("https://httpbin.org/post")
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.payload(payload)
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.post()
-            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onWrite(new ProgressCallback() {
+            <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;.onWrite(new WriteCallback() {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;public void execute(WriteProgress progress) {
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if (progress.isLengthComputable())
             <br/>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;view.setSendProgressStatus((progress.getLoaded() / progress.getTotal()) * 100);

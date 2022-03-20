@@ -41,6 +41,7 @@ import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 import io.reinert.requestor.core.callback.VoidCallback;
+import io.reinert.requestor.core.callback.WriteCallback;
 
 /**
  * Default Deferred implementation.
@@ -226,7 +227,7 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
-    public DeferredRequest<T> onProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public DeferredRequest<T> onProgress(final WriteCallback callback) {
         deferred.progress(new ProgressCallback<WriteProgress>() {
             public void onProgress(WriteProgress progress) {
                 callback.execute(progress);
@@ -403,7 +404,7 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
-    public DeferredRequest<T> onUpProgress(final io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public DeferredRequest<T> onUpProgress(final WriteCallback callback) {
         deferred.upProgress(new ProgressCallback<WriteProgress>() {
             public void onProgress(WriteProgress progress) {
                 callback.execute(progress);

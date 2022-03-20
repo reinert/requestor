@@ -20,12 +20,12 @@ import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
-import io.reinert.requestor.core.callback.ProgressCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 import io.reinert.requestor.core.callback.VoidCallback;
+import io.reinert.requestor.core.callback.WriteCallback;
 
 /**
  * An observable polling Request.
@@ -76,7 +76,7 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onFail(ResponseRequestCallback<T> callback);
 
     @Override
-    PollingRequest<T> onRead(ProgressCallback callback);
+    PollingRequest<T> onRead(WriteCallback callback);
 
     @Override
     PollingRequest<T> onStatus(int statusCode, VoidCallback callback);
@@ -124,5 +124,5 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onTimeout(TimeoutRequestCallback<T> callback);
 
     @Override
-    PollingRequest<T> onWrite(ProgressCallback callback);
+    PollingRequest<T> onWrite(WriteCallback callback);
 }

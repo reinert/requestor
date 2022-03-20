@@ -20,12 +20,12 @@ import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.PayloadResponseCallback;
 import io.reinert.requestor.core.callback.PayloadResponseRequestCallback;
-import io.reinert.requestor.core.callback.ProgressCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 import io.reinert.requestor.core.callback.VoidCallback;
+import io.reinert.requestor.core.callback.WriteCallback;
 
 /**
  * An observable Request.
@@ -66,7 +66,7 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onFail(ResponseRequestCallback<T> callback);
 
-    Request<T> onRead(ProgressCallback callback);
+    Request<T> onRead(WriteCallback callback);
 
     Request<T> onStatus(int statusCode, VoidCallback callback);
 
@@ -98,6 +98,6 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onTimeout(TimeoutRequestCallback<T> callback);
 
-    Request<T> onWrite(ProgressCallback callback);
+    Request<T> onWrite(WriteCallback callback);
 
 }

@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.WriteProgress;
 import io.reinert.requestor.core.callback.PayloadCallback;
-import io.reinert.requestor.core.callback.ProgressCallback;
+import io.reinert.requestor.core.callback.WriteCallback;
 import io.reinert.requestor.examples.showcase.Showcase;
 import io.reinert.requestor.examples.showcase.ui.BinaryData;
 import io.reinert.requestor.examples.showcase.util.Page;
@@ -67,7 +67,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
                         view.setSendText(result);
                     }
                 })
-                .onWrite(new ProgressCallback() {
+                .onWrite(new WriteCallback() {
                     public void execute(WriteProgress progress) {
                         if (progress.isLengthComputable())
                             view.setSendProgressStatus(progress.getCompletedFraction(100));
@@ -84,7 +84,7 @@ public class BinaryDataActivity extends ShowcaseActivity implements BinaryData.H
     public void onRetrieveButtonClick(String url) {
         session.req(url)
                 .get(Blob.class)
-                .onRead(new ProgressCallback() {
+                .onRead(new WriteCallback() {
                     public void execute(WriteProgress progress) {
                         if (progress.isLengthComputable())
                             view.setRetrieveProgressStatus(progress.getCompletedFraction(100));

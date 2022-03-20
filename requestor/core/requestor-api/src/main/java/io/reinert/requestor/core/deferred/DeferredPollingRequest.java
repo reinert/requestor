@@ -41,6 +41,7 @@ import io.reinert.requestor.core.callback.ResponseRequestCallback;
 import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 import io.reinert.requestor.core.callback.VoidCallback;
+import io.reinert.requestor.core.callback.WriteCallback;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.uri.Uri;
@@ -307,7 +308,7 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public PollingRequest<T> onRead(io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public PollingRequest<T> onRead(WriteCallback callback) {
         getLastDeferred().onProgress(callback);
         return this;
     }
@@ -403,7 +404,7 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public PollingRequest<T> onWrite(io.reinert.requestor.core.callback.ProgressCallback callback) {
+    public PollingRequest<T> onWrite(WriteCallback callback) {
         getLastDeferred().onUpProgress(callback);
         return this;
     }

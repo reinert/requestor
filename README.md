@@ -529,7 +529,7 @@ session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() 
         if (progress.isLengthComputable())
             view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );
     }
-}).onWrite(new ProgressCallback() {
+}).onWrite(new WriteCallback() {
     public void execute(WriteProgress progress) {
         // This is executed many times while the request is being sent
         if (progress.isLengthComputable())
