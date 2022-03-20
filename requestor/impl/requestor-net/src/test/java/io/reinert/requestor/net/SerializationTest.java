@@ -18,8 +18,8 @@ package io.reinert.requestor.net;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -39,7 +39,7 @@ public class SerializationTest extends NetTest {
     private static final int TIMEOUT = 10_000;
 
     @Test(timeout = TIMEOUT)
-    public void testFormDataUrlEncoded() {
+    public void testFormDataUrlEncoded() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -71,7 +71,7 @@ public class SerializationTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testFormDataMultiPartPlainContent() {
+    public void testFormDataMultiPartPlainContent() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -103,7 +103,7 @@ public class SerializationTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testFormDataMultiPartBinaryContent() {
+    public void testFormDataMultiPartBinaryContent() throws Throwable {
         final TestResult result = new TestResult();
 
         final NetSession session = new NetSession();
@@ -141,22 +141,20 @@ public class SerializationTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testFile() throws IOException {
+    public void testFile() throws Throwable {
         final TestResult result = new TestResult();
 
         final NetSession session = new NetSession();
 
-        final String filePath = "/tmp/requestor-" + generateRandomString(32);
+        final File tempFile = Files.createTempFile("requestor-net-SerializationTest-testFile-", null).toFile();
+        tempFile.deleteOnExit();
 
         final byte[] bytes = new byte[(session.getOutputBufferSize() * 2) + 1];
         Arrays.fill(bytes, (byte) 1);
 
-        try (FileOutputStream stream = new FileOutputStream(filePath)) {
+        try (FileOutputStream stream = new FileOutputStream(tempFile)) {
             stream.write(bytes);
         }
-
-        final File file = new File(filePath);
-        file.deleteOnExit();
 
         final int expectedProgressCalls = 3;
         final AtomicInteger progressCalls = new AtomicInteger(0);
@@ -165,7 +163,7 @@ public class SerializationTest extends NetTest {
 
         final AtomicLong bytesWritten = new AtomicLong(0);
 
-        session.post("https://httpbin.org/post", file)
+        session.post("https://httpbin.org/post", tempFile)
                 .onWrite(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
                 .onWrite(p -> bytesWritten.set(p.getLoaded()))
                 .onWrite(p -> progressCalls.addAndGet(1))
@@ -185,7 +183,7 @@ public class SerializationTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testInputStream() {
+    public void testInputStream() throws Throwable {
         final TestResult result = new TestResult();
 
         final NetSession session = new NetSession();

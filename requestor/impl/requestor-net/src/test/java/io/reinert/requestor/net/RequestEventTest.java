@@ -15,10 +15,16 @@
  */
 package io.reinert.requestor.net;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import io.reinert.requestor.core.ReadProgress;
 import io.reinert.requestor.core.RequestFilter;
 import io.reinert.requestor.core.Session;
 
@@ -37,7 +43,7 @@ public class RequestEventTest extends NetTest {
     //=========================================================================
 
     @Test(timeout = TIMEOUT)
-    public void testLoadEvent() {
+    public void testLoadEvent() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -51,7 +57,7 @@ public class RequestEventTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testSuccessEvent() {
+    public void testSuccessEvent() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -65,7 +71,7 @@ public class RequestEventTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testFailEvent() {
+    public void testFailEvent() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -79,7 +85,7 @@ public class RequestEventTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testStatusEvent() {
+    public void testStatusEvent() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -97,7 +103,7 @@ public class RequestEventTest extends NetTest {
     //=========================================================================
 
     @Test(timeout = TIMEOUT)
-    public void testAbortEvent() {
+    public void testAbortEvent() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -116,7 +122,7 @@ public class RequestEventTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testTimeoutEvent() {
+    public void testTimeoutEvent() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -137,7 +143,7 @@ public class RequestEventTest extends NetTest {
     //=========================================================================
 
     @Test(timeout = TIMEOUT)
-    public void testUploadProgressEvent() {
+    public void testUploadProgressEvent() throws Throwable {
         final TestResult result = new TestResult();
 
         final NetSession session = new NetSession();
@@ -174,7 +180,7 @@ public class RequestEventTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testDownloadProgressEvent() {
+    public void testDownloadProgressEvent() throws Throwable {
         final TestResult result = new TestResult();
 
         final NetSession session = new NetSession();
@@ -209,4 +215,5 @@ public class RequestEventTest extends NetTest {
 
         finishTest(result, TIMEOUT);
     }
+
 }

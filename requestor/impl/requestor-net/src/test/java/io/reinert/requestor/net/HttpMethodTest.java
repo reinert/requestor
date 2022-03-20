@@ -31,7 +31,7 @@ public class HttpMethodTest extends NetTest {
     //=========================================================================
 
     @Test(timeout = TIMEOUT)
-    public void testGetMethod() {
+    public void testGetMethod() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -45,7 +45,7 @@ public class HttpMethodTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testPostMethod() {
+    public void testPostMethod() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -59,7 +59,7 @@ public class HttpMethodTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testPutMethod() {
+    public void testPutMethod() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -73,7 +73,7 @@ public class HttpMethodTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testPatchMethod() {
+    public void testPatchMethod() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -87,7 +87,7 @@ public class HttpMethodTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testDeleteMethod() {
+    public void testDeleteMethod() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -101,7 +101,7 @@ public class HttpMethodTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testHeadMethod() {
+    public void testHeadMethod() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
@@ -115,7 +115,7 @@ public class HttpMethodTest extends NetTest {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testOptionsMethod() {
+    public void testOptionsMethod() throws Throwable {
         final TestResult result = new TestResult();
 
         final Session session = new NetSession();
