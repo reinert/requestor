@@ -15,8 +15,8 @@
  */
 package io.reinert.requestor.gwt;
 
+import io.reinert.requestor.core.Base64Codec;
 import io.reinert.requestor.core.Requestor;
-import io.reinert.requestor.core.auth.BasicAuth;
 import io.reinert.requestor.core.auth.DigestAuth;
 
 /**
@@ -34,9 +34,18 @@ public class RequestorGwt {
     public static void init() {
         if (!Requestor.isInitialized()) {
             Requestor.init(
-                    new BasicAuth.Base64() {
+                    new Base64Codec() {
+                        public native String decode(String encoded, String charset) /*-{
+                            return $wnd.atob(encoded);
+                        }-*/;
+
                         @Override
-                        public native String encode(String text) /*-{
+                        public String decode(byte[] encoded, String toCharset) {
+                            throw new UnsupportedOperationException("Cannot base64 decode from byte[]. " +
+                                    "Byte array is not supported in requestor-gwt.");
+                        }
+
+                        public native String encode(String text, String charset) /*-{
                             return $wnd.btoa(text);
                         }-*/;
                     },

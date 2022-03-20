@@ -15,15 +15,16 @@
  */
 package io.reinert.requestor.net;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+import io.reinert.requestor.core.Base64Codec;
 import io.reinert.requestor.core.Requestor;
 import io.reinert.requestor.core.auth.DigestAuth;
 
@@ -45,9 +46,36 @@ public class RequestorNet {
      */
     public static void init() {
         if (!Requestor.isInitialized()) {
-            // TODO: define the charcode
             Requestor.init(
-                    text -> Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8)),
+                    new Base64Codec() {
+                        public String decode(String encoded, String charset) {
+                            try {
+                                return new String(Base64.getDecoder().decode(encoded), charset);
+                            } catch (UnsupportedEncodingException e) {
+                                throw new UnsupportedOperationException(
+                                        "Cannot decode base64 input to charset '" + charset + "'.", e);
+                            }
+                        }
+
+                        @Override
+                        public String decode(byte[] encoded, String charset) {
+                            try {
+                                return new String(Base64.getDecoder().decode(encoded), charset);
+                            } catch (UnsupportedEncodingException e) {
+                                throw new UnsupportedOperationException(
+                                        "Cannot decode base64 input to charset '" + charset + "'.", e);
+                            }
+                        }
+
+                        public String encode(String text, String charset) {
+                            try {
+                                return Base64.getEncoder().encodeToString(text.getBytes(charset));
+                            } catch (UnsupportedEncodingException e) {
+                                throw new UnsupportedOperationException(
+                                        "Cannot encode base64 input from charset '" + charset + "'.", e);
+                            }
+                        }
+                    },
                     new NetUriCodec()
             );
         }

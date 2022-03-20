@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import io.reinert.requestor.core.auth.BasicAuth;
 import io.reinert.requestor.core.uri.UriCodec;
 
 /**
@@ -32,14 +31,14 @@ public class Requestor {
      *
      * <p>Call this method in a static block in the app's entry point.</p>
      */
-    public static void init(BasicAuth.Base64 base64, UriCodec uriCodec) {
+    public static void init(Base64Codec base64Codec, UriCodec uriCodec) {
         if (initialized) throw new IllegalStateException("Requestor is already initialized.");
 
-        if (base64 == null) throw new IllegalArgumentException("BasicAuth.Base64 cannot be null");
+        if (base64Codec == null) throw new IllegalArgumentException("Base64Codec cannot be null");
         if (uriCodec == null) throw new IllegalArgumentException("UriCodec cannot be null");
 
-        BasicAuth.BASE64 = base64;
-        UriCodec.INSTANCE = uriCodec;
+        Base64Codec.setInstance(base64Codec);
+        UriCodec.setInstance(uriCodec);
 
         initialized = true;
     }

@@ -16,6 +16,8 @@
 package io.reinert.requestor.core.auth;
 
 import io.reinert.requestor.core.Auth;
+import io.reinert.requestor.core.AuthException;
+import io.reinert.requestor.core.Base64Codec;
 import io.reinert.requestor.core.PreparedRequest;
 
 /**
@@ -24,31 +26,21 @@ import io.reinert.requestor.core.PreparedRequest;
  *
  * @author Danilo Reinert
  */
-public class BasicAuth implements Auth {
-
-    public interface Base64 {
-        String encode(String text);
-    }
-
-    // Requestor implementations must set this
-    public static Base64 BASE64 = null;
-
-    public static Base64 getBase64() {
-        if (BASE64 == null) {
-            throw new IllegalStateException("Requestor was not initialized. Please call Requestor.init.");
-        }
-        return BASE64;
-    }
+public class BasicAuth implements Auth, Base64Codec.Holder {
 
     private final String user;
     private final String password;
     private final boolean withCredentials;
+    private Base64Codec base64Codec;
+    private String charset;
 
     public BasicAuth(String user, String password) {
         this(user, password, false);
     }
 
     public BasicAuth(String user, String password, boolean withCredentials) {
+        if (user == null) throw new IllegalArgumentException("BasicAuth user cannot be null.");
+        if (password == null) throw new IllegalArgumentException("BasicAuth password cannot be null.");
         this.user = user;
         this.password = password;
         this.withCredentials = withCredentials;
@@ -56,8 +48,17 @@ public class BasicAuth implements Auth {
 
     @Override
     public void auth(PreparedRequest request) {
-        request.setHeader("Authorization", "Basic " + getBase64().encode(user + ":" + password));
+        if (base64Codec == null) {
+            throw new AuthException("Could not perform Basic authentication. The Base64Codec is not set.");
+        }
+        request.setHeader("Authorization", "Basic " + base64Codec.encode(user + ":" + password, charset));
         request.setWithCredentials(withCredentials);
         request.send();
+    }
+
+    @Override
+    public void setBase64Codec(Base64Codec codec, String charset) {
+        this.base64Codec = codec;
+        this.charset = charset;
     }
 }
