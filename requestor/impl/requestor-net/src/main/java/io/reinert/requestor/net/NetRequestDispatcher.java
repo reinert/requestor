@@ -46,11 +46,11 @@ import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
-import io.reinert.requestor.core.RequestProgress;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
+import io.reinert.requestor.core.WriteProgress;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
@@ -267,7 +267,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             totalWritten += len;
 
-            deferred.notifyUpload(new RequestProgress(totalSize > 0 ?
+            deferred.notifyUpload(new WriteProgress(totalSize > 0 ?
                     new FixedProgressEvent(totalWritten, totalSize) :
                     new ChunkedProgressEvent(totalWritten),
                     // TODO: expose an option to enable buffering (default disabled)
@@ -289,7 +289,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
                 totalWritten += stepRead;
 
-                deferred.notifyUpload(new RequestProgress(totalSize > 0 ?
+                deferred.notifyUpload(new WriteProgress(totalSize > 0 ?
                         new FixedProgressEvent(totalWritten, totalSize) :
                         new ChunkedProgressEvent(totalWritten),
                         // TODO: expose an option to enable buffering (default disabled)
@@ -324,7 +324,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             totalRead += stepRead;
 
-            deferred.notifyDownload(new RequestProgress(contentLength > 0 ?
+            deferred.notifyDownload(new WriteProgress(contentLength > 0 ?
                     new FixedProgressEvent(totalRead, contentLength) :
                     new ChunkedProgressEvent(totalRead),
                     // TODO: expose an option to enable buffering (default disabled)

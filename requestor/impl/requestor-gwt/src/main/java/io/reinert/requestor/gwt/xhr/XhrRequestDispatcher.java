@@ -36,10 +36,10 @@ import io.reinert.requestor.core.RequestDispatchException;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
-import io.reinert.requestor.core.RequestProgress;
 import io.reinert.requestor.core.RequestTimeoutException;
 import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
+import io.reinert.requestor.core.WriteProgress;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
@@ -146,7 +146,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             @Override
             public void onProgress(ProgressEvent progress) {
                 if (deferred.isPending()) {
-                    deferred.notifyDownload(new RequestProgress(progress));
+                    deferred.notifyDownload(new WriteProgress(progress));
                 }
             }
         });
@@ -156,7 +156,7 @@ public class XhrRequestDispatcher extends RequestDispatcher {
             @Override
             public void onProgress(ProgressEvent progress) {
                 if (deferred.isPending()) {
-                    deferred.notifyUpload(new RequestProgress(progress));
+                    deferred.notifyUpload(new WriteProgress(progress));
                 }
             }
         });

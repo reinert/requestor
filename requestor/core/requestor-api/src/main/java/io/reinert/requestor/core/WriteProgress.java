@@ -22,30 +22,30 @@ import io.reinert.requestor.core.payload.SerializedPayload;
  *
  * @author Danilo Reinert
  */
-public class RequestProgress {
+public class WriteProgress {
 
-    private final ProgressEvent requestProgress;
-    private final SerializedPayload serializedPayload;
+    private final ProgressEvent progressEvent;
+    private final SerializedPayload chunk;
 
-    public RequestProgress(ProgressEvent requestProgress) {
-        this(requestProgress, null);
+    public WriteProgress(ProgressEvent progressEvent) {
+        this(progressEvent, null);
     }
 
-    public RequestProgress(ProgressEvent requestProgress, SerializedPayload serializedPayload) {
-        this.requestProgress = requestProgress;
-        this.serializedPayload = serializedPayload;
+    public WriteProgress(ProgressEvent progressEvent, SerializedPayload chunk) {
+        this.progressEvent = progressEvent;
+        this.chunk = chunk;
     }
 
     public boolean isLengthComputable() {
-        return requestProgress.lengthComputable();
+        return progressEvent.lengthComputable();
     }
 
     public boolean isChunkAvailable() {
-        return serializedPayload != null;
+        return chunk != null;
     }
 
     public SerializedPayload getChunk() {
-        return serializedPayload;
+        return chunk;
     }
 
     /**
@@ -57,7 +57,7 @@ public class RequestProgress {
      * @return The loaded amount if available, 0 otherwise
      */
     public long getLoaded() {
-        return requestProgress.loaded();
+        return progressEvent.loaded();
     }
 
     /**
@@ -69,7 +69,7 @@ public class RequestProgress {
      * @return The total amount if available, 0 otherwise
      */
     public long getTotal() {
-        return requestProgress.total();
+        return progressEvent.total();
     }
 
     /**

@@ -530,7 +530,7 @@ session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() 
             view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );
     }
 }).onWrite(new ProgressCallback() {
-    public void execute(RequestProgress progress) {
+    public void execute(WriteProgress progress) {
         // This is executed many times while the request is being sent
         if (progress.isLengthComputable())
           // getCompletedFraction(int factor) calculates (loaded/total)*factor
