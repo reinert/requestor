@@ -40,7 +40,7 @@ public class OverlaySerializerGwtTest extends GWTTestCase {
 
     @SuppressWarnings("unchecked")
     public void testDeserializeCollection() throws Exception {
-        DeserializationContext ctx = new DeserializationContext(JavaScriptObject.class) {
+        DeserializationContext ctx = new DeserializationContext(JavaScriptObject.class, null) {
             @Override
             public <T> T getInstance(Class<T> type) {
                 return (T) new ArrayList<Object>();

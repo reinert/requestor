@@ -24,14 +24,16 @@ public abstract class DeserializationContext {
 
     private final Class<?> requestedType;
     private final Class<?> parametrizedType;
+    private final String charset;
 
-    protected DeserializationContext(Class<?> requestedType) {
-        this(requestedType, null);
+    protected DeserializationContext(Class<?> requestedType, String charset) {
+        this(requestedType, null, charset);
     }
 
-    protected DeserializationContext(Class<?> requestedType, Class<?> parametrizedType) {
+    protected DeserializationContext(Class<?> requestedType, Class<?> parametrizedType, String charset) {
         this.requestedType = requestedType;
         this.parametrizedType = parametrizedType;
+        this.charset = charset;
     }
 
     public abstract <T> T getInstance(Class<T> type);
