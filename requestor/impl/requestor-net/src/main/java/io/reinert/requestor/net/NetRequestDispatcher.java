@@ -214,10 +214,13 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             // Payload download
             SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
-            if (responseStatus.getFamily() == StatusFamily.SUCCESSFUL &&
-                    payloadType != null && payloadType.getType() != Void.class) {
+            if (payloadType != null && payloadType.getType() != Void.class) {
                 // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
-                try (InputStream in = new BufferedInputStream(conn.getInputStream(), inputBufferSize)) {
+                try (InputStream in = new BufferedInputStream(
+                        responseStatus.getFamily() == StatusFamily.SUCCESSFUL ?
+                                conn.getInputStream() :
+                                conn.getErrorStream(),
+                        inputBufferSize)) {
                     serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in, response);
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
