@@ -22,13 +22,17 @@ package io.reinert.requestor.core.uri;
  */
 public abstract class UriCodec {
 
-    public static UriCodec INSTANCE = null;
+    private static UriCodec INSTANCE = null;
 
     public static UriCodec getInstance() {
         if (INSTANCE == null) {
             throw new IllegalStateException("Requestor was not initialized. Please call Requestor.init.");
         }
         return INSTANCE;
+    }
+
+    public static synchronized void setInstance(UriCodec uriCodec) {
+        INSTANCE = uriCodec;
     }
 
     /**
