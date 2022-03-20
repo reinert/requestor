@@ -209,7 +209,7 @@ class NetRequestDispatcher extends RequestDispatcher {
                     payloadType != null && payloadType.getType() != Void.class) {
                 // TODO: retrieve requestor.javanet.inputBufferSize from store if it exists (the same for output)
                 try (InputStream in = new BufferedInputStream(conn.getInputStream(), inputBufferSize)) {
-                    serializedResponse = readInputStreamToSerializedPayload(deferred, conn, in);
+                    serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in);
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
@@ -271,7 +271,8 @@ class NetRequestDispatcher extends RequestDispatcher {
                     new FixedProgressEvent(totalWritten, totalSize) :
                     new ChunkedProgressEvent(totalWritten),
                     // TODO: expose an option to enable buffering (default disabled)
-                    serializeContent(request.getContentType(), Arrays.copyOfRange(bytes, off, off + len))));
+                    serializeContent(request.getContentType(), Arrays.copyOfRange(bytes, off, off + len),
+                            request.getCharset())));
         }
 
         return totalWritten;
@@ -292,15 +293,17 @@ class NetRequestDispatcher extends RequestDispatcher {
                         new FixedProgressEvent(totalWritten, totalSize) :
                         new ChunkedProgressEvent(totalWritten),
                         // TODO: expose an option to enable buffering (default disabled)
-                        serializeContent(request.getContentType(), Arrays.copyOfRange(buffer, 0, stepRead))));
+                        serializeContent(request.getContentType(), Arrays.copyOfRange(buffer, 0, stepRead),
+                                request.getCharset())));
             }
 
             return totalWritten;
         }
     }
 
-    private <R> SerializedPayload readInputStreamToSerializedPayload(Deferred<R> deferred, HttpURLConnection conn,
-                                                                     InputStream in) throws IOException {
+    private <R> SerializedPayload readInputStreamToSerializedPayload(PreparedRequest request, Deferred<R> deferred,
+                                                                     HttpURLConnection conn, InputStream in)
+            throws IOException {
         final String contentType = conn.getContentType();
         final int contentLength = conn.getContentLength();
 
@@ -325,10 +328,10 @@ class NetRequestDispatcher extends RequestDispatcher {
                     new FixedProgressEvent(totalRead, contentLength) :
                     new ChunkedProgressEvent(totalRead),
                     // TODO: expose an option to enable buffering (default disabled)
-                    serializeContent(contentType, Arrays.copyOf(buffer, stepRead))));
+                    serializeContent(contentType, Arrays.copyOf(buffer, stepRead), request.getCharset())));
         }
 
-        return serializeContent(contentType, body);
+        return serializeContent(contentType, body, request.getCharset());
     }
 
     private Headers readResponseHeaders(HttpURLConnection conn) {
@@ -342,10 +345,10 @@ class NetRequestDispatcher extends RequestDispatcher {
         return new Headers(headers);
     }
 
-    private SerializedPayload serializeContent(String mediaType, byte[] content) {
+    private SerializedPayload serializeContent(String mediaType, byte[] content, String charset) {
         if (content == null || content.length == 0) return SerializedPayload.EMPTY_PAYLOAD;
         return "application/octet-stream".equalsIgnoreCase(mediaType)
-                ? new BinarySerializedPayload(content) : new TextSerializedPayload(content);
+                ? new BinarySerializedPayload(content) : new TextSerializedPayload(content, charset);
     }
 
     private NetHttpConnection getNetConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
