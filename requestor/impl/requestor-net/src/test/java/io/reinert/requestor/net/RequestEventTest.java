@@ -26,7 +26,9 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import io.reinert.requestor.core.ReadProgress;
 import io.reinert.requestor.core.RequestFilter;
+import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.payload.SerializedPayload;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -238,6 +240,40 @@ public class RequestEventTest extends NetTest {
                 .onRead(assay(result, (ReadProgress p) -> os.write(p.getChunk().asBytes())))
                 .onSuccess(assay(result, os::close))
                 .onSuccess(test(result, (byte[] body) -> Assert.assertArrayEquals(body, Files.readAllBytes(tempPath))))
+                .onFail(failOnEvent(result))
+                .onError(failOnError(result));
+
+        finishTest(result, TIMEOUT);
+    }
+
+    @Test(timeout = TIMEOUT)
+    public void testReadChunkingWithVoidPayload() throws Throwable {
+        final TestResult result = new TestResult();
+
+        final NetSession session = new NetSession();
+        session.setMediaType("application/octet-stream");
+        session.save(RequestorNet.READ_CHUNKING, true);
+
+        final int expectedProgressCalls = 3;
+        final AtomicInteger progressCalls = new AtomicInteger(0);
+
+        final int byteSize = (session.getInputBufferSize() * 2) + 1;
+
+        final byte[][] buffers = new byte[expectedProgressCalls][];
+
+        session.get("https://httpbin.org/bytes/" + byteSize)
+                .onRead(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
+                .onRead(p -> progressCalls.addAndGet(1))
+                .onSuccess(test(result, (Void none, Response res) -> {
+                    Assert.assertEquals(expectedProgressCalls, progressCalls.get());
+                    Assert.assertEquals(SerializedPayload.EMPTY_PAYLOAD, res.getSerializedPayload());
+
+                    int totalLength = 0;
+                    for (int i = 0; i < expectedProgressCalls; i++) {
+                        totalLength += buffers[i].length;
+                    }
+                    Assert.assertEquals(byteSize, totalLength);
+                }))
                 .onFail(failOnEvent(result))
                 .onError(failOnError(result));
 
