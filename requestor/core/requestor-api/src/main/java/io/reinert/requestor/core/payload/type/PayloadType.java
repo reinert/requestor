@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import java.util.Map;
  * @author Danilo Reinert
  */
 public interface PayloadType extends Iterable<Map.Entry<String, PayloadType>> {
+
+    PayloadType VOID = new SinglePayloadType<Void>(Void.class);
 
     String ROOT_KEY = "";
 

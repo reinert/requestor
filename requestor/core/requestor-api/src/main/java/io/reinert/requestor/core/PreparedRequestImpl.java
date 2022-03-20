@@ -48,7 +48,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
         this.dispatcher = dispatcher;
         this.request = request;
         this.deferred = deferred;
-        this.responsePayloadType = responsePayloadType;
+        this.responsePayloadType = responsePayloadType == null ? PayloadType.VOID : responsePayloadType;
         this.withCredentials = withCredentials;
         this.uri = new UriWithQueryBuilder(request.getUri());
     }
