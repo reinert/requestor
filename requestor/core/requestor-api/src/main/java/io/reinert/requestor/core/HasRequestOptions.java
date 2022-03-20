@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,6 +58,10 @@ public interface HasRequestOptions extends HasHeaders {
     void setDelay(int delayMillis);
 
     int getDelay();
+
+    void setCharset(String charset);
+
+    String getCharset();
 
     void setRetry(int[] delaysMillis, Event... events);
 

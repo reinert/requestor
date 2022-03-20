@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -431,6 +431,16 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     @Override
     public int getDelay() {
         return options.getDelay();
+    }
+
+    @Override
+    public void setCharset(String charset) {
+        options.setCharset(charset);
+    }
+
+    @Override
+    public String getCharset() {
+        return options.getCharset();
     }
 
     @Override

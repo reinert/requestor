@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -194,6 +194,16 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
     @Override
     public int getDelay() {
         return options.getDelay();
+    }
+
+    @Override
+    public void setCharset(String charset) {
+        options.setCharset(charset);
+    }
+
+    @Override
+    public String getCharset() {
+        return options.getCharset();
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,5 +103,12 @@ public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOp
      * @param httpMethod The HTTP method of the request
      */
     void setMethod(HttpMethod httpMethod);
+
+    /**
+     * Sets the charset of the request.
+     *
+     * @param charset The char set of the request
+     */
+    void setCharset(String charset);
 
 }

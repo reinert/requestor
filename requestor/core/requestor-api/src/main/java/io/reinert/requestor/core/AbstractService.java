@@ -100,6 +100,16 @@ public class AbstractService implements Service {
     }
 
     @Override
+    public void setCharset(String charset) {
+        options.setCharset(charset);
+    }
+
+    @Override
+    public String getCharset() {
+        return options.getCharset();
+    }
+
+    @Override
     public void setRetry(int[] delaysMillis, Event... events) {
         options.setRetry(delaysMillis, events);
     }

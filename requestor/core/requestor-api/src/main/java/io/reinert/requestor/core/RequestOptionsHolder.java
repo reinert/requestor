@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ class RequestOptionsHolder implements HasRequestOptions {
     private Auth.Provider authProvider;
     private int timeout;
     private int delay;
+    private String charset;
     private int[] retryDelays;
     private Event[] retryEvents;
     private final Headers headers = new Headers();
@@ -38,6 +39,7 @@ class RequestOptionsHolder implements HasRequestOptions {
         copy.setAuth(options.authProvider);
         copy.setTimeout(options.timeout);
         copy.setDelay(options.delay);
+        copy.setCharset(options.charset);
         if (options.isRetryEnabled()) copy.setRetry(options.retryDelays, options.retryEvents);
         for (Header h : options.headers) copy.setHeader(h);
         return copy;
@@ -56,6 +58,7 @@ class RequestOptionsHolder implements HasRequestOptions {
         authProvider = null;
         timeout = 0;
         delay = 0;
+        charset = null;
         retryDelays = null;
         retryEvents = null;
         headers.clear();
@@ -125,6 +128,16 @@ class RequestOptionsHolder implements HasRequestOptions {
     @Override
     public int getDelay() {
         return delay;
+    }
+
+    @Override
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
+
+    @Override
+    public String getCharset() {
+        return charset;
     }
 
     @Override
@@ -202,6 +215,10 @@ class RequestOptionsHolder implements HasRequestOptions {
 
         if (delay > 0) {
             request.delay(delay);
+        }
+
+        if (charset != null) {
+            request.charset(charset);
         }
 
         if (isRetryEnabled()) {

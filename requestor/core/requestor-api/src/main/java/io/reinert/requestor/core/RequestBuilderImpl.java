@@ -43,6 +43,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private HttpMethod httpMethod;
     private int timeout;
     private int delay;
+    private String charset;
     private RetryOptions retryOptions;
     private PollingOptions pollingOptions;
     private Payload payload;
@@ -50,11 +51,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private boolean serialized;
 
     public RequestBuilderImpl(Uri uri, LeafStore store) {
-        this(uri, store, null, null, null, 0, 0, null, null, null, null, false);
+        this(uri, store, null, null, null, 0, 0, null, null, null, null, null, false);
     }
 
     public RequestBuilderImpl(Uri uri, LeafStore store, Headers headers, Auth.Provider authProvider,
-                              HttpMethod httpMethod, int timeout, int delay, RetryOptions retryOptions,
+                              HttpMethod httpMethod, int timeout, int delay, String charset, RetryOptions retryOptions,
                               PollingOptions pollingOptions, Payload payload, SerializedPayload serializedPayload,
                               boolean serialized) {
         if (uri == null) throw new IllegalArgumentException("Uri cannot be null");
@@ -66,6 +67,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
         this.httpMethod = httpMethod;
         this.timeout = timeout;
         this.delay = delay;
+        this.charset = charset == null ? Uri.CHARSET : charset;
         this.retryOptions = retryOptions;
         this.pollingOptions = pollingOptions != null ? pollingOptions : new PollingOptions();
         this.payload = payload != null ? payload : Payload.EMPTY_PAYLOAD;
@@ -130,6 +132,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public int getDelay() {
         return delay;
+    }
+
+    @Override
+    public String getCharset() {
+        return charset;
     }
 
     @Override
@@ -220,6 +227,12 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     public RequestBuilderImpl payload(Object payload, String... fields) {
         this.payload = payload == null ? Payload.EMPTY_PAYLOAD : payload instanceof Payload ?
                 (Payload) payload : new Payload(payload, fields);
+        return this;
+    }
+
+    @Override
+    public RequestBuilder charset(String charset) {
+        this.charset = charset;
         return this;
     }
 
@@ -351,6 +364,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
+
+    @Override
     public void setRetry(int[] delaysMillis, Event... events) {
         retry(delaysMillis, events);
     }
@@ -435,6 +453,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 httpMethod,
                 timeout,
                 delay,
+                charset,
                 retryOptions != null ? RetryOptions.copy(retryOptions) : null,
                 PollingOptions.copy(pollingOptions),
                 payload,
@@ -453,6 +472,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 httpMethod,
                 timeout,
                 delay,
+                charset,
                 retryOptions != null ? RetryOptions.copy(retryOptions) : null,
                 pollingOptions, // keep pollingOptions reference
                 payload,

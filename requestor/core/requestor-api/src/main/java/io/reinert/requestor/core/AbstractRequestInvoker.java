@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,6 +93,12 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
     @Override
     public AbstractRequestInvoker delay(int delayMillis) {
         super.delay(delayMillis);
+        return this;
+    }
+
+    @Override
+    public AbstractRequestInvoker charset(String charset) {
+        super.charset(charset);
         return this;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,9 @@ public interface RequestInvoker extends RequestBuilder, HttpInvoker {
 
     @Override
     RequestInvoker header(Header header);
+
+    @Override
+    RequestInvoker charset(String charset);
 
     @Override
     RequestInvoker auth(Auth auth);

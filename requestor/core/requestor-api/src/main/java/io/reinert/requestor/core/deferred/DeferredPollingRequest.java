@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -111,6 +111,11 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     @Override
     public int getDelay() {
         return serializedRequest.getDelay();
+    }
+
+    @Override
+    public String getCharset() {
+        return serializedRequest.getCharset();
     }
 
     @Override

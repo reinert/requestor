@@ -124,6 +124,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
+    public String getCharset() {
+        return request.getCharset();
+    }
+
+    @Override
     public List<Integer> getRetryDelays() {
         return request.getRetryDelays();
     }

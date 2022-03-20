@@ -164,6 +164,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public void setCharset(String charset) {
+        request.setCharset(charset);
+    }
+
+    @Override
     public void setSerializedPayload(SerializedPayload serializedPayload) {
         request.setSerializedPayload(serializedPayload);
     }
@@ -294,6 +299,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     @Override
     public final Auth getAuth() {
         return request.getAuth();
+    }
+
+    @Override
+    public String getCharset() {
+        return request.getCharset();
     }
 
     //===================================================================

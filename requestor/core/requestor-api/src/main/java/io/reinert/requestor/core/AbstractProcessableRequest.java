@@ -119,6 +119,16 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public void setCharset(String charset) {
+        request.setCharset(charset);
+    }
+
+    @Override
+    public String getCharset() {
+        return request.getCharset();
+    }
+
+    @Override
     public final String getAccept() {
         return request.getAccept();
     }
