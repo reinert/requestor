@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import java.util.List;
  * @author Danilo Reinert
  */
 public abstract class Uri {
+
+    public static final String CHARSET = "UTF-8";
 
     public static class Param {
         private final boolean isQuery;
@@ -99,12 +101,16 @@ public abstract class Uri {
         @Override
         public String toString() {
             final UriCodec uriCodec = UriCodec.getInstance();
-            final String encodedName = isQuery ? uriCodec.encodeQueryString(name) : uriCodec.encodePathSegment(name);
+            final String encodedName = isQuery ?
+                    uriCodec.encodeQueryString(name, CHARSET) :
+                    uriCodec.encodePathSegment(name, CHARSET);
             final StringBuilder sb = new StringBuilder();
             for (String value : values) {
                 sb.append(encodedName)
                         .append('=')
-                        .append(isQuery ? uriCodec.encodeQueryString(value) : uriCodec.encodePathSegment(value))
+                        .append(isQuery ?
+                                uriCodec.encodeQueryString(value, CHARSET) :
+                                uriCodec.encodePathSegment(value, CHARSET))
                         .append(separator);
             }
             return sb.substring(0, sb.length() - 1);

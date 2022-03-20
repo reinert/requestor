@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +73,8 @@ class UriParser {
         pos = parsedUri.indexOf('#');
         if (pos > -1) {
             // Check last char
-            fragment = parsedUri.length() - pos == 1 ? null : uriCodec.decode(parsedUri.substring(pos + 1));
+            fragment = parsedUri.length() - pos == 1 ? null :
+                    uriCodec.decode(parsedUri.substring(pos + 1), Uri.CHARSET);
             // Remove parsed part from parsing uri
             parsedUri = parsedUri.substring(0, pos);
         }
@@ -112,7 +113,7 @@ class UriParser {
         for (String segment : rawSegments) {
             if (segment.length() != 0) {
                 String[] matrixParts = segment.split(";");
-                final String parsedSegment = uriCodec.decode(matrixParts[0]);
+                final String parsedSegment = uriCodec.decode(matrixParts[0], Uri.CHARSET);
                 parsedSegments.add(parsedSegment);
                 if (matrixParts.length > 1) {
                     if (matrixParams == null) {
@@ -122,15 +123,15 @@ class UriParser {
                     matrixParams.put(parsedSegment, segmentParams);
                     for (int i = 1; i < matrixParts.length; i++) {
                         String[] matrixElements = matrixParts[i].split("=");
-                        String decodedName = uriCodec.decode(matrixElements[0]);
+                        String decodedName = uriCodec.decode(matrixElements[0], Uri.CHARSET);
                         Uri.Param param = segmentParams.get(decodedName);
                         if (param == null) {
                             segmentParams.put(decodedName, Uri.Param.matrix(decodedName, matrixElements.length == 1 ?
-                                    "" : uriCodec.decode(matrixElements[1])));
+                                    "" : uriCodec.decode(matrixElements[1], Uri.CHARSET)));
                         } else {
                             Object[] valuesArray = param.getValues().toArray(new Object[param.getValues().size() + 1]);
                             valuesArray[valuesArray.length - 1] = matrixElements.length == 1 ?
-                                    "" : uriCodec.decode(matrixElements[1]);
+                                    "" : uriCodec.decode(matrixElements[1], Uri.CHARSET);
                             segmentParams.put(decodedName, Uri.Param.matrix(decodedName, valuesArray));
                         }
                     }
@@ -156,8 +157,8 @@ class UriParser {
         // authority@ must come before /path
         if (pos > -1 && (pathDivider == -1 || pos < pathDivider)) {
             String[] t = uri.substring(0, pos).split(":");
-            user = t[0].length() != 0 ? uriCodec.decode(t[0]) : null;
-            password = t.length > 1 && t[1].length() != 0 ? uriCodec.decode(t[1]) : null;
+            user = t[0].length() != 0 ? uriCodec.decode(t[0], Uri.CHARSET) : null;
+            password = t.length > 1 && t[1].length() != 0 ? uriCodec.decode(t[1], Uri.CHARSET) : null;
             uri = uri.substring(pos + 1);
         } else {
             user = null;
@@ -193,16 +194,16 @@ class UriParser {
         String[] pairs = query.split("&");
         for (final String pair : pairs) {
             String[] p = pair.split("=");
-            String decodedName = uriCodec.decodeQueryString(p[0]);
+            String decodedName = uriCodec.decodeQueryString(p[0], Uri.CHARSET);
             Uri.Param param = queryParams.get(decodedName);
             if (param == null) {
                 // no "=" is null according http://dvcs.w3.org/hg/url/raw-file/tip/Overview.html#collect-url-parameters
                 queryParams.put(decodedName, Uri.Param.query(decodedName, p.length == 1 ?
-                        "" : uriCodec.decodeQueryString(p[1])));
+                        "" : uriCodec.decodeQueryString(p[1], Uri.CHARSET)));
             } else {
                 Object[] valuesArray = param.getValues().toArray(new Object[param.getValues().size() + 1]);
                 valuesArray[valuesArray.length - 1] = p.length == 1 ?
-                        "" : uriCodec.decodeQueryString(p[1]);
+                        "" : uriCodec.decodeQueryString(p[1], Uri.CHARSET);
                 queryParams.put(decodedName, Uri.Param.query(decodedName, valuesArray));
             }
         }

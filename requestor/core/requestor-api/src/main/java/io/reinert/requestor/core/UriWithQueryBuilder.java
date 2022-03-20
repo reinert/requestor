@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,8 @@ public class UriWithQueryBuilder {
             String and = "";
             for (String paramName : queryParams.keySet()) {
                 for (String paramValue : queryParams.get(paramName)) {
-                    addQuery = and + codec.encodeQueryString(paramName) + '=' + codec.encodeQueryString(paramValue);
+                    addQuery = and + codec.encodeQueryString(paramName, Uri.CHARSET) + '=' +
+                            codec.encodeQueryString(paramValue, Uri.CHARSET);
                     and = "&";
                 }
             }

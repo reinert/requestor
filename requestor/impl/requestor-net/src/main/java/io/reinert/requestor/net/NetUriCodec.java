@@ -18,62 +18,60 @@ package io.reinert.requestor.net;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import io.reinert.requestor.core.uri.UriCodec;
 
 class NetUriCodec extends UriCodec {
-    // TODO: define the charcode
 
     @Override
-    public String decode(String encodedURL) {
+    public String decode(String encodedURL, String charset) {
         try {
-            return URLDecoder.decode(encodedURL, StandardCharsets.UTF_8.toString());
+            return URLDecoder.decode(encodedURL, charset);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public String decodePathSegment(String encodedURLComponent) {
+    public String decodePathSegment(String encodedURLComponent, String charset) {
         try {
-            return URLDecoder.decode(encodedURLComponent, StandardCharsets.UTF_8.toString());
+            return URLDecoder.decode(encodedURLComponent, charset);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public String decodeQueryString(String encodedURLComponent) {
+    public String decodeQueryString(String encodedURLComponent, String charset) {
         try {
-            return URLDecoder.decode(encodedURLComponent, StandardCharsets.UTF_8.toString());
+            return URLDecoder.decode(encodedURLComponent, charset);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public String encode(String decodedURL) {
+    public String encode(String decodedURL, String charset) {
         try {
-            return URLEncoder.encode(decodedURL, StandardCharsets.UTF_8.toString());
+            return URLEncoder.encode(decodedURL, charset);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public String encodePathSegment(String decodedURLComponent) {
+    public String encodePathSegment(String decodedURLComponent, String charset) {
         try {
-            return URLEncoder.encode(decodedURLComponent, StandardCharsets.UTF_8.toString());
+            return URLEncoder.encode(decodedURLComponent, charset);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public String encodeQueryString(String decodedURLComponent) {
+    public String encodeQueryString(String decodedURLComponent, String charset) {
         try {
-            return URLEncoder.encode(decodedURLComponent, StandardCharsets.UTF_8.toString());
+            return URLEncoder.encode(decodedURLComponent, charset);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

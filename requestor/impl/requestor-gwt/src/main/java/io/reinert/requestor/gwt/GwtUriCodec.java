@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,32 +25,32 @@ import io.reinert.requestor.core.uri.UriCodec;
 class GwtUriCodec extends UriCodec {
 
     @Override
-    public String decode(String encodedURL) {
+    public String decode(String encodedURL, String charset) {
         return URL.decode(encodedURL);
     }
 
     @Override
-    public String decodePathSegment(String encodedURLComponent) {
+    public String decodePathSegment(String encodedURLComponent, String charset) {
         return URL.decodePathSegment(encodedURLComponent);
     }
 
     @Override
-    public String decodeQueryString(String encodedURLComponent) {
+    public String decodeQueryString(String encodedURLComponent, String charset) {
         return URL.decodeQueryString(encodedURLComponent);
     }
 
     @Override
-    public String encode(String decodedURL) {
+    public String encode(String decodedURL, String charset) {
         return URL.encode(decodedURL);
     }
 
     @Override
-    public String encodePathSegment(String decodedURLComponent) {
+    public String encodePathSegment(String decodedURLComponent, String charset) {
         return URL.encodePathSegment(decodedURLComponent);
     }
 
     @Override
-    public String encodeQueryString(String decodedURLComponent) {
+    public String encodeQueryString(String decodedURLComponent, String charset) {
         return URL.encodeQueryString(decodedURLComponent);
     }
 }

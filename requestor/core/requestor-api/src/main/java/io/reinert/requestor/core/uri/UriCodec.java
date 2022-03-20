@@ -44,7 +44,7 @@ public abstract class UriCodec {
      *
      * @throws NullPointerException if encodedURL is <code>null</code>
      */
-    public abstract String decode(String encodedURL);
+    public abstract String decode(String encodedURL, String charset);
     /**
      * Returns a string where all URL component escape sequences have been
      * converted back to their original character representations.
@@ -55,7 +55,7 @@ public abstract class UriCodec {
      *
      * @throws NullPointerException if encodedURLComponent is <code>null</code>
      */
-    public abstract String decodePathSegment(String encodedURLComponent);
+    public abstract String decodePathSegment(String encodedURLComponent, String charset);
 
     /**
      * Returns a string where all URL component escape sequences have been
@@ -70,7 +70,7 @@ public abstract class UriCodec {
      *
      * @throws NullPointerException if encodedURLComponent is <code>null</code>
      */
-    public abstract String decodeQueryString(String encodedURLComponent);
+    public abstract String decodeQueryString(String encodedURLComponent, String charset);
     /**
      * Returns a string where all characters that are not valid for a complete URL
      * have been escaped. The escaping of a character is done by converting it
@@ -103,7 +103,7 @@ public abstract class UriCodec {
      *
      * @throws NullPointerException if decodedURL is <code>null</code>
      */
-    public abstract String encode(String decodedURL);
+    public abstract String encode(String decodedURL, String charset);
 
     /**
      * Returns a string where all characters that are not valid for a URL
@@ -136,7 +136,7 @@ public abstract class UriCodec {
      *
      * @throws NullPointerException if decodedURLComponent is <code>null</code>
      */
-    public abstract String encodePathSegment(String decodedURLComponent);
+    public abstract String encodePathSegment(String decodedURLComponent, String charset);
 
     /**
      * Returns a string where all characters that are not valid for a URL
@@ -173,5 +173,5 @@ public abstract class UriCodec {
      *
      * @throws NullPointerException if decodedURLComponent is <code>null</code>
      */
-    public abstract String encodeQueryString(String decodedURLComponent);
+    public abstract String encodeQueryString(String decodedURLComponent, String charset);
 }

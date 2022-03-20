@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -149,9 +149,9 @@ class UriImpl extends Uri {
                 uri.append(scheme).append("://");
             }
             if (user != null) {
-                uri.append(uriCodec.encode(user));
+                uri.append(uriCodec.encode(user, Uri.CHARSET));
                 if (password != null) {
-                    uri.append(':').append(uriCodec.encode(password));
+                    uri.append(':').append(uriCodec.encode(password, Uri.CHARSET));
                 }
                 uri.append('@');
             }
@@ -173,7 +173,7 @@ class UriImpl extends Uri {
             }
 
             if (fragment != null) {
-                uri.append('#').append(uriCodec.encode(fragment));
+                uri.append('#').append(uriCodec.encode(fragment, Uri.CHARSET));
             }
 
             uriString = uri.toString();
@@ -229,7 +229,7 @@ class UriImpl extends Uri {
         if (pathSegments != null && pathSegments.size() > 0) {
             for (final String segment : pathSegments) {
                 pathBuilder.append(segment);
-                pathEncodedBuilder.append(UriCodec.getInstance().encodePathSegment(segment));
+                pathEncodedBuilder.append(UriCodec.getInstance().encodePathSegment(segment, Uri.CHARSET));
 
                 // Check if there are matrix params for this segment
                 appendMatrixParams(pathBuilder, pathEncodedBuilder, segment);
@@ -255,15 +255,15 @@ class UriImpl extends Uri {
                     if (param.getValue().length() == 0) {
                         // Append only the param name without any value
                         pathBuilder.append(';').append(paramName);
-                        pathEncodedBuilder.append(';').append(uriCodec.encodePathSegment(paramName));
+                        pathEncodedBuilder.append(';').append(uriCodec.encodePathSegment(paramName, Uri.CHARSET));
                     } else {
                         // Append the param and its values
                         for (String value : param.getValues()) {
                             pathBuilder.append(';').append(paramName);
-                            pathEncodedBuilder.append(';').append(uriCodec.encodePathSegment(paramName));
+                            pathEncodedBuilder.append(';').append(uriCodec.encodePathSegment(paramName, Uri.CHARSET));
                             if (value != null) {
                                 pathBuilder.append('=').append(value);
-                                pathEncodedBuilder.append('=').append(uriCodec.encodePathSegment(value));
+                                pathEncodedBuilder.append('=').append(uriCodec.encodePathSegment(value, Uri.CHARSET));
                             }
                         }
                     }
@@ -284,15 +284,15 @@ class UriImpl extends Uri {
                 if (param.getValue().length() == 0) {
                     // Append only the param name without any value
                     queryBuilder.append(paramName).append('&');
-                    queryEncodedBuilder.append(uriCodec.encodeQueryString(paramName)).append('&');
+                    queryEncodedBuilder.append(uriCodec.encodeQueryString(paramName, Uri.CHARSET)).append('&');
                 } else {
                     // Append the param and its values
                     for (String value : param.getValues()) {
                         queryBuilder.append(paramName);
-                        queryEncodedBuilder.append(uriCodec.encodeQueryString(paramName));
+                        queryEncodedBuilder.append(uriCodec.encodeQueryString(paramName, Uri.CHARSET));
                         if (value != null) {
                             queryBuilder.append('=').append(value);
-                            queryEncodedBuilder.append('=').append(uriCodec.encodeQueryString(value));
+                            queryEncodedBuilder.append('=').append(uriCodec.encodeQueryString(value, Uri.CHARSET));
                         }
                         queryBuilder.append('&');
                         queryEncodedBuilder.append('&');
