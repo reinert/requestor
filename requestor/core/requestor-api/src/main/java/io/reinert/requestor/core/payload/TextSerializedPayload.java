@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ import java.io.UnsupportedEncodingException;
  */
 public class TextSerializedPayload implements SerializedPayload {
 
-    public static final String DEFAULT_CHARSET = "UTF-8";
+    public static String DEFAULT_CHARSET = "UTF-8";
 
-    protected final String charset;
+    protected String charset;
     protected String string;
     protected byte[] bytes;
 

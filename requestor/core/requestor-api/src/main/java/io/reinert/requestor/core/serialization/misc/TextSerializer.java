@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ public class TextSerializer implements Serializer<String> {
     @Override
     public SerializedPayload serialize(String s, SerializationContext context) {
         if (s.length() == 0) return SerializedPayload.EMPTY_PAYLOAD;
-        return new TextSerializedPayload(s);
+        return new TextSerializedPayload(s, context.getCharset());
     }
 
     /**
@@ -73,7 +73,7 @@ public class TextSerializer implements Serializer<String> {
             sb.append(SEPARATOR);
         }
         sb.setLength(sb.length() - SEPARATOR.length());
-        return new TextSerializedPayload(sb.toString());
+        return new TextSerializedPayload(sb.toString(), context.getCharset());
     }
 
     @Override
