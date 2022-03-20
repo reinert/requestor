@@ -53,7 +53,7 @@ public class RequestorGwt {
             );
 
             DigestAuth.setHashFunction("md5", new DigestAuth.HashFunction() {
-                public String hash(String input) {
+                public String hash(String input, String charset) {
                     return MD5.hash(input);
                 }
             });

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.SerializedRequest;
 import io.reinert.requestor.core.callback.DualCallback;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.header.SimpleHeader;
@@ -46,7 +47,7 @@ import io.reinert.requestor.core.uri.Uri;
 public class DigestAuth implements Auth {
 
     public interface HashFunction {
-        String hash(String input);
+        String hash(String input, String charset);
     }
 
     /**
@@ -153,8 +154,7 @@ public class DigestAuth implements Auth {
 
                 sendAttemptRequest(originalRequest, attemptRequest, dispatcher);
             } else {
-                final Header authHeader = getAuthorizationHeader(originalRequest.getUri(), originalRequest.getMethod(),
-                        originalRequest.getSerializedPayload(), attemptResponse);
+                final Header authHeader = getAuthorizationHeader(originalRequest, attemptResponse);
 
                 if (authHeader != null) {
                     originalRequest.setHeader(authHeader);
@@ -178,8 +178,7 @@ public class DigestAuth implements Auth {
     private MutableSerializedRequest copyRequest(PreparedRequest originalRequest, Response attemptResponse) {
         MutableSerializedRequest request = originalRequest.getMutableCopy();
 
-        final Header authHeader = getAuthorizationHeader(request.getUri(), request.getMethod(),
-                request.getSerializedPayload(), attemptResponse);
+        final Header authHeader = getAuthorizationHeader(request, attemptResponse);
 
         if (authHeader != null) {
             request.setHeader(authHeader);
@@ -223,8 +222,12 @@ public class DigestAuth implements Auth {
         return response.getStatusCode() / 100 == 2;
     }
 
-    private Header getAuthorizationHeader(Uri uri, HttpMethod method, SerializedPayload serializedPayload,
-                                          Response attemptResp) {
+    private Header getAuthorizationHeader(SerializedRequest request, Response attemptResp) {
+        Uri uri = request.getUri();
+        HttpMethod method = request.getMethod();
+        String charset = request.getCharset();
+        SerializedPayload serializedPayload = request.getSerializedPayload();
+
         if (attemptResp == null) {
             return null;
         }
@@ -250,31 +253,32 @@ public class DigestAuth implements Auth {
         final String[] qop = readQop(authHeader);
 
         final String nc = getNonceCount(nonce);
-        final String cNonce = generateClientNonce(nonce, nc);
+        final String cNonce = generateClientNonce(nonce, nc, charset);
 
         digestBuilder.append("\", realm=\"").append(realm);
         digestBuilder.append("\", nonce=\"").append(nonce);
         digestBuilder.append("\", uri=\"").append(uriPath);
 
         // Calculate HA1
-        String ha1 = generateHa1(realm);
+        String ha1 = generateHa1(realm, charset);
 
         String response;
         if (contains(qop, "auth")) {
             // "auth" method
-            response = generateResponseAuthQop(httpMethod, uriPath, ha1, nonce, nc, cNonce);
+            response = generateResponseAuthQop(httpMethod, uriPath, ha1, nonce, nc, cNonce, charset);
             digestBuilder.append("\", qop=\"").append("auth");
             digestBuilder.append("\", nc=\"").append(nc);
             digestBuilder.append("\", cnonce=\"").append(cNonce);
         } else if (contains(qop, "auth-int")) {
             // "auth-int" method
-            response = generateResponseAuthIntQop(httpMethod, uriPath, ha1, nonce, nc, cNonce, serializedPayload);
+            response = generateResponseAuthIntQop(httpMethod, uriPath, ha1, nonce, nc, cNonce, charset,
+                    serializedPayload);
             digestBuilder.append("\", qop=\"").append("auth-int");
             digestBuilder.append("\", nc=\"").append(nc);
             digestBuilder.append("\", cnonce=\"").append(cNonce);
         } else {
             // unspecified method
-            response = generateResponseUnspecifiedQop(httpMethod, uriPath, nonce, ha1);
+            response = generateResponseUnspecifiedQop(httpMethod, uriPath, nonce, ha1, charset);
         }
 
         digestBuilder.append("\", response=\"").append(response);
@@ -285,38 +289,39 @@ public class DigestAuth implements Auth {
     }
 
     private String generateResponseAuthIntQop(String method, String url, String ha1, String nonce, String nc,
-                                              String cNonce, SerializedPayload serializedPayload) {
+                                              String cNonce, String charset, SerializedPayload serializedPayload) {
         String body = serializedPayload.toString();
         if (body == null) {
             throw new AuthException("Response body in Digest auth Int Qop method should not be empty.");
         }
         final HashFunction hashFunction = getHashFunction(this.algorithm);
-        final String hBody = hashFunction.hash(body);
-        final String ha2 = hashFunction.hash(method + ':' + url + ':' + hBody);
+        final String hBody = hashFunction.hash(body, charset);
+        final String ha2 = hashFunction.hash(method + ':' + url + ':' + hBody, charset);
         // HASH(ha1:nonce:nonceCount:clientNonce:qop:ha2)
         // TODO: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
-        return hashFunction.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth-int" + ':' + ha2);
+        return hashFunction.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth-int" + ':' + ha2,
+                charset);
     }
 
     private String generateResponseAuthQop(String method, String url, String ha1, String nonce, String nc,
-                                           String cNonce) {
+                                           String cNonce, String charset) {
         final HashFunction hashFunction = getHashFunction(this.algorithm);
-        final String ha2 = hashFunction.hash(method + ':' + url);
+        final String ha2 = hashFunction.hash(method + ':' + url, charset);
         // HASH(ha1:nonce:nonceCount:clientNonce:qop:ha2)
         // TODO: Disable checkstyle rule 'check that a space is left after a colon on an assembled error message'
-        return hashFunction.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth" + ':' + ha2);
+        return hashFunction.hash(ha1 + ':' + nonce + ':' + nc + ':' + cNonce + ':' + "auth" + ':' + ha2, charset);
     }
 
-    private String generateResponseUnspecifiedQop(String method, String url, String nonce, String ha1) {
+    private String generateResponseUnspecifiedQop(String method, String url, String nonce, String ha1, String charset) {
         final HashFunction hashFunction = getHashFunction(this.algorithm);
-        final String ha2 = hashFunction.hash(method + ':' + url);
+        final String ha2 = hashFunction.hash(method + ':' + url, charset);
         // HASH(ha1:nonce:ha2)
-        return hashFunction.hash(ha1 + ':' + nonce + ':' + ha2);
+        return hashFunction.hash(ha1 + ':' + nonce + ':' + ha2, charset);
     }
 
-    private String generateHa1(String realm) {
+    private String generateHa1(String realm, String charset) {
         final HashFunction hashFunction = getHashFunction(this.algorithm);
-        return hashFunction.hash(user + ':' + realm + ':' + password);
+        return hashFunction.hash(user + ':' + realm + ':' + password, charset);
     }
 
     private String getNonceCount(String nonce) {
@@ -327,9 +332,9 @@ public class DigestAuth implements Auth {
         return nc;
     }
 
-    private String generateClientNonce(String nonce, String nc) {
+    private String generateClientNonce(String nonce, String nc, String charset) {
         final HashFunction hashFunction = getHashFunction(this.algorithm);
-        return hashFunction.hash(nc + nonce + new Date().getTime() + getRandom());
+        return hashFunction.hash(nc + nonce + new Date().getTime() + getRandom(), charset);
     }
 
     private String[] readQop(String authHeader) {

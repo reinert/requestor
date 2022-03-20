@@ -85,7 +85,7 @@ public class RequestorNet {
                 try {
                     MessageDigest.getInstance("MD5");
                     DigestAuth.setHashFunction("md5", new DigestAuth.HashFunction() {
-                        public String hash(String input) {
+                        public String hash(String input, String charset) {
                             MessageDigest md = null;
                             try {
                                 md = MessageDigest.getInstance("MD5");
@@ -93,7 +93,11 @@ public class RequestorNet {
                                 throw new UnsupportedOperationException(
                                         "Cannot perform MD5 hashing because MD5 MessageDigest is not available.", e);
                             }
-                            md.update(input.getBytes(StandardCharsets.UTF_8));
+                            try {
+                                md.update(input.getBytes(charset));
+                            } catch (UnsupportedEncodingException e) {
+                                throw new UnsupportedOperationException("Cannot hash to charset '" + charset + "'.", e);
+                            }
                             byte[] digest = md.digest();
                             return bytesToHex(digest);
                         }
