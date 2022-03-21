@@ -32,7 +32,6 @@ public class BasicAuth implements Auth, Base64Codec.Holder {
     private final String password;
     private final boolean withCredentials;
     private Base64Codec base64Codec;
-    private String charset;
 
     public BasicAuth(String user, String password) {
         this(user, password, false);
@@ -51,14 +50,14 @@ public class BasicAuth implements Auth, Base64Codec.Holder {
         if (base64Codec == null) {
             throw new AuthException("Could not perform Basic authentication. The Base64Codec is not set.");
         }
-        request.setHeader("Authorization", "Basic " + base64Codec.encode(user + ":" + password, charset));
+        request.setHeader("Authorization", "Basic " +
+                base64Codec.encode(user + ":" + password, request.getCharset()));
         request.setWithCredentials(withCredentials);
         request.send();
     }
 
     @Override
-    public void setBase64Codec(Base64Codec codec, String charset) {
+    public void setBase64Codec(Base64Codec codec) {
         this.base64Codec = codec;
-        this.charset = charset;
     }
 }

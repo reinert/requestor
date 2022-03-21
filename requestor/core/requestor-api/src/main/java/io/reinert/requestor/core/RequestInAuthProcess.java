@@ -58,7 +58,7 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         final Auth auth = request.getAuth();
 
         if (auth instanceof Base64Codec.Holder) {
-            ((Base64Codec.Holder) auth).setBase64Codec(Base64Codec.getInstance(), request.getCharset());
+            ((Base64Codec.Holder) auth).setBase64Codec(Base64Codec.getInstance());
         }
 
         final PreparedRequestImpl<R> preparedRequest = new PreparedRequestImpl<R>(dispatcher, this, deferred,

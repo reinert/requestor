@@ -36,7 +36,7 @@ public abstract class Base64Codec {
     }
 
     public interface Holder {
-        void setBase64Codec(Base64Codec codec, String charset);
+        void setBase64Codec(Base64Codec codec);
     }
 
     public abstract String decode(String encoded, String toCharset);
