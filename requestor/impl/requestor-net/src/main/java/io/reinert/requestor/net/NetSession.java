@@ -84,6 +84,8 @@ public class NetSession extends Session {
     protected void configure() {
         super.configure();
 
+        save(RequestorNet.DEFAULT_CONTENT_TYPE, "text/plain");
+
         register(BinarySerializer.getInstance());
         register(ByteSerializer.getInstance());
         register(FileSerializer.getInstance());

@@ -125,8 +125,9 @@ class NetRequestDispatcher extends RequestDispatcher {
                 conn.setRequestProperty(header.getName(), header.getValue());
             }
 
-            // TODO: expose a default content-type option
-            if (!request.hasHeader("Content-Type")) conn.setRequestProperty("Content-Type", "text/plain");
+            if (!request.hasHeader("Content-Type") && request.exists(RequestorNet.DEFAULT_CONTENT_TYPE)) {
+                conn.setRequestProperty("Content-Type", request.retrieve(RequestorNet.DEFAULT_CONTENT_TYPE));
+            }
 
             if (request.getTimeout() > 0) {
                 conn.setConnectTimeout(request.getTimeout());
