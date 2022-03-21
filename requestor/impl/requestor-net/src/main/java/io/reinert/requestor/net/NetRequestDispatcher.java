@@ -17,12 +17,9 @@ package io.reinert.requestor.net;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -110,7 +107,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             if (!serializedPayload.isEmpty()) {
                 conn.setDoOutput(true);
-                if (!(serializedPayload instanceof TextSerializedPayload) && serializedPayload.getLength() > 0) {
+                if (serializedPayload.getLength() > 0) {
                     conn.setFixedLengthStreamingMode(serializedPayload.getLength());
                 } else {
                     // TODO: expose option to disable chunked mode
@@ -165,31 +162,20 @@ class NetRequestDispatcher extends RequestDispatcher {
         try {
             // Payload upload
             if (conn.getDoOutput()) {
-                try {
-                    if (!serializedPayload.isBytesAvailable() && serializedPayload.isStringAvailable() &&
-                            !request.isEquals(RequestorNet.READ_CHUNKING, Boolean.TRUE)) {
-                        try (Writer writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()),
-                                outputBufferSize)) {
-                            writer.write(serializedPayload.asString());
-                            writer.flush();
+                try (OutputStream out = new BufferedOutputStream(conn.getOutputStream(), outputBufferSize)) {
+                    if (serializedPayload instanceof CompositeSerializedPayload) {
+                        final CompositeSerializedPayload csp = (CompositeSerializedPayload) serializedPayload;
+                        final long totalSize = csp.getLength();
+                        long totalWritten = 0;
+                        for (SerializedPayload part : csp) {
+                            totalWritten = writeSerializedPayloadToOutputStream(request, deferred, out, part,
+                                    totalWritten, totalSize);
                         }
                     } else {
-                        try (OutputStream out = new BufferedOutputStream(conn.getOutputStream(), outputBufferSize)) {
-                            if (serializedPayload instanceof CompositeSerializedPayload) {
-                                final CompositeSerializedPayload csp = (CompositeSerializedPayload) serializedPayload;
-                                final long totalSize = csp.getLength();
-                                long totalWritten = 0;
-                                for (SerializedPayload part : csp) {
-                                    totalWritten = writeSerializedPayloadToOutputStream(request, deferred, out, part,
-                                            totalWritten, totalSize);
-                                }
-                            } else {
-                                writeSerializedPayloadToOutputStream(request, deferred, out, serializedPayload, 0,
-                                        serializedPayload.getLength());
-                            }
-                        }
+                        writeSerializedPayloadToOutputStream(request, deferred, out, serializedPayload, 0,
+                                serializedPayload.getLength());
                     }
-                }  catch (SocketTimeoutException e) {
+                } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
                 } catch (IOException e) {
