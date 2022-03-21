@@ -202,7 +202,7 @@ public class SerializationTest extends NetTest {
 
         session.req("https://httpbin.org/post")
                 .payload(inputStream)
-                .save(RequestorNet.WRITE_CHUNKING, true)
+                .save(RequestorNet.WRITE_CHUNKING_ENABLED, true)
                 .post()
                 .onWrite(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
                 .onWrite(p -> bytesWritten.set(p.getLoaded()))

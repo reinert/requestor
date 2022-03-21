@@ -35,8 +35,8 @@ import io.reinert.requestor.core.auth.DigestAuth;
  */
 public class RequestorNet {
 
-    public static final String WRITE_CHUNKING = "requestor.net.writeChunking";
-    public static final String READ_CHUNKING = "requestor.net.readChunking";
+    public static final String READ_CHUNKING_ENABLED = "requestor.net.readChunkingEnabled";
+    public static final String WRITE_CHUNKING_ENABLED = "requestor.net.writeChunkingEnabled";
 
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     private static boolean PENDING_INIT = true;

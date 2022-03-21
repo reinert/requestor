@@ -214,7 +214,8 @@ class NetRequestDispatcher extends RequestDispatcher {
 
             // Payload download
             SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
-            if (payloadType.getType() != Void.class || request.isEquals(RequestorNet.READ_CHUNKING, Boolean.TRUE)) {
+            if (payloadType.getType() != Void.class ||
+                    request.isEquals(RequestorNet.READ_CHUNKING_ENABLED, Boolean.TRUE)) {
                 try (InputStream in = new BufferedInputStream(
                         responseStatus.getFamily() == StatusFamily.SUCCESSFUL ?
                                 conn.getInputStream() :
@@ -264,7 +265,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
     private <R> long writeBytesToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
                                               byte[] bytes, long totalWritten, long totalSize) throws IOException {
-        final boolean chunkingEnabled = request.isEquals(RequestorNet.WRITE_CHUNKING, Boolean.TRUE);
+        final boolean chunkingEnabled = request.isEquals(RequestorNet.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
         for (int i = 0; i <= (bytes.length - 1) / outputBufferSize; i++) {
             int off = i * outputBufferSize;
             int len = Math.min(outputBufferSize, bytes.length - off);
@@ -285,7 +286,7 @@ class NetRequestDispatcher extends RequestDispatcher {
 
     private <R> long writeInputToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
                                               InputStream in, long totalWritten, long totalSize) throws IOException {
-        final boolean chunkingEnabled = request.isEquals(RequestorNet.WRITE_CHUNKING, Boolean.TRUE);
+        final boolean chunkingEnabled = request.isEquals(RequestorNet.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
         try (InputStream bis = new BufferedInputStream(in, outputBufferSize)) {
             byte[] buffer = new byte[outputBufferSize];
             int stepRead;
@@ -313,7 +314,7 @@ class NetRequestDispatcher extends RequestDispatcher {
         final int contentLength = conn.getContentLength();
 
         final boolean payloadRequested = request.getResponsePayloadType().getType() != Void.class;
-        final boolean chunkingEnabled = request.isEquals(RequestorNet.READ_CHUNKING, Boolean.TRUE);
+        final boolean chunkingEnabled = request.isEquals(RequestorNet.READ_CHUNKING_ENABLED, Boolean.TRUE);
 
         // NOTE: there should be no body when buffering is enabled but return type is void
         byte[] body = payloadRequested ? new byte[Math.max(contentLength, 0)] : null;
