@@ -35,6 +35,7 @@ import io.reinert.requestor.core.auth.DigestAuth;
  */
 public class RequestorNet {
 
+    public static final String CHUNKED_STREAMING_MODE_DISABLED = "requestor.net.chunkedStreamingModeDisabled";
     public static final String READ_CHUNKING_ENABLED = "requestor.net.readChunkingEnabled";
     public static final String WRITE_CHUNKING_ENABLED = "requestor.net.writeChunkingEnabled";
 
