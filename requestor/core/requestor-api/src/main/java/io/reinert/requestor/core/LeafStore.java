@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A child store that delegates execution to a parent store when cannot handle operations.
@@ -32,7 +32,7 @@ class LeafStore implements Store {
         LeafStore store = new LeafStore(leafStore.parentStore);
 
         if (leafStore.localDataMap != null) {
-            store.localDataMap = new HashMap<String, Object>(leafStore.localDataMap);
+            store.localDataMap = new ConcurrentHashMap<String, Object>(leafStore.localDataMap);
         }
 
         return store;
@@ -125,7 +125,7 @@ class LeafStore implements Store {
 
     private Map<String, Object> ensureDataMap() {
         if (localDataMap == null) {
-            localDataMap = new HashMap<String, Object>();
+            localDataMap = new ConcurrentHashMap<String, Object>();
         }
 
         return localDataMap;

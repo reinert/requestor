@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A basic Store implementation using HashMap.
@@ -28,7 +28,7 @@ class RootStore implements Store {
     private final Map<String, Object> dataMap;
 
     RootStore() {
-        this.dataMap = new HashMap<String, Object>();
+        this.dataMap = new ConcurrentHashMap<String, Object>();
     }
 
     @SuppressWarnings("unchecked")
