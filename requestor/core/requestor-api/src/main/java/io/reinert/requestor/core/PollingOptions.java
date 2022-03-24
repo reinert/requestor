@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,12 @@ package io.reinert.requestor.core;
  */
 class PollingOptions implements HasPollingOptions {
 
-    private boolean pollingActive;
     private int pollingInterval;
     private int pollingLimit;
-    private int pollingCount;
     private PollingStrategy pollingStrategy;
+
+    private volatile int pollingCount;
+    private volatile boolean pollingActive;
 
     public boolean isPolling() {
         return pollingActive;
@@ -34,11 +35,11 @@ class PollingOptions implements HasPollingOptions {
 
     public static PollingOptions copy(PollingOptions options) {
         PollingOptions copy = new PollingOptions();
-        copy.pollingActive = options.pollingActive;
         copy.pollingInterval = options.pollingInterval;
         copy.pollingLimit = options.pollingLimit;
-        copy.pollingCount = options.pollingCount;
         copy.pollingStrategy = options.pollingStrategy;
+        copy.pollingCount = options.pollingCount;
+        copy.pollingActive = options.pollingActive;
         return copy;
     }
 
@@ -75,7 +76,9 @@ class PollingOptions implements HasPollingOptions {
     }
 
     public int incrementPollingCount() {
-        pollingCount++;
+        synchronized (this) {
+            pollingCount++;
+        }
 
         if (pollingLimit > 0) {
             pollingActive = pollingCount < pollingLimit;
@@ -85,11 +88,11 @@ class PollingOptions implements HasPollingOptions {
     }
 
     public void reset() {
-        pollingActive = false;
         pollingInterval = 0;
         pollingLimit = 0;
-        pollingCount = 0;
         pollingStrategy = PollingStrategy.SHORT;
+        pollingCount = 0;
+        pollingActive = false;
     }
 
     public void startPolling(PollingStrategy strategy, int pollingInterval, int pollingLimit) {
