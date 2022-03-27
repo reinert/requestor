@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@ package io.reinert.requestor.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Manager of instance providers.
@@ -32,7 +32,7 @@ import java.util.TreeSet;
  */
 class ProviderManagerImpl implements ProviderManager {
 
-    private final Map<String, Provider<?>> providers = new HashMap<String, Provider<?>>();
+    private final Map<String, Provider<?>> providers = new ConcurrentHashMap<String, Provider<?>>();
 
     public ProviderManagerImpl() {
         registerCollectionProviders();
