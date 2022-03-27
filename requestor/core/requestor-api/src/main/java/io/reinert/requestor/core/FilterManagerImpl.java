@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,6 @@ class FilterManagerImpl implements FilterManager {
     @Override
     public Registration register(final RequestFilter requestFilter) {
         return register(new RequestFilter.Provider() {
-            @Override
             public RequestFilter getInstance() {
                 return requestFilter;
             }
@@ -65,11 +64,9 @@ class FilterManagerImpl implements FilterManager {
 
     @Override
     public Registration register(final RequestFilter.Provider provider) {
-        requestFilters.add(provider);
-        updateRequestFiltersCopy(); // getRequestFilters returns this copy
+        addRequestFilter(provider);
 
         return new Registration() {
-            @Override
             public void cancel() {
                 removeRequestFilter(provider);
             }
@@ -79,7 +76,6 @@ class FilterManagerImpl implements FilterManager {
     @Override
     public Registration register(final ResponseFilter responseFilter) {
         return register(new ResponseFilter.Provider() {
-            @Override
             public ResponseFilter getInstance() {
                 return responseFilter;
             }
@@ -88,11 +84,9 @@ class FilterManagerImpl implements FilterManager {
 
     @Override
     public Registration register(final ResponseFilter.Provider provider) {
-        responseFilters.add(provider);
-        updateResponseFiltersCopy(); // getResponseFilters returns this copy
+        addResponseFilter(provider);
 
         return new Registration() {
-            @Override
             public void cancel() {
                 removeResponseFilter(provider);
             }
@@ -125,21 +119,31 @@ class FilterManagerImpl implements FilterManager {
         return responseFiltersCopy.listIterator(responseFiltersCopy.size());
     }
 
-    private void removeRequestFilter(RequestFilter.Provider requestFilter) {
+    private synchronized void addRequestFilter(RequestFilter.Provider requestFilter) {
+        requestFilters.add(requestFilter);
+        updateRequestFiltersCopy();
+    }
+
+    private synchronized void addResponseFilter(ResponseFilter.Provider responseFilter) {
+        responseFilters.add(responseFilter);
+        updateResponseFiltersCopy();
+    }
+
+    private synchronized void removeRequestFilter(RequestFilter.Provider requestFilter) {
         requestFilters.remove(requestFilter);
         updateRequestFiltersCopy();
     }
 
-    private void removeResponseFilter(ResponseFilter.Provider responseFilter) {
+    private synchronized void removeResponseFilter(ResponseFilter.Provider responseFilter) {
         responseFilters.remove(responseFilter);
         updateResponseFiltersCopy();
     }
 
-    private void updateRequestFiltersCopy() {
+    private synchronized void updateRequestFiltersCopy() {
         requestFiltersCopy = Collections.unmodifiableList(requestFilters);
     }
 
-    private void updateResponseFiltersCopy() {
+    private synchronized void updateResponseFiltersCopy() {
         responseFiltersCopy = Collections.unmodifiableList(responseFilters);
     }
 }
