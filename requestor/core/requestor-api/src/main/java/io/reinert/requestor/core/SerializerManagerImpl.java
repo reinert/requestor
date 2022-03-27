@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@ package io.reinert.requestor.core;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,9 +38,9 @@ class SerializerManagerImpl implements SerializerManager {
 
     private static final Logger logger = Logger.getLogger(SerializerManagerImpl.class.getName());
 
-    private final Map<String, ArrayList<DeserializerHolder>> deserializers = new HashMap<String,
-            ArrayList<DeserializerHolder>>();
-    private final Map<String, ArrayList<SerializerHolder>> serializers = new HashMap<String,
+    private final Map<String, ArrayList<DeserializerHolder>> deserializers = new ConcurrentHashMap<String,
+                ArrayList<DeserializerHolder>>();
+    private final Map<String, ArrayList<SerializerHolder>> serializers = new ConcurrentHashMap<String,
             ArrayList<SerializerHolder>>();
 
     /**
@@ -180,8 +180,8 @@ class SerializerManagerImpl implements SerializerManager {
         return type.getName();
     }
 
-    private Registration bindSerializerToType(SerializerProvider serializerProvider,
-                                              Class<?> type, String[] mediaType) {
+    private synchronized Registration bindSerializerToType(SerializerProvider serializerProvider,
+                                                           Class<?> type, String[] mediaType) {
         final String typeName = getClassName(type);
         ArrayList<SerializerHolder> allHolders = serializers.get(typeName);
         if (allHolders == null) {
@@ -210,8 +210,8 @@ class SerializerManagerImpl implements SerializerManager {
         };
     }
 
-    private Registration bindDeserializerToType(DeserializerProvider deserializerProvider,
-                                                Class<?> type, String[] mediaTypes) {
+    private synchronized Registration bindDeserializerToType(DeserializerProvider deserializerProvider,
+                                                             Class<?> type, String[] mediaTypes) {
         final String typeName = getClassName(type);
         ArrayList<DeserializerHolder> allHolders = deserializers.get(typeName);
         if (allHolders == null) {
