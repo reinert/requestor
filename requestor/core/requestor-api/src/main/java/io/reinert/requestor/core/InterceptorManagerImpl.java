@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,7 +59,6 @@ class InterceptorManagerImpl implements InterceptorManager {
     @Override
     public Registration register(final RequestInterceptor requestInterceptor) {
         return register(new RequestInterceptor.Provider() {
-            @Override
             public RequestInterceptor getInstance() {
                 return requestInterceptor;
             }
@@ -68,11 +67,9 @@ class InterceptorManagerImpl implements InterceptorManager {
 
     @Override
     public Registration register(final RequestInterceptor.Provider provider) {
-        requestInterceptors.add(provider);
-        updateRequestInterceptorsCopy(); // getRequestInterceptors returns this copy
+        addRequestInterceptor(provider);
 
         return new Registration() {
-            @Override
             public void cancel() {
                 removeRequestInterceptor(provider);
             }
@@ -82,7 +79,6 @@ class InterceptorManagerImpl implements InterceptorManager {
     @Override
     public Registration register(final ResponseInterceptor responseInterceptor) {
         return register(new ResponseInterceptor.Provider() {
-            @Override
             public ResponseInterceptor getInstance() {
                 return responseInterceptor;
             }
@@ -91,11 +87,9 @@ class InterceptorManagerImpl implements InterceptorManager {
 
     @Override
     public Registration register(final ResponseInterceptor.Provider provider) {
-        responseInterceptors.add(provider);
-        updateResponseInterceptorsCopy(); // getResponseInterceptors returns this copy
+        addResponseInterceptor(provider);
 
         return new Registration() {
-            @Override
             public void cancel() {
                 removeResponseInterceptor(provider);
             }
@@ -128,21 +122,31 @@ class InterceptorManagerImpl implements InterceptorManager {
         return responseInterceptorsCopy.listIterator(responseInterceptorsCopy.size());
     }
 
-    private void removeRequestInterceptor(RequestInterceptor.Provider requestInterceptor) {
+    private synchronized void addRequestInterceptor(RequestInterceptor.Provider requestInterceptor) {
+        requestInterceptors.add(requestInterceptor);
+        updateRequestInterceptorsCopy();
+    }
+
+    private synchronized void addResponseInterceptor(ResponseInterceptor.Provider responseInterceptor) {
+        responseInterceptors.add(responseInterceptor);
+        updateResponseInterceptorsCopy();
+    }
+
+    private synchronized void removeRequestInterceptor(RequestInterceptor.Provider requestInterceptor) {
         requestInterceptors.remove(requestInterceptor);
         updateRequestInterceptorsCopy();
     }
 
-    private void removeResponseInterceptor(ResponseInterceptor.Provider responseInterceptor) {
+    private synchronized void removeResponseInterceptor(ResponseInterceptor.Provider responseInterceptor) {
         responseInterceptors.remove(responseInterceptor);
         updateResponseInterceptorsCopy();
     }
 
-    private void updateRequestInterceptorsCopy() {
+    private synchronized void updateRequestInterceptorsCopy() {
         requestInterceptorsCopy = Collections.unmodifiableList(requestInterceptors);
     }
 
-    private void updateResponseInterceptorsCopy() {
+    private synchronized void updateResponseInterceptorsCopy() {
         responseInterceptorsCopy = Collections.unmodifiableList(responseInterceptors);
     }
 }
