@@ -24,14 +24,14 @@ import io.reinert.requestor.core.header.Header;
  */
 class RequestOptionsHolder implements HasRequestOptions {
 
-    private String mediaType;
-    private Auth.Provider authProvider;
-    private int timeout;
-    private int delay;
-    private String charset;
-    private int[] retryDelays;
-    private Event[] retryEvents;
-    private final Headers headers = new Headers();
+    private volatile String mediaType;
+    private volatile Auth.Provider authProvider;
+    private volatile int timeout;
+    private volatile int delay;
+    private volatile String charset;
+    private volatile int[] retryDelays;
+    private volatile Event[] retryEvents;
+    private final Headers headers = new Headers(true);
 
     static RequestOptionsHolder copy(RequestOptionsHolder options) {
         RequestOptionsHolder copy = new RequestOptionsHolder();
