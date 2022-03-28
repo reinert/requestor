@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.header.SimpleHeader;
@@ -32,13 +33,20 @@ import io.reinert.requestor.core.header.SimpleHeader;
  */
 public class Headers implements Iterable<Header>, Map<String, Header> {
 
+    private final boolean concurrent;
     private Map<String, Header> headers;
 
     public Headers() {
+        this(false);
+    }
+
+    public Headers(boolean concurrent) {
         headers = null;
+        this.concurrent = concurrent;
     }
 
     public Headers(Iterable<Header> headers) {
+        concurrent = false;
         if (headers != null) {
             final Iterator<Header> iterator = headers.iterator();
 
@@ -52,6 +60,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
     }
 
     public Headers(Header... headers) {
+        concurrent = false;
         if (headers.length > 0) {
             ensureHeaders();
             for (final Header header : headers) {
@@ -155,6 +164,10 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
         return isEmpty() ? Collections.<Entry<String, Header>>emptySet() : headers.entrySet();
     }
 
+    public boolean isConcurrent() {
+        return concurrent;
+    }
+
     /**
      * Adds a header to this container.
      *
@@ -205,7 +218,7 @@ public class Headers implements Iterable<Header>, Map<String, Header> {
 
     private Map<String, Header> ensureHeaders() {
         if (headers == null) {
-            headers = new HashMap<String, Header>();
+            headers = concurrent ? new ConcurrentHashMap<String, Header>() : new HashMap<String, Header>();
         }
         return headers;
     }
