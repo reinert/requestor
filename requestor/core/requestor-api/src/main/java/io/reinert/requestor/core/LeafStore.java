@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,22 +26,26 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 class LeafStore implements Store {
 
+    private final boolean concurrent;
     private final Store parentStore;
     private Map<String, Object> localDataMap;
 
     static LeafStore copy(LeafStore leafStore) {
-        LeafStore store = new LeafStore(leafStore.parentStore);
+        LeafStore store = new LeafStore(leafStore.parentStore, leafStore.concurrent);
 
         if (leafStore.localDataMap != null) {
-            store.localDataMap = new ConcurrentHashMap<String, Object>(leafStore.localDataMap);
+            store.localDataMap = leafStore.concurrent ?
+                    new ConcurrentHashMap<String, Object>(leafStore.localDataMap) :
+                    new HashMap<String, Object>(leafStore.localDataMap);
         }
 
         return store;
     }
 
-    LeafStore(Store store) {
+    LeafStore(Store store, boolean concurrent) {
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
         this.parentStore = store;
+        this.concurrent = concurrent;
     }
 
     @SuppressWarnings("unchecked")
@@ -123,9 +128,13 @@ class LeafStore implements Store {
         if (localDataMap != null) localDataMap.clear();
     }
 
+    public boolean isConcurrent() {
+        return concurrent;
+    }
+
     private Map<String, Object> ensureDataMap() {
         if (localDataMap == null) {
-            localDataMap = new ConcurrentHashMap<String, Object>();
+            localDataMap = concurrent ? new ConcurrentHashMap<String, Object>() : new HashMap<String, Object>();
         }
 
         return localDataMap;

@@ -36,7 +36,7 @@ public class AbstractService implements Service {
     public AbstractService(Session session, String resourceUri) {
         this.session = session;
         this.options = RequestOptionsHolder.copy(session.getRequestOptions());
-        this.store = new LeafStore(session);
+        this.store = new LeafStore(session, true);
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 

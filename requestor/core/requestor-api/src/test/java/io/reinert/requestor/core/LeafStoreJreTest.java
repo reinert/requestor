@@ -40,7 +40,7 @@ public class LeafStoreJreTest {
     @Test
     public void get_SetValueInParent_ShouldReturnSetValue() {
         // Given
-        LeafStore leafStore = new LeafStore(store);
+        LeafStore leafStore = new LeafStore(store, false);
 
         // When
         int returned = leafStore.retrieve(KEY);
@@ -53,7 +53,7 @@ public class LeafStoreJreTest {
     @Test
     public void remove_SetValueInParent_ShouldKeepIt() {
         // Given
-        LeafStore leafStore = new LeafStore(store);
+        LeafStore leafStore = new LeafStore(store, false);
 
         // When
         boolean removed = leafStore.remove(KEY);
@@ -69,7 +69,7 @@ public class LeafStoreJreTest {
         String key = "key2";
 
         // Given
-        LeafStore leafStore = new LeafStore(store);
+        LeafStore leafStore = new LeafStore(store, false);
         leafStore.save(key, expected);
 
         // When
@@ -85,7 +85,7 @@ public class LeafStoreJreTest {
         int localExpected = 2;
 
         // Given
-        LeafStore leafStore = new LeafStore(store);
+        LeafStore leafStore = new LeafStore(store, false);
         leafStore.save(KEY, localExpected);
 
         // When
@@ -104,10 +104,10 @@ public class LeafStoreJreTest {
         int localExpected = 3;
 
         // Given
-        LeafStore volatileParent = new LeafStore(store);
+        LeafStore volatileParent = new LeafStore(store, false);
         volatileParent.save(KEY, parentExpected);
 
-        LeafStore leafStore = new LeafStore(volatileParent);
+        LeafStore leafStore = new LeafStore(volatileParent, false);
         leafStore.save(KEY, localExpected);
 
         // When

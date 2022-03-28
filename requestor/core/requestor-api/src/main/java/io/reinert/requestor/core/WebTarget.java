@@ -53,7 +53,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
                                    RequestOptionsHolder options, RequestSerializer requestSerializer,
                                    ResponseDeserializer responseDeserializer, Uri uri) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredPoolFactory, new LeafStore(store), RequestOptionsHolder.copy(options), requestSerializer,
+                deferredPoolFactory, new LeafStore(store, true), RequestOptionsHolder.copy(options), requestSerializer,
                 responseDeserializer, uri, uri == null ? UriBuilder.newInstance() : UriBuilder.fromUri(uri));
     }
 
@@ -63,7 +63,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
                                    RequestOptionsHolder options, RequestSerializer requestSerializer,
                                    ResponseDeserializer responseDeserializer, UriBuilder uriBuilder) {
         return new WebTarget(filterManager, interceptorManager, serializationEngine, dispatcherFactory,
-                deferredPoolFactory, new LeafStore(store), RequestOptionsHolder.copy(options), requestSerializer,
+                deferredPoolFactory, new LeafStore(store, true), RequestOptionsHolder.copy(options), requestSerializer,
                 responseDeserializer, null, uriBuilder);
     }
 
@@ -517,7 +517,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvokerImpl request =
-                new RequestInvokerImpl(uri, new LeafStore(store), requestDispatcher);
+                new RequestInvokerImpl(uri, new LeafStore(store, false), requestDispatcher);
         options.apply(request);
         return request;
     }
