@@ -16,7 +16,6 @@
 package io.reinert.requestor.net;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -162,7 +161,7 @@ class NetRequestDispatcher extends RequestDispatcher {
         try {
             // Payload upload
             if (conn.getDoOutput()) {
-                try (OutputStream out = new BufferedOutputStream(conn.getOutputStream(), outputBufferSize)) {
+                try (OutputStream out = conn.getOutputStream()) {
                     if (serializedPayload instanceof CompositeSerializedPayload) {
                         final CompositeSerializedPayload csp = (CompositeSerializedPayload) serializedPayload;
                         final long totalSize = csp.getLength();
@@ -216,11 +215,8 @@ class NetRequestDispatcher extends RequestDispatcher {
             SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             if (payloadType.getType() != Void.class ||
                     request.isEquals(RequestorNet.READ_CHUNKING_ENABLED, Boolean.TRUE)) {
-                try (InputStream in = new BufferedInputStream(
-                        responseStatus.getFamily() == StatusFamily.SUCCESSFUL ?
-                                conn.getInputStream() :
-                                conn.getErrorStream(),
-                        inputBufferSize)) {
+                try (InputStream in = responseStatus.getFamily() == StatusFamily.SUCCESSFUL ?
+                                conn.getInputStream() : conn.getErrorStream()) {
                     serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in, response);
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
