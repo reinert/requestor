@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public class RequestorGwtTestSuite extends GWTTestSuite {
 
         suite.addTestSuite(RestServiceGwtTest.class);
 
-        suite.addTestSuite(AbstractServiceGwtTest.class);
+        suite.addTestSuite(BaseServiceGwtTest.class);
 
         suite.addTestSuite(RequestFilterGwtTest.class);
 

@@ -53,11 +53,9 @@ public class UriParserJreTest {
 
     @Test
     public void testRootPath() {
-        final UriParser parser = UriParser.newInstance();
         final String expected = "/";
 
-        parser.parse(expected);
-        final Uri uri = parser.getUri();
+        final Uri uri = UriParser.parse(expected);
 
         assertNull(uri.getScheme());
         assertNull(uri.getUser());
@@ -72,11 +70,9 @@ public class UriParserJreTest {
 
     @Test
     public void testPathOnly() {
-        final UriParser parser = UriParser.newInstance();
         final String expected = "/server/resource";
 
-        parser.parse(expected);
-        final Uri uri = parser.getUri();
+        final Uri uri = UriParser.parse(expected);
 
         assertNull(uri.getScheme());
         assertNull(uri.getUser());
@@ -91,11 +87,9 @@ public class UriParserJreTest {
 
     @Test
     public void testPathAndQuery() {
-        final UriParser parser = UriParser.newInstance();
         final String expected = "/server/resource?age=12&name=Aa&name=Zz";
 
-        parser.parse(expected);
-        final Uri uri = parser.getUri();
+        final Uri uri = UriParser.parse(expected);
 
         assertNull(uri.getScheme());
         assertNull(uri.getUser());
@@ -111,11 +105,9 @@ public class UriParserJreTest {
 
     @Test
     public void testSimple() {
-        final UriParser parser = UriParser.newInstance();
         final String expected = "http://user:pwd@localhost:8888/server/resource#first";
 
-        parser.parse(expected);
-        final Uri uri = parser.getUri();
+        final Uri uri = UriParser.parse(expected);
 
         assertEquals("http", uri.getScheme());
         assertEquals("user", uri.getUser());
@@ -129,12 +121,10 @@ public class UriParserJreTest {
 
     @Test
     public void testComplete() {
-        final UriParser parser = UriParser.newInstance();
         final String expected = "http://user:pwd@localhost:8888/server/root/resource;class=2;class=5;class=6" +
                 "/child;group=A;subGroup=A.1;subGroup=A.2?age=12&name=Aa&name=Zz#first";
 
-        parser.parse(expected);
-        final Uri uri = parser.getUri();
+        final Uri uri = UriParser.parse(expected);
 
         assertEquals("http", uri.getScheme());
         assertEquals("user", uri.getUser());
@@ -159,11 +149,9 @@ public class UriParserJreTest {
 
     @Test
     public void testIpHost() {
-        final UriParser parser = UriParser.newInstance();
         final String expected = "http://127.0.0.1:8888/requestor";
 
-        parser.parse(expected);
-        final Uri uri = parser.getUri();
+        final Uri uri = UriParser.parse(expected);
 
         assertEquals("http", uri.getScheme());
         assertEquals("127.0.0.1", uri.getHost());

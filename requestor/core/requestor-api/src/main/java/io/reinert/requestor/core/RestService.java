@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,11 @@ import java.util.List;
 import io.reinert.requestor.core.uri.UriBuilder;
 
 /**
- * A basic implementation of {@link AbstractService} with most common operations against a REST resource.
+ * A basic implementation of {@link BaseService} with most common operations against a REST resource.
  *
  * @author Danilo Reinert
  */
-public class RestService<R, I> extends AbstractService implements RestInvoker<R, I> {
+public class RestService<R, I> extends BaseService implements RestInvoker<R, I> {
 
     public static class RestServiceSpec<R, I, C extends Collection> {
         private final Class<R> resourceType;

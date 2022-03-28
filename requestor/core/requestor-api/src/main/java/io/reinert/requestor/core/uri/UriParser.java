@@ -16,6 +16,7 @@
 package io.reinert.requestor.core.uri;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -26,40 +27,19 @@ import java.util.List;
  */
 class UriParser {
 
-    private UriImpl uri;
-    private String scheme;
-    private String user;
-    private String password;
-    private String host;
-    private int port = -1;
-    private List<String> segments;
-    private LinkedHashMap<String, LinkedHashMap<String, Uri.Param>> matrixParams;
-    private LinkedHashMap<String, Uri.Param> queryParams;
-    private String fragment;
-    private String uriString;
-
     private UriParser() {
     }
 
-    public UriImpl getUri() {
-        if (uri == null) {
-            uri = new UriImpl(scheme, user, password, host, port, segments, matrixParams, queryParams, fragment,
-                    uriString);
-        }
-
-        return uri;
-    }
-
-    public static UriParser newInstance() {
-        return new UriParser();
-    }
-
-    public UriParser parse(String uri) {
+    public static UriImpl parse(String uri) {
         if (uri == null || uri.length() == 0) {
             throw new UriParseException("The uri argument cannot be null or empty");
         }
 
-        resetParser();
+        final HashMap<String, String> parts = new HashMap<String, String>();
+
+        LinkedHashMap<String, LinkedHashMap<String, Uri.Param>> matrixParams = null;
+        LinkedHashMap<String, Uri.Param> queryParams = null;
+        String uriString = null;
 
         uriString = uri;
 
@@ -73,8 +53,8 @@ class UriParser {
         pos = parsedUri.indexOf('#');
         if (pos > -1) {
             // Check last char
-            fragment = parsedUri.length() - pos == 1 ? null :
-                    uriCodec.decode(parsedUri.substring(pos + 1), Uri.CHARSET);
+            parts.put("fragment", parsedUri.length() - pos == 1 ? null :
+                    uriCodec.decode(parsedUri.substring(pos + 1), Uri.CHARSET));
             // Remove parsed part from parsing uri
             parsedUri = parsedUri.substring(0, pos);
         }
@@ -84,7 +64,7 @@ class UriParser {
         if (pos > -1) {
             // Check last char
             query = parsedUri.length() - pos == 1 ? null : parsedUri.substring(pos + 1);
-            parseQuery(query);
+            queryParams = parseQuery(query);
             // Remove parsed part from parsing uri
             parsedUri = parsedUri.substring(0, pos);
         }
@@ -92,29 +72,29 @@ class UriParser {
         // Extract protocol
         if (parsedUri.length() > 2 && parsedUri.substring(0, 2).equals("//")) {
             // Relative-Scheme
-            scheme = null;
+            parts.put("scheme", null);
             parsedUri = parsedUri.substring(2);
             // Extract "user:pass@host:port"
-            parsedUri = parseAuthority(parsedUri);
+            parsedUri = parseAuthority(parsedUri, parts);
         } else {
             pos = parsedUri.indexOf("://");
             if (pos > -1) {
-                scheme = pos > 0 ? parsedUri.substring(0, pos) : null;
+                parts.put("scheme", pos > 0 ? parsedUri.substring(0, pos) : null);
                 parsedUri = parsedUri.substring(pos + 3);
 
                 // Extract "user:pass@host:port"
-                parsedUri = parseAuthority(parsedUri);
+                parsedUri = parseAuthority(parsedUri, parts);
             }
         }
 
         // The left part must be the path
-        final List<String> parsedSegments = new ArrayList<String>();
+        final List<String> segments = new ArrayList<String>();
         final String[] rawSegments = parsedUri.split("/");
         for (String segment : rawSegments) {
             if (segment.length() != 0) {
                 String[] matrixParts = segment.split(";");
                 final String parsedSegment = uriCodec.decode(matrixParts[0], Uri.CHARSET);
-                parsedSegments.add(parsedSegment);
+                segments.add(parsedSegment);
                 if (matrixParts.length > 1) {
                     if (matrixParams == null) {
                         matrixParams = new LinkedHashMap<String, LinkedHashMap<String, Uri.Param>>();
@@ -138,16 +118,17 @@ class UriParser {
                 }
             }
         }
-        this.segments = parsedSegments;
 
-        return this;
+        return new UriImpl(parts.get("scheme"), parts.get("user"), parts.get("password"), parts.get("host"),
+                parts.containsKey("port") ? Integer.parseInt(parts.get("port")) : -1, segments, matrixParams,
+                queryParams, parts.get("fragment"), uriString);
     }
 
-    private String parseAuthority(String uri) {
-        return parseHost(parseUserInfo(uri));
+    private static String parseAuthority(String uri, HashMap<String, String> parts) {
+        return parseHost(parseUserInfo(uri, parts), parts);
     }
 
-    private String parseUserInfo(String uri) {
+    private static String parseUserInfo(String uri, HashMap<String, String> parts) {
         final UriCodec uriCodec = UriCodec.getInstance();
 
         // Extract username:password
@@ -157,40 +138,40 @@ class UriParser {
         // authority@ must come before /path
         if (pos > -1 && (pathDivider == -1 || pos < pathDivider)) {
             String[] t = uri.substring(0, pos).split(":");
-            user = t[0].length() != 0 ? uriCodec.decode(t[0], Uri.CHARSET) : null;
-            password = t.length > 1 && t[1].length() != 0 ? uriCodec.decode(t[1], Uri.CHARSET) : null;
+            parts.put("user", t[0].length() != 0 ? uriCodec.decode(t[0], Uri.CHARSET) : null);
+            parts.put("password", t.length > 1 && t[1].length() != 0 ? uriCodec.decode(t[1], Uri.CHARSET) : null);
             uri = uri.substring(pos + 1);
         } else {
-            user = null;
-            password = null;
+            parts.put("user", null);
+            parts.put("password", null);
         }
 
         return uri;
     }
 
-    private String parseHost(String uri) {
+    private static String parseHost(String uri, HashMap<String, String> parts) {
         // Extract host:port
         int pos = uri.indexOf('/');
 
         if (pos == -1) pos = uri.length();
 
         String[] authority = uri.substring(0, pos).split(":");
-        host = authority[0].length() != 0 ? authority[0] : null;
-        port = authority.length > 1 && authority[1].length() != 0 ? Integer.parseInt(authority[1]) : -1;
+        parts.put("host", authority[0].length() != 0 ? authority[0] : null);
+        parts.put("port", authority.length > 1 && authority[1].length() != 0 ? authority[1] : "-1");
 
         return pos == uri.length() ? "/" : uri.substring(pos);
     }
 
-    private void parseQuery(String query) {
+    private static LinkedHashMap<String, Uri.Param> parseQuery(String query) {
         final UriCodec uriCodec = UriCodec.getInstance();
 
         // throw out the funky business - "?"[name"="value"&"]+
         query = query.replaceAll("/&+/g", "&").replaceAll("/^\\?*&*|&+$/g", "");
 
         if (query.length() == 0)
-            return;
+            return null;
 
-        queryParams = new LinkedHashMap<String, Uri.Param>();
+        LinkedHashMap<String, Uri.Param> queryParams = new LinkedHashMap<String, Uri.Param>();
         String[] pairs = query.split("&");
         for (final String pair : pairs) {
             String[] p = pair.split("=");
@@ -207,19 +188,7 @@ class UriParser {
                 queryParams.put(decodedName, Uri.Param.query(decodedName, valuesArray));
             }
         }
-    }
 
-    private void resetParser() {
-        uri = null;
-        scheme = null;
-        user = null;
-        password = null;
-        host = null;
-        port = -1;
-        segments = null;
-        matrixParams = null;
-        queryParams = null;
-        fragment = null;
-        uriString = null;
+        return queryParams;
     }
 }

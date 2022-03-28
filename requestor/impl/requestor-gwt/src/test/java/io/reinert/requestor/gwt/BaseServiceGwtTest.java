@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.core.AbstractService;
+import io.reinert.requestor.core.BaseService;
 import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.RestService;
@@ -36,9 +36,9 @@ import junit.framework.TestCase;
 /**
  * Integration tests of {@link RestService}.
  */
-public class AbstractServiceGwtTest extends GWTTestCase {
+public class BaseServiceGwtTest extends GWTTestCase {
 
-    private static class BookService extends AbstractService {
+    private static class BookService extends BaseService {
 
         public BookService(Session session) {
             super(session, "https://605740e1055dbd0017e8493a.mockapi.io/requestor/tests/books");
