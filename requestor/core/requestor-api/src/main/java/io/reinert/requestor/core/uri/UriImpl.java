@@ -30,19 +30,19 @@ import java.util.Map;
  */
 class UriImpl extends Uri {
 
-    private String scheme;
-    private String user;
-    private String password;
-    private String host;
-    private int port = -1;
+    private final String scheme;
+    private final String user;
+    private final String password;
+    private final String host;
+    private final int port;
     private String path;
     private String pathEncoded;
-    private List<String> pathSegments;
-    private LinkedHashMap<String, LinkedHashMap<String, Param>> matrixParams;
+    private final List<String> pathSegments;
+    private final LinkedHashMap<String, LinkedHashMap<String, Param>> matrixParams;
     private String query;
     private String queryEncoded;
-    private LinkedHashMap<String, Uri.Param> queryParams;
-    private String fragment;
+    private final LinkedHashMap<String, Uri.Param> queryParams;
+    private final String fragment;
     private String uriString;
 
     UriImpl(String scheme, String user, String password, String host, int port, List<String> pathSegments,
@@ -60,7 +60,7 @@ class UriImpl extends Uri {
         this.user = user;
         this.password = password;
         this.host = host;
-        this.port = port;
+        this.port = port < 0 ? -1 : port;
         this.pathSegments = pathSegments == null || pathSegments.isEmpty() ?
                 Collections.<String>emptyList() : Collections.unmodifiableList(pathSegments);
         this.matrixParams = matrixParams;
