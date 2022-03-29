@@ -31,6 +31,6 @@
 
   <modules>
     <module>requestor-gwt</module>
-    <module>requestor-net</module>
+    <module>requestor-javanet</module>
   </modules>
 </project>
