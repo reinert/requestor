@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.javanet;
+package io.reinert.requestor.java.net;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
