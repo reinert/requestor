@@ -29,5 +29,5 @@ import junit.framework.TestSuite;
         RequestEventTest.class,
         SerializationTest.class
 })
-public class RequestorNetTestSuite extends TestSuite {
+public class RequestorJavaNetTestSuite extends TestSuite {
 }

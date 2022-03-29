@@ -48,7 +48,7 @@ public class RequestEventTest extends NetTest {
     public void testLoadEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.get("https://httpbin.org/status/200")
                 .onStatus(200, succeedOnEvent(result))
@@ -62,7 +62,7 @@ public class RequestEventTest extends NetTest {
     public void testSuccessEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.get("https://httpbin.org/status/200")
                 .onSuccess(succeedOnEvent(result))
@@ -76,7 +76,7 @@ public class RequestEventTest extends NetTest {
     public void testFailEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.get("https://httpbin.org/status/400")
                 .onSuccess(failOnEvent(result))
@@ -90,7 +90,7 @@ public class RequestEventTest extends NetTest {
     public void testStatusEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.get("https://httpbin.org/status/200")
                 .onStatus(200, succeedOnEvent(result))
@@ -108,7 +108,7 @@ public class RequestEventTest extends NetTest {
     public void testAbortEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.register((RequestFilter) request -> {
             throw new RuntimeException("Request should be aborted.");
@@ -127,7 +127,7 @@ public class RequestEventTest extends NetTest {
     public void testTimeoutEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.setTimeout(50);
 
@@ -148,8 +148,8 @@ public class RequestEventTest extends NetTest {
     public void testUploadProgressEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final NetSession session = new NetSession();
-        session.save(RequestorNet.WRITE_CHUNKING_ENABLED, true);
+        final JavaNetSession session = new JavaNetSession();
+        session.save(RequestorJavaNet.WRITE_CHUNKING_ENABLED, true);
 
         final byte[] payload = new byte[(session.getOutputBufferSize() * 2) + 1];
         Arrays.fill(payload, (byte) 1);
@@ -186,9 +186,9 @@ public class RequestEventTest extends NetTest {
     public void testDownloadProgressEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final NetSession session = new NetSession();
+        final JavaNetSession session = new JavaNetSession();
         session.setMediaType("application/octet-stream");
-        session.save(RequestorNet.READ_CHUNKING_ENABLED, true);
+        session.save(RequestorJavaNet.READ_CHUNKING_ENABLED, true);
 
         final int expectedProgressCalls = 3;
         final AtomicInteger progressCalls = new AtomicInteger(0);
@@ -224,13 +224,13 @@ public class RequestEventTest extends NetTest {
     public void testWriteOnDownload() throws Throwable {
         final TestResult result = new TestResult();
 
-        final NetSession session = new NetSession();
+        final JavaNetSession session = new JavaNetSession();
         session.setMediaType("application/octet-stream");
-        session.save(RequestorNet.READ_CHUNKING_ENABLED, true);
+        session.save(RequestorJavaNet.READ_CHUNKING_ENABLED, true);
 
         final String byteSize = String.valueOf((session.getInputBufferSize() * 2) + 1);
 
-        final Path tempPath = Files.createTempFile("requestor-net-SerializationTest-testWriteOnDownload-", null);
+        final Path tempPath = Files.createTempFile("requestor-javanet-SerializationTest-testWriteOnDownload-", null);
         final File tempFile = tempPath.toFile();
         tempFile.deleteOnExit();
 
@@ -250,9 +250,9 @@ public class RequestEventTest extends NetTest {
     public void testReadChunkingWithVoidPayload() throws Throwable {
         final TestResult result = new TestResult();
 
-        final NetSession session = new NetSession();
+        final JavaNetSession session = new JavaNetSession();
         session.setMediaType("application/octet-stream");
-        session.save(RequestorNet.READ_CHUNKING_ENABLED, true);
+        session.save(RequestorJavaNet.READ_CHUNKING_ENABLED, true);
 
         final int expectedProgressCalls = 3;
         final AtomicInteger progressCalls = new AtomicInteger(0);

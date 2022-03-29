@@ -28,63 +28,64 @@ import io.reinert.requestor.java.serialization.FormDataMultiPartSerializer;
 import io.reinert.requestor.java.serialization.InputStreamSerializer;
 
 /**
- * A session implementation for requestor-net.
+ * A session implementation for requestor-javanet.
  *
  * @author Danilo Reinert
  */
-public class NetSession extends Session {
+public class JavaNetSession extends Session {
 
     public static final int DEFAULT_CORE_POOL_SIZE = 10;
 
     static {
-        RequestorNet.init();
+        RequestorJavaNet.init();
     }
 
-    public NetSession() {
+    public JavaNetSession() {
         this(new DeferredPoolFactoryImpl());
     }
 
-    public NetSession(DeferredPool.Factory deferredPoolFactory) {
+    public JavaNetSession(DeferredPool.Factory deferredPoolFactory) {
         this(deferredPoolFactory, new ScheduledThreadPoolExecutor(DEFAULT_CORE_POOL_SIZE));
     }
 
-    public NetSession(ScheduledExecutorService executorService) {
+    public JavaNetSession(ScheduledExecutorService executorService) {
         this(new DeferredPoolFactoryImpl(), executorService);
     }
 
-    public NetSession(DeferredPool.Factory deferredPoolFactory, ScheduledExecutorService executorService) {
-        super(new NetRequestDispatcherFactory(executorService), deferredPoolFactory);
+    public JavaNetSession(DeferredPool.Factory deferredPoolFactory, ScheduledExecutorService executorService) {
+        super(new JavaNetRequestDispatcherFactory(executorService), deferredPoolFactory);
     }
 
     public ScheduledExecutorService getScheduledExecutorService() {
-        return ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).getScheduledExecutorService();
+        return ((JavaNetRequestDispatcherFactory) getRequestDispatcherFactory()).getScheduledExecutorService();
     }
 
     public void setScheduledExecutorService(ScheduledExecutorService scheduledExecutor) {
-        ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setScheduledExecutorService(scheduledExecutor);
+        ((JavaNetRequestDispatcherFactory) getRequestDispatcherFactory())
+                .setScheduledExecutorService(scheduledExecutor);
     }
 
     public int getInputBufferSize() {
-        return ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).getInputBufferSize();
+        return ((JavaNetRequestDispatcherFactory) getRequestDispatcherFactory()).getInputBufferSize();
     }
 
     public void setInputBufferSize(int inputBufferSize) {
-        ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setInputBufferSize(inputBufferSize);
+        ((JavaNetRequestDispatcherFactory) getRequestDispatcherFactory()).setInputBufferSize(inputBufferSize);
     }
 
     public int getOutputBufferSize() {
-        return ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).getOutputBufferSize();
+        return ((JavaNetRequestDispatcherFactory) getRequestDispatcherFactory()).getOutputBufferSize();
     }
 
     public void setOutputBufferSize(int outputBufferSize) {
-        ((NetRequestDispatcherFactory) getRequestDispatcherFactory()).setOutputBufferSize(outputBufferSize);
+        ((JavaNetRequestDispatcherFactory) getRequestDispatcherFactory()).setOutputBufferSize(outputBufferSize);
     }
 
     @Override
     protected void configure() {
         super.configure();
 
-        save(RequestorNet.DEFAULT_CONTENT_TYPE, "text/plain");
+        save(RequestorJavaNet.DEFAULT_CONTENT_TYPE, "text/plain");
 
         register(BinarySerializer.getInstance());
         register(ByteSerializer.getInstance());

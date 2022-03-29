@@ -34,7 +34,7 @@ public class HttpMethodTest extends NetTest {
     public void testGetMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.get("https://httpbin.org/get")
                 .onSuccess(succeedOnEvent(result))
@@ -48,7 +48,7 @@ public class HttpMethodTest extends NetTest {
     public void testPostMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.post("https://httpbin.org/post")
                 .onSuccess(succeedOnEvent(result))
@@ -62,7 +62,7 @@ public class HttpMethodTest extends NetTest {
     public void testPutMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.put("https://httpbin.org/put")
                 .onSuccess(succeedOnEvent(result))
@@ -76,7 +76,7 @@ public class HttpMethodTest extends NetTest {
     public void testPatchMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.patch("https://httpbin.org/patch")
                 .onSuccess(succeedOnEvent(result))
@@ -90,7 +90,7 @@ public class HttpMethodTest extends NetTest {
     public void testDeleteMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.delete("https://httpbin.org/delete")
                 .onSuccess(succeedOnEvent(result))
@@ -104,7 +104,7 @@ public class HttpMethodTest extends NetTest {
     public void testHeadMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.head("https://httpbin.org/headers")
                 .onSuccess(succeedOnEvent(result))
@@ -118,7 +118,7 @@ public class HttpMethodTest extends NetTest {
     public void testOptionsMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.options("https://httpbin.org/headers")
                 .onSuccess(succeedOnEvent(result))

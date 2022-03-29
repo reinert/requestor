@@ -42,7 +42,7 @@ public class SerializationTest extends NetTest {
     public void testFormDataUrlEncoded() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         final FormData data = FormData.builder()
                 .append("string", "value")
@@ -74,7 +74,7 @@ public class SerializationTest extends NetTest {
     public void testFormDataMultiPartPlainContent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         final FormData data = FormData.builder()
                 .append("string", "value")
@@ -106,7 +106,7 @@ public class SerializationTest extends NetTest {
     public void testFormDataMultiPartBinaryContent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final NetSession session = new NetSession();
+        final JavaNetSession session = new JavaNetSession();
 
         final byte[] bytes = new byte[(session.getOutputBufferSize() * 2) + 1];
         Arrays.fill(bytes, (byte) 1);
@@ -144,9 +144,9 @@ public class SerializationTest extends NetTest {
     public void testFile() throws Throwable {
         final TestResult result = new TestResult();
 
-        final NetSession session = new NetSession();
+        final JavaNetSession session = new JavaNetSession();
 
-        final File tempFile = Files.createTempFile("requestor-net-SerializationTest-testFile-", null).toFile();
+        final File tempFile = Files.createTempFile("requestor-javanet-SerializationTest-testFile-", null).toFile();
         tempFile.deleteOnExit();
 
         final byte[] bytes = new byte[(session.getOutputBufferSize() * 2) + 1];
@@ -186,7 +186,7 @@ public class SerializationTest extends NetTest {
     public void testInputStream() throws Throwable {
         final TestResult result = new TestResult();
 
-        final NetSession session = new NetSession();
+        final JavaNetSession session = new JavaNetSession();
 
         final byte[] bytes = new byte[(session.getOutputBufferSize() * 2) + 1];
         Arrays.fill(bytes, (byte) 1);
@@ -202,7 +202,7 @@ public class SerializationTest extends NetTest {
 
         session.req("https://httpbin.org/post")
                 .payload(inputStream)
-                .save(RequestorNet.WRITE_CHUNKING_ENABLED, true)
+                .save(RequestorJavaNet.WRITE_CHUNKING_ENABLED, true)
                 .post()
                 .onWrite(p -> buffers[progressCalls.get()] = p.getChunk().asBytes())
                 .onWrite(p -> bytesWritten.set(p.getLoaded()))

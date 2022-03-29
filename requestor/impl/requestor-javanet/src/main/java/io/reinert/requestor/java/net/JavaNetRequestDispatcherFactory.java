@@ -27,20 +27,20 @@ import io.reinert.requestor.core.ResponseProcessor;
  *
  * @author Danilo Reinert
  */
-class NetRequestDispatcherFactory implements RequestDispatcher.Factory {
+class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
     private int inputBufferSize = 8 * 1024;
     private int outputBufferSize = 8 * 1024;
     private ScheduledExecutorService scheduledExecutorService;
 
-    public NetRequestDispatcherFactory(ScheduledExecutorService scheduledExecutorService) {
+    public JavaNetRequestDispatcherFactory(ScheduledExecutorService scheduledExecutorService) {
         this.scheduledExecutorService = scheduledExecutorService;
     }
 
     public RequestDispatcher create(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
                                     DeferredPool.Factory deferredPoolFactory) {
-        return new NetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
+        return new JavaNetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
                 scheduledExecutorService, inputBufferSize, outputBufferSize);
     }
 

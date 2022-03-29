@@ -33,7 +33,7 @@ import io.reinert.requestor.core.auth.DigestAuth;
  *
  * @author Danilo Reinert
  */
-public class RequestorNet {
+public class RequestorJavaNet {
 
     public static final String CHUNKED_STREAMING_MODE_DISABLED = "requestor.net.chunkedStreamingModeDisabled";
     public static final String DEFAULT_CONTENT_TYPE = "requestor.net.defaultContentType";
@@ -80,7 +80,7 @@ public class RequestorNet {
                             }
                         }
                     },
-                    new NetUriCodec()
+                    new JavaNetUriCodec()
             );
         }
 

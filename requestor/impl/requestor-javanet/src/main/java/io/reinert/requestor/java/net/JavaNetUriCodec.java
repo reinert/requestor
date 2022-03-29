@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 
 import io.reinert.requestor.core.uri.UriCodec;
 
-class NetUriCodec extends UriCodec {
+class JavaNetUriCodec extends UriCodec {
 
     @Override
     public String decode(String encodedURL, String charset) {

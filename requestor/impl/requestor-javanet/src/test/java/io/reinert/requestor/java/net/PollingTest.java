@@ -33,7 +33,7 @@ public class PollingTest extends NetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 500)
@@ -55,7 +55,7 @@ public class PollingTest extends NetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.LONG, 500)
@@ -77,7 +77,7 @@ public class PollingTest extends NetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 500, 3)
@@ -98,7 +98,7 @@ public class PollingTest extends NetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = new NetSession();
+        final Session session = new JavaNetSession();
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 0, 3)

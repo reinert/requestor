@@ -23,13 +23,13 @@ import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestOptions;
 
-public class NetHttpConnection implements HttpConnection {
+public class JavaNetHttpConnection implements HttpConnection {
 
     private final HttpURLConnection conn;
     private final Deferred<?> deferred;
     private final RequestOptions request;
 
-    public NetHttpConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
+    public JavaNetHttpConnection(HttpURLConnection conn, Deferred<?> deferred, RequestOptions request) {
         if (conn == null) throw new IllegalArgumentException("HttpURLConnection cannot be null.");
         this.conn = conn;
         this.deferred = deferred;
