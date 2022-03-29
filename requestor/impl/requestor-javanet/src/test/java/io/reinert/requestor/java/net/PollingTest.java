@@ -24,7 +24,7 @@ import org.junit.Test;
 /**
  * Tests for the polling feature.
  */
-public class PollingTest extends NetTest {
+public class PollingTest extends JavaNetTest {
 
     private static final int TIMEOUT = 5000;
 

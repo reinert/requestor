@@ -29,7 +29,7 @@ import org.junit.Test;
 /**
  * Retry tests.
  */
-public class RetryTest extends NetTest {
+public class RetryTest extends JavaNetTest {
 
     private static final int TIMEOUT = 10000;
 

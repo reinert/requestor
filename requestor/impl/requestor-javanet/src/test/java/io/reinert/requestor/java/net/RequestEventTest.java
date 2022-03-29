@@ -36,7 +36,7 @@ import org.junit.Test;
 /**
  * Tests for basic request events.
  */
-public class RequestEventTest extends NetTest {
+public class RequestEventTest extends JavaNetTest {
 
     private static final int TIMEOUT = 5_000;
 

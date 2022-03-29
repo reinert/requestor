@@ -35,11 +35,11 @@ import io.reinert.requestor.core.callback.VoidCallback;
 import io.reinert.requestor.core.callback.WriteCallback;
 
 /**
- * Base class for requestor-net tests.
+ * Base class for requestor-javanet tests.
  *
  * @author Danilo Reinert
  */
-public class NetTest {
+public class JavaNetTest {
 
     public static class TestResult {
         private Boolean succeeded;

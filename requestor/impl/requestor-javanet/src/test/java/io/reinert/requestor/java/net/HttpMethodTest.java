@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Tests for basic request events.
  */
-public class HttpMethodTest extends NetTest {
+public class HttpMethodTest extends JavaNetTest {
 
     private static final int TIMEOUT = 5_000;
 

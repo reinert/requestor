@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * Tests for basic request events.
  */
-public class SerializationTest extends NetTest {
+public class SerializationTest extends JavaNetTest {
 
     private static final int TIMEOUT = 10_000;
 
