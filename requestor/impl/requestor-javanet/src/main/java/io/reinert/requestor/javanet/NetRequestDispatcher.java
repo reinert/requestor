@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.net;
+package io.reinert.requestor.javanet;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -57,9 +57,12 @@ import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.core.uri.Uri;
-import io.reinert.requestor.net.payload.BinarySerializedPayload;
-import io.reinert.requestor.net.payload.CompositeSerializedPayload;
-import io.reinert.requestor.net.payload.InputStreamSerializedPayload;
+import io.reinert.requestor.java.ChunkedProgressEvent;
+import io.reinert.requestor.java.FixedProgressEvent;
+import io.reinert.requestor.java.RequestRedirectException;
+import io.reinert.requestor.java.payload.BinarySerializedPayload;
+import io.reinert.requestor.java.payload.CompositeSerializedPayload;
+import io.reinert.requestor.java.payload.InputStreamSerializedPayload;
 
 /**
  * RequestDispatcher implementation using {@link HttpURLConnection}.

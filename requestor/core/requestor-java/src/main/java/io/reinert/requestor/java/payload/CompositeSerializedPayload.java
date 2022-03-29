@@ -13,54 +13,72 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.net.payload;
+package io.reinert.requestor.java.payload;
 
-import java.util.Base64;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import io.reinert.requestor.core.payload.SerializedPayload;
 
 /**
  * Represents an HTTP payload.
- * It envelops a byte array.
+ * It envelops a list of payloads.
  *
  * @author Danilo Reinert
  */
-public class BinarySerializedPayload implements SerializedPayload {
+public class CompositeSerializedPayload implements SerializedPayload, Iterable<SerializedPayload> {
 
-    protected String string;
-    protected byte[] bytes;
-
-    public BinarySerializedPayload(byte[] bytes) {
-        this.bytes = bytes == null ? new byte[]{} : bytes;
-    }
+    protected final List<SerializedPayload> parts = new ArrayList<>();
+    private long totalLength = -1;
 
     @Override
     public boolean isEmpty() {
-        return bytes.length == 0;
+        return parts.isEmpty();
     }
 
     @Override
     public boolean isStringAvailable() {
-        return string != null;
+        return false;
     }
 
     @Override
     public boolean isBytesAvailable() {
-        return bytes != null;
+        return false;
     }
 
     @Override
     public long getLength() {
-        return bytes.length;
+        if (totalLength == -1) {
+            totalLength = 0;
+            for (SerializedPayload part : parts) {
+                if (part.getLength() == 0) {
+                    totalLength = 0;
+                    break;
+                }
+                totalLength += part.getLength();
+            }
+        }
+        return totalLength;
     }
 
     @Override
     public byte[] asBytes() {
-        return bytes;
+        return null;
     }
 
     @Override
     public String asString() {
-        return string == null ? string = Base64.getEncoder().encodeToString(bytes) : string;
+        return null;
+    }
+
+    public CompositeSerializedPayload add(SerializedPayload part) {
+        parts.add(part);
+        return this;
+    }
+
+    @Override
+    public Iterator<SerializedPayload> iterator() {
+        return parts.iterator();
     }
 }

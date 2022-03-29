@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.net;
+package io.reinert.requestor.javanet;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -21,11 +21,11 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
-import io.reinert.requestor.net.serialization.BinarySerializer;
-import io.reinert.requestor.net.serialization.ByteSerializer;
-import io.reinert.requestor.net.serialization.FileSerializer;
-import io.reinert.requestor.net.serialization.FormDataMultiPartSerializer;
-import io.reinert.requestor.net.serialization.InputStreamSerializer;
+import io.reinert.requestor.java.serialization.BinarySerializer;
+import io.reinert.requestor.java.serialization.ByteSerializer;
+import io.reinert.requestor.java.serialization.FileSerializer;
+import io.reinert.requestor.java.serialization.FormDataMultiPartSerializer;
+import io.reinert.requestor.java.serialization.InputStreamSerializer;
 
 /**
  * A session implementation for requestor-net.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.net.serialization;
+package io.reinert.requestor.java.serialization;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,7 +22,7 @@ import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
-import io.reinert.requestor.net.payload.BinarySerializedPayload;
+import io.reinert.requestor.java.payload.BinarySerializedPayload;
 
 /**
  * Pass-through serializer for byte array and generic media types.

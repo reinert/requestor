@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.net.payload;
+package io.reinert.requestor.java.payload;
 
 import java.io.InputStream;
 

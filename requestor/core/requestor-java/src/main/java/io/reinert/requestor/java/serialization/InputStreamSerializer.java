@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.net.serialization;
+package io.reinert.requestor.java.serialization;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -34,8 +34,8 @@ import io.reinert.requestor.core.serialization.DeserializationContext;
 import io.reinert.requestor.core.serialization.HandlesSubTypes;
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.Serializer;
-import io.reinert.requestor.net.payload.CompositeSerializedPayload;
-import io.reinert.requestor.net.payload.InputStreamSerializedPayload;
+import io.reinert.requestor.java.payload.CompositeSerializedPayload;
+import io.reinert.requestor.java.payload.InputStreamSerializedPayload;
 
 /**
  * InputStream serializer for inputStreams.

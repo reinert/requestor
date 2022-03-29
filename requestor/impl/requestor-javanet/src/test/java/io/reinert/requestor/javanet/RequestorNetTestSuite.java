@@ -13,32 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.net;
+package io.reinert.requestor.javanet;
 
-import io.reinert.requestor.core.ProgressEvent;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-public class ChunkedProgressEvent implements ProgressEvent {
+import junit.framework.TestSuite;
 
-    private static final long serialVersionUID = -6384493486672310466L;
-
-    private final long bytesLoaded;
-
-    public ChunkedProgressEvent(long bytesLoaded) {
-        this.bytesLoaded = bytesLoaded;
-    }
-
-    @Override
-    public boolean lengthComputable() {
-        return false;
-    }
-
-    @Override
-    public long loaded() {
-        return bytesLoaded;
-    }
-
-    @Override
-    public long total() {
-        return 0L;
-    }
+/**
+ * Test suite for main package.
+ */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        HttpMethodTest.class,
+        RequestEventTest.class,
+        SerializationTest.class
+})
+public class RequestorNetTestSuite extends TestSuite {
 }
