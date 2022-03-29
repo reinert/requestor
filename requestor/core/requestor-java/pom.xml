@@ -20,18 +20,18 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.reinert.requestor.impl</groupId>
-    <artifactId>requestor-impl-parent</artifactId>
+    <groupId>io.reinert.requestor.core</groupId>
+    <artifactId>requestor-core-parent</artifactId>
     <version>1.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>requestor-javanet</artifactId>
+  <artifactId>requestor-java</artifactId>
 
   <dependencies>
     <!-- Requestor dependencies -->
     <dependency>
       <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-java</artifactId>
+      <artifactId>requestor-api</artifactId>
       <version>${project.version}</version>
     </dependency>
 
