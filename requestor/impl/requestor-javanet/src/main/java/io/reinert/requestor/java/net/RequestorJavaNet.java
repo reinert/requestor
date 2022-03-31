@@ -35,10 +35,10 @@ import io.reinert.requestor.core.auth.DigestAuth;
  */
 public class RequestorJavaNet {
 
-    public static final String CHUNKED_STREAMING_MODE_DISABLED = "requestor.net.chunkedStreamingModeDisabled";
-    public static final String DEFAULT_CONTENT_TYPE = "requestor.net.defaultContentType";
-    public static final String READ_CHUNKING_ENABLED = "requestor.net.readChunkingEnabled";
-    public static final String WRITE_CHUNKING_ENABLED = "requestor.net.writeChunkingEnabled";
+    public static final String CHUNKED_STREAMING_MODE_DISABLED = "requestor.java.net.chunkedStreamingModeDisabled";
+    public static final String DEFAULT_CONTENT_TYPE = "requestor.java.net.defaultContentType";
+    public static final String READ_CHUNKING_ENABLED = "requestor.java.net.readChunkingEnabled";
+    public static final String WRITE_CHUNKING_ENABLED = "requestor.java.net.writeChunkingEnabled";
 
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     private static boolean PENDING_INIT = true;
