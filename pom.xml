@@ -39,9 +39,10 @@
   </modules>
 
   <properties>
-    <java.version>5</java.version>
+    <java.version>7</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+<!--    <jvm.options>&#45;&#45;add-opens java.base/java.net=ALL-UNNAMED</jvm.options>-->
 
     <!-- Plugins -->
     <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
@@ -200,6 +201,15 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <argLine>${jvm.options}</argLine>
+          </configuration>
+        </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
