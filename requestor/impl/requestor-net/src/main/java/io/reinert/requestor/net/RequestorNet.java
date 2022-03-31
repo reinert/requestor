@@ -16,6 +16,7 @@
 package io.reinert.requestor.net;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
@@ -25,8 +26,6 @@ import java.util.Base64;
 
 import io.reinert.requestor.core.Requestor;
 import io.reinert.requestor.core.auth.DigestAuth;
-
-import sun.misc.Unsafe;
 
 /**
  * This class provides a static initializer for Requestor's deferred bindings for JVM environment.
@@ -110,31 +109,37 @@ public class RequestorNet {
 
             methodsField.setAccessible(false);
             modifiersField.setAccessible(false);
-        } catch (NoSuchFieldException | IllegalAccessException ignored) {
+        } catch (Exception ignored) {
             allowPatchWithUnsafe();
         }
     }
 
     private static void allowPatchWithUnsafe() {
         try {
-            final Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-            unsafeField.setAccessible(true);
-            Unsafe unsafe = (Unsafe) unsafeField.get(null);
+            final Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
+            final Field theUnsafe = unsafeClass.getDeclaredField("theUnsafe");
+            theUnsafe.setAccessible(true);
+            final Object unsafe = theUnsafe.get(null);
 
-            final Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
-            methodsField.setAccessible(true);
+            final Field methods = HttpURLConnection.class.getDeclaredField("methods");
+            methods.setAccessible(true);
 
-            final Object fieldBase = unsafe.staticFieldBase(methodsField);
-            final long fieldOffset = unsafe.staticFieldOffset(methodsField);
+            final Method staticFieldBase = unsafeClass.getMethod("staticFieldBase", Field.class);
+            final Method staticFieldOffset = unsafeClass.getMethod("staticFieldOffset", Field.class);
+
+            final Object fieldBase = staticFieldBase.invoke(unsafe, methods);
+            final long fieldOffset = (long) staticFieldOffset.invoke(unsafe, methods);
+
+            final Method putObject = unsafeClass.getMethod("putObject", Object.class, long.class, Object.class);
 
             // Calling get is necessary to actually update the field value in the next statement
-            methodsField.get(HttpURLConnection.class);
-            unsafe.putObject(fieldBase, fieldOffset, new String[] {
+            methods.get(HttpURLConnection.class);
+            putObject.invoke(unsafe, fieldBase, fieldOffset, new String[] {
                     "GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS", "TRACE"
             });
 
-            methodsField.setAccessible(false);
-            unsafeField.setAccessible(false);
-        } catch (IllegalAccessException | NoSuchFieldException ignored) { }
+            methods.setAccessible(false);
+            theUnsafe.setAccessible(false);
+        } catch (Exception ignored) { }
     }
 }
