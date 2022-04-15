@@ -434,20 +434,22 @@ before triggering the retry events.
 
 Requestor defines an event system according to the [Request Lifecycle](#processors-middlewares).
 We can add as many callbacks as we need for each event that may occur.
-The events are divided into two main categories: **Error** events and **Load** events.
+The events are divided into three main categories: **Load** events, **Error** events, and **Progress** events.
 The `error` event is triggered whenever the request is interrupted before receiving a response.
 It is subdivided into three events: `abort` (request interrupted before being sent), `cancel` (request interrupted after being sent), and `timeout` (request expired before receiving a response).
 The `load` event is triggered whenever a request receives a response. It is subdivided into two events: `success` (2xx response received), `fail` (~2xx response received).
 Additionally, any Status Code is also an event. So, if a 201 response is received, the `201` event is triggered.
 Finally, the Status Families are also events. Thus, a 201 response triggers the `2` event as well.
 
-Besides those events, Requestor also fires the `progress` and `upProgress` events to enable us tracking download and upload progress respectively.
-While the `error` or `load` events are triggered once per request call, the `progress` and `upProgress` events are triggered many times per call. 
+Besides those events, Requestor also fires two **progress** events: `read` and `write` events. They enable us to track download and upload progress respectively.
+While the `error` or `load` events are triggered once per request call, the `read` and `write` events are triggered many times per call.
+In addition to get the completed fraction of the upload and download, it is also possible to get each chunk of bytes that is sent of received.
+These events open the HTTP streaming door for the user.
 
 ![request-events](https://user-images.githubusercontent.com/1285494/146399333-8294288f-b5b8-4cf6-bcee-e8e2fe939695.png)
 
 After invoking a request, we receive a `Request<T>` instance. It is a deferred object that 
-allows us to chain callbacks to handle any event that the request may produce. Besides that, 
+allows us to chain callbacks to handle any event that the request may produce. Besides, 
 we can also access all request options that formed this request.
 
 One `Request<T>` will fire either a `load` event or a `error` event only once.
