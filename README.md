@@ -173,8 +173,8 @@ bookService.patch(123, book, "title", "year").onSuccess(updatedBook -> render(up
 bookService.delete(123).onSuccess(() -> showSuccess("Book was deleted."));
 ```
 
-ℹ️ Although Requestor provides this generic REST client, extending the `AbstractService` class and 
-implementing our service clients is more beneficial. `AbstractService` affords the advantage of
+ℹ️ Although Requestor provides this generic REST client, extending the `BaseService` class and 
+implementing our service clients is more beneficial. `BaseService` affords the advantage of
 little coding while empowering complete control of the requesting logic. Consequently, it 
 improves the testing capabilities and bug tracking. See more details in the [Service](#services) 
 section.
@@ -1681,19 +1681,19 @@ define configurations only related to the target subject without cluttering the 
 other words, the Service's [Request Options](#request-options) and the [Store](#store) are 
 independent of the Session's and have preferential usage over it.
 
-In order to create a **Service**, we need to extend the `AbstractService` class and implement 
+In order to create a **Service**, we need to extend the `BaseService` class and implement 
 the network operations related to the server API's subject.
 
-### Extending AbstractService
+### Extending BaseService
 
 Requestor follows a design principle of favoring good code design to code generation.
 In this sense, a great effort is made in crafting classes that can cohesively be extended or 
 composed into new richer components, so the user can quickly build the functionalities he needs.
 Thus, to create a client service related to a server subject, we can extend the 
-`AbstractService` class and implement our calls, like below:
+`BaseService` class and implement our calls, like below:
 
 ```java
-public class BookService extends AbstractService {
+public class BookService extends BaseService {
 
     public BookService(Session session) {
         super(session, "/api/books"); // Provide the root path of the REST resource or RPC group
@@ -1766,7 +1766,7 @@ This way, it is feasible handle all non-happy paths in one place only. For examp
 `applyErrorCallbacks` method below. It adds some predefined callbacks to requests:
 
 ```java
-public abstract class MyAppService<E> extends AbstractService {
+public abstract class MyAppService<E> extends BaseService {
 
     final Class<E> entityClass;
     final EventBus eventBus;
@@ -1802,7 +1802,7 @@ public abstract class MyAppService<E> extends AbstractService {
 }
 ```
 
-**💡 PRO TIP**: Create your own **"AppAbstractService"** and handle the errors in the superclass to save you coding and maintenance cost.
+**💡 PRO TIP**: Create your own base **"AppService"** class and handle the errors in the superclass to save you coding and maintenance cost.
 Use the above example as inspiration as also the [RestService](https://github.com/reinert/requestor/blob/master/requestor/core/requestor-api/src/main/java/io/reinert/requestor/core/RestService.java) class.
 
 
