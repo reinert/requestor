@@ -1,4 +1,4 @@
-# Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor) [![Gitter](https://img.shields.io/badge/Gitter-Join%20Chat-blue.svg?style=flat)](https://gitter.im/reinert/requestor)
+# Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor) [![Gitter](https://img.shields.io/badge/Gitter-Join%20Chat-blue.svg?style=flat)](https://gitter.im/requestor-project/community)
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/1285494/158213729-52458234-6c6b-41d5-bd6d-746c12a7c2c4.png" alt="Request like a boss."/>
@@ -38,9 +38,8 @@ Feature highlights:
 Requestor is developed on top of three main pillars: (1) **Interoperability**, (2) **Simplicity**, and (3)
 **Extensibility**. In that fashion, **requestor-core** is developed in vanilla Java 5 syntax what makes it compatible
 with any Java based platform. To provide a fully working implementation, Requestor impls are required to implement only
-the dispatching mechanism through the wire (two functions basically). Currently, there is one requestor impl available
-for **GWT2**: **requestor-gwt**. For Requestor v2, there are two implementations under development: one for JVM/Android
-and another for J2CL.
+the dispatching mechanism through the wire (two functions basically). Currently, there are two requestor impls available:
+**requestor-javanet** for JVM/Android and **requestor-gwt** for GWT2.
 
 
 ## Preview
@@ -182,6 +181,41 @@ section.
 
 ## Installation
 
+Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** provides most of the
+features but delegates some internals, like the network operation, to the implementations.
+
+Currently, there are two requestor impls available:
+- **requestor-javanet** - it implements requestor for regular Java/Android apps providing the network operation powered by the `java.net` package. 
+- **requestor-gwt**. It implements requestor for GWT2 apps providing the network operation powered by XMLHttpRequest.
+
+### JVM / Android (Java / Kotlin)
+
+There are different builds of the requestor-javanet for each LTS JDK version:
+- requestor-javanet-jdk8
+- requestor-javanet-jdk11
+- requestor-javanet-jdk17
+
+The default **requestor-javanet** build always link to tha latest supported JDK version (jdk17 in this case).
+
+```xml
+<dependency>
+    <groupId>io.reinert.requestor.impl</groupId>
+
+    <!-- for jdk8 based projects -->
+    <artifactId>requestor-javanet-jdk8</artifactId>
+
+    <!-- for jdk11 based projects -->
+    <!-- <artifactId>requestor-javanet-jdk11</artifactId> -->
+
+    <!-- for jdk17 based projects -->
+    <!-- <artifactId>requestor-javanet-jdk17</artifactId> -->
+
+    <version>1.0.0</version>
+</dependency>
+```
+
+### requestor-gwt
+
 Add the following requestor impl dependency to your POM.
 
 ```xml
@@ -197,12 +231,6 @@ Then, make requestor available to your GWT project by importing the implementati
 ```xml
 <inherits name="io.reinert.requestor.gwt.RequestorGwt"/>
 ```
-
-Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** provides most of the
-features but delegates some internals, like the network operation, to the implementations.
-
-Currently, there is one impl available: **requestor-gwt**. It implements requestor for the 
-GWT environment. The **requestor-gwt** impl is compatible with any GWT2 version and Java 5+ API.
 
 ### Latest Release
 
