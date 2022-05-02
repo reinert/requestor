@@ -29,12 +29,22 @@ import io.reinert.requestor.core.ResponseProcessor;
  */
 class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
-    private int inputBufferSize = 8 * 1024;
-    private int outputBufferSize = 8 * 1024;
-    private ScheduledExecutorService scheduledExecutorService;
+    private static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
+
+    private final ScheduledExecutorService scheduledExecutorService;
+
+    private int inputBufferSize;
+    private int outputBufferSize;
 
     public JavaNetRequestDispatcherFactory(ScheduledExecutorService scheduledExecutorService) {
+        this(scheduledExecutorService, DEFAULT_BUFFER_SIZE, DEFAULT_BUFFER_SIZE);
+    }
+
+    public JavaNetRequestDispatcherFactory(ScheduledExecutorService scheduledExecutorService,
+                                           int inputBufferSize, int outputBufferSize) {
         this.scheduledExecutorService = scheduledExecutorService;
+        this.inputBufferSize = inputBufferSize;
+        this.outputBufferSize = outputBufferSize;
     }
 
     public RequestDispatcher create(RequestProcessor requestProcessor,
@@ -48,7 +58,7 @@ class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factory {
         return inputBufferSize;
     }
 
-    public synchronized void setInputBufferSize(int inputBufferSize) {
+    public void setInputBufferSize(int inputBufferSize) {
         this.inputBufferSize = inputBufferSize;
     }
 
@@ -56,21 +66,11 @@ class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factory {
         return outputBufferSize;
     }
 
-    public synchronized void setOutputBufferSize(int outputBufferSize) {
+    public void setOutputBufferSize(int outputBufferSize) {
         this.outputBufferSize = outputBufferSize;
     }
 
     public ScheduledExecutorService getScheduledExecutorService() {
         return scheduledExecutorService;
-    }
-
-    public synchronized void setScheduledExecutorService(ScheduledExecutorService scheduledExecutorService) {
-        if (scheduledExecutorService == null) {
-            throw new IllegalArgumentException("The scheduledExecutor cannot be null.");
-        }
-        if (this.scheduledExecutorService != null) {
-            this.scheduledExecutorService.shutdown();
-        }
-        this.scheduledExecutorService = scheduledExecutorService;
     }
 }
