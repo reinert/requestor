@@ -23,8 +23,6 @@ import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.Serializer;
-import io.reinert.requestor.core.serialization.misc.TextSerializer;
-import io.reinert.requestor.core.serialization.misc.VoidSerializer;
 import io.reinert.requestor.core.uri.Uri;
 import io.reinert.requestor.core.uri.UriBuilder;
 
@@ -87,24 +85,6 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
                 interceptorManager);
         responseProcessor = new ResponseProcessor(serializationEngine, responseDeserializer,
                 filterManager, interceptorManager);
-
-        // perform initial set-up by implementations
-        configure();
-    }
-
-    /**
-     * Perform initial configuration for the session in construction.
-     */
-    protected void configure() {
-        register(HeadersDeserializer.getInstance());
-        register(VoidSerializer.getInstance());
-        register(TextSerializer.getInstance());
-        register(new SerializerProvider() {
-            @Override
-            public Serializer<FormData> getInstance() {
-                return new FormDataUrlEncodedSerializer();
-            }
-        });
     }
 
     //===================================================================
@@ -341,6 +321,10 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     //===================================================================
     // Session configuration
     //===================================================================
+
+    public RequestDispatcher.Factory getRequestDispatcherFactory() {
+        return requestDispatcherFactory;
+    }
 
     public void setRequestSerializer(RequestSerializer requestSerializer) {
         requestProcessor.setRequestSerializer(requestSerializer);
@@ -642,10 +626,6 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
     protected RequestOptionsHolder getRequestOptions() {
         return options;
-    }
-
-    protected RequestDispatcher.Factory getRequestDispatcherFactory() {
-        return requestDispatcherFactory;
     }
 
     private RequestInvoker createRequest(Uri uri) {

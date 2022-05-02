@@ -15,6 +15,9 @@
  */
 package io.reinert.requestor.core;
 
+import io.reinert.requestor.core.serialization.Serializer;
+import io.reinert.requestor.core.serialization.misc.TextSerializer;
+import io.reinert.requestor.core.serialization.misc.VoidSerializer;
 import io.reinert.requestor.core.uri.UriCodec;
 
 /**
@@ -45,5 +48,18 @@ public class Requestor {
 
     public static boolean isInitialized() {
         return initialized;
+    }
+
+    public static Session configure(Session session) {
+        session.register(HeadersDeserializer.getInstance());
+        session.register(VoidSerializer.getInstance());
+        session.register(TextSerializer.getInstance());
+        session.register(new SerializerProvider() {
+            public Serializer<FormData> getInstance() {
+                return new FormDataUrlEncodedSerializer();
+            }
+        });
+
+        return session;
     }
 }
