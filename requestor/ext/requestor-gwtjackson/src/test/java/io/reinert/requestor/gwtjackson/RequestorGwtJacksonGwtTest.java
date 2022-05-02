@@ -34,7 +34,7 @@ import io.reinert.requestor.gwtjackson.annotations.JsonSerializationModule;
  *
  * @author Danilo Reinert
  */
-public class JsonSessionGwtTest extends GWTTestCase {
+public class RequestorGwtJacksonGwtTest extends GWTTestCase {
 
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";
@@ -52,7 +52,7 @@ public class JsonSessionGwtTest extends GWTTestCase {
 
     @Override
     public void gwtSetUp() throws Exception {
-        session = new JsonSession();
+        session = RequestorGwtJackson.newSession();
     }
 
     public void testSerializerShouldBeAvailableBySerializerManager() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,14 +40,14 @@ import io.reinert.requestor.examples.showcase.util.Page;
 import io.reinert.requestor.gwt.serialization.JsonObjectSerializer;
 import io.reinert.requestor.gwt.serialization.JsonRecordReader;
 import io.reinert.requestor.gwt.serialization.JsonRecordWriter;
-import io.reinert.requestor.gwtjackson.JsonSession;
+import io.reinert.requestor.gwtjackson.RequestorGwtJackson;
 import io.reinert.requestor.gwtjackson.annotations.JsonSerializationModule;
 
 public class SerializationActivity extends ShowcaseActivity implements Serialization.Handler {
 
     private final Serialization view;
     private final Session session;
-    private final Session jsonSession;
+    private final Session gwtjacksonSession;
     private final Session autobeanSession;
 
     private Registration xmlSerializerRegistration;
@@ -57,7 +57,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         super(section);
         this.view = view;
         this.session = session;
-        this.jsonSession = new JsonSession();
+        this.gwtjacksonSession = RequestorGwtJackson.newSession();
         this.autobeanSession = RequestorAutoBean.newSession();
     }
 
@@ -83,7 +83,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
 
     @Override
     public void onGwtJacksonGetBooks() {
-        jsonSession.get(Showcase.CLIENT_FACTORY.getBooksUri().toString(), List.class, BookImpl.class)
+        gwtjacksonSession.get(Showcase.CLIENT_FACTORY.getBooksUri().toString(), List.class, BookImpl.class)
                 .onSuccess(new PayloadCallback<List<BookImpl>>() {
                     @Override
                     public void execute(List<BookImpl> books) {
@@ -97,7 +97,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         final BookImpl cleanCode = new BookImpl(1, "Clean Code", "Tech", "9788550811482", "Robert C. Martin",
                 new Date(1217552400000L));
 
-        jsonSession.post(Showcase.CLIENT_FACTORY.getBooksUri().toString(), cleanCode, BookImpl.class)
+        gwtjacksonSession.post(Showcase.CLIENT_FACTORY.getBooksUri().toString(), cleanCode, BookImpl.class)
                 .onSuccess(new PayloadCallback<BookImpl>() {
                     @Override
                     public void execute(BookImpl book) {
