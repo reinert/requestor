@@ -40,7 +40,7 @@ public class SpecialTypeResponsesGwtTest extends GWTTestCase {
     @Override
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
-        session = new GwtSession();
+        session = Requestor.newSession();
     }
 
     public void testResponseTypeAsHeaders() {

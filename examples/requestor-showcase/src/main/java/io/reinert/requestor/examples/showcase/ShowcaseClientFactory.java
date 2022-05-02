@@ -34,7 +34,7 @@ import io.reinert.requestor.examples.showcase.ui.RequestBuilding;
 import io.reinert.requestor.examples.showcase.ui.RequestInvoking;
 import io.reinert.requestor.examples.showcase.ui.RequestListening;
 import io.reinert.requestor.examples.showcase.ui.Serialization;
-import io.reinert.requestor.gwt.GwtSession;
+import io.reinert.requestor.gwt.Requestor;
 
 public class ShowcaseClientFactory {
 
@@ -64,7 +64,7 @@ public class ShowcaseClientFactory {
 
     public Session getSession() {
         if (session == null) {
-            session = new GwtSession(new ShowcaseDeferredFactory());
+            session = Requestor.newSession(new ShowcaseDeferredFactory());
             session.setMediaType(null); // Avoid auto-setting Accept and Content-Type headers to application/json
         }
         return session;

@@ -45,7 +45,7 @@ public class PollingGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        session = new GwtSession();
+        session = Requestor.newSession();
         session.setMediaType("application/json");
     }
 

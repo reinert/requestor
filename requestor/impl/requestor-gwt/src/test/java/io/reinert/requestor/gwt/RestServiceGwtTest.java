@@ -49,7 +49,7 @@ public class RestServiceGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        Session session = new GwtSession();
+        Session session = Requestor.newSession();
 
         session.register(BookJsonSerializer.getInstance());
 
