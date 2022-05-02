@@ -23,25 +23,78 @@ import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import io.reinert.requestor.core.Base64Codec;
+import io.reinert.requestor.core.DeferredPool;
+import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestorCore;
+import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.auth.DigestAuth;
+import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
+import io.reinert.requestor.java.serialization.BinarySerializer;
+import io.reinert.requestor.java.serialization.ByteSerializer;
+import io.reinert.requestor.java.serialization.FileSerializer;
+import io.reinert.requestor.java.serialization.FormDataMultiPartSerializer;
+import io.reinert.requestor.java.serialization.InputStreamSerializer;
 
 /**
  * This class provides a static initializer for Requestor's deferred bindings for JVM environment.
  *
  * @author Danilo Reinert
  */
-public class RequestorJavaNet {
+public class Requestor {
+
+    static {
+        init();
+    }
 
     public static final String CHUNKED_STREAMING_MODE_DISABLED = "requestor.java.net.chunkedStreamingModeDisabled";
     public static final String DEFAULT_CONTENT_TYPE = "requestor.java.net.defaultContentType";
     public static final String READ_CHUNKING_ENABLED = "requestor.java.net.readChunkingEnabled";
     public static final String WRITE_CHUNKING_ENABLED = "requestor.java.net.writeChunkingEnabled";
 
+    private static final int DEFAULT_CORE_POOL_SIZE = 10;
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+
     private static boolean PENDING_INIT = true;
+
+    public static Session newSession() {
+        return newSession(new DeferredPoolFactoryImpl());
+    }
+
+    public static Session newSession(DeferredPool.Factory deferredPoolFactory) {
+        return newSession(deferredPoolFactory, DEFAULT_CORE_POOL_SIZE);
+    }
+
+    public static Session newSession(DeferredPool.Factory deferredPoolFactory, int corePoolSize) {
+        return newSession(deferredPoolFactory, new ScheduledThreadPoolExecutor(corePoolSize));
+    }
+
+    public static Session newSession(DeferredPool.Factory deferredPoolFactory,
+                                     ScheduledExecutorService scheduledExecutorService) {
+        return newSession(deferredPoolFactory, new JavaNetRequestDispatcherFactory(scheduledExecutorService));
+    }
+
+    public static Session newSession(DeferredPool.Factory deferredPoolFactory,
+                                     RequestDispatcher.Factory requestDispatcherFactory) {
+        return configure(new Session(requestDispatcherFactory, deferredPoolFactory));
+    }
+
+    private static Session configure(Session session) {
+        RequestorCore.configure(session);
+
+        session.save(Requestor.DEFAULT_CONTENT_TYPE, "text/plain");
+
+        session.register(BinarySerializer.getInstance());
+        session.register(ByteSerializer.getInstance());
+        session.register(FileSerializer.getInstance());
+        session.register(FormDataMultiPartSerializer.getInstance());
+        session.register(InputStreamSerializer.getInstance());
+
+        return session;
+    }
 
     /**
      * Initializes static lazy bindings to proper usage of Requestor in JVM environment.
@@ -61,7 +114,6 @@ public class RequestorJavaNet {
                             }
                         }
 
-                        @Override
                         public String decode(byte[] encoded, String charset) {
                             try {
                                 return new String(Base64.getDecoder().decode(encoded), charset);

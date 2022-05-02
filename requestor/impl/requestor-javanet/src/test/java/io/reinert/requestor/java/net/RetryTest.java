@@ -37,7 +37,7 @@ public class RetryTest extends JavaNetTest {
     public void testRetry() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.req("https://httpbin.org/status/400")
                 .retry(DelaySequence.fixed(1, 1, 1), RequestEvent.FAIL)
@@ -53,7 +53,7 @@ public class RetryTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.req("https://httpbin.org/status/400")
                 .poll(PollingStrategy.SHORT, 500, 2)
@@ -78,7 +78,7 @@ public class RetryTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.req("https://httpbin.org/status/400")
                 .poll(PollingStrategy.LONG, 0, 2)

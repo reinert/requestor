@@ -18,7 +18,7 @@ package io.reinert.requestor.core.uri;
 import java.util.Arrays;
 
 import io.reinert.requestor.core.Base64Codec;
-import io.reinert.requestor.core.Requestor;
+import io.reinert.requestor.core.RequestorCore;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,8 +34,8 @@ public class UriParserJreTest {
 
     @BeforeClass
     public static void setUpRequestor() {
-        if (!Requestor.isInitialized()) {
-            Requestor.init(new Base64Codec() {
+        if (!RequestorCore.isInitialized()) {
+            RequestorCore.init(new Base64Codec() {
                 public String decode(String encoded, String charset) {
                     return encoded;
                 }

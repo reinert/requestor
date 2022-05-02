@@ -48,7 +48,7 @@ public class RequestEventTest extends JavaNetTest {
     public void testLoadEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.get("https://httpbin.org/status/200")
                 .onStatus(200, succeedOnEvent(result))
@@ -62,7 +62,7 @@ public class RequestEventTest extends JavaNetTest {
     public void testSuccessEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.get("https://httpbin.org/status/200")
                 .onSuccess(succeedOnEvent(result))
@@ -76,7 +76,7 @@ public class RequestEventTest extends JavaNetTest {
     public void testFailEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.get("https://httpbin.org/status/400")
                 .onSuccess(failOnEvent(result))
@@ -90,7 +90,7 @@ public class RequestEventTest extends JavaNetTest {
     public void testStatusEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.get("https://httpbin.org/status/200")
                 .onStatus(200, succeedOnEvent(result))
@@ -108,7 +108,7 @@ public class RequestEventTest extends JavaNetTest {
     public void testAbortEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.register((RequestFilter) request -> {
             throw new RuntimeException("Request should be aborted.");
@@ -127,7 +127,7 @@ public class RequestEventTest extends JavaNetTest {
     public void testTimeoutEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = new JavaNetSession();
+        final Session session = Requestor.newSession();
 
         session.setTimeout(50);
 
@@ -148,10 +148,13 @@ public class RequestEventTest extends JavaNetTest {
     public void testUploadProgressEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final JavaNetSession session = new JavaNetSession();
-        session.save(RequestorJavaNet.WRITE_CHUNKING_ENABLED, true);
+        final Session session = Requestor.newSession();
+        session.save(Requestor.WRITE_CHUNKING_ENABLED, true);
 
-        final byte[] payload = new byte[(session.getOutputBufferSize() * 2) + 1];
+        JavaNetRequestDispatcherFactory dispatcherFactory =
+                (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
+
+        final byte[] payload = new byte[(dispatcherFactory.getOutputBufferSize() * 2) + 1];
         Arrays.fill(payload, (byte) 1);
 
         final int expectedProgressCalls = 3;
@@ -186,14 +189,17 @@ public class RequestEventTest extends JavaNetTest {
     public void testDownloadProgressEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final JavaNetSession session = new JavaNetSession();
+        final Session session = Requestor.newSession();
         session.setMediaType("application/octet-stream");
-        session.save(RequestorJavaNet.READ_CHUNKING_ENABLED, true);
+        session.save(Requestor.READ_CHUNKING_ENABLED, true);
 
         final int expectedProgressCalls = 3;
         final AtomicInteger progressCalls = new AtomicInteger(0);
 
-        final String byteSize = String.valueOf((session.getInputBufferSize() * 2) + 1);
+        JavaNetRequestDispatcherFactory dispatcherFactory =
+                (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
+
+        final String byteSize = String.valueOf((dispatcherFactory.getInputBufferSize() * 2) + 1);
 
         final byte[][] buffers = new byte[expectedProgressCalls][];
 
@@ -224,11 +230,14 @@ public class RequestEventTest extends JavaNetTest {
     public void testWriteOnDownload() throws Throwable {
         final TestResult result = new TestResult();
 
-        final JavaNetSession session = new JavaNetSession();
+        final Session session = Requestor.newSession();
         session.setMediaType("application/octet-stream");
-        session.save(RequestorJavaNet.READ_CHUNKING_ENABLED, true);
+        session.save(Requestor.READ_CHUNKING_ENABLED, true);
 
-        final String byteSize = String.valueOf((session.getInputBufferSize() * 2) + 1);
+        JavaNetRequestDispatcherFactory dispatcherFactory =
+                (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
+
+        final String byteSize = String.valueOf((dispatcherFactory.getInputBufferSize() * 2) + 1);
 
         final Path tempPath = Files.createTempFile("requestor-javanet-SerializationTest-testWriteOnDownload-", null);
         final File tempFile = tempPath.toFile();
@@ -250,14 +259,17 @@ public class RequestEventTest extends JavaNetTest {
     public void testReadChunkingWithVoidPayload() throws Throwable {
         final TestResult result = new TestResult();
 
-        final JavaNetSession session = new JavaNetSession();
+        final Session session = Requestor.newSession();
         session.setMediaType("application/octet-stream");
-        session.save(RequestorJavaNet.READ_CHUNKING_ENABLED, true);
+        session.save(Requestor.READ_CHUNKING_ENABLED, true);
 
         final int expectedProgressCalls = 3;
         final AtomicInteger progressCalls = new AtomicInteger(0);
 
-        final int byteSize = (session.getInputBufferSize() * 2) + 1;
+        JavaNetRequestDispatcherFactory dispatcherFactory =
+                (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
+
+        final int byteSize = (dispatcherFactory.getInputBufferSize() * 2) + 1;
 
         final byte[][] buffers = new byte[expectedProgressCalls][];
 
