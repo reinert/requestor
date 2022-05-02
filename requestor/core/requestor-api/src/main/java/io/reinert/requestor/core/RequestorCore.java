@@ -25,7 +25,7 @@ import io.reinert.requestor.core.uri.UriCodec;
  *
  * @author Danilo Reinert
  */
-public class Requestor {
+public class RequestorCore {
 
     private static boolean initialized = false;
 

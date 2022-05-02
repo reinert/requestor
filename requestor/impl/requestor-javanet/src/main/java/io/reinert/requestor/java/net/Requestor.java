@@ -25,7 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 import io.reinert.requestor.core.Base64Codec;
-import io.reinert.requestor.core.Requestor;
+import io.reinert.requestor.core.RequestorCore;
 import io.reinert.requestor.core.auth.DigestAuth;
 
 /**
@@ -48,9 +48,9 @@ public class RequestorJavaNet {
      * <p></p>
      * Call this method in a static block in the app's EntryPoint.
      */
-    public static void init() {
-        if (!Requestor.isInitialized()) {
-            Requestor.init(
+    private static void init() {
+        if (!RequestorCore.isInitialized()) {
+            RequestorCore.init(
                     new Base64Codec() {
                         public String decode(String encoded, String charset) {
                             try {
