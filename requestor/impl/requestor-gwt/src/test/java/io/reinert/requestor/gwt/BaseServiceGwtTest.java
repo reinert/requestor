@@ -133,13 +133,15 @@ public class BaseServiceGwtTest extends GWTTestCase {
     }
 
     public void testGetBooksWithParams() {
-        // GET /books?author=Leonard
-        bookService.getBooks("Leonard").onSuccess(new PayloadCallback<Collection<Book>>() {
+        final String author = "Robert";
+
+        // GET /books?author=Robert
+        bookService.getBooks(author).onSuccess(new PayloadCallback<Collection<Book>>() {
             public void execute(Collection<Book> books) {
                 assertNotNull(books);
 
                 for (Book book : books) {
-                    assertTrue(book.getAuthor().contains("Leonard"));
+                    assertTrue(book.getAuthor().contains(author));
                 }
 
                 finishTest();
