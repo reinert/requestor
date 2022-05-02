@@ -26,7 +26,7 @@ public class RequestorAutoBeanGwtTestSuite extends GWTTestSuite {
         TestSuite suite = new TestSuite("Requestor AutoBean GWT Test Suite");
 
         // Serialization
-        suite.addTestSuite(AutoBeanSessionGwtTest.class);
+        suite.addTestSuite(RequestorAutoBeanGwtTest.class);
 
         return suite;
     }

@@ -19,32 +19,28 @@ import com.google.gwt.core.client.GWT;
 
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.SerializationModule;
-import io.reinert.requestor.core.TypeProvider;
-import io.reinert.requestor.core.serialization.Serializer;
-import io.reinert.requestor.gwt.GwtSession;
+import io.reinert.requestor.core.Session;
+import io.reinert.requestor.gwt.Requestor;
 
 /**
  * A session that handles AutoBeans.
  *
  * @author Danilo Reinert
  */
-public class AutoBeanSession extends GwtSession {
+public class RequestorAutoBean {
 
     private static SerializationModule[] generatedModules;
 
-    public AutoBeanSession() {
-        super();
+    public static Session newSession() {
+        return configure(Requestor.newSession());
     }
 
-    public AutoBeanSession(DeferredPool.Factory deferredPoolFactory) {
-        super(deferredPoolFactory);
+    public static Session newSession(DeferredPool.Factory deferredPoolFactory) {
+        return configure(Requestor.newSession(deferredPoolFactory));
     }
 
-    @Override
-    protected void configure() {
-        super.configure();
-
-        setMediaType("application/json");
+    public static Session configure(Session session) {
+        session.setMediaType("application/json");
 
         if (generatedModules == null) {
             AutoBeanGeneratedModules generatedModulesProvider = GWT.create(AutoBeanGeneratedModules.class);
@@ -52,13 +48,9 @@ public class AutoBeanSession extends GwtSession {
         }
 
         for (SerializationModule serializationModule : generatedModules) {
-            for (Serializer<?> serializer : serializationModule.getSerializers()) {
-                register(serializer);
-            }
-
-            for (TypeProvider<?> provider : serializationModule.getTypeProviders()) {
-                register(provider);
-            }
+            session.register(serializationModule);
         }
+
+        return session;
     }
 }

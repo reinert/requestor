@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import io.reinert.requestor.autobean.AutoBeanSession;
+import io.reinert.requestor.autobean.RequestorAutoBean;
 import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.core.annotations.MediaType;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
@@ -33,7 +33,7 @@ import io.reinert.requestor.core.serialization.Serializer;
  *
  * @author Danilo Reinert
  */
-public class AutoBeanSessionGwtTest extends GWTTestCase {
+public class RequestorAutoBeanGwtTest extends GWTTestCase {
 
     static final String APP_JSON = "app*/json*";
     static final String JAVASCRIPT = "*/javascript*";
@@ -58,7 +58,7 @@ public class AutoBeanSessionGwtTest extends GWTTestCase {
 
     @Override
     public void gwtSetUp() throws Exception {
-        session = new AutoBeanSession();
+        session = RequestorAutoBean.newSession();
     }
 
     public void testProviderShouldBeAvailableByProviderManager() {

@@ -23,7 +23,7 @@ import java.util.List;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-import io.reinert.requestor.autobean.AutoBeanSession;
+import io.reinert.requestor.autobean.RequestorAutoBean;
 import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.core.Registration;
 import io.reinert.requestor.core.SerializationModule;
@@ -58,7 +58,7 @@ public class SerializationActivity extends ShowcaseActivity implements Serializa
         this.view = view;
         this.session = session;
         this.jsonSession = new JsonSession();
-        this.autobeanSession = new AutoBeanSession();
+        this.autobeanSession = RequestorAutoBean.newSession();
     }
 
     @Override
