@@ -47,7 +47,7 @@ the dispatching mechanism through the wire (two functions basically). Currently,
 Make a GET request and deserialize the response body as String:
 
 ```java
-Session session = new JavaNetSession();
+Session session = Requestor.newSession();
 session.get("https://httpbin.org/ip", String.class).onSuccess( ip -> Window.alert(ip) ); // or Window::alert
 ```
 
@@ -103,7 +103,7 @@ retrieve data*, sharing state among components that rely on that session if nece
 Eventually, we can *reset the session state* at any time.
 
 ```java
-Session session = new JavaNetSession();
+Session session = Requestor.newSession();
 
 // Set all requests to have 10s timeout and 'application/json' Content-Type
 session.setTimeout(10_000);
@@ -714,7 +714,7 @@ is automatically done under the hood if we instantiate a `JsonSession`.
 
 ```java
 // All generated serializers will be automatically registered in this session
-Session session = new JsonSession();
+Session session = RequestorGwtJackson.newSession();
 ```
 
 In order to install requestor-gwtjackson extension, add the following dependency to your project:
@@ -757,7 +757,7 @@ is automatically done under the hood if we instantiate an `AutoBeanSession`.
 
 ```java
 // All generated serializers will be automatically registered in this session
-Session session = new AutoBeanSession();
+Session session = RequestorAutoBean.newSession();
 ```
 
 Further, Requestor graciously enables us to create new AutoBean instances directly from the 
@@ -1506,7 +1506,7 @@ class AppDeferredPoolFactory implements DeferredPool.Factory {
 Therefore, we can instantiate our Session with this customized Deferred Pool Factory, as demonstrated below:
 
 ```java
-Session session = new Session(new AppDeferredPoolFactory());
+Session session = Requestor.newSession(new AppDeferredPoolFactory());
 ```
 
 
