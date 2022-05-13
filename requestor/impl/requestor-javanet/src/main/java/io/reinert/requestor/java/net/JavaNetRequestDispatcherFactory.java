@@ -27,7 +27,7 @@ import io.reinert.requestor.core.ResponseProcessor;
  *
  * @author Danilo Reinert
  */
-class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factory {
+public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factory {
 
     private static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
 
