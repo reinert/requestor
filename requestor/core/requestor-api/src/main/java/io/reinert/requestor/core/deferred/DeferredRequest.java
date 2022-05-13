@@ -446,19 +446,19 @@ public class DeferredRequest<T> implements Deferred<T> {
     public void reject(RequestException e) {
         if (retrier != null && retrier.maybeRetry(e)) return;
 
+        deferred.reject(e);
+
         if (noErrorCallbackRegistered) {
             if (e instanceof RequestTimeoutException) {
-                if (noTimeoutCallbackRegistered) throw e;
+                if (noTimeoutCallbackRegistered) e.printStackTrace();
             } else if (e instanceof RequestCancelException) {
-                if (noCancelCallbackRegistered) throw e;
+                if (noCancelCallbackRegistered) e.printStackTrace();
             } else if (e instanceof RequestAbortException) {
-                if (noAbortCallbackRegistered) throw e;
+                if (noAbortCallbackRegistered) e.printStackTrace();
             } else {
-                throw e;
+                e.printStackTrace();
             }
         }
-
-        deferred.reject(e);
     }
 
     @Override
