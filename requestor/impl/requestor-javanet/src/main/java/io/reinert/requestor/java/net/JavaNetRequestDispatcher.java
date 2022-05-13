@@ -392,8 +392,8 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             throw new UnsupportedOperationException("Cannot set PATCH as the connection request method. " +
                     "It's not supported for this runtime environment. " +
                     "If you're using jdk12+ then add the following command line arg to execute your java app: " +
-                    "--add-opens java.base/java.net=ALL-UNNAMED." +
-                    "Otherwise, report it to https://github.com/reinert/requestor/issues.", e);
+                    "--add-opens java.base/java.net=ALL-UNNAMED. " +
+                    "If you still keep getting errors, report it to https://github.com/reinert/requestor/issues.", e);
         }
     }
 }
