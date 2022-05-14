@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.java.net;
 
+import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
 import io.reinert.requestor.core.DeferredPool;
@@ -52,6 +53,26 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
                                     DeferredPool.Factory deferredPoolFactory) {
         return new JavaNetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
                 scheduledExecutorService, inputBufferSize, outputBufferSize);
+    }
+
+    @Override
+    public void shutdown() {
+        scheduledExecutorService.shutdown();
+    }
+
+    @Override
+    public List<Runnable> shutdownNow() {
+        return scheduledExecutorService.shutdownNow();
+    }
+
+    @Override
+    public boolean isShutdown() {
+        return scheduledExecutorService.isShutdown();
+    }
+
+    @Override
+    public boolean isTerminated() {
+        return scheduledExecutorService.isTerminated();
     }
 
     public int getInputBufferSize() {

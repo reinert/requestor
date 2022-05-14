@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.core.callback.DualCallback;
@@ -33,6 +34,14 @@ public abstract class RequestDispatcher implements RunScheduler {
         RequestDispatcher create(RequestProcessor requestProcessor,
                                  ResponseProcessor responseProcessor,
                                  DeferredPool.Factory deferredFactory);
+
+        void shutdown();
+
+        List<Runnable> shutdownNow();
+
+        boolean isShutdown();
+
+        boolean isTerminated();
     }
 
     private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());
