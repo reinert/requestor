@@ -42,6 +42,8 @@ public abstract class RequestDispatcher implements RunScheduler {
         boolean isShutdown();
 
         boolean isTerminated();
+
+        boolean awaitTermination(long timeoutInMillis) throws InterruptedException;
     }
 
     private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());

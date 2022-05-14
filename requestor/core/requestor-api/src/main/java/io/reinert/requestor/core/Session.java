@@ -637,6 +637,10 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         return requestDispatcherFactory.isTerminated();
     }
 
+    boolean awaitTermination(long timeoutInMillis) throws InterruptedException {
+        return requestDispatcherFactory.awaitTermination(timeoutInMillis);
+    }
+
     //===================================================================
     // Internal methods
     //===================================================================

@@ -76,4 +76,9 @@ public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
     public boolean isTerminated() {
         return false;
     }
+
+    @Override
+    public boolean awaitTermination(long timeoutInMillis) throws InterruptedException {
+        return false;
+    }
 }
