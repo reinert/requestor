@@ -190,33 +190,34 @@ Currently, there are two requestor impls available:
 
 ### JVM / Android (Java / Kotlin)
 
-There are different builds of the requestor-javanet for each LTS JDK version:
+There are different builds of the requestor-javanet impl for each LTS JDK version:
 - requestor-javanet-jdk8
 - requestor-javanet-jdk11
 - requestor-javanet-jdk17
 
-The default **requestor-javanet** build always link to tha latest supported JDK version (jdk17 in this case).
+The default **requestor-javanet** build always link to the latest supported JDK version (jdk17 in this case).
 
 ```xml
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
 
-    <!-- for jdk8 based projects -->
+    <!-- for jdk8+ based projects -->
     <artifactId>requestor-javanet-jdk8</artifactId>
 
-    <!-- for jdk11 based projects -->
+    <!-- for jdk11+ based projects -->
     <!-- <artifactId>requestor-javanet-jdk11</artifactId> -->
 
-    <!-- for jdk17 based projects -->
+    <!-- for jdk17+ based projects -->
     <!-- <artifactId>requestor-javanet-jdk17</artifactId> -->
+    <!-- <artifactId>requestor-javanet</artifactId> -->
 
     <version>1.0.0</version>
 </dependency>
 ```
 
-### requestor-gwt
+### GWT2
 
-Add the following requestor impl dependency to your POM.
+Add the **requestor-gwt** dependency to your POM.
 
 ```xml
 <dependency>
