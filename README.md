@@ -481,7 +481,7 @@ After invoking a request, we receive a `Request<T>` instance. It is a deferred o
 allows us to chain callbacks to handle any event that the request may produce. Besides, 
 we can also access all request options that formed this request.
 
-One `Request<T>` will fire either a `load` event or a `error` event only once.
+One `Request<T>` will fire either a `load` event or an `error` event only once.
 But when setting the [poll](#poll) option while building a request, we receive a `PollingRequest<T>`.
 It may trigger `error` or `load` events many times, once per each call that is made.
 Additionally, the `PollingRequest<T>` interface extends from `Request<T>` and allows us to access the polling options that formed it as also manually stop the poll.
@@ -489,117 +489,229 @@ Notice, nevertheless, that Requestor treats every request as a polling request u
 So even a simple request is a polling request of one call only.
 That is the reason why every request needs a [Deferred Pool Factory](#deferredpool-factory). 
 
-A `Request<T>` gives access to the response body as `T` if it resolves successfully (2xx).
-The available events to add callbacks for are listed below. All arguments are optional.
-  * **onSuccess**( [payload [, response [, request]]] -> {} )
-    * executed when the response *is successful* (status = 2xx)
-    * features the *deserialized payload* and the *response* (optional)
-  * **onFail**( [response [, request]] -> {} )
-    * executed if the response *is unsuccessful* (status ≠ 2xx)
-    * features the *response*
-  * **onLoad**( [response [, request]] -> {} )
-    * executed if the response *is completed*, regardless of *success or failure*
-    * features the *response*
-  * **onStatus**( statusCode|statusFamily, ( [response [, request]] ) -> {} )
-    * executed when the response *returned the given status code/family*
-    * features the *response*
-  * **onRead**( progress -> {} )
-    * executed many times while the request is being sent
-    * features the *progress* that enables tracking the download progress
-  * **onWrite**( progress -> {} )
-    * executed many times while the response is being received
-    * features the *progress* that enables tracking the upload progress
-  * **onTimeout**( [timeoutException [, request]] -> {} )
-    * executed when a timeout occurs
-    * features the *timeoutException*
-  * **onCancel**( [requestException [, request]] -> {} )
-    * executed if the request was *cancelled after being sent* (either manually by the user or due to network error)
-    * features the *cancelException*
-  * **onAbort**( [requestException [, request]] -> {} )
-    * executed if the request was *aborted before being sent* (either manually by the user or due to any runtime error)
-    * features the *abortException*
-  * **onError**( [requestException [, request]] -> {} )
-    * generic error callback that is executed if the request *could not get a response overall* due to any reason (aborted, cancelled or timed out)
-    * features the original *exception*
+### Load events
 
-See how you can use them below:
+#### **onSuccess**( [payload [, response [, request]]] -> {} )
+* This callback is executed when the response *is successful* (status = 2xx)
+* It features the *deserialized payload*, the *response* and the *request* arguments
+* All arguments are optional
 
+Example setting a no-arg callback to the success event:
 ```java
-session.get('/server/ip', String.class).onSuccess(new PayloadCallback<String>() {
-    public void execute(String ip) {
-        // This is executed if the response was successful (status = 2xx)
-        view.showIp(ip);
+session.get("/health-check")
+        .onSuccess(() -> System.out.println("alive!"));
+```
+
+Example setting a callback with the payload arg to the success event:
+```java
+session.get("/profile", UserProfile.class)
+        .onSuccess(profile -> render(profile));
+```
+
+Example setting a callback with the payload and response args to the success event:
+```java
+session.req("/profile").get(UserProfile.class)
+        .onSuccess((profile, res) -> render(profile, res));
+```
+
+Example setting a callback with the payload, response and request args to the success event:
+```java
+session.get("/endpoint")
+        .onSuccess((none, res, req) -> render(res, req));
+```
+
+#### **onFail**( [response [, request]] -> {} )
+* This callback is executed when the response *is unsuccessful* (status ≠ 2xx)
+* It features the *response* and the *request* arguments
+* All arguments are optional
+
+Example setting a no-arg callback to the fail event:
+```java
+session.get("/health-check")
+        .onFail(() -> System.out.println("dead!"));
+```
+
+Example setting a callback with the response arg to the fail event:
+```java
+// Print the response body as string
+session.get("/endpoint")
+        .onFail(res -> print(res.getSerializedPayload().asString()));
+```
+
+Example setting a callback with the response and request args to the fail event:
+```java
+session.get("/endpoint")
+        .onFail((res, req) -> {
+            System.out.println(res.getStatusCode());
+            System.out.println(req.getUri());
+        });
+```
+
+#### **onStatus**( statusCode | statusFamily, ( [response [, request]] ) -> {} )
+* This callback is executed when the response returns the given *Status Code* or *Status Family*
+* It features the *response* and the *request* arguments
+* All arguments are optional
+
+Example setting a no-arg callback to the 204 status event:
+```java
+session.get("/health-check")
+        .onStatus(204, () -> System.out.println("alive!"));
+```
+
+Example setting callbacks with the response arg to the 404 and 500 status events:
+```java
+session.get("/endpoint")
+        .onStatus(Status.NOT_FOUND, res -> handleNotFound(res))
+        .onStatus(Status.INTERNAL_SERVER_ERROR, res -> handleServerError(res));
+```
+
+Example setting callbacks with the response and request args to the 2xx, 4xx and 5xx status family events:
+```java
+session.req("/endpoint").get()
+        .onStatus(StatusFamily.SUCCESSFUL, (res, req) -> handleSucess(res, req))
+        .onStatus(StatusFamily.CLIENT_ERROR, (res, req) -> handleClientError(res, req))
+        .onStatus(StatusFamily.SERVER_ERROR, (res, req) -> handleServerError(res, req));
+```
+
+#### **onLoad**( [response [, request]] -> {} )
+* This callback is executed when any response is returned
+* It features the *response* and the *request* arguments
+* All arguments are optional
+
+Example setting a callback with the response and request args to the load event:
+```java
+session.get("/endpoint")
+        .onLoad((res, req) -> {
+            print(res.getStatusCode());
+            print(req.getUri());
+        });
+```
+
+### Error events
+
+#### **onAbort**( exception [, request] -> {} )
+* This callback is executed if the request was *aborted before being sent* (either manually by the user or due to any runtime error)
+* It features the *exception* and the *request* arguments
+* The *request* argument is optional
+
+Example setting a callback with the exception and request args to the abort event:
+```java
+session.get("/endpoint")
+        .onAbort((exc, req) -> {
+            print(exc.getMessage());
+            print(req.getUri());
+        });
+```
+
+#### **onCancel**( exception [, request] -> {} )
+* This callback is executed if the request was *cancelled after being sent* (either manually by the user or due to network error)
+* It features the *exception* and the *request* arguments
+* The *request* argument is optional
+
+Example setting a callback with the exception arg to the cancel event:
+```java
+session.get("/endpoint")
+        .onCancel(exc -> print(exc.getMessage()));
+```
+
+#### **onTimeout**( exception [, request] -> {} )
+* This callback is executed a timeout occurs
+* It features the *exception* and the *request* arguments
+* The *request* argument is optional
+
+Example setting a callback with the exception arg to the timeout event:
+```java
+session.get("/endpoint")
+        .onTimeout(exc -> {
+            print(exc.getTimeoutMillis());
+            print(exc.getUri());
+        });
+```
+
+#### **onError**( [exception [, request]] -> {} )
+* This callback is executed if the request was *aborted before being sent* (either manually by the user or due to any runtime error)
+* It features the *exception* and the *request* arguments
+* All arguments are optional
+
+Example setting a callback with the exception and request args to the abort event:
+```java
+session.get("/endpoint")
+        .onAbort((exc, req) -> {
+            print(exc.getCause());
+            print(req.getMethod());
+        });
+```
+
+**NOTE:** If an error occurs, and no callback for that error kind was set, than the exception stack trace is printed.
+Thus, the errors are not hidden if we forgot to add handlers for them.
+
+### Progress events
+
+#### **onRead**( progress -> {} )
+* This callback is executed each time a chuck of bytes is *received*
+* It features the *read progress* argument with:
+  * the request
+  * the incoming response
+  * the loaded and total byte length
+  * the read byte chunk
+
+Example setting a callback with the exception and request args to the abort event:
+```java
+// Enable read chunking (a.k.a. streaming) on the session
+session.save(Requestor.READ_CHUNKING_ENABLED, true);
+
+session.get("/endpoint").onRead(progress -> {
+    if (progress.isLengthComputable()){
+        print(progress.getTotal());
+        print(progress.getLoaded());
+        // print loaded / total * 100
+        print(progress.getCompletedFraction(100));
     }
-}).onSuccess(new PayloadResponseCallback<String>() {
-    public void execute(String ip, Response r) {
-        Window.alert("Response status was " + r.getStatus.toString());
+
+    // check if read chunking is enabled
+    if (progress.isChunkAvailable()) {
+        print(progress.getChunk().asBytes());
+        print(progress.getChunk().asString());
     }
-}).onFail(new ResponseCallback() {
-    public void execute(Response r) {
-        // This is executed if the response was unsuccessful (status ≠ 2xx)
-        view.showError("Request failed. Server message: " + r.getPayload().toString());
-    }
-}).onLoad(new ResponseCallback() {
-    public void execute(Response r) {
-        // This is executed if a response is received, regardless of the status
-        Window.alert("Response status was " + r.getStatus.toString());
-    }
-}).onStatus(429, new ResponseCallback() {
-    public void execute(Response r) {
-        // This is executed if the response status code 429
-        view.showError("Too many requests. Please try again in a few seconds.");
-    }
-}).onStatus(StatusFamily.SERVER_ERROR, new ResponseCallback() {
-    public void execute(Response r) {
-        // This is executed if the response status code was 5xx (server error)
-        view.showError("Request failed. Server message: " + r.getPayload().toString());
-    }
-}).onRead(new ReadCallback() {
-    public void execute(ReadProgress progress) {
-        // This is executed many times while the response is being received
-        if (progress.isLengthComputable())
-            view.setDownloadProgress( (progress.getLoaded() / progress.getTotal()) * 100 );
-    }
-}).onWrite(new WriteCallback() {
-    public void execute(WriteProgress progress) {
-        // This is executed many times while the request is being sent
-        if (progress.isLengthComputable())
-          // getCompletedFraction(int factor) calculates (loaded/total)*factor
-          view.setUploadProgress(progress.getCompletedFraction(100));
-    }
-}).onTimeout(new TimeoutCallback() {
-    public void execute(RequestTimeoutException e) {
-        // This is executed if the request timed out before receiving a response
-        view.showError("Request timed out: " + e.getMessage());
-    }
-}).onCancel(new ExceptionCallback() {
-    public void execute(RequestException e) {
-        // This is executed if the request was cancelled after being sent
-        view.showError("Request cancelled: " + e.getMessage());
-    }
-}).onAbort(new ExceptionCallback() {
-    public void execute(RequestException e) {
-        // This is executed if the request was aborted before being sent
-        view.showError("Request aborted: " + e.getMessage());
-    }
-}).onError(new ExceptionCallback() {
-    public void execute(RequestException e) {
-        // This is executed if the request could not receive a response overall
-        
-        if (e instanceof RequestTimeoutException) // Check if it's a timeout error
-            view.showError("Request timed out: " + e.getMessage());
-        
-        if (e instanceof RequestCancelException) // Check if it's a cancel error
-            view.showError("Request cancelled: " + e.getMessage());
-        
-        if (e instanceof RequestAbortException) // Check if it's an abort error
-            view.showError("Request aborted: " + e.getMessage());
-    }
+
+    print(progress.getRequest().getUri());
+    print(progress.getResponse().getHeaders());
 });
 ```
 
-**NOTE:** If an error occurs, and we did not set a callback for that error kind, than the exception is thrown.
-Thus, the errors are not hidden if we forgot to add handlers for them.
+#### **onWrite**( progress -> {} )
+* This callback is executed each time a chuck of bytes is *sent*
+* It features the *write progress* argument with:
+    * the request
+    * the loaded and total byte length
+    * the written byte chunk
+
+Example setting a callback with the exception and request args to the abort event:
+```java
+File file = getFile();
+
+session.req("/endpoint")
+        // Enable write chunking (a.k.a. streaming) on the request
+        .save(Requestor.WRITE_CHUNKING_ENABLED, true)
+        .payload(file)
+        .post()
+        .onWrite(progress -> {
+            if (progress.isLengthComputable()){
+                print(progress.getTotal());
+                print(progress.getLoaded());
+                // print loaded / total * 100
+                print(progress.getCompletedFraction(100));
+            }
+        
+            // check if write chunking is enabled
+            if (progress.isChunkAvailable()) {
+                print(progress.getChunk().asBytes());
+                print(progress.getChunk().asString());
+            }
+        
+            print(progress.getRequest().getUri());
+        });
+```
 
 ### Success callbacks and Collections
 
