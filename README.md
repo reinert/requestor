@@ -48,20 +48,26 @@ Make a GET request and deserialize the response body as String:
 
 ```java
 Session session = Requestor.newSession();
-session.get("https://httpbin.org/ip", String.class).onSuccess( ip -> Window.alert(ip) ); // or Window::alert
+
+session.get("https://httpbin.org/ip", String.class)
+        .onSuccess( ip -> System.out.println(ip) ); // ip is a String
 ```
 
 Make a POST request sending a serialized object in the payload:
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
-session.post("/api/books", book).onSuccess( view::showSuccessMsg ).onFail( view::showErrorMsg );
+
+session.post("/api/books", book)
+        .onSuccess( view::showSuccessMsg )
+        .onFail( view::showErrorMsg );
 ```
 
 GET a collection of objects:
 
 ```java
-session.get("/api/books", List.class, Book.class).onSuccess( books -> renderTable(books) );
+session.get("/api/books", List.class, Book.class)
+        .onSuccess( (List<Book> books) -> renderTable(books) );
 ```
 
 **Note**: Check the [Serialization](#serialization) section to enable ***auto-serialization***.
@@ -72,7 +78,7 @@ Additionally, you can access the fluent API to build and send more complex reque
 ### Requesting Fluent API *(briefing)*
 
 Requesting involves three steps:
-1) Access the request builder by calling `requestor.req( <uri> )`, and **set the request options** 
+1) Access the request builder by calling `session.req( <uri> )`, and **set the request options** 
    through the chaining interface.
 2) Following, we must **call one of the invoke methods**, represented by the corresponding HTTP 
    methods (*get*, *post*, *put*, and so on). In this action, we specify the type we expect to 
@@ -132,6 +138,9 @@ session.clear();
 
 // Now all requests will have the default parameters
 session.post("/api/books", book);
+
+// Shutdown the session thread pool
+session.shutdown();
 ```
 
 
@@ -1345,7 +1354,7 @@ Besides proceeding with the request, we can alternatively ***abort*** it by call
 ```java
 session.register(new RequestInterceptor() {
     @Override
-    public void interceptor(SerializedRequestInProcess request) {
+    public void intercept(SerializedRequestInProcess request) {
         // Abort the request with an exception
         request.abort(new RequestException(request, "Manually aborted"));
     }
@@ -1478,16 +1487,16 @@ session.register(MyResponseFilter::new); // Same as `session.register(() -> new 
 
 Requestor is a session-based HTTP client. It means that a **Session** ties every configuration and action a user can take related to communication. Thus, the `Session` object is the baseline of every communication process in the application. What is better, Requestor does not restrict its users to having only one global Session. We can have ***as many sessions as it makes sense*** according to our business requirements. For example, if we are building a modern client app, we may communicate with different microservices. It may be reasonable to have one Session for each microservice with different configurations. This flexibility promotes a much more **reliable and maintainable code** since we can isolate different business logics in their own context, avoiding runtime conflicts and undesirable multi-path coding.
 
-To instantiate a new `Session`, we can call `new Session()`, but Requestor implementations will often provide specific sessions. For instance, **requestor-gwt** has the `JavaNetSession` with a predefined configuration for JSON-based communication. Additionally, we can implement our Session subclass, including the configurations that fit our requirements.
+To instantiate a new `Session`, we can call `Requestor.newSession()`.
 
 ```java
-Session session = new Session();
+Session session = Requestor.newSession();
 ```
 
 Besides allowing registration of many [Processors](#processors-middlewares), the Session admits setting many default request options. Along with that, it is possible to reset the Session state.
 
 ```java
-session.reset()
+session.reset();
 ```
 
 This method will reset all the Session's request options to their default values.
@@ -1566,10 +1575,10 @@ The Session is the starting point to build requests. We access the request build
 
 ```java
 // Start requesting informing the URI
-RequestInvoker req = session.req("/api/book/1")
+RequestInvoker req = session.req("/api/book/1");
 
 // Set up the request
-req = req.timeout(5_000)
+req = req.timeout(5_000);
 
 // Invoke the request
 Request<Book> request = req.get(Book.class);
@@ -1719,7 +1728,7 @@ session.req("/server")
 ```
 
 To save an object locally, we call `request.save(<key>, <object>)`.
-Differently, to save an object in a upstream Store, we call `request.save(<key>, <object>, <level>)`.
+Differently, to save an object in an upstream Store, we call `request.save(<key>, <object>, <level>)`.
 If the request was originated from a [Service](#services) and we set the level as `Level.PARENT`, then the data is saved in the Service Store.
 But if we set the level as `Level.ROOT`, the data is saved in the Session Store that is linked to the Service.
 In the other hand, if the request was directly originated from a [Session](#session), then both `Level.PARENT` and `Level.ROOT` will cause the same effect of saving in the Session Store, because the Request's parent and root Stores are the same.
