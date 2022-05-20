@@ -44,16 +44,20 @@ the dispatching mechanism through the wire (two functions basically). Currently,
 
 ## Preview
 
-Make a GET request and deserialize the response body as String:
+✍️ Create a Java app that queries the public IP, prints it and exits:
 
 ```java
-Session session = Requestor.newSession();
+final Session session = Requestor.newSession();
 
-session.get("https://httpbin.org/ip", String.class)
-        .onSuccess( ip -> System.out.println(ip) ); // ip is a String
+session.get("https://httpbin.org/ip", String.class) // deserialize the response body to String
+        .onSuccess( ip -> System.out.println(ip) )  // print the response body (payload)
+        .onSuccess( session::shutdown );            // close the session and exit
 ```
 
-Make a POST request sending a serialized object in the payload:
+**NOTE:** The session owns a thread pool. Calling shutdown will close all the threads.
+If you don't do it, the app will still be alive.
+
+✍️ Make a POST request auto serializing an object into the request payload:
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
@@ -63,17 +67,17 @@ session.post("/api/books", book)
         .onFail( view::showErrorMsg );
 ```
 
-GET a collection of objects:
+✍️ Make a GET request auto deserializing the response payload to a collection of objects:
 
 ```java
 session.get("/api/books", List.class, Book.class)
-        .onSuccess( (List<Book> books) -> renderTable(books) );
+        .onSuccess( (List<Book> books) -> render(books) );
 ```
 
-**Note**: Check the [Serialization](#serialization) section to enable ***auto-serialization***.
+**NOTE:** Check the [Serialization](#serialization) section to enable ***auto-serialization***.
 
 The above examples are shortcuts in Session class to make quick requests.
-Additionally, you can access the fluent API to build and send more complex requests.
+Further, you can access the fluent API to build and send more complex requests.
 
 ### Requesting Fluent API *(briefing)*
 
