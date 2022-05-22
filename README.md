@@ -4,6 +4,14 @@
   <img src="https://user-images.githubusercontent.com/1285494/158213729-52458234-6c6b-41d5-bd6d-746c12a7c2c4.png" alt="Request like a boss."/>
 </p>
 
+Why Requestor?
+* Requestor uniquely combines simplicity, completeness and performance in a mind-blowing HTTP Client API for any Java based platform.
+* Requestor is async-first so the whole client-server interaction is properly designed in the async way
+* Requestor is event-driven -> different methods for different events -> support complex features like HTTP Polling and Streaming by design
+* Requestor is session-based -> configure multiple client sessions
+* Requestor is scope-bounded -> sessions, services and requests have their own contexts
+* Requestor is (optionally) stateful -> cache and share data and configurations
+
 With the componentization movement, much attention has been given to the UI structure of a frontend application.
 We have developed many mechanisms to build UIs prepared to scale. Unfortunately, communication - the underlying
 process that feeds the UI - has not evolved accordingly. Although we have seen ideas like promises and observables
