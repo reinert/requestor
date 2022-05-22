@@ -26,6 +26,7 @@ Feature highlights:
 * [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
 * [**Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
 * [**HTTP Polling**](#poll) - make long or short polling with a single command.
+* [**HTTP Streaming**](#http-streaming) - efficiently stream the byte chunks as soon they are received.
 * [**Retry**](#retry) - define a retry policy with a single command.
 * [**Session**](#session) - manage all requesting configurations in one place.
 * [**Service**](#services) - break down the API consumption into smaller independent contexts.
@@ -34,6 +35,7 @@ Feature highlights:
 * [**Headers**](#headers-api) - directly create and parse complex headers.
 * [**URIs**](#uri) - build and parse complicated URIs easily.
 * [**Binary Data**](#binary-data) - upload and download files tracking the progress.
+* [**Form Data**](#form-data) - send both 'multipart/form-data' and 'application/x-www-form-urlencoded' requests.
 
 Requestor is developed on top of three main pillars: (1) **Interoperability**, (2) **Simplicity**, and (3)
 **Extensibility**. In that fashion, **requestor-core** is developed in vanilla Java 5 syntax what makes it compatible
@@ -2106,11 +2108,91 @@ Finally, notice that all URI parts are properly decoded when parsing and encoded
 
 
 ## Binary Data
-See [Showcase](https://reinert.github.io/requestor/latest/examples/showcase/#binary-data).
+
+Requestor properly handles binary types in the payload such as `File`, `InputStream`, `byte[]`, and `Byte`.
+
+Example sending a POST request with a `InputStream` in the payload, tracking the upload progress.
+```java
+InputStream is = getInputStream();
+
+session.req("/api/upload")
+        .contentType("application/octet-stream")
+        .payload(is) // Set the InputStream as the payload
+        .post()
+        .onWrite(p -> print(p.getCompletedFraction(100))) // Print the percent upload progress
+```
+
+
+GET request receiving a `byte[]` in the response payload, tracking the download progress.
+```java
+session.req("/api/udownload)
+        .accept("application/octet-stream")
+        .get(byte[].class) // Set byte[] as the expected type in the response payload
+        .onRead(p -> print(p.getCompletedFraction(100))) // Print the percent download progress
+        .onSuccess(bytes -> save(bytes)); // Handle the received byte[]
+```
+
+For GWT docs, see [Showcase](https://reinert.github.io/requestor/latest/examples/showcase/#binary-data).
+
+### HTTP Streaming
+
+In order to efficiently stream a response to another source, use the `onRead` callback to get early access to each chunk
+of bytes that is received from network.
+
+Example streaming a response directly to an OutputStream:
+```java
+final OutputStream os = getOutputStream();
+
+session.req("/api/download")
+        .save(Requestor.READ_CHUNKING_ENABLED, true) // Enable read chunking (a.k.a. streaming) on the request
+        .get()
+        .onRead(p -> os.write(p.getChunk().asBytes())) // Write each chunk of bytes directly to the OS
+        .onSuccess(os::close) // Close the OS when the request finishes
+```
 
 
 ## Form Data
-See [Showcase](https://reinert.github.io/requestor/latest/examples/showcase/#form-data).
+
+Requestor provides the `FormData` object with a builder to facilitate handling form requests.
+Additionally, we can set the request **contentType** either as `"multipart/form-data"` or as
+`"application/x-www-form-urlencoded"` and Requestor will properly serialize the payload accordingly.
+
+Example POSTing a `"application/x-www-form-urlencoded"` payload:
+```java
+FormData data = FormData.builder()
+        .append("string", "value")
+        .append("int", 1)
+        .append("long", 10L)
+        .append("double", 1.5)
+        .append("boolean", true)
+        .build();
+
+session.req("/api/form")
+        .contentType("application/x-www-form-urlencoded") // Instruct the desired serialization
+        .payload(data) // Set the FormData as the request payload
+        .post() // Send a POST request
+```
+
+Example POSTing a `"multipart/form-data"` payload with binary contents:
+```java
+File file = getFile();
+InputStream is = getInputStream();
+byte[] bytes = getBytes();
+
+FormData data = FormData.builder()
+        .append("string", "value")
+        .append("file", file) // Put a File in the FormData
+        .append("inputStream", is) // Put a InputStream in the FormData
+        .append("bytes", file) // Put a byte[] in the FormData
+        .build();
+
+session.req("/api/form")
+        .contentType("multipart/form-data") // Instruct the desired serialization
+        .payload(data) // Set the FormData as the request payload
+        .post() // Send a POST request
+```
+
+For GWT docs, see [Showcase](https://reinert.github.io/requestor/latest/examples/showcase/#form-data).
 
 
 ## Requesting Fluent API
