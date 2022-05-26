@@ -39,6 +39,8 @@ public abstract class SerializationContext {
         this.fields = fields;
     }
 
+    public abstract <T> T getInstance(Class<T> type);
+
     public Class<?> getRequestedType() {
         return requestedType;
     }

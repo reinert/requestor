@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import io.reinert.requestor.core.serialization.SerializationContext;
+import io.reinert.requestor.core.serialization.UnableToSerializeException;
 
 /**
  * Context of HTTP serialization.
@@ -25,21 +26,34 @@ import io.reinert.requestor.core.serialization.SerializationContext;
 public class HttpSerializationContext extends SerializationContext {
 
     private final SerializableRequest request;
+    private final ProviderManagerImpl providerManager;
 
-    protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType, String... fields) {
+    protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType,
+                                       ProviderManagerImpl providerManager, String... fields) {
         super(requestedType, request.getCharset(), fields);
 
         this.request = request;
+        this.providerManager = providerManager;
     }
 
     protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType, Class<?> parametrizedType,
-                                       String... fields) {
+                                       ProviderManagerImpl providerManager, String... fields) {
         super(requestedType, parametrizedType, request.getCharset(), fields);
 
         this.request = request;
+        this.providerManager = providerManager;
     }
 
     public SerializableRequest getRequest() {
         return request;
+    }
+
+    @Override
+    public <T> T getInstance(Class<T> type) {
+        final Provider<T> provider = providerManager.get(type);
+        if (provider == null)
+            throw new UnableToSerializeException("Could not get instance because there is no provider " +
+                    "for the type " + type.getName() + " registered in the Session.");
+        return provider.getInstance();
     }
 }
