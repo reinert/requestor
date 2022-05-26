@@ -49,6 +49,10 @@ public class TextSerializedPayload implements SerializedPayload {
         this.charset = charset == null ? DEFAULT_CHARSET : charset;
     }
 
+    public String getCharset() {
+        return charset;
+    }
+
     @Override
     public boolean isEmpty() {
         return string != null ? string.length() == 0 : bytes == null || bytes.length == 0;
