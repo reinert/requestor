@@ -15,6 +15,10 @@
  */
 package io.reinert.requestor.core.payload;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Holds a deserialized payload.
  *
@@ -25,11 +29,17 @@ public class Payload {
     public static final Payload EMPTY_PAYLOAD = new Payload(null);
 
     private final Object object;
-    private final String[] fields;
+    private final Set<String> fields;
 
     public Payload(Object object, String... fields) {
         this.object = object;
-        this.fields = fields;
+        if (fields.length == 0) {
+            this.fields = Collections.emptySet();
+        } else {
+            Set<String> fieldsSet = new HashSet<String>(fields.length);
+            Collections.addAll(fieldsSet, fields);
+            this.fields = Collections.unmodifiableSet(fieldsSet);
+        }
     }
 
     /**
@@ -46,7 +56,7 @@ public class Payload {
         return (T) object;
     }
 
-    public String[] getFields() {
+    public Set<String> getFields() {
         return fields;
     }
 

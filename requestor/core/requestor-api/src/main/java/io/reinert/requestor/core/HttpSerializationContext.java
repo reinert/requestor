@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.Set;
+
 import io.reinert.requestor.core.serialization.SerializationContext;
 import io.reinert.requestor.core.serialization.UnableToSerializeException;
 
@@ -29,7 +31,7 @@ public class HttpSerializationContext extends SerializationContext {
     private final ProviderManagerImpl providerManager;
 
     protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType,
-                                       ProviderManagerImpl providerManager, String... fields) {
+                                       ProviderManagerImpl providerManager, Set<String> fields) {
         super(requestedType, request.getCharset(), fields);
 
         this.request = request;
@@ -37,7 +39,7 @@ public class HttpSerializationContext extends SerializationContext {
     }
 
     protected HttpSerializationContext(SerializableRequest request, Class<?> requestedType, Class<?> parametrizedType,
-                                       ProviderManagerImpl providerManager, String... fields) {
+                                       ProviderManagerImpl providerManager, Set<String> fields) {
         super(requestedType, parametrizedType, request.getCharset(), fields);
 
         this.request = request;

@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core.serialization;
 
+import java.util.Set;
+
 /**
  * Context of serialization.
  *
@@ -25,14 +27,14 @@ public abstract class SerializationContext {
     private final Class<?> requestedType;
     private final Class<?> parametrizedType;
     private final String charset;
-    private final String[] fields;
+    private final Set<String> fields;
 
-    protected SerializationContext(Class<?> requestedType, String charset, String... fields) {
+    protected SerializationContext(Class<?> requestedType, String charset, Set<String> fields) {
         this(requestedType, null, charset, fields);
     }
 
     protected SerializationContext(Class<?> requestedType, Class<?> parametrizedType, String charset,
-                                   String... fields) {
+                                   Set<String> fields) {
         this.requestedType = requestedType;
         this.parametrizedType = parametrizedType;
         this.charset = charset;
@@ -53,7 +55,7 @@ public abstract class SerializationContext {
         return charset;
     }
 
-    public String[] getFields() {
+    public Set<String> getFields() {
         return fields;
     }
 }
