@@ -33,5 +33,6 @@
     <module>requestor-oauth2gwt</module>
     <module>requestor-autobean</module>
     <module>requestor-gwtjackson</module>
+    <module>requestor-gson</module>
   </modules>
 </project>
