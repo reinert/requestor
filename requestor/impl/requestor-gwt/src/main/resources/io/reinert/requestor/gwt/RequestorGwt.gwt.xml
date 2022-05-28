@@ -21,4 +21,6 @@
   <inherits name="io.reinert.requestor.core.Requestor"/>
 
   <source path="" excludes="rebind/**/*"/>
+
+  <super-source path="super"/>
 </module>

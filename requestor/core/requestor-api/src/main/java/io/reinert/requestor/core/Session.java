@@ -484,23 +484,11 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
      *
      * @return The {@link Registration} object, capable of cancelling this registration
      */
-    @SafeVarargs
-    public final Registration register(Class<? extends SerializationModule>... classes) {
+    public Registration register(Class<? extends SerializationModule>... classes) {
         final List<Registration> registrations = new LinkedList<Registration>();
 
-        for (Class<?> cls : classes) {
-            String name = cls.getCanonicalName();
-
-            if (cls.getEnclosingClass() != null) {
-                int i = name.lastIndexOf('.');
-                name = name.substring(0, i) + '_' + name.substring(i + 1);
-            }
-
-            try {
-                registrations.add(register((SerializationModule) Class.forName(name + "Impl").newInstance()));
-            } catch (ReflectiveOperationException e) {
-                throw new RuntimeException("Could not instantiate the implementation for " + cls.getSimpleName(), e);
-            }
+        for (Class<? extends SerializationModule> cls : classes) {
+            registrations.add(register(Reflection.newImpl(cls)));
         }
 
         return new Registration() {

@@ -16,6 +16,6 @@
   -->
 <module>
   <!-- requestor-core is agnostic from any platform, including GWT -->
-  <source path=""/>
+  <source path="" excludes="Reflection.java" />
 </module>
 
