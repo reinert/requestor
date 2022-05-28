@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,5 +44,9 @@ public abstract class DeserializationContext {
 
     public Class<?> getParameterizedType() {
         return parameterizedType;
+    }
+
+    public String getCharset() {
+        return charset;
     }
 }
