@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core;
+package io.reinert.requestor.gson;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import com.google.gson.Gson;
 
+import io.reinert.requestor.core.RequestDispatcher;
+import io.reinert.requestor.core.SerializationModule;
+import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.annotations.MediaType;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
@@ -33,6 +35,7 @@ import io.reinert.requestor.gson.annotations.GsonSerializationModule;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -53,24 +56,23 @@ public class RequestorGsonTest {
     @GsonSerializationModule(Animal.class)
     interface TestSerializationModule extends SerializationModule { }
 
-    private SerializerManagerImpl serializerManager;
+    private Session session;
 
     @Before
     public void setUp() {
-        serializerManager = new SerializerManagerImpl();
-        SerializationModule module = new TestSerializationModuleImpl();
-        for (Serializer<?> serializer : module.getSerializers()) serializerManager.register(serializer);
+        session = new Session(Mockito.mock(RequestDispatcher.Factory.class));
+        session.register(TestSerializationModule.class);
     }
 
     @Test
     public void testSerializerShouldBeAvailableBySerializerManager() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
         assertNotNull(serializer);
     }
 
     @Test
     public void testDeserializerShouldBeAvailableBySerializerManager() {
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class, "application/json");
         assertNotNull(deserializer);
     }
 
@@ -78,20 +80,20 @@ public class RequestorGsonTest {
     // (since they are the same)
     @Test
     public void testSerializerAndDeserializerShouldBeTheSameInstance() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class, "application/json");
         assertSame(serializer, deserializer);
     }
 
     @Test
     public void testSerializerShouldSupportMediaTypeValuesFromMediaTypeAnnotation() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
         assertArrayEquals(new String[]{APP_JSON, JAVASCRIPT}, serializer.mediaType());
     }
 
     @Test
     public void testSerializerShouldHandleAnnotatedType() {
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
         assertEquals(Animal.class, serializer.handledType());
     }
 
@@ -99,7 +101,7 @@ public class RequestorGsonTest {
     @Test
     public void testSingleDeserialization() {
         // Given
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class, "application/json");
         final Animal expected = new Animal("Stuart", 3);
         final String input = "{\"name\":\"Stuart\",\"age\":3}";
 
@@ -114,13 +116,13 @@ public class RequestorGsonTest {
     @Test
     public void testDeserializationAsList() {
         // Given
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class, "application/json");
         final List<Animal> expected = Arrays.asList(new Animal("Stuart", 3), new Animal("March", 5));
         final String input = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
 
         // When
         List<Animal> output = (List<Animal>) deserializer.deserialize(List.class, new TextSerializedPayload(input),
-                getDeserializationContext(List.class));
+                getDeserializationCollectionContext());
 
         // Then
         assertEquals(expected, output);
@@ -130,23 +132,22 @@ public class RequestorGsonTest {
     @Test
     public void testEmptyArrayDeserializationAsList() {
         // Given
-        final Deserializer<Animal> deserializer = serializerManager.getDeserializer(Animal.class, "application/json");
+        final Deserializer<Animal> deserializer = session.getDeserializer(Animal.class, "application/json");
         final List<Animal> expected = Collections.emptyList();
         final String input = "[]";
 
         // When
         List<Animal> output = (List<Animal>) deserializer.deserialize(List.class, new TextSerializedPayload(input),
-                getDeserializationContext(List.class));
+                getDeserializationCollectionContext());
 
         // Then
         assertEquals(expected, output);
     }
 
-    @SuppressWarnings("null")
     @Test
     public void testSingleSerialization() {
         // Given
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
         final String expected = "{\"name\":\"Stuart\",\"age\":3}";
         final Animal input = new Animal("Stuart", 3);
 
@@ -157,16 +158,29 @@ public class RequestorGsonTest {
         assertEquals(expected, output);
     }
 
-    @SuppressWarnings({"null", "unchecked"})
+    @Test
+    public void testSerializationWithFilter() {
+        // Given
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
+        final String expected = "[{\"name\":\"Stuart\"},{\"name\":\"March\"}]";
+        List<Animal> input = Arrays.asList(new Animal("Stuart", 3), new Animal("March", 5));
+
+        // When
+        String output = serializer.serialize(input, getSerializationCollectionContext("name")).asString();
+
+        // Then
+        assertEquals(expected, output);
+    }
+
     @Test
     public void testSerializationAsList() {
         // Given
-        final Serializer<Animal> serializer = serializerManager.getSerializer(Animal.class, "application/json");
+        final Serializer<Animal> serializer = session.getSerializer(Animal.class, "application/json");
         final String expected = "[{\"name\":\"Stuart\",\"age\":3},{\"name\":\"March\",\"age\":5}]";
         List<Animal> input = Arrays.asList(new Animal("Stuart", 3), new Animal("March", 5));
 
         // When
-        String output = serializer.serialize(input, getSerializationContext(List.class)).asString();
+        String output = serializer.serialize(input, getSerializationCollectionContext()).asString();
 
         // Then
         assertEquals(expected, output);
@@ -182,8 +196,8 @@ public class RequestorGsonTest {
         };
     }
 
-    private DeserializationContext getDeserializationContext(Class<? extends Collection> colType) {
-        return new DeserializationContext(colType, Animal.class, "UTF-8") {
+    private DeserializationContext getDeserializationCollectionContext() {
+        return new DeserializationContext(List.class, Animal.class, "UTF-8") {
             @Override
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
@@ -192,8 +206,8 @@ public class RequestorGsonTest {
         };
     }
 
-    private SerializationContext getSerializationContext() {
-        return new SerializationContext(Animal.class, "UTF-8", new HashSet<String>()) {
+    private SerializationContext getSerializationContext(String... fields) {
+        return new SerializationContext(Animal.class, "UTF-8", new HashSet<>(Arrays.asList(fields))) {
             @Override
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
@@ -202,8 +216,8 @@ public class RequestorGsonTest {
         };
     }
 
-    private SerializationContext getSerializationContext(Class<? extends Collection> colType) {
-        return new SerializationContext(colType, Animal.class, "UTF-8", new HashSet<String>()) {
+    private SerializationContext getSerializationCollectionContext(String... fields) {
+        return new SerializationContext(List.class, Animal.class, "UTF-8", new HashSet<>(Arrays.asList(fields))) {
             @Override
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
