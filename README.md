@@ -1589,6 +1589,26 @@ session.reset();
 
 This method will reset all the Session's request options to their default values.
 
+### Session's Thread Pool
+
+The async-first aspect of Requestor is enabled by the usage of multiple threads.
+A `Session` is backed by the `ScheduledExecutorService` interface which empowers async multitasking.
+Its main implementation is the `ScheduledThreadPoolExecutor` class. When creating a new `Session`,
+we can pass a `ScheduledThreadPoolExecutor` instance or an integer informing the number of the core pool size.
+
+Example creating a Session passing a custom Thread Pool:
+
+```java
+int corePoolSize = 10;
+ScheduledExecutorService threadPool = new ScheduledThreadPoolExecutor(corePoolSize);
+
+Session session = Requestor.newSession(threadPool);
+```
+
+The Session exposes some `ExecutorService` methods that allows us to manage the thread pool.
+For example, in order to actually finish all running processes in the Java application we need to
+call `session.shutdown()` or `session.shutdownNow()` to close the living threads in the thread pool.
+
 ### Session's Request Options
 
 The same request options made available by the `Session` are also provided by in any [`Service`](#services).
