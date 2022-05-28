@@ -15,8 +15,8 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
@@ -478,14 +478,49 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     /**
+     * Register a auto generated {@link SerializationModule}.
+     *
+     * @param classes The module interfaces containing one or many generated serializers
+     *
+     * @return The {@link Registration} object, capable of cancelling this registration
+     */
+    @SafeVarargs
+    public final Registration register(Class<? extends SerializationModule>... classes) {
+        final List<Registration> registrations = new LinkedList<Registration>();
+
+        for (Class<?> cls : classes) {
+            String name = cls.getCanonicalName();
+
+            if (cls.getEnclosingClass() != null) {
+                int i = name.lastIndexOf('.');
+                name = name.substring(0, i) + '_' + name.substring(i + 1);
+            }
+
+            try {
+                registrations.add(register((SerializationModule) Class.forName(name + "Impl").newInstance()));
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException("Could not instantiate the implementation for " + cls.getSimpleName(), e);
+            }
+        }
+
+        return new Registration() {
+            public void cancel() {
+                for (Registration registration : registrations) {
+                    registration.cancel();
+                }
+            }
+        };
+    };
+
+    /**
      * Register a {@link SerializationModule}.
      *
-     * @param serializationModule  The module containing one or many generated serializer
+     * @param serializationModule  The module containing one or many serializers
      *
      * @return The {@link Registration} object, capable of cancelling this registration
      */
     public Registration register(SerializationModule serializationModule) {
-        final List<Registration> registrations = new ArrayList<Registration>();
+        final List<Registration> registrations = new LinkedList<Registration>();
 
         if (serializationModule.getSerializers() != null) {
             for (Serializer<?> serializer : serializationModule.getSerializers()) {
@@ -500,7 +535,6 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         }
 
         return new Registration() {
-            @Override
             public void cancel() {
                 for (Registration registration : registrations) {
                     registration.cancel();
