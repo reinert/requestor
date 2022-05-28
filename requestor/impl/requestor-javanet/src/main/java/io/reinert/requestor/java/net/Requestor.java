@@ -65,6 +65,14 @@ public class Requestor {
         return newSession(new DeferredPoolFactoryImpl());
     }
 
+    public static Session newSession(int corePoolSize) {
+        return newSession(new ScheduledThreadPoolExecutor(corePoolSize));
+    }
+
+    public static Session newSession(ScheduledExecutorService scheduledExecutorService) {
+        return newSession(new DeferredPoolFactoryImpl(), new JavaNetRequestDispatcherFactory(scheduledExecutorService));
+    }
+
     public static Session newSession(DeferredPool.Factory deferredPoolFactory) {
         return newSession(deferredPoolFactory, DEFAULT_CORE_POOL_SIZE);
     }
