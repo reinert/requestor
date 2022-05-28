@@ -80,4 +80,8 @@ public enum StatusFamily implements Event {
     public String getName() {
         return eventName;
     }
+
+    public boolean is(int statusCode) {
+        return of(statusCode) == this;
+    }
 }
