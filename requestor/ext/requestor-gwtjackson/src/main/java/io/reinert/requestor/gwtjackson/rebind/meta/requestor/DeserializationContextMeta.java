@@ -21,7 +21,7 @@ package io.reinert.requestor.gwtjackson.rebind.meta.requestor;
 public interface DeserializationContextMeta {
 
     interface Method {
-        String GET_REQUESTED_TYPE = "getRequestedType";
+        String GET_RAW_TYPE = "getRawType";
         String GET_PARAMETRIZED_TYPE = "getParametrizedType";
     }
 }

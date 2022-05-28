@@ -80,7 +80,7 @@ class SerializerCode {
                         UnableToSerializeException.class,
                         "The auto-generated gson serializer failed to serialize the instance of ",
                         methodSchema.context,
-                        SerializationContextMeta.Method.GET_REQUESTED_TYPE)
+                        SerializationContextMeta.Method.GET_RAW_TYPE)
                 .endControlFlow()
                 .build();
     }
@@ -97,7 +97,7 @@ class SerializerCode {
                         UnableToSerializeException.class,
                         "The auto-generated gson serializer failed to serialize the ",
                         methodSchema.context,
-                        SerializationContextMeta.Method.GET_REQUESTED_TYPE,
+                        SerializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
                         SerializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
                 .endControlFlow()
@@ -121,14 +121,14 @@ class SerializerCode {
                         gsonVar,
                         methodSchema.payload,
                         methodSchema.context,
-                        DeserializationContextMeta.Method.GET_REQUESTED_TYPE)
+                        DeserializationContextMeta.Method.GET_RAW_TYPE)
                 .nextControlFlow("catch ($T e)",
                         Exception.class)
                 .addStatement("throw new $T($S + $N.$L().getName(), e)",
                         UnableToDeserializeException.class,
                         "The auto-generated gson deserializer failed to deserialize the response body to ",
                         methodSchema.context,
-                        DeserializationContextMeta.Method.GET_REQUESTED_TYPE)
+                        DeserializationContextMeta.Method.GET_RAW_TYPE)
                 .endControlFlow()
                 .build();
     }
@@ -145,7 +145,7 @@ class SerializerCode {
                         typeTokenVar,
                         TypeToken.class,
                         methodSchema.context,
-                        DeserializationContextMeta.Method.GET_REQUESTED_TYPE,
+                        DeserializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
                         DeserializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
                 .addStatement("final $T $N = $N.$L($T.class)",
@@ -164,7 +164,7 @@ class SerializerCode {
                         UnableToDeserializeException.class,
                         "The auto-generated gwt-jackson json deserializer failed to deserialize the response body to ",
                         methodSchema.context,
-                        DeserializationContextMeta.Method.GET_REQUESTED_TYPE,
+                        DeserializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
                         DeserializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
                 .endControlFlow()

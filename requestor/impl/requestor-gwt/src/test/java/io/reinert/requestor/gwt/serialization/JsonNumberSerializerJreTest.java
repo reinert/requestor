@@ -57,7 +57,7 @@ public class JsonNumberSerializerJreTest {
     public void deserialize_InvalidNumber_ShouldThrowUnableToDeserializeException() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Number.class);
+        when(context.getRawType()).thenReturn((Class) Number.class);
 
         serializer.deserialize(new TextSerializedPayload("invalid number"), context);
     }
@@ -67,7 +67,7 @@ public class JsonNumberSerializerJreTest {
     public void deserialize_ValidDoubleValue_ShouldReturnDouble() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Number.class);
+        when(context.getRawType()).thenReturn((Class) Number.class);
 
         Double upperBound = Double.MAX_VALUE;
         Double lowerBound = Double.MIN_VALUE;
@@ -81,7 +81,7 @@ public class JsonNumberSerializerJreTest {
     public void deserialize_ValidBigDecimalValue_ShouldReturnBigDecimal() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Number.class);
+        when(context.getRawType()).thenReturn((Class) Number.class);
 
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
         BigDecimal lowerBound = upperBound.negate();
@@ -95,7 +95,7 @@ public class JsonNumberSerializerJreTest {
     public void deserialize_ValidIntegerValue_ShouldReturnInteger() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Number.class);
+        when(context.getRawType()).thenReturn((Class) Number.class);
 
         Integer upperBound = Integer.MAX_VALUE;
         Integer lowerBound = Integer.MIN_VALUE;
@@ -109,7 +109,7 @@ public class JsonNumberSerializerJreTest {
     public void deserialize_ValidLongValue_ShouldReturnLong() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Number.class);
+        when(context.getRawType()).thenReturn((Class) Number.class);
 
         Long upperBound = Long.MAX_VALUE;
         Long lowerBound = Long.MIN_VALUE;
@@ -123,7 +123,7 @@ public class JsonNumberSerializerJreTest {
     public void deserialize_ValidBigIntegerValue_ShouldReturnBigInteger() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Number.class);
+        when(context.getRawType()).thenReturn((Class) Number.class);
 
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
         BigInteger lowerBound = upperBound.negate();
@@ -137,7 +137,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeBigDecimalCollection() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) BigDecimal.class);
+        when(context.getRawType()).thenReturn((Class) BigDecimal.class);
         when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
@@ -158,7 +158,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeBigDecimalValue() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) BigDecimal.class);
+        when(context.getRawType()).thenReturn((Class) BigDecimal.class);
 
         BigDecimal upperBound = new BigDecimal(String.valueOf(Double.MAX_VALUE)).multiply(BigDecimal.TEN);
         BigDecimal lowerBound = upperBound.negate();
@@ -172,7 +172,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeBigIntegerCollection() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) BigInteger.class);
+        when(context.getRawType()).thenReturn((Class) BigInteger.class);
         when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
@@ -193,7 +193,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeBigIntegerValue() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) BigInteger.class);
+        when(context.getRawType()).thenReturn((Class) BigInteger.class);
 
         BigInteger upperBound = new BigInteger(String.valueOf(Long.MAX_VALUE)).multiply(BigInteger.TEN);
         BigInteger lowerBound = upperBound.negate();
@@ -207,7 +207,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeByteCollection() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Byte.class);
+        when(context.getRawType()).thenReturn((Class) Byte.class);
         when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
         String input = "[" + String.valueOf(Byte.MIN_VALUE) + "," + String.valueOf(Byte.MAX_VALUE) + "]";
@@ -224,7 +224,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeByteValue() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Byte.class);
+        when(context.getRawType()).thenReturn((Class) Byte.class);
 
         assertEquals(Byte.MIN_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Byte.MIN_VALUE)),
                 context));
@@ -237,7 +237,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeDoubleCollection() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Double.class);
+        when(context.getRawType()).thenReturn((Class) Double.class);
         when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
         String input = "[" + String.valueOf(Double.MIN_VALUE) + "," + String.valueOf(Double.MAX_VALUE) + "]";
@@ -254,7 +254,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeDoubleValue() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Double.class);
+        when(context.getRawType()).thenReturn((Class) Double.class);
 
         assertEquals(Double.MIN_VALUE, serializer.deserialize(
                 new TextSerializedPayload(String.valueOf(Double.MIN_VALUE)), context));
@@ -267,7 +267,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeIntegerCollection() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Integer.class);
+        when(context.getRawType()).thenReturn((Class) Integer.class);
         when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
         String input = "[" + String.valueOf(Integer.MIN_VALUE) + "," + String.valueOf(Integer.MAX_VALUE) + "]";
@@ -284,7 +284,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeIntegerValue() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Integer.class);
+        when(context.getRawType()).thenReturn((Class) Integer.class);
 
         assertEquals(Integer.MIN_VALUE, serializer.deserialize(
                 new TextSerializedPayload(String.valueOf(Integer.MIN_VALUE)), context));
@@ -297,7 +297,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeLongCollection() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Long.class);
+        when(context.getRawType()).thenReturn((Class) Long.class);
         when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
         String input = "[" + String.valueOf(Long.MIN_VALUE) + "," + String.valueOf(Long.MAX_VALUE) + "]";
@@ -314,7 +314,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeLongValue() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Long.class);
+        when(context.getRawType()).thenReturn((Class) Long.class);
 
         assertEquals(Long.MIN_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Long.MIN_VALUE)),
                 context));
@@ -327,7 +327,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeShortCollection() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Short.class);
+        when(context.getRawType()).thenReturn((Class) Short.class);
         when(context.getInstance(List.class)).thenReturn(new ArrayList());
 
         String input = "[" + String.valueOf(Short.MIN_VALUE) + "," + String.valueOf(Short.MAX_VALUE) + "]";
@@ -344,7 +344,7 @@ public class JsonNumberSerializerJreTest {
     public void deserializeShortValue() throws Exception {
         // Set-up mock
         DeserializationContext context = mock(DeserializationContext.class);
-        when(context.getRequestedType()).thenReturn((Class) Short.class);
+        when(context.getRawType()).thenReturn((Class) Short.class);
 
         assertEquals(Short.MIN_VALUE, serializer.deserialize(new TextSerializedPayload(String.valueOf(Short.MIN_VALUE)),
                 context));

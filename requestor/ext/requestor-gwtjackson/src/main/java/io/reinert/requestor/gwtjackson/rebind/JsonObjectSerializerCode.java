@@ -104,7 +104,7 @@ class JsonObjectSerializerCode {
                         UnableToDeserializeException.class,
                         "The auto-generated gwt-jackson deserializer failed to deserialize the response body to ",
                         currentScope.context,
-                        DeserializationContextMeta.Method.GET_REQUESTED_TYPE)
+                        DeserializationContextMeta.Method.GET_RAW_TYPE)
                 .endControlFlow()
                 .build();
     }
@@ -176,7 +176,7 @@ class JsonObjectSerializerCode {
                         UnableToDeserializeException.class,
                         "The auto-generated gwt-jackson json deserializer failed to deserialize the response body to ",
                         currentScope.context,
-                        DeserializationContextMeta.Method.GET_REQUESTED_TYPE,
+                        DeserializationContextMeta.Method.GET_RAW_TYPE,
                         currentScope.context,
                         DeserializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
                 .endControlFlow()
@@ -199,7 +199,7 @@ class JsonObjectSerializerCode {
                         UnableToSerializeException.class,
                         "The auto-generated gwt-jackson json serializer failed to serialize the instance of ",
                         currentScope.context,
-                        SerializationContextMeta.Method.GET_REQUESTED_TYPE)
+                        SerializationContextMeta.Method.GET_RAW_TYPE)
                 .endControlFlow()
                 .build();
     }
@@ -220,7 +220,7 @@ class JsonObjectSerializerCode {
                         UnableToSerializeException.class,
                         "The auto-generated gwt-jackson json serializer failed to serialize the ",
                         currentScope.context,
-                        SerializationContextMeta.Method.GET_REQUESTED_TYPE,
+                        SerializationContextMeta.Method.GET_RAW_TYPE,
                         currentScope.context,
                         SerializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
                 .endControlFlow()

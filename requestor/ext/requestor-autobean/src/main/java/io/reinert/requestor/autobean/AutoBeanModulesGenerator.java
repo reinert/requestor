@@ -357,7 +357,7 @@ public class AutoBeanModulesGenerator extends Generator {
                 factoryFieldName, qualifiedSourceName));
         print(w, String.format("        } catch (java.lang.Exception e) {"));
         print(w, String.format("            throw new UnableToDeserializeException(\"The auto-generated AutoBean" +
-                " deserializer failed to deserialize the response body to \" + ctx.getRequestedType().getName() +" +
+                " deserializer failed to deserialize the response body to \" + ctx.getRawType().getName() +" +
                 " \".\", e);"));
         print(w, String.format("        }"));
         print(w, String.format("    }"));
@@ -382,7 +382,7 @@ public class AutoBeanModulesGenerator extends Generator {
         print(w, String.format("        } catch (java.lang.Exception e) {"));
         print(w, String.format("            throw new UnableToDeserializeException(\"The auto-generated AutoBean" +
                 " deserializer failed to deserialize the response body  to \" + c.getName() + \"<\" +" +
-                " ctx.getRequestedType().getName() + \">.\", e);"));
+                " ctx.getRawType().getName() + \">.\", e);"));
         print(w, String.format("        }"));
         print(w, String.format("    }"));
 

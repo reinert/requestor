@@ -79,7 +79,7 @@ public class SerializationEngine {
         final Deserializer<T> deserializer = serializerManager.getDeserializer(entityType, mediaType);
         checkDeserializerNotNull(response, entityType, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(requestOptions, response, providerManager,
-                entityType);
+                collectionType, entityType);
         return deserializer.deserialize(collectionType, response.getSerializedPayload(), context);
     }
 
@@ -124,16 +124,16 @@ public class SerializationEngine {
 
                     Serializer<?> serializer = serializerManager.getSerializer(type, mediaType);
                     checkSerializerNotNull(request, type, serializer);
-                    body = serializer.serialize(c, new HttpSerializationContext(request, collectionType, type,
-                            providerManager, request.getPayload().getFields()));
+                    body = serializer.serialize(c, new HttpSerializationContext(request, providerManager,
+                            request.getPayload().getFields(), collectionType, type));
                 }
             } else {
                 final Class<?> type = payload.getClass();
                 @SuppressWarnings("unchecked")
                 Serializer<Object> serializer = (Serializer<Object>) serializerManager.getSerializer(type, mediaType);
                 checkSerializerNotNull(request, payload.getClass(), serializer);
-                body = serializer.serialize(payload, new HttpSerializationContext(request, type,
-                        providerManager, request.getPayload().getFields()));
+                body = serializer.serialize(payload, new HttpSerializationContext(request, providerManager,
+                        request.getPayload().getFields(), type));
             }
         }
 
