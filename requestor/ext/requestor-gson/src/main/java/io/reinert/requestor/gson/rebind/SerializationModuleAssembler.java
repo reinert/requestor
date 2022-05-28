@@ -50,8 +50,8 @@ public class SerializationModuleAssembler extends TypeAssembler {
     }
 
     private static String getTypeImplName(TypeInfo typeInfo) {
-        String name = typeInfo.getQualifiedName()
-                .replace(typeInfo.getPackage().getName() + ".", "");
-        return name.substring(name.indexOf('.') + 1) + "Impl";
+        return typeInfo.getQualifiedName()
+                .replace(typeInfo.getPackage().getName() + ".", "")
+                .replace('.', '_') + "Impl";
     }
 }
