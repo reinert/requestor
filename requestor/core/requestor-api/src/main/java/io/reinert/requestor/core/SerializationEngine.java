@@ -64,8 +64,8 @@ public class SerializationEngine {
         if (payloadType instanceof CollectionPayloadType) {
             CollectionPayloadType<?> collectionPayloadType = (CollectionPayloadType<?>) payloadType;
             Class<? extends Collection> collectionType = collectionPayloadType.getType();
-            Class<?> parametrizedType = collectionPayloadType.getParametrizedPayloadType().getType();
-            result = deserializePayload(requestOptions, response, parametrizedType, collectionType);
+            Class<?> parameterizedType = collectionPayloadType.getParameterizedPayloadType().getType();
+            result = deserializePayload(requestOptions, response, parameterizedType, collectionType);
         } else if (payloadType instanceof SinglePayloadType) {
             result = deserializePayload(requestOptions, response, type);
         }

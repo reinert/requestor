@@ -23,6 +23,6 @@ public interface DeserializationContextMeta {
     interface Method {
         String GET_INSTANCE = "getInstance";
         String GET_RAW_TYPE = "getRawType";
-        String GET_PARAMETRIZED_TYPE = "getParametrizedType";
+        String GET_PARAMETERIZED_TYPE = "getParameterizedType";
     }
 }

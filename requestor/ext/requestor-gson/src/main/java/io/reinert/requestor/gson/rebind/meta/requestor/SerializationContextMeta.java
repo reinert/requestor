@@ -24,6 +24,6 @@ public interface SerializationContextMeta {
         String GET_FIELDS = "getFields";
         String GET_INSTANCE = "getInstance";
         String GET_RAW_TYPE = "getRawType";
-        String GET_PARAMETRIZED_TYPE = "getParametrizedType";
+        String GET_PARAMETERIZED_TYPE = "getParameterizedType";
     }
 }

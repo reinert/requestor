@@ -36,8 +36,8 @@ public class HttpDeserializationContext extends DeserializationContext {
 
     protected HttpDeserializationContext(RequestOptions requestOptions, SerializedResponse response,
                                          ProviderManagerImpl providerManager, Class<?> rawType,
-                                         Class<?> parametrizedType) {
-        super(rawType, parametrizedType, requestOptions.getCharset());
+                                         Class<?> parameterizedType) {
+        super(rawType, parameterizedType, requestOptions.getCharset());
 
         this.requestOptions = requestOptions;
         this.response = response;

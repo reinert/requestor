@@ -178,7 +178,7 @@ class JsonObjectSerializerCode {
                         currentScope.context,
                         DeserializationContextMeta.Method.GET_RAW_TYPE,
                         currentScope.context,
-                        DeserializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
+                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
                 .endControlFlow()
                 .build();
     }
@@ -222,7 +222,7 @@ class JsonObjectSerializerCode {
                         currentScope.context,
                         SerializationContextMeta.Method.GET_RAW_TYPE,
                         currentScope.context,
-                        SerializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
+                        SerializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
                 .endControlFlow()
                 .build();
     }

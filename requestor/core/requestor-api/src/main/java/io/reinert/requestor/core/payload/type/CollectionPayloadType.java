@@ -25,16 +25,16 @@ import java.util.Collection;
 public class CollectionPayloadType<T> extends RootPayloadType<Collection<T>> {
 
     private final Class<? extends Collection> collectionType;
-    private final RootPayloadType<T> parametrizedPayloadType;
+    private final RootPayloadType<T> parameterizedPayloadType;
 
     public CollectionPayloadType(Class<? extends Collection> collectionType,
-                                 RootPayloadType<T> parametrizedPayloadType) {
+                                 RootPayloadType<T> parameterizedPayloadType) {
         this.collectionType = collectionType;
-        this.parametrizedPayloadType = parametrizedPayloadType;
+        this.parameterizedPayloadType = parameterizedPayloadType;
     }
 
-    public RootPayloadType<T> getParametrizedPayloadType() {
-        return parametrizedPayloadType;
+    public RootPayloadType<T> getParameterizedPayloadType() {
+        return parameterizedPayloadType;
     }
 
     @Override

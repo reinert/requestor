@@ -99,7 +99,7 @@ class SerializerCode {
                         methodSchema.context,
                         SerializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
-                        SerializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
+                        SerializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
                 .endControlFlow()
                 .build();
     }
@@ -147,7 +147,7 @@ class SerializerCode {
                         methodSchema.context,
                         DeserializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
-                        DeserializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
+                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
                 .addStatement("final $T $N = $N.$L($T.class)",
                         Gson.class,
                         gsonVar,
@@ -166,7 +166,7 @@ class SerializerCode {
                         methodSchema.context,
                         DeserializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
-                        DeserializationContextMeta.Method.GET_PARAMETRIZED_TYPE)
+                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
                 .endControlFlow()
                 .build();
     }
