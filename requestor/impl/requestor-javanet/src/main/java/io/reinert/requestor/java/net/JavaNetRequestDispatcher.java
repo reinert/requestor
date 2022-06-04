@@ -153,12 +153,14 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             netConn = getNetConnection(conn, deferred, request);
             deferred.setHttpConnection(netConn);
         } catch (MalformedURLException e) {
+            sleep(SLEEP_TIME_BEFORE_ABORTING);
             disconnect(conn, deferred, new RequestAbortException(request, "Invalid url format.", e));
             return;
         } catch (SocketTimeoutException e) {
             disconnect(conn, deferred, new RequestTimeoutException(request, request.getTimeout()));
             return;
         } catch (IOException e) {
+            sleep(SLEEP_TIME_BEFORE_ABORTING);
             disconnect(conn, deferred, new RequestAbortException(request, "Failed to open connection.", e));
             return;
         }
