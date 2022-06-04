@@ -30,6 +30,7 @@ import io.reinert.requestor.core.uri.UriBuilderException;
  *
  * @author Danilo Reinert
  */
+@Deprecated
 public class WebTarget implements FilterManager, InterceptorManager, HasRequestOptions {
 
     private static final String COULD_NOT_BUILD_THE_URI = "Could not build the URI.";
