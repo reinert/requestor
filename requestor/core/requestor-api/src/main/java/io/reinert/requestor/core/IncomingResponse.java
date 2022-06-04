@@ -101,4 +101,11 @@ public interface IncomingResponse extends Store {
      */
     RequestOptions getRequestOptions();
 
+    /**
+     * Returns the session that this response is bound to.
+     *
+     * @return  the originating session
+     */
+    Session getSession();
+
 }

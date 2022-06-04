@@ -179,4 +179,9 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     public Response getRawResponse() {
         return response.getRawResponse();
     }
+
+    @Override
+    public Session getSession() {
+        return response.getSession();
+    }
 }

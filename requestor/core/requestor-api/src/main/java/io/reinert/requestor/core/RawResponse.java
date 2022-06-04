@@ -230,6 +230,11 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
+    public Session getSession() {
+        return request.getSession();
+    }
+
+    @Override
     public void proceed() {
         this.process();
     }
