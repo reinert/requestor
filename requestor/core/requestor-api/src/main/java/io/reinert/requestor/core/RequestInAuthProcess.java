@@ -174,6 +174,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public Session getSession() {
+        return request.getSession();
+    }
+
+    @Override
     public void setSerializedPayload(SerializedPayload serializedPayload) {
         request.setSerializedPayload(serializedPayload);
     }

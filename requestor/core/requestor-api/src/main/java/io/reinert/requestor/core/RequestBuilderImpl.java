@@ -36,6 +36,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
 
     private static final Logger logger = Logger.getLogger(RequestBuilderImpl.class.getName());
 
+    private final Session session;
     private Uri uri;
     private LeafStore store;
     private Headers headers;
@@ -50,14 +51,15 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private SerializedPayload serializedPayload;
     private boolean serialized;
 
-    public RequestBuilderImpl(Uri uri, LeafStore store) {
-        this(uri, store, null, null, null, 0, 0, null, null, null, null, null, false);
+    public RequestBuilderImpl(Session session, Uri uri, LeafStore store) {
+        this(session, uri, store, null, null, null, 0, 0, null, null, null, null, null, false);
     }
 
-    public RequestBuilderImpl(Uri uri, LeafStore store, Headers headers, Auth.Provider authProvider,
+    public RequestBuilderImpl(Session session, Uri uri, LeafStore store, Headers headers, Auth.Provider authProvider,
                               HttpMethod httpMethod, int timeout, int delay, String charset, RetryOptions retryOptions,
                               PollingOptions pollingOptions, Payload payload, SerializedPayload serializedPayload,
                               boolean serialized) {
+        this.session = session;
         if (uri == null) throw new IllegalArgumentException("Uri cannot be null");
         this.uri = uri;
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
@@ -137,6 +139,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public String getCharset() {
         return charset;
+    }
+
+    @Override
+    public Session getSession() {
+        return session;
     }
 
     @Override
@@ -446,6 +453,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public RequestBuilderImpl copy() {
         return new RequestBuilderImpl(
+                session,
                 Uri.copy(uri),
                 LeafStore.copy(store),
                 Headers.copy(headers),
@@ -465,6 +473,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public RequestBuilderImpl replicate() {
         return new RequestBuilderImpl(
+                session,
                 Uri.copy(uri),
                 store, // keep store reference
                 Headers.copy(headers),

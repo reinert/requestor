@@ -32,8 +32,8 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
 
     protected final RequestDispatcher dispatcher;
 
-    public AbstractRequestInvoker(Uri uri, LeafStore store, RequestDispatcher dispatcher) {
-        super(uri, store);
+    public AbstractRequestInvoker(Session session, Uri uri, LeafStore store, RequestDispatcher dispatcher) {
+        super(session, uri, store);
 
         this.dispatcher = dispatcher;
     }

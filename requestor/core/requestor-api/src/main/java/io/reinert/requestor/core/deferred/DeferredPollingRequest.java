@@ -29,6 +29,7 @@ import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.SerializedRequest;
+import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
 import io.reinert.requestor.core.callback.ExceptionCallback;
@@ -117,6 +118,11 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     @Override
     public String getCharset() {
         return serializedRequest.getCharset();
+    }
+
+    @Override
+    public Session getSession() {
+        return serializedRequest.getSession();
     }
 
     @Override

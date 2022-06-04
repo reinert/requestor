@@ -234,6 +234,11 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public Session getSession() {
+        return request.getSession();
+    }
+
+    @Override
     public MutableSerializedRequest copy() {
         return request.copy();
     }

@@ -129,6 +129,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
+    public Session getSession() {
+        return request.getSession();
+    }
+
+    @Override
     public List<Integer> getRetryDelays() {
         return request.getRetryDelays();
     }

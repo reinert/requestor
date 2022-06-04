@@ -517,7 +517,7 @@ public class WebTarget implements FilterManager, InterceptorManager, HasRequestO
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvokerImpl request =
-                new RequestInvokerImpl(uri, new LeafStore(store, false), requestDispatcher);
+                new RequestInvokerImpl(null, uri, new LeafStore(store, false), requestDispatcher);
         options.apply(request);
         return request;
     }

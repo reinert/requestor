@@ -55,4 +55,6 @@ public interface RequestOptions {
 
     String getCharset();
 
+    Session getSession();
+
 }

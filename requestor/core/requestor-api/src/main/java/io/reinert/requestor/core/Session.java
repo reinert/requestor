@@ -672,7 +672,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(uri, new LeafStore(store, false),
+        final RequestInvoker request = new RequestInvokerImpl(this, uri, new LeafStore(store, false),
                 requestDispatcherFactory.create(requestProcessor, responseProcessor, deferredPoolFactory));
 
         options.apply(request);
