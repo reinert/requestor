@@ -67,6 +67,11 @@ public class XhrRequestDispatcher extends RequestDispatcher {
     }-*/;
 
     @Override
+    public void sleep(int millis) {
+        // no-op (unnecessary to block the thread in JS environment)
+    }
+
+    @Override
     protected <D> void send(final PreparedRequest request, final Deferred<D> deferred, PayloadType payloadType) {
         if (!deferred.isPending()) return;
 
