@@ -87,7 +87,15 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
     }
 
     public void scheduleRun(final Runnable runnable, int delay) {
-        scheduledExecutorService.schedule(runnable, Math.max(delay, 50), TimeUnit.MILLISECONDS);
+        scheduledExecutorService.schedule(runnable, delay, TimeUnit.MILLISECONDS);
+    }
+
+    public void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     protected <R> void send(PreparedRequest request, Deferred<R> deferred, PayloadType payloadType) {
