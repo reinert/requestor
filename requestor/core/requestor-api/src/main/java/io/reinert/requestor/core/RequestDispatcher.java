@@ -30,6 +30,8 @@ import io.reinert.requestor.core.payload.type.SinglePayloadType;
  */
 public abstract class RequestDispatcher implements RunScheduler {
 
+    public static int SLEEP_TIME_BEFORE_ABORTING = 50;
+
     public interface Factory {
         RequestDispatcher create(RequestProcessor requestProcessor,
                                  ResponseProcessor responseProcessor,
@@ -185,8 +187,8 @@ public abstract class RequestDispatcher implements RunScheduler {
                         schedulePollingRequest(nextRequest, responsePayloadType, deferredPool);
                     }
                 } catch (Exception e) {
-                    // TODO: check if this try-catch block is really necessary
                     if (deferred.isPending()) {
+                        sleep(SLEEP_TIME_BEFORE_ABORTING);
                         deferred.reject(new RequestAbortException(requestInAuthProcess,
                                 "An error occurred before sending the request. See previous exception.", e));
                     }
@@ -201,6 +203,7 @@ public abstract class RequestDispatcher implements RunScheduler {
             @Override
             public void cancel() {
                 if (isPending()) {
+                    sleep(SLEEP_TIME_BEFORE_ABORTING);
                     deferred.reject(new RequestAbortException(request, "Request was cancelled before being sent" +
                             " through the HttpConnection."));
                 }
