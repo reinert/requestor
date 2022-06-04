@@ -22,4 +22,6 @@ package io.reinert.requestor.core;
  */
 interface RunScheduler {
     void scheduleRun(Runnable runnable, int delay);
+
+    void sleep(int millis);
 }

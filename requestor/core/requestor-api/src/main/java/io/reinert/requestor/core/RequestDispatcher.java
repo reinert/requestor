@@ -69,6 +69,13 @@ public abstract class RequestDispatcher implements RunScheduler {
     public abstract void scheduleRun(Runnable runnable, int delay);
 
     /**
+     * Causes the currently executing thread to sleep for the specified number of milliseconds.
+     *
+     * @param millis the length of time to sleep in milliseconds
+     */
+    public abstract void sleep(int millis);
+
+    /**
      * Sends the request through the wire and resolves (or rejects) the deferred when completed.
      * The success result must be a instance of #entityType.
      * <p></p>
