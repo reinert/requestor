@@ -31,7 +31,7 @@
     <!-- Requestor dependencies -->
     <dependency>
       <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-api</artifactId>
+      <artifactId>requestor-core</artifactId>
       <version>${project.version}</version>
     </dependency>
 

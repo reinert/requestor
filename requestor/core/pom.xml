@@ -31,7 +31,7 @@
 
   <modules>
     <module>requestor-annotations</module>
-    <module>requestor-api</module>
+    <module>requestor-core</module>
     <module>requestor-java</module>
   </modules>
 </project>

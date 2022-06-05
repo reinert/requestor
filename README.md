@@ -2060,7 +2060,7 @@ public abstract class MyAppService<E> extends BaseService {
 ```
 
 **💡 PRO TIP**: Create your own base **"AppService"** class and handle the errors in the superclass to save you coding and maintenance cost.
-Use the above example as inspiration as also the [RestService](https://github.com/reinert/requestor/blob/master/requestor/core/requestor-api/src/main/java/io/reinert/requestor/core/RestService.java) class.
+Use the above example as inspiration as also the [RestService](https://github.com/reinert/requestor/blob/master/requestor/core/requestor-core/src/main/java/io/reinert/requestor/core/RestService.java) class.
 
 
 ## Links (HATEOAS)
