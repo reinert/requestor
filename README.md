@@ -5,12 +5,12 @@
 </p>
 
 Why Requestor?
-* Requestor uniquely combines simplicity, completeness and performance in a mind-blowing HTTP Client API for any Java based platform.
-* Requestor is async-first so the whole client-server interaction is properly designed in the async way
-* Requestor is event-driven -> different methods for different events -> support complex features like HTTP Polling and Streaming by design
-* Requestor is session-based -> configure multiple client sessions
-* Requestor is scope-bounded -> sessions, services and requests have their own contexts
-* Requestor is (optionally) stateful -> cache and share data and configurations
+* It uniquely combines simplicity, completeness and performance in a singular HTTP Client API for any Java based platform.
+* It is **async-first** -> the client-server interaction is designed for advanced multi-thread environments.
+* It is **event-driven** -> narrow down your code to specific results and implement complex features like HTTP Polling and Streaming seamlessly.
+* It is **session-based** -> set up multiple client configurations for different backends with instance level customization.
+* It is **scope-bounded** -> sessions, services and requests have isolated interconnected contexts with fine-grained control over them.
+* It is **cache-assisted** -> promptly save and share data among different parts of your application while handling communication.
 
 With the componentization movement, much attention has been given to the UI structure of a frontend application.
 We have developed many mechanisms to build UIs prepared to scale. Unfortunately, communication - the underlying
@@ -158,7 +158,7 @@ session.shutdown();
 ```
 
 
-### Looking for some REST? 😪
+### Looking for some REST? 😌
 
 Requestor offers a pre-defined REST client so that we can perform basic CRUD operations against 
 a resource. See the example below on how to create a new `RestService`.
@@ -489,12 +489,9 @@ Furthermore, not setting a *polling limit*, we can manually ***stop*** the polli
 session.req("/api/books/")
        .poll(PollingStrategy.LONG)
        .get()
-       .onLoad(new ResponseRequestCallback() {
-           @Override
-           public void execute(Response response, PollingRequest<Void> request) {
-               if (request.getPollingCounter() == 3) {
-                   request.stopPolling(); // Stop polling after receving the third response
-               }
+       .onLoad((response, request) -> {
+           if (request.getPollingCounter() == 3) {
+               request.stopPolling(); // Stop polling after receving the third response
            }
        });
 ```
@@ -1144,9 +1141,9 @@ we need to ping another endpoint to grab some token data, we can easily do it. C
 Auth myAuth = request -> {
     // We are reaching another endpoint sending a password to get an updated token
     request.getSession().req("/api/token")
-            .payload("my-password")
+            .payload("my-password") // Set `my-password` in the request body
             .skip(Process.AUTH_REQUEST) // Skip this auth so we don't stuck in an infinite loop
-            .post(String.class)
+            .post(String.class) // Send a POST request and receive the body as String
             .onSuccess(token -> {
                  // After receiving the updated token, we set it into the request and send it
                 request.setHeader("Authorization", "Bearer " + token);
