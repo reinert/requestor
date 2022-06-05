@@ -15,6 +15,9 @@
  */
 package io.reinert.requestor.core.deferred;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
@@ -494,6 +497,55 @@ public class DeferredRequest<T> implements Deferred<T> {
     @Override
     public Request<T> getRequest() {
         return request;
+    }
+
+    public Future<Response> getFuture() {
+        return new Future<Response>() {
+            private boolean cancelled;
+
+            public boolean cancel(boolean mayInterruptIfRunning) {
+                final HttpConnection conn = getHttpConnection();
+                if (!mayInterruptIfRunning && conn.isPending()) {
+                    return false;
+                }
+                cancelled = true;
+                conn.cancel();
+                return true;
+            }
+
+            public boolean isCancelled() {
+                return cancelled;
+            }
+
+            public boolean isDone() {
+                return !deferred.isPending();
+            }
+
+            public Response get() throws InterruptedException, ExecutionException {
+                if (deferred.isPending()) {
+                    deferred.waitSafely();
+                }
+
+                if (deferred.isRejected()) {
+                    throw new ExecutionException(deferred.rejectResult);
+                }
+
+                return deferred.resolveResult;
+            }
+
+            public Response get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
+                    TimeoutException {
+                if (deferred.isPending()) {
+                    deferred.waitSafely(unit.toMillis(timeout));
+                }
+
+                if (deferred.isRejected()) {
+                    throw new ExecutionException(deferred.rejectResult);
+                }
+
+                return deferred.resolveResult;
+            }
+        };
     }
 
     //===================================================================

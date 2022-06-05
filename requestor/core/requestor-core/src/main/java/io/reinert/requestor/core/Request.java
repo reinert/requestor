@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.concurrent.Future;
+
 import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.ExceptionRequestCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
@@ -36,6 +38,8 @@ import io.reinert.requestor.core.callback.WriteCallback;
  * @author Danilo Reinert
  */
 public interface Request<T> extends SerializedRequest {
+
+    Future<Response> getResponse();
 
     HttpConnection getHttpConnection();
 
