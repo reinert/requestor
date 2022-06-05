@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,12 +37,30 @@ public class RequestProcessor {
         this.interceptorManager = interceptorManager;
     }
 
-    public void process(RequestInAuthProcess<?> request) {
-        // 1: FILTER
-        // 2: SERIALIZE
+    public void process(RequestInAuthProcess<?> requestInAuthProcess) {
+        ProcessableRequest request = requestInAuthProcess;
+
+        // 4: AUTH
+        if (!shouldApply(request, Process.AUTH_REQUEST)) {
+            request.setAuth((Auth.Provider) null);
+        }
+
         // 3: INTERCEPT
-        // 4: AUTH (outside)
-        applyFilters(applySerializer(applyInterceptors(request))).process();
+        if (shouldApply(request, Process.INTERCEPT_REQUEST)) {
+            request = applyInterceptors(request);
+        }
+
+        // 2: SERIALIZE
+        if (shouldApply(request, Process.SERIALIZE_REQUEST)) {
+            request = applySerializer(request);
+        }
+
+        // 1: FILTER
+        if (shouldApply(request, Process.FILTER_REQUEST)) {
+            request = applyFilters(request);
+        }
+
+        request.process();
     }
 
     public RequestSerializer getRequestSerializer() {
@@ -75,5 +93,9 @@ public class RequestProcessor {
 
     private ProcessableRequest applySerializer(ProcessableRequest request) {
         return new RequestInSerializeProcess(request, serializationEngine, requestSerializer);
+    }
+
+    private boolean shouldApply(ProcessableRequest request, Process process) {
+        return !request.getSkippedProcesses().contains(process);
     }
 }
