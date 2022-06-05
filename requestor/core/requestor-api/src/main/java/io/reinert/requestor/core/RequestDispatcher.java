@@ -141,7 +141,7 @@ public abstract class RequestDispatcher implements RunScheduler {
      * @param <T>                   The expected type of the response payload
      */
     public <T> void dispatch(MutableSerializedRequest request, DualCallback callback) {
-        final CallbackDeferred deferred = new CallbackDeferred(callback);
+        final CallbackDeferred deferred = new CallbackDeferred(callback, request);
         final PayloadType responsePayloadType = new SinglePayloadType<Response>(Response.class);
 
         // TODO: add a skipAuth option and handle it in RequestInAuthProcess#process and erase the skipAuth flag here.
