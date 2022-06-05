@@ -33,4 +33,12 @@ public enum Process {
     public static Process[] all() {
         return Process.values();
     }
+
+    public static Process[] request() {
+        return new Process[]{ FILTER_REQUEST, SERIALIZE_REQUEST, INTERCEPT_REQUEST, AUTH_REQUEST};
+    }
+
+    public static Process[] response() {
+        return new Process[]{ FILTER_RESPONSE, DESERIALIZE_RESPONSE, INTERCEPT_RESPONSE };
+    }
 }
