@@ -6,26 +6,11 @@
 
 Why Requestor?
 * It uniquely combines simplicity, completeness and performance in a singular HTTP Client API for any Java based platform.
-* It is **async-first** -> the client-server interaction is designed for advanced multi-thread environments.
+* It is **async-first** -> smoothly handle several concurrent client-server interactions with the best performance.
 * It is **event-driven** -> narrow down your code to specific results and implement complex features like HTTP Polling and Streaming seamlessly.
 * It is **session-based** -> set up multiple client configurations for different backends with instance level customization.
-* It is **scope-bounded** -> sessions, services and requests have isolated interconnected contexts with fine-grained control over them.
+* It is **scope-bounded** -> sessions, services and requests have isolated and interconnected contexts with fine-grained control over them.
 * It is **cache-assisted** -> promptly save and share data among different parts of your application while handling communication.
-
-With the componentization movement, much attention has been given to the UI structure of a frontend application.
-We have developed many mechanisms to build UIs prepared to scale. Unfortunately, communication - the underlying
-process that feeds the UI - has not evolved accordingly. Although we have seen ideas like promises and observables
-being adopted to handle asynchronous calls, orchestrating the communication layer with the UI
-components is still left aside. It's not so hard to see well UI structured apps with a messy
-communication (or service/api) layer. Apart from that, there are some patterns and strategies that we can apply in the
-communication process to make it smoother and coordinated among the different UI components. In fact, ruling
-the communication process is the foundation for building sustainable and scalable frontend applications.
-
-Requestor is an event-driven HTTP Client API for cutting-edge frontend applications. It offers plenty of
-carefully designed features to empower the development of **communication-centric apps**. By focusing on the
-communication process as the core of frontend development, Requestor allows developers to combine requesting
-configuration with state management in several scope levels so that each UI component is exempted from the
-communication complexity and can interact with other components in a decoupled way.
 
 Feature highlights:
 * [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
@@ -47,9 +32,9 @@ Feature highlights:
 
 Requestor is developed on top of three main pillars: (1) **Interoperability**, (2) **Simplicity**, and (3)
 **Extensibility**. In that fashion, **requestor-core** is developed in vanilla Java 5 syntax what makes it compatible
-with any Java based platform. To provide a fully working implementation, Requestor impls are required to implement only
-the dispatching mechanism through the wire (two functions basically). Currently, there are two requestor impls available:
-**requestor-javanet** for JVM/Android and **requestor-gwt** for GWT2.
+with any Java based platform and transpilable to other languages. To provide a fully working implementation, Requestor
+impls are required to implement the dispatching mechanism through the wire. Currently, there are two requestor impls
+available: **requestor-javanet** for JVM/Android and **requestor-gwt** for GWT2.
 
 
 ## Preview
@@ -261,9 +246,9 @@ Then, make requestor available to your GWT project by importing the implementati
 1.0.0 (14 Mar 2022)
 
 
-## Yet another REST Client library?
+## Requestor for the Back-end
 
-*No. Not at all*. Requestor is an **HTTP Client API** intended to provide several features related to network communication.
+Requestor is an **HTTP Client API** intended to provide several features related to network communication.
 Its scope is broader than popular (and often misunderstood) REST patterns. Requestor precisely models each entity in the
 HTTP client-side context to enable its users to handle any requirement in this boundary. It values good **code readability
 and maintainability** for the user by providing carefully designed interfaces and abstractions that others can extend and
@@ -273,7 +258,7 @@ to implement their requirements keeping **high cohesion** through all their code
 Additionally, Requestor was crafted from the Client perspective instead of the Server's (like other rest libraries were thought).
 In that fashion, developers have a more **consistent and intuitive experience** consuming HTTP services while coding. We do not
 need to pre-declare Server API's façades. We can just consume them on demand. This approach empower us to build *micro clients*
-that interact with many different *micro services*.
+that interact with different *micro services*.
 
 Besides, we value **code traceability**. So code generation is the last option in design decisions. Whenever a new requirement appears,
 we strive to develop a good design solution that allows the user to write less code and achieve the desired results. If something proves
@@ -290,6 +275,24 @@ With Requestor, we can:
 * Navigate through discoverable REST API links, fully leveraging HATEOAS.
 * Build different and complex queries on demand, not having to map each possible iteration with Server APIs previously.
 * Add new logic requirements not needing to change existing classes, instead of creating new small units, avoiding code conflict between co-workers.
+
+
+## Requestor for the Front-end
+
+With the componentization movement, much attention has been given to the UI structure of a frontend application.
+We have developed many mechanisms to build UIs prepared to scale. Unfortunately, communication - the underlying
+process that feeds the UI - has not evolved accordingly. Although we have seen ideas like promises and observables
+being adopted to handle asynchronous calls, orchestrating the communication layer with the UI
+components is still left aside. It's not so hard to see well UI structured apps with a messy
+communication (or service/api) layer. Apart from that, there are some patterns and strategies that we can apply in the
+communication process to make it smoother and coordinated among the different UI components. In fact, ruling
+the communication process is the foundation for building sustainable and scalable frontend applications.
+
+Requestor is an event-driven HTTP Client API for cutting-edge frontend applications. It offers plenty of
+carefully designed features to empower the development of **communication-centric apps**. By focusing on the
+communication process as the core of frontend development, Requestor allows developers to combine requesting
+configuration with state management in several scope levels so that each UI component is exempted from the
+communication complexity and can interact with other components in a decoupled way.
 
 
 ## Request Options
