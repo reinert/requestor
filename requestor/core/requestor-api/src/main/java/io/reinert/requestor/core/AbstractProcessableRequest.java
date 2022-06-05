@@ -95,6 +95,11 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public void setSkippedProcesses(Process... processes) {
+        request.setSkippedProcesses(processes);
+    }
+
+    @Override
     public int incrementPollingCount() {
         return request.incrementPollingCount();
     }

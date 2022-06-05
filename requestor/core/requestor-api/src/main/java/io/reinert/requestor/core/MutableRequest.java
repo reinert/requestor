@@ -111,4 +111,11 @@ public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOp
      */
     void setCharset(String charset);
 
+    /**
+     * Sets the processes to skip.
+     *
+     * @param processes The processes to skip
+     */
+    void setSkippedProcesses(Process... processes);
+
 }

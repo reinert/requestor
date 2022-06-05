@@ -175,6 +175,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public void setSkippedProcesses(Process... processes) {
+        request.setSkippedProcesses(processes);
+    }
+
+    @Override
     public Session getSession() {
         return request.getSession();
     }

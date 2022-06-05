@@ -400,6 +400,17 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public void setSkippedProcesses(Process... processes) {
+        if (processes.length == 0) {
+            skippedProcesses = Collections.emptySet();
+        } else {
+            Set<Process> processesSet = new HashSet<Process>(processes.length);
+            Collections.addAll(processesSet, processes);
+            skippedProcesses = Collections.unmodifiableSet(processesSet);
+        }
+    }
+
+    @Override
     public int incrementPollingCount() {
         return pollingOptions.incrementPollingCount();
     }
