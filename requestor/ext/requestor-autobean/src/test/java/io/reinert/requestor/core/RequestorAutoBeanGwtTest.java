@@ -20,9 +20,9 @@ import java.util.List;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
+import io.reinert.requestor.annotations.MediaType;
 import io.reinert.requestor.autobean.RequestorAutoBean;
 import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
-import io.reinert.requestor.core.annotations.MediaType;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.HandlesSubTypes;

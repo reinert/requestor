@@ -40,10 +40,10 @@ import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.shared.AutoBeanFactory;
 import com.google.web.bindery.autobean.shared.AutoBeanUtils;
 
+import io.reinert.requestor.annotations.MediaType;
 import io.reinert.requestor.autobean.annotations.AutoBeanSerializationModule;
 import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.TypeProvider;
-import io.reinert.requestor.core.annotations.MediaType;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
 import io.reinert.requestor.core.serialization.DeserializationContext;
