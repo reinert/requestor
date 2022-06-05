@@ -178,7 +178,7 @@ public class DigestAuth implements Auth {
 
     private MutableSerializedRequest copyRequest(PreparedRequest originalRequest, Response attemptResponse) {
         MutableSerializedRequest request = originalRequest.getMutableCopy();
-        request.setSkippedProcesses(Process.all());
+        request.setSkippedProcesses(Process.request());
 
         final Header authHeader = getAuthorizationHeader(request, attemptResponse);
 
