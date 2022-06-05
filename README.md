@@ -1097,18 +1097,15 @@ Requestor features the `Auth` functional interface responsible for authenticatin
 
 ```java
 session.req("/api/authorized-only")
-        .auth(new Auth() {
-            @Override
-            public void auth(PreparedRequest request) {
-                // Retrieve the token from the store
-                String userToken = request.retrieve("userToken");
-                
-                // Provide the credentials in the Authorization header
-                request.setHeader("Authorization", "Bearer " + userToken);
-                
-                // Your request will be hanging forever if you do not call `send`
-                request.send();
-            }
+        .auth(request -> {
+            // Retrieve the token from the store
+            String userToken = request.retrieve("userToken");
+
+            // Provide the credentials in the Authorization header
+            request.setHeader("Authorization", "Bearer " + userToken);
+
+            // Your request will be hanging forever if you do not call `send`
+            request.send();
         });
 ```
 
@@ -1120,16 +1117,17 @@ to the request. We can perform other asynchronous tasks before properly configur
 we need to ping another endpoint to grab some token data, we can easily do it. Check the example below:
 
 ```java
-session.req("/api/authorized-only")
-        .auth(request -> {
-            // We are reaching another endpoint sending a password to get an updated token
-            session.post("/api/token", "my-password", String.class)
-                    .onSuccess(token -> {
-                        // After receiving the updated token, we set it into the request and send it
-                        request.setHeader("Authorization", "Bearer " + token);
-                        request.send();
-                    });
-        });
+Auth myAuth = request -> {
+    // We are reaching another endpoint sending a password to get an updated token
+    request.getSession().req("/api/token")
+            .payload("my-password")
+            .post(String.class)
+            .onSuccess(token -> {
+                 // After receiving the updated token, we set it into the request and send it
+                request.setHeader("Authorization", "Bearer " + token);
+                request.send();
+            });
+};
 ```
 
 We may do any other useful async task, like performing heavy hash processes using *web workers*, before sending the request.
@@ -1141,15 +1139,14 @@ the Session:
 
 ```java
 session.setAuth(new Auth.Provider() {
-    @Override
     public Auth getInstance() {
         // Supposing you implemented MyAuth elsewhere
-        return new MyAuth( session.retrieve("userToken") );
+        return new MyAuth();
     }
 });
     
 // Lambda syntax
-session.setAuth( () -> new MyAuth(session.retrieve("userToken")) );
+session.setAuth(MyAuth::new);
 ```
 
 
@@ -1165,7 +1162,7 @@ session.req("/api/authorized-only")
 ```
 
 BasicAuth optionally accepts a third boolean param called `withCredentials`. It will instruct the 
-browser to allow cross-site requests.
+browser to allow cross-site requests. *(gwt only)*
 
 ### Bearer Token
 
