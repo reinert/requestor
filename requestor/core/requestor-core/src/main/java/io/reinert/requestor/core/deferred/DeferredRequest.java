@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.core.deferred;
 
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.core.Deferred;
@@ -479,6 +480,15 @@ public class DeferredRequest<T> implements Deferred<T> {
     @Override
     public void setRequestRetrier(RequestRetrier retrier) {
         this.retrier = retrier;
+    }
+
+    @Override
+    public void waitSafely() throws InterruptedException {
+        deferred.waitSafely();
+    }
+    @Override
+    public void waitSafely(long timeout) throws InterruptedException, TimeoutException {
+        deferred.waitSafely(timeout);
     }
 
     @Override
