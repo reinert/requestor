@@ -2218,7 +2218,7 @@ session.req("/api/upload")
         .contentType("application/octet-stream")
         .payload(is) // Set the InputStream as the payload
         .post()
-        .onWrite(p -> print(p.getCompletedFraction(100))) // Print the percent upload progress
+        .onWrite(progress -> print(progress.getCompletedFraction(100))) // Print the percent upload progress
 ```
 
 
@@ -2245,8 +2245,9 @@ final OutputStream os = getOutputStream();
 session.req("/api/download")
         .save(Requestor.READ_CHUNKING_ENABLED, true) // Enable read chunking (a.k.a. streaming) on the request
         .get()
-        .onRead(p -> os.write(p.getChunk().asBytes())) // Write each chunk of bytes directly to the OS
-        .onSuccess(os::close) // Close the OS when the request finishes
+        .onRead(progress -> os.write(progress.getChunk().asBytes())) // Write each chunk of bytes directly to the OS
+        .onLoad(os::close) // Close the OS when the request finishes
+        .onError(os::close) // Close the OS when the request crashes
 ```
 
 
