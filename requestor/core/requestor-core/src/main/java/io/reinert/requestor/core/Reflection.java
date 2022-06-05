@@ -37,7 +37,7 @@ class Reflection {
 
         try {
             return (T) Class.forName(name + "Impl").newInstance();
-        } catch (ReflectiveOperationException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Could not instantiate the implementation for " + cls.getSimpleName(), e);
         }
     }
