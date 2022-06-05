@@ -147,6 +147,16 @@ public interface PollingRequestBuilder extends RequestBuilder, HasPollingOptions
     PollingRequestBuilder retry(int[] delaysMillis, Event... events);
 
     /**
+     * Skip some processors during the request-response lifecycle.
+     * <p></p>
+     *
+     * @param processes The processes to skip
+     *
+     * @return  this building request
+     */
+    PollingRequestBuilder skip(Process... processes);
+
+    /**
      * Saves an object associated with a key that can be later retrieved in the request processing.
      *
      * @param key   A key to associate the data

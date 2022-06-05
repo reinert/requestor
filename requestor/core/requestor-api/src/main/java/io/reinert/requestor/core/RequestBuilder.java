@@ -157,6 +157,16 @@ public interface RequestBuilder extends RequestOptions, Saver {
     RequestBuilder retry(int[] delaysMillis, Event... events);
 
     /**
+     * Skip some processors during the request-response lifecycle.
+     * <p></p>
+     *
+     * @param processes The processes to skip
+     *
+     * @return  this building request
+     */
+    RequestBuilder skip(Process... processes);
+
+    /**
      * Saves an object associated with a key that can be later retrieved in the request processing.
      *
      * @param key   A key to associate the data

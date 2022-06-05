@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.Payload;
@@ -126,6 +127,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public String getCharset() {
         return request.getCharset();
+    }
+
+    @Override
+    public Set<Process> getSkippedProcesses() {
+        return request.getSkippedProcesses();
     }
 
     @Override

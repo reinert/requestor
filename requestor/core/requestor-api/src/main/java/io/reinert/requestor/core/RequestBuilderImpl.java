@@ -16,7 +16,9 @@
 package io.reinert.requestor.core;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.core.header.AcceptHeader;
@@ -50,15 +52,16 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private Payload payload;
     private SerializedPayload serializedPayload;
     private boolean serialized;
+    private Set<Process> skippedProcesses;
 
     public RequestBuilderImpl(Session session, Uri uri, LeafStore store) {
-        this(session, uri, store, null, null, null, 0, 0, null, null, null, null, null, false);
+        this(session, uri, store, null, null, null, 0, 0, null, null, null, null, null, false, null);
     }
 
     public RequestBuilderImpl(Session session, Uri uri, LeafStore store, Headers headers, Auth.Provider authProvider,
                               HttpMethod httpMethod, int timeout, int delay, String charset, RetryOptions retryOptions,
                               PollingOptions pollingOptions, Payload payload, SerializedPayload serializedPayload,
-                              boolean serialized) {
+                              boolean serialized, Set<Process> skippedProcesses) {
         this.session = session;
         if (uri == null) throw new IllegalArgumentException("Uri cannot be null");
         this.uri = uri;
@@ -75,6 +78,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
         this.payload = payload != null ? payload : Payload.EMPTY_PAYLOAD;
         this.serializedPayload = serializedPayload;
         this.serialized = serialized;
+        this.skippedProcesses = skippedProcesses != null ? skippedProcesses : Collections.<Process>emptySet();
     }
 
     //===================================================================
@@ -255,6 +259,21 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
             retryOptions = new RetryOptions(delaysMillis, events);
         }
         return this;
+    }
+
+    @Override
+    public PollingRequestBuilder skip(Process... processes) {
+        if (processes.length != 0) {
+            Set<Process> processesSet = new HashSet<Process>(skippedProcesses);
+            Collections.addAll(processesSet, processes);
+            skippedProcesses = Collections.unmodifiableSet(processesSet);
+        }
+        return this;
+    }
+
+    @Override
+    public Set<Process> getSkippedProcesses() {
+        return skippedProcesses;
     }
 
     @Override
@@ -466,7 +485,8 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 PollingOptions.copy(pollingOptions),
                 payload,
                 serializedPayload,
-                serialized
+                serialized,
+                skippedProcesses
         );
     }
 
@@ -486,7 +506,8 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 pollingOptions, // keep pollingOptions reference
                 payload,
                 serializedPayload,
-                serialized
+                serialized,
+                skippedProcesses
         );
     }
 

@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.header.Header;
@@ -231,6 +232,11 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     @Override
     public final Auth getAuth() {
         return request.getAuth();
+    }
+
+    @Override
+    public Set<Process> getSkippedProcesses() {
+        return request.getSkippedProcesses();
     }
 
     @Override

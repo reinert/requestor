@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.uri.Uri;
@@ -54,6 +55,8 @@ public interface RequestOptions {
     Auth getAuth();
 
     String getCharset();
+
+    Set<Process> getSkippedProcesses();
 
     Session getSession();
 

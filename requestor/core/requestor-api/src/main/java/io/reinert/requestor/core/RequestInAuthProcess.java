@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.core.header.ContentTypeHeader;
@@ -314,6 +315,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     @Override
     public String getCharset() {
         return request.getCharset();
+    }
+
+    @Override
+    public Set<Process> getSkippedProcesses() {
+        return request.getSkippedProcesses();
     }
 
     //===================================================================

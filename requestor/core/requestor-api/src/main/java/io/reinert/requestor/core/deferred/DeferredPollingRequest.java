@@ -17,6 +17,7 @@ package io.reinert.requestor.core.deferred;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import io.reinert.requestor.core.Auth;
@@ -28,6 +29,7 @@ import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
+import io.reinert.requestor.core.Process;
 import io.reinert.requestor.core.SerializedRequest;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.Status;
@@ -118,6 +120,11 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     @Override
     public String getCharset() {
         return serializedRequest.getCharset();
+    }
+
+    @Override
+    public Set<Process> getSkippedProcesses() {
+        return serializedRequest.getSkippedProcesses();
     }
 
     @Override

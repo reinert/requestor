@@ -109,6 +109,12 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
     }
 
     @Override
+    public PollingRequestBuilder skip(Process... processes) {
+        super.skip(processes);
+        return this;
+    }
+
+    @Override
     public AbstractRequestInvoker save(String key, Object value, Level level) {
         super.save(key, value, level);
         return this;
