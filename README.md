@@ -374,6 +374,30 @@ The [request processing](#processors-middlewares) will happen only after the del
 req.delay( 5_000 ); // Delay the request for 5s
 ```
 
+### *skip*
+
+Skip the request/response [processors](#processors-middlewares).
+
+Example skipping the [authentication](#authentication):
+```java
+req.skip( Process.AUTH_REQUEST );
+```
+
+Example skipping filters:
+```java
+req.skip( Process.FILTER_REQUEST, Process.FILTER_RESPONSE );
+```
+
+Example skipping interceptors:
+```java
+req.skip( Process.INTERCEPT_REQUEST, Process.INTERCEPT_RESPONSE );
+```
+
+Example skipping serializers:
+```java
+req.skip( Process.SERIALIZE_REQUEST, Process.DESERIALIZE_RESPONSE );
+```
+
 ### *retry*
 
 Set a retry policy for the request with two arguments: (1) an array of `delays` in milliseconds and (2) an array of `events`.
@@ -1121,6 +1145,7 @@ Auth myAuth = request -> {
     // We are reaching another endpoint sending a password to get an updated token
     request.getSession().req("/api/token")
             .payload("my-password")
+            .skip(Process.AUTH_REQUEST) // Skip this auth so we don't stuck in an infinite loop
             .post(String.class)
             .onSuccess(token -> {
                  // After receiving the updated token, we set it into the request and send it
