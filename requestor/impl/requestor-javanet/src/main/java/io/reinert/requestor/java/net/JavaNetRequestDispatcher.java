@@ -37,7 +37,6 @@ import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.HttpStatus;
-import io.reinert.requestor.core.IncomingResponse;
 import io.reinert.requestor.core.PreparedRequest;
 import io.reinert.requestor.core.RawResponse;
 import io.reinert.requestor.core.ReadProgress;
@@ -48,6 +47,7 @@ import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.RequestTimeoutException;
+import io.reinert.requestor.core.ResponseHeader;
 import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
@@ -318,7 +318,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
     private <R> SerializedPayload readInputStreamToSerializedPayload(PreparedRequest request, Deferred<R> deferred,
                                                                      HttpURLConnection conn, InputStream in,
-                                                                     IncomingResponse response) throws IOException {
+                                                                     ResponseHeader response) throws IOException {
         final String contentType = conn.getContentType();
         final int contentLength = conn.getContentLength();
 

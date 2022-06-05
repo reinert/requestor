@@ -22,7 +22,7 @@ import io.reinert.requestor.core.payload.SerializedPayload;
  *
  * @author Danilo Reinert
  */
-public interface SerializedResponse extends IncomingResponse {
+public interface SerializedResponse extends ResponseHeader {
 
     /**
      * Return the serialized response body.

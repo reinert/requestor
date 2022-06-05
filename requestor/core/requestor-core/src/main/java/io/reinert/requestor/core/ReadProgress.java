@@ -24,19 +24,19 @@ import io.reinert.requestor.core.payload.SerializedPayload;
  */
 public class ReadProgress extends WriteProgress {
 
-    private final IncomingResponse response;
+    private final ResponseHeader response;
 
-    public ReadProgress(SerializedRequest request, IncomingResponse response, ProgressEvent progressEvent) {
+    public ReadProgress(SerializedRequest request, ResponseHeader response, ProgressEvent progressEvent) {
         this(request, response, progressEvent, null);
     }
 
-    public ReadProgress(SerializedRequest request, IncomingResponse response, ProgressEvent progressEvent,
+    public ReadProgress(SerializedRequest request, ResponseHeader response, ProgressEvent progressEvent,
                         SerializedPayload chunk) {
         super(request, progressEvent, chunk);
         this.response = response;
     }
 
-    public IncomingResponse getResponse() {
+    public ResponseHeader getResponse() {
         return response;
     }
 }
