@@ -125,7 +125,7 @@ public abstract class RequestDispatcher implements RunScheduler {
             deferredRequest.onLoad(getLongPollingCallback(request, responsePayloadType, deferredPool));
         }
 
-        scheduleDispatch(request, responsePayloadType, deferredPool, false, false, false);
+        scheduleDispatch(request, responsePayloadType, deferredPool, false);
 
         logger.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
                 request.getDelay() + "ms.");
@@ -140,19 +140,17 @@ public abstract class RequestDispatcher implements RunScheduler {
      * @param callback              The callback to be executed when done
      * @param <T>                   The expected type of the response payload
      */
-    public <T> void dispatch(MutableSerializedRequest request, boolean skipAuth, DualCallback callback) {
+    public <T> void dispatch(MutableSerializedRequest request, DualCallback callback) {
         final CallbackDeferred deferred = new CallbackDeferred(callback);
         final PayloadType responsePayloadType = new SinglePayloadType<Response>(Response.class);
 
         // TODO: add a skipAuth option and handle it in RequestInAuthProcess#process and erase the skipAuth flag here.
-        scheduleDispatch(request, responsePayloadType, deferred, true, skipAuth, true);
+        scheduleDispatch(request, responsePayloadType, deferred, true);
     }
 
     private <T> void scheduleDispatch(final MutableSerializedRequest request,
                                       final PayloadType responsePayloadType,
                                       final DeferredPool<T> deferredPool,
-                                      final boolean skipProcessing,
-                                      final boolean skipAuth,
                                       final boolean skipPolling) {
         final Deferred<T> deferred = deferredPool.newDeferred();
 
@@ -171,16 +169,7 @@ public abstract class RequestDispatcher implements RunScheduler {
             @Override
             public void run() {
                 try {
-                    // Process and send the request
-                    if (skipAuth) {
-                        requestInAuthProcess.setAuth((Auth.Provider) null);
-                    }
-
-                    if (skipProcessing) {
-                        requestInAuthProcess.process();
-                    } else {
-                        requestProcessor.process(requestInAuthProcess);
-                    }
+                    requestProcessor.process(requestInAuthProcess);
 
                     // Poll the request
                     if (nextRequest != null) {
@@ -237,7 +226,7 @@ public abstract class RequestDispatcher implements RunScheduler {
             @Override
             public void run() {
                 if (nextRequest.isPolling()) {
-                    scheduleDispatch(nextRequest, responsePayloadType, deferredPool, false, false, false);
+                    scheduleDispatch(nextRequest, responsePayloadType, deferredPool, false);
                 }
             }
         }, nextRequest.getPollingInterval());

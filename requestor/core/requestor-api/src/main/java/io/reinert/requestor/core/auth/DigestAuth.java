@@ -24,6 +24,7 @@ import io.reinert.requestor.core.AuthException;
 import io.reinert.requestor.core.HttpMethod;
 import io.reinert.requestor.core.MutableSerializedRequest;
 import io.reinert.requestor.core.PreparedRequest;
+import io.reinert.requestor.core.Process;
 import io.reinert.requestor.core.RawResponse;
 import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestDispatcher;
@@ -177,6 +178,7 @@ public class DigestAuth implements Auth {
 
     private MutableSerializedRequest copyRequest(PreparedRequest originalRequest, Response attemptResponse) {
         MutableSerializedRequest request = originalRequest.getMutableCopy();
+        request.setSkippedProcesses(Process.all());
 
         final Header authHeader = getAuthorizationHeader(request, attemptResponse);
 
@@ -189,7 +191,7 @@ public class DigestAuth implements Auth {
 
     private void sendAttemptRequest(final PreparedRequest originalRequest, MutableSerializedRequest attemptRequest,
                                     final RequestDispatcher dispatcher) {
-        dispatcher.dispatch(attemptRequest, true, new DualCallback() {
+        dispatcher.dispatch(attemptRequest, new DualCallback() {
             public void onError(RequestException error) {
                 resetChallengeCalls();
                 originalRequest.abort(new RequestAbortException(originalRequest, "Unable to authenticate request" +
