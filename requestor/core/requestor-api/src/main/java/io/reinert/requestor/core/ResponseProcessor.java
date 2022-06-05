@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,13 +42,19 @@ public class ResponseProcessor {
         // To bypass deserialization, just ask for Payload.class
 
         // 3: FILTER
-        response = applyFilters(response);
+        if (shouldApply(response, Process.FILTER_RESPONSE)) {
+            response = applyFilters(response);
+        }
 
         // 2: DESERIALIZE
-        response = applyDeserializer(response);
+        if (shouldApply(response, Process.DESERIALIZE_RESPONSE)) {
+            response = applyDeserializer(response);
+        }
 
         // 1: INTERCEPT
-        response = applyInterceptors(response);
+        if (shouldApply(response, Process.INTERCEPT_RESPONSE)) {
+            response = applyInterceptors(response);
+        }
 
         response.process();
     }
@@ -83,5 +89,9 @@ public class ResponseProcessor {
 
     private ProcessableResponse applyDeserializer(ProcessableResponse response) {
         return new ResponseInDeserializeProcess(response, serializationEngine, responseDeserializer);
+    }
+
+    private boolean shouldApply(ProcessableResponse response, Process process) {
+        return !response.getRequestOptions().getSkippedProcesses().contains(process);
     }
 }
