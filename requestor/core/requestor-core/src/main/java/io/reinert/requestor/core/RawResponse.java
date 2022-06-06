@@ -18,11 +18,11 @@ package io.reinert.requestor.core;
 import java.util.Collections;
 import java.util.logging.Logger;
 
-import io.reinert.requestor.core.deferred.ThreadUtil;
 import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.header.LinkHeader;
 import io.reinert.requestor.core.header.SimpleHeader;
+import io.reinert.requestor.core.internal.ThreadUtil;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;

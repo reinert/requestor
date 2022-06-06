@@ -52,6 +52,7 @@ import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 import io.reinert.requestor.core.callback.VoidCallback;
 import io.reinert.requestor.core.callback.WriteCallback;
+import io.reinert.requestor.core.internal.ThreadUtil;
 
 /**
  * Default Deferred implementation.

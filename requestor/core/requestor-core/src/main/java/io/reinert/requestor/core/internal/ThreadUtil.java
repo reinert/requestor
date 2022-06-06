@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core.deferred;
+package io.reinert.requestor.core.internal;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeoutException;
