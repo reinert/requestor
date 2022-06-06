@@ -46,7 +46,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private int timeout;
     private int delay;
     private String charset;
-    private RetryOptions retryOptions;
+    private RetryPolicy.Provider retryPolicyProvider;
     private PollingOptions pollingOptions;
     private Payload payload;
     private SerializedPayload serializedPayload;
@@ -58,9 +58,9 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     public RequestBuilderImpl(Session session, Uri uri, LeafStore store, Headers headers, Auth.Provider authProvider,
-                              HttpMethod httpMethod, int timeout, int delay, String charset, RetryOptions retryOptions,
-                              PollingOptions pollingOptions, Payload payload, SerializedPayload serializedPayload,
-                              boolean serialized, Set<Process> skippedProcesses) {
+                              HttpMethod httpMethod, int timeout, int delay, String charset,
+                              RetryPolicy.Provider retryPolicyProvider, PollingOptions pollingOptions, Payload payload,
+                              SerializedPayload serializedPayload, boolean serialized, Set<Process> skippedProcesses) {
         this.session = session;
         if (uri == null) throw new IllegalArgumentException("Uri cannot be null");
         this.uri = uri;
@@ -72,7 +72,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
         this.timeout = timeout;
         this.delay = delay;
         this.charset = charset == null ? Uri.CHARSET : charset;
-        this.retryOptions = retryOptions;
+        this.retryPolicyProvider = retryPolicyProvider;
         this.pollingOptions = pollingOptions != null ? pollingOptions : new PollingOptions();
         this.payload = payload != null ? payload : Payload.EMPTY_PAYLOAD;
         this.serializedPayload = serializedPayload;
@@ -302,7 +302,6 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
             return this;
         }
         return auth(new Auth.Provider() {
-            @Override
             public Auth getInstance() {
                 return auth;
             }
@@ -487,7 +486,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 timeout,
                 delay,
                 charset,
-                retryOptions != null ? RetryOptions.copy(retryOptions) : null,
+                retryPolicyProvider,
                 PollingOptions.copy(pollingOptions),
                 payload,
                 serializedPayload,
@@ -508,7 +507,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 timeout,
                 delay,
                 charset,
-                retryOptions != null ? RetryOptions.copy(retryOptions) : null,
+                retryPolicyProvider,
                 pollingOptions, // keep pollingOptions reference
                 payload,
                 serializedPayload,
