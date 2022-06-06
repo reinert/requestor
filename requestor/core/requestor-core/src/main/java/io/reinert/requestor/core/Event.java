@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,5 +30,12 @@ public interface Event extends Serializable {
      * @return the event name.
      */
     String getName();
+
+    /**
+     * Get the parent event of this event.
+     *
+     * @return the parent event.
+     */
+    Event getParent();
 
 }

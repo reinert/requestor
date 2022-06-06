@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,6 +120,10 @@ public enum Status implements HttpStatus {
                 return String.valueOf(statusCode);
             }
 
+            public Event getParent() {
+                return family;
+            }
+
             public String toString() {
                 return String.valueOf(statusCode);
             }
@@ -169,6 +173,11 @@ public enum Status implements HttpStatus {
     @Override
     public String getName() {
         return String.valueOf(code);
+    }
+
+    @Override
+    public Event getParent() {
+        return family;
     }
 
     @Override

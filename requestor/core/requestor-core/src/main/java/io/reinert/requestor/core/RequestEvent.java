@@ -23,42 +23,50 @@ package io.reinert.requestor.core;
 public enum RequestEvent implements Event {
 
     /**
+     * Represents a response received.
+     */
+    LOAD("load", null),
+    /**
      * Represents a 2xx response.
      */
-    SUCCESS("success"),
+    SUCCESS("success", LOAD),
     /**
      * Represents a non 2xx response.
      */
-    FAIL("fail"),
-    /**
-     * Represents a response received.
-     */
-    LOAD("load"),
-    /**
-     * Represents a request timeout with no response.
-     */
-    TIMEOUT("timeout"),
-    /**
-     * Represents a request cancel before receiving a response.
-     */
-    CANCEL("cancel"),
-    /**
-     * Represents a request abort before sending during the processing cycle.
-     */
-    ABORT("abort"),
+    FAIL("fail", LOAD),
+
     /**
      * Represents any request error, combining 'timeout', 'cancel' and 'abort' events.
      */
-    ERROR("error");
+    ERROR("error", null),
+    /**
+     * Represents a request timeout with no response.
+     */
+    TIMEOUT("timeout", ERROR),
+    /**
+     * Represents a request cancel before receiving a response.
+     */
+    CANCEL("cancel", ERROR),
+    /**
+     * Represents a request abort before sending during the processing cycle.
+     */
+    ABORT("abort", ERROR);
 
     private final String eventName;
+    private final Event parent;
 
-    RequestEvent(String eventName) {
+    RequestEvent(String eventName, Event parent) {
         this.eventName = eventName;
+        this.parent = parent;
     }
 
     @Override
     public String getName() {
         return eventName;
+    }
+
+    @Override
+    public Event getParent() {
+        return parent;
     }
 }
