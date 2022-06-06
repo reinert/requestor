@@ -407,6 +407,11 @@ req.skip( Process.SERIALIZE_REQUEST, Process.DESERIALIZE_RESPONSE );
 
 ### *retry*
 
+There are two ways of defining a retry policy: one by informing the events that trigger a retry and a sequence of delays;
+and another by implementing a `RetryPolicy`.
+
+#### *retry( int[], Event... )*
+
 Set a retry policy for the request with two arguments: (1) an array of `delays` in milliseconds and (2) an array of `events`.
 The **delays** array is a sequence of times that Requestor will wait before retrying the request respectively.
 It also indicates the number of retries that will be performed at most. Furthermore, the **events** array is
@@ -417,11 +422,11 @@ after all retries defined in the retry police were made and the retry event pers
 Regarding the `delays` argument, although we can provide an int array manually, we will often resort to the `DelaySequence`.
 It is a factory that provides helpful methods to create sequences of delays according to different criteria.
 * **DelaySequence.arithmetic**( *\<initialSeconds\>, \<commonDiff\>, \<limit\>* ) - creates a millis int array with an arithmetic sequence.
-  * Ex: `DelaySequence.arithmetic(5, 20, 3)` generates `int[]{5000, 25000, 45000}` 
+  * Ex: `DelaySequence.arithmetic(5, 20, 3)` generates `[5000, 25000, 45000]` 
 * **DelaySequence.geometric**( *\<initialSeconds\>, \<ratio\>, \<limit\>* ) - creates a millis int array with a geometric sequence.
-    * Ex: `DelaySequence.geometric(3, 2, 4)` generates `int[]{3000, 6000, 12000, 36000}`
+    * Ex: `DelaySequence.geometric(3, 2, 4)` generates `[3000, 6000, 12000, 36000]`
  * **DelaySequence.fixed**( *\<seconds\>...* ) - creates a sequence with the given seconds array multiplied by 1000.
-    * Ex: `DelaySequence.fixed(5, 15, 45)` generates `int[]{5000, 15000, 45000}`
+    * Ex: `DelaySequence.fixed(5, 15, 45)` generates `[5000, 15000, 45000]`
 
 As for the `events` argument, Requestor has a set of pre-defined events in the `RequestEvent` enum, matching the events
 that we can bind [callbacks](#event-driven-callbacks) to. Additionally, any `StatusFamily` or `Status` is also an event.
@@ -445,6 +450,57 @@ req.retry( DelaySequence.arithmetic(5, 20, 3), RequestEvent.CANCEL, Status.of(42
 // Set the request to retry on 'timeout', '4xx' and '529'
 req.retry( DelaySequence.fixed(5, 15, 45), RequestEvent.TIMEOUT, StatusFamily.CLIENT_ERROR, Status.SERVICE_UNAVAILABLE )
 ```
+
+#### *retry( RetryPolicy )*
+
+Further, we are able to provide a more complex retry logic by implementing the functional interface `RetryPolicy`.
+
+```java
+public class ExponentialWithJitterRetryPolicy implements RetryPolicy {
+    
+    public int retryIn(RequestOptions request, Event event, int counter) {
+        // first check the conditions that would make us stop retrying be returning -1
+
+        // event is the result of the request which can be a response or an exception
+        if (!StatusFamily.SERVER_ERROR.includes(event)) {
+            // we should retry only 5xx responses
+            return -1;
+        }
+
+        // counter holds the number of times this request was already retried
+        if (counter > 2) {
+            // we should retry at most two times
+            return -1;
+        }
+
+        // next retry will happen in ten to the power of the number of past retries
+        int delay = (10 ^ counter) * 1000;
+
+        // let's add a jitter to increase the chance of avoiding collisions
+        int jitter = new Random().nextInt(1000);
+
+        // return the time in milliseconds that the next retry should happen
+        return delay + jitter;
+    }
+}
+```
+
+Once we have implemented our custom `RetryPolicy`, we can set it in the request either with an instance or a Provider.
+
+```java
+// register a new instance of our custom retry policy
+req.retry( new ExponentialWithJitterRetryPolicy() );
+```
+
+When our customized retry policy contains state that should not be shared among different requests,
+we must o register it with a Provider instead.
+
+```java
+// register a Provider of our custom retry policy
+req.retry( ExponentialWithJitterRetryPolicy::new );
+```
+
+By setting a Provider instead of an instance, every new request will have a different instance of the RetryPolicy.
 
 ### *poll*
 
