@@ -89,4 +89,13 @@ public enum StatusFamily implements Event {
     public boolean is(int statusCode) {
         return of(statusCode) == this;
     }
+
+    public boolean includes(Event event) {
+        do {
+            if (event == this) return true;
+            event = event.getParent();
+        } while (event != null);
+
+        return false;
+    }
 }
