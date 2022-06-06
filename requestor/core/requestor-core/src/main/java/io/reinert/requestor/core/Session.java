@@ -21,6 +21,7 @@ import java.util.List;
 
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.core.header.Header;
+import io.reinert.requestor.core.internal.Reflection;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.core.uri.Uri;
