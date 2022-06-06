@@ -25,7 +25,6 @@ import io.reinert.requestor.core.internal.Reflection;
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.Serializer;
 import io.reinert.requestor.core.uri.Uri;
-import io.reinert.requestor.core.uri.UriBuilder;
 
 /**
  * <p>This is a configurable client session responsible for building requests.
@@ -126,55 +125,6 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     public RequestInvoker req(Link link) {
         if (link == null) throw new IllegalArgumentException("Link cannot be null.");
         return createRequest(link.getUri());
-    }
-
-    /**
-     * Build a new web resource target.
-     *
-     * @param uri  Stringified URI of the target resource. May contain URI template parameters.
-     *             Must not be {@code null}.
-     *
-     * @return  Web resource target bound to the provided URI.
-     */
-    public WebTarget target(String uri) {
-        if (uri == null) throw new IllegalArgumentException("Uri string cannot be null.");
-        return createWebTarget(UriBuilder.fromUri(uri));
-    }
-
-    /**
-     * Build a new web resource target.
-     *
-     * @param uri  Web resource URI represented. Must not be {@code null}.
-     *
-     * @return  Web resource target bound to the provided URI.
-     */
-    public WebTarget target(Uri uri) {
-        if (uri == null) throw new IllegalArgumentException("Uri cannot be null.");
-        return createWebTarget(uri);
-    }
-
-    /**
-     * Build a new web resource target.
-     *
-     * @param uriBuilder  Web resource URI represented as URI builder. Must not be {@code null}.
-     *
-     * @return  Web resource target bound to the provided URI.
-     */
-    public WebTarget target(UriBuilder uriBuilder) {
-        if (uriBuilder == null) throw new IllegalArgumentException("UriBuilder cannot be null.");
-        return createWebTarget(uriBuilder);
-    }
-
-    /**
-     * Build a new web resource target.
-     *
-     * @param link  Link to a web resource. Must not be {@code null}.
-     *
-     * @return  Web resource target bound to the link web resource.
-     */
-    public WebTarget target(Link link) {
-        if (link == null) throw new IllegalArgumentException("Link cannot be null.");
-        return createWebTarget(link.getUri());
     }
 
     //===================================================================
@@ -679,15 +629,5 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         options.apply(request);
 
         return request;
-    }
-
-    private WebTarget createWebTarget(Uri uri) {
-        return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredPoolFactory, store, options, getRequestSerializer(), getResponseDeserializer(), uri);
-    }
-
-    private WebTarget createWebTarget(UriBuilder uriBuilder) {
-        return WebTarget.create(filterManager, interceptorManager, serializationEngine, requestDispatcherFactory,
-                deferredPoolFactory, store, options, getRequestSerializer(), getResponseDeserializer(), uriBuilder);
     }
 }
