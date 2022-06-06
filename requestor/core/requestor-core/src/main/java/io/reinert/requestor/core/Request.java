@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import io.reinert.requestor.core.callback.ExceptionCallback;
@@ -38,6 +39,8 @@ import io.reinert.requestor.core.callback.WriteCallback;
  * @author Danilo Reinert
  */
 public interface Request<T> extends SerializedRequest {
+
+    Response await() throws ExecutionException, InterruptedException;
 
     Future<IncomingResponse> getResponse();
 
