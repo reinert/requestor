@@ -18,6 +18,7 @@ Requestor is:
 * [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
 * [**Event-Driven Callbacks**](#event-driven-callbacks) - set callbacks for different results in a precise event system.
 * [**Futures**](#futures) - access the response header, the body and the deserialized payload as soon they are available.
+* [**Await**](#await) - alternatively work in a synchronous fashion by waiting for the request to finish.
 * [**Serialization**](#serialization) - serialize and deserialize payloads integrating any library.
 * [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
 * [**Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
@@ -805,6 +806,7 @@ in the three main milestones of the Request-Response lifecycle.
 ### 1. Request.getResponse() : Future\<IncomingResponse\>
 
 The first milestone occurs when the response header is received but the body is still going to be read.
+
 As soon the response header is available we receive it through the `getResponse()` method of the `Request`.
 
 ```java
@@ -822,6 +824,7 @@ The `IncomingResponse` provides us access to the response **status**, **headers*
 ### 2. IncomingResponse.getSerializedPayload() : Future\<SerializedPayload\>
 
 The second milestone occurs when the response body is read but is still going to be processed and deserialized.
+
 As soon the response body is available we receive it through the `getSerializedPayload()` method of the `IncomingResponse`.
 
 ```java
@@ -836,9 +839,11 @@ The `SerializedPayload` provides us access to the raw response **body** as bytes
 ### 3. IncomingResponse.getPayload() : Future\<T\>
 
 The third milestone occurs when the response passes through all [processors](#processors-middlewares)
-and is finally made available to the caller. After the response is completely processed, its body is
-already deserialized, and we receive it through the `getPayload()` method of the `IncomingResponse`.
-This method automatically typecasts to the desired type.
+and is finally made available to the caller.
+
+After the response is completely processed, its body is already deserialized, and we receive it
+through the `getPayload()` method of the `IncomingResponse`. This method automatically typecasts
+to the desired type.
 
 ```java
 // Automatically typecasts to the desired type
@@ -888,6 +893,33 @@ try {
 
 // Close all threads and finish the program
 session.shutdown();
+```
+
+
+## Await
+
+Requestor exposes a way to wait for the request to finish thus allowing the user to  code in a synchronous fashion.
+
+By calling `Request.await()` we instruct the current thread to hold until the `Response` is available and returned.
+
+```java
+final Session session = Requestor.newSession();
+
+try {
+    Response response = session.req("https://httpbin.org/ip")
+            .get(String.class)
+            .await();
+
+    if (response.getStatus() == Status.OK) {
+        String ip = response.getPayload();
+        System.out.println(ip);
+    } else {
+        System.out.println("Unsuccessful response received");
+    }
+} catch (InterruptedException | ExecutionException e) {
+    System.out.println("An error occurred during the request");
+    e.printStackTrace();
+}
 ```
 
 
