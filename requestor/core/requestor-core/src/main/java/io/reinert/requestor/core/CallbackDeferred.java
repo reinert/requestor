@@ -284,7 +284,7 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     //===================================================================
 
     @Override
-    public Future<Response> getResponse() {
+    public Future<IncomingResponse> getResponse() {
         throw new UnsupportedOperationException();
     }
 

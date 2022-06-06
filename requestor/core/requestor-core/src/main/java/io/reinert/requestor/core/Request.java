@@ -39,7 +39,7 @@ import io.reinert.requestor.core.callback.WriteCallback;
  */
 public interface Request<T> extends SerializedRequest {
 
-    Future<Response> getResponse();
+    Future<IncomingResponse> getResponse();
 
     HttpConnection getHttpConnection();
 

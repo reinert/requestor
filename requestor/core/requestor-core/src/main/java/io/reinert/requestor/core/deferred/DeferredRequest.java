@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core.deferred;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +25,7 @@ import java.util.logging.Logger;
 
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.HttpConnection;
+import io.reinert.requestor.core.IncomingResponse;
 import io.reinert.requestor.core.IncompatibleTypeException;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.RawResponse;
@@ -503,17 +506,19 @@ public class DeferredRequest<T> implements Deferred<T> {
         return deferred.rejectResult;
     }
 
-    public Future<Response> getFuture() {
-        return new Future<Response>() {
+    public Future<IncomingResponse> getFuture() {
+        return new Future<IncomingResponse>() {
             private boolean cancelled;
 
             public boolean cancel(boolean mayInterruptIfRunning) {
-                final HttpConnection conn = getHttpConnection();
-                if (!mayInterruptIfRunning && conn.isPending()) {
-                    return false;
-                }
+                if (cancelled) return false;
+
+                if (!deferred.isPending()) return false;
+
+                if (!mayInterruptIfRunning) return false;
+
                 cancelled = true;
-                conn.cancel();
+                getHttpConnection().cancel();
                 return true;
             }
 
@@ -525,29 +530,39 @@ public class DeferredRequest<T> implements Deferred<T> {
                 return !deferred.isPending();
             }
 
-            public Response get() throws InterruptedException, ExecutionException {
-                if (deferred.isPending()) {
-                    deferred.waitSafely();
+            public IncomingResponse get() throws InterruptedException, ExecutionException {
+                try {
+                    return get(0, TimeUnit.MILLISECONDS);
+                } catch (TimeoutException e) {
+                    throw new ExecutionException(e);
                 }
-
-                if (deferred.isRejected()) {
-                    throw new ExecutionException(deferred.rejectResult);
-                }
-
-                return deferred.resolveResult;
             }
 
-            public Response get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
+            public IncomingResponse get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
                     TimeoutException {
-                if (deferred.isPending()) {
-                    deferred.waitSafely(unit.toMillis(timeout));
+                checkInvalidStates();
+
+                if (rawResponse == null) {
+                    ThreadUtil.waitSafely(DeferredRequest.this, timeout, new Callable<Boolean>() {
+                        public Boolean call() {
+                            return rawResponse == null && deferred.isPending();
+                        }
+                    });
+                }
+
+                checkInvalidStates();
+
+                return rawResponse.getIncomingResponse();
+            }
+
+            private void checkInvalidStates() throws ExecutionException {
+                if (cancelled) {
+                    throw new CancellationException("Future was cancelled.");
                 }
 
                 if (deferred.isRejected()) {
                     throw new ExecutionException(deferred.rejectResult);
                 }
-
-                return deferred.resolveResult;
             }
         };
     }

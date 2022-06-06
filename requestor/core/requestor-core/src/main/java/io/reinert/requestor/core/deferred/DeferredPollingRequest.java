@@ -28,10 +28,10 @@ import io.reinert.requestor.core.Event;
 import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.HttpMethod;
+import io.reinert.requestor.core.IncomingResponse;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.Process;
-import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.SerializedRequest;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.Status;
@@ -236,7 +236,7 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     //===================================================================
 
     @Override
-    public Future<Response> getResponse() {
+    public Future<IncomingResponse> getResponse() {
         return getLastDeferred().getFuture();
     }
 
