@@ -95,6 +95,10 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
+    public void notifyResponse(RawResponse response) {
+    }
+
+    @Override
     public void setHttpConnection(HttpConnection connection) {
         this.connection = connection;
     }

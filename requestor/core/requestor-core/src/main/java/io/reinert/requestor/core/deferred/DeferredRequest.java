@@ -25,6 +25,7 @@ import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.IncompatibleTypeException;
 import io.reinert.requestor.core.PollingRequest;
+import io.reinert.requestor.core.RawResponse;
 import io.reinert.requestor.core.ReadProgress;
 import io.reinert.requestor.core.Request;
 import io.reinert.requestor.core.RequestAbortException;
@@ -68,6 +69,7 @@ public class DeferredRequest<T> implements Deferred<T> {
     private boolean noCancelCallbackRegistered = true;
     private boolean noErrorCallbackRegistered = true;
     private boolean noTimeoutCallbackRegistered = true;
+    private RawResponse rawResponse;
 
     protected DeferredRequest(PollingRequest<T> request) {
         this.request = request;
@@ -473,6 +475,12 @@ public class DeferredRequest<T> implements Deferred<T> {
     @Override
     public void notifyUpload(WriteProgress progress) {
         deferred.notifyUpload(progress);
+    }
+
+    @Override
+    public void notifyResponse(RawResponse response) {
+        this.rawResponse = response;
+        ThreadUtil.notifyAll(this);
     }
 
     @Override

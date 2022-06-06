@@ -224,6 +224,9 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                     payloadType
             );
 
+            // Notify response headers received
+            deferred.notifyResponse(response);
+
             // Payload download
             SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             if (payloadType.getType() != Void.class ||

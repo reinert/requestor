@@ -38,6 +38,8 @@ public interface Deferred<T> {
 
     void notifyUpload(WriteProgress progress);
 
+    void notifyResponse(RawResponse response);
+
     void setHttpConnection(HttpConnection connection);
 
     void setRequestRetrier(RequestRetrier retrier);
