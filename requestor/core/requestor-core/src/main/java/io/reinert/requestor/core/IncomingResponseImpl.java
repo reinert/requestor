@@ -130,7 +130,7 @@ public class IncomingResponseImpl implements IncomingResponse {
     public <T> Future<T> getPayload() {
         return getFuture(new Callable<T>() {
             public T call() {
-                return response.getPayload().asObject();
+                return response.getPayload();
             }
         }, new Callable<Boolean>() {
             public Boolean call() {

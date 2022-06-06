@@ -61,7 +61,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertFalse(response.getPayload().isEmpty());
+                assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
@@ -94,7 +94,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertFalse(response.getPayload().isEmpty());
+                assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
@@ -135,7 +135,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertFalse(response.getPayload().isEmpty());
+                assertNotNull(response.getPayload());
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertEquals(expectedStoreValue, response.retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
@@ -195,7 +195,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertFalse(response.getPayload().isEmpty());
+                assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.retrieve(storeKey));
                 assertEquals(expectedStoreValue2, response.retrieve(storeKey2));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));

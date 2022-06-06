@@ -110,12 +110,12 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public Payload getPayload() {
+    public <T> T getPayload() {
         if (!deserialized) {
             throw new IllegalStateException("Payload was not deserialized yet.");
         }
 
-        return payload;
+        return payload.asObject();
     }
 
     @Override

@@ -339,16 +339,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public <E extends T> DeferredRequest<T> onSuccess(final PayloadCallback<E> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute(response.getPayload().<E>asObject());
+                        callback.execute(response.<E>getPayload());
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().asObject().getClass().getName() + " to " +
+                                response.getPayload().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }
@@ -357,16 +356,15 @@ public class DeferredRequest<T> implements Deferred<T> {
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public <E extends T> DeferredRequest<T> onSuccess(final PayloadResponseCallback<E> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute(response.getPayload().<E>asObject(), response);
+                        callback.execute(response.<E>getPayload(), response);
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().asObject().getClass().getName() + " to " +
+                                response.getPayload().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }
@@ -381,10 +379,10 @@ public class DeferredRequest<T> implements Deferred<T> {
             public void onDone(Response response) {
                 if (isSuccessful(response)) {
                     try {
-                        callback.execute(response.getPayload().<E>asObject(), response, (PollingRequest<E>) request);
+                        callback.execute(response.<E>getPayload(), response, (PollingRequest<E>) request);
                     } catch (ClassCastException e) {
                         throw new IncompatibleTypeException("Cannot cast " +
-                                response.getPayload().asObject().getClass().getName() + " to " +
+                                response.getPayload().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
                     }
                 }

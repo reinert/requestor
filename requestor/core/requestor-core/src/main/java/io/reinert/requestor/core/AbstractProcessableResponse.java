@@ -91,7 +91,7 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public Payload getPayload() {
+    public <T> T getPayload() {
         return response.getPayload();
     }
 

@@ -24,6 +24,8 @@ import io.reinert.requestor.core.SerializedRequestInProcess;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.callback.ResponseCallback;
 
+import static junit.framework.TestCase.assertNotNull;
+
 /**
  * Integration tests of {@link RequestInterceptor}.
  */
@@ -61,7 +63,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertFalse(response.getPayload().isEmpty());
+                assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
@@ -94,7 +96,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onStatus(200, new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertFalse(response.getPayload().isEmpty());
+                assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
@@ -132,7 +134,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onLoad(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertFalse(response.getPayload().isEmpty());
+                assertNotNull(response.getPayload());
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertEquals(expectedStoreValue, response.retrieve(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
@@ -192,7 +194,7 @@ public class RequestInterceptorGwtTest extends GWTTestCase {
         session.req("https://httpbin.org/get").get(String.class).onLoad(new ResponseCallback() {
             public void execute(Response response) {
                 assertNotNull(response);
-                assertFalse(response.getPayload().isEmpty());
+                assertNotNull(response.getPayload());
                 assertEquals(expectedStoreValue, response.retrieve(storeKey));
                 assertEquals(expectedStoreValue2, response.retrieve(storeKey2));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));

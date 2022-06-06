@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import io.reinert.requestor.core.payload.Payload;
-
 /**
  * Represents a HTTP response.
  *
@@ -29,6 +27,6 @@ public interface Response extends SerializedResponse {
      *
      * @return the response payload
      */
-    Payload getPayload();
+    <T> T getPayload();
 
 }
