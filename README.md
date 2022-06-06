@@ -15,6 +15,7 @@ Why Requestor?
 Feature highlights:
 * [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
 * [**Event-Driven Callbacks**](#event-driven-callbacks) - set callbacks for different results in a precise event system.
+* [**Futures**](#futures) - access the response header, the body and the deserialized payload as soon they're available.
 * [**Serialization**](#serialization) - serialize and deserialize payloads integrating any library.
 * [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
 * [**Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
@@ -793,6 +794,100 @@ request.onSuccess( books -> books.get(0) ); // COMPILATION ERROR: books is Colle
 // You can explicitly declare the type in lambda signature to typecast
 request.onSuccess( (List<Book> books) -> books.get(0) ); // OK: Now it works
 ```
+
+## Futures
+
+Besides providing the async interface to handle requests results, Requestor exposes some Futures
+in the three main milestones of the Request-Response lifecycle.
+
+### 1. Request.getResponse() : Future\<IncomingResponse\>
+
+The first milestone occurs when the response header is received but the body is still going to be read.
+As soon the response header is available we receive it through the `getResponse()` method of the `Request`.
+
+```java
+Future<IncomingResponse> future = session.req("https://httpbin.org/ip")
+        .get(String.class) // the type to later deserialize the response body
+        .getResponse(); // get the response future
+
+// Calling future.get() holds until the response header is received
+IncomingResponse response = future.get();
+```
+
+The `IncomingResponse` provides us access to the response **status**, **headers**, **links** and the request
+**store** among other useful things.
+
+### 2. IncomingResponse.getSerializedPayload() : Future\<SerializedPayload\>
+
+The second milestone occurs when the response body is read but is still going to be processed and deserialized.
+As soon the response body is available we receive it through the `getSerializedPayload()` method of the `IncomingResponse`.
+
+```java
+Future<SerializedPayload> future = response.getSerializedPayload();
+
+// Calling future.get() holds until the response body is received
+SerializedPayload serializedPayload = future.get();
+```
+
+The `SerializedPayload` provides us access to the raw response **body** as bytes or string.
+
+### 3. IncomingResponse.getPayload() : Future\<T\>
+
+The third milestone occurs when the response passes through all [processors](#processors-middlewares)
+and is finally made available to the caller. After the response is completely processed, its body is
+already deserialized, and we receive it through the `getPayload()` method of the `IncomingResponse`.
+This method automatically typecasts to the desired type.
+
+```java
+// Automatically typecasts to the desired type
+Future<String> future = response.getPayload();
+
+// Calling future.get() holds until the response finishes processing
+String ip = future.get();
+```
+
+Check a complete example of how to use Requestor's Future API.
+
+```java
+final Session session = Requestor.newSession();
+
+try {
+    // Make a request and get the response future
+    Future<IncomingResponse> responseFuture =
+            session.get("https://httpbin.org/ip", String.class)
+                    .getResponse();
+
+    // As soon the response header is received we get it
+    IncomingResponse response = responseFuture.get();
+
+    // Although the response was not completely received
+    // we can promptly access its status, headers and store
+    if (response.getStatus() == Status.OK) {
+        // As soon the response body is read we get it
+        Future<SerializedPayload> serializedPayloadFuture = response.getSerializedPayload();
+        SerializedPayload serializedPayload = serializedPayloadFuture.get();
+
+        // The raw payload is yet going to be deserialized
+        // but we can already access its content as bytes or string
+        System.out.println(serializedPayload.asString());
+
+        // When the response is completely received it is submitted to the processors
+        // After being processed the deserialized payload is made available
+        Future<String> payloadFuture = response.getPayload();
+        String ip = payloadFuture.get();
+        System.out.println(ip);
+    } else {
+        System.out.println("Unsuccessful response received");
+    }
+} catch (InterruptedException | ExecutionException e) {
+    System.out.println("An error occurred during the request");
+    e.printStackTrace();
+}
+
+// Close all threads and finish the program
+session.shutdown();
+```
+
 
 ## Serialization
 
