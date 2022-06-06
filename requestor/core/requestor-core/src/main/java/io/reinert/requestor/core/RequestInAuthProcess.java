@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -66,8 +65,7 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
                 responsePayloadType);
 
         if (request.isRetryEnabled()) {
-            deferred.setRequestRetrier(new RequestRetrier(preparedRequest, dispatcher,
-                    new RetryOptions(request.getRetryDelays(), request.getRetryEvents())));
+            deferred.setRequestRetrier(new RequestRetrier(preparedRequest, dispatcher, request.getRetryPolicy()));
         }
 
         if (auth == null) {
@@ -263,13 +261,8 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public List<Integer> getRetryDelays() {
-        return request.getRetryDelays();
-    }
-
-    @Override
-    public List<Event> getRetryEvents() {
-        return request.getRetryEvents();
+    public RetryPolicy getRetryPolicy() {
+        return request.getRetryPolicy();
     }
 
     @Override

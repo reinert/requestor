@@ -17,7 +17,6 @@ package io.reinert.requestor.core;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -192,18 +191,14 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public List<Integer> getRetryDelays() {
-        return retryOptions != null ? retryOptions.getDelays() : Collections.<Integer>emptyList();
-    }
-
-    @Override
-    public List<Event> getRetryEvents() {
-        return retryOptions != null ? retryOptions.getEvents() : Collections.<Event>emptyList();
+    public RetryPolicy getRetryPolicy() {
+        if (retryPolicyProvider == null) return null;
+        return retryPolicyProvider.getInstance();
     }
 
     @Override
     public boolean isRetryEnabled() {
-        return retryOptions != null && retryOptions.isEnabled();
+        return retryPolicyProvider != null;
     }
 
     //===================================================================
@@ -256,7 +251,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     @Override
     public RequestBuilderImpl retry(int[] delaysMillis, Event... events) {
         if (delaysMillis != null && delaysMillis.length > 0 && events.length > 0) {
-            retryOptions = new RetryOptions(delaysMillis, events);
+            return retry(new RetryPolicyImpl(delaysMillis, events));
         }
         return this;
     }

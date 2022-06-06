@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 
@@ -188,13 +187,8 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
-    public List<Integer> getRetryDelays() {
-        return serializedRequest.getRetryDelays();
-    }
-
-    @Override
-    public List<Event> getRetryEvents() {
-        return serializedRequest.getRetryEvents();
+    public RetryPolicy getRetryPolicy() {
+        return serializedRequest.getRetryPolicy();
     }
 
     @Override

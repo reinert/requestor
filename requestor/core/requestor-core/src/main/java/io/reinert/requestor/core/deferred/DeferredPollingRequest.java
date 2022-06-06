@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 import io.reinert.requestor.core.Auth;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.DeferredPool;
-import io.reinert.requestor.core.Event;
 import io.reinert.requestor.core.Headers;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.HttpMethod;
@@ -34,6 +33,7 @@ import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.Process;
 import io.reinert.requestor.core.Response;
+import io.reinert.requestor.core.RetryPolicy;
 import io.reinert.requestor.core.SerializedRequest;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.Status;
@@ -137,13 +137,8 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public List<Integer> getRetryDelays() {
-        return serializedRequest.getRetryDelays();
-    }
-
-    @Override
-    public List<Event> getRetryEvents() {
-        return serializedRequest.getRetryEvents();
+    public RetryPolicy getRetryPolicy() {
+        return serializedRequest.getRetryPolicy();
     }
 
     @Override

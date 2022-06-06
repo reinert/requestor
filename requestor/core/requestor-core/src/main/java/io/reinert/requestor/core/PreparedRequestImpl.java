@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.List;
 import java.util.Set;
 
 import io.reinert.requestor.core.header.Header;
@@ -140,13 +139,8 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public List<Integer> getRetryDelays() {
-        return request.getRetryDelays();
-    }
-
-    @Override
-    public List<Event> getRetryEvents() {
-        return request.getRetryEvents();
+    public RetryPolicy getRetryPolicy() {
+        return request.getRetryPolicy();
     }
 
     @Override

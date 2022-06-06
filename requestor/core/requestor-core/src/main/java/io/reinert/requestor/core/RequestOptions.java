@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.List;
 import java.util.Set;
 
 import io.reinert.requestor.core.payload.Payload;
@@ -44,9 +43,7 @@ public interface RequestOptions {
 
     int getDelay();
 
-    List<Integer> getRetryDelays();
-
-    List<Event> getRetryEvents();
+    RetryPolicy getRetryPolicy();
 
     boolean isRetryEnabled();
 
