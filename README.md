@@ -4,18 +4,20 @@
   <img src="https://user-images.githubusercontent.com/1285494/158213729-52458234-6c6b-41d5-bd6d-746c12a7c2c4.png" alt="Request like a boss."/>
 </p>
 
-Why Requestor?
-* It uniquely combines simplicity, completeness and performance in a singular HTTP Client API for any Java based platform.
-* It is **async-first** -> smoothly handle several concurrent client-server interactions with the best performance.
-* It is **event-driven** -> narrow down your code to specific results and implement complex features like HTTP Polling and Streaming seamlessly.
-* It is **session-based** -> set up multiple client configurations for different backends with instance level customization.
-* It is **scope-bounded** -> sessions, services and requests have isolated and interconnected contexts with fine-grained control over them.
-* It is **cache-assisted** -> promptly save and share data among different parts of your application while handling communication.
+## Why Requestor?
+It uniquely combines simplicity, completeness and performance in a singular HTTP Client API for any Java derived language.
 
-Feature highlights:
+Requestor is:
+* **Async-First** → smoothly handle several concurrent client-server interactions with the best performance.
+* **Event-Driven** → narrow down your code to specific results and implement complex features like HTTP Polling and Streaming seamlessly.
+* **Session-Based** → set up multiple client configurations for different backends with instance level customization.
+* **Scope-Bounded** → sessions, services and requests have isolated and interconnected contexts with fine-grained control over them.
+* **Cache-Assisted** → promptly save and share data among different parts of your application while handling communication.
+
+## Features
 * [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
 * [**Event-Driven Callbacks**](#event-driven-callbacks) - set callbacks for different results in a precise event system.
-* [**Futures**](#futures) - access the response header, the body and the deserialized payload as soon they're available.
+* [**Futures**](#futures) - access the response header, the body and the deserialized payload as soon they are available.
 * [**Serialization**](#serialization) - serialize and deserialize payloads integrating any library.
 * [**Authentication**](#authentication) - make complex async authentication procedures in a breeze.
 * [**Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
@@ -130,10 +132,10 @@ session.post("/api/books", book);
 // Retrieve data from the session store
 UserInfo userInfo = session.retrieve("userInfo");
 
-// Clear the session state
+// Reset the session configuration to the defaults
 session.reset();
 
-// Clear all data from the store
+// Clear all data from the session store
 session.clear();
 
 // Now all requests will have the default parameters
