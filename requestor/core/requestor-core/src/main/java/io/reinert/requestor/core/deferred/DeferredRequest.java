@@ -507,6 +507,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         return deferred.rejectResult;
     }
 
+    @Override
+    public Response getResolveResult() {
+        return deferred.resolveResult;
+    }
+
     public Future<IncomingResponse> getFuture() {
         return new Future<IncomingResponse>() {
             private boolean cancelled;

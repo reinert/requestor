@@ -48,4 +48,6 @@ public interface Deferred<T> {
 
     RequestException getRejectResult();
 
+    Response getResolveResult();
+
 }
