@@ -18,6 +18,7 @@ package io.reinert.requestor.core;
 import java.util.Collections;
 import java.util.logging.Logger;
 
+import io.reinert.requestor.core.deferred.ThreadUtil;
 import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.header.LinkHeader;
@@ -41,6 +42,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     private Payload payload;
     private SerializedPayload serializedPayload;
     private boolean deserialized = false;
+    private boolean loaded = false;
     private final PayloadType payloadType;
     private final Deferred<?> deferred;
     private final Request<?> request;
@@ -56,7 +58,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
         this.linkHeader = (LinkHeader) headers.get("Link");
         this.status = status;
         this.payloadType = payloadType;
-        this.serializedPayload = serializedPayload == null ? SerializedPayload.EMPTY_PAYLOAD : serializedPayload;
+        this.serializedPayload = serializedPayload;
         this.deferred = deferred;
         this.request = deferred.getRequest();
     }
@@ -133,6 +135,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
 
         this.payload = payload == null ? Payload.EMPTY_PAYLOAD : payload;
         deserialized = true;
+        ThreadUtil.notifyAll(this);
     }
 
     @Override
@@ -196,6 +199,8 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
         }
 
         this.serializedPayload = serializedPayload == null ? SerializedPayload.EMPTY_PAYLOAD : serializedPayload;
+        loaded = true;
+        ThreadUtil.notifyAll(this);
     }
 
     @Override
