@@ -79,7 +79,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
                 if (request.isRetryEnabled())
                     request.setRetry(DelaySequence.fixed(1, 5, 30), RequestEvent.TIMEOUT, Status.TOO_MANY_REQUESTS);
 
-                if (request.getPayload().isEmpty()) {
+                if (request.getPayload() == null) {
                     request.setContentType("text/plain");
                     request.setPayload("A text payload");
                 }
@@ -113,7 +113,7 @@ public class FiltersActivity extends ShowcaseActivity implements Filters.Handler
 
                 // Check if the caller requested to deserialize the payload as String
                 if (response.getPayloadType().getType() == String.class) {
-                    String payload = response.getPayload().asObject();
+                    String payload = response.getPayload();
                     response.setPayload(payload + "\nWE JUST MODIFIED THE PAYLOAD!");
                 }
 
