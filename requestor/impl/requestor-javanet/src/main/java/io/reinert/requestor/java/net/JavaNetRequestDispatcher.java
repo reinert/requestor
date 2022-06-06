@@ -233,7 +233,9 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                     request.isEquals(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE)) {
                 try (InputStream in = responseStatus.getFamily() == StatusFamily.SUCCESSFUL ?
                                 conn.getInputStream() : conn.getErrorStream()) {
-                    serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in, response);
+                    if (in != null) {
+                        serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in, response);
+                    }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
                     return;
