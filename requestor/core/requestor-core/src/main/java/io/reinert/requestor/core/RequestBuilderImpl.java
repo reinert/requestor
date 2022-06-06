@@ -262,7 +262,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public PollingRequestBuilder skip(Process... processes) {
+    public RequestBuilderImpl skip(Process... processes) {
         if (processes.length != 0) {
             Set<Process> processesSet = new HashSet<Process>(skippedProcesses);
             Collections.addAll(processesSet, processes);

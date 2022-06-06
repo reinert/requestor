@@ -109,7 +109,7 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
     }
 
     @Override
-    public PollingRequestBuilder skip(Process... processes) {
+    public AbstractRequestInvoker skip(Process... processes) {
         super.skip(processes);
         return this;
     }
