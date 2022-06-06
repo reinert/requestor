@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import io.reinert.requestor.core.internal.Threads;
-import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 
@@ -128,10 +127,10 @@ public class IncomingResponseImpl implements IncomingResponse {
         });
     }
 
-    public Future<Payload> getPayload() {
-        return getFuture(new Callable<Payload>() {
-            public Payload call() {
-                return response.getPayload();
+    public <T> Future<T> getPayload() {
+        return getFuture(new Callable<T>() {
+            public T call() {
+                return response.getPayload().asObject();
             }
         }, new Callable<Boolean>() {
             public Boolean call() {

@@ -17,7 +17,6 @@ package io.reinert.requestor.core;
 
 import java.util.concurrent.Future;
 
-import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 
 /**
@@ -39,6 +38,6 @@ public interface IncomingResponse extends ResponseHeader {
      *
      * @return the response's payload future
      */
-    Future<Payload> getPayload();
+    <T> Future<T> getPayload();
 
 }
