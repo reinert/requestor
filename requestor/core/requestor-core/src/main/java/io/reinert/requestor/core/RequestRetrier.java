@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Responsible for retrying a request.
  *
@@ -27,77 +24,40 @@ public class RequestRetrier {
 
     private final PreparedRequest preparedRequest;
     private final RunScheduler scheduler;
-    private final RetryOptions retryOptions;
-    private final List<String> eventsNames;
-    private int delayIndex = 0;
+    private final RetryPolicy retryPolicy;
+    private int retryCount;
 
-    RequestRetrier(PreparedRequest preparedRequest, RunScheduler scheduler, RetryOptions retryOptions) {
+    RequestRetrier(PreparedRequest preparedRequest, RunScheduler scheduler, RetryPolicy retryPolicy) {
         this.preparedRequest = preparedRequest;
         this.scheduler = scheduler;
-        this.retryOptions = retryOptions;
-        eventsNames = new ArrayList<String>(retryOptions.getEvents().size());
-        for (Event e : retryOptions.getEvents()) eventsNames.add(e.getName());
+        this.retryPolicy = retryPolicy;
     }
 
     public int getRetryCount() {
-        return delayIndex;
+        return retryCount;
     }
 
     public boolean maybeRetry(Response response) {
-        return maybeRetry(getEventsFromResponse(response));
+        return maybeRetry(response.getStatus());
     }
 
     public boolean maybeRetry(RequestException exception) {
-        return maybeRetry(getEventsFromException(exception));
+        return maybeRetry(exception.getEvent());
     }
 
-    private List<String> getEventsFromResponse(Response response) {
-        final List<String> events = new ArrayList<String>();
+    private boolean maybeRetry(Event event) {
+        int nextRetryDelay = retryPolicy.retryIn(preparedRequest, event, retryCount);
 
-        events.add("load");
-        events.add(String.valueOf(response.getStatusCode()));
-
-        int familyCode = response.getStatusCode() / 100;
-        events.add(String.valueOf(familyCode));
-
-        if (familyCode == 2) {
-            events.add("success");
-        } else {
-            events.add("fail");
+        if (nextRetryDelay > 0) {
+            scheduler.scheduleRun(new Runnable() {
+                public void run() {
+                    preparedRequest.send();
+                }
+            }, nextRetryDelay);
+            retryCount++;
+            return true;
         }
 
-        return events;
-    }
-
-    private List<String> getEventsFromException(RequestException exception) {
-        final List<String> events = new ArrayList<String>();
-
-        events.add("error");
-
-        if (exception instanceof RequestTimeoutException) {
-            events.add("timeout");
-        } else if (exception instanceof RequestCancelException) {
-            events.add("cancel");
-        } else if (exception instanceof RequestAbortException) {
-            events.add("abort");
-        }
-
-        return events;
-    }
-
-    private boolean maybeRetry(List<String> occurredEvents) {
-        if (delayIndex < retryOptions.getDelays().size()) {
-            occurredEvents.retainAll(eventsNames);
-            if (!occurredEvents.isEmpty()) {
-                scheduler.scheduleRun(new Runnable() {
-                    @Override
-                    public void run() {
-                        preparedRequest.send();
-                    }
-                }, retryOptions.getDelays().get(delayIndex++));
-                return true;
-            }
-        }
         return false;
     }
 }
