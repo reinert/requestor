@@ -18,7 +18,6 @@ package io.reinert.requestor.core;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeoutException;
 
 import io.reinert.requestor.core.callback.DualCallback;
 import io.reinert.requestor.core.callback.ExceptionCallback;
@@ -102,16 +101,6 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
 
     @Override
     public void setRequestRetrier(RequestRetrier retrier) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void waitSafely() throws InterruptedException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void waitSafely(long timeout) throws InterruptedException, TimeoutException {
         throw new UnsupportedOperationException();
     }
 

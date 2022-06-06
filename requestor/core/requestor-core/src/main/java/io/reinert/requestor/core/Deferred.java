@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.concurrent.TimeoutException;
-
 /**
  * A deferred object capable of resolving/rejecting requests.
  *
@@ -43,10 +41,6 @@ public interface Deferred<T> {
     void setHttpConnection(HttpConnection connection);
 
     void setRequestRetrier(RequestRetrier retrier);
-
-    void waitSafely() throws InterruptedException;
-
-    void waitSafely(long timeout) throws InterruptedException, TimeoutException;
 
     Request<T> getRequest();
 

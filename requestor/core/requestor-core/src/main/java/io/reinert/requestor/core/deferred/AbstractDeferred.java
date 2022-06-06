@@ -18,7 +18,6 @@ package io.reinert.requestor.core.deferred;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -176,38 +175,5 @@ abstract class AbstractDeferred<D, F, P, U> {
 
     protected void triggerUpProgress(ProgressCallback<U> callback, U progress) {
         callback.onProgress(progress);
-    }
-
-    public void waitSafely() throws InterruptedException {
-        try {
-            waitSafely(-1);
-        } catch (TimeoutException e) {
-            throw new InterruptedException(e.getMessage());
-        }
-    }
-
-    public void waitSafely(long timeout) throws InterruptedException, TimeoutException {
-        final long startTime = System.currentTimeMillis();
-        synchronized (this) {
-            while (this.isPending()) {
-                try {
-                    if (timeout <= 0) {
-                        wait();
-                    } else {
-                        final long elapsed = (System.currentTimeMillis() - startTime);
-                        final long waitTime = timeout - elapsed;
-                        wait(waitTime);
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    throw e;
-                }
-
-                if (timeout > 0 && (System.currentTimeMillis() - startTime) >= timeout) {
-                    Thread.currentThread().interrupt();
-                    throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
-                }
-            }
-        }
     }
 }

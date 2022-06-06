@@ -72,10 +72,6 @@ class DeferredObject<D, F, P, U> extends AbstractDeferred<D, F, P, U> {
 
         triggerFail(reject);
 
-        synchronized (this) {
-            ThreadUtil.notifyAll(this);
-        }
-
         return this;
     }
 
@@ -89,10 +85,6 @@ class DeferredObject<D, F, P, U> extends AbstractDeferred<D, F, P, U> {
         resolveResult = resolve;
 
         triggerDone(resolve);
-
-        synchronized (this) {
-            ThreadUtil.notifyAll(this);
-        }
 
         return this;
     }
