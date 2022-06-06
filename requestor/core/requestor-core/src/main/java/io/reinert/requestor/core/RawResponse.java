@@ -253,4 +253,16 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     public Response getRawResponse() {
         return this;
     }
+
+    public Deferred<?> getDeferred() {
+        return deferred;
+    }
+
+    public boolean isDeserialized() {
+        return deserialized;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
 }
