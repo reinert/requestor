@@ -46,6 +46,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     private final PayloadType payloadType;
     private final Deferred<?> deferred;
     private final Request<?> request;
+    private IncomingResponse incomingResponse;
 
     public RawResponse(Deferred<?> deferred, HttpStatus status, Headers headers, PayloadType payloadType) {
         this(deferred, status, headers, payloadType, null);
@@ -264,5 +265,13 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
 
     public boolean isLoaded() {
         return loaded;
+    }
+
+    public synchronized IncomingResponse getIncomingResponse() {
+        if (incomingResponse == null) {
+            incomingResponse = new IncomingResponseImpl(this);
+        }
+
+        return incomingResponse;
     }
 }
