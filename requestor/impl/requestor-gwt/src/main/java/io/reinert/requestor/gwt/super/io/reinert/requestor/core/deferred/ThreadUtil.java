@@ -15,6 +15,9 @@
  */
 package io.reinert.requestor.core.deferred;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeoutException;
+
 /**
  * A utility class that provides thread methods not compatible with GWT.
  *
@@ -23,5 +26,10 @@ package io.reinert.requestor.core.deferred;
 class ThreadUtil {
     public static void notifyAll(Object o) {
         // no-op
+    }
+
+    public static void waitSafely(Object monitor, long timeout, Callable<Boolean> condition)
+            throws InterruptedException, TimeoutException {
+        throw new UnsupportedOperationException("wait is not supported in GWT environment");
     }
 }
