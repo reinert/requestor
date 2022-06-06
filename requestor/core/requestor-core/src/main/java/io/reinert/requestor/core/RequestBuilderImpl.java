@@ -42,6 +42,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private LeafStore store;
     private Headers headers;
     private Auth.Provider authProvider;
+    private Auth auth;
     private HttpMethod httpMethod;
     private int timeout;
     private int delay;
@@ -54,11 +55,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     private Set<Process> skippedProcesses;
 
     public RequestBuilderImpl(Session session, Uri uri, LeafStore store) {
-        this(session, uri, store, null, null, null, 0, 0, null, null, null, null, null, false, null);
+        this(session, uri, store, null, null, null, null, 0, 0, null, null, null, null, null, false, null);
     }
 
     public RequestBuilderImpl(Session session, Uri uri, LeafStore store, Headers headers, Auth.Provider authProvider,
-                              HttpMethod httpMethod, int timeout, int delay, String charset,
+                              Auth auth, HttpMethod httpMethod, int timeout, int delay, String charset,
                               RetryPolicy.Provider retryPolicyProvider, PollingOptions pollingOptions, Payload payload,
                               SerializedPayload serializedPayload, boolean serialized, Set<Process> skippedProcesses) {
         this.session = session;
@@ -68,6 +69,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
         this.store = store;
         this.headers = headers != null ? headers : new Headers();
         this.authProvider = authProvider;
+        this.auth = auth;
         this.httpMethod = httpMethod;
         this.timeout = timeout;
         this.delay = delay;
@@ -186,8 +188,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
 
     @Override
     public Auth getAuth() {
-        if (authProvider == null) return null;
-        return authProvider.getInstance();
+        if (auth == null) {
+            if (authProvider == null) return null;
+            auth = authProvider.getInstance();
+        }
+        return auth;
     }
 
     @Override
@@ -318,18 +323,18 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     public RequestBuilderImpl auth(final Auth auth) {
         if (auth == null) {
             this.authProvider = null;
+            this.auth = null;
             return this;
         }
-        return auth(new Auth.Provider() {
-            public Auth getInstance() {
-                return auth;
-            }
-        });
+
+        this.auth = auth;
+        return this;
     }
 
     @Override
     public RequestBuilderImpl auth(Auth.Provider authProvider) {
         this.authProvider = authProvider;
+        this.auth = null;
         return this;
     }
 
@@ -389,12 +394,12 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
 
     @Override
     public void setAuth(Auth auth) {
-        this.auth(auth);
+        auth(auth);
     }
 
     @Override
     public void setAuth(Auth.Provider authProvider) {
-        this.auth(authProvider);
+        auth(authProvider);
     }
 
     @Override
@@ -501,6 +506,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 LeafStore.copy(store),
                 Headers.copy(headers),
                 authProvider,
+                authProvider != null ? null : auth, // force re-instantiation when getting it
                 httpMethod,
                 timeout,
                 delay,
@@ -522,6 +528,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
                 store, // keep store reference
                 Headers.copy(headers),
                 authProvider,
+                authProvider != null ? null : auth, // force re-instantiation when getting it
                 httpMethod,
                 timeout,
                 delay,
