@@ -16,9 +16,6 @@
   -->
 <module>
   <!-- requestor-core is agnostic from any platform, including GWT -->
-  <source path="">
-    <exclude name="Reflection.java"/>
-    <exclude name="deferred/ThreadUtil.java"/>
-  </source>
+  <source path="" excludes="internal/*"/>
 </module>
 

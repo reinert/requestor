@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.reinert.requestor.core;
+package io.reinert.requestor.core.internal;
 
 /**
  * A utility class that provides reflection methods not compatible with GWT.
  *
  * @author Danilo Reinert
  */
-class Reflection {
+public class Reflection {
 
     public static boolean isInnerClass(Class<?> cls) {
         throw new UnsupportedOperationException();
