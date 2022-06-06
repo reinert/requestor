@@ -15,13 +15,53 @@
  */
 package io.reinert.requestor.core.deferred;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeoutException;
+
 /**
  * A utility class that provides thread methods not compatible with GWT.
  *
  * @author Danilo Reinert
  */
-class ThreadUtil {
-    public static void notifyAll(Object o) {
-        o.notifyAll();
+public class ThreadUtil {
+
+    public static void notifyAll(Object monitor) {
+        synchronized (monitor) {
+            monitor.notifyAll();
+        }
+    }
+
+    public static void waitSafely(Object monitor, long timeout, Callable<Boolean> condition)
+            throws InterruptedException, TimeoutException {
+        final long startTime = System.currentTimeMillis();
+        synchronized (monitor) {
+            while (isTrue(condition)) {
+                try {
+                    if (timeout <= 0) {
+                        monitor.wait();
+                    } else {
+                        final long elapsed = (System.currentTimeMillis() - startTime);
+                        final long waitTime = timeout - elapsed;
+                        monitor.wait(waitTime);
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw e;
+                }
+
+                if (timeout > 0 && (System.currentTimeMillis() - startTime) >= timeout) {
+                    Thread.currentThread().interrupt();
+                    throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
+                }
+            }
+        }
+    }
+
+    private static boolean isTrue(Callable<Boolean> condition) {
+        try {
+            return condition.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
