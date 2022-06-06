@@ -109,6 +109,18 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
     }
 
     @Override
+    public AbstractRequestInvoker retry(RetryPolicy retryPolicy) {
+        super.retry(retryPolicy);
+        return this;
+    }
+
+    @Override
+    public AbstractRequestInvoker retry(RetryPolicy.Provider retryPolicyProvider) {
+        super.retry(retryPolicyProvider);
+        return this;
+    }
+
+    @Override
     public AbstractRequestInvoker skip(Process... processes) {
         super.skip(processes);
         return this;

@@ -257,6 +257,25 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public RequestBuilderImpl retry(final RetryPolicy retryPolicy) {
+        if (retryPolicy == null) {
+            this.retryPolicyProvider = null;
+            return this;
+        }
+        return retry(new RetryPolicy.Provider() {
+            public RetryPolicy getInstance() {
+                return retryPolicy;
+            }
+        });
+    }
+
+    @Override
+    public RequestBuilderImpl retry(RetryPolicy.Provider retryPolicyProvider) {
+        this.retryPolicyProvider = retryPolicyProvider;
+        return this;
+    }
+
+    @Override
     public RequestBuilderImpl skip(Process... processes) {
         if (processes.length != 0) {
             Set<Process> processesSet = new HashSet<Process>(skippedProcesses);

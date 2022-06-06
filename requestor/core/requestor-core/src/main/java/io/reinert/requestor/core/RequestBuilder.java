@@ -157,6 +157,26 @@ public interface RequestBuilder extends RequestOptions, Saver {
     RequestBuilder retry(int[] delaysMillis, Event... events);
 
     /**
+     * Set a retry policy for this request.
+     * <p></p>
+     *
+     * @param retryPolicy The retry policy of this request
+     *
+     * @return This building request
+     */
+    RequestBuilder retry(RetryPolicy retryPolicy);
+
+    /**
+     * Set a retry policy for this request.
+     * <p></p>
+     *
+     * @param retryPolicyProvider The retry policy provider of this request
+     *
+     * @return This building request
+     */
+    RequestBuilder retry(RetryPolicy.Provider retryPolicyProvider);
+
+    /**
      * Skip some processors during the request-response lifecycle.
      * <p></p>
      *
