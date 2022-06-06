@@ -44,4 +44,6 @@ public interface Deferred<T> {
 
     Request<T> getRequest();
 
+    RequestException getRejectResult();
+
 }

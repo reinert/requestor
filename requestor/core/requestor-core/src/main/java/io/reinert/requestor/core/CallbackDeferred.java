@@ -114,6 +114,11 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
         return this;
     }
 
+    @Override
+    public RequestException getRejectResult() {
+        throw new UnsupportedOperationException();
+    }
+
     //===================================================================
     // PollingRequest
     //===================================================================
