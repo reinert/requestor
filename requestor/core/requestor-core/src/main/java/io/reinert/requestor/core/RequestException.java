@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public class RequestException extends RuntimeException {
+public abstract class RequestException extends RuntimeException {
 
     private static final long serialVersionUID = -3805456297999473202L;
 
@@ -48,6 +48,8 @@ public class RequestException extends RuntimeException {
         this.uri = requestOptions.getUri().toString();
         this.method = requestOptions.getMethod();
     }
+
+    public abstract Event getEvent();
 
     public String getUri() {
         return uri;

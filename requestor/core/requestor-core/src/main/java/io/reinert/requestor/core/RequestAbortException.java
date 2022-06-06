@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,5 +34,10 @@ public class RequestAbortException extends RequestException {
 
     public RequestAbortException(RequestOptions requestOptions, String message, Throwable cause) {
         super(requestOptions, message, cause);
+    }
+
+    @Override
+    public Event getEvent() {
+        return RequestEvent.ABORT;
     }
 }

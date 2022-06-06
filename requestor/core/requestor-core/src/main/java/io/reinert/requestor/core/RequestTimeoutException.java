@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,11 @@ public class RequestTimeoutException extends RequestException {
     private int timeoutMillis;
 
     protected RequestTimeoutException() {
-        super();
-        this.timeoutMillis = -1;
+    }
+
+    @Override
+    public Event getEvent() {
+        return RequestEvent.TIMEOUT;
     }
 
     /**
