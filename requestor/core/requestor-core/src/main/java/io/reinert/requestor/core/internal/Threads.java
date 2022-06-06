@@ -23,7 +23,7 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Danilo Reinert
  */
-public class ThreadUtil {
+public class Threads {
 
     public static void notifyAll(Object monitor) {
         synchronized (monitor) {

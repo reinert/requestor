@@ -52,7 +52,7 @@ import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 import io.reinert.requestor.core.callback.VoidCallback;
 import io.reinert.requestor.core.callback.WriteCallback;
-import io.reinert.requestor.core.internal.ThreadUtil;
+import io.reinert.requestor.core.internal.Threads;
 
 /**
  * Default Deferred implementation.
@@ -484,7 +484,7 @@ public class DeferredRequest<T> implements Deferred<T> {
     @Override
     public void notifyResponse(RawResponse response) {
         this.rawResponse = response;
-        ThreadUtil.notifyAll(this);
+        Threads.notifyAll(this);
     }
 
     @Override
@@ -544,7 +544,7 @@ public class DeferredRequest<T> implements Deferred<T> {
                 checkInvalidStates();
 
                 if (rawResponse == null) {
-                    ThreadUtil.waitSafely(DeferredRequest.this, timeout, new Callable<Boolean>() {
+                    Threads.waitSafely(DeferredRequest.this, timeout, new Callable<Boolean>() {
                         public Boolean call() {
                             return rawResponse == null && deferred.isPending();
                         }

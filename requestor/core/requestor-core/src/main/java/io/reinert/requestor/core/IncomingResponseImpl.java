@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import io.reinert.requestor.core.internal.ThreadUtil;
+import io.reinert.requestor.core.internal.Threads;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
@@ -174,7 +174,7 @@ public class IncomingResponseImpl implements IncomingResponse {
                 checkInvalidStates();
 
                 if (!isDoneCondition()) {
-                    ThreadUtil.waitSafely(response, unit.toMillis(timeout), new Callable<Boolean>() {
+                    Threads.waitSafely(response, unit.toMillis(timeout), new Callable<Boolean>() {
                         public Boolean call() {
                             return !isDoneCondition() && deferred.isPending();
                         }

@@ -23,7 +23,7 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Danilo Reinert
  */
-class ThreadUtil {
+class Threads {
     public static void notifyAll(Object o) {
         // no-op
     }
