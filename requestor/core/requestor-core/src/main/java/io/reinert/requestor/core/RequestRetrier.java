@@ -49,12 +49,12 @@ public class RequestRetrier {
         int nextRetryDelay = retryPolicy.retryIn(attempt);
 
         if (nextRetryDelay > 0) {
+            retryCount++;
             scheduler.scheduleRun(new Runnable() {
                 public void run() {
                     preparedRequest.send();
                 }
             }, nextRetryDelay);
-            retryCount++;
             return true;
         }
 
