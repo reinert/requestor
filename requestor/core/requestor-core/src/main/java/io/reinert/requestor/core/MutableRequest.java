@@ -80,7 +80,7 @@ public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOp
      * @param delaysMillis  The times in milliseconds to wait before each consecutive retry
      * @param events        The events that will trigger a retry
      */
-    void setRetry(int[] delaysMillis, Event... events);
+    void setRetry(int[] delaysMillis, RequestEvent... events);
 
     /**
      * The poll counter is incremented by 1.

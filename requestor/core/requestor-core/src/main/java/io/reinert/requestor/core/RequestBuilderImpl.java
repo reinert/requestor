@@ -249,7 +249,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public RequestBuilderImpl retry(int[] delaysMillis, Event... events) {
+    public RequestBuilderImpl retry(int[] delaysMillis, RequestEvent... events) {
         if (delaysMillis != null && delaysMillis.length > 0 && events.length > 0) {
             return retry(new RetryPolicyImpl(delaysMillis, events));
         }
@@ -408,7 +408,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, Event... events) {
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
         retry(delaysMillis, events);
     }
 

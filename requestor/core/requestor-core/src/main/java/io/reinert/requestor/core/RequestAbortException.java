@@ -37,7 +37,7 @@ public class RequestAbortException extends RequestException {
     }
 
     @Override
-    public Event getEvent() {
+    public RequestEvent getEvent() {
         return RequestEvent.ABORT;
     }
 }

@@ -36,5 +36,5 @@ public interface RetryPolicy {
      * @return  The time in milliseconds of the next retry.
      *          The request won't be retried If this number is negative.
      */
-    int retryIn(RequestOptions request, Event event, int counter);
+    int retryIn(RequestOptions request, RequestEvent event, int counter);
 }

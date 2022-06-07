@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public interface HttpStatus extends Event {
+public interface HttpStatus extends RequestEvent {
 
     /**
      * Get the associated status code.

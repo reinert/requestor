@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,58 +15,68 @@
  */
 package io.reinert.requestor.core;
 
+import java.io.Serializable;
+
 /**
- * An enumeration representing the possible {@link Request} events.
+ * <p>Represents an event that may occur during a {@link Request}.</p>
+ *
+ * <p>It can be either a {@link Response} or a {@link RequestException}.</p>
  *
  * @author Danilo Reinert
  */
-public enum RequestEvent implements Event {
+public interface RequestEvent extends Serializable {
 
     /**
      * Represents a response received.
      */
-    LOAD("load", null),
+    RequestEvent LOAD = RequestEventImpl.LOAD;
+
     /**
      * Represents a 2xx response.
      */
-    SUCCESS("success", LOAD),
+    RequestEvent SUCCESS = RequestEventImpl.SUCCESS;
+
     /**
      * Represents a non 2xx response.
      */
-    FAIL("fail", LOAD),
+    RequestEvent FAIL = RequestEventImpl.FAIL;
 
     /**
      * Represents any request error, combining 'timeout', 'cancel' and 'abort' events.
      */
-    ERROR("error", null),
+    RequestEvent ERROR = RequestEventImpl.ERROR;
+
     /**
      * Represents a request timeout with no response.
      */
-    TIMEOUT("timeout", ERROR),
+    RequestEvent TIMEOUT = RequestEventImpl.TIMEOUT;
+
     /**
      * Represents a request cancel before receiving a response.
      */
-    CANCEL("cancel", ERROR),
+    RequestEvent CANCEL = RequestEventImpl.CANCEL;
+
     /**
      * Represents a request abort before sending during the processing cycle.
      */
-    ABORT("abort", ERROR);
+    RequestEvent ABORT = RequestEventImpl.ABORT;
 
-    private final String eventName;
-    private final Event parent;
+    /**
+     * Get event name.
+     *
+     * @return the event name.
+     */
+    String getName();
 
-    RequestEvent(String eventName, Event parent) {
-        this.eventName = eventName;
-        this.parent = parent;
-    }
+    /**
+     * Get the parent event of this event.
+     *
+     * @return the parent event.
+     */
+    RequestEvent getParent();
 
-    @Override
-    public String getName() {
-        return eventName;
-    }
+    boolean includes(RequestEvent event);
 
-    @Override
-    public Event getParent() {
-        return parent;
-    }
+    boolean is(RequestEvent event);
+
 }

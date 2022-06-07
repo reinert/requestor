@@ -120,8 +120,16 @@ public enum Status implements HttpStatus {
                 return String.valueOf(statusCode);
             }
 
-            public Event getParent() {
+            public RequestEvent getParent() {
                 return family;
+            }
+
+            public boolean is(RequestEvent event) {
+                return RequestEventImpl.is(this, event);
+            }
+
+            public boolean includes(RequestEvent event) {
+                return RequestEventImpl.includes(this, event);
             }
 
             public String toString() {
@@ -140,31 +148,21 @@ public enum Status implements HttpStatus {
         this.family = StatusFamily.of(statusCode);
     }
 
-    /**
-     * Get the class of status code.
-     *
-     * @return the class of status code.
-     */
+    @Override
+    public String toString() {
+        return reason + " (" + code + ")";
+    }
+
     @Override
     public StatusFamily getFamily() {
         return family;
     }
 
-    /**
-     * Get the associated status code.
-     *
-     * @return the status code.
-     */
     @Override
     public int getStatusCode() {
         return code;
     }
 
-    /**
-     * Get the reason phrase.
-     *
-     * @return the reason phrase.
-     */
     @Override
     public String getReasonPhrase() {
         return toString();
@@ -176,13 +174,18 @@ public enum Status implements HttpStatus {
     }
 
     @Override
-    public Event getParent() {
+    public RequestEvent getParent() {
         return family;
     }
 
     @Override
-    public String toString() {
-        return reason + " (" + code + ")";
+    public boolean includes(RequestEvent event) {
+        return RequestEventImpl.includes(this, event);
+    }
+
+    @Override
+    public boolean is(RequestEvent event) {
+        return RequestEventImpl.is(this, event);
     }
 
     public boolean is(int statusCode) {

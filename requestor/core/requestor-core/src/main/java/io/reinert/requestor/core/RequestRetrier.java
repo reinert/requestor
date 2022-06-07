@@ -45,7 +45,7 @@ public class RequestRetrier {
         return maybeRetry(exception.getEvent());
     }
 
-    private boolean maybeRetry(Event event) {
+    private boolean maybeRetry(RequestEvent event) {
         int nextRetryDelay = retryPolicy.retryIn(preparedRequest, event, retryCount);
 
         if (nextRetryDelay > 0) {

@@ -110,7 +110,7 @@ public class BaseService implements Service {
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, Event... events) {
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
         options.setRetry(delaysMillis, events);
     }
 
@@ -120,7 +120,7 @@ public class BaseService implements Service {
     }
 
     @Override
-    public Event[] getRetryEvents() {
+    public RequestEvent[] getRetryEvents() {
         return options.getRetryEvents();
     }
 

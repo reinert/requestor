@@ -49,7 +49,7 @@ public abstract class RequestException extends RuntimeException {
         this.method = requestOptions.getMethod();
     }
 
-    public abstract Event getEvent();
+    public abstract RequestEvent getEvent();
 
     public String getUri() {
         return uri;

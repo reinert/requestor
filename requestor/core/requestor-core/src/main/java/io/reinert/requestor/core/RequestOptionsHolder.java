@@ -30,7 +30,7 @@ class RequestOptionsHolder implements HasRequestOptions {
     private volatile int delay;
     private volatile String charset;
     private volatile int[] retryDelays;
-    private volatile Event[] retryEvents;
+    private volatile RequestEvent[] retryEvents;
     private final Headers headers = new Headers(true);
 
     static RequestOptionsHolder copy(RequestOptionsHolder options) {
@@ -141,7 +141,7 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, Event... events) {
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
         retryDelays = delaysMillis;
         retryEvents = events;
     }
@@ -152,7 +152,7 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
-    public Event[] getRetryEvents() {
+    public RequestEvent[] getRetryEvents() {
         return retryEvents;
     }
 

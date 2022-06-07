@@ -63,11 +63,11 @@ public interface HasRequestOptions extends HasHeaders {
 
     String getCharset();
 
-    void setRetry(int[] delaysMillis, Event... events);
+    void setRetry(int[] delaysMillis, RequestEvent... events);
 
     int[] getRetryDelays();
 
-    Event[] getRetryEvents();
+    RequestEvent[] getRetryEvents();
 
     boolean isRetryEnabled();
 

@@ -41,7 +41,7 @@ public class RequestCancelException extends RequestException {
     }
 
     @Override
-    public Event getEvent() {
+    public RequestEvent getEvent() {
         return RequestEvent.CANCEL;
     }
 }

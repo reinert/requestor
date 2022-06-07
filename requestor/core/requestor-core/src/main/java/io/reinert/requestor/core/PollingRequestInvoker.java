@@ -51,7 +51,7 @@ public interface PollingRequestInvoker extends PollingRequestBuilder, HttpPollin
     PollingRequestInvoker delay(int delayMillis);
 
     @Override
-    PollingRequestInvoker retry(int[] delaysMillis, Event... events);
+    PollingRequestInvoker retry(int[] delaysMillis, RequestEvent... events);
 
     @Override
     PollingRequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;

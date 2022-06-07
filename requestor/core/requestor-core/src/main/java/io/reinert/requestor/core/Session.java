@@ -379,7 +379,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, Event... events) {
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
         options.setRetry(delaysMillis, events);
     }
 
@@ -389,7 +389,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
-    public Event[] getRetryEvents() {
+    public RequestEvent[] getRetryEvents() {
         return options.getRetryEvents();
     }
 

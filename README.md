@@ -410,7 +410,7 @@ req.skip( Process.SERIALIZE_REQUEST, Process.DESERIALIZE_RESPONSE );
 There are two ways of defining a retry policy: one by informing the events that trigger a retry and a sequence of delays;
 and another by implementing a `RetryPolicy`.
 
-#### *retry( int[], Event... )*
+#### *retry( int[], RequestEvent... )*
 
 Set a retry policy for the request with two arguments: (1) an array of `delays` in milliseconds and (2) an array of `events`.
 The **delays** array is a sequence of times that Requestor will wait before retrying the request respectively.
@@ -458,7 +458,7 @@ Further, we are able to provide a more complex retry logic by implementing the f
 ```java
 public class ExponentialWithJitterRetryPolicy implements RetryPolicy {
     
-    public int retryIn(RequestOptions request, Event event, int counter) {
+    public int retryIn(RequestOptions request, RequestEvent event, int counter) {
         // first check the conditions that would make us stop retrying be returning -1
 
         // event is the result of the request which can be a response or an exception

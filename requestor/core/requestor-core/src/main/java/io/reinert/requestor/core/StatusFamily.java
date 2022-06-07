@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public enum StatusFamily implements Event {
+public enum StatusFamily implements RequestEvent {
 
     /**
      * {@code 1xx} HTTP status codes.
@@ -82,20 +82,21 @@ public enum StatusFamily implements Event {
     }
 
     @Override
-    public Event getParent() {
+    public RequestEvent getParent() {
         return RequestEvent.LOAD;
+    }
+
+    @Override
+    public boolean includes(RequestEvent event) {
+        return RequestEventImpl.includes(this, event);
+    }
+
+    @Override
+    public boolean is(RequestEvent event) {
+        return RequestEventImpl.is(this, event);
     }
 
     public boolean is(int statusCode) {
         return of(statusCode) == this;
-    }
-
-    public boolean includes(Event event) {
-        do {
-            if (event == this) return true;
-            event = event.getParent();
-        } while (event != null);
-
-        return false;
     }
 }

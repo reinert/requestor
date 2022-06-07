@@ -27,18 +27,18 @@ import java.util.List;
 class RetryPolicyImpl implements RetryPolicy {
 
     private int[] delays;
-    private List<Event> events;
+    private List<RequestEvent> events;
     int delayIndex;
 
-    RetryPolicyImpl(int[] delaysMillis, Event[] eventsArray) {
+    RetryPolicyImpl(int[] delaysMillis, RequestEvent[] eventsArray) {
         delays = delaysMillis;
         events = Arrays.asList(eventsArray);
     }
 
     @Override
-    public int retryIn(RequestOptions request, Event event, int counter) {
+    public int retryIn(RequestOptions request, RequestEvent event, int counter) {
         if (delayIndex < delays.length) {
-            final List<Event> occurredEvents = getEventTree(event);
+            final List<RequestEvent> occurredEvents = getEventTree(event);
             occurredEvents.retainAll(events);
             if (!occurredEvents.isEmpty()) {
                 return delays[delayIndex++];
@@ -48,8 +48,8 @@ class RetryPolicyImpl implements RetryPolicy {
         return -1;
     }
 
-    private List<Event> getEventTree(Event event) {
-        final List<Event> eventsTree = new ArrayList<Event>();
+    private List<RequestEvent> getEventTree(RequestEvent event) {
+        final List<RequestEvent> eventsTree = new ArrayList<RequestEvent>();
 
         do {
             eventsTree.add(event);

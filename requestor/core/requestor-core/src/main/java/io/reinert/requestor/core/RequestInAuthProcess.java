@@ -148,7 +148,7 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, Event... events) {
+    public void setRetry(int[] delaysMillis, RequestEvent... events) {
         request.setRetry(delaysMillis, events);
     }
 

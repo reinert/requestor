@@ -154,7 +154,7 @@ public interface RequestBuilder extends RequestOptions, Saver {
      *
      * @return This building request
      */
-    RequestBuilder retry(int[] delaysMillis, Event... events);
+    RequestBuilder retry(int[] delaysMillis, RequestEvent... events);
 
     /**
      * Set a retry policy for this request.

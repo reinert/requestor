@@ -33,7 +33,7 @@ public class RequestTimeoutException extends RequestException {
     }
 
     @Override
-    public Event getEvent() {
+    public RequestEvent getEvent() {
         return RequestEvent.TIMEOUT;
     }
 
