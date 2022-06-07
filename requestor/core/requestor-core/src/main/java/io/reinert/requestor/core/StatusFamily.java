@@ -25,32 +25,34 @@ public enum StatusFamily implements RequestEvent {
     /**
      * {@code 1xx} HTTP status codes.
      */
-    INFORMATIONAL("1"),
+    INFORMATIONAL("1", RequestEvent.FAIL),
     /**
      * {@code 2xx} HTTP status codes.
      */
-    SUCCESSFUL("2"),
+    SUCCESSFUL("2", RequestEvent.SUCCESS),
     /**
      * {@code 3xx} HTTP status codes.
      */
-    REDIRECTION("3"),
+    REDIRECTION("3", RequestEvent.FAIL),
     /**
      * {@code 4xx} HTTP status codes.
      */
-    CLIENT_ERROR("4"),
+    CLIENT_ERROR("4", RequestEvent.FAIL),
     /**
      * {@code 5xx} HTTP status codes.
      */
-    SERVER_ERROR("5"),
+    SERVER_ERROR("5", RequestEvent.FAIL),
     /**
      * Other, unrecognized HTTP status codes.
      */
-    OTHER("other");
+    OTHER("other", RequestEvent.FAIL);
 
     private final String eventName;
+    private final RequestEvent parent;
 
-    StatusFamily(String eventName) {
+    StatusFamily(String eventName, RequestEvent parent) {
         this.eventName = eventName;
+        this.parent = parent;
     }
 
     /**
@@ -83,7 +85,7 @@ public enum StatusFamily implements RequestEvent {
 
     @Override
     public RequestEvent getParent() {
-        return RequestEvent.LOAD;
+        return parent;
     }
 
     @Override
