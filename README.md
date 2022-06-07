@@ -455,32 +455,61 @@ req.retry( DelaySequence.fixed(5, 15, 45), RequestEvent.TIMEOUT, StatusFamily.CL
 
 Further, we are able to provide a more complex retry logic by implementing the functional interface `RetryPolicy`.
 
+See this example implementing an exponential backoff retry with jitter:
 ```java
 public class ExponentialWithJitterRetryPolicy implements RetryPolicy {
     
-    public int retryIn(RequestOptions request, RequestEvent event, int counter) {
+    public int retryIn(RequestAttempt attempt) {
         // first check the conditions that would make us stop retrying be returning -1
 
         // event is the result of the request which can be a response or an exception
-        if (!StatusFamily.SERVER_ERROR.includes(event)) {
+        if (!StatusFamily.SERVER_ERROR.includes(attempt.getEvent())) {
             // we should retry only 5xx responses
             return -1;
         }
 
-        // counter holds the number of times this request was already retried
-        if (counter > 2) {
-            // we should retry at most two times
+        // retryCount holds the number of times this request was already retried
+        if (attempt.getRetryCount() > 2) {
+            // we should retry at most three times
             return -1;
         }
 
-        // next retry will happen in ten to the power of the number of past retries
-        int delay = (10 ^ counter) * 1000;
+        // next retry will happen in two to the power of the number of past retries
+        int expDelay = Math.pow(2, attempt.getRetryCount()) * 1000;
 
-        // let's add a jitter to increase the chance of avoiding collisions
+        // let's add a random jitter to increase the chance of avoiding collisions
         int jitter = new Random().nextInt(1000);
 
         // return the time in milliseconds that the next retry should happen
-        return delay + jitter;
+        return expDelay + jitter;
+    }
+}
+```
+
+Check out an example implementing a Retry-After header retry police:
+
+```java
+public class RetryAfterHeaderRetryPolicy implements RetryPolicy {
+    
+    public int retryIn(RequestAttempt attempt) {
+        // the request can fail due to a non success Response or a RequestException
+
+        if (attempt.isResponseAvailable()) {
+            // if the request failed due to a non success Response
+            // then check if the Retry-After exists
+            Response response = attempt.getResponse();
+            
+            if (response.hasHeader("Retry-After")) {
+                // get the value of the Retry-After header
+                String seconds = response.getHeader("Retry-After");
+                
+                // return the Retry-After value converted to milliseconds
+                return Integer.parseInt(seconds) * 1000;
+            }
+        }
+
+        // if the Retry-After header is not present then don't retry
+        return -1;
     }
 }
 ```
@@ -493,7 +522,7 @@ req.retry( new ExponentialWithJitterRetryPolicy() );
 ```
 
 When our customized retry policy contains state that should not be shared among different requests,
-we must o register it with a Provider instead.
+we must register it with a Provider instead.
 
 ```java
 // register a Provider of our custom retry policy

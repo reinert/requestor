@@ -38,15 +38,15 @@ public class RequestRetrier {
     }
 
     public boolean maybeRetry(Response response) {
-        return maybeRetry(response.getStatus());
+        return maybeRetry(new RequestAttempt(preparedRequest, retryCount, response));
     }
 
     public boolean maybeRetry(RequestException exception) {
-        return maybeRetry(exception.getEvent());
+        return maybeRetry(new RequestAttempt(preparedRequest, retryCount, exception));
     }
 
-    private boolean maybeRetry(RequestEvent event) {
-        int nextRetryDelay = retryPolicy.retryIn(preparedRequest, event, retryCount);
+    private boolean maybeRetry(RequestAttempt attempt) {
+        int nextRetryDelay = retryPolicy.retryIn(attempt);
 
         if (nextRetryDelay > 0) {
             scheduler.scheduleRun(new Runnable() {

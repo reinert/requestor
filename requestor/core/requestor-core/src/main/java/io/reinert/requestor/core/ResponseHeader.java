@@ -34,6 +34,16 @@ public interface ResponseHeader extends Store {
     String getHeader(String header);
 
     /**
+     * Check if header exists.
+     *
+     * @param header the header name
+     *
+     * @return {@code true} if the header is present in the {@link #getHeaders() response headers},
+     *         {@code false} otherwise.
+     */
+    boolean hasHeader(String header);
+
+    /**
      * Returns the value of the content-type header.
      *
      * @return the value of response header

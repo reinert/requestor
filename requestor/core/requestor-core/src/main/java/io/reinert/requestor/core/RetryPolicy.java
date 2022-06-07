@@ -29,12 +29,10 @@ public interface RetryPolicy {
      *
      * <p>If the returned time is negative, then the request won't be retried and will fail.</p>
      *
-     * @param request   The options of the request under submission
-     * @param event     The result of the last try
-     * @param counter   The number of times the request was already retried
+     * @param attempt   The data of the request under submission
      *
      * @return  The time in milliseconds of the next retry.
      *          The request won't be retried If this number is negative.
      */
-    int retryIn(RequestOptions request, RequestEvent event, int counter);
+    int retryIn(RequestAttempt attempt);
 }
