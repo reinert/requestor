@@ -598,10 +598,9 @@ The `load` event is triggered whenever a request receives a response. It is subd
 Additionally, any Status Code is also an event. So, if a 201 response is received, the `201` event is triggered.
 Finally, the Status Families are also events. Thus, a 201 response triggers the `2` event as well.
 
-Besides those events, Requestor also fires two **progress** events: `read` and `write` events. They enable us to track download and upload progress respectively.
-While the `error` or `load` events are triggered once per request call, the `read` and `write` events are triggered many times per call.
-In addition to get the completed fraction of the upload and download, it is also possible to get each chunk of bytes that is sent of received.
-These events open the HTTP streaming door for the user.
+Besides, Requestor also fires two **progress** events: the `read` and `write` events. They enable us to track download and upload progress respectively.
+While the `error` and `load` (and their children) events are triggered once per request call, the `read` and `write` events are triggered many times per call.
+These events also allow us to get each chunk of bytes that is sent or received during a request. They open the [HTTP Streaming](#http-streaming) door for us.
 
 ![request-events](https://user-images.githubusercontent.com/1285494/146399333-8294288f-b5b8-4cf6-bcee-e8e2fe939695.png)
 
