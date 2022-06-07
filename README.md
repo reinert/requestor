@@ -13,6 +13,7 @@ Requestor is:
 * **Session-Based** → set up multiple client configurations for different backends with instance level customization.
 * **Scope-Bounded** → sessions, services and requests have isolated and interconnected contexts with fine-grained control over them.
 * **Cache-Assisted** → promptly save and share data among different parts of your application while handling communication.
+* **Functional-Friendly** → the api is designed to allow you to leverage the most of java lambdas and functional programming.
 
 ## Features
 * [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
