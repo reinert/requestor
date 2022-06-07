@@ -126,10 +126,11 @@ session.post("/login", credentials, UserInfo.class)
             session.save("userInfo", userInfo);
             // Set the default auth for every session request
             session.setAuth(new BearerAuth(userInfo.getToken()));
-        });
+        })
+        .await();
 
 // Make authenticated requests
-session.post("/api/books", book);
+session.post("/api/books", book).await();
 
 // Retrieve data from the session store
 UserInfo userInfo = session.retrieve("userInfo");
@@ -196,41 +197,30 @@ section.
 
 Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** provides most of the
 features but delegates some internals, like the network operation, to the implementations.
+The requestor impls make the bridge between requestor-core and the target platform.
 
 Currently, there are two requestor impls available:
-- **requestor-javanet** - it implements requestor for regular Java/Android apps providing the network operation powered by the `java.net` package. 
-- **requestor-gwt**. It implements requestor for GWT2 apps providing the network operation powered by XMLHttpRequest.
+- **requestor-javanet** - it implements requestor for the JVM and Android platforms providing the network operation powered by the `java.net` package. 
+- **requestor-gwt**. It implements requestor for GWT2 apps providing the network operation powered by the browser's XMLHttpRequest.
 
 ### JVM / Android (Java / Kotlin)
 
-There are different builds of the requestor-javanet impl for each LTS JDK version:
-- requestor-javanet-jdk8
-- requestor-javanet-jdk11
-- requestor-javanet-jdk17
-
-The default **requestor-javanet** build always link to the latest supported JDK version (jdk17 in this case).
+The **requestor-javanet** impl is built with jdk8 and compatible with **Java 8+**.
 
 ```xml
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
-
-    <!-- for jdk8+ based projects -->
-    <artifactId>requestor-javanet-jdk8</artifactId>
-
-    <!-- for jdk11+ based projects -->
-    <!-- <artifactId>requestor-javanet-jdk11</artifactId> -->
-
-    <!-- for jdk17+ based projects -->
-    <!-- <artifactId>requestor-javanet-jdk17</artifactId> -->
-    <!-- <artifactId>requestor-javanet</artifactId> -->
-
+    <artifactId>requestor-javanet</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
 
+If you're using jdk12+ then add the following command line arg to execute your java app:
+`--add-opens java.base/java.net=ALL-UNNAMED`.
+
 ### GWT2
 
-Add the **requestor-gwt** dependency to your POM.
+The **requestor-gwt** impl is compatible with **GWT 2.7+** (Java 5+).
 
 ```xml
 <dependency>
@@ -2651,7 +2641,7 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
   ...
   <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
-    <artifactId>requestor-gwt</artifactId>
+    <artifactId>requestor-javanet</artifactId>
     <version>1.1.0-SNAPSHOT</version>
   </dependency>
   ...
