@@ -1903,6 +1903,11 @@ This session configuration will be applied to every request's [`retry`](#retry) 
 session.setRetry(DelaySequence.fixed(5, 10, 30), Status.TOO_MANY_REQUESTS);
 ```
 
+```java
+// Every request will have a new instance of MyRetryPolicy
+session.setRetry(MyRetryPolicy::new);
+```
+
 ### Requesting
 
 The Session is the starting point to build requests. We access the request builder by calling `session.req(<Uri>)`. Since the builder is also an invoker, we can call an invoke method any time to send the request. The invoke methods are named according to the respective HTTP methods they claim. All those methods are chainable, as demonstrated below:
@@ -1925,13 +1930,17 @@ Request<Book> request = session.req("/api/book/1")
 
 In order to better understand the requesting mechanics, refer to the [Requesting Fluent API](#requesting-fluent-api) section.
 
-In addition to the fluent request builder and invoker exposed by the `req` method, the Session features **direct invoker methods** that quickly dispatch requests.
+In addition to the fluent request builder exposed by the `req` method, the Session features **direct invoker methods** that quickly dispatch requests.
+These are named likewise the HTTP Methods they invoke.
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin");
 
 // Same as `session.req("/api/books").payload(book).post(Book.class)`
-Request<Book> request = session.post("/api/books", book, Book.class);
+Request<Book> postReq = session.post("/api/books", book, Book.class);
+
+// Same as `session.req("/api/books").get(List.class, Book.class)`
+Request<Collection<Book>> getReq = session.get("/api/books", List.class, Book.class);
 ```
 
 ### DeferredPool Factory
@@ -1943,7 +1952,6 @@ The example below demonstrates a customized Deferred Factory that fires a `ShowL
 ```java
 class AppDeferredPoolFactory implements DeferredPool.Factory {
 
-    @Override
     public <T> DeferredPool<T> create(SerializedRequest request) {
         final DeferredPollingRequest<T> deferred = new DeferredPollingRequest<T>(request);
 

@@ -65,9 +65,13 @@ public interface HasRequestOptions extends HasHeaders {
 
     void setRetry(int[] delaysMillis, RequestEvent... events);
 
-    int[] getRetryDelays();
+    void setRetry(RetryPolicy retryPolicy);
 
-    RequestEvent[] getRetryEvents();
+    void setRetry(RetryPolicy.Provider retryPolicyProvider);
+
+    RetryPolicy getRetryPolicy();
+
+    RetryPolicy.Provider getRetryPolicyProvider();
 
     boolean isRetryEnabled();
 

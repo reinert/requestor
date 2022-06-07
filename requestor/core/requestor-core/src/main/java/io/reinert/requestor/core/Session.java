@@ -384,13 +384,23 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
-    public int[] getRetryDelays() {
-        return options.getRetryDelays();
+    public void setRetry(RetryPolicy retryPolicy) {
+        options.setRetry(retryPolicy);
     }
 
     @Override
-    public RequestEvent[] getRetryEvents() {
-        return options.getRetryEvents();
+    public void setRetry(RetryPolicy.Provider retryPolicyProvider) {
+        options.setRetry(retryPolicyProvider);
+    }
+
+    @Override
+    public RetryPolicy getRetryPolicy() {
+        return options.getRetryPolicy();
+    }
+
+    @Override
+    public RetryPolicy.Provider getRetryPolicyProvider() {
+        return options.getRetryPolicyProvider();
     }
 
     @Override

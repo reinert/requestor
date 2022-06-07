@@ -29,8 +29,7 @@ class RequestOptionsHolder implements HasRequestOptions {
     private volatile int timeout;
     private volatile int delay;
     private volatile String charset;
-    private volatile int[] retryDelays;
-    private volatile RequestEvent[] retryEvents;
+    private volatile RetryPolicy.Provider retryPolicyProvider;
     private final Headers headers = new Headers(true);
 
     static RequestOptionsHolder copy(RequestOptionsHolder options) {
@@ -40,7 +39,7 @@ class RequestOptionsHolder implements HasRequestOptions {
         copy.setTimeout(options.timeout);
         copy.setDelay(options.delay);
         copy.setCharset(options.charset);
-        if (options.isRetryEnabled()) copy.setRetry(options.retryDelays, options.retryEvents);
+        copy.setRetry(options.retryPolicyProvider);
         for (Header h : options.headers) copy.setHeader(h);
         return copy;
     }
@@ -59,8 +58,7 @@ class RequestOptionsHolder implements HasRequestOptions {
         timeout = 0;
         delay = 0;
         charset = null;
-        retryDelays = null;
-        retryEvents = null;
+        retryPolicyProvider = null;
         headers.clear();
     }
 
@@ -86,7 +84,6 @@ class RequestOptionsHolder implements HasRequestOptions {
     @Override
     public void setAuth(final Auth auth) {
         Auth.Provider provider = (auth == null) ? null : new Auth.Provider() {
-            @Override
             public Auth getInstance() {
                 return auth;
             }
@@ -141,24 +138,45 @@ class RequestOptionsHolder implements HasRequestOptions {
     }
 
     @Override
-    public void setRetry(int[] delaysMillis, RequestEvent... events) {
-        retryDelays = delaysMillis;
-        retryEvents = events;
+    public void setRetry(final int[] delaysMillis, final RequestEvent... events) {
+        if (delaysMillis != null && delaysMillis.length > 0 && events.length > 0) {
+            setRetry(new RetryPolicy.Provider() {
+                public RetryPolicy getInstance() {
+                    return new RetryPolicyImpl(delaysMillis, events);
+                }
+            });
+        }
     }
 
     @Override
-    public int[] getRetryDelays() {
-        return retryDelays;
+    public void setRetry(final RetryPolicy retryPolicy) {
+        RetryPolicy.Provider provider = (retryPolicy == null) ? null : new RetryPolicy.Provider() {
+            public RetryPolicy getInstance() {
+                return retryPolicy;
+            }
+        };
+        setRetry(provider);
     }
 
     @Override
-    public RequestEvent[] getRetryEvents() {
-        return retryEvents;
+    public void setRetry(RetryPolicy.Provider retryPolicyProvider) {
+        this.retryPolicyProvider = retryPolicyProvider;
+    }
+
+    @Override
+    public RetryPolicy getRetryPolicy() {
+        if (retryPolicyProvider == null) return null;
+        return retryPolicyProvider.getInstance();
+    }
+
+    @Override
+    public RetryPolicy.Provider getRetryPolicyProvider() {
+        return retryPolicyProvider;
     }
 
     @Override
     public boolean isRetryEnabled() {
-        return retryDelays != null && retryEvents != null;
+        return retryPolicyProvider != null;
     }
 
     @Override
@@ -222,7 +240,7 @@ class RequestOptionsHolder implements HasRequestOptions {
         }
 
         if (isRetryEnabled()) {
-            request.retry(retryDelays, retryEvents);
+            request.retry(retryPolicyProvider);
         }
 
         for (Header h : headers) {
