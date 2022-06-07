@@ -1023,7 +1023,7 @@ according to the asked class and the request/response's **Content-Type**.
 
 To enable serialization and deserialization, we must register a `Serializer` instance in the
 [session](#session). Necessitating only the deserialization part, we can register a 
-`Deserializer` implementation.
+`Deserializer` implementation, since the Serializer extends from the Deserializer.
 
 ```java
 session.register(new MyTypeSerializer());
@@ -1038,7 +1038,6 @@ Provider:
 
 ```java
 register(new SerializerProvider() {
-    @Override
     public Serializer<?> getInstance() {
         return new MyTypeSerializer(); // return a disposable instance instead of a reference
     }
@@ -1051,11 +1050,10 @@ session.register(MyTypeSerializer::new); // Same as `session.register(() -> new 
 **💡 PRO TIP**: If you start having too many serializers, consider registering them with `Providers` to save memory.
 
 Although it is possible to implement our custom Serializers, we often resort to **AUTO-SERIALIZATION**
-provided by requestor extensions. Currently, there are two available: `requestor-gwtjackson` and
-`requestor-autobeans`.
+provided by requestor extensions. The existing auto-serialization exts are listed following.
 
 
-### Gson auto-serialization
+### Gson auto-serialization (JVM/Android)
 
 The `requestor-gson` extension integrates [Gson](https://github.com/google/gson) with Requestor
 to enable auto serialization. Intending to have the Serializers automatically generated, we just
@@ -1128,7 +1126,7 @@ In order to install requestor-gson extension, add the following dependency to yo
 ```
 
 
-### Gwt-Jackson auto-serialization
+### Gwt-Jackson auto-serialization (GWT)
 
 The `requestor-gwtjackson` extension integrates gwt-jackson into requestor to provide auto 
 serialization. Intending to have the Serializers automatically generated, we just need to 
@@ -1190,7 +1188,7 @@ Then inherit the `RequestorGwtJackson` GWT module in your gwt.xml file:
 <inherits name="io.reinert.requestor.gwtjackson.RequestorGwtJackson"/>
 ```
 
-### AutoBean auto-serialization
+### AutoBean auto-serialization (GWT)
 
 Similarly to the previous extension, `requestor-autobean` provides auto serialization for 
 AutoBean interfaces. Likewise, we declare a SerializationModule with the classes and media types 
@@ -1448,7 +1446,7 @@ session.setAuth(() -> new DigestAuth(session.retrieve("username"), session.retri
 ```
 
 
-### OAuth2
+### OAuth2 (GWT)
 Requestor provides client-side OAuth2 authenticators supporting both *header* and *url query param* 
 strategies. It is made available by the `requestor-oauth2gwt` extension.
 
