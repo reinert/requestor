@@ -249,9 +249,13 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public RequestBuilderImpl retry(int[] delaysMillis, RequestEvent... events) {
+    public RequestBuilderImpl retry(final int[] delaysMillis, final RequestEvent... events) {
         if (delaysMillis != null && delaysMillis.length > 0 && events.length > 0) {
-            return retry(new RetryPolicyImpl(delaysMillis, events));
+            return retry(new RetryPolicy.Provider() {
+                public RetryPolicy getInstance() {
+                    return new RetryPolicyImpl(delaysMillis, events);
+                }
+            });
         }
         return this;
     }
