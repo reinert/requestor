@@ -488,8 +488,8 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public boolean isEquals(String key, Object value) {
-        return store.isEquals(key, value);
+    public boolean exists(String key, Object value) {
+        return store.exists(key, value);
     }
 
     @Override

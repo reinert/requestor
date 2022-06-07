@@ -73,7 +73,7 @@ public interface Store extends Saver {
      * @return <code>True</code> if there's an object equals to the given value associated with the key.
      *         <code>False</code> otherwise.
      */
-    boolean isEquals(String key, Object value);
+    boolean exists(String key, Object value);
 
     /**
      * Removes the data associated with this key.

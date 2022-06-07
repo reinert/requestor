@@ -299,8 +299,8 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public boolean isEquals(String key, Object value) {
-        return request.isEquals(key, value);
+    public boolean exists(String key, Object value) {
+        return request.exists(key, value);
     }
 
     @Override

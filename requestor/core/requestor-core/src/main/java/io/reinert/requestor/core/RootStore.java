@@ -64,7 +64,7 @@ class RootStore implements Store {
     }
 
     @Override
-    public boolean isEquals(String key, Object value) {
+    public boolean exists(String key, Object value) {
         checkNotNull(key, "The key argument cannot be null");
         checkNotNull(value, "The value argument cannot be null. Try the exists method instead.");
 

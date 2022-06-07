@@ -119,7 +119,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                 conn.setDoOutput(true);
                 if (serializedPayload.getLength() > 0) {
                     conn.setFixedLengthStreamingMode(serializedPayload.getLength());
-                } else if (request.isEquals(Requestor.CHUNKED_STREAMING_MODE_DISABLED, Boolean.TRUE)) {
+                } else if (request.exists(Requestor.CHUNKED_STREAMING_MODE_DISABLED, Boolean.TRUE)) {
                     conn.setChunkedStreamingMode(outputBufferSize);
                 }
             }
@@ -230,7 +230,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             // Payload download
             SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             if (payloadType.getType() != Void.class ||
-                    request.isEquals(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE)) {
+                    request.exists(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE)) {
                 try (InputStream in = responseStatus.getFamily() == StatusFamily.SUCCESSFUL ?
                                 conn.getInputStream() : conn.getErrorStream()) {
                     if (in != null) {
@@ -279,7 +279,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
     private <R> long writeBytesToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
                                               byte[] bytes, long totalWritten, long totalSize) throws IOException {
-        final boolean chunkingEnabled = request.isEquals(Requestor.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
+        final boolean chunkingEnabled = request.exists(Requestor.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
         for (int i = 0; i <= (bytes.length - 1) / outputBufferSize; i++) {
             int off = i * outputBufferSize;
             int len = Math.min(outputBufferSize, bytes.length - off);
@@ -300,7 +300,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
     private <R> long writeInputToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
                                               InputStream in, long totalWritten, long totalSize) throws IOException {
-        final boolean chunkingEnabled = request.isEquals(Requestor.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
+        final boolean chunkingEnabled = request.exists(Requestor.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
         try (InputStream bis = new BufferedInputStream(in, outputBufferSize)) {
             byte[] buffer = new byte[outputBufferSize];
             int stepRead;
@@ -328,7 +328,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
         final int contentLength = conn.getContentLength();
 
         final boolean payloadRequested = request.getResponsePayloadType().getType() != Void.class;
-        final boolean chunkingEnabled = request.isEquals(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE);
+        final boolean chunkingEnabled = request.exists(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE);
 
         // NOTE: there should be no body when buffering is enabled but return type is void
         byte[] body = payloadRequested ? new byte[Math.max(contentLength, 0)] : null;

@@ -589,8 +589,8 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
-    public boolean isEquals(String key, Object value) {
-        return store.isEquals(key, value);
+    public boolean exists(String key, Object value) {
+        return store.exists(key, value);
     }
 
     @Override

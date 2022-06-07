@@ -121,8 +121,8 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public boolean isEquals(String key, Object value) {
-        return response.isEquals(key, value);
+    public boolean exists(String key, Object value) {
+        return response.exists(key, value);
     }
 
     @Override

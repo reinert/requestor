@@ -2006,7 +2006,7 @@ interface Store {
     boolean exists(String key);
 
     // Checks if there's an object associated with the given key and if it's equals to the given value.
-    boolean isEquals(String key, Object value);
+    boolean exists(String key, Object value);
 
     // Removes the object associated with this key if it owns such record.
     boolean remove(String key);
@@ -2033,7 +2033,7 @@ AnyType object = session.retrieve("key");
 boolean isSaved = session.exists("key");
 
 // Check if there's an object with that key equals to the given value
-boolean isEquals = session.isEquals("key", anyObject);
+boolean isEquals = session.exists("key", anyObject);
 
 // Remove the object from the session store
 boolean isRemoved = session.remove("key");
@@ -2063,7 +2063,7 @@ session.req("/server")
        .get()
        .onLoad(response -> {
             // retrieve data from the request store
-            if (response.isEquals("hidden", true)) {
+            if (response.exists("hidden", true)) {
                 // do something...
             }
         });
@@ -2120,7 +2120,7 @@ response.remove("key");
 **💡 PRO TIP**: Request scope store is specially useful to deal with exceptional cases in [request/response processors](#processors-middlewares).
 For instance, suppose you created processors to show a loading widget when requesting and hide when the response is received or an error occurs.
 But, for some reason, you want to make 'hidden' requests, so that the loading widget is not shown.
-You can then call `.save("hidden", true)` when building the request and check for this flag in the processors by calling `.isEquals("hidden", true)` to skip displaying the loading widget.
+You can then call `.save("hidden", true)` when building the request and check for this flag in the processors by calling `.exists("hidden", true)` to skip displaying the loading widget.
 Requestor's showcase app implements such scenario. [Here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/Showcase.java#L80) a hidden ping request is executed to wake-up the server, and [here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/ShowcaseDeferredFactory.java#L43) the Request Store is queried to skip showing the loading widget.
 
 ### Service Store

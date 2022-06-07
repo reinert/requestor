@@ -40,7 +40,7 @@ class ShowcaseDeferredFactory implements DeferredPool.Factory {
     public <T> DeferredPool<T> create(SerializedRequest request) {
         final DeferredPollingRequest<T> deferredPool = new DeferredPollingRequest<T>(request);
 
-        if (!request.isEquals("hidden", true)) {
+        if (!request.exists("hidden", true)) {
             // Show loading widget
             Showcase.CLIENT_FACTORY.getEventBus().fireEventFromSource(new ShowLoadingEvent(), deferredPool);
 

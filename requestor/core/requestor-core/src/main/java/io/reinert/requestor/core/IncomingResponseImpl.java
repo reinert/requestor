@@ -99,8 +99,8 @@ public class IncomingResponseImpl implements IncomingResponse {
         return response.exists(key);
     }
 
-    public boolean isEquals(String key, Object value) {
-        return response.isEquals(key, value);
+    public boolean exists(String key, Object value) {
+        return response.exists(key, value);
     }
 
     public boolean remove(String key) {

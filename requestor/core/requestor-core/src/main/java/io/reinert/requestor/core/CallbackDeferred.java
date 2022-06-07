@@ -264,8 +264,8 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
-    public boolean isEquals(String key, Object value) {
-        return serializedRequest.isEquals(key, value);
+    public boolean exists(String key, Object value) {
+        return serializedRequest.exists(key, value);
     }
 
     @Override
