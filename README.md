@@ -24,7 +24,7 @@ Requestor is:
 * [**Middlewares**](#processors-middlewares) - asynchronously filter and intercept requests and responses.
 * [**HTTP Polling**](#poll) - make long or short polling with a single command.
 * [**HTTP Streaming**](#http-streaming) - efficiently stream the byte chunks as soon they are received.
-* [**Retry**](#retry) - define a retry policy with a single command.
+* [**Retry Policy**](#retry) - easily define a retry policy with two alternative approaches.
 * [**Session**](#session) - manage all requesting configurations in one place.
 * [**Service**](#services) - break down the API consumption into smaller independent contexts.
 * [**Store**](#store) - save and retrieve data in different scope levels (session, service and request).
@@ -410,7 +410,7 @@ req.skip( Process.SERIALIZE_REQUEST, Process.DESERIALIZE_RESPONSE );
 There are two ways of defining a retry policy: one by informing the events that trigger a retry and a sequence of delays;
 and another by implementing a `RetryPolicy`.
 
-#### *retry( int[], RequestEvent... )*
+#### *retry( delays, events )*
 
 Set a retry policy for the request with two arguments: (1) an array of `delays` in milliseconds and (2) an array of `events`.
 The **delays** array is a sequence of times that Requestor will wait before retrying the request respectively.
@@ -422,11 +422,11 @@ after all retries defined in the retry police were made and the retry event pers
 Regarding the `delays` argument, although we can provide an int array manually, we will often resort to the `DelaySequence`.
 It is a factory that provides helpful methods to create sequences of delays according to different criteria.
 * **DelaySequence.arithmetic**( *\<initialSeconds\>, \<commonDiff\>, \<limit\>* ) - creates a millis int array with an arithmetic sequence.
-  * Ex: `DelaySequence.arithmetic(5, 20, 3)` generates `[5000, 25000, 45000]` 
+  * Ex: `DelaySequence.arithmetic(5, 20, 3)` generates `[5s, 25s, 45s]` 
 * **DelaySequence.geometric**( *\<initialSeconds\>, \<ratio\>, \<limit\>* ) - creates a millis int array with a geometric sequence.
-    * Ex: `DelaySequence.geometric(3, 2, 4)` generates `[3000, 6000, 12000, 36000]`
- * **DelaySequence.fixed**( *\<seconds\>...* ) - creates a sequence with the given seconds array multiplied by 1000.
-    * Ex: `DelaySequence.fixed(5, 15, 45)` generates `[5000, 15000, 45000]`
+  * Ex: `DelaySequence.geometric(3, 2, 4)` generates `[3s, 6s, 12s, 36s]`
+* **DelaySequence.fixed**( *\<seconds\>...* ) - creates a sequence with the given seconds array multiplied by 1000.
+  * Ex: `DelaySequence.fixed(5, 15, 45)` generates `[5s, 15s, 45s]`
 
 As for the `events` argument, Requestor has a set of pre-defined events in the `RequestEvent` enum, matching the events
 that we can bind [callbacks](#event-driven-callbacks) to. Additionally, any `StatusFamily` or `Status` is also an event.
@@ -453,9 +453,10 @@ req.retry( DelaySequence.fixed(5, 15, 45), RequestEvent.TIMEOUT, StatusFamily.CL
 
 #### *retry( RetryPolicy )*
 
-Further, we are able to provide a more complex retry logic by implementing the functional interface `RetryPolicy`.
+Furthermore, we are able to provide a more complex retry logic by implementing the `RetryPolicy` functional interface.
 
-See this example implementing an exponential backoff retry with jitter:
+See this example implementing an exponential backoff retry with random jitter:
+
 ```java
 public class ExponentialWithJitterRetryPolicy implements RetryPolicy {
     
