@@ -16,13 +16,10 @@
 package io.reinert.requestor.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.serialization.Deserializer;
 import io.reinert.requestor.core.serialization.HandlesSubTypes;
@@ -35,8 +32,6 @@ import io.reinert.requestor.core.serialization.Serializer;
  * @author Danilo Reinert
  */
 class SerializerManagerImpl implements SerializerManager {
-
-    private static final Logger logger = Logger.getLogger(SerializerManagerImpl.class.getName());
 
     private final Map<String, ArrayList<DeserializerHolder>> deserializers = new ConcurrentHashMap<String,
                 ArrayList<DeserializerHolder>>();
@@ -114,24 +109,14 @@ class SerializerManagerImpl implements SerializerManager {
         final String typeName = getClassName(type);
         final Key key = new Key(typeName, mediaType);
 
-        logger.log(Level.FINE, "Querying for Deserializer of type '" + typeName + "' and " + "media-type '" + mediaType
-                + "'.");
-
         ArrayList<DeserializerHolder> holders = deserializers.get(typeName);
         if (holders != null) {
             for (DeserializerHolder holder : holders) {
                 if (holder.key.matches(key)) {
-                    Deserializer<T> deserializer = (Deserializer<T>) holder.deserializerProvider.getInstance();
-                    logger.log(Level.FINE, "Deserializer for type '" + deserializer.handledType() + "' and " +
-                            "media-type '" + Arrays.toString(deserializer.mediaType()) + "' matched: " +
-                            deserializer.getClass().getName());
-                    return deserializer;
+                    return (Deserializer<T>) holder.deserializerProvider.getInstance();
                 }
             }
         }
-
-        logger.log(Level.WARNING, "There is no Deserializer registered for " + type.getName() +
-                " and media-type " + mediaType + ".");
 
         return null;
     }
@@ -153,24 +138,14 @@ class SerializerManagerImpl implements SerializerManager {
         final String typeName = getClassName(type);
         final Key key = new Key(typeName, mediaType);
 
-        logger.log(Level.FINE, "Querying for Serializer of type '" + typeName + "' and " + "media-type '" + mediaType
-                + "'.");
-
         ArrayList<SerializerHolder> holders = serializers.get(typeName);
         if (holders != null) {
             for (SerializerHolder holder : holders) {
                 if (holder.key.matches(key)) {
-                    Serializer<T> serializer = (Serializer<T>) holder.serializerProvider.getInstance();
-                    logger.log(Level.FINE, "Serializer for type '" + serializer.handledType() + "' and " +
-                            "media-type '" + Arrays.toString(serializer.mediaType()) + "' matched: " +
-                            serializer.getClass().getName());
-                    return serializer;
+                    return (Serializer<T>) holder.serializerProvider.getInstance();
                 }
             }
         }
-
-        logger.log(Level.WARNING, "There is no Serializer registered for type " + type.getName() +
-                " and media-type " + mediaType + ".");
 
         return null;
     }
