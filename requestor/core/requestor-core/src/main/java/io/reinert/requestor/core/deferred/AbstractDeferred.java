@@ -18,8 +18,6 @@ package io.reinert.requestor.core.deferred;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Abstract implementation of Deferred.
@@ -32,8 +30,6 @@ import java.util.logging.Logger;
  * @author Danilo Reinert
  */
 abstract class AbstractDeferred<D, F, P, U> {
-
-    protected final Logger log = Logger.getLogger(String.valueOf(AbstractDeferred.class));
 
     protected F rejectResult;
     protected D resolveResult;
@@ -119,11 +115,7 @@ abstract class AbstractDeferred<D, F, P, U> {
 
     protected void triggerDone(D resolved) {
         for (DoneCallback<D> callback : doneCallbacks) {
-            try {
-                triggerDone(callback, resolved);
-            } catch (Exception e) {
-                log.log(Level.SEVERE, "An uncaught exception occurred in a DoneCallback", e);
-            }
+            triggerDone(callback, resolved);
         }
     }
 
@@ -133,11 +125,7 @@ abstract class AbstractDeferred<D, F, P, U> {
 
     protected void triggerFail(F rejected) {
         for (FailCallback<F> callback : failCallbacks) {
-            try {
-                triggerFail(callback, rejected);
-            } catch (Exception e) {
-                log.log(Level.SEVERE, "An uncaught exception occurred in a FailCallback", e);
-            }
+            triggerFail(callback, rejected);
         }
     }
 
@@ -148,11 +136,7 @@ abstract class AbstractDeferred<D, F, P, U> {
     protected void triggerProgress(P progress) {
         if (progressCallbacks != null) {
             for (ProgressCallback<P> callback : progressCallbacks) {
-                try {
-                    triggerProgress(callback, progress);
-                } catch (Exception e) {
-                    log.log(Level.SEVERE, "An uncaught exception occurred in a ProgressCallback", e);
-                }
+                triggerProgress(callback, progress);
             }
         }
     }
@@ -160,11 +144,7 @@ abstract class AbstractDeferred<D, F, P, U> {
     protected void triggerUpProgress(U progress) {
         if (upProgressCallbacks != null) {
             for (ProgressCallback<U> callback : upProgressCallbacks) {
-                try {
-                    triggerUpProgress(callback, progress);
-                } catch (Exception e) {
-                    log.log(Level.SEVERE, "An uncaught exception occurred in a Upload ProgressCallback", e);
-                }
+                triggerUpProgress(callback, progress);
             }
         }
     }
