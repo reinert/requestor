@@ -1814,7 +1814,7 @@ Example creating a Session passing a custom Thread Pool:
 
 ```java
 int corePoolSize = 10;
-ScheduledExecutorService threadPool = new ScheduledThreadPoolExecutor(corePoolSize);
+ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(corePoolSize);
 
 Session session = Requestor.newSession(threadPool);
 ```
@@ -1822,6 +1822,30 @@ Session session = Requestor.newSession(threadPool);
 The Session exposes some `ExecutorService` methods that allows us to manage the thread pool.
 For example, in order to actually finish all running processes in the Java application we need to
 call `session.shutdown()` or `session.shutdownNow()` to close the living threads in the thread pool.
+
+**💡 PRO TIP**: Often people question themselves what would be the optimal thread pool size.
+There's no simple answer to it and I strongly recommend you read the great article
+["How to set an ideal thread pool size"](https://engineering.zalando.com/posts/2019/04/how-to-set-an-ideal-thread-pool-size.html)
+from Anton Ilinchik. But if you want a quick formula to start, use the following:
+
+```text
+Number of Threads = Number of Available Cores * (1 + (Wait time / Service time))
+```
+
+* **Wait time** - is the time spent waiting for ***remote tasks*** to complete.
+  * waiting for the HTTP response from a web service
+  * waiting for the OS to process some task outside your app
+* **Service time** - is the time spent processing ***local tasks*** in your app.
+  * processing the received HTTP response or OS signal doing things like deserialization, transformations, etc.
+
+Example (from the article): A worker thread makes a call to a microservice, serializes response into JSON and executes
+some set of rules. The microservice response time is 50ms, processing time is 5ms. We deploy our application to a server
+with a dual-core CPU
+
+```text
+ThreadPoolSize = 2 * (1 + (50 / 5)) = 22
+```
+
 
 ### Session's Request Options
 
