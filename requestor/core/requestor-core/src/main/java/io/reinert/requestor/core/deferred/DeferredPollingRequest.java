@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.Auth;
 import io.reinert.requestor.core.Deferred;
@@ -62,8 +61,6 @@ import io.reinert.requestor.core.uri.Uri;
  * @author Danilo Reinert
  */
 public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingRequest<T> {
-
-    private static final Logger logger = Logger.getLogger(DeferredPollingRequest.class.getName());
 
     private final SerializedRequest serializedRequest;
     private final List<DeferredRequest<T>> deferreds;

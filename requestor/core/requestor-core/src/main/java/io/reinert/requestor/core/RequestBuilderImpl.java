@@ -18,7 +18,6 @@ package io.reinert.requestor.core;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.header.AcceptHeader;
 import io.reinert.requestor.core.header.ContentTypeHeader;
@@ -34,8 +33,6 @@ import io.reinert.requestor.core.uri.Uri;
  * @author Danilo Reinert
  */
 class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequest, SerializableRequest {
-
-    private static final Logger logger = Logger.getLogger(RequestBuilderImpl.class.getName());
 
     private final Session session;
     private Uri uri;

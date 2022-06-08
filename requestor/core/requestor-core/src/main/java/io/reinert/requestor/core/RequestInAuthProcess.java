@@ -16,7 +16,6 @@
 package io.reinert.requestor.core;
 
 import java.util.Set;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.header.Header;
@@ -33,8 +32,6 @@ import io.reinert.requestor.core.uri.Uri;
  * @author Danilo Reinert
  */
 class RequestInAuthProcess<R> implements ProcessableRequest {
-
-    private static final Logger logger = Logger.getLogger(RequestInAuthProcess.class.getName());
 
     private final MutableSerializedRequest request;
     private final PayloadType responsePayloadType;
@@ -212,7 +209,7 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         try {
             ((SerializableRequest) request).serializePayload(serializedPayload);
         } catch (ClassCastException e) {
-            logger.warning("Cannot serialize payload. Delegated request is not a SerializableRequest.");
+            throw new RuntimeException("Cannot serialize payload. Delegated request is not a SerializableRequest.", e);
         }
     }
 

@@ -21,7 +21,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.HttpConnection;
@@ -62,8 +61,6 @@ import io.reinert.requestor.core.internal.Threads;
  * @author Danilo Reinert
  */
 public class DeferredRequest<T> implements Deferred<T> {
-
-    private static final Logger logger = Logger.getLogger(DeferredRequest.class.getName());
 
     private final PollingRequest<T> request;
     private final DeferredObject<Response, RequestException, ReadProgress, WriteProgress> deferred;

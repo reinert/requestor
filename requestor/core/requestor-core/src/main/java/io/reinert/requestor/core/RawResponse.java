@@ -16,7 +16,6 @@
 package io.reinert.requestor.core;
 
 import java.util.Collections;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.header.Header;
@@ -33,8 +32,6 @@ import io.reinert.requestor.core.payload.type.PayloadType;
  * @author Danilo Reinert
  */
 public class RawResponse implements MutableResponse, DeserializableResponse, ProcessableResponse {
-
-    private static final Logger logger = Logger.getLogger(RawResponse.class.getName());
 
     private final Headers headers;
     private final LinkHeader linkHeader;
