@@ -15,14 +15,9 @@
  */
 package io.reinert.requestor.gwt.xhr;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gwt.core.client.JavaScriptObject;
 
 class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
-
-    private static final Logger logger = Logger.getLogger("io.reinert.requestor.core.XmlHttpRequest");
 
     public static class Upload extends JavaScriptObject {
 
@@ -72,9 +67,7 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
     }-*/;
 
     public final void setOnProgress(ProgressHandler handler) {
-        if (!setOnProgressNative(handler)) {
-            logger.log(Level.SEVERE, "Set OnProgress failed: XHR onprogress handler not supported by the browser.");
-        }
+        setOnProgressNative(handler);
     }
 
     public final native boolean setOnProgressNative(ProgressHandler handler) /*-{
@@ -93,8 +86,6 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
         final Upload upload = getUpload();
         if (upload != null) {
             upload.setOnProgress(handler);
-        } else {
-            logger.log(Level.SEVERE, "Set UploadOnProgress failed: XHR upload property not supported by the browser.");
         }
     }
 
@@ -103,9 +94,7 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
     }-*/;
 
     public final void setOnError(ProgressHandler handler) {
-        if (!setOnErrorNative(handler)) {
-            logger.log(Level.SEVERE, "Set onError failed: XHR onerror handler not supported by the browser.");
-        }
+        setOnErrorNative(handler);
     }
 
     public final native boolean setOnErrorNative(ProgressHandler handler) /*-{
@@ -121,9 +110,7 @@ class XmlHttpRequest extends com.google.gwt.xhr.client.XMLHttpRequest {
     }-*/;
 
     public final void setOnAbort(ProgressHandler handler) {
-        if (!setOnErrorNative(handler)) {
-            logger.log(Level.SEVERE, "Set onAbort failed: XHR onabort handler not supported by the browser.");
-        }
+        setOnErrorNative(handler);
     }
 
     public final native boolean setOnAbortNative(ProgressHandler handler) /*-{

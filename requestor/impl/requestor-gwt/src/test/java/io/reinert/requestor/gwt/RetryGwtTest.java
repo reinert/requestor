@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.gwt;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.core.DelaySequence;
@@ -35,8 +33,6 @@ import io.reinert.requestor.core.callback.ResponseRequestCallback;
 public class RetryGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 10000;
-    private static final Logger logger = Logger.getLogger(RetryGwtTest.class.getName());
-
     private Session session;
 
     @Override

@@ -16,8 +16,6 @@
 package io.reinert.requestor.gwt;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Element;
@@ -41,8 +39,6 @@ import io.reinert.requestor.core.serialization.SerializationContext;
 class GwtFormDataUrlEncodedSerializer extends FormDataUrlEncodedSerializer {
 
     public static final String MEDIA_TYPE = "application/x-www-form-urlencoded";
-
-    private static final Logger logger = Logger.getLogger(GwtFormDataUrlEncodedSerializer.class.getName());
 
     @Override
     public Class<FormData> handledType() {
@@ -78,10 +74,7 @@ class GwtFormDataUrlEncodedSerializer extends FormDataUrlEncodedSerializer {
                     field.getAttribute("type").toLowerCase() : "text";
 
             if (type.equals("file")) {
-                logger.log(Level.WARNING, "An attempt to serialize a non-string value from a FormData has failed." +
-                        " Files and Blobs are not supported by FormDataSerializerUrlEncoded." +
-                        " Maybe you want to switch the selected FormDataSerializer via deferred binding.");
-                continue;
+                throw new RuntimeException("Cannot urlencoded serialize files.");
             }
 
             if ((type.equals("radio") || type.equals("checkbox")) && !isChecked(field))

@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.gwt;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.core.PollingRequest;
@@ -32,7 +30,6 @@ import io.reinert.requestor.core.callback.ResponseRequestCallback;
 public class PollingGwtTest extends GWTTestCase {
 
     private static final int TIMEOUT = 5000;
-    private static final Logger logger = Logger.getLogger(PollingGwtTest.class.getName());
 
     private Session session;
 
