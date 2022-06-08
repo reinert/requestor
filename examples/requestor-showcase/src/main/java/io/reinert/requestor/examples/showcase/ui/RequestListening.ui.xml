@@ -42,9 +42,9 @@
         If we set a callback for the "error" event, it will catch any of the three subevents.
       </p>
       <p>
-        Besides the <b>"load"</b> and <b>"error"</b> events, we cal also listen to the <b>"progress"</b> and <b>"upProgress"</b> events.
+        Besides the <b>"load"</b> and <b>"error"</b> events, we cal also listen to the <b>"read"</b> and <b>"write"</b> events.
         <br/>
-        Those events enables us to track the progress of downloads and uploads.
+        These events enables us to track the progress of downloads and uploads respectively.
       </p>
 
       <div class="highlight">

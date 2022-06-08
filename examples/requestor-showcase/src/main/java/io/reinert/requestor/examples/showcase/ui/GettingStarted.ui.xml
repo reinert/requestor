@@ -69,7 +69,7 @@
         <div class="highlight">
           <pre ui:field="getRequestorInstance">
             <code class="java">
-              Session session = new GwtSession();
+              Session session = Requestor.newSession();
             </code>
           </pre>
         </div>
