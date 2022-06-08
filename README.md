@@ -16,7 +16,7 @@ Requestor is:
 * **Functional-Friendly** → the api is designed to allow you to leverage the most of java lambdas and functional programming.
 
 ## Features
-* [**Requesting Fluent API**](#requesting-fluent-api-briefing) - code as you think, read as you code.
+* [**Requesting Fluent API**](#%EF%B8%8F-requesting-fluent-api-briefing) - code as you think, read as you code.
 * [**Event-Driven Callbacks**](#event-driven-callbacks) - set callbacks for different results in a precise event system.
 * [**Futures**](#futures) - access the response header, the body and the deserialized payload as soon they are available.
 * [**Await**](#await) - alternatively work in a synchronous fashion by waiting for the request to finish.
@@ -30,7 +30,7 @@ Requestor is:
 * [**Service**](#services) - break down the API consumption into smaller independent contexts.
 * [**Store**](#store) - save and retrieve data in different scope levels (session, service and request).
 * [**Links**](#links-hateoas) - navigate through an API interacting with its links (HATEOAS for real).
-* [**Headers**](#headers-api) - directly create and parse complex headers.
+* [**Headers**](#headers) - directly create and parse complex headers.
 * [**URIs**](#uri) - build and parse complicated URIs easily.
 * [**Binary Data**](#binary-data) - upload and download files tracking the progress.
 * [**Form Data**](#form-data) - send both 'multipart/form-data' and 'application/x-www-form-urlencoded' requests.
@@ -44,7 +44,7 @@ available: **requestor-javanet** for JVM/Android and **requestor-gwt** for GWT2.
 
 ## Preview
 
-✍️ Create a Java app that queries the public IP, prints it and exits:
+👨‍💻 Create a Java app that queries the public IP, prints it and exits:
 
 ```java
 final Session session = Requestor.newSession();
@@ -57,7 +57,7 @@ session.get("https://httpbin.org/ip", String.class) // deserialize the response 
 **NOTE:** The session owns a thread pool. Calling shutdown will close all the threads.
 If you don't do it, the app will still be alive.
 
-✍️ Make a POST request auto serializing an object into the request payload:
+👨‍💻 Make a POST request auto serializing an object into the request payload:
 
 ```java
 Book book = new Book("Clean Code", "Robert C. Martin", new Date(1217552400000L));
@@ -67,7 +67,7 @@ session.post("/api/books", book)
         .onFail( view::showErrorMsg );
 ```
 
-✍️ Make a GET request auto deserializing the response payload to a collection of objects:
+👨‍💻 Make a GET request auto deserializing the response payload to a collection of objects:
 
 ```java
 session.get("/api/books", List.class, Book.class)
@@ -79,7 +79,7 @@ session.get("/api/books", List.class, Book.class)
 The above examples are shortcuts in Session class to make quick requests.
 Further, you can access the fluent API to build and send more complex requests.
 
-### Requesting Fluent API *(briefing)*
+### ✍️ Requesting Fluent API *(briefing)*
 
 Requesting involves three steps:
 1) Access the request builder by calling `session.req( <uri> )`, and **set the request options** 
@@ -105,7 +105,7 @@ works.
 
 Meet all the request options available in the [Request Options](#request-options) section.
 
-### ⚙️ Set up your Session
+### 🛠️ Set up your Session
 
 Requestor features a configurable client [Session](#session). There we *set default request options* 
 that apply to all requests. Additionally, since the `Session` is also a [Store](#store), we can use it to *save and
@@ -197,11 +197,12 @@ section.
 
 Requestor primarily focuses on the HTTP Client API. Hence, **requestor-core** provides most of the
 features but delegates some internals, like the network operation, to the implementations.
-The requestor impls make the bridge between requestor-core and the target platform.
+The ***requestor impls*** make the bridge between requestor-core and the target platform
+(JVM, Android, Browser, etc).
 
 Currently, there are two requestor impls available:
-- **requestor-javanet** - it implements requestor for the JVM and Android platforms providing the network operation powered by the `java.net` package. 
-- **requestor-gwt**. It implements requestor for GWT2 apps providing the network operation powered by the browser's XMLHttpRequest.
+- **requestor-javanet** - it implements requestor for the **JVM** and **Android** platforms providing the network operation powered by the `java.net` package. 
+- **requestor-gwt**. It implements requestor for **GWT2** apps that runs on the **Browser** providing the network operation powered by the `XMLHttpRequest`.
 
 ### JVM / Android (Java / Kotlin)
 
@@ -220,7 +221,7 @@ If you're using jdk12+ then add the following command line arg to execute your j
 
 ### GWT2
 
-The **requestor-gwt** impl is compatible with **GWT 2.7+** (Java 5+).
+The **requestor-gwt** impl is compatible with **GWT 2.7+** (Java 7+).
 
 ```xml
 <dependency>
@@ -235,6 +236,11 @@ Then, make requestor available to your GWT project by importing the implementati
 ```xml
 <inherits name="io.reinert.requestor.gwt.RequestorGwt"/>
 ```
+
+### J2CL (GWT3)
+
+This requestor impl is specified and we would love to have your contribution to help implementing it.
+If you would like to get involded and make Requestor better, get in touch in our [community chat](#resources).
 
 ### Latest Release
 
@@ -616,9 +622,9 @@ Notice, nevertheless, that Requestor treats every request as a polling request u
 So even a simple request is a polling request of one call only.
 That is the reason why every request needs a [Deferred Pool Factory](#deferredpool-factory). 
 
-### Load events
+### ☑️ Load events
 
-#### **onSuccess**( [payload [, response [, request]]] -> {} )
+#### **.onSuccess**( [payload [, response [, request]]] -> {} )
 * This callback is executed when the response *is successful* (status = 2xx)
 * It features the *deserialized payload*, the *response* and the *request* arguments
 * All arguments are optional
@@ -647,7 +653,7 @@ session.get("/endpoint")
         .onSuccess((none, res, req) -> render(res, req));
 ```
 
-#### **onFail**( [response [, request]] -> {} )
+#### **.onFail**( [response [, request]] -> {} )
 * This callback is executed when the response *is unsuccessful* (status ≠ 2xx)
 * It features the *response* and the *request* arguments
 * All arguments are optional
@@ -674,7 +680,7 @@ session.get("/endpoint")
         });
 ```
 
-#### **onStatus**( statusCode | statusFamily, ( [response [, request]] ) -> {} )
+#### **.onStatus**( statusCode | statusFamily, ( [response [, request]] ) -> {} )
 * This callback is executed when the response returns the given *Status Code* or *Status Family*
 * It features the *response* and the *request* arguments
 * All arguments are optional
@@ -700,7 +706,7 @@ session.req("/endpoint").get()
         .onStatus(StatusFamily.SERVER_ERROR, (res, req) -> handleServerError(res, req));
 ```
 
-#### **onLoad**( [response [, request]] -> {} )
+#### **.onLoad**( [response [, request]] -> {} )
 * This callback is executed when any response is returned
 * It features the *response* and the *request* arguments
 * All arguments are optional
@@ -714,9 +720,9 @@ session.get("/endpoint")
         });
 ```
 
-### Error events
+### ⛔ Error events
 
-#### **onAbort**( exception [, request] -> {} )
+#### **.onAbort**( exception [, request] -> {} )
 * This callback is executed if the request was *aborted before being sent* (either manually by the user or due to any runtime error)
 * It features the *exception* and the *request* arguments
 * The *request* argument is optional
@@ -730,7 +736,7 @@ session.get("/endpoint")
         });
 ```
 
-#### **onCancel**( exception [, request] -> {} )
+#### **.onCancel**( exception [, request] -> {} )
 * This callback is executed if the request was *cancelled after being sent* (either manually by the user or due to network error)
 * It features the *exception* and the *request* arguments
 * The *request* argument is optional
@@ -741,7 +747,7 @@ session.get("/endpoint")
         .onCancel(exc -> print(exc.getMessage()));
 ```
 
-#### **onTimeout**( exception [, request] -> {} )
+#### **.onTimeout**( exception [, request] -> {} )
 * This callback is executed a timeout occurs
 * It features the *exception* and the *request* arguments
 * The *request* argument is optional
@@ -755,7 +761,7 @@ session.get("/endpoint")
         });
 ```
 
-#### **onError**( [exception [, request]] -> {} )
+#### **.onError**( [exception [, request]] -> {} )
 * This callback is executed if the request was *aborted before being sent* (either manually by the user or due to any runtime error)
 * It features the *exception* and the *request* arguments
 * All arguments are optional
@@ -772,9 +778,9 @@ session.get("/endpoint")
 **NOTE:** If an error occurs, and no callback for that error kind was set, than the exception stack trace is printed.
 Thus, the errors are not hidden if we forgot to add handlers for them.
 
-### Progress events
+### 🚧 Progress events
 
-#### **onRead**( progress -> {} )
+#### **.onRead**( progress -> {} )
 * This callback is executed each time a chuck of bytes is *received*
 * It features the *read progress* argument with:
   * the request
@@ -782,7 +788,7 @@ Thus, the errors are not hidden if we forgot to add handlers for them.
   * the loaded and total byte length
   * the read byte chunk
 
-Example setting a callback with the exception and request args to the abort event:
+Example setting a callback with the read progress arg to the read event:
 ```java
 // Enable read chunking (a.k.a. streaming) on the session
 session.save(Requestor.READ_CHUNKING_ENABLED, true);
@@ -806,14 +812,14 @@ session.get("/endpoint").onRead(progress -> {
 });
 ```
 
-#### **onWrite**( progress -> {} )
+#### **.onWrite**( progress -> {} )
 * This callback is executed each time a chuck of bytes is *sent*
 * It features the *write progress* argument with:
     * the request
     * the loaded and total byte length
     * the written byte chunk
 
-Example setting a callback with the exception and request args to the abort event:
+Example setting a callback with the write progress arg to the write event:
 ```java
 File file = getFile();
 
@@ -2131,7 +2137,7 @@ response.remove("key");
 For instance, suppose you created processors to show a loading widget when requesting and hide when the response is received or an error occurs.
 But, for some reason, you want to make 'hidden' requests, so that the loading widget is not shown.
 You can then call `.save("hidden", true)` when building the request and check for this flag in the processors by calling `.exists("hidden", true)` to skip displaying the loading widget.
-Requestor's showcase app implements such scenario. [Here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/Showcase.java#L80) a hidden ping request is executed to wake-up the server, and [here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/ShowcaseDeferredFactory.java#L43) the Request Store is queried to skip showing the loading widget.
+Requestor's [showcase app](https://reinert.github.io/requestor/latest/examples/showcase) implements such scenario. [Here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/Showcase.java#L80) a hidden ping request is executed to wake-up the server, and [here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/ShowcaseDeferredFactory.java#L43) the Request Store is queried to skip showing the loading widget.
 
 ### Service Store
 
@@ -2262,12 +2268,12 @@ bookService.updateBook(123, updatedBook).onSuccess( () -> showSucessMsg() ).onFa
 bookService.deleteBook(123).onSuccess( () -> showSucessMsg() ).onFail(...);
 ```
 
-### Creating the app's abstract Service
+### Creating the app's BaseService
 
 It is helpful to handle the errors inside the Service, so we do not always have to set fail callbacks.
-Therefore, we recommend implementing an app's abstract Service and extending the client services from it.
+Therefore, we recommend implementing an app's BaseService and extending the client services from it.
 This way, it is feasible handle all non-happy paths in one place only. For example, check the 
-`applyErrorCallbacks` method below. It adds some predefined callbacks to requests:
+`applyErrorCallbacks` method below. It adds some predefined callbacks to every request:
 
 ```java
 public abstract class MyAppService<E> extends BaseService {
