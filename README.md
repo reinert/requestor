@@ -574,7 +574,7 @@ session.req("/api/books/")
        .poll(PollingStrategy.LONG)
        .get()
        .onLoad((response, request) -> {
-           if (request.getPollingCounter() == 3) {
+           if (request.getPollingCount() == 3) {
                request.stopPolling(); // Stop polling after receving the third response
            }
        });
@@ -1526,7 +1526,6 @@ We can add a `RequestFilter` to the **Session** by calling `session.register(<Re
 
 ```java
 session.register(new RequestFilter() {
-    @Override
     public void filter(RequestInProcess request) {
         // Access the Store bounded to this request/response lifecycle
         String encoding = request.retrieve("encoding");
@@ -1549,7 +1548,6 @@ internal state that should not be shared among other request lifecycles. See how
 
 ```java
 session.register(new RequestFilter.Provider() {
-    @Override
     public RequestFilter getInstance() {
         // Suposing you implemented MyRequestFilter elsewhere
         return new MyRequestFilter();
@@ -1565,7 +1563,6 @@ Besides proceeding with the request, we can alternatively ***abort*** it by call
 
 ```java
 session.register(new RequestFilter() {
-    @Override
     public void filter(RequestInProcess request) {
         // Abort the request with a fake response
         request.abort(new MockResponse(Status.BAD_REQUEST));
@@ -1590,7 +1587,6 @@ There is only one `RequestSerializer` per Session, and it can be set with
 
 ```java
 session.setRequestSerializer(new RequestSerializer() {
-    @Override
     public void serialize(SerializableRequestInProcess request,
                           SerializationEngine engine) {
         // The engine is capable of serializing the request
@@ -1613,7 +1609,6 @@ We can add a `RequestInterceptor` to the **Session** by calling `session.registe
 
 ```java
 session.register(new RequestInterceptor() {
-    @Override
     public void intercept(SerializedRequestInProcess request) {
         // Access the Store bounded to this request lifecycle
         String encoding = request.retrieve("encoding");
@@ -1639,7 +1634,6 @@ register it:
 
 ```java
 session.register(new RequestInterceptor.Provider() {
-    @Override
     public RequestInterceptor getInstance() {
         // Suposing you implemented MyRequestInterceptor elsewhere
         return new MyRequestInterceptor();
@@ -1655,7 +1649,6 @@ Besides proceeding with the request, we can alternatively ***abort*** it by call
 
 ```java
 session.register(new RequestInterceptor() {
-    @Override
     public void intercept(SerializedRequestInProcess request) {
         // Abort the request with an exception
         request.abort(new RequestException(request, "Manually aborted"));
@@ -1680,7 +1673,6 @@ We can add a `ResponseInterceptor` to the **Session** by calling `session.regist
 
 ```java
 session.register(new ResponseInterceptor() {
-    @Override
     public void intercept(SerializedResponseInProcess response) {
         // Modify the response headers
         response.setHeader(new ContentTypeHeader("application/json"));
@@ -1703,7 +1695,6 @@ register it:
 
 ```java
 session.register(new ResponseInterceptor.Provider() {
-    @Override
     public ResponseInterceptor getInstance() {
         // Suposing you implemented MyResponseInterceptor elsewhere
         return new MyResponseInterceptor();
@@ -1726,7 +1717,6 @@ There is only one `ResponseDeserializer` per Session, and it can be set with
 
 ```java
 session.setResponseDeserializer(new ResponseDeserializer() {
-    @Override
     public void deserialize(DeserializableResponseInProcess response,
                             SerializationEngine engine) {
         // The engine is capable of deserializing the response
@@ -1750,7 +1740,6 @@ We can add a `ResponseFilter` to the **Session** by calling `session.register(<R
 
 ```java
 session.register(new ResponseFilter() {
-    @Override
     public void filter(ResponseInProcess response) {
         if (!response.hasHeader("Custom-Header"))
             response.setHeader("Custom-Header", "Added after response was received");
@@ -1774,7 +1763,6 @@ register it:
 
 ```java
 session.register(new ResponseFilter.Provider() {
-    @Override
     public ResponseFilter getInstance() {
         // Suposing you implemented MyResponseFilter elsewhere
         return new MyResponseFilter();
