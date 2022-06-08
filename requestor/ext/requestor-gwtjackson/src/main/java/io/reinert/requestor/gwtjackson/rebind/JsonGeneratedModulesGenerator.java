@@ -18,7 +18,6 @@ package io.reinert.requestor.gwtjackson.rebind;
 import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.ext.Generator;
@@ -45,9 +44,9 @@ public class JsonGeneratedModulesGenerator extends Generator {
 
     static final String SERIALIZATION_MODULE_FULL_NAME = SerializationModule.class.getName();
 
-    private static final Logger LOGGER = Logger.getLogger(JsonGeneratedModulesGenerator.class.getName());
+    // private static final Logger LOGGER = Logger.getLogger(JsonGeneratedModulesGenerator.class.getName());
 
-    private final StringBuilder sourceLog = new StringBuilder();
+    // private final StringBuilder sourceLog = new StringBuilder();
 
     @Override
     public String generate(TreeLogger logger, GeneratorContext ctx, String typeName) throws UnableToCompleteException {
@@ -150,6 +149,6 @@ public class JsonGeneratedModulesGenerator extends Generator {
 
     private void print(SourceWriter srcWriter, String s) {
         srcWriter.println(s);
-        sourceLog.append('\n').append(s);
+        // sourceLog.append('\n').append(s);
     }
 }

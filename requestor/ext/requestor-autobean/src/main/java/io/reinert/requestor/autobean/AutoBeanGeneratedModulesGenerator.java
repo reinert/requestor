@@ -18,7 +18,6 @@ package io.reinert.requestor.autobean;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.ext.Generator;
@@ -43,8 +42,6 @@ import io.reinert.requestor.core.SerializationModule;
 public class AutoBeanGeneratedModulesGenerator extends Generator {
 
     static final String SERIALIZATION_MODULE_FULL_NAME = SerializationModule.class.getName();
-
-    private static final Logger LOGGER = Logger.getLogger(AutoBeanGeneratedModulesGenerator.class.getName());
 
     private final StringBuilder sourceLog = new StringBuilder();
     private final AutoBeanModulesGenerator autoBeanGenerator = new AutoBeanModulesGenerator();

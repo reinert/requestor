@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.ext.Generator;
@@ -67,9 +66,9 @@ public class AutoBeanModulesGenerator extends Generator {
 
     public static String[] MEDIA_TYPE_PATTERNS = new String[] { "application/json" };
 
-    private static final Logger LOGGER = Logger.getLogger(AutoBeanModulesGenerator.class.getName());
+    // private static final Logger LOGGER = Logger.getLogger(AutoBeanModulesGenerator.class.getName());
 
-    private final StringBuilder sourceLog = new StringBuilder();
+    // private final StringBuilder sourceLog = new StringBuilder();
 
     @Override
     public String generate(TreeLogger logger, GeneratorContext ctx, String typeName) throws UnableToCompleteException {
@@ -544,6 +543,6 @@ public class AutoBeanModulesGenerator extends Generator {
 
     private void print(SourceWriter srcWriter, String s) {
         srcWriter.println(s);
-        sourceLog.append('\n').append(s);
+        // sourceLog.append('\n').append(s);
     }
 }
