@@ -1834,6 +1834,16 @@ with a dual-core CPU
 ThreadPoolSize = 2 * (1 + (50 / 5)) = 22
 ```
 
+**👀 HEADS UP**: Currently in the JVM platform we are limited regarding the number of threads we can work with
+due to the hard link between the threads and the OS. But, there's a revolution in Java multi-threading coming soon!
+The [Project Loom](https://blogs.oracle.com/javamagazine/post/going-inside-javas-project-loom-and-virtual-threads)
+is working hard to bring into the Java world the concept of [**Virtual Threads**](https://en.wikipedia.org/wiki/Virtual_threads)
+which don't demand the OS to allocate a hard resource for each thread. Once we have it available, we wil be able to
+handle thousands (even millions) of co-living threads without overheading the OS and we won't need to worry about
+the thread pool size anymore. Requestor is prepared to work with Virtual Threads. As soon they are delivered to the
+JDK, Requestor users will experiment a drastically performance gain by acquiring the ability to fire numerous
+requests concurrently at a much lower cost.
+
 
 ### Session's Request Options
 
