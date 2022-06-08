@@ -417,6 +417,15 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public void setRetry(RetryPolicy retryPolicy) {
+        retry(retryPolicy);
+    }
+    @Override
+    public void setRetry(RetryPolicy.Provider retryPolicyProvider) {
+        retry(retryPolicyProvider);
+    }
+
+    @Override
     public void setSkippedProcesses(Process... processes) {
         if (processes.length == 0) {
             skippedProcesses = Collections.emptySet();

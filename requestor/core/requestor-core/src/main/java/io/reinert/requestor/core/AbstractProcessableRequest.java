@@ -94,6 +94,16 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public void setRetry(RetryPolicy retryPolicy) {
+        request.setRetry(retryPolicy);
+    }
+
+    @Override
+    public void setRetry(RetryPolicy.Provider retryPolicyProvider) {
+        request.setRetry(retryPolicyProvider);
+    }
+
+    @Override
     public void setSkippedProcesses(Process... processes) {
         request.setSkippedProcesses(processes);
     }

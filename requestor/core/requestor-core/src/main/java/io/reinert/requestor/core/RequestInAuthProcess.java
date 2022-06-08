@@ -153,6 +153,16 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public void setRetry(RetryPolicy retryPolicy) {
+        request.setRetry(retryPolicy);
+    }
+
+    @Override
+    public void setRetry(RetryPolicy.Provider retryPolicyProvider) {
+        request.setRetry(retryPolicyProvider);
+    }
+
+    @Override
     public int incrementPollingCount() {
         return request.incrementPollingCount();
     }

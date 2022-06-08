@@ -83,6 +83,22 @@ public interface MutableRequest extends RequestOptions, HasHeaders, HasPollingOp
     void setRetry(int[] delaysMillis, RequestEvent... events);
 
     /**
+     * Set a retry policy for this request.
+     * <p></p>
+     *
+     * @param retryPolicy The retry policy implementation
+     */
+    void setRetry(RetryPolicy retryPolicy);
+
+    /**
+     * Set a retry policy for this request.
+     * <p></p>
+     *
+     * @param retryPolicyProvider The retry policy provider
+     */
+    void setRetry(RetryPolicy.Provider retryPolicyProvider);
+
+    /**
      * The poll counter is incremented by 1.
      *
      * @return the updated polling count.
