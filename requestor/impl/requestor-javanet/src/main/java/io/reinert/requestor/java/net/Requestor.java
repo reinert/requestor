@@ -23,8 +23,8 @@ import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import io.reinert.requestor.core.Base64Codec;
 import io.reinert.requestor.core.DeferredPool;
@@ -66,7 +66,7 @@ public class Requestor {
     }
 
     public static Session newSession(int corePoolSize) {
-        return newSession(new ScheduledThreadPoolExecutor(corePoolSize));
+        return newSession(Executors.newScheduledThreadPool(corePoolSize));
     }
 
     public static Session newSession(ScheduledExecutorService scheduledExecutorService) {
@@ -78,7 +78,7 @@ public class Requestor {
     }
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory, int corePoolSize) {
-        return newSession(deferredPoolFactory, new ScheduledThreadPoolExecutor(corePoolSize));
+        return newSession(deferredPoolFactory, Executors.newScheduledThreadPool(corePoolSize));
     }
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory,
