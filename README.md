@@ -2620,17 +2620,17 @@ session.req("/api/books")
 ```
 
 
-## Showcase App
-* [Showcase (Latest Release)](https://reinert.github.io/requestor/latest/examples/showcase)
-* [Showcase (1.1.0-SNAPSHOT)](https://reinert.github.io/requestor/1.1.0-SNAPSHOT/examples/showcase)
+## Resources
 
-## Documentation
-* [Javadoc](https://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
-* [Project Site (Latest Release)](https://reinert.github.io/requestor/latest)
-* [Project Site (1.1.0-SNAPSHOT)](https://reinert.github.io/requestor/1.1.0-SNAPSHOT)
+### [Showcase](https://reinert.github.io/requestor/latest/examples/showcase)
+A GWT web app demonstrating the usage of some features of Requestor. The source code is in the [examples](https://github.com/reinert/requestor/tree/master/examples/requestor-showcase) directory.
 
-## Support
-* [Chat](https://gitter.im/reinert/requestor)
+### [Javadocs](https://reinert.github.io/requestor/latest/javadoc/apidocs/index.html)
+Requestor API documentation in Javadoc format.
+
+### [Community Channel](https://gitter.im/requestor-project/community)
+A place to interact with the projects users and contributors. Get quick answers for your questions.
+
 
 ## Snapshot installation
 If you want to use the latest snapshot, you need to add the sonatype snapshot repository to your POM and set the dependency version to `1.1.0-SNAPSHOT`.
@@ -2659,10 +2659,10 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
 </dependencies>
 ```
 
+
 ### Latest Snapshot
 1.1.0-SNAPSHOT
 
+
 ## License
 Requestor is freely distributable under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.html)
-
-[![Analytics](https://ga-beacon.appspot.com/UA-59721128-2/reinert/requestor?pixel)](https://ga-beacon.appspot.com/UA-59721128-2/reinert/requestor)
