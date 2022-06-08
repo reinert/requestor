@@ -16,7 +16,6 @@
 package io.reinert.requestor.core;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import io.reinert.requestor.core.callback.DualCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
@@ -47,8 +46,6 @@ public abstract class RequestDispatcher implements RunScheduler {
 
         boolean awaitTermination(long timeoutInMillis) throws InterruptedException;
     }
-
-    private static final Logger logger = Logger.getLogger(RequestDispatcher.class.getName());
 
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
@@ -126,9 +123,6 @@ public abstract class RequestDispatcher implements RunScheduler {
         }
 
         scheduleDispatch(request, responsePayloadType, deferredPool, false);
-
-        logger.info(request.getMethod()  + " to " + request.getUri() + " scheduled to dispatch in " +
-                request.getDelay() + "ms.");
 
         return deferredRequest;
     }
