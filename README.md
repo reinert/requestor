@@ -1360,17 +1360,6 @@ to do it through a `Provider` to avoid sharing the internal Auth state between r
 session.setAuth(() -> new DigestAuth(session.retrieve("username"), session.retrieve("password"), "md5"));
 ```
 
-### CORS
-When we need to hit external public endpoints, browsers requires us to set `withCredentials` 
-request param to true. Requestor offers the `CorsAuth` authenticator that does it 
-automatically to us.
-
-```java
-session.req("https://external-domain.com") 
-        .auth(new CorsAuth()) 
-        .get(); 
-```
-
 
 ### OAuth2
 Requestor provides client-side OAuth2 authenticators supporting both *header* and *url query param* 
