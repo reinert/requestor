@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
+import io.reinert.requestor.core.RequestLogger;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.ResponseProcessor;
 
@@ -33,15 +34,18 @@ public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
     private DeferredPool.Factory deferredPoolFactory;
+    private RequestLogger logger;
     private RequestDispatcher requestDispatcher;
 
     @Override
     public RequestDispatcher create(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
-                                    DeferredPool.Factory deferredPoolFactory) {
+                                    DeferredPool.Factory deferredPoolFactory,
+                                    RequestLogger logger) {
         if (this.requestProcessor == requestProcessor &&
                 this.responseProcessor == responseProcessor &&
-                this.deferredPoolFactory == deferredPoolFactory) {
+                this.deferredPoolFactory == deferredPoolFactory &&
+                this.logger == logger) {
             return requestDispatcher;
         }
 
@@ -49,11 +53,13 @@ public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
             this.requestProcessor = requestProcessor;
             this.responseProcessor = responseProcessor;
             this.deferredPoolFactory = deferredPoolFactory;
-            requestDispatcher = new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory);
+            this.logger = logger;
+            requestDispatcher =
+                    new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger);
             return requestDispatcher;
         }
 
-        return new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory);
+        return new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger);
     }
 
     @Override

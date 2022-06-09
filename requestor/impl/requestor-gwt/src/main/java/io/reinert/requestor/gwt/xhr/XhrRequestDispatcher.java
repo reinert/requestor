@@ -35,6 +35,7 @@ import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestDispatchException;
 import io.reinert.requestor.core.RequestDispatcher;
+import io.reinert.requestor.core.RequestLogger;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.RequestTimeoutException;
@@ -55,8 +56,8 @@ import io.reinert.requestor.gwt.payload.SerializedJsPayload;
 public class XhrRequestDispatcher extends RequestDispatcher {
 
     public XhrRequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                                DeferredPool.Factory deferredPoolFactory) {
-        super(requestProcessor, responseProcessor, deferredPoolFactory);
+                                DeferredPool.Factory deferredPoolFactory, RequestLogger logger) {
+        super(requestProcessor, responseProcessor, deferredPoolFactory, logger);
     }
 
     @Override
