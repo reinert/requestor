@@ -47,6 +47,7 @@ import io.reinert.requestor.core.uri.Uri;
 public class Session implements SerializerManager, FilterManager, InterceptorManager, ProviderManager,
         DirectInvoker, HasRequestOptions, Store {
 
+    private final RequestLogger logger = new RequestLogger();
     private final RequestOptionsHolder options = new RequestOptionsHolder();
     private final RootStore store = new RootStore();
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
@@ -272,6 +273,10 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     //===================================================================
     // Session configuration
     //===================================================================
+
+    public RequestLogger getLogger() {
+        return logger;
+    }
 
     public RequestDispatcher.Factory getRequestDispatcherFactory() {
         return requestDispatcherFactory;
@@ -634,7 +639,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(this, uri, new LeafStore(store, false),
-                requestDispatcherFactory.create(requestProcessor, responseProcessor, deferredPoolFactory));
+                requestDispatcherFactory.create(requestProcessor, responseProcessor, deferredPoolFactory, logger));
 
         options.apply(request);
 

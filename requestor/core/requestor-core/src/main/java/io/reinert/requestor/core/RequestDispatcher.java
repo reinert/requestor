@@ -34,7 +34,8 @@ public abstract class RequestDispatcher implements RunScheduler {
     public interface Factory {
         RequestDispatcher create(RequestProcessor requestProcessor,
                                  ResponseProcessor responseProcessor,
-                                 DeferredPool.Factory deferredFactory);
+                                 DeferredPool.Factory deferredFactory,
+                                 RequestLogger logger);
 
         void shutdown();
 
@@ -50,12 +51,14 @@ public abstract class RequestDispatcher implements RunScheduler {
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
     private final DeferredPool.Factory deferredPoolFactory;
+    private final RequestLogger logger;
 
     protected RequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                                DeferredPool.Factory deferredPoolFactory) {
+                                DeferredPool.Factory deferredPoolFactory, RequestLogger logger) {
         this.requestProcessor = requestProcessor;
         this.responseProcessor = responseProcessor;
         this.deferredPoolFactory = deferredPoolFactory;
+        this.logger = logger;
     }
 
     /**
@@ -123,6 +126,8 @@ public abstract class RequestDispatcher implements RunScheduler {
         }
 
         scheduleDispatch(request, responsePayloadType, deferredPool, false);
+
+        logger.log(request);
 
         return deferredRequest;
     }
