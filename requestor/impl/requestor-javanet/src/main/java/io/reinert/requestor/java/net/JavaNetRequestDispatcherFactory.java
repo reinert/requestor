@@ -36,8 +36,15 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
 
     private final ScheduledExecutorService scheduledExecutorService;
 
-    private int inputBufferSize;
-    private int outputBufferSize;
+    private final int inputBufferSize;
+    private final int outputBufferSize;
+
+    // Fields for caching
+    private RequestProcessor requestProcessor;
+    private ResponseProcessor responseProcessor;
+    private DeferredPool.Factory deferredPoolFactory;
+    private RequestLogger logger;
+    private JavaNetRequestDispatcher dispatcher;
 
     public JavaNetRequestDispatcherFactory(ScheduledExecutorService scheduledExecutorService) {
         this(scheduledExecutorService, DEFAULT_BUFFER_SIZE, DEFAULT_BUFFER_SIZE);
@@ -54,6 +61,23 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
                                     ResponseProcessor responseProcessor,
                                     DeferredPool.Factory deferredPoolFactory,
                                     RequestLogger logger) {
+        if (this.requestProcessor == requestProcessor &&
+                this.responseProcessor == responseProcessor &&
+                this.deferredPoolFactory == deferredPoolFactory &&
+                this.logger == logger) {
+            return dispatcher;
+        }
+
+        if (dispatcher == null) {
+            this.requestProcessor = requestProcessor;
+            this.responseProcessor = responseProcessor;
+            this.deferredPoolFactory = deferredPoolFactory;
+            this.logger = logger;
+            dispatcher = new JavaNetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger,
+                            scheduledExecutorService, inputBufferSize, outputBufferSize);
+            return dispatcher;
+        }
+
         return new JavaNetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger,
                 scheduledExecutorService, inputBufferSize, outputBufferSize);
     }
@@ -87,16 +111,8 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
         return inputBufferSize;
     }
 
-    public void setInputBufferSize(int inputBufferSize) {
-        this.inputBufferSize = inputBufferSize;
-    }
-
     public int getOutputBufferSize() {
         return outputBufferSize;
-    }
-
-    public void setOutputBufferSize(int outputBufferSize) {
-        this.outputBufferSize = outputBufferSize;
     }
 
     public ScheduledExecutorService getScheduledExecutorService() {
