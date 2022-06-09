@@ -55,6 +55,8 @@ public class Requestor {
     public static final String DEFAULT_CONTENT_TYPE = "requestor.java.net.defaultContentType";
     public static final String READ_CHUNKING_ENABLED = "requestor.java.net.readChunkingEnabled";
     public static final String WRITE_CHUNKING_ENABLED = "requestor.java.net.writeChunkingEnabled";
+    public static final String INPUT_BUFFER_SIZE = "requestor.java.net.inputBufferSize";
+    public static final String OUTPUT_BUFFER_SIZE = "requestor.java.net.outputBufferSize";
 
     private static final int DEFAULT_CORE_POOL_SIZE = 10;
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();

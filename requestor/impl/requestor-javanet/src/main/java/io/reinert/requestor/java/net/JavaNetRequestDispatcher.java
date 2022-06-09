@@ -52,6 +52,7 @@ import io.reinert.requestor.core.ResponseHeader;
 import io.reinert.requestor.core.ResponseProcessor;
 import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
+import io.reinert.requestor.core.Store;
 import io.reinert.requestor.core.WriteProgress;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.SerializedPayload;
@@ -64,6 +65,9 @@ import io.reinert.requestor.java.RequestRedirectException;
 import io.reinert.requestor.java.payload.BinarySerializedPayload;
 import io.reinert.requestor.java.payload.CompositeSerializedPayload;
 import io.reinert.requestor.java.payload.InputStreamSerializedPayload;
+
+import static io.reinert.requestor.java.net.Requestor.INPUT_BUFFER_SIZE;
+import static io.reinert.requestor.java.net.Requestor.OUTPUT_BUFFER_SIZE;
 
 /**
  * RequestDispatcher implementation using {@link HttpURLConnection}.
@@ -122,7 +126,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                 if (serializedPayload.getLength() > 0) {
                     conn.setFixedLengthStreamingMode(serializedPayload.getLength());
                 } else if (request.exists(Requestor.CHUNKED_STREAMING_MODE_DISABLED, Boolean.TRUE)) {
-                    conn.setChunkedStreamingMode(outputBufferSize);
+                    conn.setChunkedStreamingMode(getOutputBufferSize(request));
                 }
             }
 
@@ -282,9 +286,10 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
     private <R> long writeBytesToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
                                               byte[] bytes, long totalWritten, long totalSize) throws IOException {
         final boolean chunkingEnabled = request.exists(Requestor.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
-        for (int i = 0; i <= (bytes.length - 1) / outputBufferSize; i++) {
-            int off = i * outputBufferSize;
-            int len = Math.min(outputBufferSize, bytes.length - off);
+        final int bufferSize = getOutputBufferSize(request);
+        for (int i = 0; i <= (bytes.length - 1) / bufferSize; i++) {
+            int off = i * bufferSize;
+            int len = Math.min(bufferSize, bytes.length - off);
             out.write(bytes, off, len);
             out.flush();
 
@@ -303,8 +308,9 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
     private <R> long writeInputToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
                                               InputStream in, long totalWritten, long totalSize) throws IOException {
         final boolean chunkingEnabled = request.exists(Requestor.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
-        try (InputStream bis = new BufferedInputStream(in, outputBufferSize)) {
-            byte[] buffer = new byte[outputBufferSize];
+        final int bufferSize = getOutputBufferSize(request);
+        try (InputStream bis = new BufferedInputStream(in, bufferSize)) {
+            byte[] buffer = new byte[bufferSize];
             int stepRead;
             while ((stepRead = bis.read(buffer)) != -1) {
                 out.write(buffer, 0, stepRead);
@@ -335,7 +341,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
         // NOTE: there should be no body when buffering is enabled but return type is void
         byte[] body = payloadRequested ? new byte[Math.max(contentLength, 0)] : null;
 
-        byte[] buffer = new byte[inputBufferSize];
+        byte[] buffer = new byte[getInputBufferSize(request)];
         int stepRead, totalRead = 0;
         while ((stepRead = in.read(buffer)) != -1) {
             if (payloadRequested) {
@@ -359,6 +365,20 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
         }
 
         return serializeContent(contentType, body, request.getCharset());
+    }
+
+    private int getInputBufferSize(Store store) {
+        if (store.exists(INPUT_BUFFER_SIZE)) {
+            return store.retrieve(INPUT_BUFFER_SIZE);
+        }
+        return inputBufferSize;
+    }
+
+    private int getOutputBufferSize(Store store) {
+        if (store.exists(OUTPUT_BUFFER_SIZE)) {
+            return store.retrieve(OUTPUT_BUFFER_SIZE);
+        }
+        return outputBufferSize;
     }
 
     private Headers readResponseHeaders(HttpURLConnection conn) {
