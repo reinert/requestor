@@ -2548,6 +2548,99 @@ session.req("/api/form")
 For GWT docs, see [Showcase](https://reinert.github.io/requestor/latest/examples/showcase/#form-data).
 
 
+## Customizations
+
+Requestor exposes some keys that allow its users to customize request processing configurations
+such as buffer sizes, enabling chunking (streaming), and others.
+
+These customizations are saved in the Store. So the user is able to choose whether he wants to set
+them in the Session, Service, or Request level.
+
+### DEFAULT_CONTENT_TYPE : String
+
+When the requests have no content type set, then Requestor will query for it in the store.
+
+By default, the DEFAULT_CONTENT_TYPE is `"text/plain"`.
+
+In case we want a different one, we can save it in the Store like below:
+```java
+// Setting DEFAULT_CONTENT_TYPE in the Session level
+session.save(Requestor.DEFAULT_CONTENT_TYPE, "application/json");
+
+// Setting DEFAULT_CONTENT_TYPE in the Service level
+service.save(Requestor.DEFAULT_CONTENT_TYPE, "application/json");
+
+// Setting DEFAULT_CONTENT_TYPE in the Request level
+session.req("endpoint")
+        .save(Requestor.DEFAULT_CONTENT_TYPE, "application/json")
+        .payload(object)
+        .post()
+```
+
+### INPUT_BUFFER_SIZE / OUTPUT_BUFFER_SIZE : Integer
+
+Requestor reads the responses contents using a byte buffer in order to increase the performance and avoid memory issues.
+The same goes for writing requests contents to the network stream.
+
+The default INPUT_BUFFER_SIZE and OUTPUT_BUFFER_SIZE is `8192`.
+
+In case we want a different one, we can save it in the Store like below:
+
+```java
+// Setting INPUT_BUFFER_SIZE in the Session level
+session.save(Requestor.INPUT_BUFFER_SIZE, 16 * 1024);
+
+// Setting INPUT_BUFFER_SIZE in the Service level
+service.save(Requestor.INPUT_BUFFER_SIZE, 16 * 1024);
+
+// Setting OUTPUT_BUFFER_SIZE in the Request level
+session.req("endpoint")
+        .save(Requestor.OUTPUT_BUFFER_SIZE, 16 * 1024)
+        .payload(object)
+        .post()
+```
+
+### READ_CHUNKING_ENABLED / WRITE_CHUNKING_ENABLED : Boolean
+
+Requestor fires read/write progress events each time a byte chunk is received/sent from/to the network.
+But these events don't carry the byte chunk by default to save memory. If we want to access those chunks,
+we need to set READ_CHUNKING_ENABLED / WRITE_CHUNKING_ENABLED flags to `true` in the Store.
+It's recommended to do it mostly in Request level though. We can set it also in a Service intended to do
+HTTP Streaming only.
+
+
+```java
+// Setting READ_CHUNKING_ENABLED in the Service level
+service.save(Requestor.READ_CHUNKING_ENABLED, true);
+
+// Setting READ_CHUNKING_ENABLED in the Request level
+session.req("endpoint")
+        .save(Requestor.READ_CHUNKING_ENABLED, true)
+        .get()
+        .onRead(progress -> stream(progress.getChunk().asBytes()))
+```
+
+### CHUNKED_STREAMING_MODE_DISABLED : Boolean
+
+When the request payload content length is not know in advance, Requestor will automatically
+stream the content according to the OUTPUT_BUFFER_SIZE. But it may happen that some servers
+don't support this kind of streaming. In this case we need to set CHUNKED_STREAMING_MODE_DISABLED
+flag to `true` to force sending the request all at once after we finish reading the input stream.
+
+```java
+// Open a InputStream which we don't know the total length in advance
+InputStream inputStream = getInputStream();
+
+// Setting CHUNKED_STREAMING_MODE_DISABLED in the Request level
+session.req("endpoint")
+        .save(Requestor.CHUNKED_STREAMING_MODE_DISABLED, true)
+        .payload(inputStream)
+        .post() // Post this inputStream forcing it to be totally read before sending
+
+// Requestor will take care of closing the inputStream after reading it
+```
+
+
 ## Requesting Fluent API
 
 The Fluent API was designed to provide an enjoyable coding experience while requesting through a chainable interface. Here is how it works:
