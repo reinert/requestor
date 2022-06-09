@@ -2640,6 +2640,26 @@ session.req("endpoint")
 // Requestor will take care of closing the inputStream after reading it
 ```
 
+## Logging
+
+Requestor leverages a customizable request logger in each Session.
+By default, every request caption (method + uri) is logged in FINE level.
+If you need to customize the logging behavior, just call `session.getLogger()`.
+
+```java
+// Set the log level
+session.getLogger().setLevel(Level.INFO);
+
+// Set the parts you want to be logged besides the caption
+session.getLogger().setParts(
+        RequestLogger.Part.OPTIONS,
+        RequestLogger.Part.HEADERS,
+        RequestLogger.Part.PAYLOAD
+);
+
+// Disable logging
+session.getLogger().setActive(false);
+```
 
 ## Requesting Fluent API
 
