@@ -125,7 +125,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                 conn.setDoOutput(true);
                 if (serializedPayload.getLength() > 0) {
                     conn.setFixedLengthStreamingMode(serializedPayload.getLength());
-                } else if (request.exists(Requestor.CHUNKED_STREAMING_MODE_DISABLED, Boolean.TRUE)) {
+                } else if (!request.exists(Requestor.CHUNKED_STREAMING_MODE_DISABLED, Boolean.TRUE)) {
                     conn.setChunkedStreamingMode(getOutputBufferSize(request));
                 }
             }
