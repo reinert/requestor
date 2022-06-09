@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
+import io.reinert.requestor.core.RequestLogger;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.ResponseProcessor;
 
@@ -51,8 +52,9 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
 
     public RequestDispatcher create(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
-                                    DeferredPool.Factory deferredPoolFactory) {
-        return new JavaNetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory,
+                                    DeferredPool.Factory deferredPoolFactory,
+                                    RequestLogger logger) {
+        return new JavaNetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger,
                 scheduledExecutorService, inputBufferSize, outputBufferSize);
     }
 

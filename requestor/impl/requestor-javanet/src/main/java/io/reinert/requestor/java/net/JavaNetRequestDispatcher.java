@@ -44,6 +44,7 @@ import io.reinert.requestor.core.RequestAbortException;
 import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.RequestLogger;
 import io.reinert.requestor.core.RequestOptions;
 import io.reinert.requestor.core.RequestProcessor;
 import io.reinert.requestor.core.RequestTimeoutException;
@@ -78,9 +79,10 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
     public JavaNetRequestDispatcher(RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
                                     DeferredPool.Factory deferredPoolFactory,
+                                    RequestLogger logger,
                                     ScheduledExecutorService scheduledExecutorService,
                                     int inputBufferSize, int outputBufferSize) {
-        super(requestProcessor, responseProcessor, deferredPoolFactory);
+        super(requestProcessor, responseProcessor, deferredPoolFactory, logger);
         this.scheduledExecutorService = scheduledExecutorService;
         this.inputBufferSize = inputBufferSize;
         this.outputBufferSize = outputBufferSize;
