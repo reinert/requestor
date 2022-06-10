@@ -21,7 +21,7 @@ import io.reinert.requestor.core.uri.Uri;
 /**
  * <p>Link header element.</p>
  *
- * <p>It parses a single link value from a link header and fills the {@link Link} properties accordingly.</p
+ * <p>It parses a single link value from a link header and fills the {@link Link} properties accordingly.</p>
  *
  * @author Danilo Reinert
  */
