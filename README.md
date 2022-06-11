@@ -76,6 +76,16 @@ session.get("https://httpbin.org/ip", String.class) // deserialize the response 
         .onSuccess( session::shutdown );            // close the session and exit
 ```
 
+In Kotlin:
+
+```kotlin
+val session = Requestor.newSession()
+
+session.get("https://httpbin.org/ip", String::class.java)
+    .onSuccess { ip -> println(ip) }
+    .onSuccess(session::shutdown)
+```
+
 **NOTE:** The session owns a thread pool. Calling shutdown will close all the threads.
 If you don't do it, the app will still be alive.
 
@@ -209,7 +219,7 @@ bookService.delete(123).onSuccess(() -> showSuccess("Book was deleted."));
 ```
 
 ℹ️ Although Requestor provides this generic REST client, extending the `BaseService` class and 
-implementing our service clients is more beneficial. `BaseService` affords the advantage of
+implementing our service clients is more beneficial. BaseService affords the advantage of
 little coding while empowering complete control of the requesting logic. Consequently, it 
 improves the testing capabilities and bug tracking. See more details in the [Service](#services) 
 section.
@@ -263,6 +273,12 @@ Then, make requestor available to your GWT project by importing the implementati
 
 This requestor impl is specified and we would love to have your contribution to help implementing it.
 If you would like to get involded and make Requestor better, get in touch in our [community chat](#resources).
+
+### Kotlin/JS
+
+This impl should be quite similar to j2cl's, since both target the browser platform.
+If you're a kotlin dev, we would love to have your contribution to help implementing it.
+Get involved and make Requestor better by entering our [community chat](#resources).
 
 ### Latest Release
 
