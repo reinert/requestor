@@ -71,13 +71,13 @@ session.post("/api/books", book)
 
 ```java
 session.get("/api/books", List.class, Book.class)
-        .onSuccess( (List<Book> books) -> render(books) );
+        .onSuccess( books -> render(books) );
 ```
 
 **NOTE:** Check the [Serialization](#serialization) section to enable ***auto-serialization***.
 
 The above examples are shortcuts in Session class to make quick requests.
-Further, you can access the fluent API to build and send more complex requests.
+Further, you can access the fluent API to build and send more complex requests as follows.
 
 ### ✍️ Requesting Fluent API *(briefing)*
 
@@ -701,7 +701,7 @@ session.get("/endpoint")
 Example setting callbacks with the response and request args to the 2xx, 4xx and 5xx status family events:
 ```java
 session.req("/endpoint").get()
-        .onStatus(StatusFamily.SUCCESSFUL, (res, req) -> handleSucess(res, req))
+        .onStatus(StatusFamily.SUCCESSFUL, (res, req) -> handleSuccess(res, req))
         .onStatus(StatusFamily.CLIENT_ERROR, (res, req) -> handleClientError(res, req))
         .onStatus(StatusFamily.SERVER_ERROR, (res, req) -> handleServerError(res, req));
 ```
@@ -850,35 +850,21 @@ session.req("/endpoint")
 
 When requesting, we will always receive a `Request<Collection<T>>` despite the particular 
 collection type (*List*, *Set*, and so on) we asked due to a design limitation of the Java 
-language, which does not allow "generics of generics." Nevertheless, we can declare the 
-collection we demanded in the callback to typecast the result automatically.
+language, which does not allow "generics of generics." So, if we need the particular type we
+asked, we need to explicitly typecast the payload.
 See the example:
 
 ```java
 // An ArrayList was requested, but the get method returned a Request<Collection<Book>>
 Request<Collection<Book>> request = session.req("/server/books").get(ArrayList.class, Book.class);
 
-// Even though we can declare a List<Book> as the callback's parameterized type
-request.onSuccess(new PayloadCallback<List<Book>>() {
-    public void execute(List<Book> payload) {
-        ...
-    }
+// If wee need to access the List interface, we must typecast the paylaod
+request.onSuccess(books -> {
+    List<Book> bookList = (List<Book>) books;
+    Book firstBook = bookList.get(0);
 });
 ```
 
-ℹ️ When using **lambda expressions**, we must explicitly declare the demanded collection type in 
-the signature to access it. Check below:
-
-```java
-// An ArrayList was requested, but the get method returned a Request<Collection<Book>>
-Request<Collection<Book>> request = session.req("/server/books").get(ArrayList.class, Book.class);
-
-// The payload parameter in callback is a Collection<Book>
-request.onSuccess( books -> books.get(0) ); // COMPILATION ERROR: books is Collection<Book> and .get belongs to List
-
-// You can explicitly declare the type in lambda signature to typecast
-request.onSuccess( (List<Book> books) -> books.get(0) ); // OK: Now it works
-```
 
 ## Futures
 
@@ -2262,10 +2248,10 @@ bookService.getBooks("Martin").onSuccess( books -> showBooks(books) ).onFail(...
 bookService.getBookById(123).onSuccess( book -> showBook(book) ).onFail(...);
 
 // PUT a book to /api/books/123
-bookService.updateBook(123, updatedBook).onSuccess( () -> showSucessMsg() ).onFail(...);
+bookService.updateBook(123, updatedBook).onSuccess( () -> showSuccessMsg() ).onFail(...);
 
 // DELETE the resource /api/books/123
-bookService.deleteBook(123).onSuccess( () -> showSucessMsg() ).onFail(...);
+bookService.deleteBook(123).onSuccess( () -> showSuccessMsg() ).onFail(...);
 ```
 
 ### Creating the app's BaseService
