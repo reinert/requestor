@@ -96,11 +96,11 @@ public interface Request<T> extends SerializedRequest {
 
     Request<T> onSuccess(VoidCallback callback);
 
-    <E extends T> Request<T> onSuccess(PayloadCallback<E> callback);
+    Request<T> onSuccess(PayloadCallback<T> callback);
 
-    <E extends T> Request<T> onSuccess(PayloadResponseCallback<E> callback);
+    Request<T> onSuccess(PayloadResponseCallback<T> callback);
 
-    <E extends T> Request<T> onSuccess(PayloadResponseRequestCallback<E> callback);
+    Request<T> onSuccess(PayloadResponseRequestCallback<T> callback);
 
     Request<T> onTimeout(TimeoutCallback callback);
 

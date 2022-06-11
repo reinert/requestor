@@ -110,13 +110,13 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
     PollingRequest<T> onSuccess(VoidCallback callback);
 
     @Override
-    <E extends T> PollingRequest<T> onSuccess(PayloadCallback<E> callback);
+    PollingRequest<T> onSuccess(PayloadCallback<T> callback);
 
     @Override
-    <E extends T> PollingRequest<T> onSuccess(PayloadResponseCallback<E> callback);
+    PollingRequest<T> onSuccess(PayloadResponseCallback<T> callback);
 
     @Override
-    <E extends T> PollingRequest<T> onSuccess(PayloadResponseRequestCallback<E> callback);
+    PollingRequest<T> onSuccess(PayloadResponseRequestCallback<T> callback);
 
     @Override
     PollingRequest<T> onTimeout(TimeoutCallback callback);

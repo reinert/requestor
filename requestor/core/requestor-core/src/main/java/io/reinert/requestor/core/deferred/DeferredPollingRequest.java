@@ -395,19 +395,19 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
-    public <E extends T> PollingRequest<T> onSuccess(PayloadCallback<E> callback) {
+    public PollingRequest<T> onSuccess(PayloadCallback<T> callback) {
         getLastDeferred().onSuccess(callback);
         return this;
     }
 
     @Override
-    public <E extends T> PollingRequest<T> onSuccess(PayloadResponseCallback<E> callback) {
+    public PollingRequest<T> onSuccess(PayloadResponseCallback<T> callback) {
         getLastDeferred().onSuccess(callback);
         return this;
     }
 
     @Override
-    public <E extends T> PollingRequest<T> onSuccess(PayloadResponseRequestCallback<E> callback) {
+    public PollingRequest<T> onSuccess(PayloadResponseRequestCallback<T> callback) {
         getLastDeferred().onSuccess(callback);
         return this;
     }

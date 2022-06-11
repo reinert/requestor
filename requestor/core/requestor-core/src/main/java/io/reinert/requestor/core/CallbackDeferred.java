@@ -423,17 +423,17 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
-    public <E extends Response> PollingRequest<Response> onSuccess(PayloadCallback<E> callback) {
+    public PollingRequest<Response> onSuccess(PayloadCallback<Response> callback) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <E extends Response> PollingRequest<Response> onSuccess(PayloadResponseCallback<E> callback) {
+    public PollingRequest<Response> onSuccess(PayloadResponseCallback<Response> callback) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <E extends Response> PollingRequest<Response> onSuccess(PayloadResponseRequestCallback<E> callback) {
+    public PollingRequest<Response> onSuccess(PayloadResponseRequestCallback<Response> callback) {
         throw new UnsupportedOperationException();
     }
 
