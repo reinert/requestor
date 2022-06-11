@@ -120,7 +120,11 @@ abstract class AbstractDeferred<D, F, P, U> {
     }
 
     protected void triggerDone(DoneCallback<D> callback, D resolved) {
-        callback.onDone(resolved);
+        try {
+            callback.onDone(resolved);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     protected void triggerFail(F rejected) {
@@ -130,7 +134,11 @@ abstract class AbstractDeferred<D, F, P, U> {
     }
 
     protected void triggerFail(FailCallback<F> callback, F rejected) {
-        callback.onFail(rejected);
+        try {
+            callback.onFail(rejected);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     protected void triggerProgress(P progress) {
@@ -150,10 +158,18 @@ abstract class AbstractDeferred<D, F, P, U> {
     }
 
     protected void triggerProgress(ProgressCallback<P> callback, P progress) {
-        callback.onProgress(progress);
+        try {
+            callback.onProgress(progress);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     protected void triggerUpProgress(ProgressCallback<U> callback, U progress) {
-        callback.onProgress(progress);
+        try {
+            callback.onProgress(progress);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }
