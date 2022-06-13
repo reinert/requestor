@@ -17,7 +17,6 @@ package io.reinert.requestor.gwt;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -88,34 +87,6 @@ public class CallbackGwtTest extends GWTTestCase {
         final Uri uri = uriBuilder.build();
         session.req(uri).get(List.class, Book.class).onSuccess(new PayloadCallback<Collection<Book>>() {
             public void execute(Collection<Book> result) {
-                assertNotNull(result);
-                assertFalse(result.isEmpty());
-
-                finishTest();
-            }
-        });
-        delayTestFinish(TIMEOUT);
-    }
-
-    public void testListSuccessCallback() {
-        // GET /books
-        final Uri uri = uriBuilder.build();
-        session.req(uri).get(List.class, Book.class).onSuccess(new PayloadCallback<List<Book>>() {
-            public void execute(List<Book> result) {
-                assertNotNull(result);
-                assertFalse(result.isEmpty());
-
-                finishTest();
-            }
-        });
-        delayTestFinish(TIMEOUT);
-    }
-
-    public void testSetSuccessCallback() {
-        // GET /books
-        final Uri uri = uriBuilder.build();
-        session.req(uri).get(Set.class, Book.class).onSuccess(new PayloadCallback<Set<Book>>() {
-            public void execute(Set<Book> result) {
                 assertNotNull(result);
                 assertFalse(result.isEmpty());
 
