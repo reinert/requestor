@@ -269,24 +269,6 @@ If you would like to get involded and make Requestor better, get in touch in our
 1.0.0 (14 Mar 2022)
 
 
-## Requestor for the Front-end
-
-With the componentization movement, much attention has been given to the UI structure of a frontend application.
-We have developed many mechanisms to build UIs prepared to scale. Unfortunately, communication - the underlying
-process that feeds the UI - has not evolved accordingly. Although we have seen ideas like promises and observables
-being adopted to handle asynchronous calls, orchestrating the communication layer with the UI
-components is still left aside. It's not so hard to see well UI structured apps with a messy
-communication (or service/api) layer. Apart from that, there are some patterns and strategies that we can apply in the
-communication process to make it smoother and coordinated among the different UI components. In fact, ruling
-the communication process is the foundation for building sustainable and scalable frontend applications.
-
-Requestor is an event-driven HTTP Client API for cutting-edge frontend applications. It offers plenty of
-carefully designed features to empower the development of **communication-centric apps**. By focusing on the
-communication process as the core of frontend development, Requestor allows developers to combine requesting
-configuration with state management in several scope levels so that each UI component is exempted from the
-communication complexity and can interact with other components in a decoupled way.
-
-
 ## Request Options
 
 Requestor's Fluent API exposes many chaining methods to properly configure your request.
