@@ -269,37 +269,6 @@ If you would like to get involded and make Requestor better, get in touch in our
 1.0.0 (14 Mar 2022)
 
 
-## Requestor for the Back-end
-
-Requestor is an **HTTP Client API** intended to provide several features related to network communication.
-Its scope is broader than popular (and often misunderstood) REST patterns. Requestor precisely models each entity in the
-HTTP client-side context to enable its users to handle any requirement in this boundary. It values good **code readability
-and maintainability** for the user by providing carefully designed interfaces and abstractions that others can extend and
-add their logic with **low or zero integration effort**. Workarounds and hacks are not welcome here. Developers should be able
-to implement their requirements keeping **high cohesion** through all their codebase.
-
-Additionally, Requestor was crafted from the Client perspective instead of the Server's (like other rest libraries were thought).
-In that fashion, developers have a more **consistent and intuitive experience** consuming HTTP services while coding. We do not
-need to pre-declare Server API's façades. We can just consume them on demand. This approach empower us to build *micro clients*
-that interact with different *micro services*.
-
-Besides, we value **code traceability**. So code generation is the last option in design decisions. Whenever a new requirement appears,
-we strive to develop a good design solution that allows the user to write less code and achieve the desired results. If something proves
-to be inevitably repetitive on the user side, after reaching the best possible design, then code generation is used to save the user
-from repetitive work. Still, leveraging Requestor's components, people will probably automate most of their work using fundamental
-object-oriented techniques like inheritance and composition. This way, they will better comprehend what is going on and have complete
-control of the coding flow.
-
-With Requestor, we can:
-* Quickly make offhand requests writing as little code as possible.
-* Communicate with different HTTP APIs keeping the same client communication pattern, thus improving the codebase maintainability.
-* Handle multiple media types (JSON and XML, for instance) for the same java type without hacks.
-* Deserialize different types according to the response status, properly modeling error messages in our app.
-* Navigate through discoverable REST API links, fully leveraging HATEOAS.
-* Build different and complex queries on demand, not having to map each possible iteration with Server APIs previously.
-* Add new logic requirements not needing to change existing classes, instead of creating new small units, avoiding code conflict between co-workers.
-
-
 ## Requestor for the Front-end
 
 With the componentization movement, much attention has been given to the UI structure of a frontend application.
