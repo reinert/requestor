@@ -15,6 +15,28 @@ Requestor is:
 * **Cache-Assisted** → promptly save and share data among different parts of your application while handling communication.
 * **Functional-Friendly** → the api is designed to allow you to leverage the most of java lambdas and functional programming.
 
+
+## How is it different from *Retrofit* and *Feign-Client*?
+These are two of the most common choices regarding HTTP API consumption in the Java ecosystem.
+They happen to have some similarities, though, that contrast with *Requestor* fundamentals.
+Both were primarily designed to provide auto-generated clients for HTTP APIs declared as interfaces,
+strongly biased by popular REST Server APIs, like JAX-RS, that work in the same fashion.
+This elementary design decision can cause some issues:
+- High initial friction: we can be burdened with a bunch of declarations and configurations before starting to use the library. This is special harmful when all we need is just to make a couple of simples requests.
+- Bad code traceability: when all we have is auto-generated code, it may become difficult to find bugs and understand the code flow when needed. And this time will come.
+- Limited customizability: when things start getting complex, we may find ourselves adding an excessive amount of code to handle interdependent scenarios.
+
+Differently, Requestor's core goal is to provide high-fidelity modeling of the HTTP concepts oriented by the client's perspective. In addition, a request-response processing cycle was designed to allow us to customize the requests and responses at specific milestones and notify other parts of the system.
+All this asynchronously. Around it, third-part concepts like Sessions, Services, and Stores, were attached to provide enhanced functionality and empower a communication-centric approach to build apps.
+
+Requestor's design is extensible enough to allow us to exponentially grow the complexity of our requirements, linearly affecting the size of our code and keeping it clean and dry.
+With Requestor we can:
+- Start simple and make requests with just one line of code.
+- Choose between requesting in a sync or async flow, although all requests are executed asynchronously, following the thread-per-request style, not blocking the main thread.
+- Set actions for specific request results due to a tailor-made event system to the request-response lifecycle, helping us to write clear and concise code.
+- Straightforwardly enable complex features - such as polling, streaming, and retrying - and build sophisticated communication flows painlessly.
+
+
 ## Features
 * [**Requesting Fluent API**](#%EF%B8%8F-requesting-fluent-api-briefing) - code as you think, read as you code.
 * [**Event-Driven Callbacks**](#event-driven-callbacks) - set callbacks for different results in a precise event system.
@@ -36,7 +58,7 @@ Requestor is:
 * [**Form Data**](#form-data) - send both 'multipart/form-data' and 'application/x-www-form-urlencoded' requests.
 
 Requestor is developed on top of three main pillars: (1) **Interoperability**, (2) **Simplicity**, and (3)
-**Extensibility**. In that fashion, **requestor-core** is developed in vanilla Java 5 syntax what makes it compatible
+**Extensibility**. In that fashion, **requestor-core** is developed in vanilla Java what makes it compatible
 with any Java based platform and transpilable to other languages. To provide a fully working implementation, Requestor
 impls are required to implement the dispatching mechanism through the wire. Currently, there are two requestor impls
 available: **requestor-javanet** for JVM/Android and **requestor-gwt** for GWT2.
@@ -300,11 +322,13 @@ communication complexity and can interact with other components in a decoupled w
 
 Requestor's Fluent API exposes many chaining methods to properly configure your request.
 
-Suppose you start building the request below:
+Suppose we start building the request below:
 
 ```java
 RequestInvoker req = session.req("/api/books/");
 ```
+
+We then have the following options to set up our request.
 
 ### *payload*
 
