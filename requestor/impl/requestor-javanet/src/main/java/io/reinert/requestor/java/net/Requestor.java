@@ -61,7 +61,7 @@ public class Requestor {
     private static final int DEFAULT_CORE_POOL_SIZE = 10;
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-    private static boolean PENDING_INIT = true;
+    private static boolean initialized = false;
 
     public static Session newSession() {
         return newSession(new DeferredPoolFactoryImpl());
@@ -151,7 +151,7 @@ public class Requestor {
             );
         }
 
-        if (PENDING_INIT) {
+        if (!initialized) {
             if (!DigestAuth.hasHashFunction("md5")) {
                 try {
                     MessageDigest.getInstance("MD5");
@@ -178,7 +178,7 @@ public class Requestor {
 
             allowPatchMethodOnHttpUrlConnection();
 
-            PENDING_INIT = false;
+            initialized = true;
         }
     }
 
