@@ -59,7 +59,8 @@
     <github.version>0.12</github.version>
 
     <!-- GWT -->
-    <gwt.version>2.9.0</gwt.version>
+    <gwt.version>2.10.0</gwt.version>
+    <gwt-maven-plugin.version>2.9.0</gwt-maven-plugin.version>
     <gwtjackson.version>0.15.4</gwtjackson.version>
 
     <!-- Java -->
@@ -149,13 +150,13 @@
 
       <!-- GWT dependencies -->
       <dependency>
-        <groupId>com.google.gwt</groupId>
+        <groupId>org.gwtproject</groupId>
         <artifactId>gwt-user</artifactId>
         <version>${gwt.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>com.google.gwt</groupId>
+        <groupId>org.gwtproject</groupId>
         <artifactId>gwt-dev</artifactId>
         <version>${gwt.version}</version>
         <scope>provided</scope>

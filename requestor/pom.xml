@@ -57,9 +57,10 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
-          <version>${gwt.version}</version>
+          <version>${gwt-maven-plugin.version}</version>
           <configuration>
             <extraJvmArgs>-Xss16M -Xms256M -Xmx2048M</extraJvmArgs>
+            <htmlunit>Chrome</htmlunit>
             <includes>**/*GwtTestSuite.java</includes>
             <testTimeOut>180</testTimeOut>
 <!--            <logLevel>DEBUG</logLevel>-->
