@@ -300,7 +300,6 @@
       <modules>
         <module>tools</module>
         <module>requestor</module>
-        <module>examples</module>
       </modules>
       <build>
         <pluginManagement>
