@@ -22,19 +22,19 @@ They happen to have some similarities, though, that contrast with *Requestor* fu
 Both were primarily designed to provide auto-generated clients for HTTP APIs declared as interfaces,
 strongly biased by popular REST Server APIs, like JAX-RS, that work in the same fashion.
 This elementary design decision can cause some issues:
-- High initial friction: we can be burdened with a bunch of declarations and configurations before starting to use the library. This is special harmful when all we need is just to make a couple of simples requests.
-- Bad code traceability: when all we have is auto-generated code, it may become difficult to find bugs and understand the code flow when needed. And this time will come.
-- Limited customizability: when things start getting complex, we may find ourselves adding an excessive amount of code to handle interdependent scenarios.
+- **High initial friction**: we can be burdened with a bunch of declarations and configurations before starting to use the library. This is special harmful when all we need is just to make a couple of simples requests.
+- **Bad code traceability**: when all we have is auto-generated code, it may become difficult to find bugs and understand the code flow when needed. And this time will come.
+- **Limited customizability**: when things start getting complex, we may find ourselves adding an excessive amount of code to handle interdependent scenarios.
 
 Differently, Requestor's core goal is to provide high-fidelity modeling of the HTTP concepts oriented by the client's perspective. In addition, a request-response processing cycle was designed to allow us to customize the requests and responses at specific milestones and notify other parts of the system.
 All this asynchronously. Around it, third-part concepts like Sessions, Services, and Stores, were attached to provide enhanced functionality and empower a communication-centric approach to build apps.
 
 Requestor's design is extensible enough to allow us to exponentially grow the complexity of our requirements, linearly affecting the size of our code and keeping it clean and dry.
 With Requestor we can:
-- Start simple and make requests with just one line of code.
-- Choose between requesting in a sync or async flow, although all requests are executed asynchronously, following the thread-per-request style, not blocking the main thread.
-- Set actions for specific request results due to a tailor-made event system to the request-response lifecycle, helping us to write clear and concise code.
-- Straightforwardly enable complex features - such as polling, streaming, and retrying - and build sophisticated communication flows painlessly.
+- Start simple and **make one line requests**.
+- **Request in a sync or async flow**, although all requests are executed asynchronously, following the *thread-per-request* style, not blocking the main thread. Requestor is ready for and superpowered by the upcoming Java Virtual Threads!
+- Set actions for specific request results due to a tailor-made event system to the request-response lifecycle, helping us to **write clear and concise code**.
+- Straightforwardly enable complex features - such as polling, streaming, and retrying - and **build sophisticated communication flows** painlessly.
 
 
 ## Features
@@ -76,7 +76,7 @@ session.get("https://httpbin.org/ip", String.class) // deserialize the response 
         .onSuccess( session::shutdown );            // close the session and exit
 ```
 
-In Kotlin:
+🔥 In **Kotlin**:
 
 ```kotlin
 val session = Requestor.newSession()
@@ -248,7 +248,7 @@ The **requestor-javanet** impl is built with jdk8 and compatible with **Java 8+*
 </dependency>
 ```
 
-If you're using jdk12+ then add the following command line arg to execute your java app:
+If you're using jdk12+ and want to make PATCH requests then add the following command line arg to execute your java app:
 `--add-opens java.base/java.net=ALL-UNNAMED`.
 
 ### GWT2
