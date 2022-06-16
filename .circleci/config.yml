@@ -19,7 +19,14 @@ jobs:
   java-8:
     docker:
       - image: cimg/openjdk:8.0
-    <<: *shared
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
+      - run:
+          name: Test
+          command: mvn -Dsurefire.argLine="" -Dgwt.extraJvmArgs="" test
   java-11:
     docker:
       - image: cimg/openjdk:11.0

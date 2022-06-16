@@ -42,7 +42,8 @@
     <java.version>7</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <jvm.options>--add-opens java.base/java.net=ALL-UNNAMED</jvm.options>
+    <surefire.argLine>--add-opens java.base/java.net=ALL-UNNAMED</surefire.argLine>
+    <gwt.extraJvmArgs>--add-opens java.base/java.lang=ALL-UNNAMED</gwt.extraJvmArgs>
 
     <!-- Plugins -->
     <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
@@ -207,7 +208,7 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
           <configuration>
-            <argLine>${jvm.options}</argLine>
+            <argLine>${surefire.argLine}</argLine>
           </configuration>
         </plugin>
 

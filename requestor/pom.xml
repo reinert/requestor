@@ -59,7 +59,7 @@
           <artifactId>gwt-maven-plugin</artifactId>
           <version>${gwt-maven-plugin.version}</version>
           <configuration>
-            <extraJvmArgs>-Xss16M -Xms256M -Xmx2048M --add-opens java.base/java.lang=ALL-UNNAMED</extraJvmArgs>
+            <extraJvmArgs>-Xss16M -Xms256M -Xmx2048M ${gwt.extraJvmArgs}</extraJvmArgs>
             <htmlunit>Chrome</htmlunit>
             <includes>**/*GwtTestSuite.java</includes>
             <testTimeOut>180</testTimeOut>
