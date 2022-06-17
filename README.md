@@ -1,5 +1,3 @@
-# Requestor [![Build Status](https://travis-ci.org/reinert/requestor.svg?branch=master)](https://travis-ci.org/reinert/requestor) [![Gitter](https://img.shields.io/badge/Gitter-Join%20Chat-blue.svg?style=flat)](https://gitter.im/requestor-project/community)
-
 <p align="center">
   <img src="https://user-images.githubusercontent.com/1285494/158213729-52458234-6c6b-41d5-bd6d-746c12a7c2c4.png" alt="Request like a boss."/>
 </p>
@@ -1043,8 +1041,7 @@ interface MySerializationModule extends SerializationModule {}
 Then, we just need to register the SerializationModule in our Session instance like below:
 
 ```java
-// All generated serializers will be automatically registered in this session
-Session session = session.register(MySerializationModule.class);
+session.register(MySerializationModule.class);
 ```
 
 According to this example, when asking for `Author.class` or `Book.class`, all three scenarios
