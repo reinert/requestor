@@ -859,6 +859,8 @@ request.onSuccess(books -> {
 
 ## Futures
 
+<sup><b>@GwtIncompatible</b></sup>
+
 Besides providing the async interface to handle requests results, Requestor exposes some Futures
 in the three main milestones of the Request-Response lifecycle.
 
@@ -956,6 +958,8 @@ session.shutdown();
 
 
 ## Await
+
+<sup><b>@GwtIncompatible</b></sup>
 
 Requestor exposes a way to wait for the request to finish thus allowing the user to  code in a synchronous fashion.
 
@@ -2464,6 +2468,8 @@ For GWT docs, see [Showcase](https://reinert.github.io/requestor/latest/examples
 
 ### HTTP Streaming
 
+<sup><b>@GwtIncompatible</b></sup>
+
 In order to efficiently stream a response to another source, use the `onRead` callback to get early access to each chunk
 of bytes that is received from network.
 
@@ -2525,6 +2531,8 @@ For GWT docs, see [Showcase](https://reinert.github.io/requestor/latest/examples
 
 
 ## Customizations
+
+<sup><b>@GwtIncompatible</b></sup>
 
 Requestor exposes some keys that allow its users to customize request processing configurations
 such as buffer sizes, enabling chunking (streaming), and others.
