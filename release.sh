@@ -23,7 +23,7 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   mvn versions:set -DnewVersion=$2
   mvn versions:commit
   # update tag to next snapshot
-  bash ./tag.sh HEAD
+  bash ./tag.sh $2
   # commit
   git add .
   git commit -m "Start $2 development"
