@@ -195,10 +195,9 @@
 
       <!-- Tools -->
       <dependency>
-        <groupId>io.reinert.requestor.tools</groupId>
-        <artifactId>requestor-checkstyle</artifactId>
-        <version>${project.version}</version>
-        <scope>provided</scope>
+        <groupId>io.reinert.tools</groupId>
+        <artifactId>checkstyle</artifactId>
+        <version>1.0.0</version>
         <optional>true</optional>
       </dependency>
     </dependencies>
@@ -303,7 +302,6 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>tools</module>
         <module>requestor</module>
       </modules>
       <build>
@@ -314,9 +312,9 @@
               <artifactId>maven-checkstyle-plugin</artifactId>
               <version>${maven-checkstyle-plugin.version}</version>
               <configuration>
-                <configLocation>/requestor-checkstyle.xml</configLocation>
-                <suppressionsLocation>/requestor-checkstyle-suppressions.xml</suppressionsLocation>
-                <propertiesLocation>/requestor-checkstyle.properties</propertiesLocation>
+                <configLocation>tools/checkstyle/requestor-checkstyle.xml</configLocation>
+                <suppressionsLocation>tools/checkstyle/requestor-checkstyle-suppressions.xml</suppressionsLocation>
+                <propertiesLocation>tools/checkstyle/requestor-checkstyle.properties</propertiesLocation>
                 <propertyExpansion>basedir=${basedir}</propertyExpansion>
                 <consoleOutput>true</consoleOutput>
                 <failsOnError>true</failsOnError>
@@ -325,9 +323,9 @@
               </configuration>
               <dependencies>
                 <dependency>
-                  <groupId>io.reinert.requestor.tools</groupId>
-                  <artifactId>requestor-checkstyle</artifactId>
-                  <version>${project.version}</version>
+                  <groupId>io.reinert.tools</groupId>
+                  <artifactId>checkstyle</artifactId>
+                  <version>1.0.0</version>
                 </dependency>
               </dependencies>
               <executions>
@@ -516,16 +514,4 @@
       </build>
     </profile>
   </profiles>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
 </project>

@@ -93,7 +93,7 @@
     <module name="NeedBraces">
       <property name="tokens" value="LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_WHILE"/>
     </module>
-    <module name="io.reinert.requestor.tools.checkstyle.IfBracesCheck"/>
+    <module name="io.reinert.tools.checkstyle.IfBracesCheck"/>
     <module name="CovariantEquals">
       <property name="severity" value="error"/>
     </module>
