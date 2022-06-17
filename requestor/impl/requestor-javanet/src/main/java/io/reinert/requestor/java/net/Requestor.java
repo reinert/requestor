@@ -67,20 +67,12 @@ public class Requestor {
         return newSession(new DeferredPoolFactoryImpl());
     }
 
-    public static Session newSession(int corePoolSize) {
-        return newSession(Executors.newScheduledThreadPool(corePoolSize));
-    }
-
     public static Session newSession(ScheduledExecutorService scheduledExecutorService) {
         return newSession(new DeferredPoolFactoryImpl(), new JavaNetRequestDispatcherFactory(scheduledExecutorService));
     }
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory) {
-        return newSession(deferredPoolFactory, DEFAULT_CORE_POOL_SIZE);
-    }
-
-    public static Session newSession(DeferredPool.Factory deferredPoolFactory, int corePoolSize) {
-        return newSession(deferredPoolFactory, Executors.newScheduledThreadPool(corePoolSize));
+        return newSession(deferredPoolFactory, Executors.newScheduledThreadPool(DEFAULT_CORE_POOL_SIZE));
     }
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory,
