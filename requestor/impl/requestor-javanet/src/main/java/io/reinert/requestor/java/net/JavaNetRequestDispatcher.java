@@ -368,17 +368,13 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
     }
 
     private int getInputBufferSize(Store store) {
-        if (store.exists(INPUT_BUFFER_SIZE)) {
-            return store.retrieve(INPUT_BUFFER_SIZE);
-        }
-        return inputBufferSize;
+        final Integer customBufferSize = store.retrieve(INPUT_BUFFER_SIZE);
+        return customBufferSize != null ? customBufferSize : inputBufferSize;
     }
 
     private int getOutputBufferSize(Store store) {
-        if (store.exists(OUTPUT_BUFFER_SIZE)) {
-            return store.retrieve(OUTPUT_BUFFER_SIZE);
-        }
-        return outputBufferSize;
+        final Integer customBufferSize = store.retrieve(OUTPUT_BUFFER_SIZE);
+        return customBufferSize != null ? customBufferSize : outputBufferSize;
     }
 
     private Headers readResponseHeaders(HttpURLConnection conn) {
