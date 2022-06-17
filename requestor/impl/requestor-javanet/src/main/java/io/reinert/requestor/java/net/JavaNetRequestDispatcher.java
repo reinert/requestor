@@ -112,6 +112,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
         HttpURLConnection conn = null;
         JavaNetHttpConnection netConn = null;
         SerializedPayload serializedPayload = request.getSerializedPayload();
+        int reqOutBufferSize = getOutputBufferSize(request);
 
         try {
             // Set up connection
@@ -126,7 +127,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                 if (serializedPayload.getLength() > 0) {
                     conn.setFixedLengthStreamingMode(serializedPayload.getLength());
                 } else if (!request.exists(Requestor.CHUNKED_STREAMING_MODE_DISABLED, Boolean.TRUE)) {
-                    conn.setChunkedStreamingMode(getOutputBufferSize(request));
+                    conn.setChunkedStreamingMode(reqOutBufferSize);
                 }
             }
 
@@ -187,11 +188,11 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                         long totalWritten = 0;
                         for (SerializedPayload part : csp) {
                             totalWritten = writeSerializedPayloadToOutputStream(request, deferred, out, part,
-                                    totalWritten, totalSize);
+                                    reqOutBufferSize, totalWritten, totalSize);
                         }
                     } else {
-                        writeSerializedPayloadToOutputStream(request, deferred, out, serializedPayload, 0,
-                                serializedPayload.getLength());
+                        writeSerializedPayloadToOutputStream(request, deferred, out, serializedPayload,
+                                reqOutBufferSize, 0, serializedPayload.getLength());
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
@@ -269,13 +270,16 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
     private <R> long writeSerializedPayloadToOutputStream(PreparedRequest request, Deferred<R> deferred,
                                                           OutputStream out, SerializedPayload serializedPayload,
-                                                          long totalWritten, long totalSize) throws IOException {
+                                                          int outBufferSize, long totalWritten, long totalSize)
+            throws IOException {
         if (serializedPayload instanceof InputStreamSerializedPayload) {
             InputStreamSerializedPayload isp = (InputStreamSerializedPayload) serializedPayload;
-            return writeInputToOutputStream(request, deferred, out, isp.getInputStream(), totalWritten, totalSize);
+            return writeInputToOutputStream(request, deferred, out, outBufferSize, isp.getInputStream(), totalWritten,
+                    totalSize);
         }
 
-        return writeBytesToOutputStream(request, deferred, out, serializedPayload.asBytes(), totalWritten, totalSize);
+        return writeBytesToOutputStream(request, deferred, out, outBufferSize, serializedPayload.asBytes(),
+                totalWritten, totalSize);
     }
 
     private <R> void disconnect(HttpURLConnection conn, Deferred<R> deferred, RequestException exception) {
@@ -284,9 +288,9 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
     }
 
     private <R> long writeBytesToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
-                                              byte[] bytes, long totalWritten, long totalSize) throws IOException {
+                                              int bufferSize, byte[] bytes, long totalWritten, long totalSize)
+            throws IOException {
         final boolean chunkingEnabled = request.exists(Requestor.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
-        final int bufferSize = getOutputBufferSize(request);
         for (int i = 0; i <= (bytes.length - 1) / bufferSize; i++) {
             int off = i * bufferSize;
             int len = Math.min(bufferSize, bytes.length - off);
@@ -306,9 +310,9 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
     }
 
     private <R> long writeInputToOutputStream(PreparedRequest request, Deferred<R> deferred, OutputStream out,
-                                              InputStream in, long totalWritten, long totalSize) throws IOException {
+                                              int bufferSize, InputStream in, long totalWritten, long totalSize)
+            throws IOException {
         final boolean chunkingEnabled = request.exists(Requestor.WRITE_CHUNKING_ENABLED, Boolean.TRUE);
-        final int bufferSize = getOutputBufferSize(request);
         try (InputStream bis = new BufferedInputStream(in, bufferSize)) {
             byte[] buffer = new byte[bufferSize];
             int stepRead;
