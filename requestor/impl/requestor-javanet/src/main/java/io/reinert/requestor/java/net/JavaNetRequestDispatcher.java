@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import io.reinert.requestor.core.Deferred;
@@ -247,10 +248,11 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             SerializedPayload serializedResponse = SerializedPayload.EMPTY_PAYLOAD;
             if (payloadType.getType() != Void.class ||
                     request.exists(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE)) {
-                try (InputStream in = responseStatus.getFamily() == StatusFamily.SUCCESSFUL ?
-                                conn.getInputStream() : conn.getErrorStream()) {
+                int inBufferSize = getInputBufferSize(request);
+                try (InputStream in = getConnInputStream(conn, response, inBufferSize)) {
                     if (in != null) {
-                        serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in, response);
+                        serializedResponse = readInputStreamToSerializedPayload(request, deferred, conn, in,
+                                inBufferSize, isGzipEncodingEnabled, response);
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
@@ -275,6 +277,14 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             netConn.cancel(new RequestCancelException(request,
                     "An unexpected error has occurred while sending the request.", e));
         }
+    }
+
+    private InputStream getConnInputStream(HttpURLConnection conn, ResponseHeader response, int inBufferSize)
+            throws IOException {
+        final InputStream in = response.getStatus().getFamily() == StatusFamily.SUCCESSFUL ?
+                conn.getInputStream() : conn.getErrorStream();
+        int bufSize = conn.getContentLength() > 0 ? Math.min(inBufferSize, conn.getContentLength()) : inBufferSize;
+        return "gzip".equalsIgnoreCase(response.getHeader("Content-Encoding")) ? new GZIPInputStream(in, bufSize) : in;
     }
 
     private OutputStream getConnOutputStream(HttpURLConnection conn, int outBufferSize, boolean isGzipEncodingEnabled)
@@ -352,9 +362,12 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
     private <R> SerializedPayload readInputStreamToSerializedPayload(PreparedRequest request, Deferred<R> deferred,
                                                                      HttpURLConnection conn, InputStream in,
-                                                                     ResponseHeader response) throws IOException {
+                                                                     int inBufferSize, boolean isGzipEncodingEnabled,
+                                                                     ResponseHeader response)
+            throws IOException {
         final String contentType = conn.getContentType();
         final int contentLength = conn.getContentLength();
+        final boolean isUncompressed = !isGzipEncodingEnabled;
 
         final boolean payloadRequested = request.getResponsePayloadType().getType() != Void.class;
         final boolean chunkingEnabled = request.exists(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE);
@@ -362,11 +375,11 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
         // NOTE: there should be no body when buffering is enabled but return type is void
         byte[] body = payloadRequested ? new byte[Math.max(contentLength, 0)] : null;
 
-        byte[] buffer = new byte[getInputBufferSize(request)];
+        byte[] buffer = new byte[inBufferSize];
         int stepRead, totalRead = 0;
         while ((stepRead = in.read(buffer)) != -1) {
             if (payloadRequested) {
-                if (contentLength > 0) {
+                if (isUncompressed && contentLength > 0) {
                     System.arraycopy(buffer, 0, body, totalRead, stepRead);
                 } else {
                     byte[] aux = new byte[totalRead + stepRead];
@@ -379,7 +392,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             totalRead += stepRead;
 
             byte[] chunk = chunkingEnabled ? Arrays.copyOf(buffer, stepRead) : null;
-            deferred.notifyDownload(new ReadProgress(request, response, contentLength > 0 ?
+            deferred.notifyDownload(new ReadProgress(request, response, isUncompressed && contentLength > 0 ?
                     new FixedProgressEvent(totalRead, contentLength) :
                     new ChunkedProgressEvent(totalRead),
                     serializeContent(contentType, chunk, request.getCharset())));
