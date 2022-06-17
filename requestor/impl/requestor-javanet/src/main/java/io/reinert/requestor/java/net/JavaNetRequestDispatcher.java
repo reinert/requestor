@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPOutputStream;
 
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.DeferredPool;
@@ -54,6 +55,8 @@ import io.reinert.requestor.core.Status;
 import io.reinert.requestor.core.StatusFamily;
 import io.reinert.requestor.core.Store;
 import io.reinert.requestor.core.WriteProgress;
+import io.reinert.requestor.core.header.AcceptEncodingHeader;
+import io.reinert.requestor.core.header.ContentEncodingHeader;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
@@ -113,6 +116,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
         JavaNetHttpConnection netConn = null;
         SerializedPayload serializedPayload = request.getSerializedPayload();
         int reqOutBufferSize = getOutputBufferSize(request);
+        boolean isGzipEncodingEnabled = request.exists(Requestor.GZIP_ENCODING_ENABLED, Boolean.TRUE);
 
         try {
             // Set up connection
@@ -124,7 +128,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
             if (!serializedPayload.isEmpty()) {
                 conn.setDoOutput(true);
-                if (serializedPayload.getLength() > 0) {
+                if (!isGzipEncodingEnabled && serializedPayload.getLength() > 0) {
                     conn.setFixedLengthStreamingMode(serializedPayload.getLength());
                 } else if (!request.exists(Requestor.CHUNKED_STREAMING_MODE_DISABLED, Boolean.TRUE)) {
                     conn.setChunkedStreamingMode(reqOutBufferSize);
@@ -136,6 +140,11 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             } catch (ProtocolException e) {
                 if (!e.getMessage().contains(HttpMethod.PATCH.getValue())) throw e;
                 setPatchMethod(conn);
+            }
+
+            if (isGzipEncodingEnabled) {
+                request.setHeader(new ContentEncodingHeader("gzip"));
+                request.setHeader(new AcceptEncodingHeader("gzip"));
             }
 
             for (Header header : request.getHeaders()) {
@@ -181,10 +190,10 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
         try {
             // Payload upload
             if (conn.getDoOutput()) {
-                try (OutputStream out = conn.getOutputStream()) {
+                try (OutputStream out = getConnOutputStream(conn, reqOutBufferSize, isGzipEncodingEnabled)) {
                     if (serializedPayload instanceof CompositeSerializedPayload) {
                         final CompositeSerializedPayload csp = (CompositeSerializedPayload) serializedPayload;
-                        final long totalSize = csp.getLength();
+                        final long totalSize = isGzipEncodingEnabled ? 0 : csp.getLength();
                         long totalWritten = 0;
                         for (SerializedPayload part : csp) {
                             totalWritten = writeSerializedPayloadToOutputStream(request, deferred, out, part,
@@ -192,7 +201,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                         }
                     } else {
                         writeSerializedPayloadToOutputStream(request, deferred, out, serializedPayload,
-                                reqOutBufferSize, 0, serializedPayload.getLength());
+                                reqOutBufferSize, 0, isGzipEncodingEnabled ? 0 : serializedPayload.getLength());
                     }
                 } catch (SocketTimeoutException e) {
                     netConn.cancel(new RequestTimeoutException(request, request.getTimeout()));
@@ -266,6 +275,14 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             netConn.cancel(new RequestCancelException(request,
                     "An unexpected error has occurred while sending the request.", e));
         }
+    }
+
+    private OutputStream getConnOutputStream(HttpURLConnection conn, int outBufferSize, boolean isGzipEncodingEnabled)
+            throws IOException {
+        if (isGzipEncodingEnabled) {
+            return new GZIPOutputStream(conn.getOutputStream(), outBufferSize);
+        }
+        return conn.getOutputStream();
     }
 
     private <R> long writeSerializedPayloadToOutputStream(PreparedRequest request, Deferred<R> deferred,
