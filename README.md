@@ -27,12 +27,14 @@ This elementary design decision can cause some issues:
 Differently, Requestor's core goal is to provide high-fidelity modeling of the HTTP concepts oriented by the client's perspective. In addition, a request-response processing cycle was designed to allow us to customize the requests and responses at specific milestones and notify other parts of the system.
 All this asynchronously. Around it, third-part concepts like Sessions, Services, and Stores, were attached to provide enhanced functionality and empower a communication-centric approach to build apps.
 
-Requestor's design is extensible enough to allow us to exponentially grow the complexity of our requirements, linearly affecting the size of our code and keeping it clean and dry.
+Requestor's design is extensible enough to allow us to exponentially grow the complexity of our requirements linearly affecting the size of our code, keeping it clean and dry.
 With Requestor we can:
 - Start simple and **make one line requests**.
-- **Request in a sync or async flow**, although all requests are executed asynchronously, following the *thread-per-request* style, not blocking the main thread. Requestor is ready for and superpowered by the upcoming Java Virtual Threads!
+- **Request in a sync or async flow**, although all requests are executed asynchronously (in background threads or coroutines), following the *thread-per-request* style, not blocking the main thread. Requestor is ready for and superpowered by the upcoming Java Virtual Threads!
 - Set actions for specific request results due to a tailor-made event system to the request-response lifecycle, helping us to **write clear and concise code**.
 - Straightforwardly enable complex features - such as polling, streaming, and retrying - and **build sophisticated communication flows** painlessly.
+- **Add async middlewares to requests and responses** at different milestones in a well-suited lifecycle.
+- Conveniently manipulate and interact with Headers, URIs, and Links to **navigate through discoverable HTTP APIs**, employing HATEOAS the right way.
 
 
 ## Features
