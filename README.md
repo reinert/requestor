@@ -2540,6 +2540,33 @@ such as buffer sizes, enabling chunking (streaming), and others.
 These customizations are saved in the Store. So the user is able to choose whether he wants to set
 them in the Session, Service, or Request level.
 
+### GZIP_ENCODING_ENABLED : Boolean
+
+Requestor supports compressing both outgoing request and incoming response payloads.
+
+Decoding a gzipped response body is automatic. Requestor checks the 'Content-Encoding' header and if it's set to gzip,
+then the paylaod is uncompressed using gzip.
+
+In order to compress the outgoing payloads, we need to set the `GZIP_ENCODING_ENABLED` flag to `true`. It can be done in the
+Session, in a Service or in each Request. When gzip encoding is enabled, Requestor will set the headers 'Content-Encoding'
+and 'Accept-Encoding' to 'gzip' and compress the request payload using gzip while sending it through the network. Also,
+notice that since we don't know the byte length of the payload previously, the request will be sent in chunked stream mode.
+
+See examples of setting the GZIP_ENCODING_ENABLED flag to true:
+```java
+// Setting GZIP_ENCODING_ENABLED in the Session level
+session.save(Requestor.GZIP_ENCODING_ENABLED, Boolean.TRUE);
+
+// Setting GZIP_ENCODING_ENABLED in the Service level
+service.save(Requestor.GZIP_ENCODING_ENABLED, Boolean.TRUE);
+
+// Setting GZIP_ENCODING_ENABLED in the Request level
+session.req("endpoint")
+        .save(Requestor.GZIP_ENCODING_ENABLED, Boolean.TRUE)
+        .payload(object)
+        .post()
+```
+
 ### DEFAULT_CONTENT_TYPE : String
 
 When the requests have no content type set, then Requestor will query for it in the store.
@@ -2595,11 +2622,11 @@ HTTP Streaming only.
 
 ```java
 // Setting READ_CHUNKING_ENABLED in the Service level
-service.save(Requestor.READ_CHUNKING_ENABLED, true);
+service.save(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE);
 
 // Setting READ_CHUNKING_ENABLED in the Request level
 session.req("endpoint")
-        .save(Requestor.READ_CHUNKING_ENABLED, true)
+        .save(Requestor.READ_CHUNKING_ENABLED, Boolean.TRUE)
         .get()
         .onRead(progress -> stream(progress.getChunk().asBytes()))
 ```
@@ -2617,7 +2644,7 @@ InputStream inputStream = getInputStream();
 
 // Setting CHUNKED_STREAMING_MODE_DISABLED in the Request level
 session.req("endpoint")
-        .save(Requestor.CHUNKED_STREAMING_MODE_DISABLED, true)
+        .save(Requestor.CHUNKED_STREAMING_MODE_DISABLED, Boolean.TRUE)
         .payload(inputStream)
         .post() // Post this inputStream forcing it to be totally read before sending
 
