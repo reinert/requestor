@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.java.net;
 
+import java.util.concurrent.Executors;
+
 import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.Session;
 
@@ -33,7 +35,7 @@ public class PollingTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 500)
@@ -55,7 +57,7 @@ public class PollingTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.LONG, 500)
@@ -77,7 +79,7 @@ public class PollingTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 500, 3)
@@ -98,7 +100,7 @@ public class PollingTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 0, 3)

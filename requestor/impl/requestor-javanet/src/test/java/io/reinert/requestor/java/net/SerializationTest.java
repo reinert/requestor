@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -42,7 +43,7 @@ public class SerializationTest extends JavaNetTest {
     public void testFormDataUrlEncoded() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         final FormData data = FormData.builder()
                 .append("string", "value")
@@ -74,7 +75,7 @@ public class SerializationTest extends JavaNetTest {
     public void testFormDataMultiPartPlainContent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         final FormData data = FormData.builder()
                 .append("string", "value")
@@ -106,7 +107,7 @@ public class SerializationTest extends JavaNetTest {
     public void testFormDataMultiPartBinaryContent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         JavaNetRequestDispatcherFactory dispatcherFactory =
                 (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
@@ -147,7 +148,7 @@ public class SerializationTest extends JavaNetTest {
     public void testFile() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         JavaNetRequestDispatcherFactory dispatcherFactory =
                 (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
@@ -192,7 +193,7 @@ public class SerializationTest extends JavaNetTest {
     public void testInputStream() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession();
+        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
 
         JavaNetRequestDispatcherFactory dispatcherFactory =
                 (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
