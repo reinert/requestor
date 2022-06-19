@@ -56,6 +56,7 @@ With Requestor we can:
 * [**URIs**](#uri) - build and parse complicated URIs easily.
 * [**Binary Data**](#binary-data) - upload and download files tracking the progress.
 * [**Form Data**](#form-data) - send both 'multipart/form-data' and 'application/x-www-form-urlencoded' requests.
+* [**Gzip Compression**](#gzip_encoding_enabled--boolean) - automatically encode and decode payloads with gzip.
 
 Requestor is developed on top of three main pillars: (1) **Interoperability**, (2) **Simplicity**, and (3)
 **Extensibility**. In that fashion, **requestor-core** is developed in vanilla Java what makes it compatible
