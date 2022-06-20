@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Package.html" title="io.reinert.requestor.gson.rebind.codegen.Package" alt="" coords="16,17,88,42"/>
+<area shape="rect" id="node1" href="./Package.html" title="&lt;TABLE&gt;" alt="" coords="5,5,99,53"/>
+<area shape="rect" id="node2_1" href="./TypeInfo.html" title="io.reinert.requestor.gson.rebind.codegen.TypeInfo" alt="" coords="133,17,208,42"/>
+<area shape="rect" id="node2" href="./TypeInfo.html" title="&lt;TABLE&gt;" alt="" coords="123,5,219,53"/>
+<area shape="rect" id="node3_2" href="./TypeAssembler.html" title="io.reinert.requestor.gson.rebind.codegen.TypeAssembler" alt="" coords="253,17,373,42"/>
+<area shape="rect" id="node3" href="./TypeAssembler.html" title="&lt;TABLE&gt;" alt="" coords="243,5,384,53"/>
+<area shape="rect" id="node6_3" href="./InnerTypeAssembler.html" title="io.reinert.requestor.gson.rebind.codegen.InnerTypeAssembler" alt="" coords="237,113,389,138"/>
+<area shape="rect" id="node6" href="./InnerTypeAssembler.html" title="&lt;TABLE&gt;" alt="" coords="227,101,400,149"/>
+<area shape="rect" id="node4_4" href="./MethodAssembler.html" title="io.reinert.requestor.gson.rebind.codegen.MethodAssembler" alt="" coords="419,17,557,42"/>
+<area shape="rect" id="node4" href="./MethodAssembler.html" title="&lt;TABLE&gt;" alt="" coords="409,5,567,53"/>
+<area shape="rect" id="node5_5" href="./FieldAssembler.html" title="io.reinert.requestor.gson.rebind.codegen.FieldAssembler" alt="" coords="603,17,723,42"/>
+<area shape="rect" id="node5" href="./FieldAssembler.html" title="&lt;TABLE&gt;" alt="" coords="592,5,733,53"/>
+</map>

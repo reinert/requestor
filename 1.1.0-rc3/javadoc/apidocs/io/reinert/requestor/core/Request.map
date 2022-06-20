@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./PollingRequest.html" title="io.reinert.requestor.core.PollingRequest" alt="" coords="16,213,163,256"/>
+<area shape="rect" id="node1" href="./PollingRequest.html" title="&lt;TABLE&gt;" alt="" coords="5,208,173,261"/>
+<area shape="rect" id="node2_1" href="./SerializedRequest.html" title="io.reinert.requestor.core.SerializedRequest" alt="" coords="21,11,157,53"/>
+<area shape="rect" id="node2" href="./SerializedRequest.html" title="&lt;TABLE&gt;" alt="" coords="11,5,168,59"/>
+<area shape="rect" id="node3_2" href="./Request.html" title="io.reinert.requestor.core.Request" alt="" coords="38,112,141,155"/>
+<area shape="rect" id="node3" href="./Request.html" title="&lt;TABLE&gt;" alt="" coords="27,107,151,160"/>
+</map>
