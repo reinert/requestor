@@ -5,16 +5,14 @@
 <area shape="rect" id="node3" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="549,107,640,155"/>
 <area shape="rect" id="node2_2" href="./InterceptorManager.html" title="io.reinert.requestor.core.InterceptorManager" alt="" coords="155,11,303,53"/>
 <area shape="rect" id="node2" href="./InterceptorManager.html" title="&lt;TABLE&gt;" alt="" coords="145,5,314,59"/>
-<area shape="rect" id="node9_3" href="../gwt/GwtSession.html" title="io.reinert.requestor.gwt.GwtSession" alt="" coords="547,214,643,239"/>
-<area shape="rect" id="node9" href="../gwt/GwtSession.html" title="&lt;TABLE&gt;" alt="" coords="536,203,653,251"/>
-<area shape="rect" id="node4_4" href="./ProviderManager.html" title="io.reinert.requestor.core.ProviderManager" alt="" coords="349,11,480,53"/>
+<area shape="rect" id="node4_3" href="./ProviderManager.html" title="io.reinert.requestor.core.ProviderManager" alt="" coords="349,11,480,53"/>
 <area shape="rect" id="node4" href="./ProviderManager.html" title="&lt;TABLE&gt;" alt="" coords="339,5,491,59"/>
-<area shape="rect" id="node5_5" href="./SerializerManager.html" title="io.reinert.requestor.core.SerializerManager" alt="" coords="526,11,663,53"/>
+<area shape="rect" id="node5_4" href="./SerializerManager.html" title="io.reinert.requestor.core.SerializerManager" alt="" coords="526,11,663,53"/>
 <area shape="rect" id="node5" href="./SerializerManager.html" title="&lt;TABLE&gt;" alt="" coords="515,5,674,59"/>
-<area shape="rect" id="node6_6" href="./FilterManager.html" title="io.reinert.requestor.core.FilterManager" alt="" coords="709,11,819,53"/>
+<area shape="rect" id="node6_5" href="./FilterManager.html" title="io.reinert.requestor.core.FilterManager" alt="" coords="709,11,819,53"/>
 <area shape="rect" id="node6" href="./FilterManager.html" title="&lt;TABLE&gt;" alt="" coords="699,5,829,59"/>
-<area shape="rect" id="node7_7" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="865,11,1013,53"/>
+<area shape="rect" id="node7_6" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="865,11,1013,53"/>
 <area shape="rect" id="node7" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="854,5,1023,59"/>
-<area shape="rect" id="node8_8" href="./DirectInvoker.html" title="io.reinert.requestor.core.DirectInvoker" alt="" coords="1059,11,1165,53"/>
+<area shape="rect" id="node8_7" href="./DirectInvoker.html" title="io.reinert.requestor.core.DirectInvoker" alt="" coords="1059,11,1165,53"/>
 <area shape="rect" id="node8" href="./DirectInvoker.html" title="&lt;TABLE&gt;" alt="" coords="1048,5,1176,59"/>
 </map>

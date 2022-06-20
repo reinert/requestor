@@ -9,11 +9,11 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.gwtjackson.JsonSession
-	c6373 [label=<<table title="io.reinert.requestor.gwtjackson.JsonSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSession.html">
+	// io.reinert.requestor.gwtjackson.RequestorGwtJackson
+	c9003 [label=<<table title="io.reinert.requestor.gwtjackson.RequestorGwtJackson" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorGwtJackson.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> JsonSession </td></tr>
+<tr><td align="center" balign="center"> RequestorGwtJackson </td></tr>
 		</table></td></tr>
-		</table>>, URL="./JsonSession.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./RequestorGwtJackson.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

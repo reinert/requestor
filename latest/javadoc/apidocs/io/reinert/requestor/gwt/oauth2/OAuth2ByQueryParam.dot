@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwt.oauth2.OAuth2ByQueryParam
-	c32326 [label=<<table title="io.reinert.requestor.gwt.oauth2.OAuth2ByQueryParam" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OAuth2ByQueryParam.html">
+	c46226 [label=<<table title="io.reinert.requestor.gwt.oauth2.OAuth2ByQueryParam" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OAuth2ByQueryParam.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OAuth2ByQueryParam </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OAuth2ByQueryParam.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.oauth2.OAuth2Base
-	c32328 [label=<<table title="io.reinert.requestor.gwt.oauth2.OAuth2Base" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OAuth2Base.html">
+	c46228 [label=<<table title="io.reinert.requestor.gwt.oauth2.OAuth2Base" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OAuth2Base.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> OAuth2Base </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./OAuth2Base.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.oauth2.OAuth2ByQueryParam extends io.reinert.requestor.gwt.oauth2.OAuth2Base
-	c32328:p -> c32326:p [dir=back,arrowtail=empty];
+	c46228:p -> c46226:p [dir=back,arrowtail=empty];
 }
 

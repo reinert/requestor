@@ -1,10 +1,10 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./Service.html" title="io.reinert.requestor.core.Service" alt="" coords="99,112,192,155"/>
 <area shape="rect" id="node1" href="./Service.html" title="&lt;TABLE&gt;" alt="" coords="88,107,203,160"/>
-<area shape="rect" id="node4_1" href="./AbstractService.html" title="io.reinert.requestor.core.AbstractService" alt="" coords="85,219,206,245"/>
-<area shape="rect" id="node4" href="./AbstractService.html" title="&lt;TABLE&gt;" alt="" coords="74,208,217,256"/>
+<area shape="rect" id="node3_1" href="./BaseService.html" title="io.reinert.requestor.core.BaseService" alt="" coords="95,219,195,245"/>
+<area shape="rect" id="node3" href="./BaseService.html" title="&lt;TABLE&gt;" alt="" coords="85,208,206,256"/>
 <area shape="rect" id="node2_2" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="16,11,109,53"/>
 <area shape="rect" id="node2" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="5,5,120,59"/>
-<area shape="rect" id="node3_3" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="155,11,303,53"/>
-<area shape="rect" id="node3" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="145,5,314,59"/>
+<area shape="rect" id="node4_3" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="155,11,303,53"/>
+<area shape="rect" id="node4" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="145,5,314,59"/>
 </map>

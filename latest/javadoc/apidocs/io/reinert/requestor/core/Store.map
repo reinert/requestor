@@ -3,14 +3,14 @@
 <area shape="rect" id="node1" href="./Service.html" title="&lt;TABLE&gt;" alt="" coords="5,208,120,261"/>
 <area shape="rect" id="node2_1" href="./InProcess.html" title="io.reinert.requestor.core.InProcess" alt="" coords="155,213,248,256"/>
 <area shape="rect" id="node2" href="./InProcess.html" title="&lt;TABLE&gt;" alt="" coords="144,208,259,261"/>
-<area shape="rect" id="node3_2" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="315,112,408,155"/>
-<area shape="rect" id="node3" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="304,107,419,160"/>
-<area shape="rect" id="node5_3" href="./SerializedRequest.html" title="io.reinert.requestor.core.SerializedRequest" alt="" coords="293,213,429,256"/>
-<area shape="rect" id="node5" href="./SerializedRequest.html" title="&lt;TABLE&gt;" alt="" coords="283,208,440,261"/>
-<area shape="rect" id="node6_4" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="475,222,544,247"/>
-<area shape="rect" id="node6" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="464,211,555,259"/>
-<area shape="rect" id="node7_5" href="./IncomingResponse.html" title="io.reinert.requestor.core.IncomingResponse" alt="" coords="590,213,733,256"/>
-<area shape="rect" id="node7" href="./IncomingResponse.html" title="&lt;TABLE&gt;" alt="" coords="579,208,743,261"/>
-<area shape="rect" id="node4_6" href="./Saver.html" title="io.reinert.requestor.core.Saver" alt="" coords="315,11,408,53"/>
-<area shape="rect" id="node4" href="./Saver.html" title="&lt;TABLE&gt;" alt="" coords="304,5,419,59"/>
+<area shape="rect" id="node3_2" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="312,112,405,155"/>
+<area shape="rect" id="node3" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="301,107,416,160"/>
+<area shape="rect" id="node5_3" href="./ResponseHeader.html" title="io.reinert.requestor.core.ResponseHeader" alt="" coords="294,213,423,256"/>
+<area shape="rect" id="node5" href="./ResponseHeader.html" title="&lt;TABLE&gt;" alt="" coords="283,208,434,261"/>
+<area shape="rect" id="node6_4" href="./SerializedRequest.html" title="io.reinert.requestor.core.SerializedRequest" alt="" coords="469,213,605,256"/>
+<area shape="rect" id="node6" href="./SerializedRequest.html" title="&lt;TABLE&gt;" alt="" coords="459,208,616,261"/>
+<area shape="rect" id="node7_5" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="651,222,720,247"/>
+<area shape="rect" id="node7" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="640,211,731,259"/>
+<area shape="rect" id="node4_6" href="./Saver.html" title="io.reinert.requestor.core.Saver" alt="" coords="312,11,405,53"/>
+<area shape="rect" id="node4" href="./Saver.html" title="&lt;TABLE&gt;" alt="" coords="301,5,416,59"/>
 </map>

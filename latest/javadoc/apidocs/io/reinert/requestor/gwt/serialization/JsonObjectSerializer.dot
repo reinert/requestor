@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwt.serialization.JsonSerializer<T>
-	c25939 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSerializer.html">
+	c38876 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonSerializer&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.JsonObjectSerializer<T>
-	c25943 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonObjectSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonObjectSerializer.html">
+	c38880 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonObjectSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonObjectSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonObjectSerializer&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonObjectSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.serialization.JsonObjectSerializer<T> extends io.reinert.requestor.gwt.serialization.JsonSerializer<T>
-	c25939:p -> c25943:p [dir=back,arrowtail=empty];
+	c38876:p -> c38880:p [dir=back,arrowtail=empty];
 }
 

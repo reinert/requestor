@@ -9,45 +9,39 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.gwt.GwtSession
-	c3010 [label=<<table title="io.reinert.requestor.gwt.GwtSession" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GwtSession.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> GwtSession </td></tr>
-		</table></td></tr>
-		</table>>, URL="./GwtSession.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.GwtResponseDeserializer
-	c3011 [label=<<table title="io.reinert.requestor.gwt.GwtResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GwtResponseDeserializer.html">
+	c4425 [label=<<table title="io.reinert.requestor.gwt.GwtResponseDeserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GwtResponseDeserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtResponseDeserializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GwtResponseDeserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.gwt.RequestorGwt
-	c3012 [label=<<table title="io.reinert.requestor.gwt.RequestorGwt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorGwt.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> RequestorGwt </td></tr>
-		</table></td></tr>
-		</table>>, URL="./RequestorGwt.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.JsFormData
-	c3013 [label=<<table title="io.reinert.requestor.gwt.JsFormData" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsFormData.html">
+	c4426 [label=<<table title="io.reinert.requestor.gwt.JsFormData" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsFormData.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsFormData </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsFormData.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.FormDataOverlay
-	c3014 [label=<<table title="io.reinert.requestor.gwt.FormDataOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FormDataOverlay.html">
+	c4427 [label=<<table title="io.reinert.requestor.gwt.FormDataOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FormDataOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FormDataOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FormDataOverlay.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.gwt.Requestor
+	c4428 [label=<<table title="io.reinert.requestor.gwt.Requestor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Requestor.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Requestor </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Requestor.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.ResponseType
-	c3015 [label=<<table title="io.reinert.requestor.gwt.ResponseType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseType.html">
+	c4429 [label=<<table title="io.reinert.requestor.gwt.ResponseType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseType.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseType </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.GwtRequestSerializer
-	c3016 [label=<<table title="io.reinert.requestor.gwt.GwtRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GwtRequestSerializer.html">
+	c4430 [label=<<table title="io.reinert.requestor.gwt.GwtRequestSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GwtRequestSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtRequestSerializer </td></tr>
 		</table></td></tr>

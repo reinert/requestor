@@ -3,10 +3,8 @@
 <area shape="rect" id="node1" href="./Service.html" title="&lt;TABLE&gt;" alt="" coords="5,208,120,261"/>
 <area shape="rect" id="node2_1" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="155,222,224,247"/>
 <area shape="rect" id="node2" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="144,211,235,259"/>
-<area shape="rect" id="node3_2" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="115,112,263,155"/>
-<area shape="rect" id="node3" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="105,107,274,160"/>
-<area shape="rect" id="node5_3" href="./WebTarget.html" title="io.reinert.requestor.core.WebTarget" alt="" coords="269,222,357,247"/>
-<area shape="rect" id="node5" href="./WebTarget.html" title="&lt;TABLE&gt;" alt="" coords="259,211,368,259"/>
-<area shape="rect" id="node4_4" href="./HasHeaders.html" title="io.reinert.requestor.core.HasHeaders" alt="" coords="140,11,239,53"/>
-<area shape="rect" id="node4" href="./HasHeaders.html" title="&lt;TABLE&gt;" alt="" coords="129,5,249,59"/>
+<area shape="rect" id="node3_2" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="51,112,199,155"/>
+<area shape="rect" id="node3" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="41,107,210,160"/>
+<area shape="rect" id="node4_3" href="./HasHeaders.html" title="io.reinert.requestor.core.HasHeaders" alt="" coords="76,11,175,53"/>
+<area shape="rect" id="node4" href="./HasHeaders.html" title="&lt;TABLE&gt;" alt="" coords="65,5,185,59"/>
 </map>

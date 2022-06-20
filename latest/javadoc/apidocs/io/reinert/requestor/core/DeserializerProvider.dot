@@ -10,29 +10,29 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.SerializerProvider
-	c14667 [label=<<table title="io.reinert.requestor.core.SerializerProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializerProvider.html">
+	c22321 [label=<<table title="io.reinert.requestor.core.SerializerProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializerProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializerProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializerProvider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.DeserializerProvider
-	c14685 [label=<<table title="io.reinert.requestor.core.DeserializerProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeserializerProvider.html">
+	c22340 [label=<<table title="io.reinert.requestor.core.DeserializerProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeserializerProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeserializerProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeserializerProvider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Provider<T>
-	c14729 [label=<<table title="io.reinert.requestor.core.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Provider.html">
+	c22389 [label=<<table title="io.reinert.requestor.core.Provider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Provider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Provider&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Provider.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.SerializerProvider implements io.reinert.requestor.core.DeserializerProvider
-	c14685:p -> c14667:p [dir=back,arrowtail=empty,style=dashed];
+	c22340:p -> c22321:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.DeserializerProvider implements io.reinert.requestor.core.Provider<T>
-	c14729:p -> c14685:p [dir=back,arrowtail=empty,style=dashed];
+	c22389:p -> c22340:p [dir=back,arrowtail=empty,style=dashed];
 }
 

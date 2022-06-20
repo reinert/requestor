@@ -10,37 +10,37 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.DeserializableResponse
-	c39924 [label=<<table title="io.reinert.requestor.core.DeserializableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeserializableResponse.html">
+	c55036 [label=<<table title="io.reinert.requestor.core.DeserializableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeserializableResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeserializableResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeserializableResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ProcessableResponse
-	c39946 [label=<<table title="io.reinert.requestor.core.ProcessableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProcessableResponse.html">
+	c55064 [label=<<table title="io.reinert.requestor.core.ProcessableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProcessableResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProcessableResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProcessableResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.MutableResponse
-	c39954 [label=<<table title="io.reinert.requestor.core.MutableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableResponse.html">
+	c55073 [label=<<table title="io.reinert.requestor.core.MutableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RawResponse
-	c40006 [label=<<table title="io.reinert.requestor.core.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RawResponse.html">
+	c55129 [label=<<table title="io.reinert.requestor.core.RawResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RawResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RawResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RawResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RawResponse implements io.reinert.requestor.core.MutableResponse
-	c39954:p -> c40006:p [dir=back,arrowtail=empty,style=dashed];
+	c55073:p -> c55129:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RawResponse implements io.reinert.requestor.core.DeserializableResponse
-	c39924:p -> c40006:p [dir=back,arrowtail=empty,style=dashed];
+	c55036:p -> c55129:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RawResponse implements io.reinert.requestor.core.ProcessableResponse
-	c39946:p -> c40006:p [dir=back,arrowtail=empty,style=dashed];
+	c55064:p -> c55129:p [dir=back,arrowtail=empty,style=dashed];
 }
 

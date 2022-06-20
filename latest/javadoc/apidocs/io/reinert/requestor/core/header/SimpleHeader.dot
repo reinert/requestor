@@ -10,26 +10,34 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.header.Header
-	c56137 [label=<<table title="io.reinert.requestor.core.header.Header" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Header.html">
+	c77771 [label=<<table title="io.reinert.requestor.core.header.Header" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Header.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Header </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Header.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.header.ContentEncodingHeader
+	c77772 [label=<<table title="io.reinert.requestor.core.header.ContentEncodingHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ContentEncodingHeader.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> ContentEncodingHeader </td></tr>
+		</table></td></tr>
+		</table>>, URL="./ContentEncodingHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.header.SimpleHeader
-	c56138 [label=<<table title="io.reinert.requestor.core.header.SimpleHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SimpleHeader.html">
+	c77773 [label=<<table title="io.reinert.requestor.core.header.SimpleHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SimpleHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.header.ContentTypeHeader
-	c56140 [label=<<table title="io.reinert.requestor.core.header.ContentTypeHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ContentTypeHeader.html">
+	c77775 [label=<<table title="io.reinert.requestor.core.header.ContentTypeHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ContentTypeHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ContentTypeHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ContentTypeHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	//io.reinert.requestor.core.header.ContentEncodingHeader extends io.reinert.requestor.core.header.SimpleHeader
+	c77773:p -> c77772:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.header.SimpleHeader extends io.reinert.requestor.core.header.Header
-	c56137:p -> c56138:p [dir=back,arrowtail=empty];
+	c77771:p -> c77773:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.header.ContentTypeHeader extends io.reinert.requestor.core.header.SimpleHeader
-	c56138:p -> c56140:p [dir=back,arrowtail=empty];
+	c77773:p -> c77775:p [dir=back,arrowtail=empty];
 }
 

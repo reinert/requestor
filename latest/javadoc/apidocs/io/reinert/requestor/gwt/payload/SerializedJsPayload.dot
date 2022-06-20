@@ -9,19 +9,19 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.payload.SerializedPayload
-	c53041 [label=<<table title="io.reinert.requestor.core.payload.SerializedPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/payload/SerializedPayload.html">
+	// io.reinert.requestor.core.payload.TextSerializedPayload
+	c73511 [label=<<table title="io.reinert.requestor.core.payload.TextSerializedPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/payload/TextSerializedPayload.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> SerializedPayload </td></tr>
+<tr><td align="center" balign="center"> TextSerializedPayload </td></tr>
 		</table></td></tr>
-		</table>>, URL="../../core/payload/SerializedPayload.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="../../core/payload/TextSerializedPayload.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.payload.SerializedJsPayload
-	c53087 [label=<<table title="io.reinert.requestor.gwt.payload.SerializedJsPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedJsPayload.html">
+	c73571 [label=<<table title="io.reinert.requestor.gwt.payload.SerializedJsPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedJsPayload.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializedJsPayload </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedJsPayload.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.gwt.payload.SerializedJsPayload extends io.reinert.requestor.core.payload.SerializedPayload
-	c53041:p -> c53087:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.gwt.payload.SerializedJsPayload extends io.reinert.requestor.core.payload.TextSerializedPayload
+	c73511:p -> c73571:p [dir=back,arrowtail=empty];
 }
 

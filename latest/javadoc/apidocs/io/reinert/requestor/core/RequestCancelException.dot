@@ -10,26 +10,34 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestException
-	c41146 [label=<<table title="io.reinert.requestor.core.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
+	c57624 [label=<<table title="io.reinert.requestor.core.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> RequestException </td></tr>
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> RequestException </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestCancelException
-	c41198 [label=<<table title="io.reinert.requestor.core.RequestCancelException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestCancelException.html">
+	c57677 [label=<<table title="io.reinert.requestor.core.RequestCancelException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestCancelException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestCancelException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestCancelException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.java.RequestRedirectException
+	c57753 [label=<<table title="io.reinert.requestor.java.RequestRedirectException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../java/RequestRedirectException.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> RequestRedirectException </td></tr>
+		</table></td></tr>
+		</table>>, URL="../java/RequestRedirectException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.NetworkErrorException
-	c41294 [label=<<table title="io.reinert.requestor.gwt.xhr.NetworkErrorException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/xhr/NetworkErrorException.html">
+	c57785 [label=<<table title="io.reinert.requestor.gwt.xhr.NetworkErrorException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../gwt/xhr/NetworkErrorException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NetworkErrorException </td></tr>
 		</table></td></tr>
 		</table>>, URL="../gwt/xhr/NetworkErrorException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RequestCancelException extends io.reinert.requestor.core.RequestException
-	c41146:p -> c41198:p [dir=back,arrowtail=empty];
+	c57624:p -> c57677:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.java.RequestRedirectException extends io.reinert.requestor.core.RequestCancelException
+	c57677:p -> c57753:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.gwt.xhr.NetworkErrorException extends io.reinert.requestor.core.RequestCancelException
-	c41198:p -> c41294:p [dir=back,arrowtail=empty];
+	c57677:p -> c57785:p [dir=back,arrowtail=empty];
 }
 

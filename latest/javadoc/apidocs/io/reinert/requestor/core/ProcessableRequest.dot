@@ -10,47 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Processable
-	c37579 [label=<<table title="io.reinert.requestor.core.Processable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Processable.html">
+	c52802 [label=<<table title="io.reinert.requestor.core.Processable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Processable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Processable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Processable.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedRequestInProcess
-	c37588 [label=<<table title="io.reinert.requestor.core.SerializedRequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequestInProcess.html">
+	c52811 [label=<<table title="io.reinert.requestor.core.SerializedRequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequestInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequestInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequestInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ProcessableRequest
-	c37599 [label=<<table title="io.reinert.requestor.core.ProcessableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ProcessableRequest.html">
+	c52823 [label=<<table title="io.reinert.requestor.core.ProcessableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ProcessableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProcessableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProcessableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializableRequestInProcess
-	c37609 [label=<<table title="io.reinert.requestor.core.SerializableRequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializableRequestInProcess.html">
+	c52834 [label=<<table title="io.reinert.requestor.core.SerializableRequestInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializableRequestInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializableRequestInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializableRequestInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasPollingOptions
-	c37610 [label=<<table title="io.reinert.requestor.core.HasPollingOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasPollingOptions.html">
+	c52835 [label=<<table title="io.reinert.requestor.core.HasPollingOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasPollingOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasPollingOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasPollingOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.ProcessableRequest implements io.reinert.requestor.core.HasPollingOptions
-	c37610:p -> c37599:p [dir=back,arrowtail=empty,style=dashed];
+	c52835:p -> c52823:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ProcessableRequest implements io.reinert.requestor.core.SerializedRequestInProcess
-	c37588:p -> c37599:p [dir=back,arrowtail=empty,style=dashed];
+	c52811:p -> c52823:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ProcessableRequest implements io.reinert.requestor.core.SerializableRequestInProcess
-	c37609:p -> c37599:p [dir=back,arrowtail=empty,style=dashed];
+	c52834:p -> c52823:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ProcessableRequest implements io.reinert.requestor.core.Processable
-	c37579:p -> c37599:p [dir=back,arrowtail=empty,style=dashed];
+	c52802:p -> c52823:p [dir=back,arrowtail=empty,style=dashed];
 }
 

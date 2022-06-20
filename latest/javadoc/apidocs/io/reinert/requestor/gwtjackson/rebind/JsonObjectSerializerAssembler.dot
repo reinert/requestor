@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler
-	c26194 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonObjectSerializerAssembler.html">
+	c39180 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonObjectSerializerAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonObjectSerializerAssembler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonObjectSerializerAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c26201 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./codegen/TypeAssembler.html">
+	c39187 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./codegen/TypeAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> TypeAssembler </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./codegen/TypeAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler extends io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c26201:p -> c26194:p [dir=back,arrowtail=empty];
+	c39187:p -> c39180:p [dir=back,arrowtail=empty];
 }
 

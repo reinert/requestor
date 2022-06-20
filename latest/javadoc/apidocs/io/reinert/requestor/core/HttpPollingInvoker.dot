@@ -10,29 +10,29 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.PollingRequestInvoker
-	c22697 [label=<<table title="io.reinert.requestor.core.PollingRequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestInvoker.html">
+	c33611 [label=<<table title="io.reinert.requestor.core.PollingRequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequestInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequestInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HttpInvoker
-	c22758 [label=<<table title="io.reinert.requestor.core.HttpInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpInvoker.html">
+	c33678 [label=<<table title="io.reinert.requestor.core.HttpInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HttpPollingInvoker
-	c22759 [label=<<table title="io.reinert.requestor.core.HttpPollingInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HttpPollingInvoker.html">
+	c33679 [label=<<table title="io.reinert.requestor.core.HttpPollingInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HttpPollingInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpPollingInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpPollingInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.PollingRequestInvoker implements io.reinert.requestor.core.HttpPollingInvoker
-	c22759:p -> c22697:p [dir=back,arrowtail=empty,style=dashed];
+	c33679:p -> c33611:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.HttpPollingInvoker implements io.reinert.requestor.core.HttpInvoker
-	c22758:p -> c22759:p [dir=back,arrowtail=empty,style=dashed];
+	c33678:p -> c33679:p [dir=back,arrowtail=empty,style=dashed];
 }
 

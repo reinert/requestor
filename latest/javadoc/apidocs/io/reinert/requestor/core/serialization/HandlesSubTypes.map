@@ -1,6 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./HandlesSubTypes.html" title="io.reinert.requestor.core.serialization.HandlesSubTypes" alt="" coords="16,11,180,53"/>
-<area shape="rect" id="node1" href="./HandlesSubTypes.html" title="&lt;TABLE&gt;" alt="" coords="5,5,191,59"/>
-<area shape="rect" id="node2_1" href="../../gwt/serialization/JsonNumberSerializer.html" title="io.reinert.requestor.gwt.serialization.JsonNumberSerializer" alt="" coords="18,118,178,143"/>
-<area shape="rect" id="node2" href="../../gwt/serialization/JsonNumberSerializer.html" title="&lt;TABLE&gt;" alt="" coords="7,107,189,155"/>
+<area shape="rect" id="node1_0" href="./HandlesSubTypes.html" title="io.reinert.requestor.core.serialization.HandlesSubTypes" alt="" coords="117,11,281,53"/>
+<area shape="rect" id="node1" href="./HandlesSubTypes.html" title="&lt;TABLE&gt;" alt="" coords="106,5,291,59"/>
+<area shape="rect" id="node2_1" href="../../java/serialization/InputStreamSerializer.html" title="io.reinert.requestor.java.serialization.InputStreamSerializer" alt="" coords="16,118,176,143"/>
+<area shape="rect" id="node2" href="../../java/serialization/InputStreamSerializer.html" title="&lt;TABLE&gt;" alt="" coords="5,107,187,155"/>
+<area shape="rect" id="node3_2" href="../../gwt/serialization/JsonNumberSerializer.html" title="io.reinert.requestor.gwt.serialization.JsonNumberSerializer" alt="" coords="221,118,381,143"/>
+<area shape="rect" id="node3" href="../../gwt/serialization/JsonNumberSerializer.html" title="&lt;TABLE&gt;" alt="" coords="211,107,392,155"/>
 </map>

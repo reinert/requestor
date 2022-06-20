@@ -1,6 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./SerializedPayload.html" title="io.reinert.requestor.core.payload.SerializedPayload" alt="" coords="21,17,156,42"/>
-<area shape="rect" id="node1" href="./SerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="11,5,167,53"/>
-<area shape="rect" id="node2_1" href="../../gwt/payload/SerializedJsPayload.html" title="io.reinert.requestor.gwt.payload.SerializedJsPayload" alt="" coords="16,113,161,138"/>
-<area shape="rect" id="node2" href="../../gwt/payload/SerializedJsPayload.html" title="&lt;TABLE&gt;" alt="" coords="5,101,172,149"/>
+<area shape="rect" id="node1_0" href="./TextSerializedPayload.html" title="io.reinert.requestor.core.payload.TextSerializedPayload" alt="" coords="16,118,177,143"/>
+<area shape="rect" id="node1" href="./TextSerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="5,107,188,155"/>
+<area shape="rect" id="node2_1" href="./SerializedPayload.html" title="io.reinert.requestor.core.payload.SerializedPayload" alt="" coords="361,11,496,53"/>
+<area shape="rect" id="node2" href="./SerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="351,5,507,59"/>
+<area shape="rect" id="node3_2" href="../../java/payload/BinarySerializedPayload.html" title="io.reinert.requestor.java.payload.BinarySerializedPayload" alt="" coords="223,118,399,143"/>
+<area shape="rect" id="node3" href="../../java/payload/BinarySerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="213,107,410,155"/>
+<area shape="rect" id="node4_3" href="../../java/payload/CompositeSerializedPayload.html" title="io.reinert.requestor.java.payload.CompositeSerializedPayload" alt="" coords="445,118,649,143"/>
+<area shape="rect" id="node4" href="../../java/payload/CompositeSerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="435,107,660,155"/>
+<area shape="rect" id="node5_4" href="../../java/payload/InputStreamSerializedPayload.html" title="io.reinert.requestor.java.payload.InputStreamSerializedPayload" alt="" coords="695,118,909,143"/>
+<area shape="rect" id="node5" href="../../java/payload/InputStreamSerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="684,107,920,155"/>
 </map>

@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.uri.Uri.Param
-	c59873 [label=<<table title="io.reinert.requestor.core.uri.Uri.Param" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Uri.Param.html">
+	c82524 [label=<<table title="io.reinert.requestor.core.uri.Uri.Param" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Uri.Param.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Param </td></tr>
 		</table></td></tr>
