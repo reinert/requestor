@@ -23,5 +23,5 @@ import io.reinert.requestor.core.WriteProgress;
  * @author Danilo Reinert
  */
 public interface WriteCallback {
-    void execute(WriteProgress progress);
+    void execute(WriteProgress progress) throws Throwable;
 }

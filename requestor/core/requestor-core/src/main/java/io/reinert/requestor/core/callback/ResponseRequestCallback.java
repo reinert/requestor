@@ -24,5 +24,5 @@ import io.reinert.requestor.core.Response;
  * @author Danilo Reinert
  */
 public interface ResponseRequestCallback<E> {
-    void execute(Response response, PollingRequest<E> request);
+    void execute(Response response, PollingRequest<E> request) throws Throwable;
 }

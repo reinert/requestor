@@ -21,5 +21,5 @@ package io.reinert.requestor.core.callback;
  * @author Danilo Reinert
  */
 public interface VoidCallback {
-    void execute();
+    void execute() throws Throwable;
 }

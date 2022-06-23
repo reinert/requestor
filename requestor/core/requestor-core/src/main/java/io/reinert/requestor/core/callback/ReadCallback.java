@@ -23,5 +23,5 @@ import io.reinert.requestor.core.ReadProgress;
  * @author Danilo Reinert
  */
 public interface ReadCallback {
-    void execute(ReadProgress progress);
+    void execute(ReadProgress progress) throws Throwable;
 }

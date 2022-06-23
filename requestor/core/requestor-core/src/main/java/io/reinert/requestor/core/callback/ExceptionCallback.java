@@ -23,5 +23,5 @@ import io.reinert.requestor.core.RequestException;
  * @author Danilo Reinert
  */
 public interface ExceptionCallback {
-    void execute(RequestException exception);
+    void execute(RequestException exception) throws Throwable;
 }

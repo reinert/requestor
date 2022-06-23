@@ -109,7 +109,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestAbortException) {
-                    callback.execute(e);
+                    try {
+                        callback.execute(e);
+                    } catch (Throwable ex) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -121,7 +125,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestAbortException) {
-                    callback.execute(e, request);
+                    try {
+                        callback.execute(e, request);
+                    } catch (Throwable ex) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -133,7 +141,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestCancelException) {
-                    callback.execute(e);
+                    try {
+                        callback.execute(e);
+                    } catch (Throwable ex) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -145,7 +157,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestCancelException) {
-                    callback.execute(e, request);
+                    try {
+                        callback.execute(e, request);
+                    } catch (Throwable ex) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -156,7 +172,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         noErrorCallbackRegistered = false;
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
-                callback.execute();
+                try {
+                    callback.execute();
+                } catch (Throwable ex) {
+                    e.printStackTrace();
+                }
             }
         });
         return this;
@@ -166,7 +186,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         noErrorCallbackRegistered = false;
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
-                callback.execute(e);
+                try {
+                    callback.execute(e);
+                } catch (Throwable ex) {
+                    e.printStackTrace();
+                }
             }
         });
         return this;
@@ -176,7 +200,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         noErrorCallbackRegistered = false;
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
-                callback.execute(e, request);
+                try {
+                    callback.execute(e, request);
+                } catch (Throwable ex) {
+                    e.printStackTrace();
+                }
             }
         });
         return this;
@@ -185,7 +213,11 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onLoad(final VoidCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                callback.execute();
+                try {
+                    callback.execute();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         });
         return this;
@@ -194,7 +226,11 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onLoad(final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                callback.execute(response);
+                try {
+                    callback.execute(response);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         });
         return this;
@@ -203,7 +239,11 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onLoad(final ResponseRequestCallback<T> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                callback.execute(response, request);
+                try {
+                    callback.execute(response, request);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         });
         return this;
@@ -212,7 +252,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onFail(final VoidCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (!isSuccessful(response)) callback.execute();
+                if (!isSuccessful(response)) {
+                    try {
+                        callback.execute();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -221,7 +267,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onFail(final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (!isSuccessful(response)) callback.execute(response);
+                if (!isSuccessful(response)) {
+                    try {
+                        callback.execute(response);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -230,7 +282,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onFail(final ResponseRequestCallback<T> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (!isSuccessful(response)) callback.execute(response, request);
+                if (!isSuccessful(response)) {
+                    try {
+                        callback.execute(response, request);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -240,7 +298,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.progress(new ProgressCallback<ReadProgress>() {
             @Override
             public void onProgress(ReadProgress progress) {
-                callback.execute(progress);
+                try {
+                    callback.execute(progress);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         });
         return this;
@@ -249,7 +311,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final int statusCode, final VoidCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (response.getStatusCode() == statusCode) callback.execute();
+                if (response.getStatusCode() == statusCode) {
+                    try {
+                        callback.execute();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -258,7 +326,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final int statusCode, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (response.getStatusCode() == statusCode) callback.execute(response);
+                if (response.getStatusCode() == statusCode) {
+                    try {
+                        callback.execute(response);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -267,7 +341,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final int statusCode, final ResponseRequestCallback<T> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (response.getStatusCode() == statusCode) callback.execute(response, request);
+                if (response.getStatusCode() == statusCode) {
+                    try {
+                        callback.execute(response, request);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -276,7 +356,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final Status status, final VoidCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (response.getStatusCode() == status.getStatusCode()) callback.execute();
+                if (response.getStatusCode() == status.getStatusCode()) {
+                    try {
+                        callback.execute();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -285,7 +371,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final Status status, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (response.getStatusCode() == status.getStatusCode()) callback.execute(response);
+                if (response.getStatusCode() == status.getStatusCode()) {
+                    try {
+                        callback.execute(response);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -294,7 +386,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final Status status, final ResponseRequestCallback<T> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (response.getStatusCode() == status.getStatusCode()) callback.execute(response, request);
+                if (response.getStatusCode() == status.getStatusCode()) {
+                    try {
+                        callback.execute(response, request);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -303,7 +401,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final StatusFamily family, final VoidCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (StatusFamily.of(response.getStatusCode()) == family) callback.execute();
+                if (StatusFamily.of(response.getStatusCode()) == family) {
+                    try {
+                        callback.execute();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -312,7 +416,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final StatusFamily family, final ResponseCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (StatusFamily.of(response.getStatusCode()) == family) callback.execute(response);
+                if (StatusFamily.of(response.getStatusCode()) == family) {
+                    try {
+                        callback.execute(response);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -321,7 +431,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onStatus(final StatusFamily family, final ResponseRequestCallback<T> callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (StatusFamily.of(response.getStatusCode()) == family) callback.execute(response, request);
+                if (StatusFamily.of(response.getStatusCode()) == family) {
+                    try {
+                        callback.execute(response, request);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -330,7 +446,13 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onSuccess(final VoidCallback callback) {
         deferred.done(new DoneCallback<Response>() {
             public void onDone(Response response) {
-                if (isSuccessful(response)) callback.execute();
+                if (isSuccessful(response)) {
+                    try {
+                        callback.execute();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         return this;
@@ -346,6 +468,8 @@ public class DeferredRequest<T> implements Deferred<T> {
                         throw new IncompatibleTypeException("Cannot cast " +
                                 response.getPayload().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -363,6 +487,8 @@ public class DeferredRequest<T> implements Deferred<T> {
                         throw new IncompatibleTypeException("Cannot cast " +
                                 response.getPayload().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -381,6 +507,8 @@ public class DeferredRequest<T> implements Deferred<T> {
                         throw new IncompatibleTypeException("Cannot cast " +
                                 response.getPayload().getClass().getName() + " to " +
                                 response.getPayloadType().getType().getName() + ".", e);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -393,7 +521,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestTimeoutException) {
-                    callback.execute((RequestTimeoutException) e);
+                    try {
+                        callback.execute((RequestTimeoutException) e);
+                    } catch (Throwable ex) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -405,7 +537,11 @@ public class DeferredRequest<T> implements Deferred<T> {
         deferred.fail(new FailCallback<RequestException>() {
             public void onFail(RequestException e) {
                 if (e instanceof RequestTimeoutException) {
-                    callback.execute((RequestTimeoutException) e, request);
+                    try {
+                        callback.execute((RequestTimeoutException) e, request);
+                    } catch (Throwable ex) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -415,7 +551,11 @@ public class DeferredRequest<T> implements Deferred<T> {
     public DeferredRequest<T> onUpProgress(final WriteCallback callback) {
         deferred.upProgress(new ProgressCallback<WriteProgress>() {
             public void onProgress(WriteProgress progress) {
-                callback.execute(progress);
+                try {
+                    callback.execute(progress);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         });
         return this;

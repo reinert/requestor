@@ -24,5 +24,5 @@ import io.reinert.requestor.core.RequestException;
  * @author Danilo Reinert
  */
 public interface ExceptionRequestCallback<E> {
-    void execute(RequestException exception, PollingRequest<E> request);
+    void execute(RequestException exception, PollingRequest<E> request) throws Throwable;
 }

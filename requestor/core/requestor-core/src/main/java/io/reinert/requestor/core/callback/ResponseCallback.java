@@ -23,5 +23,5 @@ import io.reinert.requestor.core.Response;
  * @author Danilo Reinert
  */
 public interface ResponseCallback {
-    void execute(Response response);
+    void execute(Response response) throws Throwable;
 }

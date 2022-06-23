@@ -24,5 +24,5 @@ import io.reinert.requestor.core.RequestTimeoutException;
  * @author Danilo Reinert
  */
 public interface TimeoutRequestCallback<E> {
-    void execute(RequestTimeoutException timeoutException, PollingRequest<E> request);
+    void execute(RequestTimeoutException timeoutException, PollingRequest<E> request) throws Throwable;
 }
