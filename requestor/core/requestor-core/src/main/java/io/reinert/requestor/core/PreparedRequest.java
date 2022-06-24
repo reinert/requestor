@@ -41,6 +41,8 @@ public interface PreparedRequest extends SerializedRequest, HasHeaders {
 
     void setQueryParam(String name, String... values);
 
+    void setTimeout(int timeoutMillis);
+
     MutableSerializedRequest getMutableCopy();
 
     void send();

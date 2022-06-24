@@ -24,23 +24,31 @@ package io.reinert.requestor.core;
  */
 public class RequestAttempt {
 
-    private final RequestOptions request;
+    private final PreparedRequest request;
     private final Response response;
     private final RequestException exception;
     private final int retryCount;
 
-    RequestAttempt(RequestOptions request, int retryCount, Response response) {
+    RequestAttempt(PreparedRequest request, int retryCount, Response response) {
         this.request = request;
         this.response = response;
         this.retryCount = retryCount;
         this.exception = null;
     }
 
-    RequestAttempt(RequestOptions request, int retryCount, RequestException exception) {
+    RequestAttempt(PreparedRequest request, int retryCount, RequestException exception) {
         this.request = request;
         this.exception = exception;
         this.retryCount = retryCount;
         this.response = null;
+    }
+
+    public boolean isResponseAvailable() {
+        return response != null;
+    }
+
+    public boolean isExceptionAvailable() {
+        return exception != null;
     }
 
     public RequestOptions getRequest() {
@@ -63,11 +71,11 @@ public class RequestAttempt {
         return response != null ? response.getStatus() : exception.getEvent();
     }
 
-    public boolean isResponseAvailable() {
-        return response != null;
+    public int getTimeout() {
+        return request.getTimeout();
     }
 
-    public boolean isExceptionAvailable() {
-        return exception != null;
+    public void setTimeout(int timeoutMillis) {
+        request.setTimeout(timeoutMillis);
     }
 }

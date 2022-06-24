@@ -36,6 +36,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     private final PayloadType responsePayloadType;
     private final UriWithQueryBuilder uri;
 
+    private int timeout = -1;
     private boolean withCredentials;
 
     public PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
@@ -115,7 +116,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
 
     @Override
     public int getTimeout() {
-        return request.getTimeout();
+        return timeout >= 0 ? timeout : request.getTimeout();
     }
 
     @Override
@@ -226,6 +227,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public void setQueryParam(String name, String... values) {
         uri.setQueryParam(name, values);
+    }
+
+    @Override
+    public void setTimeout(int timeoutMillis) {
+        timeout = timeoutMillis;
     }
 
     @Override
