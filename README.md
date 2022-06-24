@@ -463,9 +463,12 @@ public class ExponentialWithJitterRetryPolicy implements RetryPolicy {
             // we should retry at most three times
             return -1;
         }
+        
+        // exponentially increase the next timeouts by a ratio of 2
+        attempt.setTimeout(attempt.getTimeout() * 2);
 
         // next retry will happen in two to the power of the number of past retries
-        int expDelay = Math.pow(2, attempt.getRetryCount()) * 1000;
+        int expDelay = (int) (Math.pow(2, attempt.getRetryCount()) * 1000);
 
         // let's add a random jitter to increase the chance of avoiding collisions
         int jitter = new Random().nextInt(1000);
@@ -644,6 +647,10 @@ Example setting a callback with the payload, response and request args to the su
 session.get("/endpoint")
         .onSuccess((none, res, req) -> render(res, req));
 ```
+
+**NOTE:** All callbacks throw exceptions, so we are exempted from handling checked exceptions inside them.
+If an exception occurs in a callback logic, the stack trace is printed out, and it does not affect other
+callbacks that were added to the request.
 
 #### **.onFail**( [response [, request]] -> {} )
 * This callback is executed when the response *is unsuccessful* (status ≠ 2xx)
