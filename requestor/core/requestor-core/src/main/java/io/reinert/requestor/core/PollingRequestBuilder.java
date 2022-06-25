@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -157,6 +157,26 @@ public interface PollingRequestBuilder extends RequestBuilder, HasPollingOptions
     PollingRequestBuilder retry(int[] delaysMillis, RequestEvent... events);
 
     /**
+     * Set a retry policy for this request.
+     * <p></p>
+     *
+     * @param retryPolicy The retry policy of this request
+     *
+     * @return This building request
+     */
+    PollingRequestBuilder retry(RetryPolicy retryPolicy);
+
+    /**
+     * Set a retry policy for this request.
+     * <p></p>
+     *
+     * @param retryPolicyProvider The retry policy provider of this request
+     *
+     * @return This building request
+     */
+    PollingRequestBuilder retry(RetryPolicy.Provider retryPolicyProvider);
+
+    /**
      * Skip some processors during the request-response lifecycle.
      * <p></p>
      *
@@ -173,7 +193,6 @@ public interface PollingRequestBuilder extends RequestBuilder, HasPollingOptions
      * @param value The data to be persisted
      * @return This building request
      */
-    @Override
     PollingRequestBuilder save(String key, Object value);
 
 }

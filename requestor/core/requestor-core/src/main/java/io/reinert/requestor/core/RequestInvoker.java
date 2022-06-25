@@ -57,6 +57,12 @@ public interface RequestInvoker extends RequestBuilder, HttpInvoker {
     RequestInvoker retry(int[] delaysMillis, RequestEvent... events);
 
     @Override
+    RequestInvoker retry(RetryPolicy retryPolicy);
+
+    @Override
+    RequestInvoker retry(RetryPolicy.Provider retryPolicyProvider);
+
+    @Override
     RequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
     @Override
