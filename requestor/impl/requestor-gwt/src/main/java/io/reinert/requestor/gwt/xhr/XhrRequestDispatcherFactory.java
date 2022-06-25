@@ -15,9 +15,6 @@
  */
 package io.reinert.requestor.gwt.xhr;
 
-import java.util.Collections;
-import java.util.List;
-
 import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
@@ -73,23 +70,7 @@ public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
     }
 
     @Override
-    public List<Runnable> shutdownNow() {
-        // No-op since the environment is single threaded
-        return Collections.emptyList();
-    }
-
-    @Override
     public boolean isShutdown() {
-        return false;
-    }
-
-    @Override
-    public boolean isTerminated() {
-        return false;
-    }
-
-    @Override
-    public boolean awaitTermination(long timeoutInMillis) throws InterruptedException {
         return false;
     }
 }

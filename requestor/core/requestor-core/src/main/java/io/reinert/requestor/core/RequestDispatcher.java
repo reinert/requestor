@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.List;
-
 import io.reinert.requestor.core.callback.DualCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.payload.type.PayloadType;
@@ -40,13 +38,7 @@ public abstract class RequestDispatcher implements AsyncRunner {
 
         void shutdown();
 
-        List<Runnable> shutdownNow();
-
         boolean isShutdown();
-
-        boolean isTerminated();
-
-        boolean awaitTermination(long timeoutInMillis) throws InterruptedException;
     }
 
     private final AsyncRunner asyncRunner;

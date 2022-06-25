@@ -617,25 +617,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         store.clear();
     }
 
-    // TODO: Create a RequestExecutorService interface?
     public void shutdown() {
         requestDispatcherFactory.shutdown();
     }
 
-    public List<Runnable> shutdownNow() {
-        return requestDispatcherFactory.shutdownNow();
-    }
-
     public boolean isShutdown() {
         return requestDispatcherFactory.isShutdown();
-    }
-
-    public boolean isTerminated() {
-        return requestDispatcherFactory.isTerminated();
-    }
-
-    boolean awaitTermination(long timeoutInMillis) throws InterruptedException {
-        return requestDispatcherFactory.awaitTermination(timeoutInMillis);
     }
 
     //===================================================================

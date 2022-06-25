@@ -15,9 +15,7 @@
  */
 package io.reinert.requestor.java.net;
 
-import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.DeferredPool;
@@ -93,23 +91,8 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
     }
 
     @Override
-    public List<Runnable> shutdownNow() {
-        return scheduledExecutorService.shutdownNow();
-    }
-
-    @Override
     public boolean isShutdown() {
         return scheduledExecutorService.isShutdown();
-    }
-
-    @Override
-    public boolean isTerminated() {
-        return scheduledExecutorService.isTerminated();
-    }
-
-    @Override
-    public boolean awaitTermination(long timeoutInMillis) throws InterruptedException {
-        return scheduledExecutorService.awaitTermination(timeoutInMillis, TimeUnit.MILLISECONDS);
     }
 
     public int getInputBufferSize() {
