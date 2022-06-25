@@ -39,6 +39,9 @@ public interface PollingRequestInvoker extends PollingRequestBuilder, HttpPollin
     PollingRequestInvoker header(Header header);
 
     @Override
+    PollingRequestInvoker charset(String charset);
+
+    @Override
     PollingRequestInvoker auth(Auth auth);
 
     @Override

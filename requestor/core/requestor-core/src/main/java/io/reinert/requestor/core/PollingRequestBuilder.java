@@ -103,6 +103,16 @@ public interface PollingRequestBuilder extends RequestBuilder, HasPollingOptions
     PollingRequestBuilder payload(Object payload, String... fields);
 
     /**
+     * Set the charset in which the request should be serialized.
+     * <p></p>
+     *
+     * @param charset   The charset of the request
+     *
+     * @return This building request
+     */
+    PollingRequestBuilder charset(String charset);
+
+    /**
      * Sets the number of milliseconds to wait for a request to complete.
      *
      * Should the request timeout, registered RejectedCallbacks will be called in the returning Request.

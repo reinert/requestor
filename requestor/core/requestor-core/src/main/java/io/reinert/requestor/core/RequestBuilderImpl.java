@@ -234,7 +234,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public RequestBuilder charset(String charset) {
+    public RequestBuilderImpl charset(String charset) {
         this.charset = charset;
         return this;
     }
