@@ -96,8 +96,8 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
         this.outputBufferSize = outputBufferSize;
     }
 
-    public void scheduleRun(final Runnable runnable, int delay) {
-        scheduledExecutorService.schedule(runnable, delay, TimeUnit.MILLISECONDS);
+    public void run(final Runnable runnable, int delayMillis) {
+        scheduledExecutorService.schedule(runnable, delayMillis, TimeUnit.MILLISECONDS);
     }
 
     public void sleep(int millis) {

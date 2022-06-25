@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import io.reinert.requestor.core.payload.type.SinglePayloadType;
  *
  * @author Danilo Reinert
  */
-public abstract class RequestDispatcher implements RunScheduler {
+public abstract class RequestDispatcher implements AsyncRunner {
 
     public static int SLEEP_TIME_BEFORE_ABORTING = 50;
 
@@ -66,9 +66,9 @@ public abstract class RequestDispatcher implements RunScheduler {
      * This method is used to schedule the dispatches.
      *
      * @param runnable  A callback to be executed later
-     * @param delay     The time to postpone the runnable execution
+     * @param delayMillis     The time to postpone the runnable execution
      */
-    public abstract void scheduleRun(Runnable runnable, int delay);
+    public abstract void run(Runnable runnable, int delayMillis);
 
     /**
      * Causes the currently executing thread to sleep for the specified number of milliseconds.

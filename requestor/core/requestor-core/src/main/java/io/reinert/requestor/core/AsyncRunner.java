@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 package io.reinert.requestor.core;
 
 /**
- * Functional interface that abstracts running a callback in the future.
+ * Functional interface that abstracts running a callback asynchronously.
  *
  * @author Danilo Reinert
  */
-interface RunScheduler {
-    void scheduleRun(Runnable runnable, int delay);
+interface AsyncRunner {
+    void run(Runnable runnable, int delayMillis);
 
     void sleep(int millis);
 }

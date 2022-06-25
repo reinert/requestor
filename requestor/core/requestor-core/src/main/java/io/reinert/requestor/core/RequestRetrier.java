@@ -23,13 +23,13 @@ package io.reinert.requestor.core;
 public class RequestRetrier {
 
     private final PreparedRequest preparedRequest;
-    private final RunScheduler scheduler;
+    private final AsyncRunner asyncRunner;
     private final RetryPolicy retryPolicy;
     private int retryCount;
 
-    RequestRetrier(PreparedRequest preparedRequest, RunScheduler scheduler, RetryPolicy retryPolicy) {
+    RequestRetrier(PreparedRequest preparedRequest, AsyncRunner asyncRunner, RetryPolicy retryPolicy) {
         this.preparedRequest = preparedRequest;
-        this.scheduler = scheduler;
+        this.asyncRunner = asyncRunner;
         this.retryPolicy = retryPolicy;
     }
 
@@ -50,7 +50,7 @@ public class RequestRetrier {
 
         if (nextRetryDelay > 0) {
             retryCount++;
-            scheduler.scheduleRun(new Runnable() {
+            asyncRunner.run(new Runnable() {
                 public void run() {
                     preparedRequest.send();
                 }
