@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.java;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -27,10 +28,20 @@ import io.reinert.requestor.core.AsyncRunner;
  */
 public class ScheduledExecutorAsyncRunner implements AsyncRunner {
 
+    private static final int DEFAULT_CORE_POOL_SIZE = 10;
+
     private final ScheduledExecutorService scheduledExecutorService;
+
+    public ScheduledExecutorAsyncRunner() {
+        scheduledExecutorService = Executors.newScheduledThreadPool(DEFAULT_CORE_POOL_SIZE);
+    }
 
     public ScheduledExecutorAsyncRunner(ScheduledExecutorService scheduledExecutorService) {
         this.scheduledExecutorService = scheduledExecutorService;
+    }
+
+    public ScheduledExecutorService getScheduledExecutorService() {
+        return scheduledExecutorService;
     }
 
     @Override
