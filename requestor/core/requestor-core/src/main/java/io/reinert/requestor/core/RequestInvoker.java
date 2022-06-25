@@ -60,6 +60,9 @@ public interface RequestInvoker extends RequestBuilder, HttpInvoker {
     RequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
     @Override
+    RequestInvoker skip(Process... processes);
+
+    @Override
     RequestInvoker save(String key, Object value);
 
     @Override

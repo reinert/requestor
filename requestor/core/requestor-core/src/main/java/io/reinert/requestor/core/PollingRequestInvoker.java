@@ -60,6 +60,9 @@ public interface PollingRequestInvoker extends PollingRequestBuilder, HttpPollin
     PollingRequestInvoker payload(Object payload, String... fields) throws IllegalArgumentException;
 
     @Override
+    PollingRequestInvoker skip(Process... processes);
+
+    @Override
     PollingRequestInvoker save(String key, Object value);
 
     @Override
