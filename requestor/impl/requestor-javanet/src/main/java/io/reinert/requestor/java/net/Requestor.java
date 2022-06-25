@@ -23,8 +23,6 @@ import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.Base64Codec;
@@ -61,7 +59,6 @@ public class Requestor {
     public static final String OUTPUT_BUFFER_SIZE = "requestor.java.net.outputBufferSize";
     public static final String GZIP_ENCODING_ENABLED = "requestor.java.net.gzipEncodingEnabled";
 
-    private static final int DEFAULT_CORE_POOL_SIZE = 10;
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
     private static boolean initialized = false;
@@ -70,19 +67,17 @@ public class Requestor {
         return newSession(new DeferredPoolFactoryImpl());
     }
 
-    public static Session newSession(ScheduledExecutorService scheduledExecutorService) {
-        return newSession(new DeferredPoolFactoryImpl(), new ScheduledExecutorAsyncRunner(scheduledExecutorService),
-                new JavaNetRequestDispatcherFactory());
+    public static Session newSession(AsyncRunner asyncRunner) {
+        return newSession(new DeferredPoolFactoryImpl(), asyncRunner, new JavaNetRequestDispatcherFactory());
     }
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory) {
-        return newSession(deferredPoolFactory, Executors.newScheduledThreadPool(DEFAULT_CORE_POOL_SIZE));
+        return newSession(deferredPoolFactory, new ScheduledExecutorAsyncRunner());
     }
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory,
-                                     ScheduledExecutorService scheduledExecutorService) {
-        return newSession(deferredPoolFactory, new ScheduledExecutorAsyncRunner(scheduledExecutorService),
-                new JavaNetRequestDispatcherFactory());
+                                     AsyncRunner asyncRunner) {
+        return newSession(deferredPoolFactory, asyncRunner, new JavaNetRequestDispatcherFactory());
     }
     public static Session newSession(DeferredPool.Factory deferredPoolFactory,
                                      AsyncRunner asyncRunner,
