@@ -283,6 +283,10 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     // Session configuration
     //===================================================================
 
+    public AsyncRunner getAsyncRunner() {
+        return asyncRunner;
+    }
+
     public RequestLogger getLogger() {
         return logger;
     }
