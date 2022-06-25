@@ -18,6 +18,7 @@ package io.reinert.requestor.gwt.xhr;
 import java.util.Collections;
 import java.util.List;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestLogger;
@@ -31,6 +32,7 @@ import io.reinert.requestor.core.ResponseProcessor;
  */
 public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
 
+    private AsyncRunner asyncRunner;
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
     private DeferredPool.Factory deferredPoolFactory;
@@ -38,11 +40,13 @@ public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
     private RequestDispatcher requestDispatcher;
 
     @Override
-    public RequestDispatcher create(RequestProcessor requestProcessor,
+    public RequestDispatcher create(AsyncRunner asyncRunner,
+                                    RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
                                     DeferredPool.Factory deferredPoolFactory,
                                     RequestLogger logger) {
-        if (this.requestProcessor == requestProcessor &&
+        if (this.asyncRunner == asyncRunner &&
+                this.requestProcessor == requestProcessor &&
                 this.responseProcessor == responseProcessor &&
                 this.deferredPoolFactory == deferredPoolFactory &&
                 this.logger == logger) {
@@ -50,16 +54,17 @@ public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
         }
 
         if (requestDispatcher == null) {
+            this.asyncRunner = asyncRunner;
             this.requestProcessor = requestProcessor;
             this.responseProcessor = responseProcessor;
             this.deferredPoolFactory = deferredPoolFactory;
             this.logger = logger;
-            requestDispatcher =
-                    new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger);
+            requestDispatcher = new XhrRequestDispatcher(asyncRunner, requestProcessor, responseProcessor,
+                    deferredPoolFactory, logger);
             return requestDispatcher;
         }
 
-        return new XhrRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger);
+        return new XhrRequestDispatcher(asyncRunner, requestProcessor, responseProcessor, deferredPoolFactory, logger);
     }
 
     @Override

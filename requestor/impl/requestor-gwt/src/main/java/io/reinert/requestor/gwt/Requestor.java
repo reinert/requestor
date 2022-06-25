@@ -50,6 +50,7 @@ public class Requestor {
     public static Session newSession(DeferredPool.Factory deferredPoolFactory) {
         return configure(
                 new Session(
+                        GwtAsyncRunner.INSTANCE,
                         new XhrRequestDispatcherFactory(),
                         deferredPoolFactory,
                         GwtRequestSerializer.getInstance(),

@@ -22,6 +22,7 @@ import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Headers;
@@ -55,21 +56,10 @@ import io.reinert.requestor.gwt.payload.SerializedJsPayload;
  */
 public class XhrRequestDispatcher extends RequestDispatcher {
 
-    public XhrRequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                                DeferredPool.Factory deferredPoolFactory, RequestLogger logger) {
-        super(requestProcessor, responseProcessor, deferredPoolFactory, logger);
-    }
-
-    @Override
-    public native void run(Runnable runnable, int delayMillis) /*-{
-        setTimeout($entry(function() {
-            runnable.@java.lang.Runnable::run()();
-        }), delayMillis);
-    }-*/;
-
-    @Override
-    public void sleep(int millis) {
-        // no-op (unnecessary to block the thread in JS environment)
+    public XhrRequestDispatcher(AsyncRunner asyncRunner, RequestProcessor requestProcessor,
+                                ResponseProcessor responseProcessor, DeferredPool.Factory deferredPoolFactory,
+                                RequestLogger logger) {
+        super(asyncRunner, requestProcessor, responseProcessor, deferredPoolFactory, logger);
     }
 
     @Override
