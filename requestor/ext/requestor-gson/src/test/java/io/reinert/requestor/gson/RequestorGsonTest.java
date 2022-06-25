@@ -23,6 +23,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import io.reinert.requestor.annotations.MediaType;
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.SerializationModule;
 import io.reinert.requestor.core.Session;
@@ -60,7 +61,7 @@ public class RequestorGsonTest {
 
     @Before
     public void setUp() {
-        session = new Session(Mockito.mock(RequestDispatcher.Factory.class));
+        session = new Session(Mockito.mock(AsyncRunner.class) , Mockito.mock(RequestDispatcher.Factory.class));
         session.register(TestSerializationModule.class);
     }
 

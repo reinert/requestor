@@ -18,6 +18,7 @@ package io.reinert.requestor.java.net;
 import java.util.concurrent.Executors;
 
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.java.ScheduledExecutorAsyncRunner;
 
 import org.junit.Test;
 
@@ -36,7 +37,8 @@ public class HttpMethodTest extends JavaNetTest {
     public void testGetMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.get("https://httpbin.org/get")
                 .onSuccess(succeedOnEvent(result))
@@ -50,7 +52,8 @@ public class HttpMethodTest extends JavaNetTest {
     public void testPostMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.post("https://httpbin.org/post")
                 .onSuccess(succeedOnEvent(result))
@@ -64,7 +67,8 @@ public class HttpMethodTest extends JavaNetTest {
     public void testPutMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.put("https://httpbin.org/put")
                 .onSuccess(succeedOnEvent(result))
@@ -78,7 +82,8 @@ public class HttpMethodTest extends JavaNetTest {
     public void testPatchMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.patch("https://httpbin.org/patch")
                 .onSuccess(succeedOnEvent(result))
@@ -92,7 +97,8 @@ public class HttpMethodTest extends JavaNetTest {
     public void testDeleteMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.delete("https://httpbin.org/delete")
                 .onSuccess(succeedOnEvent(result))
@@ -106,7 +112,8 @@ public class HttpMethodTest extends JavaNetTest {
     public void testHeadMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.head("https://httpbin.org/headers")
                 .onSuccess(succeedOnEvent(result))
@@ -120,7 +127,8 @@ public class HttpMethodTest extends JavaNetTest {
     public void testOptionsMethod() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.options("https://httpbin.org/headers")
                 .onSuccess(succeedOnEvent(result))

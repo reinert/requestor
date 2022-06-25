@@ -27,6 +27,7 @@ import java.util.zip.GZIPOutputStream;
 
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.java.ScheduledExecutorAsyncRunner;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,7 +43,8 @@ public class GzipSerializationTest extends JavaNetTest {
     public void testGetGzippedWithLargeBuffer() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
         session.save(Requestor.GZIP_ENCODING_ENABLED, Boolean.TRUE);
         session.save(Requestor.INPUT_BUFFER_SIZE, 1024 * 8);
 
@@ -63,7 +65,8 @@ public class GzipSerializationTest extends JavaNetTest {
     public void testGetGzippedWithSmallBuffer() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
         session.save(Requestor.GZIP_ENCODING_ENABLED, Boolean.TRUE);
         session.save(Requestor.INPUT_BUFFER_SIZE, 128);
 
@@ -84,7 +87,8 @@ public class GzipSerializationTest extends JavaNetTest {
     public void testGzipInputStream() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
         session.save(Requestor.GZIP_ENCODING_ENABLED, Boolean.TRUE);
 
         JavaNetRequestDispatcherFactory dispatcherFactory =

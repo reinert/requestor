@@ -19,6 +19,7 @@ import java.util.concurrent.Executors;
 
 import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.java.ScheduledExecutorAsyncRunner;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +36,8 @@ public class PollingTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 500)
@@ -57,7 +59,8 @@ public class PollingTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.LONG, 500)
@@ -79,7 +82,8 @@ public class PollingTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 500, 3)
@@ -100,7 +104,8 @@ public class PollingTest extends JavaNetTest {
         final Thread thread = Thread.currentThread();
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.req("https://httpbin.org/get")
                 .poll(PollingStrategy.SHORT, 0, 3)

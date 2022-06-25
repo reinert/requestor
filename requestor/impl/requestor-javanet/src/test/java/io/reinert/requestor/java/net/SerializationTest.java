@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import io.reinert.requestor.core.FormData;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.java.ScheduledExecutorAsyncRunner;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,7 +44,8 @@ public class SerializationTest extends JavaNetTest {
     public void testFormDataUrlEncoded() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         final FormData data = FormData.builder()
                 .append("string", "value")
@@ -75,7 +77,8 @@ public class SerializationTest extends JavaNetTest {
     public void testFormDataMultiPartPlainContent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         final FormData data = FormData.builder()
                 .append("string", "value")
@@ -107,7 +110,8 @@ public class SerializationTest extends JavaNetTest {
     public void testFormDataMultiPartBinaryContent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         JavaNetRequestDispatcherFactory dispatcherFactory =
                 (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
@@ -148,7 +152,8 @@ public class SerializationTest extends JavaNetTest {
     public void testFile() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         JavaNetRequestDispatcherFactory dispatcherFactory =
                 (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();
@@ -193,7 +198,8 @@ public class SerializationTest extends JavaNetTest {
     public void testInputStream() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         JavaNetRequestDispatcherFactory dispatcherFactory =
                 (JavaNetRequestDispatcherFactory) session.getRequestDispatcherFactory();

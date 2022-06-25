@@ -30,6 +30,7 @@ import io.reinert.requestor.core.RequestFilter;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.payload.SerializedPayload;
+import io.reinert.requestor.java.ScheduledExecutorAsyncRunner;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,7 +50,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testLoadEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.get("https://httpbin.org/status/200")
                 .onStatus(200, succeedOnEvent(result))
@@ -63,7 +65,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testSuccessEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.get("https://httpbin.org/status/200")
                 .onSuccess(succeedOnEvent(result))
@@ -77,7 +80,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testFailEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.get("https://httpbin.org/status/400")
                 .onSuccess(failOnEvent(result))
@@ -91,7 +95,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testStatusEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.get("https://httpbin.org/status/200")
                 .onStatus(200, succeedOnEvent(result))
@@ -109,7 +114,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testAbortEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.register((RequestFilter) request -> {
             throw new RuntimeException("Request should be aborted.");
@@ -128,7 +134,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testTimeoutEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.setTimeout(50);
 
@@ -149,7 +156,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testUploadProgressEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
         session.save(Requestor.WRITE_CHUNKING_ENABLED, true);
 
         JavaNetRequestDispatcherFactory dispatcherFactory =
@@ -190,7 +198,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testDownloadProgressEvent() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
         session.setMediaType("application/octet-stream");
         session.save(Requestor.READ_CHUNKING_ENABLED, true);
 
@@ -231,7 +240,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testWriteOnDownload() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
         session.setMediaType("application/octet-stream");
         session.save(Requestor.READ_CHUNKING_ENABLED, true);
 
@@ -260,7 +270,8 @@ public class RequestEventTest extends JavaNetTest {
     public void testReadChunkingWithVoidPayload() throws Throwable {
         final TestResult result = new TestResult();
 
-        final Session session = Requestor.newSession(Executors.newSingleThreadScheduledExecutor());
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
         session.setMediaType("application/octet-stream");
         session.save(Requestor.READ_CHUNKING_ENABLED, true);
 
