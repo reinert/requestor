@@ -35,10 +35,6 @@ public abstract class RequestDispatcher implements AsyncRunner {
                                  ResponseProcessor responseProcessor,
                                  DeferredPool.Factory deferredFactory,
                                  RequestLogger logger);
-
-        void shutdown();
-
-        boolean isShutdown();
     }
 
     private final AsyncRunner asyncRunner;
@@ -93,6 +89,14 @@ public abstract class RequestDispatcher implements AsyncRunner {
 
     public void sleep(int millis) {
         asyncRunner.sleep(millis);
+    }
+
+    public void shutdown() {
+        asyncRunner.shutdown();
+    }
+
+    public boolean isShutdown() {
+        return asyncRunner.isShutdown();
     }
 
     /**

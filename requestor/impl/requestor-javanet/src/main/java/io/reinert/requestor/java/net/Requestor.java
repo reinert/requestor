@@ -72,7 +72,7 @@ public class Requestor {
 
     public static Session newSession(ScheduledExecutorService scheduledExecutorService) {
         return newSession(new DeferredPoolFactoryImpl(), new ScheduledExecutorAsyncRunner(scheduledExecutorService),
-                new JavaNetRequestDispatcherFactory(scheduledExecutorService));
+                new JavaNetRequestDispatcherFactory());
     }
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory) {
@@ -82,7 +82,7 @@ public class Requestor {
     public static Session newSession(DeferredPool.Factory deferredPoolFactory,
                                      ScheduledExecutorService scheduledExecutorService) {
         return newSession(deferredPoolFactory, new ScheduledExecutorAsyncRunner(scheduledExecutorService),
-                new JavaNetRequestDispatcherFactory(scheduledExecutorService));
+                new JavaNetRequestDispatcherFactory());
     }
     public static Session newSession(DeferredPool.Factory deferredPoolFactory,
                                      AsyncRunner asyncRunner,

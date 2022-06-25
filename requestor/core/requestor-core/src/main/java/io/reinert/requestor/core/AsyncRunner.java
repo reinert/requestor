@@ -24,4 +24,8 @@ public interface AsyncRunner {
     void run(Runnable runnable, int delayMillis);
 
     void sleep(int millis);
+
+    void shutdown();
+
+    boolean isShutdown();
 }

@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.java.net;
 
-import java.util.concurrent.ScheduledExecutorService;
-
 import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
@@ -33,8 +31,6 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
 
     private static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
 
-    private final ScheduledExecutorService scheduledExecutorService;
-
     private final int inputBufferSize;
     private final int outputBufferSize;
 
@@ -46,13 +42,11 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
     private RequestLogger logger;
     private JavaNetRequestDispatcher dispatcher;
 
-    public JavaNetRequestDispatcherFactory(ScheduledExecutorService scheduledExecutorService) {
-        this(scheduledExecutorService, DEFAULT_BUFFER_SIZE, DEFAULT_BUFFER_SIZE);
+    public JavaNetRequestDispatcherFactory() {
+        this(DEFAULT_BUFFER_SIZE, DEFAULT_BUFFER_SIZE);
     }
 
-    public JavaNetRequestDispatcherFactory(ScheduledExecutorService scheduledExecutorService,
-                                           int inputBufferSize, int outputBufferSize) {
-        this.scheduledExecutorService = scheduledExecutorService;
+    public JavaNetRequestDispatcherFactory(int inputBufferSize, int outputBufferSize) {
         this.inputBufferSize = inputBufferSize;
         this.outputBufferSize = outputBufferSize;
     }
@@ -85,25 +79,11 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
                 deferredPoolFactory, logger, inputBufferSize, outputBufferSize);
     }
 
-    @Override
-    public void shutdown() {
-        scheduledExecutorService.shutdown();
-    }
-
-    @Override
-    public boolean isShutdown() {
-        return scheduledExecutorService.isShutdown();
-    }
-
     public int getInputBufferSize() {
         return inputBufferSize;
     }
 
     public int getOutputBufferSize() {
         return outputBufferSize;
-    }
-
-    public ScheduledExecutorService getScheduledExecutorService() {
-        return scheduledExecutorService;
     }
 }

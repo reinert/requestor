@@ -33,15 +33,27 @@ public class ScheduledExecutorAsyncRunner implements AsyncRunner {
         this.scheduledExecutorService = scheduledExecutorService;
     }
 
+    @Override
     public void run(final Runnable runnable, int delayMillis) {
         scheduledExecutorService.schedule(runnable, delayMillis, TimeUnit.MILLISECONDS);
     }
 
+    @Override
     public void sleep(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    public void shutdown() {
+        scheduledExecutorService.shutdown();
+    }
+
+    @Override
+    public boolean isShutdown() {
+        return scheduledExecutorService.isShutdown();
     }
 }

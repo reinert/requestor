@@ -37,4 +37,14 @@ public class GwtAsyncRunner implements AsyncRunner {
     public void sleep(int millis) {
         // no-op (unnecessary to block the thread in JS environment)
     }
+
+    @Override
+    public void shutdown() {
+        // No-op since the environment is single threaded
+    }
+
+    @Override
+    public boolean isShutdown() {
+        return false;
+    }
 }

@@ -63,14 +63,4 @@ public class XhrRequestDispatcherFactory implements RequestDispatcher.Factory {
 
         return new XhrRequestDispatcher(asyncRunner, requestProcessor, responseProcessor, deferredPoolFactory, logger);
     }
-
-    @Override
-    public void shutdown() {
-        // No-op since the environment is single threaded
-    }
-
-    @Override
-    public boolean isShutdown() {
-        return false;
-    }
 }

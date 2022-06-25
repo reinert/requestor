@@ -618,11 +618,11 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     public void shutdown() {
-        requestDispatcherFactory.shutdown();
+        asyncRunner.shutdown();
     }
 
     public boolean isShutdown() {
-        return requestDispatcherFactory.isShutdown();
+        return asyncRunner.isShutdown();
     }
 
     //===================================================================
