@@ -32,7 +32,8 @@ public abstract class RequestDispatcher implements AsyncRunner {
     public static int SLEEP_TIME_BEFORE_ABORTING = 50;
 
     public interface Factory {
-        RequestDispatcher create(RequestProcessor requestProcessor,
+        RequestDispatcher create(AsyncRunner asyncRunner,
+                                 RequestProcessor requestProcessor,
                                  ResponseProcessor responseProcessor,
                                  DeferredPool.Factory deferredFactory,
                                  RequestLogger logger);
@@ -48,34 +49,21 @@ public abstract class RequestDispatcher implements AsyncRunner {
         boolean awaitTermination(long timeoutInMillis) throws InterruptedException;
     }
 
+    private final AsyncRunner asyncRunner;
     private final RequestProcessor requestProcessor;
     private final ResponseProcessor responseProcessor;
     private final DeferredPool.Factory deferredPoolFactory;
     private final RequestLogger logger;
 
-    protected RequestDispatcher(RequestProcessor requestProcessor, ResponseProcessor responseProcessor,
-                                DeferredPool.Factory deferredPoolFactory, RequestLogger logger) {
+    protected RequestDispatcher(AsyncRunner asyncRunner, RequestProcessor requestProcessor,
+                                ResponseProcessor responseProcessor, DeferredPool.Factory deferredPoolFactory,
+                                RequestLogger logger) {
+        this.asyncRunner = asyncRunner;
         this.requestProcessor = requestProcessor;
         this.responseProcessor = responseProcessor;
         this.deferredPoolFactory = deferredPoolFactory;
         this.logger = logger;
     }
-
-    /**
-     * Defers the execution of a {@link Runnable} by the informed delay.
-     * This method is used to schedule the dispatches.
-     *
-     * @param runnable  A callback to be executed later
-     * @param delayMillis     The time to postpone the runnable execution
-     */
-    public abstract void run(Runnable runnable, int delayMillis);
-
-    /**
-     * Causes the currently executing thread to sleep for the specified number of milliseconds.
-     *
-     * @param millis the length of time to sleep in milliseconds
-     */
-    public abstract void sleep(int millis);
 
     /**
      * Sends the request through the wire and resolves (or rejects) the deferred when completed.
@@ -105,6 +93,14 @@ public abstract class RequestDispatcher implements AsyncRunner {
      */
     protected final void evalResponse(RawResponse response) {
         responseProcessor.process(response);
+    }
+
+    public void run(Runnable runnable, int delayMillis) {
+        asyncRunner.run(runnable, delayMillis);
+    }
+
+    public void sleep(int millis) {
+        asyncRunner.sleep(millis);
     }
 
     /**
@@ -164,7 +160,7 @@ public abstract class RequestDispatcher implements AsyncRunner {
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request, responsePayloadType,
                 this, deferred);
 
-        scheduleRun(new Runnable() {
+        run(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -221,7 +217,7 @@ public abstract class RequestDispatcher implements AsyncRunner {
     private <T> void schedulePollingRequest(final MutableSerializedRequest nextRequest,
                                             final PayloadType responsePayloadType,
                                             final DeferredPool<T> deferredPool) {
-        scheduleRun(new Runnable() {
+        run(new Runnable() {
             @Override
             public void run() {
                 if (nextRequest.isPolling()) {

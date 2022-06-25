@@ -59,22 +59,31 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     private final SerializationEngine serializationEngine;
     private final RequestDispatcher.Factory requestDispatcherFactory;
     private final DeferredPool.Factory deferredPoolFactory;
+    private final AsyncRunner asyncRunner;
 
-    public Session(RequestDispatcher.Factory requestDispatcherFactory) {
-        this(requestDispatcherFactory, new DeferredPoolFactoryImpl());
+    public Session(AsyncRunner asyncRunner, RequestDispatcher.Factory requestDispatcherFactory) {
+        this(asyncRunner, requestDispatcherFactory, new DeferredPoolFactoryImpl());
     }
 
-    public Session(RequestDispatcher.Factory requestDispatcherFactory, DeferredPool.Factory deferredPoolFactory) {
-        this(requestDispatcherFactory, deferredPoolFactory, new BaseRequestSerializer(),
+    public Session(AsyncRunner asyncRunner, RequestDispatcher.Factory requestDispatcherFactory,
+                   DeferredPool.Factory deferredPoolFactory) {
+        this(asyncRunner, requestDispatcherFactory, deferredPoolFactory, new BaseRequestSerializer(),
                 new BaseResponseDeserializer());
     }
 
-    public Session(RequestDispatcher.Factory requestDispatcherFactory, DeferredPool.Factory deferredPoolFactory,
-                   RequestSerializer requestSerializer, ResponseDeserializer responseDeserializer) {
+    public Session(AsyncRunner asyncRunner, RequestDispatcher.Factory requestDispatcherFactory,
+                   DeferredPool.Factory deferredPoolFactory, RequestSerializer requestSerializer,
+                   ResponseDeserializer responseDeserializer) {
+        if (asyncRunner == null) {
+            throw new IllegalArgumentException("AsyncRunner cannot be null");
+        }
+        this.asyncRunner = asyncRunner;
+
         if (requestDispatcherFactory == null) {
             throw new IllegalArgumentException("RequestDispatcher.Factory cannot be null");
         }
         this.requestDispatcherFactory = requestDispatcherFactory;
+
         if (deferredPoolFactory == null) {
             throw new IllegalArgumentException("Deferred.Factory cannot be null");
         }
@@ -639,7 +648,8 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
     private RequestInvoker createRequest(Uri uri) {
         final RequestInvoker request = new RequestInvokerImpl(this, uri, new LeafStore(store, false),
-                requestDispatcherFactory.create(requestProcessor, responseProcessor, deferredPoolFactory, logger));
+                requestDispatcherFactory.create(asyncRunner, requestProcessor, responseProcessor, deferredPoolFactory,
+                        logger));
 
         options.apply(request);
 

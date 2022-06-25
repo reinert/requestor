@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-interface AsyncRunner {
+public interface AsyncRunner {
     void run(Runnable runnable, int delayMillis);
 
     void sleep(int millis);
