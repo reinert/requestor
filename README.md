@@ -1787,26 +1787,28 @@ This method will reset all the Session's request options to their default values
 
 ### Session's Thread Pool
 
-The async-first aspect of Requestor is enabled by the usage of multiple threads.
-A `Session` is backed by the `ScheduledExecutorService` interface which empowers async multitasking.
-Its main implementation is the `ScheduledThreadPoolExecutor` class. When creating a new `Session`,
-we can pass a `ScheduledThreadPoolExecutor` instance or an integer informing the number of the core pool size.
+The async-first aspect of Requestor in JVM runtime is enabled by the usage of multiple threads.
+A `Session` is backed by an `AsyncRunner`. For JVM, Requestor provides the `ScheduledExecutorAsyncRunner`
+which is powered by the `ScheduledExecutorService` interface. By default, the ScheduledExecutorAsyncRunner 
+instantiates a `ScheduledThreadPoolExecutor` with 10 threads as the core pool size. When creating a new `Session`,
+we can pass a `ScheduledExecutorAsyncRunner` instance with our own ScheduledExecutorService instance if we want a
+different configuration.
 
 Example creating a Session passing a custom Thread Pool:
 
 ```java
-int corePoolSize = 10;
+int corePoolSize = 20;
 ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(corePoolSize);
+AsyncRunner asyncRunner = new ScheduledExecutorAsyncRunner(threadPool);
 
-Session session = Requestor.newSession(threadPool);
+Session session = Requestor.newSession(asyncRunner);
 ```
 
-The Session exposes some `ExecutorService` methods that allows us to manage the thread pool.
-For example, in order to actually finish all running processes in the Java application we need to
-call `session.shutdown()` or `session.shutdownNow()` to close the living threads in the thread pool.
+The `AsyncRunner` interface exposes the `shutdown()` method that allow us to shut down the underlying thread pool.
+This method is also expose by the `Session` which delegates to the underlying `AsyncRunner`.
 
 **💡 PRO TIP**: Often people question themselves what would be the optimal thread pool size.
-There's no simple answer to it and I strongly recommend you read the great article
+There's no simple answer to it, and we recommend you read the article
 ["How to set an ideal thread pool size"](https://engineering.zalando.com/posts/2019/04/how-to-set-an-ideal-thread-pool-size.html)
 from Anton Ilinchik. But if you want a quick formula to start, use the following:
 
