@@ -6,7 +6,7 @@
 It uniquely combines simplicity, completeness and performance in a singular HTTP Client API for any Java derived language.
 
 Requestor is:
-* **Async-First** → smoothly handle several concurrent client-server interactions with the best performance.
+* **Async-First** → smoothly handle several concurrent client-server interactions with the max throughput.
 * **Event-Driven** → narrow down your code to specific results and implement complex features like HTTP Polling and Streaming seamlessly.
 * **Session-Based** → set up multiple client configurations for different backends with instance level customization.
 * **Scope-Bounded** → sessions, services and requests have isolated and interconnected contexts with fine-grained control over them.
@@ -87,8 +87,8 @@ session.get("https://httpbin.org/ip", String::class.java)
     .onSuccess(session::shutdown)
 ```
 
-**NOTE:** The session owns a thread pool. Calling shutdown will close all the threads.
-If you don't do it, the app will still be alive.
+**NOTE:** In JVM runtime, the session is backed by a thread pool to run the requests asynchronously.
+Calling shutdown will close all the threads. In GWT this is not necessary since the JS runtime relies on an event loop.
 
 👨‍💻 Make a POST request auto serializing an object into the request payload:
 
@@ -177,7 +177,7 @@ session.clear();
 // Now all requests will have the default parameters
 session.post("/api/books", book);
 
-// Shutdown the session thread pool
+// Shutdown the session closing all underlying resources
 session.shutdown();
 ```
 
@@ -2465,7 +2465,7 @@ session.req("/api/upload")
 
 GET request receiving a `byte[]` in the response payload, tracking the download progress.
 ```java
-session.req("/api/udownload)
+session.req("/api/download")
         .accept("application/octet-stream")
         .get(byte[].class) // Set byte[] as the expected type in the response payload
         .onRead(p -> print(p.getCompletedFraction(100))) // Print the percent download progress
