@@ -26,6 +26,7 @@ import java.util.Base64;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.Base64Codec;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
@@ -34,6 +35,7 @@ import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.auth.DigestAuth;
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.core.uri.UriBuilder;
+import io.reinert.requestor.java.ScheduledExecutorAsyncRunner;
 import io.reinert.requestor.java.serialization.BinarySerializer;
 import io.reinert.requestor.java.serialization.ByteSerializer;
 import io.reinert.requestor.java.serialization.FileSerializer;
@@ -69,7 +71,8 @@ public class Requestor {
     }
 
     public static Session newSession(ScheduledExecutorService scheduledExecutorService) {
-        return newSession(new DeferredPoolFactoryImpl(), new JavaNetRequestDispatcherFactory(scheduledExecutorService));
+        return newSession(new DeferredPoolFactoryImpl(), new ScheduledExecutorAsyncRunner(scheduledExecutorService),
+                new JavaNetRequestDispatcherFactory(scheduledExecutorService));
     }
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory) {
@@ -78,12 +81,13 @@ public class Requestor {
 
     public static Session newSession(DeferredPool.Factory deferredPoolFactory,
                                      ScheduledExecutorService scheduledExecutorService) {
-        return newSession(deferredPoolFactory, new JavaNetRequestDispatcherFactory(scheduledExecutorService));
+        return newSession(deferredPoolFactory, new ScheduledExecutorAsyncRunner(scheduledExecutorService),
+                new JavaNetRequestDispatcherFactory(scheduledExecutorService));
     }
-
     public static Session newSession(DeferredPool.Factory deferredPoolFactory,
+                                     AsyncRunner asyncRunner,
                                      RequestDispatcher.Factory requestDispatcherFactory) {
-        return configure(new Session(requestDispatcherFactory, deferredPoolFactory));
+        return configure(new Session(asyncRunner, requestDispatcherFactory, deferredPoolFactory));
     }
 
     public static UriBuilder newUriBuilder() {

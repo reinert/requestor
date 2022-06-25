@@ -29,11 +29,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.Headers;
@@ -80,32 +79,18 @@ import static io.reinert.requestor.java.net.Requestor.OUTPUT_BUFFER_SIZE;
  */
 class JavaNetRequestDispatcher extends RequestDispatcher {
 
-    private final ScheduledExecutorService scheduledExecutorService;
     private final int inputBufferSize;
     private final int outputBufferSize;
 
-    public JavaNetRequestDispatcher(RequestProcessor requestProcessor,
+    public JavaNetRequestDispatcher(AsyncRunner asyncRunner,
+                                    RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
                                     DeferredPool.Factory deferredPoolFactory,
                                     RequestLogger logger,
-                                    ScheduledExecutorService scheduledExecutorService,
                                     int inputBufferSize, int outputBufferSize) {
-        super(requestProcessor, responseProcessor, deferredPoolFactory, logger);
-        this.scheduledExecutorService = scheduledExecutorService;
+        super(asyncRunner, requestProcessor, responseProcessor, deferredPoolFactory, logger);
         this.inputBufferSize = inputBufferSize;
         this.outputBufferSize = outputBufferSize;
-    }
-
-    public void run(final Runnable runnable, int delayMillis) {
-        scheduledExecutorService.schedule(runnable, delayMillis, TimeUnit.MILLISECONDS);
-    }
-
-    public void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     protected <R> void send(PreparedRequest request, Deferred<R> deferred, PayloadType payloadType) {

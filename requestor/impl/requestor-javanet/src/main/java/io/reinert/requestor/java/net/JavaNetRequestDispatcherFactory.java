@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestLogger;
@@ -40,6 +41,7 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
     private final int outputBufferSize;
 
     // Fields for caching
+    private AsyncRunner asyncRunner;
     private RequestProcessor requestProcessor;
     private ResponseProcessor responseProcessor;
     private DeferredPool.Factory deferredPoolFactory;
@@ -57,11 +59,13 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
         this.outputBufferSize = outputBufferSize;
     }
 
-    public RequestDispatcher create(RequestProcessor requestProcessor,
+    public RequestDispatcher create(AsyncRunner asyncRunner,
+                                    RequestProcessor requestProcessor,
                                     ResponseProcessor responseProcessor,
                                     DeferredPool.Factory deferredPoolFactory,
                                     RequestLogger logger) {
-        if (this.requestProcessor == requestProcessor &&
+        if (this.asyncRunner == asyncRunner &&
+                this.requestProcessor == requestProcessor &&
                 this.responseProcessor == responseProcessor &&
                 this.deferredPoolFactory == deferredPoolFactory &&
                 this.logger == logger) {
@@ -69,17 +73,18 @@ public class JavaNetRequestDispatcherFactory implements RequestDispatcher.Factor
         }
 
         if (dispatcher == null) {
+            this.asyncRunner = asyncRunner;
             this.requestProcessor = requestProcessor;
             this.responseProcessor = responseProcessor;
             this.deferredPoolFactory = deferredPoolFactory;
             this.logger = logger;
-            dispatcher = new JavaNetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger,
-                            scheduledExecutorService, inputBufferSize, outputBufferSize);
+            dispatcher = new JavaNetRequestDispatcher(asyncRunner, requestProcessor, responseProcessor,
+                    deferredPoolFactory, logger, inputBufferSize, outputBufferSize);
             return dispatcher;
         }
 
-        return new JavaNetRequestDispatcher(requestProcessor, responseProcessor, deferredPoolFactory, logger,
-                scheduledExecutorService, inputBufferSize, outputBufferSize);
+        return new JavaNetRequestDispatcher(asyncRunner, requestProcessor, responseProcessor,
+                deferredPoolFactory, logger, inputBufferSize, outputBufferSize);
     }
 
     @Override
