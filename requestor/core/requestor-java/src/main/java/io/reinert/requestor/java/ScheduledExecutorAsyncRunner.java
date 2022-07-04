@@ -18,6 +18,7 @@ package io.reinert.requestor.java;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import io.reinert.requestor.core.AsyncRunner;
 
@@ -27,6 +28,38 @@ import io.reinert.requestor.core.AsyncRunner;
  * @author Danilo Reinert
  */
 public class ScheduledExecutorAsyncRunner implements AsyncRunner {
+
+    public static class Lock implements AsyncRunner.Lock {
+
+        @Override
+        public void await(long timeout) throws InterruptedException, TimeoutException {
+            final long startTime = System.currentTimeMillis();
+            synchronized (this) {
+                try {
+                    if (timeout <= 0) {
+                        wait();
+                    } else {
+                        final long elapsed = (System.currentTimeMillis() - startTime);
+                        final long waitTime = timeout - elapsed;
+                        wait(waitTime);
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw e;
+                }
+
+                if (timeout > 0 && (System.currentTimeMillis() - startTime) >= timeout) {
+                    Thread.currentThread().interrupt();
+                    throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
+                }
+            }
+        }
+
+        @Override
+        public synchronized void signalAll() {
+            notifyAll();
+        }
+    }
 
     private static final int DEFAULT_CORE_POOL_SIZE = 10;
 
@@ -53,8 +86,8 @@ public class ScheduledExecutorAsyncRunner implements AsyncRunner {
     public void sleep(int millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException ex) {
-            throw new RuntimeException(ex);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -66,5 +99,10 @@ public class ScheduledExecutorAsyncRunner implements AsyncRunner {
     @Override
     public boolean isShutdown() {
         return scheduledExecutorService.isShutdown();
+    }
+
+    @Override
+    public Lock getLock() {
+        return new Lock();
     }
 }
