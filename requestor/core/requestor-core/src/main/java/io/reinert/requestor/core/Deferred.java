@@ -50,4 +50,10 @@ public interface Deferred<T> {
 
     Response getResolveResult();
 
+    AsyncRunner.Lock getResponseHeaderLock();
+
+    AsyncRunner.Lock getResponseBodyLock();
+
+    AsyncRunner.Lock getResponseLock();
+
 }

@@ -133,6 +133,21 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public AsyncRunner.Lock getResponseHeaderLock() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public AsyncRunner.Lock getResponseBodyLock() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public AsyncRunner.Lock getResponseLock() {
+        throw new UnsupportedOperationException();
+    }
+
     //===================================================================
     // PollingRequest
     //===================================================================

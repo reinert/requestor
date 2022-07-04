@@ -66,6 +66,9 @@ public class DeferredRequest<T> implements Deferred<T> {
     private final DeferredPollingRequest<T> request;
     private final AsyncRunner asyncRunner;
     private final DeferredObject<Response, RequestException, ReadProgress, WriteProgress> deferred;
+    private final AsyncRunner.Lock responseHeaderLock;
+    private final AsyncRunner.Lock responseBodyLock;
+    private final AsyncRunner.Lock responseLock;
     private HttpConnection connection;
     private RequestRetrier retrier;
     private boolean noAbortCallbackRegistered = true;
@@ -78,6 +81,9 @@ public class DeferredRequest<T> implements Deferred<T> {
         this.request = request;
         this.asyncRunner = asyncRunner;
         this.deferred = new DeferredObject<Response, RequestException, ReadProgress, WriteProgress>();
+        responseHeaderLock = asyncRunner.getLock();
+        responseBodyLock = asyncRunner.getLock();
+        responseLock = asyncRunner.getLock();
     }
 
     private DeferredRequest(DeferredPollingRequest<T> request,
@@ -90,6 +96,9 @@ public class DeferredRequest<T> implements Deferred<T> {
         this.request = request;
         this.asyncRunner = asyncRunner;
         this.deferred = deferredObject;
+        responseHeaderLock = asyncRunner.getLock();
+        responseBodyLock = asyncRunner.getLock();
+        responseLock = asyncRunner.getLock();
         this.noAbortCallbackRegistered = noAbortCallbackRegistered;
         this.noCancelCallbackRegistered = noCancelCallbackRegistered;
         this.noErrorCallbackRegistered = noErrorCallbackRegistered;
@@ -650,6 +659,21 @@ public class DeferredRequest<T> implements Deferred<T> {
     @Override
     public Response getResolveResult() {
         return deferred.resolveResult;
+    }
+
+    @Override
+    public AsyncRunner.Lock getResponseHeaderLock() {
+        return responseHeaderLock;
+    }
+
+    @Override
+    public AsyncRunner.Lock getResponseBodyLock() {
+        return responseBodyLock;
+    }
+
+    @Override
+    public AsyncRunner.Lock getResponseLock() {
+        return responseLock;
     }
 
     public Future<IncomingResponse> getFuture() {
