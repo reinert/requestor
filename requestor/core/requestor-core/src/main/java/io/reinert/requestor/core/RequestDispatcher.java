@@ -119,8 +119,6 @@ public abstract class RequestDispatcher implements AsyncRunner {
 
         scheduleDispatch(request, responsePayloadType, deferredPool, false);
 
-        logger.log(request);
-
         return deferredRequest;
     }
 
@@ -155,6 +153,8 @@ public abstract class RequestDispatcher implements AsyncRunner {
 
         final RequestInAuthProcess<T> requestInAuthProcess = new RequestInAuthProcess<T>(request, responsePayloadType,
                 this, deferred);
+
+        logger.log(request);
 
         run(new Runnable() {
             @Override

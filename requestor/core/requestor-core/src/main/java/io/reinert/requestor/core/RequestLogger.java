@@ -214,7 +214,6 @@ public class RequestLogger {
 
         return sb.append(request.getPollingStrategy())
                 .append(" each ")
-                .append(request.getPollingInterval())
                 .append(unit.convert(request.getPollingInterval(), TimeUnit.MILLISECONDS))
                 .append(toSIAbbreviation(unit))
                 .append(" up to ")
