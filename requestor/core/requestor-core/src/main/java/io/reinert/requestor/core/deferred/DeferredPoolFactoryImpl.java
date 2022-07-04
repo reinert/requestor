@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.core.deferred;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.SerializedRequest;
 
@@ -25,7 +26,7 @@ import io.reinert.requestor.core.SerializedRequest;
  */
 public class DeferredPoolFactoryImpl implements DeferredPool.Factory {
 
-    public <T> DeferredPool<T> create(SerializedRequest serializedRequest) {
-        return new DeferredPollingRequest<T>(serializedRequest);
+    public <T> DeferredPool<T> create(SerializedRequest serializedRequest, AsyncRunner asyncRunner) {
+        return new DeferredPollingRequest<T>(serializedRequest, asyncRunner);
     }
 }

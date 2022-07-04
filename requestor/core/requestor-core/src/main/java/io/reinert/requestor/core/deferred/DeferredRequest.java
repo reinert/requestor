@@ -22,6 +22,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.HttpConnection;
 import io.reinert.requestor.core.IncomingResponse;
@@ -62,7 +63,8 @@ import io.reinert.requestor.core.internal.Threads;
  */
 public class DeferredRequest<T> implements Deferred<T> {
 
-    private final PollingRequest<T> request;
+    private final DeferredPollingRequest<T> request;
+    private final AsyncRunner asyncRunner;
     private final DeferredObject<Response, RequestException, ReadProgress, WriteProgress> deferred;
     private HttpConnection connection;
     private RequestRetrier retrier;
@@ -72,18 +74,21 @@ public class DeferredRequest<T> implements Deferred<T> {
     private boolean noTimeoutCallbackRegistered = true;
     private RawResponse rawResponse;
 
-    protected DeferredRequest(PollingRequest<T> request) {
+    protected DeferredRequest(DeferredPollingRequest<T> request, AsyncRunner asyncRunner) {
         this.request = request;
+        this.asyncRunner = asyncRunner;
         this.deferred = new DeferredObject<Response, RequestException, ReadProgress, WriteProgress>();
     }
 
-    private DeferredRequest(PollingRequest<T> request,
+    private DeferredRequest(DeferredPollingRequest<T> request,
+                            AsyncRunner asyncRunner,
                             DeferredObject<Response, RequestException, ReadProgress, WriteProgress> deferredObject,
                             boolean noAbortCallbackRegistered,
                             boolean noCancelCallbackRegistered,
                             boolean noErrorCallbackRegistered,
                             boolean noTimeoutCallbackRegistered) {
         this.request = request;
+        this.asyncRunner = asyncRunner;
         this.deferred = deferredObject;
         this.noAbortCallbackRegistered = noAbortCallbackRegistered;
         this.noCancelCallbackRegistered = noCancelCallbackRegistered;
@@ -717,7 +722,7 @@ public class DeferredRequest<T> implements Deferred<T> {
     }
 
     protected DeferredRequest<T> replicate() {
-        return new DeferredRequest<T>(request, deferred.replicate(), noAbortCallbackRegistered,
+        return new DeferredRequest<T>(request, asyncRunner, deferred.replicate(), noAbortCallbackRegistered,
                 noCancelCallbackRegistered, noErrorCallbackRegistered, noTimeoutCallbackRegistered);
     }
 }

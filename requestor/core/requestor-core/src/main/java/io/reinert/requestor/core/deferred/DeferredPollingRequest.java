@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.Auth;
 import io.reinert.requestor.core.Deferred;
 import io.reinert.requestor.core.DeferredPool;
@@ -64,13 +65,16 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
 
     private final SerializedRequest serializedRequest;
     private final List<DeferredRequest<T>> deferreds;
+    private final AsyncRunner asyncRunner;
 
-    public DeferredPollingRequest(SerializedRequest serializedRequest) {
-        this(serializedRequest, new ArrayList<DeferredRequest<T>>());
+    public DeferredPollingRequest(SerializedRequest serializedRequest, AsyncRunner asyncRunner) {
+        this(serializedRequest, asyncRunner, new ArrayList<DeferredRequest<T>>());
     }
 
-    protected DeferredPollingRequest(SerializedRequest serializedRequest, List<DeferredRequest<T>> deferreds) {
+    protected DeferredPollingRequest(SerializedRequest serializedRequest, AsyncRunner asyncRunner,
+                                     List<DeferredRequest<T>> deferreds) {
         this.serializedRequest = serializedRequest;
+        this.asyncRunner = asyncRunner;
         this.deferreds = deferreds;
     }
 
@@ -437,7 +441,7 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     @Override
     public Deferred<T> newDeferred() {
         final DeferredRequest<T> deferred = deferreds.isEmpty() ?
-                new DeferredRequest<T>(this) : getLastDeferred().replicate();
+                new DeferredRequest<T>(this, asyncRunner) : getLastDeferred().replicate();
         deferreds.add(deferred);
         return deferred;
     }
@@ -456,7 +460,7 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     protected DeferredRequest<T> getLastDeferred() {
-        if (deferreds.isEmpty()) deferreds.add(new DeferredRequest<T>(this));
+        if (deferreds.isEmpty()) deferreds.add(new DeferredRequest<T>(this, asyncRunner));
         return deferreds.get(deferreds.size() - 1);
     }
 }

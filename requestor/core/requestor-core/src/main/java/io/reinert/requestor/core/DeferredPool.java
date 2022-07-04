@@ -25,7 +25,7 @@ package io.reinert.requestor.core;
 public interface DeferredPool<T> {
 
     interface Factory {
-        <T> DeferredPool<T> create(SerializedRequest serializedRequest);
+        <T> DeferredPool<T> create(SerializedRequest serializedRequest, AsyncRunner asyncRunner);
     }
 
     Deferred<T> newDeferred();

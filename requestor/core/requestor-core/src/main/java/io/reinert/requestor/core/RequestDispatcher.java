@@ -99,6 +99,10 @@ public abstract class RequestDispatcher implements AsyncRunner {
         return asyncRunner.isShutdown();
     }
 
+    public Lock getLock() {
+        return asyncRunner.getLock();
+    }
+
     /**
      * Sends the request and return an instance of {@link Request} expecting a sole result.
      *
@@ -109,7 +113,7 @@ public abstract class RequestDispatcher implements AsyncRunner {
      * @return                      The request for the dispatched request
      */
     public <T> PollingRequest<T> dispatch(MutableSerializedRequest request, PayloadType responsePayloadType) {
-        DeferredPool<T> deferredPool = deferredPoolFactory.create(request);
+        DeferredPool<T> deferredPool = deferredPoolFactory.create(request, this);
 
         PollingRequest<T> deferredRequest = deferredPool.getRequest();
 
