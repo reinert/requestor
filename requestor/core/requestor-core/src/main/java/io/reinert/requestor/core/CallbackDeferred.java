@@ -114,7 +114,7 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
-    public Deferred<Response> newDeferred() {
+    public Deferred<Response> getDeferred() {
         return this;
     }
 

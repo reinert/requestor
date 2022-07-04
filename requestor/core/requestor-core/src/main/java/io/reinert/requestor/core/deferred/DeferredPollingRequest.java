@@ -439,6 +439,10 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     //===================================================================
 
     @Override
+    public Deferred<T> getDeferred() {
+        return getLastDeferred();
+    }
+
     public Deferred<T> newDeferred() {
         final DeferredRequest<T> deferred = deferreds.isEmpty() ?
                 new DeferredRequest<T>(this, asyncRunner) : getLastDeferred().replicate();

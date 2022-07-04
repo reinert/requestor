@@ -145,7 +145,7 @@ public abstract class RequestDispatcher implements AsyncRunner {
                                       final PayloadType responsePayloadType,
                                       final DeferredPool<T> deferredPool,
                                       final boolean skipPolling) {
-        final Deferred<T> deferred = deferredPool.newDeferred();
+        final Deferred<T> deferred = deferredPool.getDeferred();
 
         // TODO: create pollingOptions outside request?
         request.incrementPollingCount();

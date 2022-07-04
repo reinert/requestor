@@ -28,7 +28,7 @@ public interface DeferredPool<T> {
         <T> DeferredPool<T> create(SerializedRequest serializedRequest, AsyncRunner asyncRunner);
     }
 
-    Deferred<T> newDeferred();
+    Deferred<T> getDeferred();
 
     PollingRequest<T> getRequest();
 
