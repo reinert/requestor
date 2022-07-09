@@ -21,7 +21,6 @@ import io.reinert.requestor.core.header.ContentTypeHeader;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.header.LinkHeader;
 import io.reinert.requestor.core.header.SimpleHeader;
-import io.reinert.requestor.core.internal.Threads;
 import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
@@ -133,7 +132,6 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
 
         this.payload = payload == null ? Payload.EMPTY_PAYLOAD : payload;
         deserialized = true;
-        Threads.notifyAll(this);
     }
 
     @Override
@@ -179,17 +177,6 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public String toString() {
-        return "ResponseImpl{" +
-                "headers=" + headers +
-                ", linkHeader=" + (linkHeader != null ? linkHeader : "null") +
-                ", status=" + status +
-                ", payload=" + (payload != null ? payload : "null") +
-                ", serializedPayload=" + (serializedPayload != null ? serializedPayload : "null") +
-                '}';
-    }
-
-    @Override
     public void setSerializedPayload(SerializedPayload serializedPayload) {
         if (deserialized) {
             throw new IllegalStateException("Payload was already deserialized. Cannot set a serialized payload after" +
@@ -198,7 +185,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
 
         this.serializedPayload = serializedPayload == null ? SerializedPayload.EMPTY_PAYLOAD : serializedPayload;
         loaded = true;
-        Threads.notifyAll(this);
+        deferred.getResponseBodyLock().signalAll();
     }
 
     @Override

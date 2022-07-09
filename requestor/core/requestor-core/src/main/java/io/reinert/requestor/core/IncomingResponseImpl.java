@@ -22,7 +22,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import io.reinert.requestor.core.internal.Threads;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 
@@ -116,7 +115,7 @@ public class IncomingResponseImpl implements IncomingResponse {
     }
 
     public Future<SerializedPayload> getSerializedPayload() {
-        return getFuture(new Callable<SerializedPayload>() {
+        return getFuture(response.getDeferred().getResponseBodyLock(), new Callable<SerializedPayload>() {
             public SerializedPayload call() {
                 return response.getSerializedPayload();
             }
@@ -128,7 +127,7 @@ public class IncomingResponseImpl implements IncomingResponse {
     }
 
     public <T> Future<T> getPayload() {
-        return getFuture(new Callable<T>() {
+        return getFuture(response.getDeferred().getResponseLock(), new Callable<T>() {
             public T call() {
                 return response.getPayload();
             }
@@ -139,7 +138,8 @@ public class IncomingResponseImpl implements IncomingResponse {
         });
     }
 
-    private <T> Future<T> getFuture(final Callable<T> result, final Callable<Boolean> doneCondition) {
+    private <T> Future<T> getFuture(final AsyncRunner.Lock lock, final Callable<T> result,
+                                    final Callable<Boolean> doneCondition) {
         final Deferred<?> deferred = response.getDeferred();
         return new Future<T>() {
             private boolean cancelled;
@@ -172,12 +172,8 @@ public class IncomingResponseImpl implements IncomingResponse {
                     TimeoutException {
                 checkInvalidStates();
 
-                if (!isDoneCondition()) {
-                    Threads.waitSafely(response, unit.toMillis(timeout), new Callable<Boolean>() {
-                        public Boolean call() {
-                            return !isDoneCondition() && deferred.isPending();
-                        }
-                    });
+                while (!(cancelled && deferred.isRejected() && isDoneCondition())) {
+                    lock.await(unit.toMillis(timeout));
                 }
 
                 checkInvalidStates();

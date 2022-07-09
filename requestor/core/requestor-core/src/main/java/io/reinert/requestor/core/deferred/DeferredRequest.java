@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.core.deferred;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -52,7 +51,6 @@ import io.reinert.requestor.core.callback.TimeoutCallback;
 import io.reinert.requestor.core.callback.TimeoutRequestCallback;
 import io.reinert.requestor.core.callback.VoidCallback;
 import io.reinert.requestor.core.callback.WriteCallback;
-import io.reinert.requestor.core.internal.Threads;
 
 /**
  * Default Deferred implementation.
@@ -599,6 +597,10 @@ public class DeferredRequest<T> implements Deferred<T> {
         if (retrier != null && retrier.maybeRetry(response)) return;
 
         deferred.resolve(response);
+
+        if (request.isPolling()) request.newDeferred();
+
+        responseLock.signalAll();
     }
 
     @Override
@@ -607,7 +609,9 @@ public class DeferredRequest<T> implements Deferred<T> {
 
         deferred.reject(e);
 
-        if (noErrorCallbackRegistered) {
+        if (noErrorCallbackRegistered &&
+                !responseHeaderLock.isAwaiting() &&
+                !responseLock.isAwaiting()) {
             if (e instanceof RequestTimeoutException) {
                 if (noTimeoutCallbackRegistered) e.printStackTrace();
             } else if (e instanceof RequestCancelException) {
@@ -618,6 +622,12 @@ public class DeferredRequest<T> implements Deferred<T> {
                 e.printStackTrace();
             }
         }
+
+        if (request.isPolling()) request.newDeferred();
+
+        responseHeaderLock.signalAll();
+        responseBodyLock.signalAll();
+        responseLock.signalAll();
     }
 
     @Override
@@ -633,7 +643,7 @@ public class DeferredRequest<T> implements Deferred<T> {
     @Override
     public void notifyResponse(RawResponse response) {
         this.rawResponse = response;
-        Threads.notifyAll(this);
+        responseHeaderLock.signalAll();
     }
 
     @Override
@@ -712,12 +722,8 @@ public class DeferredRequest<T> implements Deferred<T> {
                     TimeoutException {
                 checkInvalidStates();
 
-                if (rawResponse == null) {
-                    Threads.waitSafely(DeferredRequest.this, timeout, new Callable<Boolean>() {
-                        public Boolean call() {
-                            return rawResponse == null && deferred.isPending();
-                        }
-                    });
+                while (!(cancelled && deferred.isRejected() && rawResponse != null)) {
+                    responseHeaderLock.await(unit.toMillis(timeout));
                 }
 
                 checkInvalidStates();

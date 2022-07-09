@@ -235,8 +235,9 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
 
     @Override
     public Response await() throws ExecutionException, InterruptedException {
-        getResponse().get().getPayload().get();
-        return getLastDeferred().getResolveResult();
+        DeferredRequest<T> deferred = getLastDeferred();
+        deferred.getFuture().get().getPayload().get();
+        return deferred.getResolveResult();
     }
 
     @Override

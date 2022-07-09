@@ -224,7 +224,7 @@ public abstract class RequestDispatcher implements AsyncRunner {
                     scheduleDispatch(nextRequest, responsePayloadType, deferredPool, false);
                 }
             }
-        }, nextRequest.getPollingInterval());
+        }, Math.max(10, nextRequest.getPollingInterval()));
     }
 
     private boolean isLongPolling(MutableSerializedRequest request) {
