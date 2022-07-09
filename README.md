@@ -576,7 +576,7 @@ session.req("/api/books/")
        .get()
        .onLoad((response, request) -> {
            if (request.getPollingCount() == 3) {
-               request.stopPolling(); // Stop polling after receving the third response
+               request.stopPolling(); // Stop polling after receiving the third response
            }
        });
 ```
@@ -587,6 +587,33 @@ to date with our filters, serializers, and interceptors.
 
 Finally, if we set a retry police, each dispatched request will execute the retries individually as well,
 before triggering the retry events.
+
+#### 🔥 Polling in sync flow using *await*
+
+We can poll a request in a sync flow by leveraging the [*await*](#await) feature.
+Check how it looks like:
+
+```java
+// Create a polling request
+PollingRequest<String> req = session.req("https://httpbin.org/get")
+        .poll(PollingStrategy.LONG)
+        .get(String.class);
+
+// While the request is polling, await for each response and act
+while (req.isPolling()) {
+    try {
+        Response res = req.await();
+
+        doSomething(res);
+
+        if (shouldStop(req, res)) {
+            req.stopPolling();
+        }
+    } catch (RequestException e) {
+        handleError(e);
+    }
+}
+```
 
 ## Event-Driven Callbacks
 
@@ -987,7 +1014,7 @@ try {
     } else {
         System.out.println("Unsuccessful response received");
     }
-} catch (InterruptedException | ExecutionException e) {
+} catch (RequestException e) {
     System.out.println("An error occurred during the request");
     e.printStackTrace();
 }
