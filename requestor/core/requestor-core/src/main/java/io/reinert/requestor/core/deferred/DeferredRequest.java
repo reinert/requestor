@@ -722,21 +722,19 @@ public class DeferredRequest<T> implements Deferred<T> {
                     TimeoutException {
                 final long startTime = System.currentTimeMillis();
 
-                synchronized (this) {
-                    while (!(cancelled && deferred.isRejected() && rawResponse != null)) {
-                        final long elapsed = (System.currentTimeMillis() - startTime);
-                        final long waitTime = timeout - elapsed;
-                        responseHeaderLock.await(unit.toMillis(waitTime));
+                while (!(cancelled && deferred.isRejected() && rawResponse != null)) {
+                    long elapsed = System.currentTimeMillis() - startTime;
+                    responseHeaderLock.await(unit.toMillis(timeout - elapsed));
 
-                        if (timeout > 0 && (System.currentTimeMillis() - startTime) >= timeout) {
-                            throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
-                        }
+                    elapsed = System.currentTimeMillis() - startTime;
+                    if (timeout > 0 && elapsed >= timeout) {
+                        throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
                     }
-
-                    checkInvalidStates();
-
-                    return rawResponse.getIncomingResponse();
                 }
+
+                checkInvalidStates();
+
+                return rawResponse.getIncomingResponse();
             }
 
             private void checkInvalidStates() throws ExecutionException {
