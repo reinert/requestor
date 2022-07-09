@@ -16,8 +16,12 @@
 package io.reinert.requestor.java.net;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
+import io.reinert.requestor.core.RequestException;
+import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.java.ScheduledExecutorAsyncRunner;
 
@@ -108,7 +112,7 @@ public class PollingTest extends JavaNetTest {
                 new ScheduledExecutorAsyncRunner(Executors.newSingleThreadScheduledExecutor()));
 
         session.req("https://httpbin.org/get")
-                .poll(PollingStrategy.SHORT, 0, 3)
+                .poll(PollingStrategy.LONG, 0, 3)
                 .get()
                 .onSuccess(assay(result, (none, res, req) -> Assert.assertTrue(req.getPollingCount() <= 3)))
                 .onSuccess((none, res, req) -> {
@@ -119,5 +123,49 @@ public class PollingTest extends JavaNetTest {
                 });
 
         finishTest(result, TIMEOUT);
+    }
+
+    @Test(timeout = TIMEOUT * 3)
+    public void testShortPollingAwait() throws RequestException {
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newScheduledThreadPool(3)));
+
+        final AtomicInteger counter = new AtomicInteger();
+
+        PollingRequest<String> req = session.req("https://httpbin.org/get")
+                .poll(PollingStrategy.SHORT, 0, 3)
+                .get(String.class);
+
+        Response previousRes = null;
+
+        while (req.isPolling()) {
+            Response res = req.await();
+            Assert.assertNotSame(previousRes, res);
+            previousRes = res;
+            Assert.assertTrue(counter.incrementAndGet() <= 3);
+            Assert.assertTrue(req.getPollingCount() <= 3);
+        }
+    }
+
+    @Test(timeout = TIMEOUT * 3)
+    public void testLongPollingAwait() throws RequestException {
+        final Session session = Requestor.newSession(
+                new ScheduledExecutorAsyncRunner(Executors.newScheduledThreadPool(3)));
+
+        final AtomicInteger counter = new AtomicInteger();
+
+        PollingRequest<String> req = session.req("https://httpbin.org/get")
+                .poll(PollingStrategy.LONG, 0, 3)
+                .get(String.class);
+
+        Response previousRes = null;
+
+        while (req.isPolling()) {
+            Response res = req.await();
+            Assert.assertNotSame(previousRes, res);
+            previousRes = res;
+            Assert.assertTrue(counter.incrementAndGet() <= 3);
+            Assert.assertTrue(req.getPollingCount() <= 3);
+        }
     }
 }
