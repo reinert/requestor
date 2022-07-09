@@ -31,8 +31,11 @@ public class ScheduledExecutorAsyncRunner implements AsyncRunner {
 
     public static class Lock implements AsyncRunner.Lock {
 
+        private volatile boolean awaiting = false;
+
         @Override
         public void await(long timeout) throws InterruptedException, TimeoutException {
+            awaiting = true;
             final long startTime = System.currentTimeMillis();
             synchronized (this) {
                 try {
@@ -53,6 +56,11 @@ public class ScheduledExecutorAsyncRunner implements AsyncRunner {
                     throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
                 }
             }
+        }
+
+        @Override
+        public boolean isAwaiting() {
+            return awaiting;
         }
 
         @Override

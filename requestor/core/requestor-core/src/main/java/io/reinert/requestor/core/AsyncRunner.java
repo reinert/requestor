@@ -27,6 +27,8 @@ public interface AsyncRunner {
     interface Lock {
         void await(long timeout) throws InterruptedException, TimeoutException;
 
+        boolean isAwaiting();
+
         void signalAll();
     }
 

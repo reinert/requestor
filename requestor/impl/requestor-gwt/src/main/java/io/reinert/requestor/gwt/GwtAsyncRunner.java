@@ -36,6 +36,11 @@ public class GwtAsyncRunner implements AsyncRunner {
         }
 
         @Override
+        public boolean isAwaiting() {
+            return false;
+        }
+
+        @Override
         public void signalAll() {
             // no-op
         }
