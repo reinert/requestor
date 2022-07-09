@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public abstract class RequestException extends RuntimeException {
+public abstract class RequestException extends Exception {
 
     private static final long serialVersionUID = -3805456297999473202L;
 
