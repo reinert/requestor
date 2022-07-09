@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.concurrent.TimeoutException;
-
 /**
  * Functional interface that abstracts running a callback asynchronously.
  *
@@ -25,7 +23,7 @@ import java.util.concurrent.TimeoutException;
 public interface AsyncRunner {
 
     interface Lock {
-        void await(long timeout) throws InterruptedException, TimeoutException;
+        void await(long timeout) throws InterruptedException;
 
         boolean isAwaiting();
 

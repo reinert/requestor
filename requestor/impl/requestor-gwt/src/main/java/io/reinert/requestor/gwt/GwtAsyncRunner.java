@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.gwt;
 
-import java.util.concurrent.TimeoutException;
-
 import io.reinert.requestor.core.AsyncRunner;
 
 /**
@@ -31,7 +29,7 @@ public class GwtAsyncRunner implements AsyncRunner {
         static Lock INSTANCE = new Lock();
 
         @Override
-        public void await(long timeout) throws InterruptedException, TimeoutException {
+        public void await(long timeout) throws InterruptedException {
             // no-op
         }
 

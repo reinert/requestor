@@ -688,7 +688,7 @@ public class DeferredRequest<T> implements Deferred<T> {
 
     public Future<IncomingResponse> getFuture() {
         return new Future<IncomingResponse>() {
-            private boolean cancelled;
+            private volatile boolean cancelled;
 
             public boolean cancel(boolean mayInterruptIfRunning) {
                 if (cancelled) return false;
@@ -707,7 +707,7 @@ public class DeferredRequest<T> implements Deferred<T> {
             }
 
             public boolean isDone() {
-                return !deferred.isPending();
+                return cancelled || !deferred.isPending();
             }
 
             public IncomingResponse get() throws InterruptedException, ExecutionException {
@@ -720,15 +720,23 @@ public class DeferredRequest<T> implements Deferred<T> {
 
             public IncomingResponse get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
                     TimeoutException {
-                checkInvalidStates();
+                final long startTime = System.currentTimeMillis();
 
-                while (!(cancelled && deferred.isRejected() && rawResponse != null)) {
-                    responseHeaderLock.await(unit.toMillis(timeout));
+                synchronized (this) {
+                    while (!(cancelled && deferred.isRejected() && rawResponse != null)) {
+                        final long elapsed = (System.currentTimeMillis() - startTime);
+                        final long waitTime = timeout - elapsed;
+                        responseHeaderLock.await(unit.toMillis(waitTime));
+
+                        if (timeout > 0 && (System.currentTimeMillis() - startTime) >= timeout) {
+                            throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
+                        }
+                    }
+
+                    checkInvalidStates();
+
+                    return rawResponse.getIncomingResponse();
                 }
-
-                checkInvalidStates();
-
-                return rawResponse.getIncomingResponse();
             }
 
             private void checkInvalidStates() throws ExecutionException {

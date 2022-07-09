@@ -142,7 +142,7 @@ public class IncomingResponseImpl implements IncomingResponse {
                                     final Callable<Boolean> doneCondition) {
         final Deferred<?> deferred = response.getDeferred();
         return new Future<T>() {
-            private boolean cancelled;
+            private volatile boolean cancelled;
 
             public boolean cancel(boolean mayInterruptIfRunning) {
                 if (isDoneCondition()) return false;
@@ -170,18 +170,26 @@ public class IncomingResponseImpl implements IncomingResponse {
 
             public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
                     TimeoutException {
-                checkInvalidStates();
+                final long startTime = System.currentTimeMillis();
 
-                while (!(cancelled && deferred.isRejected() && isDoneCondition())) {
-                    lock.await(unit.toMillis(timeout));
-                }
+                synchronized (this) {
+                    while (!(cancelled && deferred.isRejected() && isDoneCondition())) {
+                        final long elapsed = (System.currentTimeMillis() - startTime);
+                        final long waitTime = timeout - elapsed;
+                        lock.await(unit.toMillis(waitTime));
 
-                checkInvalidStates();
+                        if (timeout > 0 && (System.currentTimeMillis() - startTime) >= timeout) {
+                            throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
+                        }
+                    }
 
-                try {
-                    return result.call();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    checkInvalidStates();
+
+                    try {
+                        return result.call();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 

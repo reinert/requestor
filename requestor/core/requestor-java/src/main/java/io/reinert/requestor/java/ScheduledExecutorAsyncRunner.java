@@ -18,7 +18,6 @@ package io.reinert.requestor.java;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import io.reinert.requestor.core.AsyncRunner;
 
@@ -34,28 +33,9 @@ public class ScheduledExecutorAsyncRunner implements AsyncRunner {
         private volatile boolean awaiting = false;
 
         @Override
-        public void await(long timeout) throws InterruptedException, TimeoutException {
+        public synchronized void await(long timeout) throws InterruptedException {
             awaiting = true;
-            final long startTime = System.currentTimeMillis();
-            synchronized (this) {
-                try {
-                    if (timeout <= 0) {
-                        wait();
-                    } else {
-                        final long elapsed = (System.currentTimeMillis() - startTime);
-                        final long waitTime = timeout - elapsed;
-                        wait(waitTime);
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    throw e;
-                }
-
-                if (timeout > 0 && (System.currentTimeMillis() - startTime) >= timeout) {
-                    Thread.currentThread().interrupt();
-                    throw new TimeoutException("The timeout of " + timeout + "ms has expired.");
-                }
-            }
+            wait(timeout);
         }
 
         @Override
