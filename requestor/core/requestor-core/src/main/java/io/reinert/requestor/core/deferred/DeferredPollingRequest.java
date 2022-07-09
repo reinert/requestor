@@ -18,7 +18,6 @@ package io.reinert.requestor.core.deferred;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import io.reinert.requestor.core.AsyncRunner;
@@ -32,6 +31,7 @@ import io.reinert.requestor.core.IncomingResponse;
 import io.reinert.requestor.core.PollingRequest;
 import io.reinert.requestor.core.PollingStrategy;
 import io.reinert.requestor.core.Process;
+import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.RetryPolicy;
 import io.reinert.requestor.core.SerializedRequest;
@@ -234,9 +234,21 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     //===================================================================
 
     @Override
-    public Response await() throws ExecutionException, InterruptedException {
+    public Response await() throws RequestException {
         DeferredRequest<T> deferred = getLastDeferred();
-        deferred.getFuture().get().getPayload().get();
+
+        while (deferred.isPending()) {
+            try {
+                deferred.getResponseLock().await(0);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (deferred.isRejected()) {
+            throw deferred.getRejectResult();
+        }
+
         return deferred.getResolveResult();
     }
 
