@@ -15,6 +15,7 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -22,6 +23,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import io.reinert.requestor.core.header.LinkHeader;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.PayloadType;
 
@@ -33,37 +35,41 @@ import io.reinert.requestor.core.payload.type.PayloadType;
 public class IncomingResponseImpl implements IncomingResponse {
 
     private final RawResponse response;
+    private final Headers headers;
+    private final LinkHeader linkHeader;
 
     public IncomingResponseImpl(RawResponse response) {
         this.response = response;
+        headers = new Headers(response.getHeaders());
+        linkHeader = (LinkHeader) headers.get("Link");
     }
 
     public String getHeader(String headerName) {
-        return response.getHeader(headerName);
+        return headers.getValue(headerName);
     }
 
     public boolean hasHeader(String headerName) {
-        return response.hasHeader(headerName);
+        return headers.containsKey(headerName);
     }
 
     public String getContentType() {
-        return response.getContentType();
+        return headers.getValue("Content-Type");
     }
 
     public Iterable<Link> getLinks() {
-        return response.getLinks();
+        return linkHeader != null ? linkHeader.getLinks() : Collections.<Link>emptyList();
     }
 
     public boolean hasLink(String relation) {
-        return response.hasLink(relation);
+        return linkHeader != null && linkHeader.hasLink(relation);
     }
 
     public Link getLink(String relation) {
-        return response.getLink(relation);
+        return linkHeader != null ? linkHeader.getLink(relation) : null;
     }
 
     public Headers getHeaders() {
-        return response.getHeaders();
+        return headers;
     }
 
     public int getStatusCode() {
