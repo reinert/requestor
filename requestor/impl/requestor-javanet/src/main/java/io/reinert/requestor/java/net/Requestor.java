@@ -30,6 +30,7 @@ import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestDispatcher;
 import io.reinert.requestor.core.RequestorCore;
 import io.reinert.requestor.core.Session;
+import io.reinert.requestor.core.Store;
 import io.reinert.requestor.core.auth.DigestAuth;
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.core.uri.UriBuilder;
@@ -58,6 +59,7 @@ public class Requestor {
     public static final String INPUT_BUFFER_SIZE = "requestor.java.net.inputBufferSize";
     public static final String OUTPUT_BUFFER_SIZE = "requestor.java.net.outputBufferSize";
     public static final String GZIP_ENCODING_ENABLED = "requestor.java.net.gzipEncodingEnabled";
+    public static final String SET_COOKIE_STORE_LEVEL = "requestor.java.net.setCookieStoreLevel";
 
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
@@ -93,6 +95,7 @@ public class Requestor {
         RequestorCore.configure(session);
 
         session.save(Requestor.DEFAULT_CONTENT_TYPE, "text/plain");
+        session.save(Requestor.SET_COOKIE_STORE_LEVEL, Store.Level.ROOT);
 
         session.register(BinarySerializer.getInstance());
         session.register(ByteSerializer.getInstance());

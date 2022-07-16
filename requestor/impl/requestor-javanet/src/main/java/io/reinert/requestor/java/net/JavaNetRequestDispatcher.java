@@ -57,6 +57,7 @@ import io.reinert.requestor.core.Store;
 import io.reinert.requestor.core.WriteProgress;
 import io.reinert.requestor.core.header.AcceptEncodingHeader;
 import io.reinert.requestor.core.header.ContentEncodingHeader;
+import io.reinert.requestor.core.header.CookieHeader;
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.TextSerializedPayload;
@@ -110,6 +111,8 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
             conn = (HttpURLConnection) url.openConnection();
 
+            conn.setInstanceFollowRedirects(false);
+
             conn.setDoInput(true);
 
             if (!serializedPayload.isEmpty()) {
@@ -139,6 +142,10 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
             if (!request.hasHeader("Content-Type") && request.exists(Requestor.DEFAULT_CONTENT_TYPE)) {
                 conn.setRequestProperty("Content-Type", request.retrieve(Requestor.DEFAULT_CONTENT_TYPE));
+            }
+
+            if (!request.hasHeader(CookieHeader.NAME) && request.exists(CookieHeader.NAME)) {
+                conn.setRequestProperty(CookieHeader.NAME, request.retrieve(CookieHeader.NAME).toString());
             }
 
             if (request.getTimeout() > 0) {
@@ -256,6 +263,13 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             response.setSerializedPayload(serializedResponse);
 
             conn.disconnect();
+
+            if (response.hasHeader("Set-Cookie") && response.exists(Requestor.SET_COOKIE_STORE_LEVEL)) {
+                response.save(
+                        CookieHeader.NAME,
+                        new CookieHeader(response.getHeader("Set-Cookie")),
+                        response.retrieve(Requestor.SET_COOKIE_STORE_LEVEL));
+            }
 
             evalResponse(response);
         } catch (RuntimeException e) {
