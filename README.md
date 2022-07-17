@@ -2829,7 +2829,7 @@ A place to interact with the projects users and contributors. Get quick answers 
 
 
 ## Snapshot installation
-If you want to use the latest snapshot, you need to add the sonatype snapshot repository to your POM and set the dependency version to `1.1.0-SNAPSHOT`.
+If you want to use the latest snapshot, you need to add the sonatype snapshot repository to your POM and set the dependency version to `1.2.0-SNAPSHOT`.
 
 ```xml
 <repositories>
@@ -2849,7 +2849,7 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
   <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-javanet</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
   </dependency>
   ...
 </dependencies>
@@ -2857,7 +2857,7 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
 
 
 ### Latest Snapshot
-1.1.0-SNAPSHOT
+1.2.0-SNAPSHOT
 
 
 ## License
