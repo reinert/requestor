@@ -18,6 +18,7 @@ package io.reinert.requestor.examples.showcase;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
+import io.reinert.requestor.core.AsyncRunner;
 import io.reinert.requestor.core.DeferredPool;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.Response;
@@ -37,8 +38,8 @@ import io.reinert.requestor.examples.showcase.ui.loading.event.ShowLoadingEvent;
 class ShowcaseDeferredFactory implements DeferredPool.Factory {
 
     @Override
-    public <T> DeferredPool<T> create(SerializedRequest request) {
-        final DeferredPollingRequest<T> deferredPool = new DeferredPollingRequest<T>(request);
+    public <T> DeferredPool<T> create(SerializedRequest request, AsyncRunner asyncRunner) {
+        final DeferredPollingRequest<T> deferredPool = new DeferredPollingRequest<T>(request, asyncRunner);
 
         if (!request.exists("hidden", true)) {
             // Show loading widget
