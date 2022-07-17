@@ -128,6 +128,10 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
                 setPatchMethod(conn);
             }
 
+            if (request.exists(Requestor.FOLLOW_REDIRECTS_DISABLED, Boolean.TRUE)) {
+                conn.setInstanceFollowRedirects(false);
+            }
+
             if (isGzipEncodingEnabled) {
                 request.setHeader(new ContentEncodingHeader("gzip"));
                 request.setHeader(new AcceptEncodingHeader("gzip"));

@@ -58,6 +58,7 @@ public class Requestor {
     public static final String INPUT_BUFFER_SIZE = "requestor.java.net.inputBufferSize";
     public static final String OUTPUT_BUFFER_SIZE = "requestor.java.net.outputBufferSize";
     public static final String GZIP_ENCODING_ENABLED = "requestor.java.net.gzipEncodingEnabled";
+    public static final String FOLLOW_REDIRECTS_DISABLED = "requestor.java.net.followRedirectsDisabled";
 
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
