@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../JsonObjectSerializerAssembler.html" title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler" alt="" coords="16,113,235,138"/>
+<area shape="rect" id="node1" href="../JsonObjectSerializerAssembler.html" title="&lt;TABLE&gt;" alt="" coords="5,101,245,149"/>
+<area shape="rect" id="node2_1" href="../SerializationModuleAssembler.html" title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler" alt="" coords="281,113,498,138"/>
+<area shape="rect" id="node2" href="../SerializationModuleAssembler.html" title="&lt;TABLE&gt;" alt="" coords="270,101,509,149"/>
+<area shape="rect" id="node3_2" href="./TypeAssembler.html" title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" alt="" coords="329,17,449,42"/>
+<area shape="rect" id="node3" href="./TypeAssembler.html" title="&lt;TABLE&gt;" alt="" coords="319,5,460,53"/>
+<area shape="rect" id="node4_3" href="./InnerTypeAssembler.html" title="io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler" alt="" coords="544,113,696,138"/>
+<area shape="rect" id="node4" href="./InnerTypeAssembler.html" title="&lt;TABLE&gt;" alt="" coords="533,101,707,149"/>
+</map>

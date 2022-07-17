@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./SerializationModuleGenerator.html" title="io.reinert.requestor.gson.rebind.SerializationModuleGenerator" alt="" coords="16,17,229,42"/>
+<area shape="rect" id="node1" href="./SerializationModuleGenerator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,240,53"/>
+<area shape="rect" id="node2_1" href="./SerializerGenerator.html" title="io.reinert.requestor.gson.rebind.SerializerGenerator" alt="" coords="274,17,419,42"/>
+<area shape="rect" id="node2" href="./SerializerGenerator.html" title="&lt;TABLE&gt;" alt="" coords="263,5,430,53"/>
+<area shape="rect" id="node3_2" href="./GsonProcessor.html" title="io.reinert.requestor.gson.rebind.GsonProcessor" alt="" coords="465,17,581,42"/>
+<area shape="rect" id="node3" href="./GsonProcessor.html" title="&lt;TABLE&gt;" alt="" coords="454,5,591,53"/>
+<area shape="rect" id="node4_3" href="./SerializerAssembler.html" title="io.reinert.requestor.gson.rebind.SerializerAssembler" alt="" coords="627,17,776,42"/>
+<area shape="rect" id="node4" href="./SerializerAssembler.html" title="&lt;TABLE&gt;" alt="" coords="616,5,787,53"/>
+<area shape="rect" id="node5_4" href="./SerializationModuleAssembler.html" title="io.reinert.requestor.gson.rebind.SerializationModuleAssembler" alt="" coords="822,17,1039,42"/>
+<area shape="rect" id="node5" href="./SerializationModuleAssembler.html" title="&lt;TABLE&gt;" alt="" coords="811,5,1050,53"/>
+</map>
