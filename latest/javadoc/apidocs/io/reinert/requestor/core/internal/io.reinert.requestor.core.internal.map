@@ -1,6 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Threads.html" title="io.reinert.requestor.core.internal.Threads" alt="" coords="16,17,88,42"/>
-<area shape="rect" id="node1" href="./Threads.html" title="&lt;TABLE&gt;" alt="" coords="5,5,99,53"/>
-<area shape="rect" id="node2_1" href="./Reflection.html" title="io.reinert.requestor.core.internal.Reflection" alt="" coords="134,17,218,42"/>
-<area shape="rect" id="node2" href="./Reflection.html" title="&lt;TABLE&gt;" alt="" coords="123,5,229,53"/>
+<area shape="rect" id="node1_0" href="./Reflection.html" title="io.reinert.requestor.core.internal.Reflection" alt="" coords="16,17,100,42"/>
+<area shape="rect" id="node1" href="./Reflection.html" title="&lt;TABLE&gt;" alt="" coords="5,5,111,53"/>
 </map>

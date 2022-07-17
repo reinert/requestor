@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler
-	c73037 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializationModuleAssembler.html">
+	c75500 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializationModuleAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializationModuleAssembler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializationModuleAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c73041 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./codegen/TypeAssembler.html">
+	c75504 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./codegen/TypeAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> TypeAssembler </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./codegen/TypeAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler extends io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c73041:p -> c73037:p [dir=back,arrowtail=empty];
+	c75504:p -> c75500:p [dir=back,arrowtail=empty];
 }
 

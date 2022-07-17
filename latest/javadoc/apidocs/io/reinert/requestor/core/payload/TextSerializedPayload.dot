@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.payload.TextSerializedPayload
-	c79433 [label=<<table title="io.reinert.requestor.core.payload.TextSerializedPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TextSerializedPayload.html">
+	c81986 [label=<<table title="io.reinert.requestor.core.payload.TextSerializedPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TextSerializedPayload.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TextSerializedPayload </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TextSerializedPayload.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.payload.SerializedPayload
-	c79435 [label=<<table title="io.reinert.requestor.core.payload.SerializedPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedPayload.html">
+	c81988 [label=<<table title="io.reinert.requestor.core.payload.SerializedPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedPayload.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedPayload </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedPayload.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.payload.SerializedJsPayload
-	c79493 [label=<<table title="io.reinert.requestor.gwt.payload.SerializedJsPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gwt/payload/SerializedJsPayload.html">
+	c82048 [label=<<table title="io.reinert.requestor.gwt.payload.SerializedJsPayload" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gwt/payload/SerializedJsPayload.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializedJsPayload </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../gwt/payload/SerializedJsPayload.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.payload.TextSerializedPayload implements io.reinert.requestor.core.payload.SerializedPayload
-	c79435:p -> c79433:p [dir=back,arrowtail=empty,style=dashed];
+	c81988:p -> c81986:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gwt.payload.SerializedJsPayload extends io.reinert.requestor.core.payload.TextSerializedPayload
-	c79433:p -> c79493:p [dir=back,arrowtail=empty];
+	c81986:p -> c82048:p [dir=back,arrowtail=empty];
 }
 

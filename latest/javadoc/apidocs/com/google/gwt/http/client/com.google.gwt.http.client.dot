@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// com.google.gwt.http.client.RequestorRequest
-	c5860 [label=<<table title="com.google.gwt.http.client.RequestorRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorRequest.html">
+	c5943 [label=<<table title="com.google.gwt.http.client.RequestorRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestorRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestorRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestorRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//com.google.gwt.http.client.RequestorRequest extends com.google.gwt.http.client.Request
-	c5923:p -> c5860:p [dir=back,arrowtail=empty];
+	c6006:p -> c5943:p [dir=back,arrowtail=empty];
 	// com.google.gwt.http.client.Request
-	c5923 [label=<<table title="com.google.gwt.http.client.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/com/google/gwt/http/client/Request.html">
+	c6006 [label=<<table title="com.google.gwt.http.client.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/com/google/gwt/http/client/Request.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Request </td></tr>
 		</table></td></tr>

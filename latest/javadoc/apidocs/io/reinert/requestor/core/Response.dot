@@ -10,29 +10,29 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.MutableResponse
-	c64947 [label=<<table title="io.reinert.requestor.core.MutableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableResponse.html">
+	c66724 [label=<<table title="io.reinert.requestor.core.MutableResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedResponse
-	c64962 [label=<<table title="io.reinert.requestor.core.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
+	c66739 [label=<<table title="io.reinert.requestor.core.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Response
-	c64998 [label=<<table title="io.reinert.requestor.core.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Response.html">
+	c66775 [label=<<table title="io.reinert.requestor.core.Response" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Response.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Response </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Response.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.MutableResponse implements io.reinert.requestor.core.Response
-	c64998:p -> c64947:p [dir=back,arrowtail=empty,style=dashed];
+	c66775:p -> c66724:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Response implements io.reinert.requestor.core.SerializedResponse
-	c64962:p -> c64998:p [dir=back,arrowtail=empty,style=dashed];
+	c66739:p -> c66775:p [dir=back,arrowtail=empty,style=dashed];
 }
 

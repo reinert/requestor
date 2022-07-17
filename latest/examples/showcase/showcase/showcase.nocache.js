@@ -1,5 +1,5 @@
 function showcase(){
-  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.showcase=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'showcase', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_11 = ' top: -1000px;', $intern_12 = 'CSS1Compat', $intern_13 = '<!doctype html>', $intern_14 = '', $intern_15 = '<html><head><\/head><body><\/body><\/html>', $intern_16 = 'undefined', $intern_17 = 'readystatechange', $intern_18 = 10, $intern_19 = 'script', $intern_20 = 'javascript', $intern_21 = 'Failed to load ', $intern_22 = 'moduleStartup', $intern_23 = 'scriptTagAdded', $intern_24 = 'moduleRequested', $intern_25 = 'meta', $intern_26 = 'name', $intern_27 = 'showcase::', $intern_28 = '::', $intern_29 = 'gwt:property', $intern_30 = 'content', $intern_31 = '=', $intern_32 = 'gwt:onPropertyErrorFn', $intern_33 = 'Bad handler "', $intern_34 = '" for "gwt:onPropertyErrorFn"', $intern_35 = 'gwt:onLoadErrorFn', $intern_36 = '" for "gwt:onLoadErrorFn"', $intern_37 = '#', $intern_38 = '?', $intern_39 = '/', $intern_40 = 'img', $intern_41 = 'clear.cache.gif', $intern_42 = 'baseUrl', $intern_43 = 'showcase.nocache.js', $intern_44 = 'base', $intern_45 = '//', $intern_46 = 'user.agent', $intern_47 = 'webkit', $intern_48 = 'safari', $intern_49 = 'msie', $intern_50 = 11, $intern_51 = 'ie10', $intern_52 = 9, $intern_53 = 'ie9', $intern_54 = 8, $intern_55 = 'ie8', $intern_56 = 'gecko', $intern_57 = 'gecko1_8', $intern_58 = 2, $intern_59 = 3, $intern_60 = 4, $intern_61 = 'selectingPermutation', $intern_62 = 'showcase.devmode.js', $intern_63 = '0CA0B385E2ED1C6245928C0245333E76', $intern_64 = '9AC7B5F797B22DC1DB674EFEECB9B94A', $intern_65 = 'DE78E280213DB9354346DA9A56F775E4', $intern_66 = 'EDC7757D40A15E946970AA5B35DD4B4D', $intern_67 = 'FCAB3AE4B65C85D39B98218CD6E252EF', $intern_68 = ':', $intern_69 = '.cache.js', $intern_70 = 'loadExternalRefs', $intern_71 = 'end', $intern_72 = 'http:', $intern_73 = 'file:', $intern_74 = '_gwt_dummy_', $intern_75 = '__gwtDevModeHook:showcase', $intern_76 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_77 = ':moduleBase', $intern_78 = 'head';
+  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.showcase=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'showcase', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_11 = ' top: -1000px;', $intern_12 = 'CSS1Compat', $intern_13 = '<!doctype html>', $intern_14 = '', $intern_15 = '<html><head><\/head><body><\/body><\/html>', $intern_16 = 'undefined', $intern_17 = 'readystatechange', $intern_18 = 10, $intern_19 = 'script', $intern_20 = 'javascript', $intern_21 = 'Failed to load ', $intern_22 = 'moduleStartup', $intern_23 = 'scriptTagAdded', $intern_24 = 'moduleRequested', $intern_25 = 'meta', $intern_26 = 'name', $intern_27 = 'showcase::', $intern_28 = '::', $intern_29 = 'gwt:property', $intern_30 = 'content', $intern_31 = '=', $intern_32 = 'gwt:onPropertyErrorFn', $intern_33 = 'Bad handler "', $intern_34 = '" for "gwt:onPropertyErrorFn"', $intern_35 = 'gwt:onLoadErrorFn', $intern_36 = '" for "gwt:onLoadErrorFn"', $intern_37 = '#', $intern_38 = '?', $intern_39 = '/', $intern_40 = 'img', $intern_41 = 'clear.cache.gif', $intern_42 = 'baseUrl', $intern_43 = 'showcase.nocache.js', $intern_44 = 'base', $intern_45 = '//', $intern_46 = 'user.agent', $intern_47 = 'webkit', $intern_48 = 'safari', $intern_49 = 'gecko', $intern_50 = 11, $intern_51 = 'gecko1_8', $intern_52 = 'selectingPermutation', $intern_53 = 'showcase.devmode.js', $intern_54 = 'B44C8254DEB417A463B4477B78615417', $intern_55 = 'E371BA5024E3E81D69AE83A43DAB264B', $intern_56 = ':', $intern_57 = '.cache.js', $intern_58 = 'loadExternalRefs', $intern_59 = 'end', $intern_60 = 'http:', $intern_61 = 'file:', $intern_62 = '_gwt_dummy_', $intern_63 = '__gwtDevModeHook:showcase', $intern_64 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_65 = ':moduleBase', $intern_66 = 'head';
   var $wnd = window;
   var $doc = document;
   sendStats($intern_0, $intern_1);
@@ -119,6 +119,7 @@ function showcase(){
       var docbody = doc.body;
       var script = doc.createElement($intern_19);
       script.language = $intern_20;
+      script.crossOrigin = $intern_14;
       script.src = code_0;
       if (showcase.__errFn) {
         script.onerror = function(){
@@ -327,29 +328,14 @@ function showcase(){
       ())
         return $intern_48;
       if (function(){
-        return ua.indexOf($intern_49) != -1 && (docMode >= $intern_18 && docMode < $intern_50);
+        return ua.indexOf($intern_49) != -1 || docMode >= $intern_50;
       }
       ())
         return $intern_51;
-      if (function(){
-        return ua.indexOf($intern_49) != -1 && (docMode >= $intern_52 && docMode < $intern_50);
-      }
-      ())
-        return $intern_53;
-      if (function(){
-        return ua.indexOf($intern_49) != -1 && (docMode >= $intern_54 && docMode < $intern_50);
-      }
-      ())
-        return $intern_55;
-      if (function(){
-        return ua.indexOf($intern_56) != -1 || docMode >= $intern_50;
-      }
-      ())
-        return $intern_57;
       return $intern_14;
     }
     ;
-    values[$intern_46] = {'gecko1_8':$intern_7, 'ie10':$intern_8, 'ie8':$intern_58, 'ie9':$intern_59, 'safari':$intern_60};
+    values[$intern_46] = {'gecko1_8':$intern_7, 'safari':$intern_8};
     __gwt_isKnownPropertyValue = function(propName, propValue){
       return propValue in values[propName];
     }
@@ -366,19 +352,16 @@ function showcase(){
     ;
     showcase.__computePropValue = computePropValue;
     $wnd.__gwt_activeModules[$intern_4].bindings = showcase.__getPropMap;
-    sendStats($intern_0, $intern_61);
+    sendStats($intern_0, $intern_52);
     if (isHostedMode()) {
-      return computeUrlForResource($intern_62);
+      return computeUrlForResource($intern_53);
     }
     var strongName;
     try {
-      unflattenKeylistIntoAnswers([$intern_48], $intern_63);
-      unflattenKeylistIntoAnswers([$intern_53], $intern_64);
-      unflattenKeylistIntoAnswers([$intern_51], $intern_65);
-      unflattenKeylistIntoAnswers([$intern_57], $intern_66);
-      unflattenKeylistIntoAnswers([$intern_55], $intern_67);
+      unflattenKeylistIntoAnswers([$intern_51], $intern_54);
+      unflattenKeylistIntoAnswers([$intern_48], $intern_55);
       strongName = answers[computePropValue($intern_46)];
-      var idx = strongName.indexOf($intern_68);
+      var idx = strongName.indexOf($intern_56);
       if (idx != -1) {
         softPermutationId = parseInt(strongName.substring(idx + $intern_8), $intern_18);
         strongName = strongName.substring($intern_7, idx);
@@ -387,15 +370,15 @@ function showcase(){
      catch (e) {
     }
     showcase.__softPermutationId = softPermutationId;
-    return computeUrlForResource(strongName + $intern_69);
+    return computeUrlForResource(strongName + $intern_57);
   }
 
   function loadExternalStylesheets(){
     if (!$wnd.__gwt_stylesLoaded) {
       $wnd.__gwt_stylesLoaded = {};
     }
-    sendStats($intern_70, $intern_1);
-    sendStats($intern_70, $intern_71);
+    sendStats($intern_58, $intern_1);
+    sendStats($intern_58, $intern_59);
   }
 
   processMetas();
@@ -403,10 +386,10 @@ function showcase(){
   activeModules[$intern_4].moduleBase = showcase.__moduleBase;
   var filename = getCompiledCodeFilename();
   if ($wnd) {
-    var devModePermitted = !!($wnd.location.protocol == $intern_72 || $wnd.location.protocol == $intern_73);
+    var devModePermitted = !!($wnd.location.protocol == $intern_60 || $wnd.location.protocol == $intern_61);
     $wnd.__gwt_activeModules[$intern_4].canRedirect = devModePermitted;
     function supportsSessionStorage(){
-      var key = $intern_74;
+      var key = $intern_62;
       try {
         $wnd.sessionStorage.setItem(key, key);
         $wnd.sessionStorage.removeItem(key);
@@ -418,27 +401,27 @@ function showcase(){
     }
 
     if (devModePermitted && supportsSessionStorage()) {
-      var devModeKey = $intern_75;
+      var devModeKey = $intern_63;
       var devModeUrl = $wnd.sessionStorage[devModeKey];
       if (!/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/.*$/.test(devModeUrl)) {
         if (devModeUrl && (window.console && console.log)) {
-          console.log($intern_76 + devModeUrl);
+          console.log($intern_64 + devModeUrl);
         }
         devModeUrl = $intern_14;
       }
       if (devModeUrl && !$wnd[devModeKey]) {
         $wnd[devModeKey] = true;
-        $wnd[devModeKey + $intern_77] = computeScriptBase();
+        $wnd[devModeKey + $intern_65] = computeScriptBase();
         var devModeScript = $doc.createElement($intern_19);
         devModeScript.src = devModeUrl;
-        var head = $doc.getElementsByTagName($intern_78)[$intern_7];
+        var head = $doc.getElementsByTagName($intern_66)[$intern_7];
         head.insertBefore(devModeScript, head.firstElementChild || head.children[$intern_7]);
         return false;
       }
     }
   }
   loadExternalStylesheets();
-  sendStats($intern_0, $intern_71);
+  sendStats($intern_0, $intern_59);
   installScript(filename);
   return true;
 }

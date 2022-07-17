@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestDispatcher
-	c85318 [label=<<table title="io.reinert.requestor.core.RequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/RequestDispatcher.html">
+	c87669 [label=<<table title="io.reinert.requestor.core.RequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/RequestDispatcher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> RequestDispatcher </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/RequestDispatcher.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.XhrRequestDispatcher
-	c85427 [label=<<table title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./XhrRequestDispatcher.html">
+	c87780 [label=<<table title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./XhrRequestDispatcher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> XhrRequestDispatcher </td></tr>
 		</table></td></tr>
 		</table>>, URL="./XhrRequestDispatcher.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.xhr.XhrRequestDispatcher extends io.reinert.requestor.core.RequestDispatcher
-	c85318:p -> c85427:p [dir=back,arrowtail=empty];
+	c87669:p -> c87780:p [dir=back,arrowtail=empty];
 }
 

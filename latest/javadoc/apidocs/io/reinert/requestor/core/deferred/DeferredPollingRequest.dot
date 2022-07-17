@@ -10,28 +10,28 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.PollingRequest<T>
-	c18944 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../PollingRequest.html">
+	c19784 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../PollingRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../PollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.DeferredPool<T>
-	c19015 [label=<<table title="io.reinert.requestor.core.DeferredPool" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../DeferredPool.html">
+	c19855 [label=<<table title="io.reinert.requestor.core.DeferredPool" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../DeferredPool.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeferredPool&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../DeferredPool.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.deferred.DeferredPollingRequest<T>
-	c19074 [label=<<table title="io.reinert.requestor.core.deferred.DeferredPollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeferredPollingRequest.html">
+	c19913 [label=<<table title="io.reinert.requestor.core.deferred.DeferredPollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DeferredPollingRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DeferredPollingRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeferredPollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.deferred.DeferredPollingRequest<T> implements io.reinert.requestor.core.DeferredPool<T>
-	c19015:p -> c19074:p [dir=back,arrowtail=empty,style=dashed];
+	c19855:p -> c19913:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.deferred.DeferredPollingRequest<T> implements io.reinert.requestor.core.PollingRequest<T>
-	c18944:p -> c19074:p [dir=back,arrowtail=empty,style=dashed];
+	c19784:p -> c19913:p [dir=back,arrowtail=empty,style=dashed];
 }
 

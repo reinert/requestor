@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RestService<R, I>
-	c68573 [label=<<table title="io.reinert.requestor.core.RestService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RestService.html">
+	c70402 [label=<<table title="io.reinert.requestor.core.RestService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RestService.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RestService&lt;R, I&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RestService.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.BaseService
-	c68592 [label=<<table title="io.reinert.requestor.core.BaseService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseService.html">
+	c70421 [label=<<table title="io.reinert.requestor.core.BaseService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseService.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BaseService </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseService.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RestInvoker<R, I>
-	c68598 [label=<<table title="io.reinert.requestor.core.RestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestInvoker.html">
+	c70427 [label=<<table title="io.reinert.requestor.core.RestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RestInvoker&lt;R, I&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RestInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RestService<R, I> extends io.reinert.requestor.core.BaseService
-	c68592:p -> c68573:p [dir=back,arrowtail=empty];
+	c70421:p -> c70402:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.RestService<R, I> implements io.reinert.requestor.core.RestInvoker<R, I>
-	c68598:p -> c68573:p [dir=back,arrowtail=empty,style=dashed];
+	c70427:p -> c70402:p [dir=back,arrowtail=empty,style=dashed];
 }
 

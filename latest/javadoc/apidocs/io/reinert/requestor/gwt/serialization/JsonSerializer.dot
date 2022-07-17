@@ -10,35 +10,35 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.serialization.Serializer<T>
-	c41077 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/Serializer.html">
+	c42515 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/Serializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializer&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/serialization/Serializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.JsonValueSerializer<T>
-	c41132 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonValueSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonValueSerializer.html">
+	c42572 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonValueSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonValueSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonValueSerializer&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonValueSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.JsonSerializer<T>
-	c41135 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonSerializer.html">
+	c42575 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonSerializer&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.JsonObjectSerializer<T>
-	c41139 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonObjectSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonObjectSerializer.html">
+	c42579 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonObjectSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonObjectSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonObjectSerializer&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonObjectSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.serialization.JsonValueSerializer<T> extends io.reinert.requestor.gwt.serialization.JsonSerializer<T>
-	c41135:p -> c41132:p [dir=back,arrowtail=empty];
+	c42575:p -> c42572:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.gwt.serialization.JsonSerializer<T> implements io.reinert.requestor.core.serialization.Serializer<T>
-	c41077:p -> c41135:p [dir=back,arrowtail=empty,style=dashed];
+	c42515:p -> c42575:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gwt.serialization.JsonObjectSerializer<T> extends io.reinert.requestor.gwt.serialization.JsonSerializer<T>
-	c41135:p -> c41139:p [dir=back,arrowtail=empty];
+	c42575:p -> c42579:p [dir=back,arrowtail=empty];
 }
 

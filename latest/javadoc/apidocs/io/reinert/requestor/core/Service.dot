@@ -10,37 +10,37 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Service
-	c77042 [label=<<table title="io.reinert.requestor.core.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Service.html">
+	c79563 [label=<<table title="io.reinert.requestor.core.Service" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Service.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Service </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Service.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Store
-	c77044 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
+	c79565 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Store </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Store.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.BaseService
-	c77053 [label=<<table title="io.reinert.requestor.core.BaseService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseService.html">
+	c79574 [label=<<table title="io.reinert.requestor.core.BaseService" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseService.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BaseService </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseService.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasRequestOptions
-	c77111 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
+	c79632 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasRequestOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasRequestOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.Service implements io.reinert.requestor.core.HasRequestOptions
-	c77111:p -> c77042:p [dir=back,arrowtail=empty,style=dashed];
+	c79632:p -> c79563:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Service implements io.reinert.requestor.core.Store
-	c77044:p -> c77042:p [dir=back,arrowtail=empty,style=dashed];
+	c79565:p -> c79563:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.BaseService implements io.reinert.requestor.core.Service
-	c77042:p -> c77053:p [dir=back,arrowtail=empty,style=dashed];
+	c79563:p -> c79574:p [dir=back,arrowtail=empty,style=dashed];
 }
 

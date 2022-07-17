@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestCancelException
-	c45265 [label=<<table title="io.reinert.requestor.core.RequestCancelException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/RequestCancelException.html">
+	c46763 [label=<<table title="io.reinert.requestor.core.RequestCancelException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/RequestCancelException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestCancelException </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/RequestCancelException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.xhr.NetworkErrorException
-	c45373 [label=<<table title="io.reinert.requestor.gwt.xhr.NetworkErrorException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./NetworkErrorException.html">
+	c46873 [label=<<table title="io.reinert.requestor.gwt.xhr.NetworkErrorException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./NetworkErrorException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NetworkErrorException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NetworkErrorException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.xhr.NetworkErrorException extends io.reinert.requestor.core.RequestCancelException
-	c45265:p -> c45373:p [dir=back,arrowtail=empty];
+	c46763:p -> c46873:p [dir=back,arrowtail=empty];
 }
 

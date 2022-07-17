@@ -10,28 +10,28 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.serialization.HandlesSubTypes<T>
-	c36275 [label=<<table title="io.reinert.requestor.core.serialization.HandlesSubTypes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/HandlesSubTypes.html">
+	c37645 [label=<<table title="io.reinert.requestor.core.serialization.HandlesSubTypes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/HandlesSubTypes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HandlesSubTypes&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/serialization/HandlesSubTypes.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.serialization.Serializer<T>
-	c36279 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/Serializer.html">
+	c37649 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/Serializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializer&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/serialization/Serializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.java.serialization.InputStreamSerializer
-	c36318 [label=<<table title="io.reinert.requestor.java.serialization.InputStreamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./InputStreamSerializer.html">
+	c37689 [label=<<table title="io.reinert.requestor.java.serialization.InputStreamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./InputStreamSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> InputStreamSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./InputStreamSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.java.serialization.InputStreamSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c36279:p -> c36318:p [dir=back,arrowtail=empty,style=dashed];
+	c37649:p -> c37689:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.java.serialization.InputStreamSerializer implements io.reinert.requestor.core.serialization.HandlesSubTypes<T>
-	c36275:p -> c36318:p [dir=back,arrowtail=empty,style=dashed];
+	c37645:p -> c37689:p [dir=back,arrowtail=empty,style=dashed];
 }
 
