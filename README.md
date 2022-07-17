@@ -2688,6 +2688,25 @@ session.req("endpoint")
 // Requestor will take care of closing the inputStream after reading it
 ```
 
+### FOLLOW_REDIRECTS_DISABLED : Boolean
+
+By default, Requestor will automatically follow the redirections when receiving responses of the 3xx status family.
+If we want to disable such behavior, then we need to set the flag `FOLLOW_REDIRECTS_DISABLED` to `true`.
+We can do it in the Session, in a Service or in a single Request.
+
+```java
+// Setting FOLLOW_REDIRECTS_DISABLED in the Session level
+// Every request done form this session will not follow the redirections
+session.save(Requestor.FOLLOW_REDIRECTS_DISABLED, Boolean.TRUE);
+        
+// Setting FOLLOW_REDIRECTS_DISABLED in the Request level
+// Only this specific request will not follow the redicertions
+session.req("endpoint")
+        .save(Requestor.FOLLOW_REDIRECTS_DISABLED, Boolean.TRUE)
+        .get() // Make a GET request not redirecting automatically
+```
+
+
 ## Logging
 
 Requestor leverages a customizable request logger in each Session.
