@@ -1980,13 +1980,13 @@ Request<Collection<Book>> getReq = session.get("/api/books", List.class, Book.cl
 
 Another convenient feature is the possibility of instantiating a Session with a customized `DeferredPool.Factory`. This factory provides `Deferred` instances to the request dispatcher, returning a `Request` to the Session's user. Thus, we can immediately add some global callbacks to keep our code DRY when generating a Deferred instance.
 
-The example below demonstrates a customized Deferred Factory that fires a `ShowLoadingEvent` right before the request is sent and fires a `HideLoadingEvent` once the request gets [loaded](#event-driven-callbacks) ('load' event) or [interrupted](#event-driven-callbacks) ('error' event).
+The example below demonstrates a customized DeferredPool Factory that fires a `ShowLoadingEvent` right before the request is sent and fires a `HideLoadingEvent` once the request gets [loaded](#event-driven-callbacks) ('load' event) or [interrupted](#event-driven-callbacks) ('error' event).
 
 ```java
 class AppDeferredPoolFactory implements DeferredPool.Factory {
 
-    public <T> DeferredPool<T> create(SerializedRequest request) {
-        final DeferredPollingRequest<T> deferred = new DeferredPollingRequest<T>(request);
+    public <T> DeferredPool<T> create(SerializedRequest request, AsyncRunner asyncRunner) {
+        final DeferredPollingRequest<T> deferred = new DeferredPollingRequest<T>(request, asyncRunner);
 
         // Show loading widget before sending the request
         APP_FACTORY.getEventBus().fireEvent(new ShowLoadingEvent());
