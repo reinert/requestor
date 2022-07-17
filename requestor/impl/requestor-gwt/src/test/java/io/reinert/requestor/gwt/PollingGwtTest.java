@@ -29,7 +29,7 @@ import io.reinert.requestor.core.callback.ResponseRequestCallback;
  */
 public class PollingGwtTest extends GWTTestCase {
 
-    private static final int TIMEOUT = 5000;
+    private static final int TIMEOUT = 8000;
 
     private Session session;
 

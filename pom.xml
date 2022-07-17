@@ -65,7 +65,7 @@
 
     <!-- GWT -->
     <gwt.version>2.10.0</gwt.version>
-    <gwt-maven-plugin.version>2.9.0</gwt-maven-plugin.version>
+    <gwt-maven-plugin.version>2.10.0</gwt-maven-plugin.version>
     <gwtjackson.version>0.15.4</gwtjackson.version>
 
     <!-- Java -->
