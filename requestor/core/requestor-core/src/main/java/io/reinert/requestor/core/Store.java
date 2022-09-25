@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,73 @@ public interface Store extends Saver {
     enum Level {
         PARENT,
         ROOT;
+    }
+
+    interface RemoveEvent {
+        String getKey();
+        <T> T getOldData();
+
+        class Impl implements RemoveEvent {
+            final String key;
+            final Object oldData;
+
+            public Impl(String key, Object oldData) {
+                this.key = key;
+                this.oldData = oldData;
+            }
+
+            @Override
+            public String getKey() {
+                return key;
+            }
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public <T> T getOldData() {
+                return (T) oldData;
+            }
+        }
+    }
+
+    interface SaveEvent extends RemoveEvent {
+        <T> T getNewData();
+
+        class Impl implements SaveEvent {
+            final String key;
+            final Object oldData;
+            final Object newData;
+
+            public Impl(String key, Object oldData, Object newData) {
+                this.key = key;
+                this.oldData = oldData;
+                this.newData = newData;
+            }
+
+            @Override
+            public String getKey() {
+                return key;
+            }
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public <T> T getOldData() {
+                return (T) oldData;
+            }
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public <T> T getNewData() {
+                return (T) newData;
+            }
+        }
+    }
+
+    interface RemoveCallback {
+        void execute(RemoveEvent event);
+    }
+
+    interface SaveCallback {
+        void execute(SaveEvent event);
     }
 
     /**
