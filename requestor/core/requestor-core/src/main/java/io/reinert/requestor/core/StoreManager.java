@@ -97,15 +97,15 @@ class StoreManager implements Store {
         checkNotNull(key, "The key argument cannot be null");
         checkNotNull(value, "The value argument cannot be null");
 
-        Data old = ensureDataMap().remove(key);
+        Data removedData = ensureDataMap().remove(key);
 
-        final Data data = new Data(value, ttl);
-        dataMap.put(key, data);
+        final Data savedData = new Data(key, value, ttl);
+        dataMap.put(key, savedData);
 
         if (ttl > 0L) {
             asyncRunner.run(new Runnable() {
                 public void run() {
-                    if (dataMap.get(key) == data) {
+                    if (dataMap.get(key) == savedData) {
                         dataMap.remove(key);
                         triggerExpiredCallbacks(key, new Event.Impl(key, value));
                     }
@@ -113,7 +113,7 @@ class StoreManager implements Store {
             }, ttl);
         }
 
-        triggerSavedCallbacks(key, new Event.Impl(key, old != null ? old.getValue() : null, value));
+        triggerSavedCallbacks(key, new Event.Impl(key, removedData != null ? removedData.getValue() : null, value));
 
         return null;
     }
@@ -139,10 +139,10 @@ class StoreManager implements Store {
         checkNotNull(key, "The key argument cannot be null");
 
         if (dataMap != null) {
-            Data old = dataMap.remove(key);
+            Data removedData = dataMap.remove(key);
 
-            if (old != null && !old.isExpired()) {
-                triggerRemovedCallbacks(key, new Event.Impl(key, old.getValue()));
+            if (removedData != null && !removedData.isExpired()) {
+                triggerRemovedCallbacks(key, new Event.Impl(key, removedData.getValue()));
                 return true;
             }
         }

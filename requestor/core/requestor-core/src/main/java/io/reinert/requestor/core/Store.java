@@ -30,14 +30,20 @@ public interface Store extends Saver {
     }
 
     class Data {
+        private final String key;
         private final Object value;
         private final long ttl;
         private final long createdAt;
 
-        public Data(Object value, long ttl) {
+        public Data(String key, Object value, long ttl) {
+            this.key = key;
             this.value = value;
             this.ttl = ttl;
             createdAt = System.currentTimeMillis();
+        }
+
+        public String getKey() {
+            return key;
         }
 
         public Object getValue() {
@@ -61,12 +67,12 @@ public interface Store extends Saver {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Data data = (Data) o;
-            return Objects.equals(value, data.value);
+            return key.equals(data.key) && value.equals(data.value);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(value);
+            return Objects.hash(key, value);
         }
     }
 
