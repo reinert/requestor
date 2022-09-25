@@ -201,7 +201,7 @@ class StoreManager implements Store {
     }
 
     private Map<String, List<Callback>> ensureRemovedCallbacks() {
-        if (dataMap == null) {
+        if (removedCallbacks == null) {
             removedCallbacks = concurrent
                     ? new ConcurrentHashMap<String, List<Callback>>()
                     : new HashMap<String, List<Callback>>();
