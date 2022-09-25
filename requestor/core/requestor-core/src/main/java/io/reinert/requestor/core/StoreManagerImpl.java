@@ -24,54 +24,108 @@ import java.util.concurrent.ConcurrentHashMap;
 public class StoreManagerImpl implements StoreManager {
 
     private final boolean concurrent;
-    private final Map<String, List<Store.SaveCallback>> savedCallbacks;
-    private final Map<String, List<Store.RemoveCallback>> removedCallbacks;
+    private Map<String, Object> dataMap;
+    private Map<String, List<Store.SaveCallback>> savedCallbacks;
+    private Map<String, List<Store.RemoveCallback>> removedCallbacks;
 
     public StoreManagerImpl(boolean concurrent) {
         this.concurrent = concurrent;
+    }
 
-        if (concurrent) {
-            savedCallbacks = new ConcurrentHashMap<String, List<Store.SaveCallback>>();
-            removedCallbacks = new ConcurrentHashMap<String, List<Store.RemoveCallback>>();
-            return;
+    StoreManagerImpl copy() {
+        StoreManagerImpl copy = new StoreManagerImpl(concurrent);
+
+        if (dataMap != null) {
+            copy.dataMap = concurrent ?
+                    new ConcurrentHashMap<String, Object>(dataMap) :
+                    new HashMap<String, Object>(dataMap);
         }
 
-        savedCallbacks = new HashMap<String, List<Store.SaveCallback>>();
-        removedCallbacks = new HashMap<String, List<Store.RemoveCallback>>();
+        if (savedCallbacks != null) {
+            copy.savedCallbacks = concurrent ?
+                    new ConcurrentHashMap<String, List<Store.SaveCallback>>(savedCallbacks) :
+                    new HashMap<String, List<Store.SaveCallback>>(savedCallbacks);
+        }
+
+        if (removedCallbacks != null) {
+            copy.removedCallbacks = concurrent ?
+                    new ConcurrentHashMap<String, List<Store.RemoveCallback>>(removedCallbacks) :
+                    new HashMap<String, List<Store.RemoveCallback>>(removedCallbacks);
+        }
+
+        return copy;
     }
 
     public boolean isConcurrent() {
         return concurrent;
     }
 
-    public void triggerRemovedCallbacks(String key, Store.RemoveEvent event) {
-        final List<Store.RemoveCallback> callbacks = removedCallbacks.get(key);
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T retrieve(String key) {
+        checkNotNull(key, "The key argument cannot be null");
 
-        if (callbacks == null) return;
-
-        for (Store.RemoveCallback callback : callbacks) {
-            callback.execute(event);
-        }
+        return dataMap == null ? null : (T) dataMap.get(key);
     }
 
-    public void triggerSavedCallbacks(String key, Store.SaveEvent event) {
-        final List<Store.SaveCallback> callbacks = savedCallbacks.get(key);
+    @Override
+    public StoreManager save(String key, Object value) {
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null");
 
-        if (callbacks == null) return;
+        Object old = ensureDataMap().remove(key);
 
-        for (Store.SaveCallback callback : callbacks) {
-            callback.execute(event);
+        dataMap.put(key, value);
+
+        triggerSavedCallbacks(key, new Store.SaveEvent.Impl(key, old, value));
+
+        return this;
+    }
+
+    @Override
+    public boolean exists(String key) {
+        checkNotNull(key, "The key argument cannot be null");
+        return dataMap != null && dataMap.containsKey(key);
+    }
+
+    @Override
+    public boolean exists(String key, Object value) {
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null. Try the exists method instead.");
+
+        Object retrieved = dataMap == null ? null : dataMap.get(key);
+        return retrieved != null && (retrieved == value || retrieved.equals(value));
+    }
+
+    @Override
+    public boolean remove(String key) {
+        checkNotNull(key, "The key argument cannot be null");
+
+        if (dataMap != null) {
+            Object old = dataMap.remove(key);
+
+            if (old != null) {
+                triggerRemovedCallbacks(key, new Store.RemoveEvent.Impl(key, old));
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    @Override
+    public void clear() {
+        if (dataMap != null) dataMap.clear();
     }
 
     @Override
     public StoreManager onSaved(String key, Store.SaveCallback callback) {
-        return addCallback(key, callback, savedCallbacks);
+        return addCallback(key, callback, ensureSavedCallbacks());
     }
 
     @Override
     public StoreManager onRemoved(String key, Store.RemoveCallback callback) {
-        return addCallback(key, callback, removedCallbacks);
+        return addCallback(key, callback, ensureRemovedCallbacks());
     }
 
     private synchronized <C> StoreManager addCallback(String key, C callback, Map<String, List<C>> callbacksMap) {
@@ -85,5 +139,60 @@ public class StoreManagerImpl implements StoreManager {
         callbacks.add(callback);
 
         return this;
+    }
+
+    private void triggerRemovedCallbacks(String key, Store.RemoveEvent event) {
+        if (removedCallbacks == null) return;
+
+        final List<Store.RemoveCallback> callbacks = removedCallbacks.get(key);
+
+        if (callbacks == null) return;
+
+        for (Store.RemoveCallback callback : callbacks) {
+            callback.execute(event);
+        }
+    }
+
+    private void triggerSavedCallbacks(String key, Store.SaveEvent event) {
+        if (savedCallbacks == null) return;
+
+        final List<Store.SaveCallback> callbacks = savedCallbacks.get(key);
+
+        if (callbacks == null) return;
+
+        for (Store.SaveCallback callback : callbacks) {
+            callback.execute(event);
+        }
+    }
+
+    private void checkNotNull(Object arg, String msg) {
+        if (arg == null) throw new IllegalArgumentException(msg);
+    }
+
+    private Map<String, Object> ensureDataMap() {
+        if (dataMap == null) {
+            dataMap = concurrent
+                    ? new ConcurrentHashMap<String, Object>()
+                    : new HashMap<String, Object>();
+        }
+        return dataMap;
+    }
+
+    private Map<String, List<Store.RemoveCallback>> ensureRemovedCallbacks() {
+        if (dataMap == null) {
+            removedCallbacks = concurrent
+                    ? new ConcurrentHashMap<String, List<Store.RemoveCallback>>()
+                    : new HashMap<String, List<Store.RemoveCallback>>();
+        }
+        return removedCallbacks;
+    }
+
+    private Map<String, List<Store.SaveCallback>> ensureSavedCallbacks() {
+        if (savedCallbacks == null) {
+            savedCallbacks = concurrent
+                    ? new ConcurrentHashMap<String, List<Store.SaveCallback>>()
+                    : new HashMap<String, List<Store.SaveCallback>>();
+        }
+        return savedCallbacks;
     }
 }

@@ -20,21 +20,21 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public interface StoreManager {
+interface StoreManager extends Saver {
 
-    /**
-     * Registers a callback to be executed <i><b>after</b></i> a new data is <b>saved</b> into the store.
-     *
-     * @param callback The callback to be executed
-     * @return This store
-     */
+    <T> T retrieve(String key);
+
+    StoreManager save(String key, Object value);
+
+    boolean exists(String key);
+
+    boolean exists(String key, Object value);
+
+    boolean remove(String key);
+
+    void clear();
+
     StoreManager onSaved(String key, Store.SaveCallback callback);
 
-    /**
-     * Registers a callback to be executed <i><b>after</b></i> a new data is <b>removed</b> from the store.
-     *
-     * @param callback The callback to be executed
-     * @return This store
-     */
     StoreManager onRemoved(String key, Store.RemoveCallback callback);
 }

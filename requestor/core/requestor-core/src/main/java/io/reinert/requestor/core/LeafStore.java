@@ -15,10 +15,6 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * A child store that delegates execution to a parent store when cannot handle operations.
  *
@@ -27,39 +23,26 @@ import java.util.concurrent.ConcurrentHashMap;
 class LeafStore implements Store {
 
     private final StoreManagerImpl storeManager;
-    private final boolean concurrent;
     private final Store parentStore;
-    private Map<String, Object> localDataMap;
 
     static LeafStore copy(LeafStore leafStore) {
-        LeafStore store = new LeafStore(leafStore.parentStore, leafStore.concurrent);
-
-        if (leafStore.localDataMap != null) {
-            store.localDataMap = leafStore.concurrent ?
-                    new ConcurrentHashMap<String, Object>(leafStore.localDataMap) :
-                    new HashMap<String, Object>(leafStore.localDataMap);
-        }
-
-        return store;
+        return new LeafStore(leafStore.parentStore, leafStore.storeManager.copy());
     }
 
     LeafStore(Store store, boolean concurrent) {
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
         this.storeManager = new StoreManagerImpl(concurrent);
         this.parentStore = store;
-        this.concurrent = concurrent;
     }
 
-    @SuppressWarnings("unchecked")
+    private LeafStore(Store store, StoreManagerImpl storeManager) {
+        this.storeManager = storeManager;
+        this.parentStore = store;
+    }
+
     @Override
     public <T> T retrieve(String key) {
-        checkNotNull(key, "The key argument cannot be null");
-
-        T data = null;
-
-        if (localDataMap != null) {
-            data = (T) localDataMap.get(key);
-        }
+        T data = storeManager.retrieve(key);
 
         if (data == null) {
             data = parentStore.retrieve(key);
@@ -70,74 +53,44 @@ class LeafStore implements Store {
 
     @Override
     public Store save(String key, Object value, Level level) {
-        checkNotNull(key, "The key argument cannot be null");
-        checkNotNull(value, "The value argument cannot be null");
-        checkNotNull(level, "The value argument cannot be null");
-
         if (level == Level.PARENT) {
             parentStore.save(key, value);
             return this;
         }
 
-        parentStore.save(key, value, level);
+        if (level == Level.ROOT) {
+            parentStore.save(key, value, level);
+            return this;
+        }
+
+        save(key, value);
         return this;
     }
 
     @Override
     public Store save(String key, Object value) {
-        checkNotNull(key, "The key argument cannot be null");
-        checkNotNull(value, "The value argument cannot be null");
-
-        Object old = ensureDataMap().remove(key);
-
-        localDataMap.put(key, value);
-
-        storeManager.triggerSavedCallbacks(key, new SaveEvent.Impl(key, old, value));
-
+        storeManager.save(key, value);
         return this;
     }
 
     @Override
     public boolean exists(String key) {
-        checkNotNull(key, "The key argument cannot be null");
-
-        boolean has = parentStore.exists(key);
-
-        if (has) return true;
-
-        if (localDataMap == null) return false;
-
-        return localDataMap.containsKey(key);
+        return storeManager.exists(key) || parentStore.exists(key);
     }
 
     @Override
     public boolean exists(String key, Object value) {
-        checkNotNull(key, "The key argument cannot be null");
-        checkNotNull(value, "The value argument cannot be null");
-
-        Object retrieved = retrieve(key);
-        return retrieved != null && (retrieved == value || retrieved.equals(value));
+        return storeManager.exists(key) ? storeManager.exists(key, value) : parentStore.exists(key, value);
     }
 
     @Override
     public boolean remove(String key) {
-        checkNotNull(key, "The key argument cannot be null");
-
-        if (localDataMap != null) {
-            Object old = localDataMap.remove(key);
-
-            if (old != null) {
-                storeManager.triggerRemovedCallbacks(key, new RemoveEvent.Impl(key, old));
-                return true;
-            }
-        }
-
-        return false;
+        return storeManager.remove(key) || parentStore.remove(key);
     }
 
     @Override
     public void clear() {
-        if (localDataMap != null) localDataMap.clear();
+        storeManager.clear();
     }
 
     @Override
@@ -153,18 +106,6 @@ class LeafStore implements Store {
     }
 
     public boolean isConcurrent() {
-        return concurrent;
-    }
-
-    private Map<String, Object> ensureDataMap() {
-        if (localDataMap == null) {
-            localDataMap = concurrent ? new ConcurrentHashMap<String, Object>() : new HashMap<String, Object>();
-        }
-
-        return localDataMap;
-    }
-
-    private void checkNotNull(Object arg, String msg) {
-        if (arg == null) throw new IllegalArgumentException(msg);
+        return storeManager.isConcurrent();
     }
 }

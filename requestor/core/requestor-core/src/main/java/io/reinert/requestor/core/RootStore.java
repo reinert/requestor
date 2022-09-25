@@ -15,86 +15,53 @@
  */
 package io.reinert.requestor.core;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
- * A basic Store implementation using HashMap.
+ * A thread-safe Store implementation using ConcurrentHashMap with no parent Store.
  *
  * @author Danilo Reinert
  */
 class RootStore implements Store {
 
-    private final Map<String, Object> dataMap;
     private final StoreManagerImpl storeManager;
 
     RootStore() {
-        this.dataMap = new ConcurrentHashMap<String, Object>();
         this.storeManager = new StoreManagerImpl(true);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> T retrieve(String key) {
-        checkNotNull(key, "The key argument cannot be null");
-
-        return (T) dataMap.get(key);
+        return storeManager.retrieve(key);
     }
 
     @Override
     public Store save(String key, Object value) {
-        checkNotNull(key, "The key argument cannot be null");
-        checkNotNull(value, "The value argument cannot be null");
-
-        Object old = dataMap.remove(key);
-
-        dataMap.put(key, value);
-
-        storeManager.triggerSavedCallbacks(key, new SaveEvent.Impl(key, old, value));
-
+        storeManager.save(key, value);
         return this;
     }
 
     @Override
     public Store save(String key, Object value, Level level) {
-        checkNotNull(key, "The key argument cannot be null");
-        checkNotNull(value, "The value argument cannot be null");
-
-        save(key, value);
-        return this;
+        return save(key, value);
     }
 
     @Override
     public boolean exists(String key) {
-        checkNotNull(key, "The key argument cannot be null");
-        return dataMap.containsKey(key);
+        return storeManager.exists(key);
     }
 
     @Override
     public boolean exists(String key, Object value) {
-        checkNotNull(key, "The key argument cannot be null");
-        checkNotNull(value, "The value argument cannot be null. Try the exists method instead.");
-
-        Object retrieved = dataMap.get(key);
-        return retrieved != null && (retrieved == value || retrieved.equals(value));
+        return storeManager.exists(key, value);
     }
 
     @Override
     public boolean remove(String key) {
-        checkNotNull(key, "The key argument cannot be null");
-        Object old = dataMap.remove(key);
-
-        if (old != null) {
-            storeManager.triggerRemovedCallbacks(key, new RemoveEvent.Impl(key, old));
-            return true;
-        }
-
-        return false;
+        return storeManager.remove(key);
     }
 
     @Override
     public void clear() {
-        dataMap.clear();
+        storeManager.clear();
     }
 
     @Override
@@ -107,9 +74,5 @@ class RootStore implements Store {
     public Store onRemoved(String key, RemoveCallback callback) {
         storeManager.onRemoved(key, callback);
         return this;
-    }
-
-    private void checkNotNull(Object arg, String msg) {
-        if (arg == null) throw new IllegalArgumentException(msg);
     }
 }
