@@ -107,13 +107,13 @@ class StoreManager implements Store {
                 public void run() {
                     if (dataMap.get(key) == savedData) {
                         dataMap.remove(key);
-                        triggerExpiredCallbacks(key, new Event.Impl(key, value));
+                        triggerExpiredCallbacks(key, savedData);
                     }
                 }
             }, ttl);
         }
 
-        triggerSavedCallbacks(key, new Event.Impl(key, removedData != null ? removedData.getValue() : null, value));
+        triggerSavedCallbacks(key, removedData, savedData);
 
         return null;
     }
@@ -142,7 +142,7 @@ class StoreManager implements Store {
             Data removedData = dataMap.remove(key);
 
             if (removedData != null && !removedData.isExpired()) {
-                triggerRemovedCallbacks(key, new Event.Impl(key, removedData.getValue()));
+                triggerRemovedCallbacks(key, removedData);
                 return true;
             }
         }
@@ -156,7 +156,7 @@ class StoreManager implements Store {
             List<Data> values = new ArrayList<Data>(dataMap.values());
             dataMap.clear();
             for (Data data : values) {
-                triggerRemovedCallbacks(data.getKey(), new Event.Impl(data.getKey(), data.getValue()));
+                triggerRemovedCallbacks(data.getKey(), data);
             }
         }
     }
@@ -190,37 +190,40 @@ class StoreManager implements Store {
         callbacks.add(callback);
     }
 
-    private void triggerRemovedCallbacks(String key, Event event) {
+    private void triggerRemovedCallbacks(String key, Data removedData) {
         if (removedCallbacks == null) return;
 
         final List<Callback> callbacks = removedCallbacks.get(key);
 
         if (callbacks == null) return;
 
+        final Event.Impl event = new Event.Impl(key, removedData);
         for (Callback callback : callbacks) {
             callback.execute(event);
         }
     }
 
-    private void triggerSavedCallbacks(String key, Event event) {
+    private void triggerSavedCallbacks(String key, Data removedData, Data savedData) {
         if (savedCallbacks == null) return;
 
         final List<Callback> callbacks = savedCallbacks.get(key);
 
         if (callbacks == null) return;
 
+        final Event.Impl event = new Event.Impl(key, removedData, savedData);
         for (Callback callback : callbacks) {
             callback.execute(event);
         }
     }
 
-    private void triggerExpiredCallbacks(String key, Event event) {
+    private void triggerExpiredCallbacks(String key, Data expiredData) {
         if (expiredCallbacks == null) return;
 
         final List<Callback> callbacks = expiredCallbacks.get(key);
 
         if (callbacks == null) return;
 
+        final Event.Impl event = new Event.Impl(key, expiredData);
         for (Callback callback : callbacks) {
             callback.execute(event);
         }

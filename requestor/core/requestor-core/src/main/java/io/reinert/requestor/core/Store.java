@@ -78,21 +78,21 @@ public interface Store extends Saver {
 
     interface Event {
         String getKey();
-        <T> T getOldData();
-        <T> T getNewData();
+        Data getOldData();
+        Data getNewData();
 
         class Impl implements Event {
             private final String key;
-            private final Object oldData;
-            private final Object newData;
+            private final Data oldData;
+            private final Data newData;
 
-            public Impl(String key, Object oldData) {
+            public Impl(String key, Data oldData) {
                 this.key = key;
                 this.oldData = oldData;
                 this.newData = null;
             }
 
-            public Impl(String key, Object oldData, Object newData) {
+            public Impl(String key, Data oldData, Data newData) {
                 this.key = key;
                 this.oldData = oldData;
                 this.newData = newData;
@@ -104,15 +104,13 @@ public interface Store extends Saver {
             }
 
             @Override
-            @SuppressWarnings("unchecked")
-            public <T> T getOldData() {
-                return (T) oldData;
+            public Data getOldData() {
+                return oldData;
             }
 
             @Override
-            @SuppressWarnings("unchecked")
-            public <T> T getNewData() {
-                return (T) newData;
+            public Data getNewData() {
+                return newData;
             }
         }
     }
