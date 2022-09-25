@@ -298,13 +298,13 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public PreparedRequest onSaved(String key, SaveCallback callback) {
+    public PreparedRequest onSaved(String key, Callback callback) {
         request.onSaved(key, callback);
         return this;
     }
 
     @Override
-    public PreparedRequest onRemoved(String key, RemoveCallback callback) {
+    public PreparedRequest onRemoved(String key, Callback callback) {
         request.onRemoved(key, callback);
         return this;
     }

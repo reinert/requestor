@@ -634,13 +634,13 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
-    public Session onSaved(String key, SaveCallback callback) {
+    public Session onSaved(String key, Callback callback) {
         store.onSaved(key, callback);
         return this;
     }
 
     @Override
-    public Session onRemoved(String key, RemoveCallback callback) {
+    public Session onRemoved(String key, Callback callback) {
         store.onRemoved(key, callback);
         return this;
     }

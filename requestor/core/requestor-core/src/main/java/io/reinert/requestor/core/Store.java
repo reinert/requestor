@@ -70,39 +70,21 @@ public interface Store extends Saver {
         }
     }
 
-    interface RemoveEvent {
+    interface Event {
         String getKey();
         <T> T getOldData();
+        <T> T getNewData();
 
-        class Impl implements RemoveEvent {
+        class Impl implements Event {
             private final String key;
             private final Object oldData;
+            private final Object newData;
 
             public Impl(String key, Object oldData) {
                 this.key = key;
                 this.oldData = oldData;
+                this.newData = null;
             }
-
-            @Override
-            public String getKey() {
-                return key;
-            }
-
-            @Override
-            @SuppressWarnings("unchecked")
-            public <T> T getOldData() {
-                return (T) oldData;
-            }
-        }
-    }
-
-    interface SaveEvent extends RemoveEvent {
-        <T> T getNewData();
-
-        class Impl implements SaveEvent {
-            private final String key;
-            private final Object oldData;
-            private final Object newData;
 
             public Impl(String key, Object oldData, Object newData) {
                 this.key = key;
@@ -129,12 +111,8 @@ public interface Store extends Saver {
         }
     }
 
-    interface RemoveCallback {
-        void execute(RemoveEvent event);
-    }
-
-    interface SaveCallback {
-        void execute(SaveEvent event);
+    interface Callback {
+        void execute(Event event);
     }
 
     /**
@@ -230,7 +208,7 @@ public interface Store extends Saver {
      * @param callback The callback to be executed
      * @return This store
      */
-    Store onSaved(String key, SaveCallback callback);
+    Store onSaved(String key, Callback callback);
 
     /**
      * Registers a callback to be executed <i><b>after</b></i> a new data is <b>removed</b> from the store.
@@ -238,6 +216,6 @@ public interface Store extends Saver {
      * @param callback The callback to be executed
      * @return This store
      */
-    Store onRemoved(String key, RemoveCallback callback);
+    Store onRemoved(String key, Callback callback);
 
 }

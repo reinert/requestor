@@ -228,13 +228,13 @@ public class BaseService implements Service {
     }
 
     @Override
-    public Service onSaved(String key, SaveCallback callback) {
+    public Service onSaved(String key, Callback callback) {
         store.onSaved(key, callback);
         return this;
     }
 
     @Override
-    public Service onRemoved(String key, RemoveCallback callback) {
+    public Service onRemoved(String key, Callback callback) {
         store.onRemoved(key, callback);
         return this;
     }

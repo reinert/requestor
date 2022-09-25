@@ -312,13 +312,13 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
-    public PollingRequest<Response> onSaved(String key, SaveCallback callback) {
+    public PollingRequest<Response> onSaved(String key, Callback callback) {
         serializedRequest.onSaved(key, callback);
         return this;
     }
 
     @Override
-    public PollingRequest<Response> onRemoved(String key, RemoveCallback callback) {
+    public PollingRequest<Response> onRemoved(String key, Callback callback) {
         serializedRequest.onRemoved(key, callback);
         return this;
     }

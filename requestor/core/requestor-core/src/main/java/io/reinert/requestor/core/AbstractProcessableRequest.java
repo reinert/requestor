@@ -328,13 +328,13 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public ProcessableRequest onSaved(String key, SaveCallback callback) {
+    public ProcessableRequest onSaved(String key, Callback callback) {
         request.onSaved(key, callback);
         return this;
     }
 
     @Override
-    public ProcessableRequest onRemoved(String key, RemoveCallback callback) {
+    public ProcessableRequest onRemoved(String key, Callback callback) {
         request.onRemoved(key, callback);
         return this;
     }

@@ -70,8 +70,8 @@ public class StoreJreTest {
         final AtomicBoolean called = new AtomicBoolean(false);
 
         // Given
-        store.onSaved(key, new Store.SaveCallback() {
-            public void execute(Store.SaveEvent event) {
+        store.onSaved(key, new Store.Callback() {
+            public void execute(Store.Event event) {
                 called.set(true);
                 assertNull(event.getOldData());
                 assertEquals(data, event.getNewData());
@@ -94,8 +94,8 @@ public class StoreJreTest {
 
         // Given
         store.save(key, oldData);
-        store.onSaved(key, new Store.SaveCallback() {
-            public void execute(Store.SaveEvent event) {
+        store.onSaved(key, new Store.Callback() {
+            public void execute(Store.Event event) {
                 called.set(true);
                 assertEquals(oldData, event.getOldData());
                 assertEquals(newData, event.getNewData());
@@ -117,8 +117,8 @@ public class StoreJreTest {
 
         // Given
         store.save(key, data);
-        store.onRemoved(key, new Store.RemoveCallback() {
-            public void execute(Store.RemoveEvent event) {
+        store.onRemoved(key, new Store.Callback() {
+            public void execute(Store.Event event) {
                 called.set(true);
                 assertEquals(data, event.getOldData());
             }

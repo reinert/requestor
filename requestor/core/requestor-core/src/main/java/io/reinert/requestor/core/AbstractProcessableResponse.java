@@ -150,13 +150,13 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public ProcessableResponse onSaved(String key, SaveCallback callback) {
+    public ProcessableResponse onSaved(String key, Callback callback) {
         response.onSaved(key, callback);
         return this;
     }
 
     @Override
-    public ProcessableResponse onRemoved(String key, RemoveCallback callback) {
+    public ProcessableResponse onRemoved(String key, Callback callback) {
         response.onRemoved(key, callback);
         return this;
     }

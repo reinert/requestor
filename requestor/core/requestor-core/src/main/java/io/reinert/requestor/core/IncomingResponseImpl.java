@@ -131,13 +131,13 @@ public class IncomingResponseImpl implements IncomingResponse {
     }
 
     @Override
-    public IncomingResponse onSaved(String key, SaveCallback callback) {
+    public IncomingResponse onSaved(String key, Callback callback) {
         response.onSaved(key, callback);
         return this;
     }
 
     @Override
-    public IncomingResponse onRemoved(String key, RemoveCallback callback) {
+    public IncomingResponse onRemoved(String key, Callback callback) {
         response.onRemoved(key, callback);
         return this;
     }

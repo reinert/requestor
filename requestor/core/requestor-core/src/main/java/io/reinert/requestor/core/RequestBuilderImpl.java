@@ -508,13 +508,13 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public RequestBuilderImpl onSaved(String key, SaveCallback callback) {
+    public RequestBuilderImpl onSaved(String key, Callback callback) {
         store.onSaved(key, callback);
         return this;
     }
 
     @Override
-    public RequestBuilderImpl onRemoved(String key, RemoveCallback callback) {
+    public RequestBuilderImpl onRemoved(String key, Callback callback) {
         store.onRemoved(key, callback);
         return this;
     }
