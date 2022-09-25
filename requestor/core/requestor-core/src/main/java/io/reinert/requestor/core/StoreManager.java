@@ -152,7 +152,13 @@ class StoreManager implements Store {
 
     @Override
     public void clear() {
-        if (dataMap != null) dataMap.clear();
+        if (dataMap != null) {
+            List<Data> values = new ArrayList<Data>(dataMap.values());
+            dataMap.clear();
+            for (Data data : values) {
+                triggerRemovedCallbacks(data.getKey(), new Event.Impl(data.getKey(), data.getValue()));
+            }
+        }
     }
 
     @Override
