@@ -66,12 +66,12 @@ public class ScheduledExecutorAsyncRunner implements AsyncRunner {
     }
 
     @Override
-    public void run(final Runnable runnable, int delayMillis) {
+    public void run(Runnable runnable, long delayMillis) {
         scheduledExecutorService.schedule(runnable, delayMillis, TimeUnit.MILLISECONDS);
     }
 
     @Override
-    public void sleep(int millis) {
+    public void sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {

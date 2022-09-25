@@ -83,11 +83,11 @@ public abstract class RequestDispatcher implements AsyncRunner {
         responseProcessor.process(response);
     }
 
-    public void run(Runnable runnable, int delayMillis) {
+    public void run(Runnable runnable, long delayMillis) {
         asyncRunner.run(runnable, delayMillis);
     }
 
-    public void sleep(int millis) {
+    public void sleep(long millis) {
         asyncRunner.sleep(millis);
     }
 

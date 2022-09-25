@@ -30,9 +30,9 @@ public interface AsyncRunner {
         void signalAll();
     }
 
-    void run(Runnable runnable, int delayMillis);
+    void run(Runnable runnable, long delayMillis);
 
-    void sleep(int millis);
+    void sleep(long millis);
 
     void shutdown();
 

@@ -47,14 +47,18 @@ public class GwtAsyncRunner implements AsyncRunner {
     public static GwtAsyncRunner INSTANCE = new GwtAsyncRunner();
 
     @Override
-    public native void run(Runnable runnable, int delayMillis) /*-{
+    public void run(Runnable runnable, long delayMillis) {
+        run(runnable, (double) delayMillis);
+    }
+
+    private native void run(Runnable runnable, double delayMillis) /*-{
         setTimeout($entry(function() {
             runnable.@java.lang.Runnable::run()();
         }), delayMillis);
     }-*/;
 
     @Override
-    public void sleep(int millis) {
+    public void sleep(long millis) {
         // no-op (unnecessary to block the thread in JS environment)
     }
 
