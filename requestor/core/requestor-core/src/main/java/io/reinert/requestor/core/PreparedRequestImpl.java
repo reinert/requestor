@@ -266,6 +266,18 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
+    public PreparedRequest save(String key, Object value, long ttl, Level level) {
+        request.save(key, value, ttl, level);
+        return this;
+    }
+
+    @Override
+    public PreparedRequest save(String key, Object value, long ttl) {
+        request.save(key, value, ttl);
+        return this;
+    }
+
+    @Override
     public boolean exists(String key) {
         return request.exists(key);
     }

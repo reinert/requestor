@@ -602,6 +602,18 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public Session save(String key, Object value, long ttl, Level level) {
+        store.save(key, value, ttl, level);
+        return this;
+    }
+
+    @Override
+    public Session save(String key, Object value, long ttl) {
+        store.save(key, value, ttl);
+        return this;
+    }
+
+    @Override
     public boolean exists(String key) {
         return store.exists(key);
     }

@@ -118,6 +118,18 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
+    public ProcessableResponse save(String key, Object value, long ttl, Level level) {
+        response.save(key, value, ttl, level);
+        return this;
+    }
+
+    @Override
+    public ProcessableResponse save(String key, Object value, long ttl) {
+        response.save(key, value, ttl);
+        return this;
+    }
+
+    @Override
     public boolean exists(String key) {
         return response.exists(key);
     }

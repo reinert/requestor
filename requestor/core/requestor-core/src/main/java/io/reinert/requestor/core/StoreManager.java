@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 class StoreManager implements Store {
 
     private final boolean concurrent;
-    private Map<String, Object> dataMap;
+    private Map<String, Data> dataMap;
     private Map<String, List<Store.SaveCallback>> savedCallbacks;
     private Map<String, List<Store.RemoveCallback>> removedCallbacks;
 
@@ -37,8 +37,8 @@ class StoreManager implements Store {
 
         if (dataMap != null) {
             copy.dataMap = concurrent ?
-                    new ConcurrentHashMap<String, Object>(dataMap) :
-                    new HashMap<String, Object>(dataMap);
+                    new ConcurrentHashMap<String, Data>(dataMap) :
+                    new HashMap<String, Data>(dataMap);
         }
 
         if (savedCallbacks != null) {
@@ -65,21 +65,18 @@ class StoreManager implements Store {
     public <T> T retrieve(String key) {
         checkNotNull(key, "The key argument cannot be null");
 
-        return dataMap == null ? null : (T) dataMap.get(key);
+        if (dataMap == null) return null;
+
+        final Data data = dataMap.get(key);
+
+        if (data == null || data.isExpired()) return null;
+
+        return (T) data.getValue();
     }
 
     @Override
     public Store save(String key, Object value) {
-        checkNotNull(key, "The key argument cannot be null");
-        checkNotNull(value, "The value argument cannot be null");
-
-        Object old = ensureDataMap().remove(key);
-
-        dataMap.put(key, value);
-
-        triggerSavedCallbacks(key, new Store.SaveEvent.Impl(key, old, value));
-
-        return null;
+        return save(key, value, 0L);
     }
 
     @Override
@@ -88,9 +85,28 @@ class StoreManager implements Store {
     }
 
     @Override
+    public Store save(String key, Object value, long ttl, Level level) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Store save(String key, Object value, long ttl) {
+        checkNotNull(key, "The key argument cannot be null");
+        checkNotNull(value, "The value argument cannot be null");
+
+        Object old = ensureDataMap().remove(key);
+
+        dataMap.put(key, new Data(value, ttl));
+
+        triggerSavedCallbacks(key, new Store.SaveEvent.Impl(key, old, value));
+
+        return null;
+    }
+
+    @Override
     public boolean exists(String key) {
         checkNotNull(key, "The key argument cannot be null");
-        return dataMap != null && dataMap.containsKey(key);
+        return dataMap != null && dataMap.containsKey(key) && !dataMap.get(key).isExpired();
     }
 
     @Override
@@ -98,8 +114,9 @@ class StoreManager implements Store {
         checkNotNull(key, "The key argument cannot be null");
         checkNotNull(value, "The value argument cannot be null. Try the exists method instead.");
 
-        Object retrieved = dataMap == null ? null : dataMap.get(key);
-        return retrieved != null && (retrieved == value || retrieved.equals(value));
+        Data retrieved = dataMap == null ? null : dataMap.get(key);
+        return retrieved != null && !retrieved.isExpired() &&
+                (retrieved.getValue() == value || retrieved.getValue().equals(value));
     }
 
     @Override
@@ -107,10 +124,10 @@ class StoreManager implements Store {
         checkNotNull(key, "The key argument cannot be null");
 
         if (dataMap != null) {
-            Object old = dataMap.remove(key);
+            Data old = dataMap.remove(key);
 
-            if (old != null) {
-                triggerRemovedCallbacks(key, new Store.RemoveEvent.Impl(key, old));
+            if (old != null && !old.isExpired()) {
+                triggerRemovedCallbacks(key, new Store.RemoveEvent.Impl(key, old.getValue()));
                 return true;
             }
         }
@@ -174,11 +191,11 @@ class StoreManager implements Store {
         if (arg == null) throw new IllegalArgumentException(msg);
     }
 
-    private Map<String, Object> ensureDataMap() {
+    private Map<String, Data> ensureDataMap() {
         if (dataMap == null) {
             dataMap = concurrent
-                    ? new ConcurrentHashMap<String, Object>()
-                    : new HashMap<String, Object>();
+                    ? new ConcurrentHashMap<String, Data>()
+                    : new HashMap<String, Data>();
         }
         return dataMap;
     }

@@ -296,6 +296,18 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public ProcessableRequest save(String key, Object value, long ttl, Level level) {
+        request.save(key, value, ttl, level);
+        return this;
+    }
+
+    @Override
+    public ProcessableRequest save(String key, Object value, long ttl) {
+        request.save(key, value, ttl);
+        return this;
+    }
+
+    @Override
     public boolean exists(String key) {
         return request.exists(key);
     }

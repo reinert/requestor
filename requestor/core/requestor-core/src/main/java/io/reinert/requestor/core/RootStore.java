@@ -45,6 +45,17 @@ class RootStore implements Store {
     }
 
     @Override
+    public Store save(String key, Object value, long ttl, Level level) {
+        return save(key, value, ttl);
+    }
+
+    @Override
+    public Store save(String key, Object value, long ttl) {
+        storeManager.save(key, value, ttl);
+        return this;
+    }
+
+    @Override
     public boolean exists(String key) {
         return storeManager.exists(key);
     }

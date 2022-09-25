@@ -102,6 +102,18 @@ public class IncomingResponseImpl implements IncomingResponse {
         return this;
     }
 
+    @Override
+    public IncomingResponse save(String key, Object value, long ttl, Level level) {
+        response.save(key, value, ttl, level);
+        return this;
+    }
+
+    @Override
+    public IncomingResponse save(String key, Object value, long ttl) {
+        response.save(key, value, ttl);
+        return this;
+    }
+
     public boolean exists(String key) {
         return response.exists(key);
     }

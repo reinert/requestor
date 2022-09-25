@@ -280,6 +280,18 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
+    public PollingRequest<Response> save(String key, Object value, long ttl, Level level) {
+        serializedRequest.save(key, value, ttl, level);
+        return this;
+    }
+
+    @Override
+    public PollingRequest<Response> save(String key, Object value, long ttl) {
+        serializedRequest.save(key, value, ttl);
+        return this;
+    }
+
+    @Override
     public boolean exists(String key) {
         return serializedRequest.exists(key);
     }

@@ -15,6 +15,8 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.Objects;
+
 /**
  * A place to save/retrieve any object by key.
  *
@@ -25,6 +27,47 @@ public interface Store extends Saver {
     enum Level {
         PARENT,
         ROOT;
+    }
+
+    class Data {
+        private final Object value;
+        private final long ttl;
+        private final long createdAt;
+
+        public Data(Object value, long ttl) {
+            this.value = value;
+            this.ttl = ttl;
+            createdAt = System.currentTimeMillis();
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public long getTtl() {
+            return ttl;
+        }
+
+        public long getCreatedAt() {
+            return createdAt;
+        }
+
+        public boolean isExpired() {
+            return ttl > 0L && System.currentTimeMillis() > createdAt + ttl;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Data data = (Data) o;
+            return Objects.equals(value, data.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
+        }
     }
 
     interface RemoveEvent {
@@ -123,6 +166,28 @@ public interface Store extends Saver {
      * @param level Whether the data should be persisted in the underlying stores or not
      */
     Store save(String key, Object value, Level level);
+
+    /**
+     * Saves the value into the store associated with the key.
+     * Being a request scope store, the data will be available during the request/response lifecycle only.
+     * If you want to persist it in the immediate parent store, set the level param to <code>Level.PARENT</code>.
+     * If you want to persist it in the root store, set the level param to <code>Level.ROOT</code>.
+     *
+     * @param key   A key to associate the data
+     * @param value The data to be persisted
+     * @param ttl   Time to live, i.e., the period when the data will still be valid
+     * @param level Whether the data should be persisted in the underlying stores or not
+     */
+    Store save(String key, Object value, long ttl, Level level);
+
+    /**
+     * Saves the value into the store associated with the key during the TTL period.
+     *
+     * @param key   A key to associate the data
+     * @param value The data to be persisted
+     * @param ttl   Time to live, i.e., the period when the data will still be valid
+     */
+    Store save(String key, Object value, long ttl);
 
     /**
      * Checks if there's an object associated with the given key.

@@ -53,17 +53,28 @@ class LeafStore implements Store {
 
     @Override
     public Store save(String key, Object value, Level level) {
+        return save(key, value, 0L, level);
+    }
+
+    @Override
+    public Store save(String key, Object value, long ttl, Level level) {
         if (level == Level.PARENT) {
-            parentStore.save(key, value);
+            parentStore.save(key, value, ttl);
             return this;
         }
 
         if (level == Level.ROOT) {
-            parentStore.save(key, value, level);
+            parentStore.save(key, value, ttl, level);
             return this;
         }
 
-        save(key, value);
+        save(key, value, ttl);
+        return this;
+    }
+
+    @Override
+    public Store save(String key, Object value, long ttl) {
+        storeManager.save(key, value, ttl);
         return this;
     }
 
