@@ -215,6 +215,18 @@ public class BaseService implements Service {
         store.clear();
     }
 
+    @Override
+    public Service onSaved(String key, SaveCallback callback) {
+        store.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Service onRemoved(String key, RemoveCallback callback) {
+        store.onRemoved(key, callback);
+        return this;
+    }
+
     //===================================================================
     // Internal methods
     //===================================================================

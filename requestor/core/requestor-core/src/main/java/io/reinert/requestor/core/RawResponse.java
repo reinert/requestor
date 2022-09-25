@@ -177,6 +177,18 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
+    public Store onSaved(String key, SaveCallback callback) {
+        request.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Store onRemoved(String key, RemoveCallback callback) {
+        request.onRemoved(key, callback);
+        return this;
+    }
+
+    @Override
     public void setSerializedPayload(SerializedPayload serializedPayload) {
         if (deserialized) {
             throw new IllegalStateException("Payload was already deserialized. Cannot set a serialized payload after" +

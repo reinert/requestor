@@ -26,9 +26,11 @@ import java.util.concurrent.ConcurrentHashMap;
 class RootStore implements Store {
 
     private final Map<String, Object> dataMap;
+    private final StoreManagerImpl storeManager;
 
     RootStore() {
         this.dataMap = new ConcurrentHashMap<String, Object>();
+        this.storeManager = new StoreManagerImpl(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -44,7 +46,12 @@ class RootStore implements Store {
         checkNotNull(key, "The key argument cannot be null");
         checkNotNull(value, "The value argument cannot be null");
 
+        Object old = dataMap.remove(key);
+
         dataMap.put(key, value);
+
+        storeManager.triggerSavedCallbacks(key, new SaveEvent.Impl(key, old, value));
+
         return this;
     }
 
@@ -75,12 +82,31 @@ class RootStore implements Store {
     @Override
     public boolean remove(String key) {
         checkNotNull(key, "The key argument cannot be null");
-        return dataMap.remove(key) != null;
+        Object old = dataMap.remove(key);
+
+        if (old != null) {
+            storeManager.triggerRemovedCallbacks(key, new RemoveEvent.Impl(key, old));
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public void clear() {
         dataMap.clear();
+    }
+
+    @Override
+    public Store onSaved(String key, SaveCallback callback) {
+        storeManager.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Store onRemoved(String key, RemoveCallback callback) {
+        storeManager.onRemoved(key, callback);
+        return this;
     }
 
     private void checkNotNull(Object arg, String msg) {

@@ -106,13 +106,15 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public Store save(String key, Object value) {
-        return response.save(key, value);
+    public ProcessableResponse save(String key, Object value) {
+        response.save(key, value);
+        return this;
     }
 
     @Override
-    public Store save(String key, Object value, Level level) {
-        return response.save(key, value, level);
+    public ProcessableResponse save(String key, Object value, Level level) {
+        response.save(key, value, level);
+        return this;
     }
 
     @Override
@@ -133,6 +135,18 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     @Override
     public void clear() {
         response.clear();
+    }
+
+    @Override
+    public ProcessableResponse onSaved(String key, SaveCallback callback) {
+        response.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public ProcessableResponse onRemoved(String key, RemoveCallback callback) {
+        response.onRemoved(key, callback);
+        return this;
     }
 
     @Override

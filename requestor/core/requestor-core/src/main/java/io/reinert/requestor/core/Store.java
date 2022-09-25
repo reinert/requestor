@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public interface Store extends Saver {
+public interface Store extends Saver, StoreManager {
 
     enum Level {
         PARENT,
@@ -158,5 +158,21 @@ public interface Store extends Saver {
      * Being a session scope store, any data in the store is erased.
      */
     void clear();
+
+    /**
+     * Registers a callback to be executed <i><b>after</b></i> a new data is <b>saved</b> into the store.
+     *
+     * @param callback The callback to be executed
+     * @return This store
+     */
+    Store onSaved(String key, SaveCallback callback);
+
+    /**
+     * Registers a callback to be executed <i><b>after</b></i> a new data is <b>removed</b> from the store.
+     *
+     * @param callback The callback to be executed
+     * @return This store
+     */
+    Store onRemoved(String key, RemoveCallback callback);
 
 }

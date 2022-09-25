@@ -284,13 +284,15 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public Store save(String key, Object value) {
-        return request.save(key, value);
+    public ProcessableRequest save(String key, Object value) {
+        request.save(key, value);
+        return this;
     }
 
     @Override
-    public Store save(String key, Object value, Level level) {
-        return request.save(key, value, level);
+    public ProcessableRequest save(String key, Object value, Level level) {
+        request.save(key, value, level);
+        return this;
     }
 
     @Override
@@ -311,5 +313,17 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     @Override
     public void clear() {
         request.clear();
+    }
+
+    @Override
+    public ProcessableRequest onSaved(String key, SaveCallback callback) {
+        request.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public ProcessableRequest onRemoved(String key, RemoveCallback callback) {
+        request.onRemoved(key, callback);
+        return this;
     }
 }

@@ -284,4 +284,16 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     public void clear() {
         request.clear();
     }
+
+    @Override
+    public PreparedRequest onSaved(String key, SaveCallback callback) {
+        request.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public PreparedRequest onRemoved(String key, RemoveCallback callback) {
+        request.onRemoved(key, callback);
+        return this;
+    }
 }

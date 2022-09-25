@@ -15,10 +15,13 @@
  */
 package io.reinert.requestor.core;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -58,5 +61,73 @@ public class StoreJreTest {
         // Then
         assertTrue(removed);
         assertFalse(store.exists(key));
+    }
+
+    @Test
+    public void onSaved_save_ShouldTriggerSavedCallback() {
+        final String key = "key";
+        final Object data = new Object();
+        final AtomicBoolean called = new AtomicBoolean(false);
+
+        // Given
+        store.onSaved(key, new Store.SaveCallback() {
+            public void execute(Store.SaveEvent event) {
+                called.set(true);
+                assertNull(event.getOldData());
+                assertEquals(data, event.getNewData());
+            }
+        });
+
+        // When
+        store.save(key, data);
+
+        // Then
+        assertTrue(called.get());
+    }
+
+    @Test
+    public void onSaved_saveAfterSave_ShouldTriggerSavedCallbackWithOldData() {
+        final String key = "key";
+        final Object oldData = new Object();
+        final Object newData = new Object();
+        final AtomicBoolean called = new AtomicBoolean(false);
+
+        // Given
+        store.save(key, oldData);
+        store.onSaved(key, new Store.SaveCallback() {
+            public void execute(Store.SaveEvent event) {
+                called.set(true);
+                assertEquals(oldData, event.getOldData());
+                assertEquals(newData, event.getNewData());
+            }
+        });
+
+        // When
+        store.save(key, newData);
+
+        // Then
+        assertTrue(called.get());
+    }
+
+    @Test
+    public void onRemoved_remove_ShouldTriggerRemovedCallback() {
+        final String key = "key";
+        final Object data = new Object();
+        final AtomicBoolean called = new AtomicBoolean(false);
+
+        // Given
+        store.save(key, data);
+        store.onRemoved(key, new Store.RemoveCallback() {
+            public void execute(Store.RemoveEvent event) {
+                called.set(true);
+                assertEquals(data, event.getOldData());
+            }
+        });
+
+        // When
+        store.remove(key);
+
+        // Then
+        assertTrue(called.get());
     }
 }

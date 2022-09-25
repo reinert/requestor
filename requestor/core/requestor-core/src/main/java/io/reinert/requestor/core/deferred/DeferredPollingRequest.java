@@ -229,6 +229,18 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
         serializedRequest.clear();
     }
 
+    @Override
+    public DeferredPollingRequest<T> onSaved(String key, SaveCallback callback) {
+        serializedRequest.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public DeferredPollingRequest<T> onRemoved(String key, RemoveCallback callback) {
+        serializedRequest.onRemoved(key, callback);
+        return this;
+    }
+
     //===================================================================
     // Request
     //===================================================================

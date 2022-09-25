@@ -92,12 +92,14 @@ public class IncomingResponseImpl implements IncomingResponse {
         return response.retrieve(key);
     }
 
-    public RawResponse save(String key, Object value) {
-        return response.save(key, value);
+    public IncomingResponse save(String key, Object value) {
+        response.save(key, value);
+        return this;
     }
 
-    public RawResponse save(String key, Object value, Level level) {
-        return response.save(key, value, level);
+    public IncomingResponse save(String key, Object value, Level level) {
+        response.save(key, value, level);
+        return this;
     }
 
     public boolean exists(String key) {
@@ -114,6 +116,18 @@ public class IncomingResponseImpl implements IncomingResponse {
 
     public void clear() {
         response.clear();
+    }
+
+    @Override
+    public IncomingResponse onSaved(String key, SaveCallback callback) {
+        response.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public IncomingResponse onRemoved(String key, RemoveCallback callback) {
+        response.onRemoved(key, callback);
+        return this;
     }
 
     public Session getSession() {

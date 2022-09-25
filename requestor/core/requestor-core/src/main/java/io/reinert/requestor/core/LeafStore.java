@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 class LeafStore implements Store {
 
+    private final StoreManagerImpl storeManager;
     private final boolean concurrent;
     private final Store parentStore;
     private Map<String, Object> localDataMap;
@@ -44,6 +45,7 @@ class LeafStore implements Store {
 
     LeafStore(Store store, boolean concurrent) {
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
+        this.storeManager = new StoreManagerImpl(concurrent);
         this.parentStore = store;
         this.concurrent = concurrent;
     }
@@ -86,7 +88,12 @@ class LeafStore implements Store {
         checkNotNull(key, "The key argument cannot be null");
         checkNotNull(value, "The value argument cannot be null");
 
-        ensureDataMap().put(key, value);
+        Object old = ensureDataMap().remove(key);
+
+        localDataMap.put(key, value);
+
+        storeManager.triggerSavedCallbacks(key, new SaveEvent.Impl(key, old, value));
+
         return this;
     }
 
@@ -117,7 +124,12 @@ class LeafStore implements Store {
         checkNotNull(key, "The key argument cannot be null");
 
         if (localDataMap != null) {
-            return localDataMap.remove(key) != null;
+            Object old = localDataMap.remove(key);
+
+            if (old != null) {
+                storeManager.triggerRemovedCallbacks(key, new RemoveEvent.Impl(key, old));
+                return true;
+            }
         }
 
         return false;
@@ -126,6 +138,18 @@ class LeafStore implements Store {
     @Override
     public void clear() {
         if (localDataMap != null) localDataMap.clear();
+    }
+
+    @Override
+    public Store onSaved(String key, SaveCallback callback) {
+        storeManager.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Store onRemoved(String key, RemoveCallback callback) {
+        storeManager.onRemoved(key, callback);
+        return this;
     }
 
     public boolean isConcurrent() {

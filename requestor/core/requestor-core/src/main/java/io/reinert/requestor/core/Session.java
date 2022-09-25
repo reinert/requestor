@@ -621,6 +621,18 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         store.clear();
     }
 
+    @Override
+    public Session onSaved(String key, SaveCallback callback) {
+        store.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Session onRemoved(String key, RemoveCallback callback) {
+        store.onRemoved(key, callback);
+        return this;
+    }
+
     public void shutdown() {
         asyncRunner.shutdown();
     }

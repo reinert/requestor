@@ -417,6 +417,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     public void setRetry(RetryPolicy retryPolicy) {
         retry(retryPolicy);
     }
+
     @Override
     public void setRetry(RetryPolicy.Provider retryPolicyProvider) {
         retry(retryPolicyProvider);
@@ -495,11 +496,23 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public RequestBuilderImpl onSaved(String key, SaveCallback callback) {
+        store.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public RequestBuilderImpl onRemoved(String key, RemoveCallback callback) {
+        store.onRemoved(key, callback);
+        return this;
+    }
+
+    @Override
     public void clear() {
         store.clear();
     }
 
-//===================================================================
+    //===================================================================
     // MutableSerializedRequest
     //===================================================================
 

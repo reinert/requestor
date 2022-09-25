@@ -368,6 +368,18 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         request.clear();
     }
 
+    @Override
+    public Store onSaved(String key, SaveCallback callback) {
+        request.onSaved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Store onRemoved(String key, RemoveCallback callback) {
+        request.onRemoved(key, callback);
+        return this;
+    }
+
     //===================================================================
     // RequestInAuthProcess methods
     //===================================================================
