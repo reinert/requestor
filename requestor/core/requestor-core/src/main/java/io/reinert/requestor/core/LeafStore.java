@@ -22,7 +22,7 @@ package io.reinert.requestor.core;
  */
 class LeafStore implements Store {
 
-    private final StoreManagerImpl storeManager;
+    private final StoreManager storeManager;
     private final Store parentStore;
 
     static LeafStore copy(LeafStore leafStore) {
@@ -31,11 +31,11 @@ class LeafStore implements Store {
 
     LeafStore(Store store, boolean concurrent) {
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
-        this.storeManager = new StoreManagerImpl(concurrent);
+        this.storeManager = new StoreManager(concurrent);
         this.parentStore = store;
     }
 
-    private LeafStore(Store store, StoreManagerImpl storeManager) {
+    private LeafStore(Store store, StoreManager storeManager) {
         this.storeManager = storeManager;
         this.parentStore = store;
     }

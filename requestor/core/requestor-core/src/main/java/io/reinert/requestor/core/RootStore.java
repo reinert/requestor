@@ -22,10 +22,10 @@ package io.reinert.requestor.core;
  */
 class RootStore implements Store {
 
-    private final StoreManagerImpl storeManager;
+    private final StoreManager storeManager;
 
     RootStore() {
-        this.storeManager = new StoreManagerImpl(true);
+        this.storeManager = new StoreManager(true);
     }
 
     @Override

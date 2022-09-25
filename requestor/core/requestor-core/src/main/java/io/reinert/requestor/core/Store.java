@@ -20,7 +20,7 @@ package io.reinert.requestor.core;
  *
  * @author Danilo Reinert
  */
-public interface Store extends Saver, StoreManager {
+public interface Store extends Saver {
 
     enum Level {
         PARENT,
@@ -32,8 +32,8 @@ public interface Store extends Saver, StoreManager {
         <T> T getOldData();
 
         class Impl implements RemoveEvent {
-            final String key;
-            final Object oldData;
+            private final String key;
+            private final Object oldData;
 
             public Impl(String key, Object oldData) {
                 this.key = key;
@@ -57,9 +57,9 @@ public interface Store extends Saver, StoreManager {
         <T> T getNewData();
 
         class Impl implements SaveEvent {
-            final String key;
-            final Object oldData;
-            final Object newData;
+            private final String key;
+            private final Object oldData;
+            private final Object newData;
 
             public Impl(String key, Object oldData, Object newData) {
                 this.key = key;
