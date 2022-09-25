@@ -49,7 +49,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
 
     private final RequestLogger logger = new RequestLogger();
     private final RequestOptionsHolder options = new RequestOptionsHolder();
-    private final RootStore store = new RootStore();
+    private final RootStore store;
     private final SerializerManagerImpl serializerManager = new SerializerManagerImpl();
     private final ProviderManagerImpl providerManager = new ProviderManagerImpl();
     private final FilterManagerImpl filterManager = new FilterManagerImpl();
@@ -78,6 +78,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
             throw new IllegalArgumentException("AsyncRunner cannot be null");
         }
         this.asyncRunner = asyncRunner;
+        this.store = new RootStore(asyncRunner);
 
         if (requestDispatcherFactory == null) {
             throw new IllegalArgumentException("RequestDispatcher.Factory cannot be null");
@@ -645,6 +646,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
         return this;
     }
 
+    @Override
+    public Session onExpired(String key, Callback callback) {
+        store.onExpired(key, callback);
+        return this;
+    }
+
     public void shutdown() {
         asyncRunner.shutdown();
     }
@@ -662,7 +669,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     private RequestInvoker createRequest(Uri uri) {
-        final RequestInvoker request = new RequestInvokerImpl(this, uri, new LeafStore(store, false),
+        final RequestInvoker request = new RequestInvokerImpl(this, uri, new LeafStore(store, false, asyncRunner),
                 requestDispatcherFactory.create(asyncRunner, requestProcessor, responseProcessor, deferredPoolFactory,
                         logger));
 

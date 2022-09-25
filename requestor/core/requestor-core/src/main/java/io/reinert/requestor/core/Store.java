@@ -211,11 +211,19 @@ public interface Store extends Saver {
     Store onSaved(String key, Callback callback);
 
     /**
-     * Registers a callback to be executed <i><b>after</b></i> a new data is <b>removed</b> from the store.
+     * Registers a callback to be executed <i><b>after</b></i> this key's data is <b>removed</b> from the store.
      *
      * @param callback The callback to be executed
      * @return This store
      */
     Store onRemoved(String key, Callback callback);
+
+    /**
+     * Registers a callback to be executed <i><b>after</b></i> this key's data <b>expires</b> (ttl times out).
+     *
+     * @param callback The callback to be executed
+     * @return This store
+     */
+    Store onExpired(String key, Callback callback);
 
 }

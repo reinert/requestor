@@ -36,7 +36,7 @@ public class BaseService implements Service {
     public BaseService(Session session, String resourceUri) {
         this.session = session;
         this.options = RequestOptionsHolder.copy(session.getRequestOptions());
-        this.store = new LeafStore(session, true);
+        this.store = new LeafStore(session, true, session.getAsyncRunner());
         this.uriBuilder = UriBuilder.fromUri(resourceUri);
     }
 
@@ -236,6 +236,12 @@ public class BaseService implements Service {
     @Override
     public Service onRemoved(String key, Callback callback) {
         store.onRemoved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Service onExpired(String key, Callback callback) {
+        store.onExpired(key, callback);
         return this;
     }
 

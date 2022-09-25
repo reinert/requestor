@@ -520,6 +520,12 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public RequestBuilderImpl onExpired(String key, Callback callback) {
+        store.onExpired(key, callback);
+        return this;
+    }
+
+    @Override
     public void clear() {
         store.clear();
     }

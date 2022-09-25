@@ -162,6 +162,12 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
+    public ProcessableResponse onExpired(String key, Callback callback) {
+        response.onExpired(key, callback);
+        return this;
+    }
+
+    @Override
     public Iterable<Link> getLinks() {
         return response.getLinks();
     }

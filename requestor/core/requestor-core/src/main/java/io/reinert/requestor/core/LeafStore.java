@@ -29,9 +29,9 @@ class LeafStore implements Store {
         return new LeafStore(leafStore.parentStore, leafStore.storeManager.copy());
     }
 
-    LeafStore(Store store, boolean concurrent) {
+    LeafStore(Store store, boolean concurrent, AsyncRunner asyncRunner) {
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
-        this.storeManager = new StoreManager(concurrent);
+        this.storeManager = new StoreManager(concurrent, asyncRunner);
         this.parentStore = store;
     }
 
@@ -113,6 +113,12 @@ class LeafStore implements Store {
     @Override
     public Store onRemoved(String key, Callback callback) {
         storeManager.onRemoved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Store onExpired(String key, Callback callback) {
+        storeManager.onExpired(key, callback);
         return this;
     }
 

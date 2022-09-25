@@ -323,6 +323,12 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
         return this;
     }
 
+    @Override
+    public PollingRequest<Response> onExpired(String key, Callback callback) {
+        serializedRequest.onExpired(key, callback);
+        return this;
+    }
+
     //===================================================================
     // Request
     //===================================================================

@@ -392,6 +392,12 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
         return this;
     }
 
+    @Override
+    public Store onExpired(String key, Callback callback) {
+        request.onExpired(key, callback);
+        return this;
+    }
+
     //===================================================================
     // RequestInAuthProcess methods
     //===================================================================

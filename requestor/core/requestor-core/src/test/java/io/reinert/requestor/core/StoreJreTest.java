@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class StoreJreTest {
 
-    private final Store store = new RootStore();
+    private final Store store = new RootStore(null);
 
     @Test
     public void get_SetValue_ShouldReturnSetValueAndKeepIt() {

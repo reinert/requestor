@@ -253,6 +253,12 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
         return this;
     }
 
+    @Override
+    public DeferredPollingRequest<T> onExpired(String key, Callback callback) {
+        serializedRequest.onExpired(key, callback);
+        return this;
+    }
+
     //===================================================================
     // Request
     //===================================================================

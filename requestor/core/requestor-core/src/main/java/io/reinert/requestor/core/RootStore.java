@@ -24,8 +24,8 @@ class RootStore implements Store {
 
     private final StoreManager storeManager;
 
-    RootStore() {
-        this.storeManager = new StoreManager(true);
+    RootStore(AsyncRunner asyncRunner) {
+        this.storeManager = new StoreManager(true, asyncRunner);
     }
 
     @Override
@@ -84,6 +84,12 @@ class RootStore implements Store {
     @Override
     public Store onRemoved(String key, Callback callback) {
         storeManager.onRemoved(key, callback);
+        return this;
+    }
+
+    @Override
+    public Store onExpired(String key, Callback callback) {
+        storeManager.onExpired(key, callback);
         return this;
     }
 }

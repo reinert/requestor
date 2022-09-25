@@ -338,4 +338,10 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
         request.onRemoved(key, callback);
         return this;
     }
+
+    @Override
+    public ProcessableRequest onExpired(String key, Callback callback) {
+        request.onExpired(key, callback);
+        return this;
+    }
 }

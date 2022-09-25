@@ -308,4 +308,10 @@ class PreparedRequestImpl<R> implements PreparedRequest {
         request.onRemoved(key, callback);
         return this;
     }
+
+    @Override
+    public PreparedRequest onExpired(String key, Callback callback) {
+        request.onExpired(key, callback);
+        return this;
+    }
 }

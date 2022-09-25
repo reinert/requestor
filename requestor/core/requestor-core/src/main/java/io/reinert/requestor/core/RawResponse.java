@@ -201,6 +201,12 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
+    public Store onExpired(String key, Callback callback) {
+        request.onExpired(key, callback);
+        return this;
+    }
+
+    @Override
     public void setSerializedPayload(SerializedPayload serializedPayload) {
         if (deserialized) {
             throw new IllegalStateException("Payload was already deserialized. Cannot set a serialized payload after" +

@@ -142,6 +142,12 @@ public class IncomingResponseImpl implements IncomingResponse {
         return this;
     }
 
+    @Override
+    public IncomingResponse onExpired(String key, Callback callback) {
+        response.onExpired(key, callback);
+        return this;
+    }
+
     public Session getSession() {
         return response.getSession();
     }

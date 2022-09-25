@@ -24,16 +24,19 @@ import java.util.concurrent.ConcurrentHashMap;
 class StoreManager implements Store {
 
     private final boolean concurrent;
+    private final AsyncRunner asyncRunner;
     private Map<String, Data> dataMap;
     private Map<String, List<Callback>> savedCallbacks;
     private Map<String, List<Callback>> removedCallbacks;
+    private Map<String, List<Callback>> expiredCallbacks;
 
-    public StoreManager(boolean concurrent) {
+    public StoreManager(boolean concurrent, AsyncRunner asyncRunner) {
         this.concurrent = concurrent;
+        this.asyncRunner = asyncRunner;
     }
 
     StoreManager copy() {
-        final StoreManager copy = new StoreManager(concurrent);
+        final StoreManager copy = new StoreManager(concurrent, asyncRunner);
 
         if (dataMap != null) {
             copy.dataMap = concurrent ?
@@ -90,13 +93,25 @@ class StoreManager implements Store {
     }
 
     @Override
-    public Store save(String key, Object value, long ttl) {
+    public Store save(final String key, final Object value, long ttl) {
         checkNotNull(key, "The key argument cannot be null");
         checkNotNull(value, "The value argument cannot be null");
 
         Data old = ensureDataMap().remove(key);
 
-        dataMap.put(key, new Data(value, ttl));
+        final Data data = new Data(value, ttl);
+        dataMap.put(key, data);
+
+        if (ttl > 0L) {
+            asyncRunner.run(new Runnable() {
+                public void run() {
+                    if (dataMap.get(key) == data) {
+                        dataMap.remove(key);
+                        triggerExpiredCallbacks(key, new Event.Impl(key, value));
+                    }
+                }
+            }, ttl);
+        }
 
         triggerSavedCallbacks(key, new Event.Impl(key, old != null ? old.getValue() : null, value));
 
@@ -152,6 +167,12 @@ class StoreManager implements Store {
         return null;
     }
 
+    @Override
+    public Store onExpired(String key, Callback callback) {
+        addCallback(key, callback, ensureExpiredCallbacks());
+        return null;
+    }
+
     private synchronized <C> void addCallback(String key, C callback, Map<String, List<C>> callbacksMap) {
         List<C> callbacks = callbacksMap.get(key);
 
@@ -179,6 +200,18 @@ class StoreManager implements Store {
         if (savedCallbacks == null) return;
 
         final List<Callback> callbacks = savedCallbacks.get(key);
+
+        if (callbacks == null) return;
+
+        for (Callback callback : callbacks) {
+            callback.execute(event);
+        }
+    }
+
+    private void triggerExpiredCallbacks(String key, Event event) {
+        if (expiredCallbacks == null) return;
+
+        final List<Callback> callbacks = expiredCallbacks.get(key);
 
         if (callbacks == null) return;
 
@@ -216,5 +249,14 @@ class StoreManager implements Store {
                     : new HashMap<String, List<Callback>>();
         }
         return savedCallbacks;
+    }
+
+    private Map<String, List<Callback>> ensureExpiredCallbacks() {
+        if (expiredCallbacks == null) {
+            expiredCallbacks = concurrent
+                    ? new ConcurrentHashMap<String, List<Callback>>()
+                    : new HashMap<String, List<Callback>>();
+        }
+        return expiredCallbacks;
     }
 }
