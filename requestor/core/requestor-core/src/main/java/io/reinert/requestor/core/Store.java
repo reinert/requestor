@@ -165,21 +165,21 @@ public interface Store extends Saver {
      * If you want to persist it in the immediate parent store, set the level param to <code>Level.PARENT</code>.
      * If you want to persist it in the root store, set the level param to <code>Level.ROOT</code>.
      *
-     * @param key   A key to associate the data
-     * @param value The data to be persisted
-     * @param ttl   Time to live, i.e., the period when the data will still be valid
-     * @param level Whether the data should be persisted in the underlying stores or not
+     * @param key       A key to associate the data
+     * @param value     The data to be persisted
+     * @param ttlMillis Time to live, i.e., the period when the data will still be valid, in milliseconds
+     * @param level     Whether the data should be persisted in the underlying stores or not
      */
-    Store save(String key, Object value, long ttl, Level level);
+    Store save(String key, Object value, long ttlMillis, Level level);
 
     /**
      * Saves the value into the store associated with the key during the TTL period.
      *
-     * @param key   A key to associate the data
-     * @param value The data to be persisted
-     * @param ttl   Time to live, i.e., the period when the data will still be valid
+     * @param key       A key to associate the data
+     * @param value     The data to be persisted
+     * @param ttlMillis Time to live, i.e., the period when the data will still be valid, in milliseconds
      */
-    Store save(String key, Object value, long ttl);
+    Store save(String key, Object value, long ttlMillis);
 
     /**
      * Checks if there's an object associated with the given key.
