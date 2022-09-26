@@ -23,10 +23,12 @@ import com.google.gwt.junit.client.GWTTestCase;
 
 import io.reinert.requestor.core.BaseService;
 import io.reinert.requestor.core.Request;
+import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.Response;
 import io.reinert.requestor.core.RestService;
 import io.reinert.requestor.core.Session;
 import io.reinert.requestor.core.Status;
+import io.reinert.requestor.core.callback.ExceptionCallback;
 import io.reinert.requestor.core.callback.PayloadCallback;
 import io.reinert.requestor.core.callback.ResponseCallback;
 import io.reinert.requestor.core.uri.Uri;
@@ -74,12 +76,12 @@ public class BaseServiceGwtTest extends GWTTestCase {
             Uri uri = getUriBuilder()
                     .segment(id) // add a path segment with the book id like /api/books/123
                     .build();
-            return req(uri).delete();
+            return req(uri).delay(getDelay() * 2).delete();
         }
     }
 
-    private static final int TIMEOUT = 6000;
-    private static final int DELAY = 3000;
+    private static final int TIMEOUT = 8000;
+    private static final int DELAY = 2500;
 
     private BookService bookService;
 
@@ -114,6 +116,16 @@ public class BaseServiceGwtTest extends GWTTestCase {
 
                 // Trigger delete test
                 manualTestDeleteBook(created.getId());
+            }
+        }).onFail(new ResponseCallback() {
+            public void execute(Response response) throws Throwable {
+                System.out.println(">>>>>>>>>>>> POST FAIL");
+                System.out.println(response.getStatus());
+            }
+        }).onError(new ExceptionCallback() {
+            public void execute(RequestException exception) throws Throwable {
+                System.out.println(">>>>>>>>>>>> POST ERROR");
+                exception.printStackTrace();
             }
         });
 
@@ -189,6 +201,16 @@ public class BaseServiceGwtTest extends GWTTestCase {
                 assertEquals(Status.OK, response.getStatus());
 
                 finishTest();
+            }
+        }).onFail(new ResponseCallback() {
+            public void execute(Response response) throws Throwable {
+                System.out.println(">>>>>>>>>>>> DELETE FAIL");
+                System.out.println(response.getStatus());
+            }
+        }).onError(new ExceptionCallback() {
+            public void execute(RequestException exception) throws Throwable {
+                System.out.println(">>>>>>>>>>>> DELETE ERROR");
+                exception.printStackTrace();
             }
         });
     }
