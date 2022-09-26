@@ -115,8 +115,18 @@ public interface Store extends Saver {
         }
     }
 
-    interface Handler {
-        void execute(Event event);
+    abstract class Handler {
+        private boolean canceled;
+
+        public abstract void execute(Event event);
+
+        protected void cancel() {
+            canceled = true;
+        }
+
+        boolean isCanceled() {
+            return canceled;
+        }
     }
 
     /**
