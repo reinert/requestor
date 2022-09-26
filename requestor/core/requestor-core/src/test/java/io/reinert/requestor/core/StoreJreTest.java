@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
@@ -29,7 +30,32 @@ import static org.junit.Assert.assertTrue;
  */
 public class StoreJreTest {
 
-    private final Store store = new RootStore(null);
+    private final Store store = new RootStore(new AsyncRunner() {
+        @Override
+        public void run(Runnable runnable, long delayMillis) {
+            runnable.run();
+        }
+
+        @Override
+        public void sleep(long millis) {
+            // no-op
+        }
+
+        @Override
+        public void shutdown() {
+            // no-op
+        }
+
+        @Override
+        public boolean isShutdown() {
+            return false;
+        }
+
+        @Override
+        public Lock getLock() {
+            return null;
+        }
+    });
 
     @Test
     public void get_SetValue_ShouldReturnSetValueAndKeepIt() {
@@ -64,7 +90,7 @@ public class StoreJreTest {
     }
 
     @Test
-    public void onSaved_save_ShouldTriggerSavedCallback() {
+    public void onSaved_save_ShouldTriggerSavedHandler() {
         final String key = "key";
         final Object data = new Object();
         final AtomicBoolean called = new AtomicBoolean(false);
@@ -74,7 +100,7 @@ public class StoreJreTest {
             public void execute(Store.Event event) {
                 called.set(true);
                 assertNull(event.getOldData());
-                assertEquals(data, event.getNewData());
+                assertEquals(data, event.getNewData().getValue());
             }
         });
 
@@ -86,7 +112,7 @@ public class StoreJreTest {
     }
 
     @Test
-    public void onSaved_saveAfterSave_ShouldTriggerSavedCallbackWithOldData() {
+    public void onSaved_saveAfterSave_ShouldTriggerSavedHandlerWithOldData() {
         final String key = "key";
         final Object oldData = new Object();
         final Object newData = new Object();
@@ -97,8 +123,8 @@ public class StoreJreTest {
         store.onSaved(key, new Store.Handler() {
             public void execute(Store.Event event) {
                 called.set(true);
-                assertEquals(oldData, event.getOldData());
-                assertEquals(newData, event.getNewData());
+                assertEquals(oldData, event.getOldData().getValue());
+                assertEquals(newData, event.getNewData().getValue());
             }
         });
 
@@ -110,7 +136,7 @@ public class StoreJreTest {
     }
 
     @Test
-    public void onRemoved_remove_ShouldTriggerRemovedCallback() {
+    public void onRemoved_remove_ShouldTriggerRemovedHandler() {
         final String key = "key";
         final Object data = new Object();
         final AtomicBoolean called = new AtomicBoolean(false);
@@ -120,7 +146,7 @@ public class StoreJreTest {
         store.onRemoved(key, new Store.Handler() {
             public void execute(Store.Event event) {
                 called.set(true);
-                assertEquals(data, event.getOldData());
+                assertEquals(data, event.getOldData().getValue());
             }
         });
 
@@ -129,5 +155,69 @@ public class StoreJreTest {
 
         // Then
         assertTrue(called.get());
+    }
+
+    @Test
+    public void saveWithTtl_ShouldTriggerOnExpired() {
+        final String key = "key";
+        final Object data = new Object();
+        final AtomicBoolean called = new AtomicBoolean(false);
+
+        // Given
+        store.onExpired(key, new Store.Handler() {
+            public void execute(Store.Event event) {
+                called.set(true);
+                assertEquals(data, event.getOldData().getValue());
+            }
+        });
+
+        // When
+        store.save(key, data, 1);
+
+        // Then
+        assertTrue(called.get());
+        assertFalse(store.exists(key));
+    }
+
+    @Test
+    public void cancel_ShouldNotTriggerHandler() {
+        final String key = "key";
+        final Object firstData = new Object();
+        final Object secondData = new Object();
+        final Object thirdData = new Object();
+        final AtomicInteger calls = new AtomicInteger(0);
+
+        // Given
+        store.onSaved(key, new Store.Handler() {
+            public void execute(Store.Event event) {
+                // Then
+                assertEquals(firstData, event.getNewData().getValue());
+
+                cancel();
+            }
+        });
+        store.onSaved(key, new Store.Handler() {
+            public void execute(Store.Event event) {
+                // Then
+                if (calls.incrementAndGet() == 1) {
+                    assertEquals(firstData, event.getNewData().getValue());
+                    return;
+                }
+
+                if (calls.get() == 2) {
+                    assertEquals(firstData, event.getOldData().getValue());
+                    assertEquals(secondData, event.getNewData().getValue());
+                    return;
+                }
+
+                assertEquals(secondData, event.getOldData().getValue());
+                assertEquals(thirdData, event.getNewData().getValue());
+            }
+        });
+
+        // When
+        store.save(key, firstData);
+        store.save(key, secondData);
+        store.save(key, thirdData);
     }
 }
