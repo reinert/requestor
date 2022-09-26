@@ -2017,6 +2017,19 @@ For example, if we create a Request from a Session, the Request is a Store linke
 
 Also, note that when a Request produces a Response, they share the same Store. So there is one Store only in a Request-Response lifecycle.
 
+Finally, a Store emits some important events that allow us to react when modifications happen to it.
+* **Saved Event** - it's fired when a new data is saved into the store.
+  * It provides us access to the `newData` that's being saved and also the `oldData` that was in the key's slot before (`null` if there was none).
+  * We can listen to this event by registering a handler with the `onSaved` method.
+* **Removed Event** - it's fired when a data is removed from the store.
+    * It provides us access to the `oldData` that's being removed.
+    * We can listen to this event by registering a handler with the `onRemoved` method.
+* **Expired Event** - it's fired when a data TTL expires.
+    * It provides us access to the `oldData` that has expired.
+    * We can listen to this event by registering a handler with the `onExpired` method.
+
+All handlers provide a `cancel()` method that we can call to deregister (unsubscribe) the handler from the store.
+
 A Store provides the following operations:
 
 ```java
