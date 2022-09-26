@@ -635,20 +635,20 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
-    public Session onSaved(String key, Callback callback) {
-        store.onSaved(key, callback);
+    public Session onSaved(String key, Handler handler) {
+        store.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public Session onRemoved(String key, Callback callback) {
-        store.onRemoved(key, callback);
+    public Session onRemoved(String key, Handler handler) {
+        store.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public Session onExpired(String key, Callback callback) {
-        store.onExpired(key, callback);
+    public Session onExpired(String key, Handler handler) {
+        store.onExpired(key, handler);
         return this;
     }
 

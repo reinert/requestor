@@ -115,7 +115,7 @@ public interface Store extends Saver {
         }
     }
 
-    interface Callback {
+    interface Handler {
         void execute(Event event);
     }
 
@@ -209,25 +209,25 @@ public interface Store extends Saver {
     /**
      * Registers a callback to be executed <i><b>after</b></i> a new data is <b>saved</b> into the store.
      *
-     * @param callback The callback to be executed
+     * @param handler The callback to be executed
      * @return This store
      */
-    Store onSaved(String key, Callback callback);
+    Store onSaved(String key, Handler handler);
 
     /**
      * Registers a callback to be executed <i><b>after</b></i> this key's data is <b>removed</b> from the store.
      *
-     * @param callback The callback to be executed
+     * @param handler The callback to be executed
      * @return This store
      */
-    Store onRemoved(String key, Callback callback);
+    Store onRemoved(String key, Handler handler);
 
     /**
      * Registers a callback to be executed <i><b>after</b></i> this key's data <b>expires</b> (ttl times out).
      *
-     * @param callback The callback to be executed
+     * @param handler The callback to be executed
      * @return This store
      */
-    Store onExpired(String key, Callback callback);
+    Store onExpired(String key, Handler handler);
 
 }

@@ -131,20 +131,20 @@ public class IncomingResponseImpl implements IncomingResponse {
     }
 
     @Override
-    public IncomingResponse onSaved(String key, Callback callback) {
-        response.onSaved(key, callback);
+    public IncomingResponse onSaved(String key, Handler handler) {
+        response.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public IncomingResponse onRemoved(String key, Callback callback) {
-        response.onRemoved(key, callback);
+    public IncomingResponse onRemoved(String key, Handler handler) {
+        response.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public IncomingResponse onExpired(String key, Callback callback) {
-        response.onExpired(key, callback);
+    public IncomingResponse onExpired(String key, Handler handler) {
+        response.onExpired(key, handler);
         return this;
     }
 

@@ -298,20 +298,20 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public PreparedRequest onSaved(String key, Callback callback) {
-        request.onSaved(key, callback);
+    public PreparedRequest onSaved(String key, Handler handler) {
+        request.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public PreparedRequest onRemoved(String key, Callback callback) {
-        request.onRemoved(key, callback);
+    public PreparedRequest onRemoved(String key, Handler handler) {
+        request.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public PreparedRequest onExpired(String key, Callback callback) {
-        request.onExpired(key, callback);
+    public PreparedRequest onExpired(String key, Handler handler) {
+        request.onExpired(key, handler);
         return this;
     }
 }

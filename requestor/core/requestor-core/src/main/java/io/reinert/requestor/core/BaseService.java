@@ -228,20 +228,20 @@ public class BaseService implements Service {
     }
 
     @Override
-    public Service onSaved(String key, Callback callback) {
-        store.onSaved(key, callback);
+    public Service onSaved(String key, Handler handler) {
+        store.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public Service onRemoved(String key, Callback callback) {
-        store.onRemoved(key, callback);
+    public Service onRemoved(String key, Handler handler) {
+        store.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public Service onExpired(String key, Callback callback) {
-        store.onExpired(key, callback);
+    public Service onExpired(String key, Handler handler) {
+        store.onExpired(key, handler);
         return this;
     }
 

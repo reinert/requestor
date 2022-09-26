@@ -508,20 +508,20 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public RequestBuilderImpl onSaved(String key, Callback callback) {
-        store.onSaved(key, callback);
+    public RequestBuilderImpl onSaved(String key, Handler handler) {
+        store.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public RequestBuilderImpl onRemoved(String key, Callback callback) {
-        store.onRemoved(key, callback);
+    public RequestBuilderImpl onRemoved(String key, Handler handler) {
+        store.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public RequestBuilderImpl onExpired(String key, Callback callback) {
-        store.onExpired(key, callback);
+    public RequestBuilderImpl onExpired(String key, Handler handler) {
+        store.onExpired(key, handler);
         return this;
     }
 

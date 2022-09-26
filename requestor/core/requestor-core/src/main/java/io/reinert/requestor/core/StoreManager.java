@@ -26,9 +26,9 @@ class StoreManager implements Store {
     private final boolean concurrent;
     private final AsyncRunner asyncRunner;
     private Map<String, Data> dataMap;
-    private Map<String, List<Callback>> savedCallbacks;
-    private Map<String, List<Callback>> removedCallbacks;
-    private Map<String, List<Callback>> expiredCallbacks;
+    private Map<String, List<Handler>> savedHandlers;
+    private Map<String, List<Handler>> removedHandlers;
+    private Map<String, List<Handler>> expiredHandlers;
 
     public StoreManager(boolean concurrent, AsyncRunner asyncRunner) {
         this.concurrent = concurrent;
@@ -44,16 +44,16 @@ class StoreManager implements Store {
                     new HashMap<String, Data>(dataMap);
         }
 
-        if (savedCallbacks != null) {
-            copy.savedCallbacks = concurrent ?
-                    new ConcurrentHashMap<String, List<Callback>>(savedCallbacks) :
-                    new HashMap<String, List<Callback>>(savedCallbacks);
+        if (savedHandlers != null) {
+            copy.savedHandlers = concurrent ?
+                    new ConcurrentHashMap<String, List<Handler>>(savedHandlers) :
+                    new HashMap<String, List<Handler>>(savedHandlers);
         }
 
-        if (removedCallbacks != null) {
-            copy.removedCallbacks = concurrent ?
-                    new ConcurrentHashMap<String, List<Callback>>(removedCallbacks) :
-                    new HashMap<String, List<Callback>>(removedCallbacks);
+        if (removedHandlers != null) {
+            copy.removedHandlers = concurrent ?
+                    new ConcurrentHashMap<String, List<Handler>>(removedHandlers) :
+                    new HashMap<String, List<Handler>>(removedHandlers);
         }
 
         return copy;
@@ -107,13 +107,13 @@ class StoreManager implements Store {
                 public void run() {
                     if (dataMap.get(key) == savedData) {
                         dataMap.remove(key);
-                        triggerExpiredCallbacks(key, savedData);
+                        triggerExpiredHandlers(key, savedData);
                     }
                 }
             }, ttl);
         }
 
-        triggerSavedCallbacks(key, removedData, savedData);
+        triggerSavedHandlers(key, removedData, savedData);
 
         return null;
     }
@@ -142,7 +142,7 @@ class StoreManager implements Store {
             Data removedData = dataMap.remove(key);
 
             if (removedData != null && !removedData.isExpired()) {
-                triggerRemovedCallbacks(key, removedData);
+                triggerRemovedHandlers(key, removedData);
                 return true;
             }
         }
@@ -156,62 +156,62 @@ class StoreManager implements Store {
             List<Data> values = new ArrayList<Data>(dataMap.values());
             dataMap.clear();
             for (Data data : values) {
-                triggerRemovedCallbacks(data.getKey(), data);
+                triggerRemovedHandlers(data.getKey(), data);
             }
         }
     }
 
     @Override
-    public Store onSaved(String key, Callback callback) {
-        addCallback(key, callback, ensureSavedCallbacks());
+    public Store onSaved(String key, Handler handler) {
+        addHandler(key, handler, ensureSavedHandlers());
         return null;
     }
 
     @Override
-    public Store onRemoved(String key, Callback callback) {
-        addCallback(key, callback, ensureRemovedCallbacks());
+    public Store onRemoved(String key, Handler handler) {
+        addHandler(key, handler, ensureRemovedHandlers());
         return null;
     }
 
     @Override
-    public Store onExpired(String key, Callback callback) {
-        addCallback(key, callback, ensureExpiredCallbacks());
+    public Store onExpired(String key, Handler handler) {
+        addHandler(key, handler, ensureExpiredHandlers());
         return null;
     }
 
-    private synchronized <C> void addCallback(String key, C callback, Map<String, List<C>> callbacksMap) {
-        List<C> callbacks = callbacksMap.get(key);
+    private synchronized <C> void addHandler(String key, C handler, Map<String, List<C>> handlersMap) {
+        List<C> handlers = handlersMap.get(key);
 
-        if (callbacks == null) {
-            callbacks = new ArrayList<C>();
-            callbacksMap.put(key, callbacks);
+        if (handlers == null) {
+            handlers = new ArrayList<C>();
+            handlersMap.put(key, handlers);
         }
 
-        callbacks.add(callback);
+        handlers.add(handler);
     }
 
-    private void triggerSavedCallbacks(String key, Data removedData, Data savedData) {
-        triggerCallbacks(savedCallbacks, key, removedData, savedData);
+    private void triggerSavedHandlers(String key, Data removedData, Data savedData) {
+        triggerHandlers(savedHandlers, key, removedData, savedData);
     }
 
-    private void triggerRemovedCallbacks(String key, Data removedData) {
-        triggerCallbacks(removedCallbacks, key, removedData, null);
+    private void triggerRemovedHandlers(String key, Data removedData) {
+        triggerHandlers(removedHandlers, key, removedData, null);
     }
 
-    private void triggerExpiredCallbacks(String key, Data expiredData) {
-        triggerCallbacks(expiredCallbacks, key, expiredData, null);
+    private void triggerExpiredHandlers(String key, Data expiredData) {
+        triggerHandlers(expiredHandlers, key, expiredData, null);
     }
 
-    private void triggerCallbacks(Map<String, List<Callback>> callbacksMap, String key, Data oldData, Data newData) {
-        if (callbacksMap == null) return;
+    private void triggerHandlers(Map<String, List<Handler>> handlersMap, String key, Data oldData, Data newData) {
+        if (handlersMap == null) return;
 
-        final List<Callback> callbacks = callbacksMap.get(key);
+        final List<Handler> handlers = handlersMap.get(key);
 
-        if (callbacks == null) return;
+        if (handlers == null) return;
 
         final Event.Impl event = new Event.Impl(key, oldData, newData);
-        for (Callback callback : callbacks) {
-            callback.execute(event);
+        for (Handler handler : handlers) {
+            handler.execute(event);
         }
     }
 
@@ -228,30 +228,30 @@ class StoreManager implements Store {
         return dataMap;
     }
 
-    private Map<String, List<Callback>> ensureSavedCallbacks() {
-        if (savedCallbacks == null) {
-            savedCallbacks = concurrent
-                    ? new ConcurrentHashMap<String, List<Callback>>()
-                    : new HashMap<String, List<Callback>>();
+    private Map<String, List<Handler>> ensureSavedHandlers() {
+        if (savedHandlers == null) {
+            savedHandlers = concurrent
+                    ? new ConcurrentHashMap<String, List<Handler>>()
+                    : new HashMap<String, List<Handler>>();
         }
-        return savedCallbacks;
+        return savedHandlers;
     }
 
-    private Map<String, List<Callback>> ensureRemovedCallbacks() {
-        if (removedCallbacks == null) {
-            removedCallbacks = concurrent
-                    ? new ConcurrentHashMap<String, List<Callback>>()
-                    : new HashMap<String, List<Callback>>();
+    private Map<String, List<Handler>> ensureRemovedHandlers() {
+        if (removedHandlers == null) {
+            removedHandlers = concurrent
+                    ? new ConcurrentHashMap<String, List<Handler>>()
+                    : new HashMap<String, List<Handler>>();
         }
-        return removedCallbacks;
+        return removedHandlers;
     }
 
-    private Map<String, List<Callback>> ensureExpiredCallbacks() {
-        if (expiredCallbacks == null) {
-            expiredCallbacks = concurrent
-                    ? new ConcurrentHashMap<String, List<Callback>>()
-                    : new HashMap<String, List<Callback>>();
+    private Map<String, List<Handler>> ensureExpiredHandlers() {
+        if (expiredHandlers == null) {
+            expiredHandlers = concurrent
+                    ? new ConcurrentHashMap<String, List<Handler>>()
+                    : new HashMap<String, List<Handler>>();
         }
-        return expiredCallbacks;
+        return expiredHandlers;
     }
 }

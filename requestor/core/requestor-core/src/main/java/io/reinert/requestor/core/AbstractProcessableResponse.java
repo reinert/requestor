@@ -150,20 +150,20 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public ProcessableResponse onSaved(String key, Callback callback) {
-        response.onSaved(key, callback);
+    public ProcessableResponse onSaved(String key, Handler handler) {
+        response.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public ProcessableResponse onRemoved(String key, Callback callback) {
-        response.onRemoved(key, callback);
+    public ProcessableResponse onRemoved(String key, Handler handler) {
+        response.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public ProcessableResponse onExpired(String key, Callback callback) {
-        response.onExpired(key, callback);
+    public ProcessableResponse onExpired(String key, Handler handler) {
+        response.onExpired(key, handler);
         return this;
     }
 

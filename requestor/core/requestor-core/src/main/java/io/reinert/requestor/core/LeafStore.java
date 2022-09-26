@@ -105,20 +105,20 @@ class LeafStore implements Store {
     }
 
     @Override
-    public Store onSaved(String key, Callback callback) {
-        storeManager.onSaved(key, callback);
+    public Store onSaved(String key, Handler handler) {
+        storeManager.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public Store onRemoved(String key, Callback callback) {
-        storeManager.onRemoved(key, callback);
+    public Store onRemoved(String key, Handler handler) {
+        storeManager.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public Store onExpired(String key, Callback callback) {
-        storeManager.onExpired(key, callback);
+    public Store onExpired(String key, Handler handler) {
+        storeManager.onExpired(key, handler);
         return this;
     }
 
