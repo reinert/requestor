@@ -217,25 +217,25 @@ public interface Store extends Saver {
     void clear();
 
     /**
-     * Registers a callback to be executed <i><b>after</b></i> a new data is <b>saved</b> into the store.
+     * Registers a handler to be executed <i><b>after</b></i> a new data is <b>saved</b> into the store.
      *
-     * @param handler The callback to be executed
+     * @param handler The handler to be executed
      * @return This store
      */
     Store onSaved(String key, Handler handler);
 
     /**
-     * Registers a callback to be executed <i><b>after</b></i> this key's data is <b>removed</b> from the store.
+     * Registers a handler to be executed <i><b>after</b></i> this key's data is <b>removed</b> from the store.
      *
-     * @param handler The callback to be executed
+     * @param handler The handler to be executed
      * @return This store
      */
     Store onRemoved(String key, Handler handler);
 
     /**
-     * Registers a callback to be executed <i><b>after</b></i> this key's data <b>expires</b> (ttl times out).
+     * Registers a handler to be executed <i><b>after</b></i> this key's data <b>expires</b> (ttl times out).
      *
-     * @param handler The callback to be executed
+     * @param handler The handler to be executed
      * @return This store
      */
     Store onExpired(String key, Handler handler);

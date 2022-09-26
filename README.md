@@ -2023,31 +2023,62 @@ A Store provides the following operations:
 interface Store {
 
     // Queries an object associated with the given key.
+    // If no data is found in the local store, the upstream stores are queried.
     <T> T retrieve(String key);
 
     // Saves the value into the store associating with the key.
-    // Returns the same store to enable save chaining.
+    // Returns the same store to enable method chaining.
+    // Fires the onSaved event.
     Store save(String key, Object value);
 
-    // Saves the value associating with the key in a upstream store according to the specified level.
+    // Saves the value associating with the key in an upstream store according to the specified level.
     // To persist in the immediate parent store, set the level param to Level.PARENT.
-    // To persist in the root store, set the level param to Level.ROOT.
-    // Returns the same store to enable save chaining.
+    // To persist in the root upstream store, set the level param to Level.ROOT.
     Store save(String key, Object value, Level level);
 
+    // Saves data into the store with a time-to-live (TTL) period in milliseconds.
+    // After the TTL expires, the data is deleted and the onExpired event is fired.
+    // Since the data is removed, the onRemoved event is also fired.
+    Store save(String key, Object value, long ttlMillis);
+
+    // Saves data with a time-to-live (TTL) period into an upstream store.
+    Store save(String key, Object value, long ttlMillis, Level level);
+
     // Checks if there's an object associated with the given key.
+    // If no data is found in the local store, the upstream stores are queried.
     boolean exists(String key);
 
     // Checks if there's an object associated with the given key and if it's equals to the given value.
+    // If no data is found in the local store, the upstream stores are queried.
     boolean exists(String key, Object value);
 
-    // Removes the object associated with this key if it owns such record.
+    // Deletes the object associated with this key if it owns such record.
+    // This method affects only the local store. (It's never delegated to the upstream stores)
+    // Fires the onRemoved event.
     boolean remove(String key);
 
     // Clears all data owned by this Store.
     void clear();
+
+    // Registers a handler to be executed AFTER a new data is SAVED into the local store.
+    Store onSaved(String key, Handler handler);
+
+    // Registers a handler to be executed AFTER a new data is REMOVED from the local store.
+    Store onRemoved(String key, Handler handler);
+
+    // Registers a handler to be executed AFTER the data TTL EXPIRES.
+    Store onExpired(String key, Handler handler);
 }
 ```
+
+In summary:
+* A `Session` ***is*** a store (extends the `Store` interface) with no stores attached to it (i.e. a **Root Store**).
+* A `Service` ***is*** a store derived from another store (specifically a `Session`). Hence, it is a **Leaf Store** with a **Session** as it's parent (and root) store. 
+* A `Request` (and it's respective `Response`) ***is*** a **Leaf Store** derived either from a `Session` or a `Service`.
+  * If a **Request** is created from a **Session** directly, then the **Session** is its **PARENT and ROOT** store.
+  * If a **Request** is created from a **Service** instead, then
+    * the **Service** is its **PARENT** store and
+    * the **Session** is its **ROOT** store.
 
 ### Session Store
 
@@ -2154,7 +2185,9 @@ response.remove("key");
 For instance, suppose you created processors to show a loading widget when requesting and hide when the response is received or an error occurs.
 But, for some reason, you want to make 'hidden' requests, so that the loading widget is not shown.
 You can then call `.save("hidden", true)` when building the request and check for this flag in the processors by calling `.exists("hidden", true)` to skip displaying the loading widget.
-Requestor's [showcase app](https://reinert.github.io/requestor/latest/examples/showcase) implements such scenario. [Here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/Showcase.java#L80) a hidden ping request is executed to wake-up the server, and [here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/ShowcaseDeferredFactory.java#L43) the Request Store is queried to skip showing the loading widget.
+Requestor's [showcase app](https://reinert.github.io/requestor/latest/examples/showcase) implements such scenario.
+[Here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/Showcase.java#L80) a hidden ping request is executed to wake-up the server,
+and [here](https://github.com/reinert/requestor/blob/master/examples/requestor-showcase/src/main/java/io/reinert/requestor/examples/showcase/ShowcaseDeferredFactory.java#L44) the Request Store is queried to skip showing the loading widget.
 
 ### Service Store
 
