@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -189,19 +189,19 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public Store onSaved(String key, Handler handler) {
+    public RawResponse onSaved(String key, Handler handler) {
         request.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public Store onRemoved(String key, Handler handler) {
+    public RawResponse onRemoved(String key, Handler handler) {
         request.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public Store onExpired(String key, Handler handler) {
+    public RawResponse onExpired(String key, Handler handler) {
         request.onExpired(key, handler);
         return this;
     }

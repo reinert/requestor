@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,5 +117,30 @@ public interface ResponseHeader extends Store {
      * @return  the originating session
      */
     Session getSession();
+
+    // ========================================================================
+    // Store
+    // ========================================================================
+
+    @Override
+    ResponseHeader save(String key, Object value);
+
+    @Override
+    ResponseHeader save(String key, Object value, Level level);
+
+    @Override
+    ResponseHeader save(String key, Object value, long ttl, Level level);
+
+    @Override
+    ResponseHeader save(String key, Object value, long ttl);
+
+    @Override
+    ResponseHeader onSaved(String key, Handler handler);
+
+    @Override
+    ResponseHeader onRemoved(String key, Handler handler);
+
+    @Override
+    ResponseHeader onExpired(String key, Handler handler);
 
 }

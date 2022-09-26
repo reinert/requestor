@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,5 +28,30 @@ public interface Response extends SerializedResponse {
      * @return the response payload
      */
     <T> T getPayload();
+
+    // ========================================================================
+    // Store
+    // ========================================================================
+
+    @Override
+    Response save(String key, Object value);
+
+    @Override
+    Response save(String key, Object value, Level level);
+
+    @Override
+    Response save(String key, Object value, long ttl, Level level);
+
+    @Override
+    Response save(String key, Object value, long ttl);
+
+    @Override
+    Response onSaved(String key, Handler handler);
+
+    @Override
+    Response onRemoved(String key, Handler handler);
+
+    @Override
+    Response onExpired(String key, Handler handler);
 
 }
