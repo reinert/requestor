@@ -17,8 +17,10 @@ package io.reinert.requestor.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 class StoreManager implements Store {
@@ -26,9 +28,9 @@ class StoreManager implements Store {
     private final boolean concurrent;
     private final AsyncRunner asyncRunner;
     private Map<String, Data> dataMap;
-    private Map<String, List<Handler>> savedHandlers;
-    private Map<String, List<Handler>> removedHandlers;
-    private Map<String, List<Handler>> expiredHandlers;
+    private Map<String, Set<Handler>> savedHandlers;
+    private Map<String, Set<Handler>> removedHandlers;
+    private Map<String, Set<Handler>> expiredHandlers;
 
     public StoreManager(boolean concurrent, AsyncRunner asyncRunner) {
         this.concurrent = concurrent;
@@ -46,14 +48,14 @@ class StoreManager implements Store {
 
         if (savedHandlers != null) {
             copy.savedHandlers = concurrent ?
-                    new ConcurrentHashMap<String, List<Handler>>(savedHandlers) :
-                    new HashMap<String, List<Handler>>(savedHandlers);
+                    new ConcurrentHashMap<String, Set<Handler>>(savedHandlers) :
+                    new HashMap<String, Set<Handler>>(savedHandlers);
         }
 
         if (removedHandlers != null) {
             copy.removedHandlers = concurrent ?
-                    new ConcurrentHashMap<String, List<Handler>>(removedHandlers) :
-                    new HashMap<String, List<Handler>>(removedHandlers);
+                    new ConcurrentHashMap<String, Set<Handler>>(removedHandlers) :
+                    new HashMap<String, Set<Handler>>(removedHandlers);
         }
 
         return copy;
@@ -179,11 +181,11 @@ class StoreManager implements Store {
         return null;
     }
 
-    private synchronized <C> void addHandler(String key, C handler, Map<String, List<C>> handlersMap) {
-        List<C> handlers = handlersMap.get(key);
+    private synchronized <C> void addHandler(String key, C handler, Map<String, Set<C>> handlersMap) {
+        Set<C> handlers = handlersMap.get(key);
 
         if (handlers == null) {
-            handlers = new ArrayList<C>();
+            handlers = new HashSet<C>();
             handlersMap.put(key, handlers);
         }
 
@@ -202,10 +204,10 @@ class StoreManager implements Store {
         triggerHandlers(expiredHandlers, key, expiredData, null);
     }
 
-    private void triggerHandlers(Map<String, List<Handler>> handlersMap, String key, Data oldData, Data newData) {
+    private void triggerHandlers(Map<String, Set<Handler>> handlersMap, String key, Data oldData, Data newData) {
         if (handlersMap == null) return;
 
-        final List<Handler> handlers = handlersMap.get(key);
+        final Set<Handler> handlers = handlersMap.get(key);
 
         if (handlers == null) return;
 
@@ -228,29 +230,29 @@ class StoreManager implements Store {
         return dataMap;
     }
 
-    private Map<String, List<Handler>> ensureSavedHandlers() {
+    private Map<String, Set<Handler>> ensureSavedHandlers() {
         if (savedHandlers == null) {
             savedHandlers = concurrent
-                    ? new ConcurrentHashMap<String, List<Handler>>()
-                    : new HashMap<String, List<Handler>>();
+                    ? new ConcurrentHashMap<String, Set<Handler>>()
+                    : new HashMap<String, Set<Handler>>();
         }
         return savedHandlers;
     }
 
-    private Map<String, List<Handler>> ensureRemovedHandlers() {
+    private Map<String, Set<Handler>> ensureRemovedHandlers() {
         if (removedHandlers == null) {
             removedHandlers = concurrent
-                    ? new ConcurrentHashMap<String, List<Handler>>()
-                    : new HashMap<String, List<Handler>>();
+                    ? new ConcurrentHashMap<String, Set<Handler>>()
+                    : new HashMap<String, Set<Handler>>();
         }
         return removedHandlers;
     }
 
-    private Map<String, List<Handler>> ensureExpiredHandlers() {
+    private Map<String, Set<Handler>> ensureExpiredHandlers() {
         if (expiredHandlers == null) {
             expiredHandlers = concurrent
-                    ? new ConcurrentHashMap<String, List<Handler>>()
-                    : new HashMap<String, List<Handler>>();
+                    ? new ConcurrentHashMap<String, Set<Handler>>()
+                    : new HashMap<String, Set<Handler>>();
         }
         return expiredHandlers;
     }
