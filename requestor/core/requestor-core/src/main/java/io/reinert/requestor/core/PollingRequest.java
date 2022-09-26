@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,10 @@ import io.reinert.requestor.core.callback.WriteCallback;
  * @author Danilo Reinert
  */
 public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
+
+    // ========================================================================
+    // Request
+    // ========================================================================
 
     @Override
     PollingRequest<T> onAbort(ExceptionCallback callback);
@@ -126,4 +130,30 @@ public interface PollingRequest<T> extends HasPollingOptions, Request<T> {
 
     @Override
     PollingRequest<T> onWrite(WriteCallback callback);
+
+    // ========================================================================
+    // Store
+    // ========================================================================
+
+    @Override
+    PollingRequest<T> save(String key, Object value);
+
+    @Override
+    PollingRequest<T> save(String key, Object value, Level level);
+
+    @Override
+    PollingRequest<T> save(String key, Object value, long ttl, Level level);
+
+    @Override
+    PollingRequest<T> save(String key, Object value, long ttl);
+
+    @Override
+    PollingRequest<T> onSaved(String key, Handler handler);
+
+    @Override
+    PollingRequest<T> onRemoved(String key, Handler handler);
+
+    @Override
+    PollingRequest<T> onExpired(String key, Handler handler);
+
 }

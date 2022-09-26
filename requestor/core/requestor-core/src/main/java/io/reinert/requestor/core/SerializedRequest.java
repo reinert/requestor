@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,5 +25,30 @@ import io.reinert.requestor.core.payload.SerializedPayload;
 public interface SerializedRequest extends RequestOptions, HasPollingOptions, Store {
 
     SerializedPayload getSerializedPayload();
+
+    // ========================================================================
+    // Store
+    // ========================================================================
+
+    @Override
+    SerializedRequest save(String key, Object value);
+
+    @Override
+    SerializedRequest save(String key, Object value, Level level);
+
+    @Override
+    SerializedRequest save(String key, Object value, long ttl, Level level);
+
+    @Override
+    SerializedRequest save(String key, Object value, long ttl);
+
+    @Override
+    SerializedRequest onSaved(String key, Handler handler);
+
+    @Override
+    SerializedRequest onRemoved(String key, Handler handler);
+
+    @Override
+    SerializedRequest onExpired(String key, Handler handler);
 
 }

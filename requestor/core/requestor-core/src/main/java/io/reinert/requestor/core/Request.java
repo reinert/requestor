@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,5 +106,30 @@ public interface Request<T> extends SerializedRequest {
     Request<T> onTimeout(TimeoutRequestCallback<T> callback);
 
     Request<T> onWrite(WriteCallback callback);
+
+    // ========================================================================
+    // Store
+    // ========================================================================
+
+    @Override
+    Request<T> save(String key, Object value);
+
+    @Override
+    Request<T> save(String key, Object value, Level level);
+
+    @Override
+    Request<T> save(String key, Object value, long ttl, Level level);
+
+    @Override
+    Request<T> save(String key, Object value, long ttl);
+
+    @Override
+    Request<T> onSaved(String key, Handler handler);
+
+    @Override
+    Request<T> onRemoved(String key, Handler handler);
+
+    @Override
+    Request<T> onExpired(String key, Handler handler);
 
 }

@@ -381,19 +381,19 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public Store onSaved(String key, Handler handler) {
+    public RequestInAuthProcess<R> onSaved(String key, Handler handler) {
         request.onSaved(key, handler);
         return this;
     }
 
     @Override
-    public Store onRemoved(String key, Handler handler) {
+    public RequestInAuthProcess<R> onRemoved(String key, Handler handler) {
         request.onRemoved(key, handler);
         return this;
     }
 
     @Override
-    public Store onExpired(String key, Handler handler) {
+    public RequestInAuthProcess<R> onExpired(String key, Handler handler) {
         request.onExpired(key, handler);
         return this;
     }
