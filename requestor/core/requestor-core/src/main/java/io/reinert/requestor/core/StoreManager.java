@@ -18,6 +18,7 @@ package io.reinert.requestor.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -187,11 +188,11 @@ class StoreManager implements Store {
         return null;
     }
 
-    private synchronized <C> void addHandler(String key, C handler, Map<String, Set<C>> handlersMap) {
-        Set<C> handlers = handlersMap.get(key);
+    private synchronized void addHandler(String key, Handler handler, Map<String, Set<Handler>> handlersMap) {
+        Set<Handler> handlers = handlersMap.get(key);
 
         if (handlers == null) {
-            handlers = new HashSet<C>();
+            handlers = new HashSet<Handler>();
             handlersMap.put(key, handlers);
         }
 
@@ -218,7 +219,14 @@ class StoreManager implements Store {
         if (handlers == null) return;
 
         final Event.Impl event = new Event.Impl(key, oldData, newData);
-        for (Handler handler : handlers) {
+        final Iterator<Handler> it = handlers.iterator();
+        while (it.hasNext()) {
+            Handler handler = it.next();
+            if (handler.isCanceled()) {
+                it.remove();
+                continue;
+            }
+
             handler.execute(event);
         }
     }
