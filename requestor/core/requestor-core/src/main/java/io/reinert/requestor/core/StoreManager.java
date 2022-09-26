@@ -190,40 +190,26 @@ class StoreManager implements Store {
         callbacks.add(callback);
     }
 
-    private void triggerRemovedCallbacks(String key, Data removedData) {
-        if (removedCallbacks == null) return;
-
-        final List<Callback> callbacks = removedCallbacks.get(key);
-
-        if (callbacks == null) return;
-
-        final Event.Impl event = new Event.Impl(key, removedData);
-        for (Callback callback : callbacks) {
-            callback.execute(event);
-        }
+    private void triggerSavedCallbacks(String key, Data removedData, Data savedData) {
+        triggerCallbacks(savedCallbacks, key, removedData, savedData);
     }
 
-    private void triggerSavedCallbacks(String key, Data removedData, Data savedData) {
-        if (savedCallbacks == null) return;
-
-        final List<Callback> callbacks = savedCallbacks.get(key);
-
-        if (callbacks == null) return;
-
-        final Event.Impl event = new Event.Impl(key, removedData, savedData);
-        for (Callback callback : callbacks) {
-            callback.execute(event);
-        }
+    private void triggerRemovedCallbacks(String key, Data removedData) {
+        triggerCallbacks(removedCallbacks, key, removedData, null);
     }
 
     private void triggerExpiredCallbacks(String key, Data expiredData) {
-        if (expiredCallbacks == null) return;
+        triggerCallbacks(expiredCallbacks, key, expiredData, null);
+    }
 
-        final List<Callback> callbacks = expiredCallbacks.get(key);
+    private void triggerCallbacks(Map<String, List<Callback>> callbacksMap, String key, Data oldData, Data newData) {
+        if (callbacksMap == null) return;
+
+        final List<Callback> callbacks = callbacksMap.get(key);
 
         if (callbacks == null) return;
 
-        final Event.Impl event = new Event.Impl(key, expiredData);
+        final Event.Impl event = new Event.Impl(key, oldData, newData);
         for (Callback callback : callbacks) {
             callback.execute(event);
         }
@@ -242,15 +228,6 @@ class StoreManager implements Store {
         return dataMap;
     }
 
-    private Map<String, List<Callback>> ensureRemovedCallbacks() {
-        if (removedCallbacks == null) {
-            removedCallbacks = concurrent
-                    ? new ConcurrentHashMap<String, List<Callback>>()
-                    : new HashMap<String, List<Callback>>();
-        }
-        return removedCallbacks;
-    }
-
     private Map<String, List<Callback>> ensureSavedCallbacks() {
         if (savedCallbacks == null) {
             savedCallbacks = concurrent
@@ -258,6 +235,15 @@ class StoreManager implements Store {
                     : new HashMap<String, List<Callback>>();
         }
         return savedCallbacks;
+    }
+
+    private Map<String, List<Callback>> ensureRemovedCallbacks() {
+        if (removedCallbacks == null) {
+            removedCallbacks = concurrent
+                    ? new ConcurrentHashMap<String, List<Callback>>()
+                    : new HashMap<String, List<Callback>>();
+        }
+        return removedCallbacks;
     }
 
     private Map<String, List<Callback>> ensureExpiredCallbacks() {
