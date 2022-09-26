@@ -58,6 +58,12 @@ class StoreManager implements Store {
                     new HashMap<String, Set<Handler>>(removedHandlers);
         }
 
+        if (expiredHandlers != null) {
+            copy.expiredHandlers = concurrent ?
+                    new ConcurrentHashMap<String, Set<Handler>>(expiredHandlers) :
+                    new HashMap<String, Set<Handler>>(expiredHandlers);
+        }
+
         return copy;
     }
 
