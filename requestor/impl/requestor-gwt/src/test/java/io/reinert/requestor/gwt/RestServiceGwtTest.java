@@ -39,7 +39,7 @@ import junit.framework.TestCase;
  */
 public class RestServiceGwtTest extends GWTTestCase {
 
-    private static final int TIMEOUT = 8000;
+    private static final int TIMEOUT = 10000;
     private static final int DELAY = 3500;
 
     private RestService<Book, Integer> bookService;

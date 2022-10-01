@@ -5,6 +5,7 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   # update version to release version
   mvn versions:set -DnewVersion=$1
   mvn versions:commit
+  # TODO broadly replace old version by $1
   # update tag to release version
   bash ./tag.sh $1
   # commit
@@ -14,16 +15,17 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   # errors are occurring during deployment; it's necessary to try many times
   mvn clean deploy -P!project,release
   # tag
-  git tag -a requestor-$1 -m "Requestor v$1"
-  git push origin requestor-$1
+  git tag -a $1 -m "Requestor $1"
+  git push origin $1
   # site
   mvn install -P!project,examples
   mvn site -P!project,site # manually commit target/site in gh-pages branch
   # update version to next snapshot
   mvn versions:set -DnewVersion=$2
   mvn versions:commit
+  # TODO broadly replace $1 by $2
   # update tag to next snapshot
-  bash ./tag.sh $2
+  bash ./tag.sh HEAD
   # commit
   git add .
   git commit -m "Start $2 development"
