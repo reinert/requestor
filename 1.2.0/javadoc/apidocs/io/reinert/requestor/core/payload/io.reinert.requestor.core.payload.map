@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./TextSerializedPayload.html" title="io.reinert.requestor.core.payload.TextSerializedPayload" alt="" coords="16,118,177,143"/>
+<area shape="rect" id="node1" href="./TextSerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="5,107,188,155"/>
+<area shape="rect" id="node2_1" href="./Payload.html" title="io.reinert.requestor.core.payload.Payload" alt="" coords="209,19,280,45"/>
+<area shape="rect" id="node2" href="./Payload.html" title="&lt;TABLE&gt;" alt="" coords="199,8,291,56"/>
+<area shape="rect" id="node3_2" href="./SerializedPayload.html" title="io.reinert.requestor.core.payload.SerializedPayload" alt="" coords="29,11,164,53"/>
+<area shape="rect" id="node3" href="./SerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="19,5,175,59"/>
+</map>

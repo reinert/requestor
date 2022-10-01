@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./PollingRequestInvoker.html" title="io.reinert.requestor.core.PollingRequestInvoker" alt="" coords="16,213,180,256"/>
+<area shape="rect" id="node1" href="./PollingRequestInvoker.html" title="&lt;TABLE&gt;" alt="" coords="5,208,191,261"/>
+<area shape="rect" id="node2_1" href="./HttpInvoker.html" title="io.reinert.requestor.core.HttpInvoker" alt="" coords="50,11,146,53"/>
+<area shape="rect" id="node2" href="./HttpInvoker.html" title="&lt;TABLE&gt;" alt="" coords="39,5,157,59"/>
+<area shape="rect" id="node3_2" href="./HttpPollingInvoker.html" title="io.reinert.requestor.core.HttpPollingInvoker" alt="" coords="28,112,168,155"/>
+<area shape="rect" id="node3" href="./HttpPollingInvoker.html" title="&lt;TABLE&gt;" alt="" coords="17,107,179,160"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./ProgressEvent.html" title="io.reinert.requestor.core.ProgressEvent" alt="" coords="145,112,257,155"/>
+<area shape="rect" id="node1" href="./ProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="135,107,268,160"/>
+<area shape="rect" id="node2_1" href="../java/ChunkedProgressEvent.html" title="io.reinert.requestor.java.ChunkedProgressEvent" alt="" coords="16,219,184,245"/>
+<area shape="rect" id="node2" href="../java/ChunkedProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="5,208,195,256"/>
+<area shape="rect" id="node3_2" href="../java/FixedProgressEvent.html" title="io.reinert.requestor.java.FixedProgressEvent" alt="" coords="229,219,376,245"/>
+<area shape="rect" id="node3" href="../java/FixedProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="219,208,387,256"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="java.io.Serializable" alt="" coords="153,11,249,53"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="&lt;TABLE&gt;" alt="" coords="143,5,260,59"/>
+</map>
