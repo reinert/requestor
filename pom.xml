@@ -27,7 +27,7 @@
 
   <groupId>io.reinert.requestor</groupId>
   <artifactId>requestor-project</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0-SNAPSHOT</version>
 
   <name>Requestor</name>
   <description>Request like a boss.</description>
@@ -43,11 +43,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Comment the lines below if using jdk8 -->
-<!--    <surefire.argLine>&#45;&#45;add-opens java.base/java.net=ALL-UNNAMED</surefire.argLine>-->
-<!--    <gwt.extraJvmArgs>&#45;&#45;add-opens java.base/java.lang=ALL-UNNAMED</gwt.extraJvmArgs>-->
+    <surefire.argLine>--add-opens java.base/java.net=ALL-UNNAMED</surefire.argLine>
+    <gwt.extraJvmArgs>--add-opens java.base/java.lang=ALL-UNNAMED</gwt.extraJvmArgs>
     <!-- Uncomment the lines below if using jdk8 -->
-    <surefire.argLine></surefire.argLine>
-    <gwt.extraJvmArgs></gwt.extraJvmArgs>
+<!--    <surefire.argLine></surefire.argLine>-->
+<!--    <gwt.extraJvmArgs></gwt.extraJvmArgs>-->
 
     <!-- Plugins -->
     <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
@@ -89,7 +89,7 @@
     <connection>scm:git:ssh://github.com/reinert/requestor.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/reinert/requestor.git</developerConnection>
     <url>https://github.com/reinert/requestor</url>
-    <tag>1.2.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
