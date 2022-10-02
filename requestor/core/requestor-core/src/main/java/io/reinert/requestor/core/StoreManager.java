@@ -102,22 +102,24 @@ class StoreManager implements Store {
     }
 
     @Override
-    public Store save(final String key, final Object value, long ttl) {
+    public Store save(final String key, Object value, long ttl) {
         checkNotNull(key, "The key argument cannot be null");
         checkNotNull(value, "The value argument cannot be null");
 
         Data removedData = ensureDataMap().remove(key);
 
-        final Data savedData = new Data(key, value, ttl);
+        Data savedData = new Data(key, value, ttl);
+        final long createdAt = savedData.getCreatedAt();
         dataMap.put(key, savedData);
 
         if (ttl > 0L) {
             asyncRunner.run(new Runnable() {
                 public void run() {
-                    if (dataMap.get(key) == savedData) {
+                    Data data = dataMap.get(key);
+                    if (data != null && data.getCreatedAt() == createdAt) {
                         dataMap.remove(key);
-                        triggerRemovedHandlers(key, savedData);
-                        triggerExpiredHandlers(key, savedData);
+                        triggerRemovedHandlers(key, data);
+                        triggerExpiredHandlers(key, data);
                     }
                 }
             }, ttl);
