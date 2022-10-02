@@ -116,6 +116,7 @@ class StoreManager implements Store {
                 public void run() {
                     if (dataMap.get(key) == savedData) {
                         dataMap.remove(key);
+                        triggerRemovedHandlers(key, savedData);
                         triggerExpiredHandlers(key, savedData);
                     }
                 }
