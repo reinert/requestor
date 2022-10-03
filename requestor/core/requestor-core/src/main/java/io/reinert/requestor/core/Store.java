@@ -24,6 +24,8 @@ import java.util.Objects;
  */
 public interface Store extends Saver {
 
+    String REMOVE_ON_EXPIRED_DISABLED = "requestor.core.removeOnExpiredDisabled";
+
     enum Level {
         PARENT,
         ROOT;
