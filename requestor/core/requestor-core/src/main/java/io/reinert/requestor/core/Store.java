@@ -77,25 +77,34 @@ public interface Store extends Saver {
     }
 
     interface Event {
+        Store getStore();
         String getKey();
         Data getOldData();
         Data getNewData();
 
         class Impl implements Event {
+            private final Store store;
             private final String key;
             private final Data oldData;
             private final Data newData;
 
-            public Impl(String key, Data oldData) {
+            public Impl(Store store, String key, Data oldData) {
+                this.store = store;
                 this.key = key;
                 this.oldData = oldData;
                 this.newData = null;
             }
 
-            public Impl(String key, Data oldData, Data newData) {
+            public Impl(Store store, String key, Data oldData, Data newData) {
+                this.store = store;
                 this.key = key;
                 this.oldData = oldData;
                 this.newData = newData;
+            }
+
+            @Override
+            public Store getStore() {
+                return store;
             }
 
             @Override

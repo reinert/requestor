@@ -26,17 +26,17 @@ class LeafStore implements Store {
     private final Store parentStore;
 
     static LeafStore copy(LeafStore leafStore) {
-        return new LeafStore(leafStore.parentStore, leafStore.storeManager.copy());
+        return new LeafStore(leafStore.parentStore, leafStore.storeManager);
     }
 
     LeafStore(Store store, boolean concurrent, AsyncRunner asyncRunner) {
         if (store == null) throw new IllegalArgumentException("Store cannot be null");
-        this.storeManager = new StoreManager(concurrent, asyncRunner);
+        this.storeManager = new StoreManager(this, concurrent, asyncRunner);
         this.parentStore = store;
     }
 
     private LeafStore(Store store, StoreManager storeManager) {
-        this.storeManager = storeManager;
+        this.storeManager = storeManager.copy(this);
         this.parentStore = store;
     }
 

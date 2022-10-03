@@ -25,7 +25,7 @@ class RootStore implements Store {
     private final StoreManager storeManager;
 
     RootStore(AsyncRunner asyncRunner) {
-        this.storeManager = new StoreManager(true, asyncRunner);
+        this.storeManager = new StoreManager(this, true, asyncRunner);
     }
 
     @Override

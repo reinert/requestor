@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 class StoreManager implements Store {
 
+    private final Store owner;
     private final boolean concurrent;
     private final AsyncRunner asyncRunner;
     private Map<String, Data> dataMap;
@@ -33,13 +34,14 @@ class StoreManager implements Store {
     private Map<String, Set<Handler>> removedHandlers;
     private Map<String, Set<Handler>> expiredHandlers;
 
-    public StoreManager(boolean concurrent, AsyncRunner asyncRunner) {
+    public StoreManager(Store owner, boolean concurrent, AsyncRunner asyncRunner) {
+        this.owner = owner;
         this.concurrent = concurrent;
         this.asyncRunner = asyncRunner;
     }
 
-    StoreManager copy() {
-        final StoreManager copy = new StoreManager(concurrent, asyncRunner);
+    StoreManager copy(Store owner) {
+        final StoreManager copy = new StoreManager(owner, concurrent, asyncRunner);
 
         if (dataMap != null) {
             copy.dataMap = concurrent ?
@@ -221,7 +223,7 @@ class StoreManager implements Store {
 
         if (handlers == null) return;
 
-        final Event.Impl event = new Event.Impl(key, oldData, newData);
+        final Event.Impl event = new Event.Impl(owner, key, oldData, newData);
         final Iterator<Handler> it = handlers.iterator();
         while (it.hasNext()) {
             Handler handler = it.next();
