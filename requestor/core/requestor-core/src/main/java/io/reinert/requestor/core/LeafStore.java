@@ -105,6 +105,11 @@ class LeafStore implements Store {
     }
 
     @Override
+    public void clear(boolean fireRemovedEvent) {
+        storeManager.clear(fireRemovedEvent);
+    }
+
+    @Override
     public Store onSaved(String key, Handler handler) {
         storeManager.onSaved(key, handler);
         return this;

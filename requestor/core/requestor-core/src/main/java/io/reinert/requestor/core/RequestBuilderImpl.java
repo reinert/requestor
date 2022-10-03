@@ -530,6 +530,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
         store.clear();
     }
 
+    @Override
+    public void clear(boolean fireRemovedEvent) {
+        store.clear(fireRemovedEvent);
+    }
+
     //===================================================================
     // MutableSerializedRequest
     //===================================================================

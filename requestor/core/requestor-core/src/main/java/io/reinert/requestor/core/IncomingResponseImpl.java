@@ -88,15 +88,18 @@ public class IncomingResponseImpl implements IncomingResponse {
         return response.getRequestOptions();
     }
 
+    @Override
     public <T> T retrieve(String key) {
         return response.retrieve(key);
     }
 
+    @Override
     public IncomingResponse save(String key, Object value) {
         response.save(key, value);
         return this;
     }
 
+    @Override
     public IncomingResponse save(String key, Object value, Level level) {
         response.save(key, value, level);
         return this;
@@ -114,20 +117,29 @@ public class IncomingResponseImpl implements IncomingResponse {
         return this;
     }
 
+    @Override
     public boolean exists(String key) {
         return response.exists(key);
     }
 
+    @Override
     public boolean exists(String key, Object value) {
         return response.exists(key, value);
     }
 
+    @Override
     public boolean remove(String key) {
         return response.remove(key);
     }
 
+    @Override
     public void clear() {
         response.clear();
+    }
+
+    @Override
+    public void clear(boolean fireRemovedEvent) {
+        response.clear(fireRemovedEvent);
     }
 
     @Override

@@ -168,12 +168,22 @@ class StoreManager implements Store {
 
     @Override
     public void clear() {
+        clear(true);
+    }
+
+    @Override
+    public void clear(boolean fireRemovedEvent) {
         if (dataMap != null) {
-            List<Data> values = new ArrayList<Data>(dataMap.values());
-            dataMap.clear();
-            for (Data data : values) {
-                triggerRemovedHandlers(data.getKey(), data);
+            if (fireRemovedEvent) {
+                List<Data> values = new ArrayList<Data>(dataMap.values());
+                dataMap.clear();
+                for (Data data : values) {
+                    triggerRemovedHandlers(data.getKey(), data);
+                }
+                return;
             }
+
+            dataMap.clear();
         }
     }
 
@@ -227,6 +237,7 @@ class StoreManager implements Store {
 
         final Event.Impl event = new Event.Impl(owner, key, oldData, newData);
         final Iterator<Handler> it = handlers.iterator();
+        // Should we run the handlers asynchronously?
         while (it.hasNext()) {
             Handler handler = it.next();
             if (handler.isCanceled()) {

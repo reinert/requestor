@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Danilo Reinert
+ * Copyright 2021-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -295,6 +295,11 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public void clear() {
         request.clear();
+    }
+
+    @Override
+    public void clear(boolean fireRemovedEvent) {
+        request.clear(fireRemovedEvent);
     }
 
     @Override

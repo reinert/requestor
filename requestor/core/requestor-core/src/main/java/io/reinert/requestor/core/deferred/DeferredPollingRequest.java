@@ -242,6 +242,11 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
     }
 
     @Override
+    public void clear(boolean fireRemovedEvent) {
+        serializedRequest.clear(fireRemovedEvent);
+    }
+
+    @Override
     public DeferredPollingRequest<T> onSaved(String key, Handler handler) {
         serializedRequest.onSaved(key, handler);
         return this;

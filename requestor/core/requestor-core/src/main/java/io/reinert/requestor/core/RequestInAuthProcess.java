@@ -381,6 +381,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public void clear(boolean fireRemovedEvent) {
+        request.clear(fireRemovedEvent);
+    }
+
+    @Override
     public RequestInAuthProcess<R> onSaved(String key, Handler handler) {
         request.onSaved(key, handler);
         return this;

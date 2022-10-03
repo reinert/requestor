@@ -221,11 +221,20 @@ public interface Store extends Saver {
     boolean remove(String key);
 
     /**
-     * Clears the data associated with this Store.
+     * Clears the data associated with this Store firing the removed event for each key saved in it.
      * Being a request scope store, only the data that was added in the request/response lifecycle is erased.
      * Being a session scope store, any data in the store is erased.
      */
     void clear();
+
+    /**
+     * Clears the data associated with this Store optionally firing the removed event for each key saved in it.
+     * Being a request scope store, only the data that was added in the request/response lifecycle is erased.
+     * Being a session scope store, any data in the store is erased.
+     *
+     * @param fireRemovedEvent Flag to determine whether the onRemoved handlers should be triggered for each key
+     */
+    void clear(boolean fireRemovedEvent);
 
     /**
      * Registers a handler to be executed <i><b>after</b></i> a new data is <b>saved</b> into the store.

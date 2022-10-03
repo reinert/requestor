@@ -189,6 +189,11 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
+    public void clear(boolean fireRemovedEvent) {
+        request.clear(fireRemovedEvent);
+    }
+
+    @Override
     public RawResponse onSaved(String key, Handler handler) {
         request.onSaved(key, handler);
         return this;

@@ -635,6 +635,11 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public void clear(boolean fireRemovedEvent) {
+        store.clear(fireRemovedEvent);
+    }
+
+    @Override
     public Session onSaved(String key, Handler handler) {
         store.onSaved(key, handler);
         return this;

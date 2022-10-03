@@ -328,6 +328,11 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
+    public void clear(boolean fireRemovedEvent) {
+        request.clear(fireRemovedEvent);
+    }
+
+    @Override
     public ProcessableRequest onSaved(String key, Handler handler) {
         request.onSaved(key, handler);
         return this;

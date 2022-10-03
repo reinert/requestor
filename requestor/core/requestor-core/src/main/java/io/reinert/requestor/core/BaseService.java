@@ -228,6 +228,11 @@ public class BaseService implements Service {
     }
 
     @Override
+    public void clear(boolean fireRemovedEvent) {
+        store.clear(fireRemovedEvent);
+    }
+
+    @Override
     public Service onSaved(String key, Handler handler) {
         store.onSaved(key, handler);
         return this;
