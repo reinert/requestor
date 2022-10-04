@@ -83,7 +83,7 @@ class StoreManager implements Store {
 
         final Data data = dataMap.get(key);
 
-        if (data == null || data.isExpired()) return null;
+        if (data == null) return null;
 
         return (T) data.getValue();
     }
@@ -137,7 +137,7 @@ class StoreManager implements Store {
     @Override
     public boolean exists(String key) {
         checkNotNull(key, "The key argument cannot be null");
-        return dataMap != null && dataMap.containsKey(key) && !dataMap.get(key).isExpired();
+        return dataMap != null && dataMap.containsKey(key);
     }
 
     @Override
@@ -146,8 +146,7 @@ class StoreManager implements Store {
         checkNotNull(value, "The value argument cannot be null. Try the exists method instead.");
 
         Data retrieved = dataMap == null ? null : dataMap.get(key);
-        return retrieved != null && !retrieved.isExpired() &&
-                (retrieved.getValue() == value || retrieved.getValue().equals(value));
+        return retrieved != null && (retrieved.getValue() == value || retrieved.getValue().equals(value));
     }
 
     @Override
@@ -157,7 +156,7 @@ class StoreManager implements Store {
         if (dataMap != null) {
             Data removedData = dataMap.remove(key);
 
-            if (removedData != null && !removedData.isExpired()) {
+            if (removedData != null) {
                 triggerRemovedHandlers(key, removedData);
                 return removedData;
             }
