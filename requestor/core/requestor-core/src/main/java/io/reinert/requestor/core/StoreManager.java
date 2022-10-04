@@ -95,12 +95,12 @@ class StoreManager implements Store {
 
     @Override
     public Store save(String key, Object value, Level level) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Save with Level argument is not supported by a Local Store.");
     }
 
     @Override
     public Store save(String key, Object value, long ttl, Level level) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Save with Level argument is not supported by a Local Store.");
     }
 
     @Override
@@ -237,6 +237,7 @@ class StoreManager implements Store {
         final Event.Impl event = new Event.Impl(owner, key, oldData, newData);
         final Iterator<Handler> it = handlers.iterator();
         // Should we run the handlers asynchronously?
+        // If so, then make Handler.canceled volatile
         while (it.hasNext()) {
             Handler handler = it.next();
             if (handler.isCanceled()) {
