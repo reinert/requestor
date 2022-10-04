@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -82,10 +83,10 @@ public class StoreJreTest {
         store.save(key, expected);
 
         // When
-        boolean removed = store.remove(key);
+        Store.Data removed = store.remove(key);
 
         // Then
-        assertTrue(removed);
+        assertNotNull(removed);
         assertFalse(store.exists(key));
     }
 

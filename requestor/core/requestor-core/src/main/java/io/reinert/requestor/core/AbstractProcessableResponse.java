@@ -140,7 +140,7 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return response.remove(key);
     }
 

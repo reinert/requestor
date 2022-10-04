@@ -66,7 +66,7 @@ class RootStore implements Store {
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return storeManager.remove(key);
     }
 

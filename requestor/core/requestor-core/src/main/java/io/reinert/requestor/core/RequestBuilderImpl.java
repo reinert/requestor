@@ -503,7 +503,7 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return store.remove(key);
     }
 

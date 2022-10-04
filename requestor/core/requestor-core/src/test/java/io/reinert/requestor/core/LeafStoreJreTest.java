@@ -20,6 +20,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -56,10 +58,10 @@ public class LeafStoreJreTest {
         LeafStore leafStore = new LeafStore(store, false, null);
 
         // When
-        boolean removed = leafStore.remove(KEY);
+        Store.Data removed = leafStore.remove(KEY);
 
         // Then
-        assertFalse(removed);
+        assertNotNull(removed);
         assertTrue(leafStore.exists(KEY));
     }
 
@@ -73,10 +75,10 @@ public class LeafStoreJreTest {
         leafStore.save(key, expected);
 
         // When
-        boolean returned = leafStore.remove(key);
+        Store.Data returned = leafStore.remove(key);
 
         // Then
-        assertTrue(returned);
+        assertNotNull(returned);
         assertFalse(leafStore.exists(key));
     }
 
@@ -89,12 +91,12 @@ public class LeafStoreJreTest {
         leafStore.save(KEY, localExpected);
 
         // When
-        boolean removed = leafStore.remove(KEY);
-        boolean parentRemoved = leafStore.remove(KEY);
+        Store.Data removed = leafStore.remove(KEY);
+        Store.Data parentRemoved = leafStore.remove(KEY);
 
         // Then
-        assertTrue(removed);
-        assertFalse(parentRemoved);
+        assertNull(removed);
+        assertNotNull(parentRemoved);
         assertTrue(leafStore.exists(KEY));
     }
 
@@ -111,12 +113,12 @@ public class LeafStoreJreTest {
         leafStore.save(KEY, localExpected);
 
         // When
-        boolean removed = leafStore.remove(KEY);
-        boolean parentRemoved = leafStore.remove(KEY);
+        Store.Data removed = leafStore.remove(KEY);
+        Store.Data parentRemoved = leafStore.remove(KEY);
 
         // Then
-        assertTrue(removed);
-        assertFalse(parentRemoved);
+        assertNull(removed);
+        assertNotNull(parentRemoved);
         assertTrue(volatileParent.exists(KEY));
     }
 }

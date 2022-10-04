@@ -128,7 +128,7 @@ public class IncomingResponseImpl implements IncomingResponse {
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return response.remove(key);
     }
 

@@ -371,7 +371,7 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return request.remove(key);
     }
 

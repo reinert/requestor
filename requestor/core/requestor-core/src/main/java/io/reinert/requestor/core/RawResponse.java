@@ -179,7 +179,7 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return request.remove(key);
     }
 

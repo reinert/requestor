@@ -318,7 +318,7 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return request.remove(key);
     }
 

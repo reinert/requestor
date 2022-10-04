@@ -288,7 +288,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return request.remove(key);
     }
 

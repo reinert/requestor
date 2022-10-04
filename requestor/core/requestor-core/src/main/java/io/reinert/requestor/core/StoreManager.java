@@ -151,7 +151,7 @@ class StoreManager implements Store {
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         checkNotNull(key, "The key argument cannot be null");
 
         if (dataMap != null) {
@@ -159,11 +159,11 @@ class StoreManager implements Store {
 
             if (removedData != null && !removedData.isExpired()) {
                 triggerRemovedHandlers(key, removedData);
-                return true;
+                return removedData;
             }
         }
 
-        return false;
+        return null;
     }
 
     @Override

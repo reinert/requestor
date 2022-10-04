@@ -302,7 +302,7 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return serializedRequest.remove(key);
     }
 

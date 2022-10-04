@@ -218,7 +218,7 @@ public interface Store extends Saver {
      * @param key The key associated with the data
      * @return <code>True</code> if any data was removed. <code>False</code> otherwise.
      */
-    boolean remove(String key);
+    Data remove(String key);
 
     /**
      * Clears the data associated with this Store firing the removed event for each key saved in it.

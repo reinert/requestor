@@ -625,7 +625,7 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
-    public boolean remove(String key) {
+    public Data remove(String key) {
         return store.remove(key);
     }
 
