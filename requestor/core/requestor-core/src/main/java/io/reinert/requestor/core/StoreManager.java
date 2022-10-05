@@ -119,11 +119,11 @@ class StoreManager implements Store {
                 public void run() {
                     Data data = dataMap.get(key);
                     if (data != null && data.getCreatedAt() == createdAt) {
+                        triggerExpiredHandlers(key, data);
                         if (!exists(Store.REMOVE_ON_EXPIRED_DISABLED, Boolean.TRUE)) {
                             dataMap.remove(key);
                             triggerRemovedHandlers(key, data);
                         }
-                        triggerExpiredHandlers(key, data);
                     }
                 }
             }, ttl);
