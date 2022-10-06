@@ -216,7 +216,7 @@ public interface Store extends Saver {
      * Being a session scope store, any data in the store is erased.
      *
      * @param key The key associated with the data
-     * @return <code>True</code> if any data was removed. <code>False</code> otherwise.
+     * @return The data that was removed or <code>null</code> if there was no data associated with the given key.
      */
     Data remove(String key);
 
