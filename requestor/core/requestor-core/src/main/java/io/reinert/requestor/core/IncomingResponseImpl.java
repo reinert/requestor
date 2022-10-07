@@ -138,6 +138,16 @@ public class IncomingResponseImpl implements IncomingResponse {
     }
 
     @Override
+    public Data refresh(String key, long ttlMillis) {
+        return response.refresh(key, ttlMillis);
+    }
+
+    @Override
+    public Data refresh(String key) {
+        return response.refresh(key);
+    }
+
+    @Override
     public void clear() {
         response.clear();
     }

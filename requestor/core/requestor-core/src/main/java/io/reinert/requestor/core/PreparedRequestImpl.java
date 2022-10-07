@@ -298,6 +298,16 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     }
 
     @Override
+    public Data refresh(String key, long ttlMillis) {
+        return request.refresh(key, ttlMillis);
+    }
+
+    @Override
+    public Data refresh(String key) {
+        return request.refresh(key);
+    }
+
+    @Override
     public void clear() {
         request.clear();
     }

@@ -102,6 +102,16 @@ class LeafStore implements Store {
     }
 
     @Override
+    public Data refresh(String key, long ttlMillis) {
+        return storeManager.refresh(key, ttlMillis);
+    }
+
+    @Override
+    public Data refresh(String key) {
+        return storeManager.refresh(key);
+    }
+
+    @Override
     public void clear() {
         storeManager.clear();
     }

@@ -250,6 +250,25 @@ public interface Store extends Saver {
     Data remove(String key);
 
     /**
+     * Refreshes the data saved with this key extending its valid time for the given TTL.
+     * It affects only the local store, i.e., it's not residually executed in the upstream stores.
+     *
+     * @param key       The key associated with the data
+     * @param ttlMillis Time to live, i.e., the period when the data will still be valid, in milliseconds
+     * @return The data that was refresh or <code>null</code> if there was no data associated with the given key.
+     */
+    Data refresh(String key, long ttlMillis);
+
+    /**
+     * Refreshes the data saved with this key extending its valid time for its original TTL.
+     * It affects only the local store, i.e., it's not residually executed in the upstream stores.
+     *
+     * @param key The key associated with the data
+     * @return The data that was refresh or <code>null</code> if there was no data associated with the given key.
+     */
+    Data refresh(String key);
+
+    /**
      * Clears the data associated with this Store firing the removed event for each key saved in it.
      * Being a request scope store, only the data that was added in the request/response lifecycle is erased.
      * Being a session scope store, any data in the store is erased.

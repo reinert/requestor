@@ -312,6 +312,16 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
+    public Data refresh(String key, long ttlMillis) {
+        return serializedRequest.refresh(key, ttlMillis);
+    }
+
+    @Override
+    public Data refresh(String key) {
+        return serializedRequest.refresh(key);
+    }
+
+    @Override
     public void clear() {
         serializedRequest.clear();
     }

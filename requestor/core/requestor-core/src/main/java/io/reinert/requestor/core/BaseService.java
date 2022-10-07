@@ -228,6 +228,16 @@ public class BaseService implements Service {
     }
 
     @Override
+    public Data refresh(String key, long ttlMillis) {
+        return store.refresh(key, ttlMillis);
+    }
+
+    @Override
+    public Data refresh(String key) {
+        return store.refresh(key);
+    }
+
+    @Override
     public void clear() {
         store.clear();
     }

@@ -165,6 +165,26 @@ class StoreManager implements Store {
     }
 
     @Override
+    public Data refresh(String key, long ttlMillis) {
+        Data data = getData(key);
+
+        if (data == null) return null;
+
+        if (ttlMillis > -1L) {
+            data.refresh(ttlMillis);
+        } else {
+            data.refresh();
+        }
+
+        return data;
+    }
+
+    @Override
+    public Data refresh(String key) {
+        return refresh(key, -1L);
+    }
+
+    @Override
     public void clear() {
         clear(true);
     }
