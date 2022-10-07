@@ -36,12 +36,15 @@ public interface Store extends Saver {
         private final Object value;
         private final long ttl;
         private final long createdAt;
+        private long refreshedAt;
+        private int timesRefreshed;
 
         public Data(String key, Object value, long ttl) {
             this.key = key;
             this.value = value;
             this.ttl = ttl;
-            createdAt = System.currentTimeMillis();
+            createdAt = refreshedAt = System.currentTimeMillis();
+            timesRefreshed = 0;
         }
 
         public String getKey() {
@@ -60,8 +63,16 @@ public interface Store extends Saver {
             return createdAt;
         }
 
+        public long getRefreshedAt() {
+            return refreshedAt;
+        }
+
+        public int getTimesRefreshed() {
+            return timesRefreshed;
+        }
+
         public boolean isExpired() {
-            return ttl > 0L && System.currentTimeMillis() > createdAt + ttl;
+            return ttl > 0L && System.currentTimeMillis() > refreshedAt + ttl;
         }
 
         @Override

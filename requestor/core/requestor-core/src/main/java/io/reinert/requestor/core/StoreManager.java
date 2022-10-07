@@ -110,14 +110,14 @@ class StoreManager implements Store {
         Data removedData = ensureDataMap().remove(key);
 
         Data savedData = new Data(key, value, ttl);
-        final long createdAt = savedData.getCreatedAt();
+        final long refreshedAt = savedData.getRefreshedAt();
         dataMap.put(key, savedData);
 
         if (ttl > 0L) {
             asyncRunner.run(new Runnable() {
                 public void run() {
                     Data data = dataMap.get(key);
-                    if (data != null && data.getCreatedAt() == createdAt) {
+                    if (data != null && data.getRefreshedAt() == refreshedAt) {
                         triggerExpiredHandlers(key, data);
                         if (!exists(Store.REMOVE_ON_EXPIRED_DISABLED, Boolean.TRUE)) {
                             dataMap.remove(key);
