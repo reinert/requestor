@@ -586,8 +586,8 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     //===================================================================
 
     @Override
-    public <T> T retrieve(String key) {
-        return store.retrieve(key);
+    public <T> T getValue(String key) {
+        return store.getValue(key);
     }
 
     @Override

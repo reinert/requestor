@@ -29,8 +29,8 @@ class RootStore implements Store {
     }
 
     @Override
-    public <T> T retrieve(String key) {
-        return storeManager.retrieve(key);
+    public <T> T getValue(String key) {
+        return storeManager.getValue(key);
     }
 
     @Override

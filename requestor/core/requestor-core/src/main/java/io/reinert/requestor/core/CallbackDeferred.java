@@ -263,8 +263,8 @@ class CallbackDeferred implements Deferred<Response>, DeferredPool<Response>, Po
     }
 
     @Override
-    public <O> O retrieve(String key) {
-        return serializedRequest.retrieve(key);
+    public <T> T getValue(String key) {
+        return serializedRequest.getValue(key);
     }
 
     @Override

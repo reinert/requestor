@@ -141,13 +141,13 @@ public interface Store extends Saver {
     }
 
     /**
-     * Queries an object associated with the given key.
+     * Retrieves the value of the data saved with the given key.
      *
      * @param key The key associated with the data
      * @param <T> The type to typecast the object returned
-     * @return The object associated with the key. <code>Null</code> otherwise.
+     * @return The value saved with the key. <code>Null</code> otherwise.
      */
-    <T> T retrieve(String key);
+    <T> T getValue(String key);
 
     /**
      * Retrieves the data object saved with the given key.

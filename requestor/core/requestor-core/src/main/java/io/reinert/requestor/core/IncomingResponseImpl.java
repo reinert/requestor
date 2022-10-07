@@ -89,8 +89,8 @@ public class IncomingResponseImpl implements IncomingResponse {
     }
 
     @Override
-    public <T> T retrieve(String key) {
-        return response.retrieve(key);
+    public <T> T getValue(String key) {
+        return response.getValue(key);
     }
 
     @Override

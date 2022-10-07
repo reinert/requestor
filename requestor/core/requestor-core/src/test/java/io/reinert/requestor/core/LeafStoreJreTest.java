@@ -45,7 +45,7 @@ public class LeafStoreJreTest {
         LeafStore leafStore = new LeafStore(store, false, null);
 
         // When
-        int returned = leafStore.retrieve(KEY);
+        int returned = leafStore.getValue(KEY);
 
         // Then
         assertEquals(VALUE, returned);

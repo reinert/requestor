@@ -62,7 +62,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
@@ -85,7 +85,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.register(new RequestFilter() {
             public void filter(RequestInProcess request) {
                 // Test previous filter
-                assertEquals(expectedStoreValue, request.retrieve(storeKey));
+                assertEquals(expectedStoreValue, request.getValue(storeKey));
                 request.setHeader("Test", "test");
                 request.proceed();
             }
@@ -95,7 +95,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 finishTest();
             }
@@ -126,7 +126,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.register(new RequestFilter() {
             public void filter(RequestInProcess request) {
                 assertEquals("test", request.getHeader("Test"));
-                assertEquals(expectedStoreValue, request.retrieve(storeKey));
+                assertEquals(expectedStoreValue, request.getValue(storeKey));
                 request.setHeader("Test2", "test2");
                 request.proceed();
             }
@@ -137,7 +137,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
                 assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();
             }
@@ -163,7 +163,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
             public void filter(final RequestInProcess request) {
                 new Timer() {
                     public void run() {
-                        assertEquals(expectedStoreValue, request.retrieve(storeKey));
+                        assertEquals(expectedStoreValue, request.getValue(storeKey));
                         request.save(storeKey2, expectedStoreValue2);
                         request.proceed();
                     }
@@ -174,7 +174,7 @@ public class RequestFilterGwtTest extends GWTTestCase {
         session.register(new RequestFilter() {
             public void filter(RequestInProcess request) {
                 // Test previous filter
-                assertEquals(expectedStoreValue2, request.retrieve(storeKey2));
+                assertEquals(expectedStoreValue2, request.getValue(storeKey2));
                 request.setHeader("Test", "test");
                 request.proceed();
             }
@@ -196,8 +196,8 @@ public class RequestFilterGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
-                assertEquals(expectedStoreValue2, response.retrieve(storeKey2));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
+                assertEquals(expectedStoreValue2, response.getValue(storeKey2));
                 assertTrue(response.getPayload().toString().contains("\"Test\": \"test\""));
                 assertTrue(response.getPayload().toString().contains("\"Test2\": \"test2\""));
                 finishTest();

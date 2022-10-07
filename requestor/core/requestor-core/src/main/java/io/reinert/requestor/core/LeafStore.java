@@ -42,7 +42,7 @@ class LeafStore implements Store {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T retrieve(String key) {
+    public <T> T getValue(String key) {
         Data data = getData(key);
         return data == null ? null : (T) data.getValue();
     }

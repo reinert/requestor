@@ -279,8 +279,8 @@ abstract class AbstractProcessableRequest implements ProcessableRequest {
     }
 
     @Override
-    public <T> T retrieve(String key) {
-        return request.retrieve(key);
+    public <T> T getValue(String key) {
+        return request.getValue(key);
     }
 
     @Override

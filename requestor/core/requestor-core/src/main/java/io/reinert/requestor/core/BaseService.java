@@ -179,8 +179,8 @@ public class BaseService implements Service {
     //===================================================================
 
     @Override
-    public <T> T retrieve(String key) {
-        return store.retrieve(key);
+    public <T> T getValue(String key) {
+        return store.getValue(key);
     }
 
     @Override

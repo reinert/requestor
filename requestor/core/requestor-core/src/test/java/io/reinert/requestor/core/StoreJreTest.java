@@ -67,7 +67,7 @@ public class StoreJreTest {
         store.save(key, expected);
 
         // When
-        int returned = store.retrieve(key);
+        int returned = store.getValue(key);
 
         // Then
         assertEquals(expected, returned);

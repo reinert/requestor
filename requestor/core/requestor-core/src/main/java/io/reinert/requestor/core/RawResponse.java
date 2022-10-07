@@ -140,8 +140,8 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
-    public <T> T retrieve(String key) {
-        return request.retrieve(key);
+    public <T> T getValue(String key) {
+        return request.getValue(key);
     }
 
     @Override

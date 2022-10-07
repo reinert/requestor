@@ -142,7 +142,7 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             }
 
             if (!request.hasHeader("Content-Type") && request.exists(Requestor.DEFAULT_CONTENT_TYPE)) {
-                conn.setRequestProperty("Content-Type", request.retrieve(Requestor.DEFAULT_CONTENT_TYPE));
+                conn.setRequestProperty("Content-Type", request.getValue(Requestor.DEFAULT_CONTENT_TYPE));
             }
 
             if (request.getTimeout() > 0) {
@@ -391,12 +391,12 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
     }
 
     private int getInputBufferSize(Store store) {
-        final Integer customBufferSize = store.retrieve(INPUT_BUFFER_SIZE);
+        final Integer customBufferSize = store.getValue(INPUT_BUFFER_SIZE);
         return customBufferSize != null ? customBufferSize : inputBufferSize;
     }
 
     private int getOutputBufferSize(Store store) {
-        final Integer customBufferSize = store.retrieve(OUTPUT_BUFFER_SIZE);
+        final Integer customBufferSize = store.getValue(OUTPUT_BUFFER_SIZE);
         return customBufferSize != null ? customBufferSize : outputBufferSize;
     }
 

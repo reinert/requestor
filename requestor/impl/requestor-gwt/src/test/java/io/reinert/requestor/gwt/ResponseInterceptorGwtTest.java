@@ -62,7 +62,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
                 assertEquals("test", response.getHeader("Test"));
                 finishTest();
             }
@@ -85,7 +85,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         session.register(new ResponseInterceptor() {
             public void intercept(SerializedResponseInProcess response) {
                 // Test previous intercept
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
                 response.setHeader("Test", "test");
                 response.proceed();
             }
@@ -95,7 +95,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
                 assertEquals("test", response.getHeader("Test"));
                 finishTest();
             }
@@ -126,7 +126,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         session.register(new ResponseInterceptor() {
             public void intercept(SerializedResponseInProcess response) {
                 assertEquals("test", response.getHeader("Test"));
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
                 response.setHeader("Test2", "test2");
                 response.proceed();
             }
@@ -137,7 +137,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
                 assertEquals("test", response.getHeader("Test"));
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
                 assertEquals("test2", response.getHeader("Test2"));
                 finishTest();
             }
@@ -163,7 +163,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
             public void intercept(final SerializedResponseInProcess response) {
                 new Timer() {
                     public void run() {
-                        assertEquals(expectedStoreValue, response.retrieve(storeKey));
+                        assertEquals(expectedStoreValue, response.getValue(storeKey));
                         response.save(storeKey2, expectedStoreValue2);
                         response.proceed();
                     }
@@ -174,7 +174,7 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
         session.register(new ResponseInterceptor() {
             public void intercept(SerializedResponseInProcess response) {
                 // Test previous intercept
-                assertEquals(expectedStoreValue2, response.retrieve(storeKey2));
+                assertEquals(expectedStoreValue2, response.getValue(storeKey2));
                 response.setHeader("Test", "test");
                 response.proceed();
             }
@@ -196,8 +196,8 @@ public class ResponseInterceptorGwtTest extends GWTTestCase {
             public void execute(Response response) {
                 assertNotNull(response);
                 assertNotNull(response.getPayload());
-                assertEquals(expectedStoreValue, response.retrieve(storeKey));
-                assertEquals(expectedStoreValue2, response.retrieve(storeKey2));
+                assertEquals(expectedStoreValue, response.getValue(storeKey));
+                assertEquals(expectedStoreValue2, response.getValue(storeKey2));
                 assertEquals("test", response.getHeader("Test"));
                 assertEquals("test2", response.getHeader("Test2"));
                 finishTest();
