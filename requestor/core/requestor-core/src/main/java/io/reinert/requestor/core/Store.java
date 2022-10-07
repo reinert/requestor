@@ -34,7 +34,7 @@ public interface Store extends Saver {
     class Data {
         private final String key;
         private final Object value;
-        private final long ttl;
+        private long ttl;
         private final long createdAt;
         private long refreshedAt;
         private int timesRefreshed;
@@ -73,6 +73,16 @@ public interface Store extends Saver {
 
         public boolean isExpired() {
             return ttl > 0L && System.currentTimeMillis() > refreshedAt + ttl;
+        }
+
+        void refresh() {
+            refresh(ttl);
+        }
+
+        synchronized void refresh(long ttl) {
+            this.ttl = ttl;
+            this.refreshedAt = System.currentTimeMillis();
+            this.timesRefreshed++;
         }
 
         @Override
