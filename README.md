@@ -166,7 +166,7 @@ session.post("/login", credentials, UserInfo.class)
 session.post("/api/books", book).await();
 
 // Retrieve data from the session store
-UserInfo userInfo = session.retrieve("userInfo");
+UserInfo userInfo = session.getValue("userInfo");
 
 // Reset the session configuration to the defaults
 session.reset();
@@ -802,7 +802,7 @@ session.get("/endpoint")
 ```
 
 **NOTE:** If an error occurs, and no callback for that error kind was set, than the exception stack trace is printed.
-Thus, the errors are not hidden if we forgot to add handlers for them.
+Thus, the errors are not hidden if we forgot to add callbacks for them.
 
 ### 🚧 Progress events
 
@@ -1347,7 +1347,7 @@ Requestor features the `Auth` functional interface responsible for authenticatin
 session.req("/api/authorized-only")
         .auth(request -> {
             // Retrieve the token from the store
-            String userToken = request.retrieve("userToken");
+            String userToken = request.getValue("userToken");
 
             // Provide the credentials in the Authorization header
             request.setHeader("Authorization", "Bearer " + userToken);
@@ -1404,7 +1404,7 @@ session.setAuth(MyAuth::new);
 In order to facilitate our development, Requestor provides standard Auth implementations. For instance, the `BasicAuth` performs the **basic access authentication** by putting a header field in the form of `Authorization: Basic <credentials>`, where credentials is the Base64 encoding of `username` and `password` joined by a single colon `:`. It might be helpful to retrieve credentials data from the Session Store, like in the following example:
 
 ```java
-User user = session.retrieve("user");
+User user = session.getValue("user");
 
 session.req("/api/authorized-only")
         .auth(new BasicAuth( user.getUsername(), user.getPassword() ));
@@ -1420,7 +1420,7 @@ See how you can enable this Auth in your Session to all requests using a `Provid
 
 ```java
 session.setAuth(() -> {
-    UserInfo userInfo = session.retrieve("userInfo");
+    UserInfo userInfo = session.getValue("userInfo");
     return new BearerAuth(user.getToken());
 });
 ```
@@ -1452,7 +1452,7 @@ to do it through a `Provider` to avoid sharing the internal Auth state between r
 
 ```java
 // register a Provider of DigestAuth in the session
-session.setAuth(() -> new DigestAuth(session.retrieve("username"), session.retrieve("password"), "md5"));
+session.setAuth(() -> new DigestAuth(session.getValue("username"), session.getValue("password"), "md5"));
 ```
 
 
@@ -1494,7 +1494,7 @@ recommended to do it through a `Provider` to avoid sharing the internal Auth sta
 
 ```java
 // register a Provider of OAuth2ByHeader in the session
-session.setAuth(() -> new OAuth2ByHeader(session.retrieve("authUrl"), session.retrieve("appClientId")));
+session.setAuth(() -> new OAuth2ByHeader(session.getValue("authUrl"), session.getValue("appClientId")));
 ```
 
 ## Processors (middlewares)
@@ -1549,7 +1549,7 @@ We can add a `RequestFilter` to the **Session** by calling `session.register(<Re
 session.register(new RequestFilter() {
     public void filter(RequestInProcess request) {
         // Access the Store bounded to this request/response lifecycle
-        String encoding = request.retrieve("encoding");
+        String encoding = request.getValue("encoding");
 
         // Modify the request headers
         request.setHeader("Accept-Encoding", encoding);
@@ -1632,7 +1632,7 @@ We can add a `RequestInterceptor` to the **Session** by calling `session.registe
 session.register(new RequestInterceptor() {
     public void intercept(SerializedRequestInProcess request) {
         // Access the Store bounded to this request lifecycle
-        String encoding = request.retrieve("encoding");
+        String encoding = request.getValue("encoding");
 
         // Modify the request headers
         request.setHeader("Accept-Encoding", encoding);
@@ -1902,11 +1902,11 @@ either register an `Auth` instance or a `Provider`.
 
 ```java
 // The same Auth instance will be used by all requests
-session.setAuth( new BearerAuth(session.retrieve("token")) );
+session.setAuth( new BearerAuth(session.getValue("token")) );
 
 // By setting a Provider, each request will have a new Auth instance
 // Helpful to restrict the Auth's internal state to the request lifecycle
-session.setAuth( () -> new BearerAuth(session.retrieve("token")) );
+session.setAuth( () -> new BearerAuth(session.getValue("token")) );
 ```
 
 #### Timeout
@@ -2035,9 +2035,13 @@ A Store provides the following operations:
 ```java
 interface Store {
 
-    // Queries an object associated with the given key.
+    // Retrieves the value of the data saved with the given key.
     // If no data is found in the local store, the upstream stores are queried.
-    <T> T retrieve(String key);
+    <T> T getValue(String key);
+    
+    // Retrieves the data object saved with the given key.
+    // If no data is found in the local store, the upstream stores are queried.
+    Data getData(String key);
 
     // Saves the value into the store associating with the key.
     // Returns the same store to enable method chaining.
@@ -2068,7 +2072,7 @@ interface Store {
     // Deletes the object associated with this key if it owns such record.
     // This method affects only the local store. (It's never delegated to the upstream stores)
     // Fires the onRemoved event.
-    boolean remove(String key);
+    Data remove(String key);
 
     // Clears all data owned by this Store.
     void clear();
@@ -2104,7 +2108,7 @@ session.save("key", anyObject);
 
 // Get an object from the session store
 // Automatically typecasts to the requested type
-AnyType object = session.retrieve("key");
+AnyType object = session.getValue("key");
         
 // Check if there's an object with that key
 boolean isSaved = session.exists("key");
@@ -2124,12 +2128,12 @@ Having a transient **Request Store** is helpful to share information among **Pro
 
 The Request Store provides access to the upstream Stores' data. We can even persist data from the Request Store into the parent Stores, though we cannot delete data from them.
 
-When we call `request.retrieve(<key>)`, the Request Store first tries to retrieve the associated object from its own scope. Not finding, it queries the parent Store, and so on until it reaches the Root Store. Also, the result is automatically typecasted to the requested type.
+When we call `request.getValue(<key>)`, the Request Store first tries to retrieve the associated object from its own scope. Not finding, it queries the parent Store, and so on until it reaches the Root Store. Also, the result is automatically typecasted to the requested type.
 
 ```java
 // Get an object from the store or the deriving store
 // Automatically typecasts the result
-AnyType object = request.retrieve("key");
+AnyType object = request.getValue("key");
 ```
 
 The same underlying Store is shared by a Request and a Response. Hence, we can also access the Request scope Store from the Response, sharing data in a single Request-Response lifecycle.
@@ -2210,12 +2214,12 @@ Having a **Service Store** is helpful to share information in the context of tha
 
 The Service Store provides access to the parent Session Store's data. We can even persist data from the Service Store into the Session Store, though we cannot delete Session's data from it.
 
-When we call `service.retrieve(<key>)`, the Service Store first tries to retrieve the associated object from its own scope. Not finding, it queries the parent Session Store. Also, the result is automatically typecasted to the requested type.
+When we call `service.getValue(<key>)`, the Service Store first tries to retrieve the associated object from its own scope. Not finding, it queries the parent Session Store. Also, the result is automatically typecasted to the requested type.
 
 ```java
 // Get an object from the store or the deriving session store
 // Automatically typecasts the result
-AnyType object = service.retrieve("key");
+AnyType object = service.getValue("key");
 ```
 
 To save an object locally, we call `service.save(<key>, <object>)`.
