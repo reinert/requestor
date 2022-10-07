@@ -337,6 +337,11 @@ class RequestInAuthProcess<R> implements ProcessableRequest {
     }
 
     @Override
+    public Data getData(String key) {
+        return request.getData(key);
+    }
+
+    @Override
     public RequestInAuthProcess<R> save(String key, Object value) {
         request.save(key, value);
         return this;

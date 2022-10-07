@@ -469,6 +469,11 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     }
 
     @Override
+    public Data getData(String key) {
+        return store.getData(key);
+    }
+
+    @Override
     public RequestBuilderImpl save(String key, Object value, Level level) {
         store.save(key, value, level);
         return this;

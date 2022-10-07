@@ -184,6 +184,11 @@ public class BaseService implements Service {
     }
 
     @Override
+    public Data getData(String key) {
+        return store.getData(key);
+    }
+
+    @Override
     public Service save(String key, Object value) {
         store.save(key, value);
         return this;

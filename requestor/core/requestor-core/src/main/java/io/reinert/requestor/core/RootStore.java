@@ -34,6 +34,11 @@ class RootStore implements Store {
     }
 
     @Override
+    public Data getData(String key) {
+        return storeManager.getData(key);
+    }
+
+    @Override
     public Store save(String key, Object value) {
         storeManager.save(key, value);
         return this;

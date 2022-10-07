@@ -77,15 +77,14 @@ class StoreManager implements Store {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T retrieve(String key) {
+        Data data = getData(key);
+        return data == null ? null : (T) data.getValue();
+    }
+
+    @Override
+    public Data getData(String key) {
         checkNotNull(key, "The key argument cannot be null");
-
-        if (dataMap == null) return null;
-
-        final Data data = dataMap.get(key);
-
-        if (data == null) return null;
-
-        return (T) data.getValue();
+        return dataMap == null ? null : dataMap.get(key);
     }
 
     @Override

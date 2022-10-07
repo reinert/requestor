@@ -145,6 +145,11 @@ public class RawResponse implements MutableResponse, DeserializableResponse, Pro
     }
 
     @Override
+    public Data getData(String key) {
+        return request.getData(key);
+    }
+
+    @Override
     public RawResponse save(String key, Object value) {
         request.save(key, value);
         return this;

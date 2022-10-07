@@ -106,6 +106,11 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
+    public Data getData(String key) {
+        return response.getData(key);
+    }
+
+    @Override
     public ProcessableResponse save(String key, Object value) {
         response.save(key, value);
         return this;

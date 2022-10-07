@@ -94,6 +94,11 @@ public class IncomingResponseImpl implements IncomingResponse {
     }
 
     @Override
+    public Data getData(String key) {
+        return response.getData(key);
+    }
+
+    @Override
     public IncomingResponse save(String key, Object value) {
         response.save(key, value);
         return this;

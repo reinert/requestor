@@ -591,6 +591,11 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public Data getData(String key) {
+        return store.getData(key);
+    }
+
+    @Override
     public Session save(String key, Object value) {
         store.save(key, value);
         return this;

@@ -150,6 +150,14 @@ public interface Store extends Saver {
     <T> T retrieve(String key);
 
     /**
+     * Retrieves the data object saved with the given key.
+     *
+     * @param key The key associated with the data
+     * @return The Data object saved with the key. <code>Null</code> otherwise.
+     */
+    Data getData(String key);
+
+    /**
      * Saves the value into the store associated with the key.
      * Being a request scope store, the data will be available during the request/response lifecycle only.
      *

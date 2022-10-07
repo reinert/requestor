@@ -40,15 +40,17 @@ class LeafStore implements Store {
         this.parentStore = store;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T retrieve(String key) {
-        T data = storeManager.retrieve(key);
+        Data data = getData(key);
+        return data == null ? null : (T) data.getValue();
+    }
 
-        if (data == null) {
-            data = parentStore.retrieve(key);
-        }
-
-        return data;
+    @Override
+    public Data getData(String key) {
+        Data data = storeManager.getData(key);
+        return data != null ? data : parentStore.getData(key);
     }
 
     @Override
