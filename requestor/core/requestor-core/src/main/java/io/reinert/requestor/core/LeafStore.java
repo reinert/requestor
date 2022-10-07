@@ -98,8 +98,7 @@ class LeafStore implements Store {
 
     @Override
     public Data remove(String key) {
-        Data data = storeManager.remove(key);
-        return data != null ? data : parentStore.remove(key);
+        return storeManager.remove(key);
     }
 
     @Override
