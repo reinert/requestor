@@ -120,12 +120,14 @@ class StoreManager implements Store {
                     if (data != null && data.getRefreshedAt() == refreshedAt) {
                         triggerExpiredHandlers(key, data);
                         if (!exists(Store.REMOVE_ON_EXPIRED_DISABLED, Boolean.TRUE)) {
-                            dataMap.remove(key);
-                            triggerRemovedHandlers(key, data);
+                            if (data.isExpired()) {
+                                dataMap.remove(key);
+                                triggerRemovedHandlers(key, data);
+                            }
                         }
                     }
                 }
-            }, ttl);
+            }, ttl + 1L);
         }
 
         triggerSavedHandlers(key, removedData, savedData);
