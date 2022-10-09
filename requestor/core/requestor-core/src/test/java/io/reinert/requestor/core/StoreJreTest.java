@@ -221,4 +221,63 @@ public class StoreJreTest {
         store.save(key, secondData);
         store.save(key, thirdData);
     }
+
+    @Test
+    public void refresh_ShouldUpdateRefreshedAtWithOriginalTtl() {
+        final String key = "key";
+        final Object data = new Object();
+        final AtomicBoolean called = new AtomicBoolean(false);
+
+        // Given
+        store.onExpired(key, new Store.Handler() {
+            public void execute(Store.Event event) {
+                called.set(true);
+                Store.Data expiredData = event.getOldData();
+
+                assertEquals(expiredData.getCreatedAt(), expiredData.getRefreshedAt());
+                assertEquals(0, expiredData.getTimesRefreshed());
+
+                event.getStore().refresh(key);
+
+                assertEquals(1, expiredData.getTimesRefreshed());
+            }
+        });
+
+        // When
+        store.save(key, data, 1);
+
+        // Then
+        assertTrue(called.get());
+        assertFalse(store.exists(key));
+    }
+
+    @Test
+    public void refreshWithTtl_ShouldUpdateRefreshedAtWithTtl() {
+        final String key = "key";
+        final Object data = new Object();
+        final AtomicBoolean called = new AtomicBoolean(false);
+
+        // Given
+        store.onExpired(key, new Store.Handler() {
+            public void execute(Store.Event event) {
+                called.set(true);
+                Store.Data expiredData = event.getOldData();
+
+                assertEquals(expiredData.getCreatedAt(), expiredData.getRefreshedAt());
+                assertEquals(0, expiredData.getTimesRefreshed());
+
+                event.getStore().refresh(key, 5);
+
+                assertEquals(1, expiredData.getTimesRefreshed());
+                assertEquals(5, expiredData.getTtl());
+            }
+        });
+
+        // When
+        store.save(key, data, 1);
+
+        // Then
+        assertTrue(called.get());
+        assertFalse(store.exists(key));
+    }
 }
