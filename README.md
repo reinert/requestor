@@ -2027,6 +2027,9 @@ Finally, a Store emits some important events that allow us to react when modific
 * **Expired Event** - it's fired when a data TTL expires.
     * It provides us access to the `oldData` that has expired.
     * We can listen to this event by registering a handler with the `onExpired` method.
+    * By default, after expiration, the data is removed, thus firing the removed event also.
+      * Not wanting every data to be automatically removed, we can call `store.save(Store.REMOVE_ON_EXPIRED_DISABLED, true)`
+      * We can alternatively refresh the data in the onExpired handler to avoid it getting deleted with `event.getStore().refresh(key)` or `event.getStore().refresh(key, ttl)` (to also set a new TTL)
 
 All handlers provide a `cancel()` method that we can call to deregister (unsubscribe) the handler from the store.
 
@@ -2054,7 +2057,7 @@ interface Store {
     Store save(String key, Object value, Level level);
 
     // Saves data into the store with a time-to-live (TTL) period in milliseconds.
-    // After the TTL expires, the data is deleted and the onExpired event is fired.
+    // After the TTL expires, the onExpired event is fired and the data is removed.
     // Since the data is removed, the onRemoved event is also fired.
     Store save(String key, Object value, long ttlMillis);
 
@@ -2071,11 +2074,24 @@ interface Store {
 
     // Deletes the object associated with this key if it owns such record.
     // This method affects only the local store. (It's never delegated to the upstream stores)
+    // Returns the data that was removed or `null` if there was no data associated with the given key.
     // Fires the onRemoved event.
     Data remove(String key);
+    
+    // Refreshes the data saved with this key extending its valid time for the given TTL.
+    // It affects only the local store, i.e., it's not residually executed in the upstream stores.
+    // Returns the data that was refreshed or `null` if there was no data associated with the given key.
+    Data refresh(String key, long ttlMillis);
+    
+    // Refreshes the data saved with this key extending its valid time for its original TTL.
+    Data refresh(String key);
 
     // Clears all data owned by this Store.
     void clear();
+
+    // Clears all data owned by this Store.
+    // If you don't want the onRemoved handlers to be triggered then set fireRemovedEvent to false.
+    void clear(boolean fireRemovedEvent);
 
     // Registers a handler to be executed AFTER a new data is SAVED into the local store.
     Store onSaved(String key, Handler handler);

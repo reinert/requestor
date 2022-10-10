@@ -255,7 +255,7 @@ public interface Store extends Saver {
      *
      * @param key       The key associated with the data
      * @param ttlMillis Time to live, i.e., the period when the data will still be valid, in milliseconds
-     * @return The data that was refresh or <code>null</code> if there was no data associated with the given key.
+     * @return The data that was refreshed or <code>null</code> if there was no data associated with the given key.
      */
     Data refresh(String key, long ttlMillis);
 
@@ -264,7 +264,7 @@ public interface Store extends Saver {
      * It affects only the local store, i.e., it's not residually executed in the upstream stores.
      *
      * @param key The key associated with the data
-     * @return The data that was refresh or <code>null</code> if there was no data associated with the given key.
+     * @return The data that was refreshed or <code>null</code> if there was no data associated with the given key.
      */
     Data refresh(String key);
 
