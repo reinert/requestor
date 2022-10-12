@@ -74,8 +74,8 @@ final Session session = Requestor.newSession();
 
 session.get("https://httpbin.org/ip", String.class)    // make a GET request and read the body as String
         .onSuccess( ip -> System.out.println(ip) )     // print the body if response was 2xx
-        .onFail(System.out.println("Unsuccessful response received"))         // print failure message if response was not 2xx
-        .onError(System.out.println("An error occurred during the request")); // print error message if no response was received
+        .onFail( res -> System.out.println("Response status was " + res.getStatus()) ) // print failure message if response was not 2xx
+        .onError( e -> System.out.println("Request error: " + e.getMessage()) );       // print error message if no response was received
 ```
 
 🔥 In **Kotlin**:
@@ -84,9 +84,9 @@ session.get("https://httpbin.org/ip", String.class)    // make a GET request and
 val session = Requestor.newSession()
 
 session.get("https://httpbin.org/ip", String::class.java)
-    .onSuccess { ip : String -> println(ip) }
-    .onFail(println("Unsuccessful response received"))
-    .onError(println("An error occurred during the request"))
+    .onSuccess { ip -> println(ip) }
+    .onFail { _ -> println("Unsuccessful response received") }
+    .onError { _ -> println("An error occurred during the request") }
 ```
 
 🤔 Prefer sync programming?
