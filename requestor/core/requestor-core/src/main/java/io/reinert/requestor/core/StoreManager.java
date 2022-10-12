@@ -74,6 +74,12 @@ class StoreManager implements Store {
         return concurrent;
     }
 
+    @Override
+    @Deprecated
+    public <T> T retrieve(String key) {
+        return getValue(key);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public <T> T getValue(String key) {

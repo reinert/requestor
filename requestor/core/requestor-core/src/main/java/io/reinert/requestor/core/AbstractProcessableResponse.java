@@ -101,6 +101,12 @@ abstract class AbstractProcessableResponse implements ProcessableResponse {
     }
 
     @Override
+    @Deprecated
+    public <T> T retrieve(String key) {
+        return getValue(key);
+    }
+
+    @Override
     public <T> T getValue(String key) {
         return response.getValue(key);
     }

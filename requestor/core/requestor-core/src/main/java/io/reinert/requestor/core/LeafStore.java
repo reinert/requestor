@@ -40,6 +40,12 @@ class LeafStore implements Store {
         this.parentStore = store;
     }
 
+    @Override
+    @Deprecated
+    public <T> T retrieve(String key) {
+        return getValue(key);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public <T> T getValue(String key) {

@@ -192,6 +192,15 @@ public class DeferredPollingRequest<T> implements DeferredPool<T>, PollingReques
         return serializedRequest.getSerializedPayload();
     }
 
+    /**
+     * @deprecated use {@link #getValue(String)} instead.
+     */
+    @Override
+    @Deprecated
+    public <T> T retrieve(String key) {
+        return getValue(key);
+    }
+
     @Override
     public <T> T getValue(String key) {
         return serializedRequest.getValue(key);

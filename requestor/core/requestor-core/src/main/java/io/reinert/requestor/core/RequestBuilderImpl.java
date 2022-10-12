@@ -463,6 +463,15 @@ class RequestBuilderImpl implements PollingRequestBuilder, MutableSerializedRequ
     // Store methods
     //===================================================================
 
+    /**
+     * @deprecated use {@link #getValue(String)} instead.
+     */
+    @Override
+    @Deprecated
+    public <T> T retrieve(String key) {
+        return getValue(key);
+    }
+
     @Override
     public <T> T getValue(String key) {
         return store.getValue(key);

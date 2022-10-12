@@ -162,6 +162,14 @@ public interface Store extends Saver {
     }
 
     /**
+     * NOTE: Renamed to getValue. It will be removed in {@version 1.3}.
+     *
+     * @deprecated Use {@link #getValue(String)} instead.
+     */
+    @Deprecated
+    <T> T retrieve(String key);
+
+    /**
      * Retrieves the value of the data saved with the given key.
      *
      * @param key The key associated with the data
