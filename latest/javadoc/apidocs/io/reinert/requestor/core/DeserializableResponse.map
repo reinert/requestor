@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./DeserializableResponse.html" title="io.reinert.requestor.core.DeserializableResponse" alt="" coords="93,112,269,155"/>
-<area shape="rect" id="node1" href="./DeserializableResponse.html" title="&lt;TABLE&gt;" alt="" coords="82,107,279,160"/>
-<area shape="rect" id="node3_1" href="./RawResponse.html" title="io.reinert.requestor.core.RawResponse" alt="" coords="16,222,127,247"/>
-<area shape="rect" id="node3" href="./RawResponse.html" title="&lt;TABLE&gt;" alt="" coords="5,211,137,259"/>
-<area shape="rect" id="node4_2" href="./DeserializableResponseInProcess.html" title="io.reinert.requestor.core.DeserializableResponseInProcess" alt="" coords="173,213,410,256"/>
-<area shape="rect" id="node4" href="./DeserializableResponseInProcess.html" title="&lt;TABLE&gt;" alt="" coords="162,208,421,261"/>
-<area shape="rect" id="node2_3" href="./SerializedResponse.html" title="io.reinert.requestor.core.SerializedResponse" alt="" coords="107,11,254,53"/>
-<area shape="rect" id="node2" href="./SerializedResponse.html" title="&lt;TABLE&gt;" alt="" coords="97,5,265,59"/>
+<area shape="rect" id="node1_0" href="./RawResponse.html" title="io.reinert.requestor.core.RawResponse" alt="" coords="16,222,121,247"/>
+<area shape="rect" id="node1" href="./RawResponse.html" title="&lt;TABLE&gt;" alt="" coords="5,211,132,259"/>
+<area shape="rect" id="node2_1" href="./DeserializableResponse.html" title="io.reinert.requestor.core.DeserializableResponse" alt="" coords="93,112,253,155"/>
+<area shape="rect" id="node2" href="./DeserializableResponse.html" title="&lt;TABLE&gt;" alt="" coords="82,107,263,160"/>
+<area shape="rect" id="node4_2" href="./DeserializableResponseInProcess.html" title="io.reinert.requestor.core.DeserializableResponseInProcess" alt="" coords="167,213,387,256"/>
+<area shape="rect" id="node4" href="./DeserializableResponseInProcess.html" title="&lt;TABLE&gt;" alt="" coords="156,208,397,261"/>
+<area shape="rect" id="node3_3" href="./SerializedResponse.html" title="io.reinert.requestor.core.SerializedResponse" alt="" coords="105,11,241,53"/>
+<area shape="rect" id="node3" href="./SerializedResponse.html" title="&lt;TABLE&gt;" alt="" coords="94,5,251,59"/>
 </map>

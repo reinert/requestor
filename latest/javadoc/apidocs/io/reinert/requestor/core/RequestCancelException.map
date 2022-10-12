@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./RequestException.html" title="io.reinert.requestor.core.RequestException" alt="" coords="155,17,291,42"/>
-<area shape="rect" id="node1" href="./RequestException.html" title="&lt;TABLE&gt;" alt="" coords="145,5,302,53"/>
-<area shape="rect" id="node2_1" href="./RequestCancelException.html" title="io.reinert.requestor.core.RequestCancelException" alt="" coords="133,113,313,138"/>
-<area shape="rect" id="node2" href="./RequestCancelException.html" title="&lt;TABLE&gt;" alt="" coords="123,101,324,149"/>
-<area shape="rect" id="node3_2" href="../java/RequestRedirectException.html" title="io.reinert.requestor.java.RequestRedirectException" alt="" coords="16,209,207,234"/>
-<area shape="rect" id="node3" href="../java/RequestRedirectException.html" title="&lt;TABLE&gt;" alt="" coords="5,197,217,245"/>
-<area shape="rect" id="node4_3" href="../gwt/xhr/NetworkErrorException.html" title="io.reinert.requestor.gwt.xhr.NetworkErrorException" alt="" coords="252,209,421,234"/>
-<area shape="rect" id="node4" href="../gwt/xhr/NetworkErrorException.html" title="&lt;TABLE&gt;" alt="" coords="241,197,432,245"/>
+<area shape="rect" id="node1_0" href="./RequestException.html" title="io.reinert.requestor.core.RequestException" alt="" coords="146,17,273,42"/>
+<area shape="rect" id="node1" href="./RequestException.html" title="&lt;TABLE&gt;" alt="" coords="135,5,283,53"/>
+<area shape="rect" id="node2_1" href="./RequestCancelException.html" title="io.reinert.requestor.core.RequestCancelException" alt="" coords="125,113,293,138"/>
+<area shape="rect" id="node2" href="./RequestCancelException.html" title="&lt;TABLE&gt;" alt="" coords="115,101,304,149"/>
+<area shape="rect" id="node3_2" href="../java/RequestRedirectException.html" title="io.reinert.requestor.java.RequestRedirectException" alt="" coords="16,209,192,234"/>
+<area shape="rect" id="node3" href="../java/RequestRedirectException.html" title="&lt;TABLE&gt;" alt="" coords="5,197,203,245"/>
+<area shape="rect" id="node4_3" href="../gwt/xhr/NetworkErrorException.html" title="io.reinert.requestor.gwt.xhr.NetworkErrorException" alt="" coords="237,209,392,234"/>
+<area shape="rect" id="node4" href="../gwt/xhr/NetworkErrorException.html" title="&lt;TABLE&gt;" alt="" coords="227,197,403,245"/>
 </map>

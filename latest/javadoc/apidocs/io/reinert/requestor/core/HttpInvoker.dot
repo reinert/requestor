@@ -10,29 +10,29 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestInvoker
-	c34416 [label=<<table title="io.reinert.requestor.core.RequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInvoker.html">
+	c34841 [label=<<table title="io.reinert.requestor.core.RequestInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.HttpInvoker
-	c34440 [label=<<table title="io.reinert.requestor.core.HttpInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HttpInvoker.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> HttpInvoker </td></tr>
-		</table></td></tr>
-		</table>>, URL="./HttpInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HttpPollingInvoker
-	c34441 [label=<<table title="io.reinert.requestor.core.HttpPollingInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpPollingInvoker.html">
+	c34850 [label=<<table title="io.reinert.requestor.core.HttpPollingInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpPollingInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpPollingInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpPollingInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.HttpInvoker
+	c34938 [label=<<table title="io.reinert.requestor.core.HttpInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HttpInvoker.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> HttpInvoker </td></tr>
+		</table></td></tr>
+		</table>>, URL="./HttpInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RequestInvoker implements io.reinert.requestor.core.HttpInvoker
-	c34440:p -> c34416:p [dir=back,arrowtail=empty,style=dashed];
+	c34938:p -> c34841:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.HttpPollingInvoker implements io.reinert.requestor.core.HttpInvoker
-	c34440:p -> c34441:p [dir=back,arrowtail=empty,style=dashed];
+	c34938:p -> c34850:p [dir=back,arrowtail=empty,style=dashed];
 }
 

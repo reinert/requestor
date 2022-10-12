@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./InterceptorManager.html" title="io.reinert.requestor.core.InterceptorManager" alt="" coords="16,11,164,53"/>
-<area shape="rect" id="node1" href="./InterceptorManager.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,59"/>
-<area shape="rect" id="node2_1" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="55,118,125,143"/>
-<area shape="rect" id="node2" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="45,107,135,155"/>
+<area shape="rect" id="node1_0" href="./InterceptorManager.html" title="io.reinert.requestor.core.InterceptorManager" alt="" coords="16,11,148,53"/>
+<area shape="rect" id="node1" href="./InterceptorManager.html" title="&lt;TABLE&gt;" alt="" coords="5,5,159,59"/>
+<area shape="rect" id="node2_1" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="49,118,115,143"/>
+<area shape="rect" id="node2" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="38,107,126,155"/>
 </map>

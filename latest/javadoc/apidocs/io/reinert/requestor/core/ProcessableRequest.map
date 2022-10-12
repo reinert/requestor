@@ -1,12 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Processable.html" title="io.reinert.requestor.core.Processable" alt="" coords="16,11,113,53"/>
-<area shape="rect" id="node1" href="./Processable.html" title="&lt;TABLE&gt;" alt="" coords="5,5,124,59"/>
-<area shape="rect" id="node3_1" href="./ProcessableRequest.html" title="io.reinert.requestor.core.ProcessableRequest" alt="" coords="308,112,459,155"/>
-<area shape="rect" id="node3" href="./ProcessableRequest.html" title="&lt;TABLE&gt;" alt="" coords="297,107,469,160"/>
-<area shape="rect" id="node2_2" href="./SerializedRequestInProcess.html" title="io.reinert.requestor.core.SerializedRequestInProcess" alt="" coords="159,11,357,53"/>
-<area shape="rect" id="node2" href="./SerializedRequestInProcess.html" title="&lt;TABLE&gt;" alt="" coords="148,5,368,59"/>
-<area shape="rect" id="node4_3" href="./SerializableRequestInProcess.html" title="io.reinert.requestor.core.SerializableRequestInProcess" alt="" coords="403,11,614,53"/>
-<area shape="rect" id="node4" href="./SerializableRequestInProcess.html" title="&lt;TABLE&gt;" alt="" coords="393,5,625,59"/>
-<area shape="rect" id="node5_4" href="./HasPollingOptions.html" title="io.reinert.requestor.core.HasPollingOptions" alt="" coords="659,11,798,53"/>
-<area shape="rect" id="node5" href="./HasPollingOptions.html" title="&lt;TABLE&gt;" alt="" coords="649,5,809,59"/>
+<area shape="rect" id="node1_0" href="./SerializedRequestInProcess.html" title="io.reinert.requestor.core.SerializedRequestInProcess" alt="" coords="16,11,200,53"/>
+<area shape="rect" id="node1" href="./SerializedRequestInProcess.html" title="&lt;TABLE&gt;" alt="" coords="5,5,211,59"/>
+<area shape="rect" id="node4_1" href="./ProcessableRequest.html" title="io.reinert.requestor.core.ProcessableRequest" alt="" coords="375,112,515,155"/>
+<area shape="rect" id="node4" href="./ProcessableRequest.html" title="&lt;TABLE&gt;" alt="" coords="365,107,526,160"/>
+<area shape="rect" id="node2_2" href="./SerializableRequestInProcess.html" title="io.reinert.requestor.core.SerializableRequestInProcess" alt="" coords="245,11,440,53"/>
+<area shape="rect" id="node2" href="./SerializableRequestInProcess.html" title="&lt;TABLE&gt;" alt="" coords="235,5,451,59"/>
+<area shape="rect" id="node3_3" href="./HasPollingOptions.html" title="io.reinert.requestor.core.HasPollingOptions" alt="" coords="485,11,613,53"/>
+<area shape="rect" id="node3" href="./HasPollingOptions.html" title="&lt;TABLE&gt;" alt="" coords="475,5,624,59"/>
+<area shape="rect" id="node5_4" href="./Processable.html" title="io.reinert.requestor.core.Processable" alt="" coords="659,11,751,53"/>
+<area shape="rect" id="node5" href="./Processable.html" title="&lt;TABLE&gt;" alt="" coords="649,5,762,59"/>
 </map>

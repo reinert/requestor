@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./PollingRequest.html" title="io.reinert.requestor.core.PollingRequest" alt="" coords="95,112,241,155"/>
-<area shape="rect" id="node1" href="./PollingRequest.html" title="&lt;TABLE&gt;" alt="" coords="84,107,252,160"/>
-<area shape="rect" id="node4_1" href="./deferred/DeferredPollingRequest.html" title="io.reinert.requestor.core.deferred.DeferredPollingRequest" alt="" coords="66,219,270,245"/>
-<area shape="rect" id="node4" href="./deferred/DeferredPollingRequest.html" title="&lt;TABLE&gt;" alt="" coords="55,208,281,256"/>
-<area shape="rect" id="node2_2" href="./HasPollingOptions.html" title="io.reinert.requestor.core.HasPollingOptions" alt="" coords="16,11,155,53"/>
-<area shape="rect" id="node2" href="./HasPollingOptions.html" title="&lt;TABLE&gt;" alt="" coords="5,5,165,59"/>
-<area shape="rect" id="node3_3" href="./Request.html" title="io.reinert.requestor.core.Request" alt="" coords="201,11,303,53"/>
-<area shape="rect" id="node3" href="./Request.html" title="&lt;TABLE&gt;" alt="" coords="190,5,314,59"/>
+<area shape="rect" id="node1_0" href="./Request.html" title="io.reinert.requestor.core.Request" alt="" coords="16,11,108,53"/>
+<area shape="rect" id="node1" href="./Request.html" title="&lt;TABLE&gt;" alt="" coords="5,5,119,59"/>
+<area shape="rect" id="node2_1" href="./PollingRequest.html" title="io.reinert.requestor.core.PollingRequest" alt="" coords="73,112,205,155"/>
+<area shape="rect" id="node2" href="./PollingRequest.html" title="&lt;TABLE&gt;" alt="" coords="63,107,216,160"/>
+<area shape="rect" id="node4_2" href="./deferred/DeferredPollingRequest.html" title="io.reinert.requestor.core.deferred.DeferredPollingRequest" alt="" coords="49,219,230,245"/>
+<area shape="rect" id="node4" href="./deferred/DeferredPollingRequest.html" title="&lt;TABLE&gt;" alt="" coords="38,208,241,256"/>
+<area shape="rect" id="node3_3" href="./HasPollingOptions.html" title="io.reinert.requestor.core.HasPollingOptions" alt="" coords="154,11,282,53"/>
+<area shape="rect" id="node3" href="./HasPollingOptions.html" title="&lt;TABLE&gt;" alt="" coords="143,5,293,59"/>
 </map>

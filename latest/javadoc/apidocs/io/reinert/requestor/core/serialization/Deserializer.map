@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../HeadersDeserializer.html" title="io.reinert.requestor.core.HeadersDeserializer" alt="" coords="16,121,168,146"/>
-<area shape="rect" id="node1" href="../HeadersDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="5,109,179,157"/>
-<area shape="rect" id="node2_1" href="./Deserializer.html" title="io.reinert.requestor.core.serialization.Deserializer" alt="" coords="116,11,244,53"/>
-<area shape="rect" id="node2" href="./Deserializer.html" title="&lt;TABLE&gt;" alt="" coords="105,5,255,59"/>
-<area shape="rect" id="node3_2" href="./Serializer.html" title="io.reinert.requestor.core.serialization.Serializer" alt="" coords="214,112,325,155"/>
-<area shape="rect" id="node3" href="./Serializer.html" title="&lt;TABLE&gt;" alt="" coords="203,107,335,160"/>
+<area shape="rect" id="node1_0" href="../HeadersDeserializer.html" title="io.reinert.requestor.core.HeadersDeserializer" alt="" coords="16,121,153,146"/>
+<area shape="rect" id="node1" href="../HeadersDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="5,109,164,157"/>
+<area shape="rect" id="node2_1" href="./Serializer.html" title="io.reinert.requestor.core.serialization.Serializer" alt="" coords="199,112,296,155"/>
+<area shape="rect" id="node2" href="./Serializer.html" title="&lt;TABLE&gt;" alt="" coords="188,107,307,160"/>
+<area shape="rect" id="node3_2" href="./Deserializer.html" title="io.reinert.requestor.core.serialization.Deserializer" alt="" coords="110,11,222,53"/>
+<area shape="rect" id="node3" href="./Deserializer.html" title="&lt;TABLE&gt;" alt="" coords="99,5,233,59"/>
 </map>

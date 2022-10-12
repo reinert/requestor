@@ -1,14 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./DeserializationContextMeta.html" title="io.reinert.requestor.gson.rebind.meta.requestor.DeserializationContextMeta" alt="" coords="16,11,217,53"/>
-<area shape="rect" id="node1" href="./DeserializationContextMeta.html" title="&lt;TABLE&gt;" alt="" coords="5,5,228,59"/>
-<area shape="rect" id="node2_1" href="./DeserializationContextMeta.Method.html" title="io.reinert.requestor.gson.rebind.meta.requestor.DeserializationContextMeta.Method" alt="" coords="263,11,357,53"/>
-<area shape="rect" id="node2" href="./DeserializationContextMeta.Method.html" title="&lt;TABLE&gt;" alt="" coords="253,5,367,59"/>
-<area shape="rect" id="node3_2" href="./SerializationContextMeta.html" title="io.reinert.requestor.gson.rebind.meta.requestor.SerializationContextMeta" alt="" coords="402,11,586,53"/>
-<area shape="rect" id="node3" href="./SerializationContextMeta.html" title="&lt;TABLE&gt;" alt="" coords="391,5,597,59"/>
-<area shape="rect" id="node4_3" href="./SerializationContextMeta.Method.html" title="io.reinert.requestor.gson.rebind.meta.requestor.SerializationContextMeta.Method" alt="" coords="631,11,725,53"/>
-<area shape="rect" id="node4" href="./SerializationContextMeta.Method.html" title="&lt;TABLE&gt;" alt="" coords="621,5,735,59"/>
-<area shape="rect" id="node5_4" href="./SerializerMeta.html" title="io.reinert.requestor.gson.rebind.meta.requestor.SerializerMeta" alt="" coords="771,11,884,53"/>
-<area shape="rect" id="node5" href="./SerializerMeta.html" title="&lt;TABLE&gt;" alt="" coords="760,5,895,59"/>
-<area shape="rect" id="node6_5" href="./SerializerMeta.Method.html" title="io.reinert.requestor.gson.rebind.meta.requestor.SerializerMeta.Method" alt="" coords="930,11,1023,53"/>
-<area shape="rect" id="node6" href="./SerializerMeta.Method.html" title="&lt;TABLE&gt;" alt="" coords="919,5,1034,59"/>
+<area shape="rect" id="node1_0" href="./SerializationContextMeta.html" title="io.reinert.requestor.gson.rebind.meta.requestor.SerializationContextMeta" alt="" coords="16,11,181,53"/>
+<area shape="rect" id="node1" href="./SerializationContextMeta.html" title="&lt;TABLE&gt;" alt="" coords="5,5,192,59"/>
+<area shape="rect" id="node2_1" href="./SerializationContextMeta.Method.html" title="io.reinert.requestor.gson.rebind.meta.requestor.SerializationContextMeta.Method" alt="" coords="227,11,311,53"/>
+<area shape="rect" id="node2" href="./SerializationContextMeta.Method.html" title="&lt;TABLE&gt;" alt="" coords="217,5,322,59"/>
+<area shape="rect" id="node3_2" href="./DeserializationContextMeta.html" title="io.reinert.requestor.gson.rebind.meta.requestor.DeserializationContextMeta" alt="" coords="357,11,537,53"/>
+<area shape="rect" id="node3" href="./DeserializationContextMeta.html" title="&lt;TABLE&gt;" alt="" coords="346,5,547,59"/>
+<area shape="rect" id="node4_3" href="./DeserializationContextMeta.Method.html" title="io.reinert.requestor.gson.rebind.meta.requestor.DeserializationContextMeta.Method" alt="" coords="582,11,666,53"/>
+<area shape="rect" id="node4" href="./DeserializationContextMeta.Method.html" title="&lt;TABLE&gt;" alt="" coords="571,5,677,59"/>
+<area shape="rect" id="node5_4" href="./SerializerMeta.html" title="io.reinert.requestor.gson.rebind.meta.requestor.SerializerMeta" alt="" coords="711,11,814,53"/>
+<area shape="rect" id="node5" href="./SerializerMeta.html" title="&lt;TABLE&gt;" alt="" coords="701,5,825,59"/>
+<area shape="rect" id="node6_5" href="./SerializerMeta.Method.html" title="io.reinert.requestor.gson.rebind.meta.requestor.SerializerMeta.Method" alt="" coords="859,11,943,53"/>
+<area shape="rect" id="node6" href="./SerializerMeta.Method.html" title="&lt;TABLE&gt;" alt="" coords="849,5,954,59"/>
 </map>

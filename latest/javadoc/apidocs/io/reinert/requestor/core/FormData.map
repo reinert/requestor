@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./FormData.html" title="io.reinert.requestor.core.FormData" alt="" coords="24,118,108,143"/>
-<area shape="rect" id="node1" href="./FormData.html" title="&lt;TABLE&gt;" alt="" coords="13,107,119,155"/>
-<area shape="rect" id="node2_1" href="../gwt/JsFormData.html" title="io.reinert.requestor.gwt.JsFormData" alt="" coords="19,214,113,239"/>
-<area shape="rect" id="node2" href="../gwt/JsFormData.html" title="&lt;TABLE&gt;" alt="" coords="8,203,124,251"/>
-<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Iterable.html" title="java.lang.Iterable" alt="" coords="16,11,116,53"/>
-<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Iterable.html" title="&lt;TABLE&gt;" alt="" coords="5,5,127,59"/>
+<area shape="rect" id="node1_0" href="./FormData.html" title="io.reinert.requestor.core.FormData" alt="" coords="23,118,101,143"/>
+<area shape="rect" id="node1" href="./FormData.html" title="&lt;TABLE&gt;" alt="" coords="13,107,111,155"/>
+<area shape="rect" id="node2_1" href="../gwt/JsFormData.html" title="io.reinert.requestor.gwt.JsFormData" alt="" coords="16,214,108,239"/>
+<area shape="rect" id="node2" href="../gwt/JsFormData.html" title="&lt;TABLE&gt;" alt="" coords="5,203,119,251"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Iterable.html" title="java.lang.Iterable" alt="" coords="19,11,105,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Iterable.html" title="&lt;TABLE&gt;" alt="" coords="8,5,116,59"/>
 </map>

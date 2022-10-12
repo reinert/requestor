@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../core/ProgressEvent.html" title="io.reinert.requestor.core.ProgressEvent" alt="" coords="33,11,145,53"/>
-<area shape="rect" id="node1" href="../core/ProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="23,5,156,59"/>
-<area shape="rect" id="node2_1" href="./FixedProgressEvent.html" title="io.reinert.requestor.java.FixedProgressEvent" alt="" coords="16,118,163,143"/>
-<area shape="rect" id="node2" href="./FixedProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="5,107,173,155"/>
+<area shape="rect" id="node1_0" href="../core/ProgressEvent.html" title="io.reinert.requestor.core.ProgressEvent" alt="" coords="32,11,137,53"/>
+<area shape="rect" id="node1" href="../core/ProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="21,5,148,59"/>
+<area shape="rect" id="node2_1" href="./FixedProgressEvent.html" title="io.reinert.requestor.java.FixedProgressEvent" alt="" coords="16,118,153,143"/>
+<area shape="rect" id="node2" href="./FixedProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="5,107,164,155"/>
 </map>

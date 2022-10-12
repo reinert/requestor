@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../core/FormData.html" title="io.reinert.requestor.core.FormData" alt="" coords="21,17,105,42"/>
-<area shape="rect" id="node1" href="../core/FormData.html" title="&lt;TABLE&gt;" alt="" coords="11,5,116,53"/>
-<area shape="rect" id="node2_1" href="./JsFormData.html" title="io.reinert.requestor.gwt.JsFormData" alt="" coords="16,113,111,138"/>
-<area shape="rect" id="node2" href="./JsFormData.html" title="&lt;TABLE&gt;" alt="" coords="5,101,121,149"/>
+<area shape="rect" id="node1_0" href="../core/FormData.html" title="io.reinert.requestor.core.FormData" alt="" coords="23,17,101,42"/>
+<area shape="rect" id="node1" href="../core/FormData.html" title="&lt;TABLE&gt;" alt="" coords="13,5,111,53"/>
+<area shape="rect" id="node2_1" href="./JsFormData.html" title="io.reinert.requestor.gwt.JsFormData" alt="" coords="16,113,108,138"/>
+<area shape="rect" id="node2" href="./JsFormData.html" title="&lt;TABLE&gt;" alt="" coords="5,101,119,149"/>
 </map>

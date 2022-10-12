@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./HeadersDeserializer.html" title="io.reinert.requestor.core.HeadersDeserializer" alt="" coords="16,118,168,143"/>
-<area shape="rect" id="node1" href="./HeadersDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="5,107,179,155"/>
-<area shape="rect" id="node2_1" href="./serialization/Deserializer.html" title="io.reinert.requestor.core.serialization.Deserializer" alt="" coords="28,11,156,53"/>
-<area shape="rect" id="node2" href="./serialization/Deserializer.html" title="&lt;TABLE&gt;" alt="" coords="17,5,167,59"/>
+<area shape="rect" id="node1_0" href="./HeadersDeserializer.html" title="io.reinert.requestor.core.HeadersDeserializer" alt="" coords="16,118,153,143"/>
+<area shape="rect" id="node1" href="./HeadersDeserializer.html" title="&lt;TABLE&gt;" alt="" coords="5,107,164,155"/>
+<area shape="rect" id="node2_1" href="./serialization/Deserializer.html" title="io.reinert.requestor.core.serialization.Deserializer" alt="" coords="29,11,141,53"/>
+<area shape="rect" id="node2" href="./serialization/Deserializer.html" title="&lt;TABLE&gt;" alt="" coords="18,5,151,59"/>
 </map>

@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./JavaNetRequestDispatcherFactory.html" title="io.reinert.requestor.java.net.JavaNetRequestDispatcherFactory" alt="" coords="16,17,256,42"/>
-<area shape="rect" id="node1" href="./JavaNetRequestDispatcherFactory.html" title="&lt;TABLE&gt;" alt="" coords="5,5,267,53"/>
-<area shape="rect" id="node2_1" href="./JavaNetHttpConnection.html" title="io.reinert.requestor.java.net.JavaNetHttpConnection" alt="" coords="302,17,474,42"/>
-<area shape="rect" id="node2" href="./JavaNetHttpConnection.html" title="&lt;TABLE&gt;" alt="" coords="291,5,485,53"/>
-<area shape="rect" id="node3_2" href="./Requestor.html" title="io.reinert.requestor.java.net.Requestor" alt="" coords="520,17,605,42"/>
-<area shape="rect" id="node3" href="./Requestor.html" title="&lt;TABLE&gt;" alt="" coords="509,5,616,53"/>
+<area shape="rect" id="node1_0" href="./JavaNetRequestDispatcherFactory.html" title="io.reinert.requestor.java.net.JavaNetRequestDispatcherFactory" alt="" coords="16,17,240,42"/>
+<area shape="rect" id="node1" href="./JavaNetRequestDispatcherFactory.html" title="&lt;TABLE&gt;" alt="" coords="5,5,251,53"/>
+<area shape="rect" id="node2_1" href="./JavaNetHttpConnection.html" title="io.reinert.requestor.java.net.JavaNetHttpConnection" alt="" coords="285,17,445,42"/>
+<area shape="rect" id="node2" href="./JavaNetHttpConnection.html" title="&lt;TABLE&gt;" alt="" coords="275,5,456,53"/>
+<area shape="rect" id="node3_2" href="./Requestor.html" title="io.reinert.requestor.java.net.Requestor" alt="" coords="491,17,571,42"/>
+<area shape="rect" id="node3" href="./Requestor.html" title="&lt;TABLE&gt;" alt="" coords="480,5,581,53"/>
 </map>

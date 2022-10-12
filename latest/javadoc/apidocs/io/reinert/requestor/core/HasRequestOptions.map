@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Service.html" title="io.reinert.requestor.core.Service" alt="" coords="16,213,109,256"/>
-<area shape="rect" id="node1" href="./Service.html" title="&lt;TABLE&gt;" alt="" coords="5,208,120,261"/>
-<area shape="rect" id="node2_1" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="155,222,224,247"/>
-<area shape="rect" id="node2" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="144,211,235,259"/>
-<area shape="rect" id="node3_2" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="51,112,199,155"/>
-<area shape="rect" id="node3" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="41,107,210,160"/>
-<area shape="rect" id="node4_3" href="./HasHeaders.html" title="io.reinert.requestor.core.HasHeaders" alt="" coords="76,11,175,53"/>
-<area shape="rect" id="node4" href="./HasHeaders.html" title="&lt;TABLE&gt;" alt="" coords="65,5,185,59"/>
+<area shape="rect" id="node1_0" href="./HasHeaders.html" title="io.reinert.requestor.core.HasHeaders" alt="" coords="63,11,155,53"/>
+<area shape="rect" id="node1" href="./HasHeaders.html" title="&lt;TABLE&gt;" alt="" coords="53,5,166,59"/>
+<area shape="rect" id="node2_1" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="41,112,178,155"/>
+<area shape="rect" id="node2" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="30,107,189,160"/>
+<area shape="rect" id="node3_2" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="16,222,83,247"/>
+<area shape="rect" id="node3" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="5,211,93,259"/>
+<area shape="rect" id="node4_3" href="./Service.html" title="io.reinert.requestor.core.Service" alt="" coords="129,213,213,256"/>
+<area shape="rect" id="node4" href="./Service.html" title="&lt;TABLE&gt;" alt="" coords="118,208,223,261"/>
 </map>

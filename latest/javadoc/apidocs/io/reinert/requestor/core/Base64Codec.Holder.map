@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Base64Codec.Holder.html" title="io.reinert.requestor.core.Base64Codec.Holder" alt="" coords="16,11,109,53"/>
-<area shape="rect" id="node1" href="./Base64Codec.Holder.html" title="&lt;TABLE&gt;" alt="" coords="5,5,120,59"/>
-<area shape="rect" id="node2_1" href="./auth/BasicAuth.html" title="io.reinert.requestor.core.auth.BasicAuth" alt="" coords="21,118,105,143"/>
-<area shape="rect" id="node2" href="./auth/BasicAuth.html" title="&lt;TABLE&gt;" alt="" coords="10,107,115,155"/>
+<area shape="rect" id="node1_0" href="./Base64Codec.Holder.html" title="io.reinert.requestor.core.Base64Codec.Holder" alt="" coords="16,11,100,53"/>
+<area shape="rect" id="node1" href="./Base64Codec.Holder.html" title="&lt;TABLE&gt;" alt="" coords="5,5,111,59"/>
+<area shape="rect" id="node2_1" href="./auth/BasicAuth.html" title="io.reinert.requestor.core.auth.BasicAuth" alt="" coords="18,118,98,143"/>
+<area shape="rect" id="node2" href="./auth/BasicAuth.html" title="&lt;TABLE&gt;" alt="" coords="7,107,109,155"/>
 </map>

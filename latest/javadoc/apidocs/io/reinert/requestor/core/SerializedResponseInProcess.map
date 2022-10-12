@@ -1,12 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./InProcess.html" title="io.reinert.requestor.core.InProcess" alt="" coords="63,11,156,53"/>
-<area shape="rect" id="node1" href="./InProcess.html" title="&lt;TABLE&gt;" alt="" coords="52,5,167,59"/>
-<area shape="rect" id="node5_1" href="./SerializedResponseInProcess.html" title="io.reinert.requestor.core.SerializedResponseInProcess" alt="" coords="101,112,309,155"/>
-<area shape="rect" id="node5" href="./SerializedResponseInProcess.html" title="&lt;TABLE&gt;" alt="" coords="91,107,320,160"/>
-<area shape="rect" id="node2_2" href="./MutableSerializedResponse.html" title="io.reinert.requestor.core.MutableSerializedResponse" alt="" coords="201,11,401,53"/>
-<area shape="rect" id="node2" href="./MutableSerializedResponse.html" title="&lt;TABLE&gt;" alt="" coords="191,5,412,59"/>
-<area shape="rect" id="node3_3" href="./ResponseInProcess.html" title="io.reinert.requestor.core.ResponseInProcess" alt="" coords="16,213,160,256"/>
-<area shape="rect" id="node3" href="./ResponseInProcess.html" title="&lt;TABLE&gt;" alt="" coords="5,208,171,261"/>
-<area shape="rect" id="node4_4" href="./DeserializableResponseInProcess.html" title="io.reinert.requestor.core.DeserializableResponseInProcess" alt="" coords="205,213,443,256"/>
-<area shape="rect" id="node4" href="./DeserializableResponseInProcess.html" title="&lt;TABLE&gt;" alt="" coords="195,208,453,261"/>
+<area shape="rect" id="node1_0" href="./MutableSerializedResponse.html" title="io.reinert.requestor.core.MutableSerializedResponse" alt="" coords="58,11,239,53"/>
+<area shape="rect" id="node1" href="./MutableSerializedResponse.html" title="&lt;TABLE&gt;" alt="" coords="47,5,250,59"/>
+<area shape="rect" id="node5_1" href="./SerializedResponseInProcess.html" title="io.reinert.requestor.core.SerializedResponseInProcess" alt="" coords="141,112,335,155"/>
+<area shape="rect" id="node5" href="./SerializedResponseInProcess.html" title="&lt;TABLE&gt;" alt="" coords="130,107,346,160"/>
+<area shape="rect" id="node2_2" href="./InProcess.html" title="io.reinert.requestor.core.InProcess" alt="" coords="285,11,369,53"/>
+<area shape="rect" id="node2" href="./InProcess.html" title="&lt;TABLE&gt;" alt="" coords="275,5,380,59"/>
+<area shape="rect" id="node3_3" href="./DeserializableResponseInProcess.html" title="io.reinert.requestor.core.DeserializableResponseInProcess" alt="" coords="16,213,236,256"/>
+<area shape="rect" id="node3" href="./DeserializableResponseInProcess.html" title="&lt;TABLE&gt;" alt="" coords="5,208,247,261"/>
+<area shape="rect" id="node4_4" href="./ResponseInProcess.html" title="io.reinert.requestor.core.ResponseInProcess" alt="" coords="281,213,419,256"/>
+<area shape="rect" id="node4" href="./ResponseInProcess.html" title="&lt;TABLE&gt;" alt="" coords="271,208,429,261"/>
 </map>

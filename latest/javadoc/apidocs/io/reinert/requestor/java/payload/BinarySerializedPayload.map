@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../../core/payload/SerializedPayload.html" title="io.reinert.requestor.core.payload.SerializedPayload" alt="" coords="37,11,171,53"/>
-<area shape="rect" id="node1" href="../../core/payload/SerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="26,5,182,59"/>
-<area shape="rect" id="node2_1" href="./BinarySerializedPayload.html" title="io.reinert.requestor.java.payload.BinarySerializedPayload" alt="" coords="16,118,192,143"/>
-<area shape="rect" id="node2" href="./BinarySerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="5,107,203,155"/>
+<area shape="rect" id="node1_0" href="../../core/payload/SerializedPayload.html" title="io.reinert.requestor.core.payload.SerializedPayload" alt="" coords="34,11,158,53"/>
+<area shape="rect" id="node1" href="../../core/payload/SerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="23,5,169,59"/>
+<area shape="rect" id="node2_1" href="./BinarySerializedPayload.html" title="io.reinert.requestor.java.payload.BinarySerializedPayload" alt="" coords="16,118,176,143"/>
+<area shape="rect" id="node2" href="./BinarySerializedPayload.html" title="&lt;TABLE&gt;" alt="" coords="5,107,187,155"/>
 </map>

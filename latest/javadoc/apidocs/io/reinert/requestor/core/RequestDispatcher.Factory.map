@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./RequestDispatcher.Factory.html" title="io.reinert.requestor.core.RequestDispatcher.Factory" alt="" coords="211,11,305,53"/>
-<area shape="rect" id="node1" href="./RequestDispatcher.Factory.html" title="&lt;TABLE&gt;" alt="" coords="201,5,315,59"/>
-<area shape="rect" id="node2_1" href="../gwt/xhr/XhrRequestDispatcherFactory.html" title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory" alt="" coords="16,118,228,143"/>
-<area shape="rect" id="node2" href="../gwt/xhr/XhrRequestDispatcherFactory.html" title="&lt;TABLE&gt;" alt="" coords="5,107,239,155"/>
-<area shape="rect" id="node3_2" href="../java/net/JavaNetRequestDispatcherFactory.html" title="io.reinert.requestor.java.net.JavaNetRequestDispatcherFactory" alt="" coords="274,118,514,143"/>
-<area shape="rect" id="node3" href="../java/net/JavaNetRequestDispatcherFactory.html" title="&lt;TABLE&gt;" alt="" coords="263,107,525,155"/>
+<area shape="rect" id="node1_0" href="./RequestDispatcher.Factory.html" title="io.reinert.requestor.core.RequestDispatcher.Factory" alt="" coords="200,11,284,53"/>
+<area shape="rect" id="node1" href="./RequestDispatcher.Factory.html" title="&lt;TABLE&gt;" alt="" coords="189,5,295,59"/>
+<area shape="rect" id="node2_1" href="../gwt/xhr/XhrRequestDispatcherFactory.html" title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory" alt="" coords="16,118,212,143"/>
+<area shape="rect" id="node2" href="../gwt/xhr/XhrRequestDispatcherFactory.html" title="&lt;TABLE&gt;" alt="" coords="5,107,223,155"/>
+<area shape="rect" id="node3_2" href="../java/net/JavaNetRequestDispatcherFactory.html" title="io.reinert.requestor.java.net.JavaNetRequestDispatcherFactory" alt="" coords="258,118,482,143"/>
+<area shape="rect" id="node3" href="../java/net/JavaNetRequestDispatcherFactory.html" title="&lt;TABLE&gt;" alt="" coords="247,107,493,155"/>
 </map>

@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./HttpStatus.html" title="io.reinert.requestor.core.HttpStatus" alt="" coords="16,213,109,256"/>
-<area shape="rect" id="node1" href="./HttpStatus.html" title="&lt;TABLE&gt;" alt="" coords="5,208,120,261"/>
-<area shape="rect" id="node2_1" href="./StatusFamily.html" title="io.reinert.requestor.core.StatusFamily" alt="" coords="155,213,274,256"/>
-<area shape="rect" id="node2" href="./StatusFamily.html" title="&lt;TABLE&gt;" alt="" coords="145,208,285,261"/>
-<area shape="rect" id="node3_2" href="./RequestEvent.html" title="io.reinert.requestor.core.RequestEvent" alt="" coords="84,112,193,155"/>
-<area shape="rect" id="node3" href="./RequestEvent.html" title="&lt;TABLE&gt;" alt="" coords="73,107,204,160"/>
-<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="java.io.Serializable" alt="" coords="91,11,187,53"/>
-<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="&lt;TABLE&gt;" alt="" coords="80,5,197,59"/>
+<area shape="rect" id="node1_0" href="./RequestEvent.html" title="io.reinert.requestor.core.RequestEvent" alt="" coords="76,112,179,155"/>
+<area shape="rect" id="node1" href="./RequestEvent.html" title="&lt;TABLE&gt;" alt="" coords="65,107,189,160"/>
+<area shape="rect" id="node2_1" href="./HttpStatus.html" title="io.reinert.requestor.core.HttpStatus" alt="" coords="16,213,100,256"/>
+<area shape="rect" id="node2" href="./HttpStatus.html" title="&lt;TABLE&gt;" alt="" coords="5,208,111,261"/>
+<area shape="rect" id="node3_2" href="./StatusFamily.html" title="io.reinert.requestor.core.StatusFamily" alt="" coords="146,213,250,256"/>
+<area shape="rect" id="node3" href="./StatusFamily.html" title="&lt;TABLE&gt;" alt="" coords="135,208,261,261"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="java.io.Serializable" alt="" coords="84,11,171,53"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="&lt;TABLE&gt;" alt="" coords="73,5,181,59"/>
 </map>

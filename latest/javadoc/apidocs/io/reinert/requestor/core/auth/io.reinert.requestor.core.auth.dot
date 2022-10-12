@@ -9,27 +9,27 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.auth.BearerAuth
-	c3024 [label=<<table title="io.reinert.requestor.core.auth.BearerAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BearerAuth.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> BearerAuth </td></tr>
-		</table></td></tr>
-		</table>>, URL="./BearerAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.DigestAuth
-	c3025 [label=<<table title="io.reinert.requestor.core.auth.DigestAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DigestAuth.html">
+	c705 [label=<<table title="io.reinert.requestor.core.auth.DigestAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DigestAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DigestAuth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DigestAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.DigestAuth.HashFunction
-	c3026 [label=<<table title="io.reinert.requestor.core.auth.DigestAuth.HashFunction" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DigestAuth.HashFunction.html">
+	c706 [label=<<table title="io.reinert.requestor.core.auth.DigestAuth.HashFunction" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DigestAuth.HashFunction.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HashFunction </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DigestAuth.HashFunction.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.auth.BearerAuth
+	c707 [label=<<table title="io.reinert.requestor.core.auth.BearerAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BearerAuth.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> BearerAuth </td></tr>
+		</table></td></tr>
+		</table>>, URL="./BearerAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.BasicAuth
-	c3027 [label=<<table title="io.reinert.requestor.core.auth.BasicAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BasicAuth.html">
+	c708 [label=<<table title="io.reinert.requestor.core.auth.BasicAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BasicAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BasicAuth </td></tr>
 		</table></td></tr>

@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../../core/RequestAbortException.html" title="io.reinert.requestor.core.RequestAbortException" alt="" coords="34,17,206,42"/>
-<area shape="rect" id="node1" href="../../core/RequestAbortException.html" title="&lt;TABLE&gt;" alt="" coords="23,5,217,53"/>
-<area shape="rect" id="node2_1" href="./RequestPermissionException.html" title="io.reinert.requestor.gwt.xhr.RequestPermissionException" alt="" coords="16,113,224,138"/>
-<area shape="rect" id="node2" href="./RequestPermissionException.html" title="&lt;TABLE&gt;" alt="" coords="5,101,235,149"/>
+<area shape="rect" id="node1_0" href="../../core/RequestAbortException.html" title="io.reinert.requestor.core.RequestAbortException" alt="" coords="33,17,191,42"/>
+<area shape="rect" id="node1" href="../../core/RequestAbortException.html" title="&lt;TABLE&gt;" alt="" coords="23,5,201,53"/>
+<area shape="rect" id="node2_1" href="./RequestPermissionException.html" title="io.reinert.requestor.gwt.xhr.RequestPermissionException" alt="" coords="16,113,208,138"/>
+<area shape="rect" id="node2" href="./RequestPermissionException.html" title="&lt;TABLE&gt;" alt="" coords="5,101,219,149"/>
 </map>

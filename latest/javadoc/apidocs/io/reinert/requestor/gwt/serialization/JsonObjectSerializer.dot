@@ -9,19 +9,19 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.gwt.serialization.JsonSerializer<T>
-	c40284 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSerializer.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonSerializer&lt;T&gt; </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="./JsonSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.JsonObjectSerializer<T>
-	c40288 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonObjectSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonObjectSerializer.html">
+	c40843 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonObjectSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./JsonObjectSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonObjectSerializer&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonObjectSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.gwt.serialization.JsonSerializer<T>
+	c40845 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonSerializer.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonSerializer&lt;T&gt; </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./JsonSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.serialization.JsonObjectSerializer<T> extends io.reinert.requestor.gwt.serialization.JsonSerializer<T>
-	c40284:p -> c40288:p [dir=back,arrowtail=empty];
+	c40845:p -> c40843:p [dir=back,arrowtail=empty];
 }
 

@@ -10,100 +10,100 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.FormDataUrlEncodedSerializer
-	c77568 [label=<<table title="io.reinert.requestor.core.FormDataUrlEncodedSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../FormDataUrlEncodedSerializer.html">
+	c78668 [label=<<table title="io.reinert.requestor.core.FormDataUrlEncodedSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../FormDataUrlEncodedSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FormDataUrlEncodedSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../FormDataUrlEncodedSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.serialization.Deserializer<T>
-	c77700 [label=<<table title="io.reinert.requestor.core.serialization.Deserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Deserializer.html">
+	// io.reinert.requestor.core.serialization.misc.TextSerializer
+	c78765 [label=<<table title="io.reinert.requestor.core.serialization.misc.TextSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./misc/TextSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Deserializer&lt;T&gt; </td></tr>
+<tr><td align="center" balign="center"> TextSerializer </td></tr>
 		</table></td></tr>
-		</table>>, URL="./Deserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./misc/TextSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.serialization.misc.VoidSerializer
+	c78766 [label=<<table title="io.reinert.requestor.core.serialization.misc.VoidSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./misc/VoidSerializer.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> VoidSerializer </td></tr>
+		</table></td></tr>
+		</table>>, URL="./misc/VoidSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.serialization.Serializer<T>
-	c77703 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Serializer.html">
+	c78767 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Serializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializer&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Serializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.serialization.misc.VoidSerializer
-	c77707 [label=<<table title="io.reinert.requestor.core.serialization.misc.VoidSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./misc/VoidSerializer.html">
+	// io.reinert.requestor.core.serialization.Deserializer<T>
+	c78771 [label=<<table title="io.reinert.requestor.core.serialization.Deserializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Deserializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> VoidSerializer </td></tr>
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Deserializer&lt;T&gt; </td></tr>
 		</table></td></tr>
-		</table>>, URL="./misc/VoidSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.serialization.misc.TextSerializer
-	c77708 [label=<<table title="io.reinert.requestor.core.serialization.misc.TextSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./misc/TextSerializer.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> TextSerializer </td></tr>
-		</table></td></tr>
-		</table>>, URL="./misc/TextSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Deserializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.java.serialization.FormDataMultiPartSerializer
-	c77741 [label=<<table title="io.reinert.requestor.java.serialization.FormDataMultiPartSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/FormDataMultiPartSerializer.html">
+	c78826 [label=<<table title="io.reinert.requestor.java.serialization.FormDataMultiPartSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/FormDataMultiPartSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FormDataMultiPartSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../java/serialization/FormDataMultiPartSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.java.serialization.BinarySerializer
-	c77742 [label=<<table title="io.reinert.requestor.java.serialization.BinarySerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/BinarySerializer.html">
+	// io.reinert.requestor.java.serialization.FileSerializer
+	c78827 [label=<<table title="io.reinert.requestor.java.serialization.FileSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/FileSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> BinarySerializer </td></tr>
+<tr><td align="center" balign="center"> FileSerializer </td></tr>
 		</table></td></tr>
-		</table>>, URL="../../java/serialization/BinarySerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="../../java/serialization/FileSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.java.serialization.InputStreamSerializer
-	c77743 [label=<<table title="io.reinert.requestor.java.serialization.InputStreamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/InputStreamSerializer.html">
+	c78828 [label=<<table title="io.reinert.requestor.java.serialization.InputStreamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/InputStreamSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> InputStreamSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../java/serialization/InputStreamSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.java.serialization.ByteSerializer
-	c77744 [label=<<table title="io.reinert.requestor.java.serialization.ByteSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/ByteSerializer.html">
+	c78829 [label=<<table title="io.reinert.requestor.java.serialization.ByteSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/ByteSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ByteSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../java/serialization/ByteSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.java.serialization.FileSerializer
-	c77745 [label=<<table title="io.reinert.requestor.java.serialization.FileSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/FileSerializer.html">
+	// io.reinert.requestor.java.serialization.BinarySerializer
+	c78830 [label=<<table title="io.reinert.requestor.java.serialization.BinarySerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/BinarySerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> FileSerializer </td></tr>
+<tr><td align="center" balign="center"> BinarySerializer </td></tr>
 		</table></td></tr>
-		</table>>, URL="../../java/serialization/FileSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.gwt.serialization.JsonSerializer<T>
-	c77763 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gwt/serialization/JsonSerializer.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonSerializer&lt;T&gt; </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="../../gwt/serialization/JsonSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="../../java/serialization/BinarySerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.OverlaySerializer
-	c77765 [label=<<table title="io.reinert.requestor.gwt.serialization.OverlaySerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gwt/serialization/OverlaySerializer.html">
+	c78842 [label=<<table title="io.reinert.requestor.gwt.serialization.OverlaySerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gwt/serialization/OverlaySerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OverlaySerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../gwt/serialization/OverlaySerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.gwt.serialization.JsonSerializer<T>
+	c78848 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gwt/serialization/JsonSerializer.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> JsonSerializer&lt;T&gt; </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="../../gwt/serialization/JsonSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.FormDataUrlEncodedSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77568:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.core.serialization.Serializer<T> implements io.reinert.requestor.core.serialization.Deserializer<T>
-	c77700:p -> c77703:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.core.serialization.misc.VoidSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77707:p [dir=back,arrowtail=empty,style=dashed];
+	c78767:p -> c78668:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.serialization.misc.TextSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77708:p [dir=back,arrowtail=empty,style=dashed];
+	c78767:p -> c78765:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.serialization.misc.VoidSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
+	c78767:p -> c78766:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.serialization.Serializer<T> implements io.reinert.requestor.core.serialization.Deserializer<T>
+	c78771:p -> c78767:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.java.serialization.FormDataMultiPartSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77741:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.java.serialization.BinarySerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77742:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.java.serialization.InputStreamSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77743:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.java.serialization.ByteSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77744:p [dir=back,arrowtail=empty,style=dashed];
+	c78767:p -> c78826:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.java.serialization.FileSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77745:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.gwt.serialization.JsonSerializer<T> implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77763:p [dir=back,arrowtail=empty,style=dashed];
+	c78767:p -> c78827:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.java.serialization.InputStreamSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
+	c78767:p -> c78828:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.java.serialization.ByteSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
+	c78767:p -> c78829:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.java.serialization.BinarySerializer implements io.reinert.requestor.core.serialization.Serializer<T>
+	c78767:p -> c78830:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gwt.serialization.OverlaySerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c77703:p -> c77765:p [dir=back,arrowtail=empty,style=dashed];
+	c78767:p -> c78842:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.gwt.serialization.JsonSerializer<T> implements io.reinert.requestor.core.serialization.Serializer<T>
+	c78767:p -> c78848:p [dir=back,arrowtail=empty,style=dashed];
 }
 

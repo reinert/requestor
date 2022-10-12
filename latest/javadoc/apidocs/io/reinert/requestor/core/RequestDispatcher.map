@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./AsyncRunner.html" title="io.reinert.requestor.core.AsyncRunner" alt="" coords="46,11,150,53"/>
-<area shape="rect" id="node1" href="./AsyncRunner.html" title="&lt;TABLE&gt;" alt="" coords="35,5,161,59"/>
-<area shape="rect" id="node2_1" href="./RequestDispatcher.html" title="io.reinert.requestor.core.RequestDispatcher" alt="" coords="27,118,169,143"/>
-<area shape="rect" id="node2" href="./RequestDispatcher.html" title="&lt;TABLE&gt;" alt="" coords="16,107,180,155"/>
-<area shape="rect" id="node3_2" href="../gwt/xhr/XhrRequestDispatcher.html" title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" alt="" coords="16,214,180,239"/>
-<area shape="rect" id="node3" href="../gwt/xhr/XhrRequestDispatcher.html" title="&lt;TABLE&gt;" alt="" coords="5,203,191,251"/>
+<area shape="rect" id="node1_0" href="./RequestDispatcher.html" title="io.reinert.requestor.core.RequestDispatcher" alt="" coords="26,118,158,143"/>
+<area shape="rect" id="node1" href="./RequestDispatcher.html" title="&lt;TABLE&gt;" alt="" coords="15,107,169,155"/>
+<area shape="rect" id="node3_1" href="../gwt/xhr/XhrRequestDispatcher.html" title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" alt="" coords="16,214,168,239"/>
+<area shape="rect" id="node3" href="../gwt/xhr/XhrRequestDispatcher.html" title="&lt;TABLE&gt;" alt="" coords="5,203,179,251"/>
+<area shape="rect" id="node2_2" href="./AsyncRunner.html" title="io.reinert.requestor.core.AsyncRunner" alt="" coords="43,11,141,53"/>
+<area shape="rect" id="node2" href="./AsyncRunner.html" title="&lt;TABLE&gt;" alt="" coords="33,5,151,59"/>
 </map>

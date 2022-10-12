@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Header.html" title="io.reinert.requestor.core.header.Header" alt="" coords="175,17,241,42"/>
-<area shape="rect" id="node1" href="./Header.html" title="&lt;TABLE&gt;" alt="" coords="164,5,252,53"/>
-<area shape="rect" id="node3_1" href="./SimpleHeader.html" title="io.reinert.requestor.core.header.SimpleHeader" alt="" coords="152,113,264,138"/>
-<area shape="rect" id="node3" href="./SimpleHeader.html" title="&lt;TABLE&gt;" alt="" coords="141,101,275,149"/>
-<area shape="rect" id="node2_2" href="./ContentEncodingHeader.html" title="io.reinert.requestor.core.header.ContentEncodingHeader" alt="" coords="16,209,192,234"/>
-<area shape="rect" id="node2" href="./ContentEncodingHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,197,203,245"/>
-<area shape="rect" id="node4_3" href="./ContentTypeHeader.html" title="io.reinert.requestor.core.header.ContentTypeHeader" alt="" coords="238,209,386,234"/>
-<area shape="rect" id="node4" href="./ContentTypeHeader.html" title="&lt;TABLE&gt;" alt="" coords="227,197,397,245"/>
+<area shape="rect" id="node1_0" href="./ContentEncodingHeader.html" title="io.reinert.requestor.core.header.ContentEncodingHeader" alt="" coords="16,209,177,234"/>
+<area shape="rect" id="node1" href="./ContentEncodingHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,197,188,245"/>
+<area shape="rect" id="node2_1" href="./SimpleHeader.html" title="io.reinert.requestor.core.header.SimpleHeader" alt="" coords="143,113,245,138"/>
+<area shape="rect" id="node2" href="./SimpleHeader.html" title="&lt;TABLE&gt;" alt="" coords="133,101,255,149"/>
+<area shape="rect" id="node4_2" href="./ContentTypeHeader.html" title="io.reinert.requestor.core.header.ContentTypeHeader" alt="" coords="223,209,359,234"/>
+<area shape="rect" id="node4" href="./ContentTypeHeader.html" title="&lt;TABLE&gt;" alt="" coords="213,197,370,245"/>
+<area shape="rect" id="node3_3" href="./Header.html" title="io.reinert.requestor.core.header.Header" alt="" coords="163,17,225,42"/>
+<area shape="rect" id="node3" href="./Header.html" title="&lt;TABLE&gt;" alt="" coords="153,5,235,53"/>
 </map>

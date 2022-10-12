@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.AsyncRunner
-	c30629 [label=<<table title="io.reinert.requestor.core.AsyncRunner" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../core/AsyncRunner.html">
+	c31169 [label=<<table title="io.reinert.requestor.core.AsyncRunner" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../core/AsyncRunner.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> AsyncRunner </td></tr>
 		</table></td></tr>
 		</table>>, URL="../core/AsyncRunner.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.GwtAsyncRunner
-	c30825 [label=<<table title="io.reinert.requestor.gwt.GwtAsyncRunner" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GwtAsyncRunner.html">
+	c31256 [label=<<table title="io.reinert.requestor.gwt.GwtAsyncRunner" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GwtAsyncRunner.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GwtAsyncRunner </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GwtAsyncRunner.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.GwtAsyncRunner implements io.reinert.requestor.core.AsyncRunner
-	c30629:p -> c30825:p [dir=back,arrowtail=empty,style=dashed];
+	c31169:p -> c31256:p [dir=back,arrowtail=empty,style=dashed];
 }
 

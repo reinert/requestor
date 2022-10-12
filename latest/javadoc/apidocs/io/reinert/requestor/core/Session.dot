@@ -9,74 +9,74 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.Store
-	c79851 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Store </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Store.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.InterceptorManager
-	c79875 [label=<<table title="io.reinert.requestor.core.InterceptorManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InterceptorManager.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> InterceptorManager </td></tr>
-		</table></td></tr>
-		</table>>, URL="./InterceptorManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.Session
-	c79879 [label=<<table title="io.reinert.requestor.core.Session" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Session.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Session </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Session.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ProviderManager
-	c79887 [label=<<table title="io.reinert.requestor.core.ProviderManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProviderManager.html">
+	c80959 [label=<<table title="io.reinert.requestor.core.ProviderManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProviderManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProviderManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProviderManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.SerializerManager
-	c79892 [label=<<table title="io.reinert.requestor.core.SerializerManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializerManager.html">
+	// io.reinert.requestor.core.Store
+	c80992 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> SerializerManager </td></tr>
+<tr><td align="center" balign="center"> Store </td></tr>
 		</table></td></tr>
-		</table>>, URL="./SerializerManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.FilterManager
-	c79911 [label=<<table title="io.reinert.requestor.core.FilterManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FilterManager.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> FilterManager </td></tr>
-		</table></td></tr>
-		</table>>, URL="./FilterManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./Store.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasRequestOptions
-	c79918 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
+	c81014 [label=<<table title="io.reinert.requestor.core.HasRequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasRequestOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasRequestOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasRequestOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.FilterManager
+	c81019 [label=<<table title="io.reinert.requestor.core.FilterManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FilterManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> FilterManager </td></tr>
+		</table></td></tr>
+		</table>>, URL="./FilterManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.InterceptorManager
+	c81028 [label=<<table title="io.reinert.requestor.core.InterceptorManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InterceptorManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> InterceptorManager </td></tr>
+		</table></td></tr>
+		</table>>, URL="./InterceptorManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.SerializerManager
+	c81040 [label=<<table title="io.reinert.requestor.core.SerializerManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializerManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> SerializerManager </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SerializerManager.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.Session
+	c81048 [label=<<table title="io.reinert.requestor.core.Session" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Session.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Session </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Session.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.DirectInvoker
-	c79919 [label=<<table title="io.reinert.requestor.core.DirectInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DirectInvoker.html">
+	c81055 [label=<<table title="io.reinert.requestor.core.DirectInvoker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DirectInvoker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DirectInvoker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DirectInvoker.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.SerializerManager
-	c79892:p -> c79879:p [dir=back,arrowtail=empty,style=dashed];
+	c81040:p -> c81048:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.FilterManager
-	c79911:p -> c79879:p [dir=back,arrowtail=empty,style=dashed];
+	c81019:p -> c81048:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.InterceptorManager
-	c79875:p -> c79879:p [dir=back,arrowtail=empty,style=dashed];
+	c81028:p -> c81048:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.ProviderManager
-	c79887:p -> c79879:p [dir=back,arrowtail=empty,style=dashed];
+	c80959:p -> c81048:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.DirectInvoker
-	c79919:p -> c79879:p [dir=back,arrowtail=empty,style=dashed];
+	c81055:p -> c81048:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.HasRequestOptions
-	c79918:p -> c79879:p [dir=back,arrowtail=empty,style=dashed];
+	c81014:p -> c81048:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Session implements io.reinert.requestor.core.Store
-	c79851:p -> c79879:p [dir=back,arrowtail=empty,style=dashed];
+	c80992:p -> c81048:p [dir=back,arrowtail=empty,style=dashed];
 }
 

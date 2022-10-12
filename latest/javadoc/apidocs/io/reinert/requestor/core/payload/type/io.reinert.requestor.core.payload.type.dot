@@ -10,57 +10,57 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.payload.type.RootPayloadType<T>
-	c1284 [label=<<table title="io.reinert.requestor.core.payload.type.RootPayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RootPayloadType.html">
+	c2466 [label=<<table title="io.reinert.requestor.core.payload.type.RootPayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RootPayloadType.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> RootPayloadType&lt;T&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./RootPayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.payload.type.DictionaryPayloadType<T>
-	c1285 [label=<<table title="io.reinert.requestor.core.payload.type.DictionaryPayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DictionaryPayloadType.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> DictionaryPayloadType&lt;T&gt; </td></tr>
-		</table></td></tr>
-		</table>>, URL="./DictionaryPayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.payload.type.CollectionPayloadType<T>
-	c1286 [label=<<table title="io.reinert.requestor.core.payload.type.CollectionPayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CollectionPayloadType.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> CollectionPayloadType&lt;T&gt; </td></tr>
-		</table></td></tr>
-		</table>>, URL="./CollectionPayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.payload.type.SinglePayloadType<T>
-	c1287 [label=<<table title="io.reinert.requestor.core.payload.type.SinglePayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SinglePayloadType.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> SinglePayloadType&lt;T&gt; </td></tr>
-		</table></td></tr>
-		</table>>, URL="./SinglePayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.payload.type.CompositePayloadType
-	c1288 [label=<<table title="io.reinert.requestor.core.payload.type.CompositePayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CompositePayloadType.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> CompositePayloadType </td></tr>
-		</table></td></tr>
-		</table>>, URL="./CompositePayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.payload.type.CompositePayloadType.Builder
-	c1289 [label=<<table title="io.reinert.requestor.core.payload.type.CompositePayloadType.Builder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CompositePayloadType.Builder.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Builder </td></tr>
-		</table></td></tr>
-		</table>>, URL="./CompositePayloadType.Builder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.payload.type.PayloadType
-	c1290 [label=<<table title="io.reinert.requestor.core.payload.type.PayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PayloadType.html">
+	c2467 [label=<<table title="io.reinert.requestor.core.payload.type.PayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PayloadType.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PayloadType </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.payload.type.DictionaryPayloadType<T>
+	c2468 [label=<<table title="io.reinert.requestor.core.payload.type.DictionaryPayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DictionaryPayloadType.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> DictionaryPayloadType&lt;T&gt; </td></tr>
+		</table></td></tr>
+		</table>>, URL="./DictionaryPayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.payload.type.CollectionPayloadType<T>
+	c2469 [label=<<table title="io.reinert.requestor.core.payload.type.CollectionPayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CollectionPayloadType.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> CollectionPayloadType&lt;T&gt; </td></tr>
+		</table></td></tr>
+		</table>>, URL="./CollectionPayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.payload.type.CompositePayloadType
+	c2470 [label=<<table title="io.reinert.requestor.core.payload.type.CompositePayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CompositePayloadType.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> CompositePayloadType </td></tr>
+		</table></td></tr>
+		</table>>, URL="./CompositePayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.payload.type.CompositePayloadType.Builder
+	c2471 [label=<<table title="io.reinert.requestor.core.payload.type.CompositePayloadType.Builder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CompositePayloadType.Builder.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> Builder </td></tr>
+		</table></td></tr>
+		</table>>, URL="./CompositePayloadType.Builder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.payload.type.SinglePayloadType<T>
+	c2472 [label=<<table title="io.reinert.requestor.core.payload.type.SinglePayloadType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SinglePayloadType.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SinglePayloadType&lt;T&gt; </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SinglePayloadType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.payload.type.RootPayloadType<T> implements io.reinert.requestor.core.payload.type.PayloadType
-	c1290:p -> c1284:p [dir=back,arrowtail=empty,style=dashed];
+	c2467:p -> c2466:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.payload.type.DictionaryPayloadType<T> extends io.reinert.requestor.core.payload.type.RootPayloadType<java.util.Map<java.lang.String, T>>
-	c1284:p -> c1285:p [dir=back,arrowtail=empty];
+	c2466:p -> c2468:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.payload.type.CollectionPayloadType<T> extends io.reinert.requestor.core.payload.type.RootPayloadType<java.util.Collection<T>>
-	c1284:p -> c1286:p [dir=back,arrowtail=empty];
-	//io.reinert.requestor.core.payload.type.SinglePayloadType<T> extends io.reinert.requestor.core.payload.type.RootPayloadType<T>
-	c1284:p -> c1287:p [dir=back,arrowtail=empty];
+	c2466:p -> c2469:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.core.payload.type.CompositePayloadType implements io.reinert.requestor.core.payload.type.PayloadType
-	c1290:p -> c1288:p [dir=back,arrowtail=empty,style=dashed];
+	c2467:p -> c2470:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.payload.type.SinglePayloadType<T> extends io.reinert.requestor.core.payload.type.RootPayloadType<T>
+	c2466:p -> c2472:p [dir=back,arrowtail=empty];
 }
 

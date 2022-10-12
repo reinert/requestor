@@ -9,30 +9,30 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
+	// io.reinert.requestor.core.Request<T>
+	c58942 [label=<<table title="io.reinert.requestor.core.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Request.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Request&lt;T&gt; </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Request.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PollingRequest<T>
-	c58130 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequest.html">
+	c58986 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedRequest
-	c58136 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
+	c58999 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.Request<T>
-	c58163 [label=<<table title="io.reinert.requestor.core.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Request.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Request&lt;T&gt; </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Request.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.core.PollingRequest<T> implements io.reinert.requestor.core.Request<T>
-	c58163:p -> c58130:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.Request<T> implements io.reinert.requestor.core.SerializedRequest
-	c58136:p -> c58163:p [dir=back,arrowtail=empty,style=dashed];
+	c58999:p -> c58942:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.PollingRequest<T> implements io.reinert.requestor.core.Request<T>
+	c58942:p -> c58986:p [dir=back,arrowtail=empty,style=dashed];
 }
 

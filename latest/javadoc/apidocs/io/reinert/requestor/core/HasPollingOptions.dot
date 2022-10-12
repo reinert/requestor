@@ -9,57 +9,57 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.PollingRequest<T>
-	c32377 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequest.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> PollingRequest&lt;T&gt; </td></tr>
-		</table></td></tr>
-		</table>>, URL="./PollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.SerializedRequest
-	c32383 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> SerializedRequest </td></tr>
-		</table></td></tr>
-		</table>>, URL="./SerializedRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.MutableRequest
-	c32392 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
+	c32853 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.PollingRequest<T>
+	c32873 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequest.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> PollingRequest&lt;T&gt; </td></tr>
+		</table></td></tr>
+		</table>>, URL="./PollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.HasPollingOptions
+	c32884 [label=<<table title="io.reinert.requestor.core.HasPollingOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasPollingOptions.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> HasPollingOptions </td></tr>
+		</table></td></tr>
+		</table>>, URL="./HasPollingOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.SerializedRequest
+	c32886 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> SerializedRequest </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SerializedRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ProcessableRequest
-	c32397 [label=<<table title="io.reinert.requestor.core.ProcessableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProcessableRequest.html">
+	c32894 [label=<<table title="io.reinert.requestor.core.ProcessableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ProcessableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProcessableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ProcessableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PollingRequestBuilder
-	c32400 [label=<<table title="io.reinert.requestor.core.PollingRequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestBuilder.html">
+	c32902 [label=<<table title="io.reinert.requestor.core.PollingRequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PollingRequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequestBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.HasPollingOptions
-	c32409 [label=<<table title="io.reinert.requestor.core.HasPollingOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HasPollingOptions.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> HasPollingOptions </td></tr>
-		</table></td></tr>
-		</table>>, URL="./HasPollingOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.core.PollingRequest<T> implements io.reinert.requestor.core.HasPollingOptions
-	c32409:p -> c32377:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.core.SerializedRequest implements io.reinert.requestor.core.HasPollingOptions
-	c32409:p -> c32383:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.MutableRequest implements io.reinert.requestor.core.HasPollingOptions
-	c32409:p -> c32392:p [dir=back,arrowtail=empty,style=dashed];
+	c32884:p -> c32853:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.PollingRequest<T> implements io.reinert.requestor.core.HasPollingOptions
+	c32884:p -> c32873:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.SerializedRequest implements io.reinert.requestor.core.HasPollingOptions
+	c32884:p -> c32886:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ProcessableRequest implements io.reinert.requestor.core.HasPollingOptions
-	c32409:p -> c32397:p [dir=back,arrowtail=empty,style=dashed];
+	c32884:p -> c32894:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequestBuilder implements io.reinert.requestor.core.HasPollingOptions
-	c32409:p -> c32400:p [dir=back,arrowtail=empty,style=dashed];
+	c32884:p -> c32902:p [dir=back,arrowtail=empty,style=dashed];
 }
 

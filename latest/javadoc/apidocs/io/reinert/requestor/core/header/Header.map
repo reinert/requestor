@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Header.html" title="io.reinert.requestor.core.header.Header" alt="" coords="125,17,192,42"/>
-<area shape="rect" id="node1" href="./Header.html" title="&lt;TABLE&gt;" alt="" coords="115,5,203,53"/>
-<area shape="rect" id="node2_1" href="./SimpleHeader.html" title="io.reinert.requestor.core.header.SimpleHeader" alt="" coords="16,113,128,138"/>
-<area shape="rect" id="node2" href="./SimpleHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,101,139,149"/>
-<area shape="rect" id="node3_2" href="./MultivaluedHeader.html" title="io.reinert.requestor.core.header.MultivaluedHeader" alt="" coords="173,113,317,138"/>
-<area shape="rect" id="node3" href="./MultivaluedHeader.html" title="&lt;TABLE&gt;" alt="" coords="163,101,328,149"/>
+<area shape="rect" id="node1_0" href="./MultivaluedHeader.html" title="io.reinert.requestor.core.header.MultivaluedHeader" alt="" coords="16,113,144,138"/>
+<area shape="rect" id="node1" href="./MultivaluedHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,101,155,149"/>
+<area shape="rect" id="node2_1" href="./SimpleHeader.html" title="io.reinert.requestor.core.header.SimpleHeader" alt="" coords="189,113,291,138"/>
+<area shape="rect" id="node2" href="./SimpleHeader.html" title="&lt;TABLE&gt;" alt="" coords="179,101,301,149"/>
+<area shape="rect" id="node3_2" href="./Header.html" title="io.reinert.requestor.core.header.Header" alt="" coords="129,17,191,42"/>
+<area shape="rect" id="node3" href="./Header.html" title="&lt;TABLE&gt;" alt="" coords="119,5,201,53"/>
 </map>

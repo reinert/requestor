@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../core/ProgressEvent.html" title="io.reinert.requestor.core.ProgressEvent" alt="" coords="44,11,156,53"/>
-<area shape="rect" id="node1" href="../core/ProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="33,5,167,59"/>
-<area shape="rect" id="node2_1" href="./ChunkedProgressEvent.html" title="io.reinert.requestor.java.ChunkedProgressEvent" alt="" coords="16,118,184,143"/>
-<area shape="rect" id="node2" href="./ChunkedProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="5,107,195,155"/>
+<area shape="rect" id="node1_0" href="../core/ProgressEvent.html" title="io.reinert.requestor.core.ProgressEvent" alt="" coords="42,11,147,53"/>
+<area shape="rect" id="node1" href="../core/ProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="31,5,158,59"/>
+<area shape="rect" id="node2_1" href="./ChunkedProgressEvent.html" title="io.reinert.requestor.java.ChunkedProgressEvent" alt="" coords="16,118,173,143"/>
+<area shape="rect" id="node2" href="./ChunkedProgressEvent.html" title="&lt;TABLE&gt;" alt="" coords="5,107,184,155"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../core/RequestCancelException.html" title="io.reinert.requestor.core.RequestCancelException" alt="" coords="21,17,201,42"/>
-<area shape="rect" id="node1" href="../core/RequestCancelException.html" title="&lt;TABLE&gt;" alt="" coords="11,5,212,53"/>
-<area shape="rect" id="node2_1" href="./RequestRedirectException.html" title="io.reinert.requestor.java.RequestRedirectException" alt="" coords="16,113,207,138"/>
-<area shape="rect" id="node2" href="./RequestRedirectException.html" title="&lt;TABLE&gt;" alt="" coords="5,101,217,149"/>
+<area shape="rect" id="node1_0" href="../core/RequestCancelException.html" title="io.reinert.requestor.core.RequestCancelException" alt="" coords="20,17,188,42"/>
+<area shape="rect" id="node1" href="../core/RequestCancelException.html" title="&lt;TABLE&gt;" alt="" coords="9,5,199,53"/>
+<area shape="rect" id="node2_1" href="./RequestRedirectException.html" title="io.reinert.requestor.java.RequestRedirectException" alt="" coords="16,113,192,138"/>
+<area shape="rect" id="node2" href="./RequestRedirectException.html" title="&lt;TABLE&gt;" alt="" coords="5,101,203,149"/>
 </map>

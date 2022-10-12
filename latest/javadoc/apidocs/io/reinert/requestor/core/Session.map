@@ -1,18 +1,18 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="16,11,109,53"/>
-<area shape="rect" id="node1" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="5,5,120,59"/>
-<area shape="rect" id="node3_1" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="560,118,629,143"/>
-<area shape="rect" id="node3" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="549,107,640,155"/>
-<area shape="rect" id="node2_2" href="./InterceptorManager.html" title="io.reinert.requestor.core.InterceptorManager" alt="" coords="155,11,303,53"/>
-<area shape="rect" id="node2" href="./InterceptorManager.html" title="&lt;TABLE&gt;" alt="" coords="145,5,314,59"/>
-<area shape="rect" id="node4_3" href="./ProviderManager.html" title="io.reinert.requestor.core.ProviderManager" alt="" coords="349,11,480,53"/>
-<area shape="rect" id="node4" href="./ProviderManager.html" title="&lt;TABLE&gt;" alt="" coords="339,5,491,59"/>
-<area shape="rect" id="node5_4" href="./SerializerManager.html" title="io.reinert.requestor.core.SerializerManager" alt="" coords="526,11,663,53"/>
-<area shape="rect" id="node5" href="./SerializerManager.html" title="&lt;TABLE&gt;" alt="" coords="515,5,674,59"/>
-<area shape="rect" id="node6_5" href="./FilterManager.html" title="io.reinert.requestor.core.FilterManager" alt="" coords="709,11,819,53"/>
-<area shape="rect" id="node6" href="./FilterManager.html" title="&lt;TABLE&gt;" alt="" coords="699,5,829,59"/>
-<area shape="rect" id="node7_6" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="865,11,1013,53"/>
-<area shape="rect" id="node7" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="854,5,1023,59"/>
-<area shape="rect" id="node8_7" href="./DirectInvoker.html" title="io.reinert.requestor.core.DirectInvoker" alt="" coords="1059,11,1165,53"/>
-<area shape="rect" id="node8" href="./DirectInvoker.html" title="&lt;TABLE&gt;" alt="" coords="1048,5,1176,59"/>
+<area shape="rect" id="node1_0" href="./ProviderManager.html" title="io.reinert.requestor.core.ProviderManager" alt="" coords="16,11,133,53"/>
+<area shape="rect" id="node1" href="./ProviderManager.html" title="&lt;TABLE&gt;" alt="" coords="5,5,144,59"/>
+<area shape="rect" id="node7_1" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="508,118,575,143"/>
+<area shape="rect" id="node7" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="497,107,585,155"/>
+<area shape="rect" id="node2_2" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="179,11,263,53"/>
+<area shape="rect" id="node2" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="169,5,274,59"/>
+<area shape="rect" id="node3_3" href="./HasRequestOptions.html" title="io.reinert.requestor.core.HasRequestOptions" alt="" coords="309,11,446,53"/>
+<area shape="rect" id="node3" href="./HasRequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="298,5,457,59"/>
+<area shape="rect" id="node4_4" href="./FilterManager.html" title="io.reinert.requestor.core.FilterManager" alt="" coords="492,11,591,53"/>
+<area shape="rect" id="node4" href="./FilterManager.html" title="&lt;TABLE&gt;" alt="" coords="481,5,601,59"/>
+<area shape="rect" id="node5_5" href="./InterceptorManager.html" title="io.reinert.requestor.core.InterceptorManager" alt="" coords="637,11,769,53"/>
+<area shape="rect" id="node5" href="./InterceptorManager.html" title="&lt;TABLE&gt;" alt="" coords="626,5,779,59"/>
+<area shape="rect" id="node6_6" href="./SerializerManager.html" title="io.reinert.requestor.core.SerializerManager" alt="" coords="814,11,938,53"/>
+<area shape="rect" id="node6" href="./SerializerManager.html" title="&lt;TABLE&gt;" alt="" coords="803,5,949,59"/>
+<area shape="rect" id="node8_7" href="./DirectInvoker.html" title="io.reinert.requestor.core.DirectInvoker" alt="" coords="983,11,1081,53"/>
+<area shape="rect" id="node8" href="./DirectInvoker.html" title="&lt;TABLE&gt;" alt="" coords="973,5,1091,59"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./HttpStatus.html" title="io.reinert.requestor.core.HttpStatus" alt="" coords="29,11,122,53"/>
-<area shape="rect" id="node1" href="./HttpStatus.html" title="&lt;TABLE&gt;" alt="" coords="18,5,133,59"/>
-<area shape="rect" id="node2_1" href="./Status.html" title="io.reinert.requestor.core.Status" alt="" coords="16,112,135,155"/>
-<area shape="rect" id="node2" href="./Status.html" title="&lt;TABLE&gt;" alt="" coords="5,107,145,160"/>
+<area shape="rect" id="node1_0" href="./Status.html" title="io.reinert.requestor.core.Status" alt="" coords="16,112,120,155"/>
+<area shape="rect" id="node1" href="./Status.html" title="&lt;TABLE&gt;" alt="" coords="5,107,131,160"/>
+<area shape="rect" id="node2_1" href="./HttpStatus.html" title="io.reinert.requestor.core.HttpStatus" alt="" coords="26,11,110,53"/>
+<area shape="rect" id="node2" href="./HttpStatus.html" title="&lt;TABLE&gt;" alt="" coords="15,5,121,59"/>
 </map>

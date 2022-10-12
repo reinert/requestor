@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Auth
-	c23872 [label=<<table title="io.reinert.requestor.core.Auth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Auth.html">
+	c24170 [label=<<table title="io.reinert.requestor.core.Auth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Auth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Auth </td></tr>
 		</table></td></tr>
 		</table>>, URL="../Auth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.auth.DigestAuth
-	c23920 [label=<<table title="io.reinert.requestor.core.auth.DigestAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DigestAuth.html">
+	c24212 [label=<<table title="io.reinert.requestor.core.auth.DigestAuth" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DigestAuth.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DigestAuth </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DigestAuth.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.auth.DigestAuth implements io.reinert.requestor.core.Auth
-	c23872:p -> c23920:p [dir=back,arrowtail=empty,style=dashed];
+	c24170:p -> c24212:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -9,41 +9,41 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.gwtjackson.rebind.SerializationModuleGenerator
-	c7672 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleGenerator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializationModuleGenerator.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> SerializationModuleGenerator </td></tr>
-		</table></td></tr>
-		</table>>, URL="./SerializationModuleGenerator.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler
-	c7673 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonObjectSerializerAssembler.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> JsonObjectSerializerAssembler </td></tr>
-		</table></td></tr>
-		</table>>, URL="./JsonObjectSerializerAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerGenerator
-	c7674 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerGenerator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonObjectSerializerGenerator.html">
+	c8071 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerGenerator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonObjectSerializerGenerator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonObjectSerializerGenerator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonObjectSerializerGenerator.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.gwtjackson.rebind.GwtJacksonProcessor
-	c7675 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.GwtJacksonProcessor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GwtJacksonProcessor.html">
+	// io.reinert.requestor.gwtjackson.rebind.SerializationModuleGenerator
+	c8072 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleGenerator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializationModuleGenerator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> GwtJacksonProcessor </td></tr>
+<tr><td align="center" balign="center"> SerializationModuleGenerator </td></tr>
 		</table></td></tr>
-		</table>>, URL="./GwtJacksonProcessor.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./SerializationModuleGenerator.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler
-	c7676 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializationModuleAssembler.html">
+	c8073 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializationModuleAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializationModuleAssembler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializationModuleAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.JsonGeneratedModulesGenerator
-	c7677 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonGeneratedModulesGenerator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonGeneratedModulesGenerator.html">
+	c8074 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonGeneratedModulesGenerator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonGeneratedModulesGenerator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonGeneratedModulesGenerator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonGeneratedModulesGenerator.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.gwtjackson.rebind.GwtJacksonProcessor
+	c8075 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.GwtJacksonProcessor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GwtJacksonProcessor.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> GwtJacksonProcessor </td></tr>
+		</table></td></tr>
+		</table>>, URL="./GwtJacksonProcessor.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler
+	c8076 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonObjectSerializerAssembler.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> JsonObjectSerializerAssembler </td></tr>
+		</table></td></tr>
+		</table>>, URL="./JsonObjectSerializerAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 }
 

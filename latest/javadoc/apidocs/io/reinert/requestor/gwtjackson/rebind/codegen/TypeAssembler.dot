@@ -9,35 +9,35 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler
-	c83219 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../JsonObjectSerializerAssembler.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> JsonObjectSerializerAssembler </td></tr>
-		</table></td></tr>
-		</table>>, URL="../JsonObjectSerializerAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler
-	c83222 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../SerializationModuleAssembler.html">
+	c85545 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../SerializationModuleAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SerializationModuleAssembler </td></tr>
 		</table></td></tr>
 		</table>>, URL="../SerializationModuleAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c83226 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TypeAssembler.html">
+	// io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler
+	c85548 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../JsonObjectSerializerAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> TypeAssembler </font></td></tr>
+<tr><td align="center" balign="center"> JsonObjectSerializerAssembler </td></tr>
 		</table></td></tr>
-		</table>>, URL="./TypeAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="../JsonObjectSerializerAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler
-	c83229 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InnerTypeAssembler.html">
+	c85565 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InnerTypeAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> InnerTypeAssembler </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./InnerTypeAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler extends io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c83226:p -> c83219:p [dir=back,arrowtail=empty];
+	// io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
+	c85568 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TypeAssembler.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> TypeAssembler </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./TypeAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwtjackson.rebind.SerializationModuleAssembler extends io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c83226:p -> c83222:p [dir=back,arrowtail=empty];
+	c85568:p -> c85545:p [dir=back,arrowtail=empty];
+	//io.reinert.requestor.gwtjackson.rebind.JsonObjectSerializerAssembler extends io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
+	c85568:p -> c85548:p [dir=back,arrowtail=empty];
 	//io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler extends io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c83226:p -> c83229:p [dir=back,arrowtail=empty];
+	c85568:p -> c85565:p [dir=back,arrowtail=empty];
 }
 

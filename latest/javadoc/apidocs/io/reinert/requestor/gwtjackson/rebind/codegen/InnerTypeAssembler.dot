@@ -9,19 +9,19 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c37166 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TypeAssembler.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> TypeAssembler </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="./TypeAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler
-	c37169 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./InnerTypeAssembler.html">
+	c37701 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./InnerTypeAssembler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> InnerTypeAssembler </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./InnerTypeAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
+	c37704 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TypeAssembler.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> TypeAssembler </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./TypeAssembler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwtjackson.rebind.codegen.InnerTypeAssembler extends io.reinert.requestor.gwtjackson.rebind.codegen.TypeAssembler
-	c37166:p -> c37169:p [dir=back,arrowtail=empty];
+	c37704:p -> c37701:p [dir=back,arrowtail=empty];
 }
 

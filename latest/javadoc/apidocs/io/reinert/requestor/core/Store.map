@@ -1,16 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Service.html" title="io.reinert.requestor.core.Service" alt="" coords="16,213,109,256"/>
-<area shape="rect" id="node1" href="./Service.html" title="&lt;TABLE&gt;" alt="" coords="5,208,120,261"/>
-<area shape="rect" id="node2_1" href="./InProcess.html" title="io.reinert.requestor.core.InProcess" alt="" coords="155,213,248,256"/>
-<area shape="rect" id="node2" href="./InProcess.html" title="&lt;TABLE&gt;" alt="" coords="144,208,259,261"/>
-<area shape="rect" id="node3_2" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="312,112,405,155"/>
-<area shape="rect" id="node3" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="301,107,416,160"/>
-<area shape="rect" id="node5_3" href="./ResponseHeader.html" title="io.reinert.requestor.core.ResponseHeader" alt="" coords="294,213,423,256"/>
-<area shape="rect" id="node5" href="./ResponseHeader.html" title="&lt;TABLE&gt;" alt="" coords="283,208,434,261"/>
-<area shape="rect" id="node6_4" href="./SerializedRequest.html" title="io.reinert.requestor.core.SerializedRequest" alt="" coords="469,213,605,256"/>
-<area shape="rect" id="node6" href="./SerializedRequest.html" title="&lt;TABLE&gt;" alt="" coords="459,208,616,261"/>
-<area shape="rect" id="node7_5" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="651,222,720,247"/>
-<area shape="rect" id="node7" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="640,211,731,259"/>
-<area shape="rect" id="node4_6" href="./Saver.html" title="io.reinert.requestor.core.Saver" alt="" coords="312,11,405,53"/>
-<area shape="rect" id="node4" href="./Saver.html" title="&lt;TABLE&gt;" alt="" coords="301,5,416,59"/>
+<area shape="rect" id="node1_0" href="./ResponseHeader.html" title="io.reinert.requestor.core.ResponseHeader" alt="" coords="16,213,136,256"/>
+<area shape="rect" id="node1" href="./ResponseHeader.html" title="&lt;TABLE&gt;" alt="" coords="5,208,147,261"/>
+<area shape="rect" id="node2_1" href="./Store.html" title="io.reinert.requestor.core.Store" alt="" coords="333,112,417,155"/>
+<area shape="rect" id="node2" href="./Store.html" title="&lt;TABLE&gt;" alt="" coords="322,107,427,160"/>
+<area shape="rect" id="node3_2" href="./InProcess.html" title="io.reinert.requestor.core.InProcess" alt="" coords="182,213,266,256"/>
+<area shape="rect" id="node3" href="./InProcess.html" title="&lt;TABLE&gt;" alt="" coords="171,208,277,261"/>
+<area shape="rect" id="node4_3" href="./SerializedRequest.html" title="io.reinert.requestor.core.SerializedRequest" alt="" coords="312,213,437,256"/>
+<area shape="rect" id="node4" href="./SerializedRequest.html" title="&lt;TABLE&gt;" alt="" coords="301,208,448,261"/>
+<area shape="rect" id="node5_4" href="./Session.html" title="io.reinert.requestor.core.Session" alt="" coords="483,222,549,247"/>
+<area shape="rect" id="node5" href="./Session.html" title="&lt;TABLE&gt;" alt="" coords="472,211,560,259"/>
+<area shape="rect" id="node7_5" href="./Service.html" title="io.reinert.requestor.core.Service" alt="" coords="595,213,679,256"/>
+<area shape="rect" id="node7" href="./Service.html" title="&lt;TABLE&gt;" alt="" coords="585,208,690,261"/>
+<area shape="rect" id="node6_6" href="./Saver.html" title="io.reinert.requestor.core.Saver" alt="" coords="333,11,417,53"/>
+<area shape="rect" id="node6" href="./Saver.html" title="&lt;TABLE&gt;" alt="" coords="322,5,427,59"/>
 </map>

@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Element.html" title="io.reinert.requestor.core.header.Element" alt="" coords="39,17,112,42"/>
-<area shape="rect" id="node1" href="./Element.html" title="&lt;TABLE&gt;" alt="" coords="28,5,123,53"/>
-<area shape="rect" id="node2_1" href="./Element.SimpleElement.html" title="io.reinert.requestor.core.header.Element.SimpleElement" alt="" coords="16,113,135,138"/>
-<area shape="rect" id="node2" href="./Element.SimpleElement.html" title="&lt;TABLE&gt;" alt="" coords="5,101,145,149"/>
-<area shape="rect" id="node3_2" href="./LinkElement.html" title="io.reinert.requestor.core.header.LinkElement" alt="" coords="25,209,125,234"/>
-<area shape="rect" id="node3" href="./LinkElement.html" title="&lt;TABLE&gt;" alt="" coords="15,197,136,245"/>
+<area shape="rect" id="node1_0" href="./LinkElement.html" title="io.reinert.requestor.core.header.LinkElement" alt="" coords="24,209,116,234"/>
+<area shape="rect" id="node1" href="./LinkElement.html" title="&lt;TABLE&gt;" alt="" coords="13,197,127,245"/>
+<area shape="rect" id="node2_1" href="./Element.html" title="io.reinert.requestor.core.header.Element" alt="" coords="36,17,104,42"/>
+<area shape="rect" id="node2" href="./Element.html" title="&lt;TABLE&gt;" alt="" coords="25,5,115,53"/>
+<area shape="rect" id="node3_2" href="./Element.SimpleElement.html" title="io.reinert.requestor.core.header.Element.SimpleElement" alt="" coords="16,113,124,138"/>
+<area shape="rect" id="node3" href="./Element.SimpleElement.html" title="&lt;TABLE&gt;" alt="" coords="5,101,135,149"/>
 </map>

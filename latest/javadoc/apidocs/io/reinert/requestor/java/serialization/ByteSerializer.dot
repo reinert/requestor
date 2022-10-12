@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.serialization.Serializer<T>
-	c17330 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/Serializer.html">
+	c17550 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/Serializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializer&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/serialization/Serializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.java.serialization.ByteSerializer
-	c17371 [label=<<table title="io.reinert.requestor.java.serialization.ByteSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ByteSerializer.html">
+	c17612 [label=<<table title="io.reinert.requestor.java.serialization.ByteSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ByteSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ByteSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ByteSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.java.serialization.ByteSerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c17330:p -> c17371:p [dir=back,arrowtail=empty,style=dashed];
+	c17550:p -> c17612:p [dir=back,arrowtail=empty,style=dashed];
 }
 

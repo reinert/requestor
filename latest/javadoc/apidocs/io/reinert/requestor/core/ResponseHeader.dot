@@ -9,39 +9,39 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// io.reinert.requestor.core.Store
-	c68124 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> Store </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Store.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseHeader
-	c68146 [label=<<table title="io.reinert.requestor.core.ResponseHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ResponseHeader.html">
+	c69072 [label=<<table title="io.reinert.requestor.core.ResponseHeader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ResponseHeader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseHeader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseHeader.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedResponse
-	c68169 [label=<<table title="io.reinert.requestor.core.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
+	c69080 [label=<<table title="io.reinert.requestor.core.SerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.IncomingResponse
-	c68206 [label=<<table title="io.reinert.requestor.core.IncomingResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IncomingResponse.html">
+	c69081 [label=<<table title="io.reinert.requestor.core.IncomingResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IncomingResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IncomingResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IncomingResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+	// io.reinert.requestor.core.Store
+	c69101 [label=<<table title="io.reinert.requestor.core.Store" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> Store </td></tr>
+		</table></td></tr>
+		</table>>, URL="./Store.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.ResponseHeader implements io.reinert.requestor.core.Store
-	c68124:p -> c68146:p [dir=back,arrowtail=empty,style=dashed];
+	c69101:p -> c69072:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedResponse implements io.reinert.requestor.core.ResponseHeader
-	c68146:p -> c68169:p [dir=back,arrowtail=empty,style=dashed];
+	c69072:p -> c69080:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.IncomingResponse implements io.reinert.requestor.core.ResponseHeader
-	c68146:p -> c68206:p [dir=back,arrowtail=empty,style=dashed];
+	c69072:p -> c69081:p [dir=back,arrowtail=empty,style=dashed];
 }
 

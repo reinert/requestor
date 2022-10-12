@@ -9,35 +9,35 @@ digraph G {
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
+	// io.reinert.requestor.core.RequestEvent
+	c61238 [label=<<table title="io.reinert.requestor.core.RequestEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestEvent.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> RequestEvent </td></tr>
+		</table></td></tr>
+		</table>>, URL="./RequestEvent.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HttpStatus
-	c60386 [label=<<table title="io.reinert.requestor.core.HttpStatus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpStatus.html">
+	c61255 [label=<<table title="io.reinert.requestor.core.HttpStatus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HttpStatus.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpStatus </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpStatus.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.StatusFamily
-	c60445 [label=<<table title="io.reinert.requestor.core.StatusFamily" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StatusFamily.html">
+	c61300 [label=<<table title="io.reinert.requestor.core.StatusFamily" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StatusFamily.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> StatusFamily </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StatusFamily.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	// io.reinert.requestor.core.RequestEvent
-	c60488 [label=<<table title="io.reinert.requestor.core.RequestEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestEvent.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> RequestEvent </td></tr>
-		</table></td></tr>
-		</table>>, URL="./RequestEvent.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
-	//io.reinert.requestor.core.HttpStatus implements io.reinert.requestor.core.RequestEvent
-	c60488:p -> c60386:p [dir=back,arrowtail=empty,style=dashed];
-	//io.reinert.requestor.core.StatusFamily implements io.reinert.requestor.core.RequestEvent
-	c60488:p -> c60445:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestEvent implements java.io.Serializable
-	c60671:p -> c60488:p [dir=back,arrowtail=empty,style=dashed];
+	c61519:p -> c61238:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.HttpStatus implements io.reinert.requestor.core.RequestEvent
+	c61238:p -> c61255:p [dir=back,arrowtail=empty,style=dashed];
+	//io.reinert.requestor.core.StatusFamily implements io.reinert.requestor.core.RequestEvent
+	c61238:p -> c61300:p [dir=back,arrowtail=empty,style=dashed];
 	// java.io.Serializable
-	c60671 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
+	c61519 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializable </td></tr>

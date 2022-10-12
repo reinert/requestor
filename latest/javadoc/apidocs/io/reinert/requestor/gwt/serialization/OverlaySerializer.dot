@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.serialization.Serializer<T>
-	c49667 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/Serializer.html">
+	c50339 [label=<<table title="io.reinert.requestor.core.serialization.Serializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../core/serialization/Serializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializer&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../core/serialization/Serializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.OverlaySerializer
-	c49729 [label=<<table title="io.reinert.requestor.gwt.serialization.OverlaySerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OverlaySerializer.html">
+	c50414 [label=<<table title="io.reinert.requestor.gwt.serialization.OverlaySerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OverlaySerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OverlaySerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OverlaySerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.serialization.OverlaySerializer implements io.reinert.requestor.core.serialization.Serializer<T>
-	c49667:p -> c49729:p [dir=back,arrowtail=empty,style=dashed];
+	c50339:p -> c50414:p [dir=back,arrowtail=empty,style=dashed];
 }
 
