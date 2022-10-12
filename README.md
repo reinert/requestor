@@ -72,9 +72,10 @@ available: **requestor-javanet** for JVM/Android and **requestor-gwt** for GWT2.
 ```java
 final Session session = Requestor.newSession();
 
-session.get("https://httpbin.org/ip", String.class) // deserialize the response body to String
-        .onSuccess( ip -> System.out.println(ip) )  // print the response body (payload)
-        .onSuccess( session::shutdown );            // close the session and exit
+session.get("https://httpbin.org/ip", String.class)    // make a GET request and read the body as String
+        .onSuccess( ip -> System.out.println(ip) )     // print the body if response was 2xx
+        .onFail(System.out.println("Unsuccessful response received"))         // print failure message if response was not 2xx
+        .onError(System.out.println("An error occurred during the request")); // print error message if no response was received
 ```
 
 🔥 In **Kotlin**:
@@ -83,12 +84,31 @@ session.get("https://httpbin.org/ip", String.class) // deserialize the response 
 val session = Requestor.newSession()
 
 session.get("https://httpbin.org/ip", String::class.java)
-    .onSuccess { ip -> println(ip) }
-    .onSuccess(session::shutdown)
+    .onSuccess { ip : String -> println(ip) }
+    .onFail(println("Unsuccessful response received"))
+    .onError(println("An error occurred during the request"))
 ```
 
-**NOTE:** In JVM runtime, the session is backed by a thread pool to run the requests asynchronously.
-Calling shutdown will close all the threads. In GWT this is not necessary since the JS runtime relies on an event loop.
+🤔 Prefer sync programming?
+
+```java
+final Session session = Requestor.newSession();
+
+try {
+    Response response = session.get("https://httpbin.org/ip", String.class)
+            .await();
+
+    if (response.getStatus() == Status.OK) {
+        String ip = response.getPayload();
+        System.out.println(ip);
+    } else {
+        System.out.println("Unsuccessful response received");
+    }
+} catch (RequestException e) {
+    System.out.println("An error occurred during the request");
+    e.printStackTrace();
+}
+```
 
 👨‍💻 Make a POST request auto serializing an object into the request payload:
 
