@@ -1,0 +1,20 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./TypeProvider.html" title="io.reinert.requestor.core.TypeProvider" alt="" coords="16,112,136,155"/>
+<area shape="rect" id="node1" href="./TypeProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,107,147,160"/>
+<area shape="rect" id="node2_1" href="./ResponseFilter.Provider.html" title="io.reinert.requestor.core.ResponseFilter.Provider" alt="" coords="182,112,266,155"/>
+<area shape="rect" id="node2" href="./ResponseFilter.Provider.html" title="&lt;TABLE&gt;" alt="" coords="171,107,277,160"/>
+<area shape="rect" id="node3_2" href="./ResponseInterceptor.Provider.html" title="io.reinert.requestor.core.ResponseInterceptor.Provider" alt="" coords="311,112,395,155"/>
+<area shape="rect" id="node3" href="./ResponseInterceptor.Provider.html" title="&lt;TABLE&gt;" alt="" coords="301,107,406,160"/>
+<area shape="rect" id="node4_3" href="./RequestFilter.Provider.html" title="io.reinert.requestor.core.RequestFilter.Provider" alt="" coords="441,112,525,155"/>
+<area shape="rect" id="node4" href="./RequestFilter.Provider.html" title="&lt;TABLE&gt;" alt="" coords="430,107,535,160"/>
+<area shape="rect" id="node5_4" href="./DeserializerProvider.html" title="io.reinert.requestor.core.DeserializerProvider" alt="" coords="571,112,707,155"/>
+<area shape="rect" id="node5" href="./DeserializerProvider.html" title="&lt;TABLE&gt;" alt="" coords="560,107,717,160"/>
+<area shape="rect" id="node6_5" href="./Auth.Provider.html" title="io.reinert.requestor.core.Auth.Provider" alt="" coords="753,112,837,155"/>
+<area shape="rect" id="node6" href="./Auth.Provider.html" title="&lt;TABLE&gt;" alt="" coords="742,107,847,160"/>
+<area shape="rect" id="node7_6" href="./Provider.html" title="io.reinert.requestor.core.Provider" alt="" coords="514,11,606,53"/>
+<area shape="rect" id="node7" href="./Provider.html" title="&lt;TABLE&gt;" alt="" coords="503,5,617,59"/>
+<area shape="rect" id="node8_7" href="./RetryPolicy.Provider.html" title="io.reinert.requestor.core.RetryPolicy.Provider" alt="" coords="882,112,966,155"/>
+<area shape="rect" id="node8" href="./RetryPolicy.Provider.html" title="&lt;TABLE&gt;" alt="" coords="871,107,977,160"/>
+<area shape="rect" id="node9_8" href="./RequestInterceptor.Provider.html" title="io.reinert.requestor.core.RequestInterceptor.Provider" alt="" coords="1011,112,1095,155"/>
+<area shape="rect" id="node9" href="./RequestInterceptor.Provider.html" title="&lt;TABLE&gt;" alt="" coords="1001,107,1106,160"/>
+</map>

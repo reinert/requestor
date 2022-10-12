@@ -1,0 +1,28 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./ExceptionCallback.html" title="io.reinert.requestor.core.callback.ExceptionCallback" alt="" coords="16,11,144,53"/>
+<area shape="rect" id="node1" href="./ExceptionCallback.html" title="&lt;TABLE&gt;" alt="" coords="5,5,155,59"/>
+<area shape="rect" id="node2_1" href="./ResponseCallback.html" title="io.reinert.requestor.core.callback.ResponseCallback" alt="" coords="190,11,319,53"/>
+<area shape="rect" id="node2" href="./ResponseCallback.html" title="&lt;TABLE&gt;" alt="" coords="179,5,330,59"/>
+<area shape="rect" id="node3_2" href="./ReadCallback.html" title="io.reinert.requestor.core.callback.ReadCallback" alt="" coords="365,11,467,53"/>
+<area shape="rect" id="node3" href="./ReadCallback.html" title="&lt;TABLE&gt;" alt="" coords="355,5,477,59"/>
+<area shape="rect" id="node4_3" href="./ResponseRequestCallback.html" title="io.reinert.requestor.core.callback.ResponseRequestCallback" alt="" coords="513,11,717,53"/>
+<area shape="rect" id="node4" href="./ResponseRequestCallback.html" title="&lt;TABLE&gt;" alt="" coords="502,5,727,59"/>
+<area shape="rect" id="node5_4" href="./PayloadCallback.html" title="io.reinert.requestor.core.callback.PayloadCallback" alt="" coords="762,11,905,53"/>
+<area shape="rect" id="node5" href="./PayloadCallback.html" title="&lt;TABLE&gt;" alt="" coords="751,5,915,59"/>
+<area shape="rect" id="node6_5" href="./PayloadResponseRequestCallback.html" title="io.reinert.requestor.core.callback.PayloadResponseRequestCallback" alt="" coords="951,11,1201,53"/>
+<area shape="rect" id="node6" href="./PayloadResponseRequestCallback.html" title="&lt;TABLE&gt;" alt="" coords="940,5,1212,59"/>
+<area shape="rect" id="node7_6" href="./WriteCallback.html" title="io.reinert.requestor.core.callback.WriteCallback" alt="" coords="1247,11,1347,53"/>
+<area shape="rect" id="node7" href="./WriteCallback.html" title="&lt;TABLE&gt;" alt="" coords="1237,5,1358,59"/>
+<area shape="rect" id="node8_7" href="./TimeoutRequestCallback.html" title="io.reinert.requestor.core.callback.TimeoutRequestCallback" alt="" coords="1393,11,1585,53"/>
+<area shape="rect" id="node8" href="./TimeoutRequestCallback.html" title="&lt;TABLE&gt;" alt="" coords="1383,5,1596,59"/>
+<area shape="rect" id="node9_8" href="./ExceptionRequestCallback.html" title="io.reinert.requestor.core.callback.ExceptionRequestCallback" alt="" coords="1631,11,1833,53"/>
+<area shape="rect" id="node9" href="./ExceptionRequestCallback.html" title="&lt;TABLE&gt;" alt="" coords="1620,5,1844,59"/>
+<area shape="rect" id="node10_9" href="./VoidCallback.html" title="io.reinert.requestor.core.callback.VoidCallback" alt="" coords="1879,11,1975,53"/>
+<area shape="rect" id="node10" href="./VoidCallback.html" title="&lt;TABLE&gt;" alt="" coords="1868,5,1985,59"/>
+<area shape="rect" id="node11_10" href="./DualCallback.html" title="io.reinert.requestor.core.callback.DualCallback" alt="" coords="2021,11,2118,53"/>
+<area shape="rect" id="node11" href="./DualCallback.html" title="&lt;TABLE&gt;" alt="" coords="2010,5,2129,59"/>
+<area shape="rect" id="node12_11" href="./PayloadResponseCallback.html" title="io.reinert.requestor.core.callback.PayloadResponseCallback" alt="" coords="2163,11,2365,53"/>
+<area shape="rect" id="node12" href="./PayloadResponseCallback.html" title="&lt;TABLE&gt;" alt="" coords="2153,5,2375,59"/>
+<area shape="rect" id="node13_12" href="./TimeoutCallback.html" title="io.reinert.requestor.core.callback.TimeoutCallback" alt="" coords="2411,11,2528,53"/>
+<area shape="rect" id="node13" href="./TimeoutCallback.html" title="&lt;TABLE&gt;" alt="" coords="2400,5,2539,59"/>
+</map>

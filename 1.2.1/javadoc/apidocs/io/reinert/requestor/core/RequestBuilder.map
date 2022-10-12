@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./RequestInvoker.html" title="io.reinert.requestor.core.RequestInvoker" alt="" coords="16,213,128,256"/>
+<area shape="rect" id="node1" href="./RequestInvoker.html" title="&lt;TABLE&gt;" alt="" coords="5,208,139,261"/>
+<area shape="rect" id="node2_1" href="./RequestBuilder.html" title="io.reinert.requestor.core.RequestBuilder" alt="" coords="106,112,214,155"/>
+<area shape="rect" id="node2" href="./RequestBuilder.html" title="&lt;TABLE&gt;" alt="" coords="95,107,225,160"/>
+<area shape="rect" id="node4_2" href="./PollingRequestBuilder.html" title="io.reinert.requestor.core.PollingRequestBuilder" alt="" coords="174,213,322,256"/>
+<area shape="rect" id="node4" href="./PollingRequestBuilder.html" title="&lt;TABLE&gt;" alt="" coords="163,208,333,261"/>
+<area shape="rect" id="node3_3" href="./Saver.html" title="io.reinert.requestor.core.Saver" alt="" coords="46,11,130,53"/>
+<area shape="rect" id="node3" href="./Saver.html" title="&lt;TABLE&gt;" alt="" coords="35,5,141,59"/>
+<area shape="rect" id="node5_4" href="./RequestOptions.html" title="io.reinert.requestor.core.RequestOptions" alt="" coords="175,11,289,53"/>
+<area shape="rect" id="node5" href="./RequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="165,5,299,59"/>
+</map>

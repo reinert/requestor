@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./RootPayloadType.html" title="io.reinert.requestor.core.payload.type.RootPayloadType" alt="" coords="254,118,401,143"/>
+<area shape="rect" id="node1" href="./RootPayloadType.html" title="&lt;TABLE&gt;" alt="" coords="243,107,411,155"/>
+<area shape="rect" id="node3_1" href="./DictionaryPayloadType.html" title="io.reinert.requestor.core.payload.type.DictionaryPayloadType" alt="" coords="16,214,193,239"/>
+<area shape="rect" id="node3" href="./DictionaryPayloadType.html" title="&lt;TABLE&gt;" alt="" coords="5,203,204,251"/>
+<area shape="rect" id="node4_2" href="./CollectionPayloadType.html" title="io.reinert.requestor.core.payload.type.CollectionPayloadType" alt="" coords="239,214,415,239"/>
+<area shape="rect" id="node4" href="./CollectionPayloadType.html" title="&lt;TABLE&gt;" alt="" coords="229,203,426,251"/>
+<area shape="rect" id="node7_3" href="./SinglePayloadType.html" title="io.reinert.requestor.core.payload.type.SinglePayloadType" alt="" coords="461,214,615,239"/>
+<area shape="rect" id="node7" href="./SinglePayloadType.html" title="&lt;TABLE&gt;" alt="" coords="450,203,626,251"/>
+<area shape="rect" id="node2_4" href="./PayloadType.html" title="io.reinert.requestor.core.payload.type.PayloadType" alt="" coords="379,11,473,53"/>
+<area shape="rect" id="node2" href="./PayloadType.html" title="&lt;TABLE&gt;" alt="" coords="368,5,484,59"/>
+<area shape="rect" id="node5_5" href="./CompositePayloadType.html" title="io.reinert.requestor.core.payload.type.CompositePayloadType" alt="" coords="446,118,603,143"/>
+<area shape="rect" id="node5" href="./CompositePayloadType.html" title="&lt;TABLE&gt;" alt="" coords="435,107,614,155"/>
+<area shape="rect" id="node6_6" href="./CompositePayloadType.Builder.html" title="io.reinert.requestor.core.payload.type.CompositePayloadType.Builder" alt="" coords="519,19,579,45"/>
+<area shape="rect" id="node6" href="./CompositePayloadType.Builder.html" title="&lt;TABLE&gt;" alt="" coords="508,8,589,56"/>
+</map>

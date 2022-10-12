@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../../core/serialization/Serializer.html" title="io.reinert.requestor.core.serialization.Serializer" alt="" coords="149,11,246,53"/>
+<area shape="rect" id="node1" href="../../core/serialization/Serializer.html" title="&lt;TABLE&gt;" alt="" coords="138,5,257,59"/>
+<area shape="rect" id="node4_1" href="./JsonSerializer.html" title="io.reinert.requestor.gwt.serialization.JsonSerializer" alt="" coords="135,118,260,143"/>
+<area shape="rect" id="node4" href="./JsonSerializer.html" title="&lt;TABLE&gt;" alt="" coords="124,107,271,155"/>
+<area shape="rect" id="node2_2" href="./JsonValueSerializer.html" title="io.reinert.requestor.gwt.serialization.JsonValueSerializer" alt="" coords="16,214,173,239"/>
+<area shape="rect" id="node2" href="./JsonValueSerializer.html" title="&lt;TABLE&gt;" alt="" coords="5,203,184,251"/>
+<area shape="rect" id="node3_3" href="./JsonObjectSerializer.html" title="io.reinert.requestor.gwt.serialization.JsonObjectSerializer" alt="" coords="219,214,383,239"/>
+<area shape="rect" id="node3" href="./JsonObjectSerializer.html" title="&lt;TABLE&gt;" alt="" coords="209,203,394,251"/>
+</map>
