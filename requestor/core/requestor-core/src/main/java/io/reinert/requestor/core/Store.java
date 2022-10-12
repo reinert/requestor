@@ -162,7 +162,7 @@ public interface Store extends Saver {
     }
 
     /**
-     * NOTE: Renamed to getValue. It will be removed in {@version 1.3}.
+     * NOTE: Renamed to getValue. It will be removed in version 1.3.
      *
      * @deprecated Use {@link #getValue(String)} instead.
      */
