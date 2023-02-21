@@ -22,6 +22,6 @@ public interface DeserializationContextMeta {
 
     interface Method {
         String GET_RAW_TYPE = "getRawType";
-        String GET_PARAMETERIZED_TYPE = "getParameterizedType";
+        String GET_PARAMETERIZED_TYPES = "getParameterizedTypes";
     }
 }

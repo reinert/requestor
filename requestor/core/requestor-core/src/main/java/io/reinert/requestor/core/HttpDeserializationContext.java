@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2021 Danilo Reinert
+ * Copyright 2014-2022 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,14 +30,9 @@ public class HttpDeserializationContext extends DeserializationContext {
     private final ProviderManagerImpl providerManager;
 
     protected HttpDeserializationContext(RequestOptions requestOptions, SerializedResponse response,
-                                         ProviderManagerImpl providerManager, Class<?> rawType) {
-        this(requestOptions, response, providerManager, rawType, null);
-    }
-
-    protected HttpDeserializationContext(RequestOptions requestOptions, SerializedResponse response,
                                          ProviderManagerImpl providerManager, Class<?> rawType,
-                                         Class<?> parameterizedType) {
-        super(rawType, parameterizedType, requestOptions.getCharset());
+                                         Class<?>... parameterizedTypes) {
+        super(requestOptions.getCharset(), rawType, parameterizedTypes);
 
         this.requestOptions = requestOptions;
         this.response = response;

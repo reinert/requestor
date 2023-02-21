@@ -23,16 +23,12 @@ package io.reinert.requestor.core.serialization;
 public abstract class DeserializationContext {
 
     private final Class<?> rawType;
-    private final Class<?> parameterizedType;
+    private final Class<?>[] parameterizedTypes;
     private final String charset;
 
-    protected DeserializationContext(Class<?> rawType, String charset) {
-        this(rawType, null, charset);
-    }
-
-    protected DeserializationContext(Class<?> rawType, Class<?> parameterizedType, String charset) {
+    protected DeserializationContext(String charset, Class<?> rawType, Class<?>... parameterizedTypes) {
         this.rawType = rawType;
-        this.parameterizedType = parameterizedType;
+        this.parameterizedTypes = parameterizedTypes;
         this.charset = charset;
     }
 
@@ -42,8 +38,8 @@ public abstract class DeserializationContext {
         return rawType;
     }
 
-    public Class<?> getParameterizedType() {
-        return parameterizedType;
+    public Class<?>[] getParameterizedTypes() {
+        return parameterizedTypes;
     }
 
     public String getCharset() {

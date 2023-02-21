@@ -31,16 +31,8 @@ public class HttpSerializationContext extends SerializationContext {
     private final ProviderManagerImpl providerManager;
 
     protected HttpSerializationContext(SerializableRequest request, ProviderManagerImpl providerManager,
-                                       Set<String> fields, Class<?> rawType) {
-        super(rawType, request.getCharset(), fields);
-
-        this.request = request;
-        this.providerManager = providerManager;
-    }
-
-    protected HttpSerializationContext(SerializableRequest request, ProviderManagerImpl providerManager,
-                                       Set<String> fields, Class<?> rawType, Class<?> parameterizedType) {
-        super(rawType, parameterizedType, request.getCharset(), fields);
+                                       Set<String> fields, Class<?> rawType, Class<?>... parameterizedTypes) {
+        super(request.getCharset(), fields, rawType, parameterizedTypes);
 
         this.request = request;
         this.providerManager = providerManager;

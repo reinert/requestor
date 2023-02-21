@@ -24,19 +24,15 @@ import java.util.Set;
  */
 public abstract class SerializationContext {
 
-    private final Class<?> rawType;
-    private final Class<?> parameterizedType;
     private final String charset;
     private final Set<String> fields;
+    private final Class<?> rawType;
+    private final Class<?>[] parameterizedTypes;
 
-    protected SerializationContext(Class<?> rawType, String charset, Set<String> fields) {
-        this(rawType, null, charset, fields);
-    }
-
-    protected SerializationContext(Class<?> rawType, Class<?> parameterizedType, String charset,
-                                   Set<String> fields) {
+    protected SerializationContext(String charset, Set<String> fields, Class<?> rawType,
+                                   Class<?>... parameterizedTypes) {
         this.rawType = rawType;
-        this.parameterizedType = parameterizedType;
+        this.parameterizedTypes = parameterizedTypes;
         this.charset = charset;
         this.fields = fields;
     }
@@ -47,8 +43,8 @@ public abstract class SerializationContext {
         return rawType;
     }
 
-    public Class<?> getParameterizedType() {
-        return parameterizedType;
+    public Class<?>[] getParameterizedTypes() {
+        return parameterizedTypes;
     }
 
     public String getCharset() {

@@ -93,13 +93,13 @@ class SerializerCode {
                 .add(getSerializeCodeBlock(methodSchema.payload, methodSchema.context))
                 .nextControlFlow("catch ($T e)",
                         Exception.class)
-                .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L().getName(), e)",
+                .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L()[0].getName(), e)",
                         UnableToSerializeException.class,
                         "The auto-generated gson serializer failed to serialize the ",
                         methodSchema.context,
                         SerializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
-                        SerializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
+                        SerializationContextMeta.Method.GET_PARAMETERIZED_TYPES)
                 .endControlFlow()
                 .build();
     }
@@ -140,14 +140,14 @@ class SerializerCode {
 
         return CodeBlock.builder()
                 .beginControlFlow("try")
-                .addStatement("final $T<?> $N = $T.getParameterized($N.$L(), $N.$L())",
+                .addStatement("final $T<?> $N = $T.getParameterized($N.$L(), $N.$L()[0])",
                         TypeToken.class,
                         typeTokenVar,
                         TypeToken.class,
                         methodSchema.context,
                         DeserializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
-                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
+                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPES)
                 .addStatement("final $T $N = $N.$L($T.class)",
                         Gson.class,
                         gsonVar,
@@ -160,13 +160,13 @@ class SerializerCode {
                         typeTokenVar)
                 .nextControlFlow("catch ($T e)",
                         Exception.class)
-                .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L().getName(), e)",
+                .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L()[0].getName(), e)",
                         UnableToDeserializeException.class,
                         "The auto-generated gwt-jackson json deserializer failed to deserialize the response body to ",
                         methodSchema.context,
                         DeserializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
-                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
+                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPES)
                 .endControlFlow()
                 .build();
     }

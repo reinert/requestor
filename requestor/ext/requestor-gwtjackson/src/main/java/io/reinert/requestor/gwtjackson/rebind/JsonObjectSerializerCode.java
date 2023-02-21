@@ -172,13 +172,13 @@ class JsonObjectSerializerCode {
                 .endControlFlow()
                 .nextControlFlow("catch ($T e)",
                         JsonDeserializationException.class)
-                .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L().getName(), e)",
+                .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L()[0].getName(), e)",
                         UnableToDeserializeException.class,
                         "The auto-generated gwt-jackson json deserializer failed to deserialize the response body to ",
                         currentScope.context,
                         DeserializationContextMeta.Method.GET_RAW_TYPE,
                         currentScope.context,
-                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
+                        DeserializationContextMeta.Method.GET_PARAMETERIZED_TYPES)
                 .endControlFlow()
                 .build();
     }
@@ -216,13 +216,13 @@ class JsonObjectSerializerCode {
                         currentScope.collection)
                 .nextControlFlow("catch ($T e)",
                         JsonSerializationException.class)
-                .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L().getName(), e)",
+                .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L()[0].getName(), e)",
                         UnableToSerializeException.class,
                         "The auto-generated gwt-jackson json serializer failed to serialize the ",
                         currentScope.context,
                         SerializationContextMeta.Method.GET_RAW_TYPE,
                         currentScope.context,
-                        SerializationContextMeta.Method.GET_PARAMETERIZED_TYPE)
+                        SerializationContextMeta.Method.GET_PARAMETERIZED_TYPES)
                 .endControlFlow()
                 .build();
     }
