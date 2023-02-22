@@ -162,7 +162,7 @@ class SerializerCode {
                         Exception.class)
                 .addStatement("throw new $T($S + $N.$L().getSimpleName() + \" of \" + $N.$L()[0].getName(), e)",
                         UnableToDeserializeException.class,
-                        "The auto-generated gwt-jackson json deserializer failed to deserialize the response body to ",
+                        "The auto-generated gson deserializer failed to deserialize the response body to ",
                         methodSchema.context,
                         DeserializationContextMeta.Method.GET_RAW_TYPE,
                         methodSchema.context,
