@@ -37,6 +37,7 @@ import io.reinert.requestor.core.serialization.UnableToSerializeException;
 public class GsonSerializer implements Serializer<Object> {
 
     private final String[] mediaTypes;
+    private Gson gson;
 
     public GsonSerializer() {
         this.mediaTypes = new String[]{"*/*"};
@@ -44,6 +45,19 @@ public class GsonSerializer implements Serializer<Object> {
 
     public GsonSerializer(String... mediaTypes) {
         this.mediaTypes = mediaTypes;
+    }
+
+    public GsonSerializer(Gson gson, String... mediaTypes) {
+        this.gson = gson;
+        this.mediaTypes = mediaTypes;
+    }
+
+    public Gson getGson() {
+        return gson;
+    }
+
+    public void setGson(Gson gson) {
+        this.gson = gson;
     }
 
     @Override
@@ -58,10 +72,10 @@ public class GsonSerializer implements Serializer<Object> {
 
     @Override
     public SerializedPayload serialize(Object payload, SerializationContext context) {
-        final Gson gson = getGson(context);
-        final StringWriter out = new StringWriter();
-        final FilterableJsonWriter fjw = new FilterableJsonWriter(out, context.getFields());
         try {
+            final Gson gson = getGsonInstance(this.gson, context);
+            final StringWriter out = new StringWriter();
+            final FilterableJsonWriter fjw = new FilterableJsonWriter(out, context.getFields());
             gson.toJson(payload, payload.getClass(), fjw);
             return new TextSerializedPayload(out.toString());
         } catch (Exception e) {
@@ -80,10 +94,10 @@ public class GsonSerializer implements Serializer<Object> {
         try {
             final TypeToken<?> typeToken = TypeToken.getParameterized(context.getRawType(),
                     context.getParameterizedTypes());
-            final Gson gson = getGson(context);
+            final Gson gson = getGsonInstance(this.gson, context);
             return gson.fromJson(payload.asString(), typeToken.getType());
         } catch (Exception e) {
-            throw new UnableToDeserializeException("The GsonDeserializer failed to deserialize the response body to " +
+            throw new UnableToDeserializeException("The GsonDeserializer failed to deserialize the payload to " +
                     getTypesNames(context.getRawType(), context.getParameterizedTypes()) + ".", e);
         }
     }
@@ -95,13 +109,15 @@ public class GsonSerializer implements Serializer<Object> {
         return (C) deserialize(payload, context);
     }
 
-    private static Gson getGson(SerializationContext context) {
-        Gson gson = context.getInstance(Gson.class);
+    private static Gson getGsonInstance(Gson gson, SerializationContext context) {
+        if (gson != null) return gson;
+        gson = context.getInstance(Gson.class);
         return (gson != null) ? gson : GsonSingletonProvider.getGson();
     }
 
-    private static Gson getGson(DeserializationContext context) {
-        Gson gson = context.getInstance(Gson.class);
+    private static Gson getGsonInstance(Gson gson, DeserializationContext context) {
+        if (gson != null) return gson;
+        gson = context.getInstance(Gson.class);
         return (gson != null) ? gson : GsonSingletonProvider.getGson();
     }
 
