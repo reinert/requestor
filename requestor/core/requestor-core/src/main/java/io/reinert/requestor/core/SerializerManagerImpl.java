@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2022 Danilo Reinert
+ * Copyright 2015-2023 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,6 +118,15 @@ class SerializerManagerImpl implements SerializerManager {
             }
         }
 
+        holders = deserializers.get(getClassName(Object.class));
+        if (holders != null) {
+            for (DeserializerHolder holder : holders) {
+                if (holder.key.matches(key)) {
+                    return (Deserializer<T>) holder.deserializerProvider.getInstance();
+                }
+            }
+        }
+
         return null;
     }
 
@@ -147,10 +156,19 @@ class SerializerManagerImpl implements SerializerManager {
             }
         }
 
+        holders = serializers.get(getClassName(Object.class));
+        if (holders != null) {
+            for (SerializerHolder holder : holders) {
+                if (holder.key.matches(key)) {
+                    return (Serializer<T>) holder.serializerProvider.getInstance();
+                }
+            }
+        }
+
         return null;
     }
 
-    private <T> String getClassName(Class<T> type) {
+    private static <T> String getClassName(Class<T> type) {
         // We don't use getCanonicalName because GWT AutoBean returns null for it
         return type.getName();
     }
@@ -355,7 +373,7 @@ class SerializerManagerImpl implements SerializerManager {
         }
 
         public boolean matches(Key key) {
-            if (!key.typeName.equals(this.typeName)) {
+            if (!this.typeName.equals(getClassName(Object.class)) && !this.typeName.equals(key.typeName)) {
                 return false;
             }
 
