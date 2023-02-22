@@ -188,7 +188,7 @@ public class RequestorGsonTest {
     }
 
     private DeserializationContext getDeserializationContext() {
-        return new DeserializationContext(Animal.class, "UTF-8") {
+        return new DeserializationContext("UTF-8", Animal.class) {
             @Override
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
@@ -198,7 +198,7 @@ public class RequestorGsonTest {
     }
 
     private DeserializationContext getDeserializationCollectionContext() {
-        return new DeserializationContext(List.class, Animal.class, "UTF-8") {
+        return new DeserializationContext("UTF-8", List.class, Animal.class) {
             @Override
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
@@ -208,7 +208,7 @@ public class RequestorGsonTest {
     }
 
     private SerializationContext getSerializationContext(String... fields) {
-        return new SerializationContext(Animal.class, "UTF-8", new HashSet<>(Arrays.asList(fields))) {
+        return new SerializationContext("UTF-8", new HashSet<>(Arrays.asList(fields)), Animal.class) {
             @Override
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
@@ -218,7 +218,7 @@ public class RequestorGsonTest {
     }
 
     private SerializationContext getSerializationCollectionContext(String... fields) {
-        return new SerializationContext(List.class, Animal.class, "UTF-8", new HashSet<>(Arrays.asList(fields))) {
+        return new SerializationContext("UTF-8", new HashSet<>(Arrays.asList(fields)), List.class, Animal.class) {
             @Override
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
