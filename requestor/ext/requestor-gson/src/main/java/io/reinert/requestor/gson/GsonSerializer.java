@@ -73,10 +73,10 @@ public class GsonSerializer implements Serializer<Object> {
     @Override
     public SerializedPayload serialize(Object payload, SerializationContext context) {
         try {
-            final Gson gson = getGsonInstance(this.gson, context);
+            final Gson gsonInstance = getGsonInstance(this.gson, context);
             final StringWriter out = new StringWriter();
             final FilterableJsonWriter fjw = new FilterableJsonWriter(out, context.getFields());
-            gson.toJson(payload, payload.getClass(), fjw);
+            gsonInstance.toJson(payload, payload.getClass(), fjw);
             return new TextSerializedPayload(out.toString());
         } catch (Exception e) {
             throw new UnableToSerializeException("The GsonSerializer failed to serialize the instance of " +
@@ -94,8 +94,8 @@ public class GsonSerializer implements Serializer<Object> {
         try {
             final TypeToken<?> typeToken = TypeToken.getParameterized(context.getRawType(),
                     context.getParameterizedTypes());
-            final Gson gson = getGsonInstance(this.gson, context);
-            return gson.fromJson(payload.asString(), typeToken.getType());
+            final Gson gsonInstance = getGsonInstance(this.gson, context);
+            return gsonInstance.fromJson(payload.asString(), typeToken.getType());
         } catch (Exception e) {
             throw new UnableToDeserializeException("The GsonDeserializer failed to deserialize the payload to " +
                     getTypesNames(context.getRawType(), context.getParameterizedTypes()) + ".", e);
