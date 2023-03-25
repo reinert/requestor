@@ -1087,56 +1087,26 @@ provided by requestor extensions. The existing auto-serialization exts are liste
 ### Gson auto-serialization (JVM/Android)
 
 The `requestor-gson` extension integrates [Gson](https://github.com/google/gson) with Requestor
-to enable auto serialization. Intending to have the Serializers automatically generated, we just
-need to declare a `SerializationModule` subinterface annotating it with the required classes.
-Additionally, we can set the **Media Types** the serializers should handle. Since Gson serializes
-to JSON format, "application/json" is the default media type, but we can declare other media types,
-even wildcard types like "\*/json" or "\*/\*".
+to enable auto serialization.
+
+First, register the `GsonSerializer` in the Session, then start requesting:
 
 ```java
-@MediaType({"application/*json*", "*/javascript"})
-@GsonSerializationModule({ Author.class, Book.class })
-interface MySerializationModule extends SerializationModule {}
+session.register(new GsonSerializer());
+
+session.post("/books", book);
+
+session.get("/books", List.class, Book.class);
+
+session.get("/booksById", Map.class, Long.class, Book.class);
 ```
 
-Then, we just need to register the SerializationModule in our Session instance like below:
+We can define a custom `Gson` instance when instantiating the `GsonSerializer`:
 
 ```java
-session.register(MySerializationModule.class);
+Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+session.register(new GsonSerializer(prettyGson));
 ```
-
-According to this example, when asking for `Author.class` or `Book.class`, all three scenarios
-below will match the auto-generated serializers:
-
-```java
-// Matches 'application/*json*' to serialize the payload
-session.req("/books").contentType("application/json+gzip").payload(book).post();
-
-// Matches 'application/*json*' to deserialize the response's payload
-// assuming the response's content-type was really 'application/stream+json'
-session.req("/books").accept("application/stream+json").get(List.class, Book.class);
-
-// Matches '*/javascript' to deserialize the response's payload
-// assuming the response's content-type was really 'text/javascript'
-session.req("/authors/1").accept("text/javascript").get(Author.class);
-```
-
-Requestor uses a regular singleton Gson instance to serialize and deserialize the objects. It can
-be accessed by calling the following method:
-
-```java
-Gson gson = GsonSingletonProvider.getGson();
-```
-
-In case we need to use a customized Gson instance, we can register a Provider for it in the Session
-like below:
-
-```java
-final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
-session.register(Gson.class, () -> prettyGson);
-```
-
-Now, all generated serializers will use `prettyGson` instance to perform serialization.
 
 In order to install requestor-gson extension, add the following dependency to your project:
 
