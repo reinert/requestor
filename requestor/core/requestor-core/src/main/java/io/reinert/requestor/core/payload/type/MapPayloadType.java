@@ -15,7 +15,6 @@
  */
 package io.reinert.requestor.core.payload.type;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,20 +22,28 @@ import java.util.Map;
  *
  * @author Danilo Reinert
  */
-public class DictionaryPayloadType<T> extends RootPayloadType<Map<String, T>> {
+public class MapPayloadType<V, K> extends RootPayloadType<Map<K, V>> {
 
-    private final RootPayloadType<T> valuePayloadType;
+    private final RootPayloadType<V> valuePayloadType;
+    private final Class<K> keyClass;
+    private final Class<? extends Map> mapClass;
 
-    public DictionaryPayloadType(RootPayloadType<T> valuePayloadType) {
+    public MapPayloadType(RootPayloadType<V> valuePayloadType, Class<K> keyClass, Class<? extends Map> mapClass) {
         this.valuePayloadType = valuePayloadType;
+        this.keyClass = keyClass;
+        this.mapClass = mapClass;
     }
 
-    public RootPayloadType<T> getValuePayloadType() {
+    public RootPayloadType<V> getValuePayloadType() {
         return valuePayloadType;
+    }
+
+    public Class<K> getKeyType() {
+        return keyClass;
     }
 
     @Override
     public Class<? extends Map> getType() {
-        return HashMap.class;
+        return mapClass;
     }
 }
