@@ -28,8 +28,7 @@
   <artifactId>requestor-gson</artifactId>
 
   <properties>
-    <java.version>7</java.version>
-    <gson.version>2.9.0</gson.version>
+    <gson.version>2.10.1</gson.version>
   </properties>
 
   <dependencies>
