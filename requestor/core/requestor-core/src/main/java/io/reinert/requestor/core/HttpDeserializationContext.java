@@ -39,12 +39,19 @@ public class HttpDeserializationContext extends DeserializationContext {
         this.providerManager = providerManager;
     }
 
+    @Override
     public <T> T getInstance(Class<T> type) {
         final Provider<T> provider = providerManager.get(type);
-        if (provider == null)
+        if (provider == null) {
             throw new UnableToDeserializeException("Could not get instance because there is no provider " +
                     "for the type " + type.getName() + " registered in the Session.");
+        }
         return provider.getInstance();
+    }
+
+    @Override
+    public boolean hasProvider(Class<?> type) {
+        return providerManager.contains(type);
     }
 
     public RequestOptions getRequestOptions() {

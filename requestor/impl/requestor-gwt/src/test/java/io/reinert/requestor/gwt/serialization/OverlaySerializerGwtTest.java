@@ -45,6 +45,11 @@ public class OverlaySerializerGwtTest extends GWTTestCase {
             public <T> T getInstance(Class<T> type) {
                 return (T) new ArrayList<Object>();
             }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
+            }
         };
 
         String input = "[{\"name\":\"John Doe\",\"age\":31},{\"name\":\"Alice\",\"age\":27}]";

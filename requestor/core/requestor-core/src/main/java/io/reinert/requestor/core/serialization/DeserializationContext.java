@@ -34,6 +34,8 @@ public abstract class DeserializationContext {
 
     public abstract <T> T getInstance(Class<T> type);
 
+    public abstract boolean hasProvider(Class<?> type);
+
     public Class<?> getRawType() {
         return rawType;
     }

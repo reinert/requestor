@@ -181,6 +181,11 @@ public class GsonSerializerTest {
             public <T> T getInstance(Class<T> type) {
                 return (T) new Gson();
             }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
+            }
         };
     }
 
@@ -190,6 +195,11 @@ public class GsonSerializerTest {
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
                 return (T) new Gson();
+            }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
             }
         };
     }
@@ -201,6 +211,11 @@ public class GsonSerializerTest {
             public <T> T getInstance(Class<T> type) {
                 return (T) new Gson();
             }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
+            }
         };
     }
 
@@ -210,6 +225,11 @@ public class GsonSerializerTest {
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
                 return (T) new Gson();
+            }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
             }
         };
     }

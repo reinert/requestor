@@ -111,14 +111,12 @@ public class GsonSerializer implements Serializer<Object> {
 
     private static Gson getGsonInstance(Gson gson, SerializationContext context) {
         if (gson != null) return gson;
-        gson = context.getInstance(Gson.class);
-        return (gson != null) ? gson : GsonSingletonProvider.getGson();
+        return context.hasProvider(Gson.class) ? context.getInstance(Gson.class) : GsonSingletonProvider.getGson();
     }
 
     private static Gson getGsonInstance(Gson gson, DeserializationContext context) {
         if (gson != null) return gson;
-        gson = context.getInstance(Gson.class);
-        return (gson != null) ? gson : GsonSingletonProvider.getGson();
+        return context.hasProvider(Gson.class) ? context.getInstance(Gson.class) : GsonSingletonProvider.getGson();
     }
 
     private static String getTypesNames(Class<?> rawType, Class<?>[] parameterizedTypes) {

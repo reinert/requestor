@@ -194,6 +194,11 @@ public class RequestorGsonTest {
             public <T> T getInstance(Class<T> type) {
                 return (T) new Gson();
             }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
+            }
         };
     }
 
@@ -203,6 +208,11 @@ public class RequestorGsonTest {
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
                 return (T) new Gson();
+            }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
             }
         };
     }
@@ -214,6 +224,11 @@ public class RequestorGsonTest {
             public <T> T getInstance(Class<T> type) {
                 return (T) new Gson();
             }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
+            }
         };
     }
 
@@ -223,6 +238,11 @@ public class RequestorGsonTest {
             @SuppressWarnings("unchecked")
             public <T> T getInstance(Class<T> type) {
                 return (T) new Gson();
+            }
+
+            @Override
+            public boolean hasProvider(Class<?> type) {
+                return true;
             }
         };
     }

@@ -67,6 +67,10 @@ class ProviderManagerImpl implements ProviderManager {
         return (Provider<T>) providers.get(type.getCanonicalName());
     }
 
+    public boolean contains(Class<?> type) {
+        return providers.containsKey(type.getCanonicalName());
+    }
+
     private void registerCollectionProviders() {
         final Provider<ArrayList> arrayListProvider = new Provider<ArrayList>() {
             @Override
