@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Defines HTTP request invocation methods.
@@ -32,11 +33,15 @@ public interface HttpInvoker {
 
     <T, C extends Collection> Request<Collection<T>> get(Class<C> collectionType, Class<T> entityType);
 
+    <V, K, M extends Map> Request<Map<K, V>> get(Class<M> mapType, Class<K> keyType, Class<V> valueType);
+
     Request<Void> post();
 
     <T> Request<T> post(Class<T> entityType);
 
     <T, C extends Collection> Request<Collection<T>> post(Class<C> collectionType, Class<T> entityType);
+
+    <V, K, M extends Map> Request<Map<K, V>> post(Class<M> mapType, Class<K> keyType, Class<V> valueType);
 
     Request<Void> put();
 
@@ -44,17 +49,23 @@ public interface HttpInvoker {
 
     <T, C extends Collection> Request<Collection<T>> put(Class<C> collectionType, Class<T> entityType);
 
+    <V, K, M extends Map> Request<Map<K, V>> put(Class<M> mapType, Class<K> keyType, Class<V> valueType);
+
     Request<Void> delete();
 
     <T> Request<T> delete(Class<T> entityType);
 
     <T, C extends Collection> Request<Collection<T>> delete(Class<C> collectionType, Class<T> entityType);
 
+    <V, K, M extends Map> Request<Map<K, V>> delete(Class<M> mapType, Class<K> keyType, Class<V> valueType);
+
     Request<Void> patch();
 
     <T> Request<T> patch(Class<T> entityType);
 
     <T, C extends Collection> Request<Collection<T>> patch(Class<C> collectionType, Class<T> entityType);
+
+    <V, K, M extends Map> Request<Map<K, V>> patch(Class<M> mapType, Class<K> keyType, Class<V> valueType);
 
     Request<Headers> head();
 

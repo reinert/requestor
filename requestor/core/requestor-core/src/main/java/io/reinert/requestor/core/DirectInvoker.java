@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Allows direct invocation of HTTP requests.
@@ -30,6 +31,8 @@ public interface DirectInvoker {
 
     <T, C extends Collection> Request<Collection<T>> get(String uri, Class<C> collectionType, Class<T> entityType);
 
+    <V, K, M extends Map> Request<Map<K, V>> get(String uri, Class<M> mapType, Class<K> keyType, Class<V> valueType);
+
     Request<Void> post(String uri);
 
     Request<Void> post(String uri, Object payload);
@@ -39,9 +42,14 @@ public interface DirectInvoker {
     <T, C extends Collection> Request<Collection<T>> post(String uri, Object payload, Class<C> collectionType,
                                                           Class<T> entityType);
 
+    <V, K, M extends Map> Request<Map<K, V>> post(String uri, Object payload, Class<M> mapType, Class<K> keyType,
+                                                  Class<V> valueType);
+
     <T> Request<T> post(String uri, Class<T> entityType);
 
     <T, C extends Collection> Request<Collection<T>> post(String uri, Class<C> collectionType, Class<T> entityType);
+
+    <V, K, M extends Map> Request<Map<K, V>> post(String uri, Class<M> mapType, Class<K> keyType, Class<V> valueType);
 
     Request<Void> put(String uri);
 
@@ -52,15 +60,22 @@ public interface DirectInvoker {
     <T, C extends Collection> Request<Collection<T>> put(String uri, Object payload, Class<C> collectionType,
                                                          Class<T> entityType);
 
+    <V, K, M extends Map> Request<Map<K, V>> put(String uri, Object payload, Class<M> mapType, Class<K> keyType,
+                                                  Class<V> valueType);
+
     <T> Request<T> put(String uri, Class<T> entityType);
 
     <T, C extends Collection> Request<Collection<T>> put(String uri, Class<C> collectionType, Class<T> entityType);
+
+    <V, K, M extends Map> Request<Map<K, V>> put(String uri, Class<M> mapType, Class<K> keyType, Class<V> valueType);
 
     Request<Void> delete(String uri);
 
     <T> Request<T> delete(String uri, Class<T> entityType);
 
     <T, C extends Collection> Request<Collection<T>> delete(String uri, Class<C> collectionType, Class<T> entityType);
+
+    <V, K, M extends Map> Request<Map<K, V>> delete(String uri, Class<M> mapType, Class<K> keyType, Class<V> valueType);
 
     Request<Void> patch(String uri);
 
@@ -71,9 +86,14 @@ public interface DirectInvoker {
     <T, C extends Collection> Request<Collection<T>> patch(String uri, Object payload, Class<C> collectionType,
                                                            Class<T> entityType);
 
+    <V, K, M extends Map> Request<Map<K, V>> patch(String uri, Object payload, Class<M> mapType, Class<K> keyType,
+                                                  Class<V> valueType);
+
     <T> Request<T> patch(String uri, Class<T> entityType);
 
     <T, C extends Collection> Request<Collection<T>> patch(String uri, Class<C> collectionType, Class<T> entityType);
+
+    <V, K, M extends Map> Request<Map<K, V>> patch(String uri, Class<M> mapType, Class<K> keyType, Class<V> valueType);
 
     Request<Headers> head(String uri);
 

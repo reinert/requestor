@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.Collection;
+import java.util.Map;
 
 import io.reinert.requestor.core.uri.Uri;
 
@@ -52,6 +53,11 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
+    public <V, K, M extends Map> PollingRequest<Map<K, V>> get(Class<M> mapType, Class<K> keyType, Class<V> valueType) {
+        return send(HttpMethod.GET, valueType, keyType, mapType);
+    }
+
+    @Override
     public PollingRequest<Void> post() {
         return send(HttpMethod.POST, Void.class);
     }
@@ -67,6 +73,12 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
+    public <V, K, M extends Map> PollingRequest<Map<K, V>> post(Class<M> mapType, Class<K> keyType,
+                                                                Class<V> valueType) {
+        return send(HttpMethod.POST, valueType, keyType, mapType);
+    }
+
+    @Override
     public PollingRequest<Void> put() {
         return send(HttpMethod.PUT, Void.class);
     }
@@ -79,6 +91,11 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     @Override
     public <T, C extends Collection> PollingRequest<Collection<T>> put(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.PUT, entityType, collectionType);
+    }
+
+    @Override
+    public <V, K, M extends Map> PollingRequest<Map<K, V>> put(Class<M> mapType, Class<K> keyType, Class<V> valueType) {
+        return send(HttpMethod.PUT, valueType, keyType, mapType);
     }
 
     @Override
@@ -98,6 +115,12 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     }
 
     @Override
+    public <V, K, M extends Map> PollingRequest<Map<K, V>> delete(Class<M> mapType, Class<K> keyType,
+                                                                  Class<V> valueType) {
+        return send(HttpMethod.DELETE, valueType, keyType, mapType);
+    }
+
+    @Override
     public PollingRequest<Void> patch() {
         return send(HttpMethod.PATCH, Void.class);
     }
@@ -110,6 +133,12 @@ class RequestInvokerImpl extends AbstractRequestInvoker {
     @Override
     public <T, C extends Collection> PollingRequest<Collection<T>> patch(Class<C> collectionType, Class<T> entityType) {
         return send(HttpMethod.PATCH, entityType, collectionType);
+    }
+
+    @Override
+    public <V, K, M extends Map> PollingRequest<Map<K, V>> patch(Class<M> mapType, Class<K> keyType,
+                                                                 Class<V> valueType) {
+        return send(HttpMethod.PATCH, valueType, keyType, mapType);
     }
 
     @Override

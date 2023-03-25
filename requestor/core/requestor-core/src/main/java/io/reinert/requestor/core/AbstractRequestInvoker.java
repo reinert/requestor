@@ -16,9 +16,11 @@
 package io.reinert.requestor.core;
 
 import java.util.Collection;
+import java.util.Map;
 
 import io.reinert.requestor.core.header.Header;
 import io.reinert.requestor.core.payload.type.CollectionPayloadType;
+import io.reinert.requestor.core.payload.type.MapPayloadType;
 import io.reinert.requestor.core.payload.type.SinglePayloadType;
 import io.reinert.requestor.core.uri.Uri;
 
@@ -171,5 +173,14 @@ abstract class AbstractRequestInvoker extends RequestBuilderImpl implements Poll
         setMethod(method);
         return dispatcher.dispatch(build(), new CollectionPayloadType<T>(collectionType,
                 new SinglePayloadType<T>(entityType)));
+    }
+
+    protected <V, K, M extends Map<K, V>> PollingRequest<Map<K, V>> send(HttpMethod method,
+                                                                         Class<V> valueType,
+                                                                         Class<K> keyType,
+                                                                         Class<M> mapType) {
+        setMethod(method);
+        return dispatcher.dispatch(build(), new MapPayloadType<V, K>(new SinglePayloadType<V>(valueType), keyType,
+                mapType));
     }
 }

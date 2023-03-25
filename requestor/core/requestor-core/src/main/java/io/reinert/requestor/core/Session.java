@@ -18,6 +18,7 @@ package io.reinert.requestor.core;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import io.reinert.requestor.core.deferred.DeferredPoolFactoryImpl;
 import io.reinert.requestor.core.header.Header;
@@ -159,6 +160,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public <V, K, M extends Map> Request<Map<K, V>> get(String uri, Class<M> mapType, Class<K> keyType,
+                                                        Class<V> valueType) {
+        return this.req(uri).get(mapType, keyType, valueType);
+    }
+
+    @Override
     public Request<Void> post(String uri) {
         return this.req(uri).post();
     }
@@ -180,6 +187,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public <V, K, M extends Map> Request<Map<K, V>> post(String uri, Object payload, Class<M> mapType, Class<K> keyType,
+                                                         Class<V> valueType) {
+        return this.req(uri).payload(payload).post(mapType, keyType, valueType);
+    }
+
+    @Override
     public <T> Request<T> post(String uri, Class<T> entityType) {
         return this.req(uri).post(entityType);
     }
@@ -188,6 +201,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     public <T, C extends Collection> Request<Collection<T>> post(String uri, Class<C> collectionType,
                                                                  Class<T> entityType) {
         return this.req(uri).post(collectionType, entityType);
+    }
+
+    @Override
+    public <V, K, M extends Map> Request<Map<K, V>> post(String uri, Class<M> mapType, Class<K> keyType,
+                                                         Class<V> valueType) {
+        return this.req(uri).post(mapType, keyType, valueType);
     }
 
     @Override
@@ -212,6 +231,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public <V, K, M extends Map> Request<Map<K, V>> put(String uri, Object payload, Class<M> mapType, Class<K> keyType,
+                                                        Class<V> valueType) {
+        return this.req(uri).payload(payload).put(mapType, keyType, valueType);
+    }
+
+    @Override
     public <T> Request<T> put(String uri, Class<T> entityType) {
         return this.req(uri).put(entityType);
     }
@@ -220,6 +245,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     public <T, C extends Collection> Request<Collection<T>> put(String uri, Class<C> collectionType,
                                                                 Class<T> entityType) {
         return this.req(uri).put(collectionType, entityType);
+    }
+
+    @Override
+    public <V, K, M extends Map> Request<Map<K, V>> put(String uri, Class<M> mapType, Class<K> keyType,
+                                                        Class<V> valueType) {
+        return this.req(uri).put(mapType, keyType, valueType);
     }
 
     @Override
@@ -236,6 +267,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     public <T, C extends Collection> Request<Collection<T>> delete(String uri, Class<C> collectionType,
                                                                    Class<T> entityType) {
         return this.req(uri).delete(collectionType, entityType);
+    }
+
+    @Override
+    public <V, K, M extends Map> Request<Map<K, V>> delete(String uri, Class<M> mapType, Class<K> keyType,
+                                                           Class<V> valueType) {
+        return this.req(uri).delete(mapType, keyType, valueType);
     }
 
     @Override
@@ -260,6 +297,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     }
 
     @Override
+    public <V, K, M extends Map> Request<Map<K, V>> patch(String uri, Object payload, Class<M> mapType,
+                                                          Class<K> keyType, Class<V> valueType) {
+        return this.req(uri).payload(payload).patch(mapType, keyType, valueType);
+    }
+
+    @Override
     public <T> Request<T> patch(String uri, Class<T> entityType) {
         return this.req(uri).patch(entityType);
     }
@@ -268,6 +311,12 @@ public class Session implements SerializerManager, FilterManager, InterceptorMan
     public <T, C extends Collection> Request<Collection<T>> patch(String uri, Class<C> collectionType,
                                                                   Class<T> entityType) {
         return this.req(uri).patch(collectionType, entityType);
+    }
+
+    @Override
+    public <V, K, M extends Map> Request<Map<K, V>> patch(String uri, Class<M> mapType, Class<K> keyType,
+                                                          Class<V> valueType) {
+        return this.req(uri).patch(mapType, keyType, valueType);
     }
 
     @Override

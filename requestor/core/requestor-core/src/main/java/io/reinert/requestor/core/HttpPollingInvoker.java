@@ -16,6 +16,7 @@
 package io.reinert.requestor.core;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Defines HTTP invocation methods to polling requests.
@@ -36,6 +37,9 @@ public interface HttpPollingInvoker extends HttpInvoker {
     <T, C extends Collection> PollingRequest<Collection<T>> get(Class<C> collectionType, Class<T> entityType);
 
     @Override
+    <V, K, M extends Map> PollingRequest<Map<K, V>> get(Class<M> mapType, Class<K> keyType, Class<V> valueType);
+
+    @Override
     PollingRequest<Void> post();
 
     @Override
@@ -43,6 +47,9 @@ public interface HttpPollingInvoker extends HttpInvoker {
 
     @Override
     <T, C extends Collection> PollingRequest<Collection<T>> post(Class<C> collectionType, Class<T> entityType);
+
+    @Override
+    <V, K, M extends Map> PollingRequest<Map<K, V>> post(Class<M> mapType, Class<K> keyType, Class<V> valueType);
 
     @Override
     PollingRequest<Void> put();
@@ -54,6 +61,9 @@ public interface HttpPollingInvoker extends HttpInvoker {
     <T, C extends Collection> PollingRequest<Collection<T>> put(Class<C> collectionType, Class<T> entityType);
 
     @Override
+    <V, K, M extends Map> PollingRequest<Map<K, V>> put(Class<M> mapType, Class<K> keyType, Class<V> valueType);
+
+    @Override
     PollingRequest<Void> delete();
 
     @Override
@@ -63,6 +73,9 @@ public interface HttpPollingInvoker extends HttpInvoker {
     <T, C extends Collection> PollingRequest<Collection<T>> delete(Class<C> collectionType, Class<T> entityType);
 
     @Override
+    <V, K, M extends Map> PollingRequest<Map<K, V>> delete(Class<M> mapType, Class<K> keyType, Class<V> valueType);
+
+    @Override
     PollingRequest<Void> patch();
 
     @Override
@@ -70,6 +83,9 @@ public interface HttpPollingInvoker extends HttpInvoker {
 
     @Override
     <T, C extends Collection> PollingRequest<Collection<T>> patch(Class<C> collectionType, Class<T> entityType);
+
+    @Override
+    <V, K, M extends Map> PollingRequest<Map<K, V>> patch(Class<M> mapType, Class<K> keyType, Class<V> valueType);
 
     @Override
     PollingRequest<Headers> head();
