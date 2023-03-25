@@ -15,18 +15,32 @@
  */
 package io.reinert.requestor.core.payload.type;
 
-import java.util.Map;
-
 /**
  * Represents the expected type in the response body.
  *
  * @author Danilo Reinert
  */
-public interface PayloadType extends Iterable<Map.Entry<String, PayloadType>> {
+public class PayloadType {
 
-    PayloadType VOID = new SinglePayloadType<Void>(Void.class);
+    public static final PayloadType VOID = new PayloadType(Void.class);
 
-    String ROOT_KEY = "";
+    private final Class<?> type;
+    private final Class<?>[] parameterizedTypes;
 
-    Class<?> getType();
+    public PayloadType(Class<?> type, Class<?>... parameterizedTypes) {
+        this.type = type;
+        this.parameterizedTypes = parameterizedTypes;
+    }
+
+    public Class<?> getType() {
+        return type;
+    }
+
+    public Class<?>[] getParameterizedTypes() {
+        return parameterizedTypes;
+    }
+
+    public boolean hasParameterizedTypes() {
+        return parameterizedTypes.length > 0;
+    }
 }
