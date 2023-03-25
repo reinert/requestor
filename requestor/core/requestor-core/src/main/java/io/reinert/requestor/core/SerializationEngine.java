@@ -17,6 +17,7 @@ package io.reinert.requestor.core;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +25,7 @@ import io.reinert.requestor.core.payload.Payload;
 import io.reinert.requestor.core.payload.SerializedPayload;
 import io.reinert.requestor.core.payload.type.CollectionPayloadType;
 import io.reinert.requestor.core.payload.type.CompositePayloadType;
-import io.reinert.requestor.core.payload.type.DictionaryPayloadType;
+import io.reinert.requestor.core.payload.type.MapPayloadType;
 import io.reinert.requestor.core.payload.type.PayloadType;
 import io.reinert.requestor.core.payload.type.SinglePayloadType;
 import io.reinert.requestor.core.serialization.DeserializationContext;
@@ -52,21 +53,27 @@ public class SerializationEngine {
     public void deserializeResponse(DeserializableResponse response) {
         final RequestOptions requestOptions = response.getRequestOptions();
         final PayloadType payloadType = response.getPayloadType();
-        final Class<?> type = payloadType.getType();
 
         Object result = null;
 
-        if (payloadType instanceof DictionaryPayloadType || payloadType instanceof CompositePayloadType) {
+        if (payloadType instanceof CompositePayloadType) {
             throw new SerializationException("Deserialization of " + payloadType.getClass().getName() +
                     " is not supported yet.");
         }
 
-        if (payloadType instanceof CollectionPayloadType) {
+        if (payloadType instanceof MapPayloadType) {
+            MapPayloadType<?, ?> mapPayloadType = (MapPayloadType<?, ?>) payloadType;
+            Class<? extends Map> mapType = mapPayloadType.getType();
+            Class<?> valueType = mapPayloadType.getValuePayloadType().getType();
+            Class<?> keyType = mapPayloadType.getKeyType();
+            result = deserializePayload(requestOptions, response, mapType, keyType, valueType);
+        } else if (payloadType instanceof CollectionPayloadType) {
             CollectionPayloadType<?> collectionPayloadType = (CollectionPayloadType<?>) payloadType;
             Class<? extends Collection> collectionType = collectionPayloadType.getType();
             Class<?> parameterizedType = collectionPayloadType.getParameterizedPayloadType().getType();
             result = deserializePayload(requestOptions, response, parameterizedType, collectionType);
         } else if (payloadType instanceof SinglePayloadType) {
+            Class<?> type = payloadType.getType();
             result = deserializePayload(requestOptions, response, type);
         }
 
@@ -83,12 +90,13 @@ public class SerializationEngine {
         return deserializer.deserialize(collectionType, response.getSerializedPayload(), context);
     }
 
-    public <T> T deserializePayload(RequestOptions requestOptions, SerializedResponse response, Class<T> type) {
+    public <T> T deserializePayload(RequestOptions requestOptions, SerializedResponse response, Class<T> type,
+                                    Class<?>... parameterizedTypes) {
         final String mediaType = getResponseMediaType(requestOptions, response);
         final Deserializer<T> deserializer = serializerManager.getDeserializer(type, mediaType);
         checkDeserializerNotNull(response, type, deserializer);
         final DeserializationContext context = new HttpDeserializationContext(requestOptions, response, providerManager,
-                type);
+                type, parameterizedTypes);
         return deserializer.deserialize(response.getSerializedPayload(), context);
     }
 
