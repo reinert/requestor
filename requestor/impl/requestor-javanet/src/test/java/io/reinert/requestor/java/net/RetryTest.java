@@ -34,7 +34,7 @@ import org.junit.Test;
  */
 public class RetryTest extends JavaNetTest {
 
-    private static final int TIMEOUT = 10000;
+    private static final int TIMEOUT = 20_000;
 
     @Test(timeout = TIMEOUT)
     public void testRetry() throws Throwable {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2015-2021 Danilo Reinert
+  ~ Copyright 2015-2023 Danilo Reinert
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -43,11 +43,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Comment the lines below if using jdk8 -->
-    <surefire.argLine>--add-opens java.base/java.net=ALL-UNNAMED</surefire.argLine>
-    <gwt.extraJvmArgs>--add-opens java.base/java.lang=ALL-UNNAMED</gwt.extraJvmArgs>
+<!--    <surefire.argLine>&#45;&#45;add-opens java.base/java.net=ALL-UNNAMED</surefire.argLine>-->
+<!--    <gwt.extraJvmArgs>&#45;&#45;add-opens java.base/java.lang=ALL-UNNAMED</gwt.extraJvmArgs>-->
     <!-- Uncomment the lines below if using jdk8 -->
-<!--    <surefire.argLine></surefire.argLine>-->
-<!--    <gwt.extraJvmArgs></gwt.extraJvmArgs>-->
+    <surefire.argLine></surefire.argLine>
+    <gwt.extraJvmArgs></gwt.extraJvmArgs>
 
     <!-- Plugins -->
     <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
