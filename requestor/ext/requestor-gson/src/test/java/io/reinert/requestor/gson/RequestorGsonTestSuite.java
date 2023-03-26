@@ -15,8 +15,6 @@
  */
 package io.reinert.requestor.gson;
 
-import io.reinert.requestor.gson.rebind.GsonProcessorTest;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -27,8 +25,6 @@ import junit.framework.TestSuite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        GsonProcessorTest.class,
-        RequestorGsonTest.class,
         GsonSerializerTest.class
 })
 public class RequestorGsonTestSuite extends TestSuite {

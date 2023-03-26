@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-~ Copyright 2022 Danilo Reinert
+~ Copyright 2022-2023 Danilo Reinert
 ~
 ~ Licensed under the Apache License, Version 2.0 (the "License");
 ~ you may not use this file except in compliance with the License.
@@ -40,25 +40,7 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- Java Poet to generate java files -->
-    <dependency>
-      <groupId>com.squareup</groupId>
-      <artifactId>javapoet</artifactId>
-    </dependency>
-
-    <!-- Google Auto -->
-    <dependency>
-      <groupId>com.google.auto.service</groupId>
-      <artifactId>auto-service</artifactId>
-    </dependency>
-
     <!-- Requestor dependencies -->
-    <dependency>
-      <groupId>io.reinert.requestor.core</groupId>
-      <artifactId>requestor-annotations</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>io.reinert.requestor.core</groupId>
       <artifactId>requestor-core</artifactId>
