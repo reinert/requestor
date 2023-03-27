@@ -30,7 +30,7 @@ All this asynchronously. Around it, third-part concepts like Sessions, Services,
 Requestor's design is extensible enough to allow us to exponentially grow the complexity of our requirements linearly affecting the size of our code, keeping it clean and dry.
 With Requestor we can:
 - Start simple and **make one line requests**.
-- **Request in a sync or async flow**, although all requests are executed asynchronously (in background threads or coroutines), following the *thread-per-request* style, not blocking the main thread. Requestor is ready for and superpowered by the upcoming Java Virtual Threads!
+- **Request in a sync or async flow**, although all requests are executed asynchronously (in background threads or coroutines), following the *thread-per-request* style, not blocking the main thread. Requestor is superpowered by the [Java Virtual Threads](#-how-to-use-virtual-threads-with-requestor-jdk19)!
 - Set actions for specific request results due to a tailor-made event system to the request-response lifecycle, helping us to **write clear and concise code**.
 - Straightforwardly enable complex features - such as polling, streaming, and retrying - and **build sophisticated communication flows** painlessly.
 - **Add async middlewares to requests and responses** at different milestones in a well-suited lifecycle.
@@ -1854,9 +1854,31 @@ is working hard to bring into the Java world the concept of [**Virtual Threads**
 which don't demand the OS to allocate a hard resource for each thread. Once we have it available, we wil be able to
 handle thousands (even millions) of co-living threads without overheading the OS and we won't need to worry about
 the thread pool size anymore. Requestor is prepared to work with Virtual Threads. As soon they are delivered to the
-JDK, Requestor users will experiment a drastically performance gain by acquiring the ability to fire numerous
+JDK, Requestor users will experiment a drastic performance gain by acquiring the ability to fire numerous
 requests concurrently at a much lower cost.
 
+#### 🔥 How to use Virtual Threads with Requestor? (JDK19+)
+
+**JDK 19** allows us to use **Virtual Threads** as a preview feature. In order to instantiate a `Session` backed by a pool
+of virtual threads, see the code below:
+
+```java
+// Instantiate a ScheduledExecutorService with max core pool size and a virtual thread factory
+ScheduledThreadPoolExecutor threadPool = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(
+        Integer.MAX_VALUE,
+        Thread.ofVirtual().factory());
+
+// Force the core threads to be destroyed after they become idle (reach keep alive time)
+threadPool.allowCoreThreadTimeOut(true);
+
+// Optionally set the keep alive time for; default is 10ms
+threadPool.setKeepAliveTime(10L, TimeUnit.MILLISECONDS);
+
+// Instantiate a Requestor Session with this virtual thread pool wrapped in a ScheduledExecutorAsyncRunner
+Session session = Requestor.newSession(new ScheduledExecutorAsyncRunner(threadPool));
+```
+
+**NOTE:** Add the VM option `--enable-preview` when running the JDK19 program in order to access the virtual threads.
 
 ### Session's Request Options
 
