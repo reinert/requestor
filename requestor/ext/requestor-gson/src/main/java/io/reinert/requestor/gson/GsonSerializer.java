@@ -39,17 +39,17 @@ public class GsonSerializer implements Serializer<Object> {
     private final String[] mediaTypes;
     private Gson gson;
 
-    public GsonSerializer() {
-        this.mediaTypes = new String[]{"*/*"};
-    }
-
     public GsonSerializer(String... mediaTypes) {
-        this.mediaTypes = mediaTypes;
+        this(null, mediaTypes);
     }
 
     public GsonSerializer(Gson gson, String... mediaTypes) {
         this.gson = gson;
-        this.mediaTypes = mediaTypes;
+        if (mediaTypes.length == 0) {
+            this.mediaTypes = new String[]{"*/*"};
+        } else {
+            this.mediaTypes = mediaTypes;
+        }
     }
 
     public Gson getGson() {
