@@ -270,7 +270,7 @@ The **requestor-javanet** impl is built with jdk8 and compatible with **Java 8+*
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-javanet</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -288,7 +288,7 @@ Add `requestor-kotlin` dependency to the project:
 <dependency>
     <groupId>io.reinert.requestor.ext</groupId>
     <artifactId>requestor-kotlin</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -323,7 +323,7 @@ The **requestor-gwt** impl is compatible with **GWT 2.7+** (Java 7+).
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-gwt</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
@@ -340,7 +340,7 @@ If you would like to get involded and make Requestor better, get in touch in our
 
 ### Latest Release
 
-1.2.1 (12 Oct 2022)
+1.3.0 (4 Apr 2023)
 
 
 ## Request Options
