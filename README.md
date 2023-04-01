@@ -81,13 +81,18 @@ session.get("https://httpbin.org/ip", String.class)    // make a GET request and
 🔥 In **Kotlin**:
 
 ```kotlin
-val session = Requestor.newSession()
+runBlocking {
+    val runner = CoroutineAsyncRunner(this)
+    val session = Requestor.newSession(runner)
 
-session.get("https://httpbin.org/ip", String::class.java)
-    .onSuccess { ip -> println(ip) }
-    .onFail { _ -> println("Unsuccessful response received") }
-    .onError { _ -> println("An error occurred during the request") }
+    session.get("https://httpbin.org/ip", String::class.java)
+            .onSuccess { ip -> println(ip) }
+            .onFail { _ -> println("Unsuccessful response received") }
+            .onError { _ -> println("An error occurred during the request") }
+}
 ```
+
+Check [here](#kotlin-coroutines) how to install **requestor-kotlin** extension and enable `CoroutineAsyncRunner` usage.
 
 🤔 Prefer sync programming?
 
@@ -272,6 +277,44 @@ The **requestor-javanet** impl is built with jdk8 and compatible with **Java 8+*
 If you're using jdk12+ and want to make PATCH requests then add the following command line arg to execute your java app:
 `--add-opens java.base/java.net=ALL-UNNAMED`.
 
+### Kotlin Coroutines
+
+If we need to integrate Requestor with Kotlin structured concurrency then we can install `requestor-kotlin` ext and use
+`CoroutineAsyncRunner` to start a `Session`.
+
+Add `requestor-kotlin` dependency to the project:
+
+```xml
+<dependency>
+    <groupId>io.reinert.requestor.ext</groupId>
+    <artifactId>requestor-kotlin</artifactId>
+    <version>1.2.1</version>
+</dependency>
+```
+
+Use `CoroutineAsyncRunner` to create requestor sessions:
+
+```kotlin
+// inside a coroutine scope create the CoroutineAsyncRunner
+runBlocking {
+    // we can optionally set the Dispatcher as the second arg
+    val runner = CoroutineAsyncRunner(this, Dispatchers.IO)
+    // create a requestor session using this AsyncRunner
+    val session = Requestor.newSession(runner)
+
+    // now every request is bound to this coroutine scope
+    session.req("https://httpbin.org/ip")
+            .get(String::class.java)
+            .onSuccess { ip -> println(ip) }
+
+    // await also works as expected
+    val req = session.get("https://httpbin.org/get", String::class.java).await()
+    // this line is only executed after the request is finished because we called await
+    val ip: String = req.getPayload()
+    println(ip)
+}
+```
+
 ### GWT2
 
 The **requestor-gwt** impl is compatible with **GWT 2.7+** (Java 7+).
@@ -294,12 +337,6 @@ Then, make requestor available to your GWT project by importing the implementati
 
 This requestor impl is specified and we would love to have your contribution to help implementing it.
 If you would like to get involded and make Requestor better, get in touch in our [community chat](#resources).
-
-### Kotlin/JS
-
-This impl should be quite similar to j2cl's, since both target the browser platform.
-If you're a kotlin dev, we would love to have your contribution to help implementing it.
-Get involved and make Requestor better by entering our [community chat](#resources).
 
 ### Latest Release
 
