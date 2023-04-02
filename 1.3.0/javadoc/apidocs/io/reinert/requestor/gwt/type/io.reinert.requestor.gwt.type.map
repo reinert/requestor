@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Document.html" title="io.reinert.requestor.gwt.type.Document" alt="" coords="16,113,96,138"/>
+<area shape="rect" id="node1" href="./Document.html" title="&lt;TABLE&gt;" alt="" coords="5,101,107,149"/>
+<area shape="rect" id="node2_1" href="./NativeType.html" title="io.reinert.requestor.gwt.type.NativeType" alt="" coords="172,17,257,42"/>
+<area shape="rect" id="node2" href="./NativeType.html" title="&lt;TABLE&gt;" alt="" coords="161,5,268,53"/>
+<area shape="rect" id="node3_2" href="./Blob.html" title="io.reinert.requestor.gwt.type.Blob" alt="" coords="144,113,189,138"/>
+<area shape="rect" id="node3" href="./Blob.html" title="&lt;TABLE&gt;" alt="" coords="131,101,203,149"/>
+<area shape="rect" id="node4_3" href="./Json.html" title="io.reinert.requestor.gwt.type.Json" alt="" coords="239,113,287,138"/>
+<area shape="rect" id="node4" href="./Json.html" title="&lt;TABLE&gt;" alt="" coords="227,101,299,149"/>
+<area shape="rect" id="node5_4" href="./ArrayBuffer.html" title="io.reinert.requestor.gwt.type.ArrayBuffer" alt="" coords="334,113,418,138"/>
+<area shape="rect" id="node5" href="./ArrayBuffer.html" title="&lt;TABLE&gt;" alt="" coords="323,101,429,149"/>
+</map>

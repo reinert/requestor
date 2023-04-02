@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./XhrRequestDispatcher.html" title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcher" alt="" coords="16,17,168,42"/>
+<area shape="rect" id="node1" href="./XhrRequestDispatcher.html" title="&lt;TABLE&gt;" alt="" coords="5,5,179,53"/>
+<area shape="rect" id="node2_1" href="./RequestPermissionException.html" title="io.reinert.requestor.gwt.xhr.RequestPermissionException" alt="" coords="213,17,405,42"/>
+<area shape="rect" id="node2" href="./RequestPermissionException.html" title="&lt;TABLE&gt;" alt="" coords="203,5,416,53"/>
+<area shape="rect" id="node3_2" href="./NetworkErrorException.html" title="io.reinert.requestor.gwt.xhr.NetworkErrorException" alt="" coords="451,17,605,42"/>
+<area shape="rect" id="node3" href="./NetworkErrorException.html" title="&lt;TABLE&gt;" alt="" coords="440,5,616,53"/>
+<area shape="rect" id="node4_3" href="./XhrRequestDispatcherFactory.html" title="io.reinert.requestor.gwt.xhr.XhrRequestDispatcherFactory" alt="" coords="651,17,847,42"/>
+<area shape="rect" id="node4" href="./XhrRequestDispatcherFactory.html" title="&lt;TABLE&gt;" alt="" coords="641,5,858,53"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./MutableRequest.html" title="io.reinert.requestor.core.MutableRequest" alt="" coords="16,112,131,155"/>
+<area shape="rect" id="node1" href="./MutableRequest.html" title="&lt;TABLE&gt;" alt="" coords="5,107,141,160"/>
+<area shape="rect" id="node2_1" href="./PollingRequest.html" title="io.reinert.requestor.core.PollingRequest" alt="" coords="177,112,309,155"/>
+<area shape="rect" id="node2" href="./PollingRequest.html" title="&lt;TABLE&gt;" alt="" coords="166,107,319,160"/>
+<area shape="rect" id="node3_2" href="./HasPollingOptions.html" title="io.reinert.requestor.core.HasPollingOptions" alt="" coords="353,11,481,53"/>
+<area shape="rect" id="node3" href="./HasPollingOptions.html" title="&lt;TABLE&gt;" alt="" coords="343,5,492,59"/>
+<area shape="rect" id="node4_3" href="./SerializedRequest.html" title="io.reinert.requestor.core.SerializedRequest" alt="" coords="355,112,480,155"/>
+<area shape="rect" id="node4" href="./SerializedRequest.html" title="&lt;TABLE&gt;" alt="" coords="344,107,491,160"/>
+<area shape="rect" id="node5_4" href="./ProcessableRequest.html" title="io.reinert.requestor.core.ProcessableRequest" alt="" coords="526,112,666,155"/>
+<area shape="rect" id="node5" href="./ProcessableRequest.html" title="&lt;TABLE&gt;" alt="" coords="515,107,677,160"/>
+<area shape="rect" id="node6_5" href="./PollingRequestBuilder.html" title="io.reinert.requestor.core.PollingRequestBuilder" alt="" coords="711,112,859,155"/>
+<area shape="rect" id="node6" href="./PollingRequestBuilder.html" title="&lt;TABLE&gt;" alt="" coords="701,107,870,160"/>
+</map>

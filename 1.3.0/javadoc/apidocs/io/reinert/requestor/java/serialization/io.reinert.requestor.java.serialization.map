@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./FormDataMultiPartSerializer.html" title="io.reinert.requestor.java.serialization.FormDataMultiPartSerializer" alt="" coords="16,17,200,42"/>
+<area shape="rect" id="node1" href="./FormDataMultiPartSerializer.html" title="&lt;TABLE&gt;" alt="" coords="5,5,211,53"/>
+<area shape="rect" id="node2_1" href="./FileSerializer.html" title="io.reinert.requestor.java.serialization.FileSerializer" alt="" coords="246,17,341,42"/>
+<area shape="rect" id="node2" href="./FileSerializer.html" title="&lt;TABLE&gt;" alt="" coords="235,5,351,53"/>
+<area shape="rect" id="node3_2" href="./InputStreamSerializer.html" title="io.reinert.requestor.java.serialization.InputStreamSerializer" alt="" coords="387,17,531,42"/>
+<area shape="rect" id="node3" href="./InputStreamSerializer.html" title="&lt;TABLE&gt;" alt="" coords="376,5,541,53"/>
+<area shape="rect" id="node4_3" href="./ByteSerializer.html" title="io.reinert.requestor.java.serialization.ByteSerializer" alt="" coords="577,17,677,42"/>
+<area shape="rect" id="node4" href="./ByteSerializer.html" title="&lt;TABLE&gt;" alt="" coords="566,5,687,53"/>
+<area shape="rect" id="node5_4" href="./BinarySerializer.html" title="io.reinert.requestor.java.serialization.BinarySerializer" alt="" coords="722,17,833,42"/>
+<area shape="rect" id="node5" href="./BinarySerializer.html" title="&lt;TABLE&gt;" alt="" coords="711,5,843,53"/>
+</map>

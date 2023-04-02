@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Auth.html" title="io.reinert.requestor.core.Auth" alt="" coords="209,11,293,53"/>
+<area shape="rect" id="node1" href="./Auth.html" title="&lt;TABLE&gt;" alt="" coords="199,5,304,59"/>
+<area shape="rect" id="node2_1" href="./auth/DigestAuth.html" title="io.reinert.requestor.core.auth.DigestAuth" alt="" coords="16,118,100,143"/>
+<area shape="rect" id="node2" href="./auth/DigestAuth.html" title="&lt;TABLE&gt;" alt="" coords="5,107,111,155"/>
+<area shape="rect" id="node3_2" href="./auth/BearerAuth.html" title="io.reinert.requestor.core.auth.BearerAuth" alt="" coords="145,118,229,143"/>
+<area shape="rect" id="node3" href="./auth/BearerAuth.html" title="&lt;TABLE&gt;" alt="" coords="135,107,240,155"/>
+<area shape="rect" id="node4_3" href="./auth/BasicAuth.html" title="io.reinert.requestor.core.auth.BasicAuth" alt="" coords="275,118,355,143"/>
+<area shape="rect" id="node4" href="./auth/BasicAuth.html" title="&lt;TABLE&gt;" alt="" coords="265,107,366,155"/>
+<area shape="rect" id="node5_4" href="../gwt/oauth2/OAuth2Base.html" title="io.reinert.requestor.gwt.oauth2.OAuth2Base" alt="" coords="401,118,494,143"/>
+<area shape="rect" id="node5" href="../gwt/oauth2/OAuth2Base.html" title="&lt;TABLE&gt;" alt="" coords="390,107,505,155"/>
+</map>

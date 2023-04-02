@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./RequestInvoker.html" title="io.reinert.requestor.core.RequestInvoker" alt="" coords="16,11,128,53"/>
+<area shape="rect" id="node1" href="./RequestInvoker.html" title="&lt;TABLE&gt;" alt="" coords="5,5,139,59"/>
+<area shape="rect" id="node3_1" href="./PollingRequestInvoker.html" title="io.reinert.requestor.core.PollingRequestInvoker" alt="" coords="162,112,313,155"/>
+<area shape="rect" id="node3" href="./PollingRequestInvoker.html" title="&lt;TABLE&gt;" alt="" coords="151,107,323,160"/>
+<area shape="rect" id="node2_2" href="./HttpPollingInvoker.html" title="io.reinert.requestor.core.HttpPollingInvoker" alt="" coords="174,11,301,53"/>
+<area shape="rect" id="node2" href="./HttpPollingInvoker.html" title="&lt;TABLE&gt;" alt="" coords="163,5,311,59"/>
+<area shape="rect" id="node4_3" href="./PollingRequestBuilder.html" title="io.reinert.requestor.core.PollingRequestBuilder" alt="" coords="346,11,494,53"/>
+<area shape="rect" id="node4" href="./PollingRequestBuilder.html" title="&lt;TABLE&gt;" alt="" coords="335,5,505,59"/>
+</map>

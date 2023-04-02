@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./GsonSingletonProvider.html" title="io.reinert.requestor.gson.GsonSingletonProvider" alt="" coords="16,17,168,42"/>
+<area shape="rect" id="node1" href="./GsonSingletonProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,5,179,53"/>
+<area shape="rect" id="node2_1" href="./FilterableJsonWriter.html" title="io.reinert.requestor.gson.FilterableJsonWriter" alt="" coords="214,17,349,42"/>
+<area shape="rect" id="node2" href="./FilterableJsonWriter.html" title="&lt;TABLE&gt;" alt="" coords="203,5,359,53"/>
+<area shape="rect" id="node3_2" href="./GsonSerializer.html" title="io.reinert.requestor.gson.GsonSerializer" alt="" coords="395,17,499,42"/>
+<area shape="rect" id="node3" href="./GsonSerializer.html" title="&lt;TABLE&gt;" alt="" coords="384,5,509,53"/>
+</map>

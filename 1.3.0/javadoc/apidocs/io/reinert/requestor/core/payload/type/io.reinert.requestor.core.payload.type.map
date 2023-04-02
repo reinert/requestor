@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./RootPayloadType.html" title="io.reinert.requestor.core.payload.type.RootPayloadType" alt="" coords="244,118,391,143"/>
+<area shape="rect" id="node1" href="./RootPayloadType.html" title="&lt;TABLE&gt;" alt="" coords="233,107,401,155"/>
+<area shape="rect" id="node3_1" href="./CollectionPayloadType.html" title="io.reinert.requestor.core.payload.type.CollectionPayloadType" alt="" coords="16,214,192,239"/>
+<area shape="rect" id="node3" href="./CollectionPayloadType.html" title="&lt;TABLE&gt;" alt="" coords="5,203,203,251"/>
+<area shape="rect" id="node4_2" href="./MapPayloadType.html" title="io.reinert.requestor.core.payload.type.MapPayloadType" alt="" coords="237,214,397,239"/>
+<area shape="rect" id="node4" href="./MapPayloadType.html" title="&lt;TABLE&gt;" alt="" coords="227,203,408,251"/>
+<area shape="rect" id="node7_3" href="./SinglePayloadType.html" title="io.reinert.requestor.core.payload.type.SinglePayloadType" alt="" coords="443,214,597,239"/>
+<area shape="rect" id="node7" href="./SinglePayloadType.html" title="&lt;TABLE&gt;" alt="" coords="432,203,608,251"/>
+<area shape="rect" id="node2_4" href="./PayloadType.html" title="io.reinert.requestor.core.payload.type.PayloadType" alt="" coords="369,11,463,53"/>
+<area shape="rect" id="node2" href="./PayloadType.html" title="&lt;TABLE&gt;" alt="" coords="358,5,474,59"/>
+<area shape="rect" id="node5_5" href="./CompositePayloadType.html" title="io.reinert.requestor.core.payload.type.CompositePayloadType" alt="" coords="436,118,593,143"/>
+<area shape="rect" id="node5" href="./CompositePayloadType.html" title="&lt;TABLE&gt;" alt="" coords="425,107,604,155"/>
+<area shape="rect" id="node6_6" href="./CompositePayloadType.Builder.html" title="io.reinert.requestor.core.payload.type.CompositePayloadType.Builder" alt="" coords="509,19,569,45"/>
+<area shape="rect" id="node6" href="./CompositePayloadType.Builder.html" title="&lt;TABLE&gt;" alt="" coords="498,8,579,56"/>
+</map>

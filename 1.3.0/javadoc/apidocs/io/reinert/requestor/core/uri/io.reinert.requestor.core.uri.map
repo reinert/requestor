@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Uri.html" title="io.reinert.requestor.core.uri.Uri" alt="" coords="23,17,59,42"/>
+<area shape="rect" id="node1" href="./Uri.html" title="&lt;TABLE&gt;" alt="" coords="5,5,77,53"/>
+<area shape="rect" id="node2_1" href="./Uri.Param.html" title="io.reinert.requestor.core.uri.Uri.Param" alt="" coords="113,17,170,42"/>
+<area shape="rect" id="node2" href="./Uri.Param.html" title="&lt;TABLE&gt;" alt="" coords="102,5,181,53"/>
+<area shape="rect" id="node3_2" href="./UriParseException.html" title="io.reinert.requestor.core.uri.UriParseException" alt="" coords="216,17,344,42"/>
+<area shape="rect" id="node3" href="./UriParseException.html" title="&lt;TABLE&gt;" alt="" coords="205,5,355,53"/>
+<area shape="rect" id="node4_3" href="./UriBuilderException.html" title="io.reinert.requestor.core.uri.UriBuilderException" alt="" coords="390,17,525,42"/>
+<area shape="rect" id="node4" href="./UriBuilderException.html" title="&lt;TABLE&gt;" alt="" coords="379,5,535,53"/>
+<area shape="rect" id="node5_4" href="./UriCodec.html" title="io.reinert.requestor.core.uri.UriCodec" alt="" coords="571,17,645,42"/>
+<area shape="rect" id="node5" href="./UriCodec.html" title="&lt;TABLE&gt;" alt="" coords="560,5,656,53"/>
+<area shape="rect" id="node6_5" href="./UriBuilder.html" title="io.reinert.requestor.core.uri.UriBuilder" alt="" coords="691,17,767,42"/>
+<area shape="rect" id="node6" href="./UriBuilder.html" title="&lt;TABLE&gt;" alt="" coords="681,5,778,53"/>
+</map>

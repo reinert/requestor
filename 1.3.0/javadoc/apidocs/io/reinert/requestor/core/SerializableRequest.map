@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./HasHeaders.html" title="io.reinert.requestor.core.HasHeaders" alt="" coords="16,11,108,53"/>
+<area shape="rect" id="node1" href="./HasHeaders.html" title="&lt;TABLE&gt;" alt="" coords="5,5,119,59"/>
+<area shape="rect" id="node4_1" href="./SerializableRequest.html" title="io.reinert.requestor.core.SerializableRequest" alt="" coords="67,112,203,155"/>
+<area shape="rect" id="node4" href="./SerializableRequest.html" title="&lt;TABLE&gt;" alt="" coords="57,107,214,160"/>
+<area shape="rect" id="node2_2" href="./SerializableRequestInProcess.html" title="io.reinert.requestor.core.SerializableRequestInProcess" alt="" coords="38,213,233,256"/>
+<area shape="rect" id="node2" href="./SerializableRequestInProcess.html" title="&lt;TABLE&gt;" alt="" coords="27,208,243,261"/>
+<area shape="rect" id="node3_3" href="./RequestOptions.html" title="io.reinert.requestor.core.RequestOptions" alt="" coords="153,11,267,53"/>
+<area shape="rect" id="node3" href="./RequestOptions.html" title="&lt;TABLE&gt;" alt="" coords="143,5,277,59"/>
+</map>
