@@ -73,6 +73,10 @@
     <javapoet.version>1.13.0</javapoet.version>
     <checkstyle.version>7.8.2</checkstyle.version>
 
+    <!-- Kotlin -->
+    <kotlin.version>1.8.10</kotlin.version>
+    <kotlinx-coroutines.version>1.6.4</kotlinx-coroutines.version>
+
     <!-- Testing -->
     <junit.version>4.13.2</junit.version>
     <compile-testing.version>0.19</compile-testing.version>
@@ -241,6 +245,45 @@
             </docletArtifact>
             <additionalparam>-horizontal</additionalparam>
           </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-maven-plugin</artifactId>
+          <version>${kotlin.version}</version>
+          <executions>
+            <execution>
+              <id>compile</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>test-compile</id>
+              <phase>test-compile</phase>
+              <goals>
+                <goal>test-compile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.jetbrains.dokka</groupId>
+          <artifactId>dokka-maven-plugin</artifactId>
+          <version>${kotlin.version}</version>
+          <configuration>
+            <outputDir>${project.basedir}/target/javadoc</outputDir>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>pre-site</phase>
+              <goals>
+                <goal>javadoc</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
 
         <plugin>

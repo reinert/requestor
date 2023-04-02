@@ -29,9 +29,19 @@ import kotlinx.coroutines.channels.Channel
 
 import io.reinert.requestor.core.AsyncRunner
 
+/**
+ * AsyncRunner bound to a coroutine scope.
+ *
+ * @author Danilo Reinert
+ */
 class CoroutineAsyncRunner(private val scope: CoroutineScope,
                            private val dispatcher: CoroutineDispatcher? = null) : AsyncRunner {
 
+    /**
+     * Lock implementation based on kotlin channels.
+     *
+     * @author Danilo Reinert
+     */
     class Lock(private val scope: CoroutineScope) : AsyncRunner.Lock {
 
         private var channel: Channel<Unit>? = null
