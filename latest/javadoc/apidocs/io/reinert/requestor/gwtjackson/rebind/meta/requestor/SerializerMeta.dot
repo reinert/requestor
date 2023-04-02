@@ -10,20 +10,20 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwtjackson.rebind.meta.requestor.JsonObjectSerializerMeta
-	c80041 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.meta.requestor.JsonObjectSerializerMeta" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonObjectSerializerMeta.html">
+	c72646 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.meta.requestor.JsonObjectSerializerMeta" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./JsonObjectSerializerMeta.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> JsonObjectSerializerMeta </td></tr>
 		</table></td></tr>
 		</table>>, URL="./JsonObjectSerializerMeta.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwtjackson.rebind.meta.requestor.SerializerMeta
-	c80047 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.meta.requestor.SerializerMeta" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializerMeta.html">
+	c72652 [label=<<table title="io.reinert.requestor.gwtjackson.rebind.meta.requestor.SerializerMeta" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializerMeta.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializerMeta </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializerMeta.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwtjackson.rebind.meta.requestor.JsonObjectSerializerMeta implements io.reinert.requestor.gwtjackson.rebind.meta.requestor.SerializerMeta
-	c80047:p -> c80041:p [dir=back,arrowtail=empty,style=dashed];
+	c72652:p -> c72646:p [dir=back,arrowtail=empty,style=dashed];
 }
 

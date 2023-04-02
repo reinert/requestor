@@ -14,11 +14,6 @@ io.reinert.requestor.core.serialization
 io.reinert.requestor.core.serialization.misc
 io.reinert.requestor.core.uri
 io.reinert.requestor.gson
-io.reinert.requestor.gson.annotations
-io.reinert.requestor.gson.rebind
-io.reinert.requestor.gson.rebind.codegen
-io.reinert.requestor.gson.rebind.meta.requestor
-io.reinert.requestor.gson.rebind.processing
 io.reinert.requestor.gwt
 io.reinert.requestor.gwt.oauth2
 io.reinert.requestor.gwt.payload

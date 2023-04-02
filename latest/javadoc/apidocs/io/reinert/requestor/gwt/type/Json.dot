@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwt.type.NativeType
-	c39692 [label=<<table title="io.reinert.requestor.gwt.type.NativeType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NativeType.html">
+	c35209 [label=<<table title="io.reinert.requestor.gwt.type.NativeType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NativeType.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NativeType </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NativeType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.type.Json
-	c39694 [label=<<table title="io.reinert.requestor.gwt.type.Json" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Json.html">
+	c35211 [label=<<table title="io.reinert.requestor.gwt.type.Json" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Json.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Json </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Json.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.type.Json extends io.reinert.requestor.gwt.type.NativeType
-	c39692:p -> c39694:p [dir=back,arrowtail=empty];
+	c35209:p -> c35211:p [dir=back,arrowtail=empty];
 }
 

@@ -10,37 +10,37 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Request<T>
-	c53139 [label=<<table title="io.reinert.requestor.core.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Request.html">
+	c48034 [label=<<table title="io.reinert.requestor.core.Request" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Request.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Request&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Request.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.PollingRequest<T>
-	c53183 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PollingRequest.html">
+	c48078 [label=<<table title="io.reinert.requestor.core.PollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PollingRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PollingRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HasPollingOptions
-	c53194 [label=<<table title="io.reinert.requestor.core.HasPollingOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasPollingOptions.html">
+	c48089 [label=<<table title="io.reinert.requestor.core.HasPollingOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HasPollingOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HasPollingOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HasPollingOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.deferred.DeferredPollingRequest<T>
-	c53236 [label=<<table title="io.reinert.requestor.core.deferred.DeferredPollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./deferred/DeferredPollingRequest.html">
+	c48131 [label=<<table title="io.reinert.requestor.core.deferred.DeferredPollingRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./deferred/DeferredPollingRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DeferredPollingRequest&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./deferred/DeferredPollingRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.PollingRequest<T> implements io.reinert.requestor.core.HasPollingOptions
-	c53194:p -> c53183:p [dir=back,arrowtail=empty,style=dashed];
+	c48089:p -> c48078:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.PollingRequest<T> implements io.reinert.requestor.core.Request<T>
-	c53139:p -> c53183:p [dir=back,arrowtail=empty,style=dashed];
+	c48034:p -> c48078:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.deferred.DeferredPollingRequest<T> implements io.reinert.requestor.core.PollingRequest<T>
-	c53183:p -> c53236:p [dir=back,arrowtail=empty,style=dashed];
+	c48078:p -> c48131:p [dir=back,arrowtail=empty,style=dashed];
 }
 

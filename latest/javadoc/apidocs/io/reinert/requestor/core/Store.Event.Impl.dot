@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.Store.Event
-	c83315 [label=<<table title="io.reinert.requestor.core.Store.Event" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.Event.html">
+	c75692 [label=<<table title="io.reinert.requestor.core.Store.Event" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Store.Event.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Event </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Store.Event.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Store.Event.Impl
-	c83316 [label=<<table title="io.reinert.requestor.core.Store.Event.Impl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Store.Event.Impl.html">
+	c75693 [label=<<table title="io.reinert.requestor.core.Store.Event.Impl" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Store.Event.Impl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Impl </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Store.Event.Impl.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.Store.Event.Impl implements io.reinert.requestor.core.Store.Event
-	c83315:p -> c83316:p [dir=back,arrowtail=empty,style=dashed];
+	c75692:p -> c75693:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,47 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.MutableRequest
-	c64188 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
+	c58361 [label=<<table title="io.reinert.requestor.core.MutableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestBuilder
-	c64201 [label=<<table title="io.reinert.requestor.core.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
+	c58374 [label=<<table title="io.reinert.requestor.core.RequestBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestBuilder.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedRequest
-	c64221 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
+	c58394 [label=<<table title="io.reinert.requestor.core.SerializedRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializedRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestOptions
-	c64247 [label=<<table title="io.reinert.requestor.core.RequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestOptions.html">
+	c58420 [label=<<table title="io.reinert.requestor.core.RequestOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestOptions.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializableRequest
-	c64249 [label=<<table title="io.reinert.requestor.core.SerializableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializableRequest.html">
+	c58422 [label=<<table title="io.reinert.requestor.core.SerializableRequest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SerializableRequest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializableRequest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializableRequest.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.MutableRequest implements io.reinert.requestor.core.RequestOptions
-	c64247:p -> c64188:p [dir=back,arrowtail=empty,style=dashed];
+	c58420:p -> c58361:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.RequestBuilder implements io.reinert.requestor.core.RequestOptions
-	c64247:p -> c64201:p [dir=back,arrowtail=empty,style=dashed];
+	c58420:p -> c58374:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedRequest implements io.reinert.requestor.core.RequestOptions
-	c64247:p -> c64221:p [dir=back,arrowtail=empty,style=dashed];
+	c58420:p -> c58394:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializableRequest implements io.reinert.requestor.core.RequestOptions
-	c64247:p -> c64249:p [dir=back,arrowtail=empty,style=dashed];
+	c58420:p -> c58422:p [dir=back,arrowtail=empty,style=dashed];
 }
 

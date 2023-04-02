@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestTimeoutException
-	c65902 [label=<<table title="io.reinert.requestor.core.RequestTimeoutException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestTimeoutException.html">
+	c59961 [label=<<table title="io.reinert.requestor.core.RequestTimeoutException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RequestTimeoutException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RequestTimeoutException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestTimeoutException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.RequestException
-	c65931 [label=<<table title="io.reinert.requestor.core.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
+	c59990 [label=<<table title="io.reinert.requestor.core.RequestException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> RequestException </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.RequestTimeoutException extends io.reinert.requestor.core.RequestException
-	c65931:p -> c65902:p [dir=back,arrowtail=empty];
+	c59990:p -> c59961:p [dir=back,arrowtail=empty];
 }
 

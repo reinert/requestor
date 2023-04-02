@@ -10,37 +10,37 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.uri.Uri
-	c3066 [label=<<table title="io.reinert.requestor.core.uri.Uri" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Uri.html">
+	c2876 [label=<<table title="io.reinert.requestor.core.uri.Uri" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Uri.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> Uri </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Uri.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.uri.Uri.Param
-	c3067 [label=<<table title="io.reinert.requestor.core.uri.Uri.Param" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Uri.Param.html">
+	c2877 [label=<<table title="io.reinert.requestor.core.uri.Uri.Param" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Uri.Param.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Param </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Uri.Param.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.uri.UriParseException
-	c3068 [label=<<table title="io.reinert.requestor.core.uri.UriParseException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriParseException.html">
+	c2878 [label=<<table title="io.reinert.requestor.core.uri.UriParseException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriParseException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> UriParseException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./UriParseException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.uri.UriBuilderException
-	c3069 [label=<<table title="io.reinert.requestor.core.uri.UriBuilderException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilderException.html">
+	c2879 [label=<<table title="io.reinert.requestor.core.uri.UriBuilderException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilderException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> UriBuilderException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./UriBuilderException.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.uri.UriCodec
-	c3070 [label=<<table title="io.reinert.requestor.core.uri.UriCodec" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriCodec.html">
+	c2880 [label=<<table title="io.reinert.requestor.core.uri.UriCodec" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriCodec.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> UriCodec </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./UriCodec.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.uri.UriBuilder
-	c3071 [label=<<table title="io.reinert.requestor.core.uri.UriBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilder.html">
+	c2881 [label=<<table title="io.reinert.requestor.core.uri.UriBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UriBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> UriBuilder </font></td></tr>
 		</table></td></tr>

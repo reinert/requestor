@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.ProgressEvent
-	c28199 [label=<<table title="io.reinert.requestor.core.ProgressEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../core/ProgressEvent.html">
+	c24730 [label=<<table title="io.reinert.requestor.core.ProgressEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../core/ProgressEvent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProgressEvent </td></tr>
 		</table></td></tr>
 		</table>>, URL="../core/ProgressEvent.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.java.FixedProgressEvent
-	c28339 [label=<<table title="io.reinert.requestor.java.FixedProgressEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FixedProgressEvent.html">
+	c24870 [label=<<table title="io.reinert.requestor.java.FixedProgressEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./FixedProgressEvent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FixedProgressEvent </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FixedProgressEvent.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.java.FixedProgressEvent implements io.reinert.requestor.core.ProgressEvent
-	c28199:p -> c28339:p [dir=back,arrowtail=empty,style=dashed];
+	c24730:p -> c24870:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,47 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.MutableSerializedResponse
-	c78398 [label=<<table title="io.reinert.requestor.core.MutableSerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableSerializedResponse.html">
+	c71640 [label=<<table title="io.reinert.requestor.core.MutableSerializedResponse" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MutableSerializedResponse.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MutableSerializedResponse </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MutableSerializedResponse.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.InProcess
-	c78405 [label=<<table title="io.reinert.requestor.core.InProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InProcess.html">
+	c71647 [label=<<table title="io.reinert.requestor.core.InProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> InProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./InProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.DeserializableResponseInProcess
-	c78412 [label=<<table title="io.reinert.requestor.core.DeserializableResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeserializableResponseInProcess.html">
+	c71654 [label=<<table title="io.reinert.requestor.core.DeserializableResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DeserializableResponseInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> DeserializableResponseInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DeserializableResponseInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.ResponseInProcess
-	c78442 [label=<<table title="io.reinert.requestor.core.ResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInProcess.html">
+	c71684 [label=<<table title="io.reinert.requestor.core.ResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ResponseInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ResponseInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ResponseInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.SerializedResponseInProcess
-	c78451 [label=<<table title="io.reinert.requestor.core.SerializedResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedResponseInProcess.html">
+	c71693 [label=<<table title="io.reinert.requestor.core.SerializedResponseInProcess" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SerializedResponseInProcess.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SerializedResponseInProcess </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SerializedResponseInProcess.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.DeserializableResponseInProcess implements io.reinert.requestor.core.SerializedResponseInProcess
-	c78451:p -> c78412:p [dir=back,arrowtail=empty,style=dashed];
+	c71693:p -> c71654:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.ResponseInProcess implements io.reinert.requestor.core.SerializedResponseInProcess
-	c78451:p -> c78442:p [dir=back,arrowtail=empty,style=dashed];
+	c71693:p -> c71684:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedResponseInProcess implements io.reinert.requestor.core.MutableSerializedResponse
-	c78398:p -> c78451:p [dir=back,arrowtail=empty,style=dashed];
+	c71640:p -> c71693:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.SerializedResponseInProcess implements io.reinert.requestor.core.InProcess
-	c78405:p -> c78451:p [dir=back,arrowtail=empty,style=dashed];
+	c71647:p -> c71693:p [dir=back,arrowtail=empty,style=dashed];
 }
 

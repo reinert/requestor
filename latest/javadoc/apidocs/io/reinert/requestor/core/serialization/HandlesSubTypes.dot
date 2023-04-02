@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.serialization.HandlesSubTypes<T>
-	c32353 [label=<<table title="io.reinert.requestor.core.serialization.HandlesSubTypes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HandlesSubTypes.html">
+	c28345 [label=<<table title="io.reinert.requestor.core.serialization.HandlesSubTypes" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HandlesSubTypes.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HandlesSubTypes&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HandlesSubTypes.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.java.serialization.InputStreamSerializer
-	c32411 [label=<<table title="io.reinert.requestor.java.serialization.InputStreamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/InputStreamSerializer.html">
+	c28403 [label=<<table title="io.reinert.requestor.java.serialization.InputStreamSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../java/serialization/InputStreamSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> InputStreamSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../java/serialization/InputStreamSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.serialization.JsonNumberSerializer
-	c32432 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonNumberSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gwt/serialization/JsonNumberSerializer.html">
+	c28424 [label=<<table title="io.reinert.requestor.gwt.serialization.JsonNumberSerializer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gwt/serialization/JsonNumberSerializer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> JsonNumberSerializer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../gwt/serialization/JsonNumberSerializer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.java.serialization.InputStreamSerializer implements io.reinert.requestor.core.serialization.HandlesSubTypes<T>
-	c32353:p -> c32411:p [dir=back,arrowtail=empty,style=dashed];
+	c28345:p -> c28403:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.gwt.serialization.JsonNumberSerializer implements io.reinert.requestor.core.serialization.HandlesSubTypes<T>
-	c32353:p -> c32432:p [dir=back,arrowtail=empty,style=dashed];
+	c28345:p -> c28424:p [dir=back,arrowtail=empty,style=dashed];
 }
 

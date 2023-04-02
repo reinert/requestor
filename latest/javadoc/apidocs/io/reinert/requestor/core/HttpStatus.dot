@@ -10,29 +10,29 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.core.RequestEvent
-	c35997 [label=<<table title="io.reinert.requestor.core.RequestEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestEvent.html">
+	c31742 [label=<<table title="io.reinert.requestor.core.RequestEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RequestEvent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RequestEvent </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RequestEvent.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.Status
-	c36005 [label=<<table title="io.reinert.requestor.core.Status" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Status.html">
+	c31750 [label=<<table title="io.reinert.requestor.core.Status" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Status.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> Status </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Status.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.core.HttpStatus
-	c36014 [label=<<table title="io.reinert.requestor.core.HttpStatus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HttpStatus.html">
+	c31759 [label=<<table title="io.reinert.requestor.core.HttpStatus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HttpStatus.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> HttpStatus </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HttpStatus.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.core.Status implements io.reinert.requestor.core.HttpStatus
-	c36014:p -> c36005:p [dir=back,arrowtail=empty,style=dashed];
+	c31759:p -> c31750:p [dir=back,arrowtail=empty,style=dashed];
 	//io.reinert.requestor.core.HttpStatus implements io.reinert.requestor.core.RequestEvent
-	c35997:p -> c36014:p [dir=back,arrowtail=empty,style=dashed];
+	c31742:p -> c31759:p [dir=back,arrowtail=empty,style=dashed];
 }
 

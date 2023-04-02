@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// io.reinert.requestor.gwt.type.NativeType
-	c12125 [label=<<table title="io.reinert.requestor.gwt.type.NativeType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NativeType.html">
+	c9991 [label=<<table title="io.reinert.requestor.gwt.type.NativeType" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NativeType.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NativeType </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NativeType.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// io.reinert.requestor.gwt.type.ArrayBuffer
-	c12128 [label=<<table title="io.reinert.requestor.gwt.type.ArrayBuffer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ArrayBuffer.html">
+	c9994 [label=<<table title="io.reinert.requestor.gwt.type.ArrayBuffer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ArrayBuffer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ArrayBuffer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ArrayBuffer.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//io.reinert.requestor.gwt.type.ArrayBuffer extends io.reinert.requestor.gwt.type.NativeType
-	c12125:p -> c12128:p [dir=back,arrowtail=empty];
+	c9991:p -> c9994:p [dir=back,arrowtail=empty];
 }
 
