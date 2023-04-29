@@ -35,5 +35,6 @@
     <module>requestor-gwtjackson</module>
     <module>requestor-gson</module>
     <module>requestor-kotlin</module>
+    <module>requestor-vertx</module>
   </modules>
 </project>
