@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2022 Danilo Reinert
+ * Copyright 2021-2023 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ class PreparedRequestImpl<R> implements PreparedRequest {
 
     private int timeout = -1;
     private boolean withCredentials;
+    private ConnectionPreparer connectionPreparer   ;
 
     public PreparedRequestImpl(RequestDispatcher dispatcher, MutableSerializedRequest request, Deferred<R> deferred,
                                PayloadType responsePayloadType) {
@@ -62,6 +63,16 @@ class PreparedRequestImpl<R> implements PreparedRequest {
     @Override
     public void abort(RequestAbortException error) {
         deferred.reject(error);
+    }
+
+    @Override
+    public ConnectionPreparer getConnectionPreparer() {
+        return connectionPreparer;
+    }
+
+    @Override
+    public void setConnectionPreparer(ConnectionPreparer preparer) {
+        this.connectionPreparer = preparer;
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Danilo Reinert
+ * Copyright 2022-2023 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,11 @@ import io.reinert.requestor.core.RequestCancelException;
 import io.reinert.requestor.core.RequestException;
 import io.reinert.requestor.core.RequestOptions;
 
+/**
+ * HttpConnection implementation for {@link HttpURLConnection}.
+ *
+ * @author Danilo Reinert
+ */
 public class JavaNetHttpConnection implements HttpConnection {
 
     private final HttpURLConnection conn;

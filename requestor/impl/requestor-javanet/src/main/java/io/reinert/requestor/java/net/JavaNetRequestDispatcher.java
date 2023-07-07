@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2022 Danilo Reinert
+ * Copyright 2021-2023 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -110,6 +110,13 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
 
             conn = (HttpURLConnection) url.openConnection();
 
+            netConn = getNetConnection(conn, deferred, request);
+            PreparedRequest.ConnectionPreparer preparer = request.getConnectionPreparer();
+            if (preparer != null) {
+                preparer.prepareConnection(netConn);
+            }
+            deferred.setHttpConnection(netConn);
+
             conn.setDoInput(true);
 
             if (!serializedPayload.isEmpty()) {
@@ -155,9 +162,6 @@ class JavaNetRequestDispatcher extends RequestDispatcher {
             if (!deferred.isPending()) return;
 
             conn.connect();
-
-            netConn = getNetConnection(conn, deferred, request);
-            deferred.setHttpConnection(netConn);
         } catch (MalformedURLException e) {
             sleep(SLEEP_TIME_BEFORE_ABORTING);
             disconnect(conn, deferred, new RequestAbortException(request, "Invalid url format.", e));

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 Danilo Reinert
+ * Copyright 2015-2023 Danilo Reinert
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,4 +51,11 @@ public interface PreparedRequest extends SerializedRequest, HasHeaders {
 
     void abort(RequestAbortException error);
 
+    ConnectionPreparer getConnectionPreparer();
+
+    void setConnectionPreparer(ConnectionPreparer preparer);
+
+    interface ConnectionPreparer {
+        void prepareConnection(HttpConnection connection);
+    }
 }
