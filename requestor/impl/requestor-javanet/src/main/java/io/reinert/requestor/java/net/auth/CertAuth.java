@@ -38,6 +38,8 @@ import io.reinert.requestor.java.net.ssl.TrustPolicy;
  */
 public class CertAuth extends SslAuth {
 
+    public static String PROTOCOL = "TLSv1.2";
+
     public CertAuth(String certPath, String password) {
         super(getSslContext(certPath, password, null));
     }
@@ -64,14 +66,14 @@ public class CertAuth extends SslAuth {
 
     private static SSLContext getSslContext(InputStream certInputStream, String password, TrustPolicy trustPolicy) {
         try {
-            KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-            keystore.load(certInputStream, password.toCharArray());
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(keystore, password.toCharArray());
+            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            ks.load(certInputStream, password.toCharArray());
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            kmf.init(ks, password.toCharArray());
 
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init(keystore);
-            TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init(ks);
+            TrustManager[] trustManagers = tmf.getTrustManagers();
 
             if (trustPolicy != null) {
                 trustManagers = Arrays.stream(trustManagers)
@@ -79,8 +81,8 @@ public class CertAuth extends SslAuth {
                     .toArray(TrustManager[]::new);
             }
 
-            SSLContext context = SSLContext.getInstance("TLSv1.2");
-            context.init(keyManagerFactory.getKeyManagers(), trustManagers, new SecureRandom());
+            SSLContext context = SSLContext.getInstance(PROTOCOL);
+            context.init(kmf.getKeyManagers(), trustManagers, new SecureRandom());
 
             return context;
         } catch (Exception e) {

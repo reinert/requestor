@@ -1,11 +1,12 @@
 package io.reinert.requestor.java.net.auth;
 
-import io.reinert.requestor.java.net.ssl.TrustPolicy;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+
+import io.reinert.requestor.java.net.ssl.TrustPolicy;
 
 /**
  * Policy based {@link TrustManager}.
