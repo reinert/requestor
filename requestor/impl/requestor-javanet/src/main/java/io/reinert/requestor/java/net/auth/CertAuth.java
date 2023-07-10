@@ -15,38 +15,59 @@
  */
 package io.reinert.requestor.java.net.auth;
 
-import java.net.HttpURLConnection;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.KeyStore;
+import java.security.SecureRandom;
 
-import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
-import io.reinert.requestor.core.Auth;
-import io.reinert.requestor.core.PreparedRequest;
-import io.reinert.requestor.java.net.JavaNetHttpConnection;
+import io.reinert.requestor.core.AuthException;
+
 
 /**
- * Client Certificate Authentication based on {@link SSLContext}.
+ * Certificate authentication..
  *
  * @author Danilo Reinert
  */
-public class CertAuth implements Auth {
+public class CertAuth extends SslAuth {
 
-    private final SSLContext sslContext;
-
-    public CertAuth(SSLContext sslContext) {
-        this.sslContext = sslContext;
+    public CertAuth(String certPath, String password) {
+        super(getSslContext(certPath, password));
     }
 
-    @Override
-    public void auth(PreparedRequest request) {
-        request.setConnectionPreparer(connection -> {
-            JavaNetHttpConnection netConn = (JavaNetHttpConnection) connection;
-            HttpURLConnection httpConn = netConn.getHttpUrlConnection();
-            if (httpConn instanceof HttpsURLConnection) {
-                ((HttpsURLConnection) httpConn).setSSLSocketFactory(this.sslContext.getSocketFactory());
-            }
-        });
+    public CertAuth(InputStream certInputStream, String password) {
+        super(getSslContext(certInputStream, password));
+    }
 
-        request.send();
+    private static SSLContext getSslContext(String certPath, String password) {
+        try {
+            return getSslContext(Files.newInputStream(Paths.get(certPath)), password);
+        } catch (IOException e) {
+            throw new AuthException("Could not load certificate.", e);
+        }
+    }
+
+    private static SSLContext getSslContext(InputStream certInputStream, String password) {
+        try {
+            KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keystore.load(certInputStream, password.toCharArray());
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keystore, password.toCharArray());
+
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keystore);
+
+            SSLContext context = SSLContext.getInstance("TLSv1.2");
+            context.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new SecureRandom());
+
+            return context;
+        } catch (Exception e) {
+            throw new AuthException("Could not load certificate.", e);
+        }
     }
 }
