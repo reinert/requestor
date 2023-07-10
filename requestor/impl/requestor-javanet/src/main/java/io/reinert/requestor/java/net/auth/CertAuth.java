@@ -21,13 +21,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyStore;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
 import io.reinert.requestor.core.AuthException;
-
+import io.reinert.requestor.java.net.ssl.TrustPolicy;
 
 /**
  * Certificate authentication..
@@ -37,22 +39,30 @@ import io.reinert.requestor.core.AuthException;
 public class CertAuth extends SslAuth {
 
     public CertAuth(String certPath, String password) {
-        super(getSslContext(certPath, password));
+        super(getSslContext(certPath, password, null));
     }
 
     public CertAuth(InputStream certInputStream, String password) {
-        super(getSslContext(certInputStream, password));
+        super(getSslContext(certInputStream, password, null));
     }
 
-    private static SSLContext getSslContext(String certPath, String password) {
+    public CertAuth(String certPath, String password, TrustPolicy trustPolicy) {
+        super(getSslContext(certPath, password, trustPolicy));
+    }
+
+    public CertAuth(InputStream certInputStream, String password, TrustPolicy trustPolicy) {
+        super(getSslContext(certInputStream, password, trustPolicy));
+    }
+
+    private static SSLContext getSslContext(String certPath, String password, TrustPolicy trustPolicy) {
         try {
-            return getSslContext(Files.newInputStream(Paths.get(certPath)), password);
+            return getSslContext(Files.newInputStream(Paths.get(certPath)), password, trustPolicy);
         } catch (IOException e) {
             throw new AuthException("Could not load certificate.", e);
         }
     }
 
-    private static SSLContext getSslContext(InputStream certInputStream, String password) {
+    private static SSLContext getSslContext(InputStream certInputStream, String password, TrustPolicy trustPolicy) {
         try {
             KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
             keystore.load(certInputStream, password.toCharArray());
@@ -61,9 +71,16 @@ public class CertAuth extends SslAuth {
 
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(keystore);
+            TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+
+            if (trustPolicy != null) {
+                trustManagers = Arrays.stream(trustManagers)
+                    .map(tm -> new PolicyTrustManager(tm, trustPolicy))
+                    .toArray(TrustManager[]::new);
+            }
 
             SSLContext context = SSLContext.getInstance("TLSv1.2");
-            context.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new SecureRandom());
+            context.init(keyManagerFactory.getKeyManagers(), trustManagers, new SecureRandom());
 
             return context;
         } catch (Exception e) {
