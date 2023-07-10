@@ -8,5 +8,10 @@ import java.security.cert.X509Certificate;
  * @author Danilo Reinert
  */
 public interface TrustPolicy {
+
+    TrustPolicy TRUST_ALL = (chain, authType) -> true;
+
+    TrustPolicy TRUST_SELF_SIGNED = (chain, authType) -> chain.length == 1;
+
     boolean isTrusted(X509Certificate[] chain, String authType);
 }
