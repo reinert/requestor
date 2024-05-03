@@ -271,7 +271,7 @@ The **requestor-javanet** impl is built with jdk8 and compatible with **Java 8+*
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-javanet</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
@@ -289,7 +289,7 @@ Add `requestor-kotlin` dependency to the project:
 <dependency>
     <groupId>io.reinert.requestor.ext</groupId>
     <artifactId>requestor-kotlin</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
@@ -324,7 +324,7 @@ The **requestor-gwt** impl is compatible with **GWT 2.7+** (Java 7+).
 <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-gwt</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
@@ -341,7 +341,7 @@ If you would like to get involded and make Requestor better, get in touch in our
 
 ### Latest Release
 
-1.3.0 (4 Apr 2023)
+1.4.0 (2 May 2024)
 
 
 ## Request Options
@@ -2986,7 +2986,7 @@ A place to interact with the projects users and contributors. Get quick answers 
 
 
 ## Snapshot installation
-If you want to use the latest snapshot, you need to add the sonatype snapshot repository to your POM and set the dependency version to `1.4.0-SNAPSHOT`.
+If you want to use the latest snapshot, you need to add the sonatype snapshot repository to your POM and set the dependency version to `1.5.0-SNAPSHOT`.
 
 ```xml
 <repositories>
@@ -3006,7 +3006,7 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
   <dependency>
     <groupId>io.reinert.requestor.impl</groupId>
     <artifactId>requestor-javanet</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
   </dependency>
   ...
 </dependencies>
@@ -3014,7 +3014,7 @@ If you want to use the latest snapshot, you need to add the sonatype snapshot re
 
 
 ### Latest Snapshot
-1.4.0-SNAPSHOT
+1.5.0-SNAPSHOT
 
 
 ## License
