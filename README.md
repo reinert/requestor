@@ -57,6 +57,7 @@ With Requestor we can:
 * [**Binary Data**](#binary-data) - upload and download files tracking the progress.
 * [**Form Data**](#form-data) - send both 'multipart/form-data' and 'application/x-www-form-urlencoded' requests.
 * [**Gzip Compression**](#gzip_encoding_enabled--boolean) - automatically encode and decode payloads with gzip.
+* [**Certificate Auth**](#certificate-authentication) - certificate based authentication made simple.
 
 Requestor is developed on top of three main pillars: (1) **Interoperability**, (2) **Simplicity**, and (3)
 **Extensibility**. In that fashion, **requestor-core** is developed in vanilla Java what makes it compatible
@@ -1440,6 +1441,7 @@ session.req("/api/authorized-only")
 BasicAuth optionally accepts a third boolean param called `withCredentials`. It will instruct the 
 browser to allow cross-site requests. *(gwt only)*
 
+
 ### Bearer Token
 
 Correspondingly, the `BearerAuth` performs the **bearer token authentication** by adding a header to the request in the form of `Authorization: Bearer <token>`.
@@ -1455,13 +1457,52 @@ session.setAuth(() -> {
 BearerAuth optionally accepts a second boolean param called `withCredentials`. It will instruct the
 browser to allow cross-site requests.
 
+
+### Certificate Authentication
+
+The `CertAuth` class implements certificate-based authentication to ensure secure communication by
+setting up an SSL context with the provided certificate details. This method typically involves using
+a private key and a certificate chain to authenticate the client to the server. The class can handle
+certificates either from a file path or directly from an input stream, and it can optionally accept
+a TrustPolicy to customize trust management during SSL communication.
+
+To use CertAuth, you need to provide the path to your certificate or an input stream containing your
+certificate, and the password for accessing the certificate's key store. The SSL context is set up to
+use the TLSv1.2 protocol by default.
+
+```java
+// Using a certificate from a file path
+session.setAuth(new CertAuth("/path/to/cert.pem", "password");
+
+// Using a certificate from an InputStream
+InputStream certStream = new FileInputStream("/path/to/cert.pem");
+session.setAuth(new CertAuth(certStream, "password"));
+
+// Including a custom TrustPolicy
+TrustPolicy trustPolicy = new CustomTrustPolicy(); // Define your custom trust policy
+session.setAuth(new CertAuth("/path/to/cert.pem", "password", trustPolicy));
+```
+
+**Parameters:**
+- `certPath` or `certInputStream`: The path to the certificate file or the InputStream containing the certificate.
+- `password`: The password to unlock the key store.
+- trustPolicy (optional): A custom policy to modify the default trust management behavior.
+
+**Exceptions:**
+- `AuthException`: Thrown if there is any issue loading the certificate or setting up the SSL context.
+
+This class supports loading certificates in the default key store format supported by Java.
+Ensure that your certificates are prepared accordingly to avoid runtime issues.
+
+
 ### Digest
+
 Requestor provides a ready-to-use `DigestAuth` supporting **qop** (*auth* or *auth-int*) and 
 **md5** hash algorithm.
 
 Instantiate `DigestAuth` in the requests, sessions or services passing the `username`, 
-`password` and the `algorithm`. Optionally, there is a fourth boolean `withCredentials` param to make cross-site 
-requests:
+`password` and the `algorithm`. Optionally, there is a fourth boolean `withCredentials` param to
+make cross-site requests:
 
 ```java
 String username = "username";
@@ -1484,6 +1525,7 @@ session.setAuth(() -> new DigestAuth(session.getValue("username"), session.getVa
 
 
 ### OAuth2 (GWT)
+
 Requestor provides client-side OAuth2 authenticators supporting both *header* and *url query param* 
 strategies. It is made available by the `requestor-oauth2gwt` extension.
 
